@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="accepted_cards_margin_side">15dp</dimen>
+    <dimen name="label_text_size">11sp</dimen>
+    <dimen name="accepted_cards_margin_top">10dp</dimen>
+
+    <dimen name="cards_icons_view_margin_sides">14dp</dimen>
+    <dimen name="cards_icons_view_height">35dp</dimen>
+    <dimen name="cards_icon_size">35dp</dimen>
+    <dimen name="cards_icon_margin">3dp</dimen>
+
+    <dimen name="basic_field_margin_side">10dp</dimen>
+    <dimen name="basic_field_height">45dp</dimen>
+
+    <dimen name="expiration_date_margin_side">17dp</dimen>
+    <dimen name="expiration_date_text_size">11sp</dimen>
+
+    <dimen name="date_margin">10dp</dimen>
+    <dimen name="date_margin_bottom">5dp</dimen>
+
+    <dimen name="card_details_field_text_size">16sp</dimen>
+
+    <dimen name="basic_field_margin_top">8dp</dimen>
+
+    <dimen name="button_margin_top">20dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_width">100dp</dimen>
+    <dimen name="button_area">65dp</dimen>
+
+
+</resources>
