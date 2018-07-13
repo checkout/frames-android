@@ -58,7 +58,10 @@ public class CountryInput extends android.support.v7.widget.AppCompatSpinner {
         setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mCountryListener != null && getSelectedItemPosition() > 0) {
+                if (mCountryListener != null) {
+                    if(getSelectedItemPosition() == 0)
+                        // empty phone field on default value
+                        mCountryListener.onCountryInputFinish("", "");
                     Locale[] locale = Locale.getAvailableLocales();
                     String country;
                     for (Locale loc : locale) {
@@ -100,7 +103,6 @@ public class CountryInput extends android.support.v7.widget.AppCompatSpinner {
         Locale[] locale = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<>();
         String country;
-        countries.add(getResources().getString(R.string.placeholder_country));
 
         for (Locale loc : locale) {
             country = loc.getDisplayCountry();
@@ -109,6 +111,9 @@ public class CountryInput extends android.support.v7.widget.AppCompatSpinner {
             }
         }
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
+
+        // Add the helper label on the first position
+        countries.add(0,getResources().getString(R.string.placeholder_country));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, countries);
         setAdapter(adapter);
