@@ -83,6 +83,10 @@ public class HttpUtils {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                        } else {
+                            if (mTokenListener != null) {
+                                mTokenListener.onNetworkError(error);
+                            }
                         }
                     }
                 }
@@ -96,7 +100,7 @@ public class HttpUtils {
             }
         };
         // Enable retry policy since is not enabled by default in the Volley
-        portRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 10, 1.0f));
+        portRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 2, 1.0f));
         queue.add(portRequest);
     }
 
@@ -139,6 +143,10 @@ public class HttpUtils {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            }
+                        } else {
+                            if (mTokenListener != null) {
+                                mTokenListener.onNetworkError(error);
                             }
                         }
                     }

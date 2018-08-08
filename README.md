@@ -26,11 +26,11 @@ dependencies {
  implementation 'com.android.support:design:27.1.1'
  implementation 'com.google.code.gson:gson:2.8.5'
  implementation 'com.android.volley:volley:1.0.0'
- implementation 'com.github.checkout:frames-android:v2.0.1'
+ implementation 'com.github.checkout:frames-android:v2.0.2'
 }
 ```
 
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.0.1)
+> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.0.2)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
@@ -73,7 +73,11 @@ dependencies {
      }
      @Override
      public void onError(CardTokenisationFail error) {
-         // your error
+         // your tokenisation error
+     }
+     @Override
+     public void onNetworkError(VolleyError error) {
+         // your network error
      }
    };
 ```
@@ -114,6 +118,10 @@ dependencies {
      @Override
      public void onError(CardTokenisationFail error) {
          // your error
+     }
+     @Override
+     public void onNetworkError(VolleyError error) {
+         // your network error
      }
    };
 ```
@@ -240,10 +248,13 @@ The module allows you to handle a Google Pay token payload and retrieve a token,
             public void onTokenGenerated(GooglePayTokenisationResponse response) {
                 // success
             }
-    
             @Override
             public void onError(GooglePayTokenisationFail error) {
                 // fail
+            }
+            @Override
+            public void onNetworkError(VolleyError error) {
+                // your network error
             }
         };
 ```

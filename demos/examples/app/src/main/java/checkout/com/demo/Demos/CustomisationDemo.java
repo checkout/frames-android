@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import com.android.volley.VolleyError;
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.PaymentForm;
 import com.checkout.android_sdk.Request.CardTokenisationRequest;
@@ -47,6 +48,11 @@ public class CustomisationDemo extends Activity {
         public void onError(CardTokenisationFail error) {
             progress.dismiss();
             displayMessage("Error!", error.getEventId());
+        }
+
+        @Override
+        public void onNetworkError(VolleyError error) {
+            // your network error
         }
     };
 

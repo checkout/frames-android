@@ -415,9 +415,9 @@ public class BillingDetailsView extends LinearLayout {
     }
 
     /**
-     * Used to clear the text from teh fields
+     * Used to clear the text and state of the fields
      */
-    private void resetFields() {
+    public void resetFields() {
         mName.setText("");
         mNameLayout.setError(null);
         mNameLayout.setErrorEnabled(false);

@@ -59,6 +59,8 @@ public class PaymentForm extends FrameLayout {
         @Override
         public void onDetailsCompleted() {
             mSubmitFormListener.onSubmit(generateRequest());
+            customAdapter.clearFields();
+            mDataStore.cleanState();
         }
     };
 

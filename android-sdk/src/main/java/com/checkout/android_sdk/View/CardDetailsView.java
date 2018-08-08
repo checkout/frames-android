@@ -1,5 +1,6 @@
 package com.checkout.android_sdk.View;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,7 @@ import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -220,7 +222,14 @@ public class CardDetailsView extends LinearLayout {
         mPayButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCvvInput.clearFocus();
+                // hide keyboard
+                try{
+                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if(imm != null)
+                     imm.hideSoftInputFromWindow(getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (mDetailsCompletedListener != null && isValidForm()) {
                     mDetailsCompletedListener.onDetailsCompleted();
                 }
@@ -398,6 +407,22 @@ public class CardDetailsView extends LinearLayout {
             mGoToBilling.setAdapter(dataAdapter);
             mGoToBilling.setSelection(0);
         }
+    }
+
+    /**
+     * Used to clear the text and state of the fields
+     * <p>
+     */
+    public void resetFields() {
+        clearBillingSpinner();
+        mCvvInput.setText("");
+        mCvvLayout.setError(null);
+        mCvvLayout.setErrorEnabled(false);
+        mYearInput.setSelection(0);
+        mMonthInput.setSelection(0);
+        mCardInput.setText("");
+        mCardLayout.setError(null);
+        mCardLayout.setErrorEnabled(false);
     }
 
     /**

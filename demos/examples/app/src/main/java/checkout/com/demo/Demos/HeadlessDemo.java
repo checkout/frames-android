@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import com.android.volley.VolleyError;
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.Models.BillingModel;
 import com.checkout.android_sdk.Models.PhoneModel;
@@ -29,6 +30,11 @@ public class HeadlessDemo extends Activity {
         @Override
         public void onError(CardTokenisationFail error) {
             displayMessage("Error!", error.getEventId());
+        }
+
+        @Override
+        public void onNetworkError(VolleyError error) {
+            // your network error
         }
     };
 

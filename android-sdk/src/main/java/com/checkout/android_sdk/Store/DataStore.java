@@ -2,6 +2,8 @@ package com.checkout.android_sdk.Store;
 
 import com.checkout.android_sdk.Utils.CardUtils;
 
+import java.util.Calendar;
+
 /**
  * The DataStore
  * <p>
@@ -13,7 +15,7 @@ public class DataStore {
     private static DataStore INSTANCE = null;
     private String mCardNumber;
     private String mCardMonth;
-    private String mCardYear;
+    private String mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
     private String mCardCvv;
     private int mCvvLength = 4;
 
@@ -234,6 +236,31 @@ public class DataStore {
         DataStore.getInstance().setCustomerState("");
         DataStore.getInstance().setCustomerZipcode("");
         DataStore.getInstance().setCustomerPhone("");
+    }
+
+    public void cleanState() {
+        this.mCardNumber = "";
+        this.mCardMonth = "";
+        this.mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        this.mCardCvv = "";
+        this.mCvvLength = 4;
+
+        this.IsValidCardNumber = false;
+        this.IsValidCardMonth = false;
+        this.IsValidCardYear = false;
+        this.IsValidCardCvv = false;
+
+        this.mCustomerName = "";
+        this.mCustomerCountry = "";
+        this.mCustomerAddress1 = "";
+        this.mCustomerAddress2 = "";
+        this.mCustomerCity = "";
+        this.mCustomerState = "";
+        this.mCustomerZipcode = "";
+        this.mCustomerPhonePrefix = "";
+        this.mCustomerPhone = "";
+
+        this.billingCompleted = false;
     }
 
     public CardUtils.Cards[] getAcceptedCards() {

@@ -70,6 +70,14 @@ public class CustomAdapter extends PagerAdapter {
     }
 
     /**
+     * Clean form data and state
+     */
+    public void clearFields() {
+        cardDetailsView.resetFields();
+        billingDetailsView.resetFields();
+    }
+
+    /**
      * Instantiation function
      */
     @NonNull

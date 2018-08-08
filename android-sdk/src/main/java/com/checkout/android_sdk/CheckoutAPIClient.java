@@ -2,6 +2,7 @@ package com.checkout.android_sdk;
 
 import android.content.Context;
 
+import com.android.volley.VolleyError;
 import com.checkout.android_sdk.Request.CardTokenisationRequest;
 import com.checkout.android_sdk.Request.GooglePayTokenisationRequest;
 import com.checkout.android_sdk.Response.CardTokenisationFail;
@@ -26,6 +27,8 @@ public class CheckoutAPIClient {
         void onTokenGenerated(CardTokenisationResponse response);
 
         void onError(CardTokenisationFail error);
+
+        void onNetworkError(VolleyError error);
     }
 
     /**
@@ -35,6 +38,8 @@ public class CheckoutAPIClient {
         void onTokenGenerated(GooglePayTokenisationResponse response);
 
         void onError(GooglePayTokenisationFail error);
+
+        void onNetworkError(VolleyError error);
     }
 
     private Context mContext;

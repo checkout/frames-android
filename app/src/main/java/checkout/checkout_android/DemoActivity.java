@@ -1,10 +1,12 @@
 package checkout.checkout_android;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import com.android.volley.VolleyError;
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.CheckoutAPIClient.OnTokenGenerated;
 import com.checkout.android_sdk.PaymentForm;
@@ -19,11 +21,13 @@ public class DemoActivity extends Activity {
 
     private PaymentForm mPaymentForm;
     private CheckoutAPIClient mCheckoutAPIClient;
+    private static ProgressDialog mProgressDialog;
 
     // Callback used when the user completed the form clicked the Pay button
     private final OnSubmitForm mSubmitListener = new OnSubmitForm() {
         @Override
         public void onSubmit(CardTokenisationRequest request) {
+            mProgressDialog.show(); // slow a spinner
             mCheckoutAPIClient.generateToken(request);
         }
     };
@@ -32,12 +36,20 @@ public class DemoActivity extends Activity {
     private final OnTokenGenerated mTokenListener = new OnTokenGenerated() {
         @Override
         public void onTokenGenerated(CardTokenisationResponse token) {
+            mProgressDialog.dismiss(); // dismiss the spinner
             displayMessage("Success!", token.getId());
         }
 
         @Override
         public void onError(CardTokenisationFail error) {
+            mProgressDialog.dismiss(); // dismiss the spinner
             displayMessage("Error!", error.getEventId());
+        }
+
+        @Override
+        public void onNetworkError(VolleyError error) {
+            mProgressDialog.dismiss(); // dismiss the spinner
+            displayMessage("Error!", "network error"); // handle VolleyError
         }
     };
 
@@ -45,6 +57,10 @@ public class DemoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage("Loading...");
 
         mPaymentForm = findViewById(R.id.checkout_card_form);
         mPaymentForm

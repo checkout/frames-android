@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.VolleyError;
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.CheckoutAPIClient.OnTokenGenerated;
 import com.checkout.android_sdk.Request.CardTokenisationRequest;
@@ -34,6 +35,11 @@ public class CustomFieldsDemo extends Activity {
         @Override
         public void onError(CardTokenisationFail error) {
             displayMessage("Error!", error.getEventId());
+        }
+
+        @Override
+        public void onNetworkError(VolleyError error) {
+            // your network error
         }
     };
 

@@ -59,6 +59,11 @@ public class CheckoutActivity extends Activity {
                 public void onError(GooglePayTokenisationFail error) {
                     displayMessage("Success!", error.getRequestId());
                 }
+
+                @Override
+                public void onNetworkError(VolleyError error) {
+                    // your network error
+                }
             };
 
     // Arbitrarily-picked result code.
