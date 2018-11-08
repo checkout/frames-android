@@ -3,6 +3,7 @@ package com.checkout.android_sdk.Store;
 import com.checkout.android_sdk.Utils.CardUtils;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * The DataStore
@@ -31,6 +32,7 @@ public class DataStore {
 
     private String mCustomerName = "";
     private String mCustomerCountry = "";
+    private Locale mDefaultCountry = null;
     private String mCustomerAddress1 = "";
     private String mCustomerAddress2 = "";
     private String mCustomerCity = "";
@@ -41,6 +43,19 @@ public class DataStore {
 
     private boolean showBilling = true;
     private boolean billingCompleted = false;
+
+    private String mAcceptedLabel = null;
+    private String mCardLabel = null;
+    private String mDateLabel = null;
+    private String mCvvLabel = null;
+
+    private String mCardHolderLabel = null;
+    private String mAddressLine1Label = null;
+    private String mAddressLine2Label = null;
+    private String mTownLabel = null;
+    private String mStateLabel = null;
+    private String mPostCodeLabel = null;
+    private String mPhoneLabel = null;
 
     protected DataStore() {
     }
@@ -148,6 +163,14 @@ public class DataStore {
         mCustomerCountry = customerCountry;
     }
 
+    public Locale getDefaultCountry() {
+        return mDefaultCountry;
+    }
+
+    public void setDefaultCountry(Locale mDefaultCountry) {
+        this.mDefaultCountry = mDefaultCountry;
+    }
+
     public String getCustomerPhonePrefix() {
         return mCustomerPhonePrefix;
     }
@@ -228,6 +251,94 @@ public class DataStore {
         this.billingCompleted = billingCompleted;
     }
 
+    public String getCardLabel() {
+        return mCardLabel;
+    }
+
+    public void setCardLabel(String mCardLabel) {
+        this.mCardLabel = mCardLabel;
+    }
+
+    public String getDateLabel() {
+        return mDateLabel;
+    }
+
+    public void setDateLabel(String mDateLabel) {
+        this.mDateLabel = mDateLabel;
+    }
+
+    public String getCvvLabel() {
+        return mCvvLabel;
+    }
+
+    public void setCvvLabel(String mCvvLabel) {
+        this.mCvvLabel = mCvvLabel;
+    }
+
+    public String getAcceptedLabel() {
+        return mAcceptedLabel;
+    }
+
+    public void setAcceptedLabel(String mAcceptedLabel) {
+        this.mAcceptedLabel = mAcceptedLabel;
+    }
+
+    public String getCardHolderLabel() {
+        return mCardHolderLabel;
+    }
+
+    public void setCardHolderLabel(String mCardHolderLabel) {
+        this.mCardHolderLabel = mCardHolderLabel;
+    }
+
+    public String getAddressLine1Label() {
+        return mAddressLine1Label;
+    }
+
+    public void setAddressLine1Label(String mAddressLine1Label) {
+        this.mAddressLine1Label = mAddressLine1Label;
+    }
+
+    public String getAddressLine2Label() {
+        return mAddressLine2Label;
+    }
+
+    public void setAddressLine2Label(String mAddressLine2Label) {
+        this.mAddressLine2Label = mAddressLine2Label;
+    }
+
+    public String getTownLabel() {
+        return mTownLabel;
+    }
+
+    public void setTownLabel(String mTownLabel) {
+        this.mTownLabel = mTownLabel;
+    }
+
+    public String getStateLabel() {
+        return mStateLabel;
+    }
+
+    public void setStateLabel(String mStateLabel) {
+        this.mStateLabel = mStateLabel;
+    }
+
+    public String getPostCodeLabel() {
+        return mPostCodeLabel;
+    }
+
+    public void setPostCodeLabel(String mPostocodeLabel) {
+        this.mPostCodeLabel = mPostocodeLabel;
+    }
+
+    public String getPhoneLabel() {
+        return mPhoneLabel;
+    }
+
+    public void setPhoneLabel(String mPhoneLabel) {
+        this.mPhoneLabel = mPhoneLabel;
+    }
+
     public void cleanBillingData() {
         DataStore.getInstance().setCustomerCountry("");
         DataStore.getInstance().setCustomerAddress1("");
@@ -240,7 +351,7 @@ public class DataStore {
 
     public void cleanState() {
         this.mCardNumber = "";
-        this.mCardMonth = "";
+        this.mCardMonth = "01";
         this.mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         this.mCardCvv = "";
         this.mCvvLength = 4;

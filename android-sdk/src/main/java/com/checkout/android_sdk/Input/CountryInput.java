@@ -54,7 +54,7 @@ public class CountryInput extends android.support.v7.widget.AppCompatSpinner {
 
         populateSpinner();
 
-        // Based on the country selected save teh ISO2 and set a prefix for teh phone number
+        // Based on the country selected save teh ISO2 and set a prefix for the phone number
         setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -17,6 +17,7 @@ import com.checkout.android_sdk.Input.DefaultInput;
 import com.checkout.android_sdk.Input.PhoneInput;
 import com.checkout.android_sdk.R;
 import com.checkout.android_sdk.Store.DataStore;
+import com.checkout.android_sdk.Utils.PhoneUtils;
 
 import java.util.Locale;
 
@@ -71,11 +72,16 @@ public class BillingDetailsView extends LinearLayout {
     private final CountryInput.CountryListener mCountryListener = new CountryInput.CountryListener() {
         @Override
         public void onCountryInputFinish(String country, String prefix) {
-            mDatastore.setCustomerCountry(country);
-            mDatastore.setCustomerPhonePrefix(prefix);
-            mPhone.setText(prefix + " ");
-            mAddressOne.requestFocus();
-            mAddressOne.performClick();
+            if(!country.equals("")) {
+                mDatastore.setCustomerCountry(country);
+            }
+            if(!prefix.equals("")) {
+                mDatastore.setCustomerPhonePrefix(prefix);
+            }
+            mPhone.setText(prefix + " " + mDatastore.getCustomerPhone());
+            mPhone.requestFocus();
+            mPhone.performClick();
+            mPhone.setSelection(mPhone.getText().length());
         }
     };
 
@@ -191,7 +197,9 @@ public class BillingDetailsView extends LinearLayout {
     private final PhoneInput.PhoneListener mPhoneListener = new PhoneInput.PhoneListener() {
         @Override
         public void onPhoneInputFinish(String phone) {
-            mDatastore.setCustomerPhone(phone.replace(mDatastore.getCustomerPhonePrefix(), ""));
+            mDatastore
+                    .setCustomerPhone(phone.replace(mDatastore.getCustomerPhonePrefix(), "")
+                    .replaceAll("\\D", ""));
         }
 
         @Override
@@ -323,6 +331,29 @@ public class BillingDetailsView extends LinearLayout {
         });
 
         requestFocus();
+
+        // Set custom labels
+        if(mDatastore.getCardHolderLabel() != null) {
+            mNameLayout.setHint(mDatastore.getCardHolderLabel());
+        }
+        if(mDatastore.getAddressLine1Label() != null) {
+            mAddressOneLayout.setHint(mDatastore.getAddressLine1Label());
+        }
+        if(mDatastore.getAddressLine2Label() != null) {
+            mAddressTwoLayout.setHint(mDatastore.getAddressLine2Label());
+        }
+        if(mDatastore.getTownLabel() != null) {
+            mCityLayout.setHint(mDatastore.getTownLabel());
+        }
+        if(mDatastore.getStateLabel() != null) {
+            mStateLayout.setHint(mDatastore.getStateLabel());
+        }
+        if(mDatastore.getPostCodeLabel() != null) {
+            mZipLayout.setHint(mDatastore.getPostCodeLabel());
+        }
+        if(mDatastore.getPhoneLabel() != null) {
+            mPhoneLayout.setHint(mDatastore.getPhoneLabel());
+        }
     }
 
     /**
@@ -421,7 +452,22 @@ public class BillingDetailsView extends LinearLayout {
         mName.setText("");
         mNameLayout.setError(null);
         mNameLayout.setErrorEnabled(false);
-        mCountryInput.setSelection(0);
+        // Repopulate country
+        if(mDatastore.getDefaultCountry() != null) {
+            mCountryInput.setSelection(((ArrayAdapter<String>) mCountryInput.getAdapter())
+                    .getPosition(mDatastore.getDefaultCountry().getDisplayCountry()));
+            mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
+            mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
+                    .getCountry()));
+        } else {
+            mCountryInput.setSelection(0);
+        }
+        // Reset phone prefix
+        if(mDatastore.getDefaultCountry() != null) {
+            mPhone.setText(PhoneUtils.getPrefix(mDatastore.getDefaultCountry().getCountry()) + " ");
+        } else {
+            mPhone.setText("");
+        }
         ((TextView) mCountryInput.getSelectedView()).setError(null);
         mAddressOne.setText("");
         mAddressOneLayout.setError(null);
@@ -438,7 +484,6 @@ public class BillingDetailsView extends LinearLayout {
         mZip.setText("");
         mZipLayout.setError(null);
         mZipLayout.setErrorEnabled(false);
-        mPhone.setText("");
         mPhoneLayout.setError(null);
         mPhoneLayout.setErrorEnabled(false);
     }

@@ -34,6 +34,10 @@ public class CustomisationDemo extends Activity {
             progress.show();
             mCheckoutAPIClient.generateToken(request); // send the request to generate the token
         }
+        @Override
+        public void onBackPressed() {
+            displayMessage("Back", "The user decided to leave the payment page.");
+        }
     };
 
     private final CheckoutAPIClient.OnTokenGenerated mTokenListener = new CheckoutAPIClient.OnTokenGenerated() {

@@ -46,6 +46,7 @@ public class CardDetailsView extends LinearLayout {
      */
     public interface DetailsCompleted {
         void onDetailsCompleted();
+        void onBackPressed();
     }
 
     /**
@@ -167,6 +168,8 @@ public class CardDetailsView extends LinearLayout {
     private TextInputLayout mCardLayout;
     private TextInputLayout mCvvLayout;
     private Button mPayButton;
+    private TextView mAcceptedCardsHelper;
+    private TextView mDateHelper;
     private TextView mBillingHelper;
     private Toolbar mToolbar;
     private LinearLayout mAcceptedCardsView;
@@ -209,6 +212,18 @@ public class CardDetailsView extends LinearLayout {
         mBillingHelper = findViewById(R.id.billing_helper_text);
         mGoToBilling = findViewById(R.id.go_to_billing);
 
+        mAcceptedCardsHelper = findViewById(R.id.accepted_card_helper);
+        mDateHelper = findViewById(R.id.date_helper);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDetailsCompletedListener != null) {
+                   mDetailsCompletedListener.onBackPressed();
+                }
+            }
+        });
+
         // Hide billing details options based on the module initialisation option
         if (!mDataStore.getBillingVisibility()) {
             mBillingHelper.setVisibility(GONE);
@@ -242,6 +257,20 @@ public class CardDetailsView extends LinearLayout {
         // Populate accepted cards
         mAcceptedCardsView = findViewById(R.id.card_icons_layout);
         setAcceptedCards();
+
+        // Set custom labels
+        if(mDataStore.getAcceptedLabel() != null) {
+            mAcceptedCardsHelper.setText(mDataStore.getAcceptedLabel());
+        }
+        if(mDataStore.getCardLabel() != null) {
+            mCardLayout.setHint(mDataStore.getCardLabel());
+        }
+        if(mDataStore.getDateLabel() != null) {
+            mDateHelper.setText(mDataStore.getDateLabel());
+        }
+        if(mDataStore.getCvvLabel() != null) {
+            mCvvLayout.setHint(mDataStore.getCvvLabel());
+        }
     }
 
     /**

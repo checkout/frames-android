@@ -16,9 +16,11 @@ import com.checkout.android_sdk.Request.CardTokenisationRequest;
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.Utils.CardUtils;
 import com.checkout.android_sdk.Utils.CustomAdapter;
-import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.android_sdk.Utils.PhoneUtils;
 import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
+
+import java.util.Locale;
 
 /**
  * Contains helper methods dealing with the tokenisation or payment from customisation
@@ -44,6 +46,7 @@ public class PaymentForm extends FrameLayout {
      */
     public interface OnSubmitForm {
         void onSubmit(CardTokenisationRequest request);
+        void onBackPressed();
     }
 
     // Indexes for the pages
@@ -59,8 +62,13 @@ public class PaymentForm extends FrameLayout {
         @Override
         public void onDetailsCompleted() {
             mSubmitFormListener.onSubmit(generateRequest());
-            customAdapter.clearFields();
             mDataStore.cleanState();
+            customAdapter.clearFields();
+        }
+
+        @Override
+        public void onBackPressed() {
+            mSubmitFormListener.onBackPressed();
         }
     };
 
@@ -239,6 +247,157 @@ public class PaymentForm extends FrameLayout {
             mDataStore.setShowBilling(true);
         }
     }
+
+    /**
+     * This method used to set a default country for the country
+     *
+     * @param country Locale representing the default country for the Spinner
+     */
+    public PaymentForm setDefaultBillingCountry(Locale country) {
+        mDataStore.setCustomerCountry(country.getCountry());
+        mDataStore.setDefaultCountry(country);
+        mDataStore.setCustomerPhonePrefix(PhoneUtils.getPrefix(country.getCountry()));
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the accepted cards
+     *
+     * @param accepted String representing the value for the Label
+     */
+    public PaymentForm setAcceptedCardsLabel(String accepted) {
+        mDataStore.setAcceptedLabel(accepted);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the CardInput
+     *
+     * @param card String representing the value for the Label
+     */
+    public PaymentForm setCardLabel(String card) {
+        mDataStore.setCardLabel(card);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the DateInput
+     *
+     * @param date String representing the value for the Label
+     */
+    public PaymentForm setDateLabel(String date) {
+        mDataStore.setDateLabel(date);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the CvvInput
+     *
+     * @param cvv String representing the value for the Label
+     */
+    public PaymentForm setCvvLabel(String cvv) {
+        mDataStore.setCvvLabel(cvv);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the CardholderInput
+     *
+     * @param label String representing the value for the Label
+     */
+    public PaymentForm setCardHolderLabel(String label) {
+        mDataStore.setCardHolderLabel(label);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the AddressLine 1 Input
+     *
+     * @param label String representing the value for the Label
+     */
+    public PaymentForm setAddress1Label(String label) {
+        mDataStore.setAddressLine1Label(label);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the AddressLine 2 Input
+     *
+     * @param label String representing the value for the Label
+     */
+    public PaymentForm setAddress2Label(String label) {
+        mDataStore.setAddressLine2Label(label);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the StateInput
+     *
+     * @param label String representing the value for the Label
+     */
+    public PaymentForm setTownLabel(String label) {
+        mDataStore.setTownLabel(label);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the StateInput
+     *
+     * @param label String representing the value for the Label
+     */
+    public PaymentForm setStateLabel(String label) {
+        mDataStore.setStateLabel(label);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the PostcodeInput
+     *
+     * @param label String representing the value for the Label
+     */
+    public PaymentForm setPostcodeLabel(String label) {
+        mDataStore.setPostCodeLabel(label);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom label for the PhoneInput
+     *
+     * @param label String representing the value for the Label
+     */
+    public PaymentForm setPhoneLabel(String label) {
+        mDataStore.setPhoneLabel(label);
+        return this;
+    }
+
+    /**
+     * This method used to inject address details if they have already been collected
+     *
+     * @param billing BillingModel representing the value for the billing details
+     */
+    public PaymentForm injectBilling(BillingModel billing) {
+        mDataStore.setBillingCompleted(true);
+        mDataStore.setCustomerAddress1(billing.getAddressLine1());
+        mDataStore.setCustomerAddress2(billing.getAddressLine2());
+        mDataStore.setCustomerZipcode(billing.getPostcode());
+        mDataStore.setCustomerCountry(billing.getCountry());
+        mDataStore.setCustomerCity(billing.getCity());
+        mDataStore.setCustomerState(billing.getState());
+        mDataStore.setCustomerPhone(billing.getPhone().getNumber());
+        mDataStore.setCustomerPhonePrefix(billing.getPhone().getCountryCode());
+        return this;
+    }
+
+    /**
+     * This method used to inject the cardholder name if it has already been collected
+     *
+     * @param name String representing the value for the cardholder name
+     */
+    public PaymentForm injectCardHolderName(String name) {
+        mDataStore.setCustomerName(name);
+        return this;
+    }
+
 
     /**
      * Returns a String without any spaces

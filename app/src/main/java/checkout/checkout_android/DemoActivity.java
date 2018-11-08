@@ -30,6 +30,11 @@ public class DemoActivity extends Activity {
             mProgressDialog.show(); // slow a spinner
             mCheckoutAPIClient.generateToken(request);
         }
+
+        @Override
+        public void onBackPressed() {
+            displayMessage("Back", "The user decided to leave the payment page.");
+        }
     };
 
     // Callback used for the outcome of the generating a token

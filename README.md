@@ -26,11 +26,11 @@ dependencies {
  implementation 'com.android.support:design:27.1.1'
  implementation 'com.google.code.gson:gson:2.8.5'
  implementation 'com.android.volley:volley:1.0.0'
- implementation 'com.github.checkout:frames-android:v2.0.2'
+ implementation 'com.github.checkout:frames-android:v2.0.3'
 }
 ```
 
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.0.2)
+> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.0.3)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
@@ -60,6 +60,10 @@ dependencies {
       @Override
       public void onSubmit(CardTokenisationRequest request) {
           mCheckoutAPIClient.generateToken(request); // send the request to generate the token
+      }
+      @Override
+      public void onBackPressed() {
+          // the user decided to leave the payment page
       }
    };
 ```
@@ -180,6 +184,8 @@ Moreover, the module inherits the  **Theme.AppCompat.Light.DarkActionBar** style
      <item name="colorButtonNormal">#000000</item>
      <!--HELPER LABELS AND UNSELECTED FIELD COLOR-->
      <item name="colorControlNormal">#000000</item>
+     <!--FONT FAMILY-->
+     <item name="android:fontFamily">@font/myFont</item>
    </style>
    ...
    <com.example.android_sdk.PaymentForm
@@ -189,14 +195,72 @@ Moreover, the module inherits the  **Theme.AppCompat.Light.DarkActionBar** style
      android:theme="@style/YourCustomTheme"/>
 ```
 
-If you would like to allow users to input their billing details when completing the payment details you can simply use the folllowing method:
+If you would like to customise the helper lables of the payment form fields you can use the folllowing method:
 ```java
-   mPaymentForm.includeBilling(true); // false value will hide the option
+        mPaymentForm
+            ...
+            .setAcceptedCardsLabel("We accept this card types")
+            .setCardHolderLabel("Name on Card")
+            .setCardLabel("Card Number")
+            .setDateLabel("Expiration Datee")
+            .setCvvLabel("Security Code")
+            .setAddress1Label("Address 1")
+            .setAddress2Label("Address 2")
+            .setTownLabel("City")
+            .setStateLabel("State")
+            .setPostcodeLabel("Zip Code")
+            .setPhoneLabel("Phone No.")
 ```
 
-If you want to display only certain accepted card types you can select then in the following way:
+If you would like to allow users to input their billing details when completing the payment form, you can simply use the folllowing method:
 ```java
-   mPaymentForm.setAcceptedCard(new Cards[]{VISA, MASTERCARD});
+        mPaymentForm
+            ...
+            .includeBilling(true); // false value will hide the option
+```
+
+If you want to display only certain accepted card types you can select them in the following way:
+```java
+        mPaymentForm
+            ...
+            .setAcceptedCard(new Cards[]{VISA, MASTERCARD});
+```
+
+If you target a specific region, and would like to set a default country for the billing details you can use the following:
+```java
+   mPaymentForm = findViewById(R.id.checkout_card_form);
+        mPaymentForm
+            ...
+            .setDefaultBillingCountry(Locale.UK)  // the parameter needs to be a Locale country object
+```
+
+If you collected the customers name and you would like to pre-populate it in the billing details, you can use the following:
+```java
+   mPaymentForm = findViewById(R.id.checkout_card_form);
+        mPaymentForm
+            ...
+            .injectCardHolderName("John Smith")
+```
+
+If you collected the address details from the customer prior to the payment page, you can inject the details, to avoid the customer re-entering them:
+```java
+   mPaymentForm = findViewById(R.id.checkout_card_form);
+        mPaymentForm
+            ...
+            .injectBilling(
+                    new BillingModel(
+                            "1 address",
+                            "2 address",
+                            "POST CODE",
+                            "GB",
+                            "City",
+                            "State",
+                            new PhoneModel(
+                                    "+44",
+                                    "07123456789"
+                            )
+                    )
+                );
 ```
 
 ## Handle 3D Secure
