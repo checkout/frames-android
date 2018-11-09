@@ -104,7 +104,7 @@ dependencies {
 
 <br/>
 
-### For using the module's without the UI you need to do the following:
+### For using the module without the UI you need to do the following:
 <br/>
 
 **Step1** Include the module in your class.
@@ -195,7 +195,7 @@ Moreover, the module inherits the  **Theme.AppCompat.Light.DarkActionBar** style
      android:theme="@style/YourCustomTheme"/>
 ```
 
-If you would like to customise the helper lables of the payment form fields you can use the folllowing method:
+If you would like to customise the helper labels of the payment form fields you can use the following method:
 ```java
         mPaymentForm
             ...
@@ -212,14 +212,14 @@ If you would like to customise the helper lables of the payment form fields you 
             .setPhoneLabel("Phone No.")
 ```
 
-If you would like to allow users to input their billing details when completing the payment form, you can simply use the folllowing method:
+If you would like to allow users to input their billing details when completing the payment form, you can simply use the following method:
 ```java
         mPaymentForm
             ...
             .includeBilling(true); // false value will hide the option
 ```
 
-If you want to display only certain accepted card types you can select them in the following way:
+If you want to display a limited array of accepted card types you can select them in the following way:
 ```java
         mPaymentForm
             ...
@@ -234,7 +234,7 @@ If you target a specific region, and would like to set a default country for the
             .setDefaultBillingCountry(Locale.UK)  // the parameter needs to be a Locale country object
 ```
 
-If you collected the customers name and you would like to pre-populate it in the billing details, you can use the following:
+If you collected the customer name and you would like to pre-populate it in the billing details, you can use the following:
 ```java
    mPaymentForm = findViewById(R.id.checkout_card_form);
         mPaymentForm
@@ -297,7 +297,7 @@ The module allows you to handle 3DSecure URLs within your mobile app. Here are t
             "http://example.com/fail" // the Redirection Fail URL
     );
 ```
-> Keep in mind that the Redirection and Redirection Fail URLs are set in the Checkout Hub, but they can be overwritten in the charge request sent from your server. Keep in mind to provide the correct URLs to ensure a successful interaction.
+> Keep in mind that the Redirection and Redirection Fail URLs are set in the Checkout Hub, but they can be overwritten in the charge request sent from your server. It is important to provide the correct URLs to ensure a successful payment flow.
 
 ## Handle Google Pay
 
@@ -335,11 +335,11 @@ The module allows you to handle a Google Pay token payload and retrieve a token,
 ```
 
 ## Objects found in callbacks
-#### When deling with actions like generating a card token the callback will include the following objects.
+#### When dealing with actions like generating a card token the callback will include the following objects:
 
 **For success -> CardTokenisationResponse** 
 <br/>
-This has the following getters:
+With the following getters:
 ```java
    response.getId();               // the card token 
    response.getLiveMode();         // environment mode
@@ -350,7 +350,7 @@ This has the following getters:
 
 **For error -> CardTokenisationResponse** 
 <br/>
-This has the following getters:
+With the following getters:
 ```java
    error.getEventId();           // a unique identifier for the event 
    error.getMessage();           // the error message
@@ -359,11 +359,11 @@ This has the following getters:
    error.getErrors();            // an array or strings with all error messages 
 ```
 
-#### When deling with actions like generating a token for a Google Pay payload the callback will include the following objects.
+#### When dealing with actions like generating a token for a Google Pay payload the callback will include the following objects:
 
 **For success -> GooglePayTokenisationResponse** 
 <br/>
-This has the following getters:
+With the following getters:
 ```java
    response.getToken();      // the token
    response.getExpiration(); // the token exiration 
@@ -372,7 +372,7 @@ This has the following getters:
 
 **For error -> GooglePayTokenisationFail** 
 <br/>
-This has the following getters:
+With the following getters:
 ```java
    error.getRequestId();  // a unique identifier for the request 
    error.getErrorType();  // the error type
