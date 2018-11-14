@@ -9,13 +9,16 @@ import android.util.AttributeSet;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
+import com.android.volley.VolleyError;
 import com.checkout.android_sdk.Models.BillingModel;
-import com.checkout.android_sdk.Models.PhoneModel;
-import com.checkout.android_sdk.Request.CardTokenisationRequest;
+import com.checkout.android_sdk.Response.CardTokenisationFail;
+import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.Utils.CardUtils;
 import com.checkout.android_sdk.Utils.CustomAdapter;
+import com.checkout.android_sdk.Utils.Environment;
 import com.checkout.android_sdk.Utils.PhoneUtils;
 import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
@@ -44,8 +47,11 @@ public class PaymentForm extends FrameLayout {
      * This is interface used as a callback for when the form is completed and the user pressed the
      * pay button. You can use this to potentially display a loader.
      */
-    public interface OnSubmitForm {
-        void onSubmit(CardTokenisationRequest request);
+    public interface PaymentFormCallback {
+        void onFormSubmit();
+        void onTokenGenerated(CardTokenisationResponse response);
+        void onError(CardTokenisationFail response);
+        void onNetworkError(VolleyError error);
         void onBackPressed();
     }
 
@@ -60,14 +66,31 @@ public class PaymentForm extends FrameLayout {
      */
     private final CardDetailsView.DetailsCompleted mDetailsCompletedListener = new CardDetailsView.DetailsCompleted() {
         @Override
-        public void onDetailsCompleted() {
-            mSubmitFormListener.onSubmit(generateRequest());
-            mDataStore.cleanState();
-            customAdapter.clearFields();
+        public void onFormSubmit() {
+            mSubmitFormListener.onFormSubmit();
+        }
+
+        @Override
+        public void onTokeGenerated(CardTokenisationResponse reponse) {
+            mSubmitFormListener.onTokenGenerated(reponse);
+        }
+
+        @Override
+        public void onError(CardTokenisationFail error) {
+            mSubmitFormListener.onError(error);
+        }
+
+        @Override
+        public void onNetworkError(VolleyError error) {
+            mSubmitFormListener.onNetworkError(error);
         }
 
         @Override
         public void onBackPressed() {
+            mDataStore.cleanState();
+            mDataStore.setLastCustomerNameState(null);
+            mDataStore.setLastBillingValidState(null);
+            customAdapter.clearFields();
             mSubmitFormListener.onBackPressed();
         }
     };
@@ -103,8 +126,7 @@ public class PaymentForm extends FrameLayout {
 
     private Context mContext;
     public On3DSFinished m3DSecureListener;
-    public OnSubmitForm mSubmitFormListener;
-    public CheckoutAPIClient.OnTokenGenerated mTokenListener;
+    public PaymentFormCallback mSubmitFormListener;
 
     private CustomAdapter customAdapter;
     private ViewPager mPager;
@@ -189,49 +211,6 @@ public class PaymentForm extends FrameLayout {
         web.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
         addView(web);
-    }
-
-    /**
-     * This method used to generate a {@link CardTokenisationRequest} with the details
-     * completed by the user in the payment from
-     * displayed in the payment form.
-     *
-     * @return CardTokenisationRequest
-     */
-    private CardTokenisationRequest generateRequest() {
-        CardTokenisationRequest request;
-        if (mDataStore.isBillingCompleted()) {
-            request = new CardTokenisationRequest(
-                    sanitizeEntry(mDataStore.getCardNumber()),
-                    mDataStore.getCustomerName(),
-                    mDataStore.getCardMonth(),
-                    mDataStore.getCardYear(),
-                    mDataStore.getCardCvv(),
-                    new BillingModel(
-                            mDataStore.getCustomerAddress1(),
-                            mDataStore.getCustomerAddress2(),
-                            mDataStore.getCustomerZipcode(),
-                            mDataStore.getCustomerCountry(),
-                            mDataStore.getCustomerCity(),
-                            mDataStore.getCustomerState(),
-                            new PhoneModel(
-                                    mDataStore.getCustomerPhonePrefix(),
-                                    mDataStore.getCustomerPhone()
-                            )
-                    )
-            );
-        } else {
-            request = new CardTokenisationRequest(
-                    sanitizeEntry(mDataStore.getCardNumber()),
-                    mDataStore.getCustomerName(),
-                    mDataStore.getCardMonth(),
-                    mDataStore.getCardYear(),
-                    mDataStore.getCardCvv(),
-                    null
-            );
-        }
-
-        return request;
     }
 
     /**
@@ -371,12 +350,74 @@ public class PaymentForm extends FrameLayout {
     }
 
     /**
+     * This method used to set a custom text for the Pay button
+     *
+     * @param text String representing the text for the Button
+     */
+    public PaymentForm setPayButtonText(String text) {
+        mDataStore.setPayButtonText(text);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom text for the Done button
+     *
+     * @param text String representing the text for the Button
+     */
+    public PaymentForm setDoneButtonText(String text) {
+        mDataStore.setDoneButtonText(text);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom text for the Clear button
+     *
+     * @param text String representing the text for the Button
+     */
+    public PaymentForm setClearButtonText(String text) {
+        mDataStore.setClearButtonText(text);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom LayoutParameters for the Pay button
+     *
+     * @param layout LayoutParameters representing the style for the Button
+     */
+    public PaymentForm setPayButtonLayout(LinearLayout.LayoutParams layout) {
+        mDataStore.setPayButtonLayout(layout);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom LayoutParameters for the Done button
+     *
+     * @param layout LayoutParameters representing the style for the Button
+     */
+    public PaymentForm setDoneButtonLayout(LinearLayout.LayoutParams layout) {
+        mDataStore.setDoneButtonLayout(layout);
+        return this;
+    }
+
+    /**
+     * This method used to set a custom LayoutParameters for the Clear button
+     *
+     * @param layout LayoutParameters representing the style for the Button
+     */
+    public PaymentForm setClearButtonLayout(LinearLayout.LayoutParams layout) {
+        mDataStore.setClearButtonLayout(layout);
+        return this;
+    }
+
+    /**
      * This method used to inject address details if they have already been collected
      *
      * @param billing BillingModel representing the value for the billing details
      */
     public PaymentForm injectBilling(BillingModel billing) {
         mDataStore.setBillingCompleted(true);
+        mDataStore.setLastBillingValidState(billing);
+        mDataStore.setDefaultBillingDetails(billing);
         mDataStore.setCustomerAddress1(billing.getAddressLine1());
         mDataStore.setCustomerAddress2(billing.getAddressLine2());
         mDataStore.setCustomerZipcode(billing.getPostcode());
@@ -388,6 +429,16 @@ public class PaymentForm extends FrameLayout {
         return this;
     }
 
+    public PaymentForm setEnvironment(Environment env) {
+        mDataStore.setEnvironment(env);
+        return this;
+    }
+
+    public PaymentForm setKey(String key) {
+        mDataStore.setKey(key);
+        return this;
+    }
+
     /**
      * This method used to inject the cardholder name if it has already been collected
      *
@@ -395,9 +446,44 @@ public class PaymentForm extends FrameLayout {
      */
     public PaymentForm injectCardHolderName(String name) {
         mDataStore.setCustomerName(name);
+        mDataStore.setDefaultCustomerName(name);
+        mDataStore.setLastCustomerNameState(name);
         return this;
     }
 
+    /**
+     * This method used to clear the state and fields of the Payment Form
+     */
+    public void clearForm() {
+        mDataStore.cleanState();
+        if(mDataStore != null && mDataStore.getDefaultBillingDetails() != null) {
+            mDataStore.setBillingCompleted(true);
+            mDataStore.setLastBillingValidState(mDataStore.getDefaultBillingDetails());
+            mDataStore.setCustomerAddress1(mDataStore.getDefaultBillingDetails().getAddressLine1());
+            mDataStore.setCustomerAddress2(mDataStore.getDefaultBillingDetails().getAddressLine2());
+            mDataStore.setCustomerZipcode(mDataStore.getDefaultBillingDetails().getPostcode());
+            mDataStore.setCustomerCountry(mDataStore.getDefaultBillingDetails().getCountry());
+            mDataStore.setCustomerCity(mDataStore.getDefaultBillingDetails().getCity());
+            mDataStore.setCustomerState(mDataStore.getDefaultBillingDetails().getState());
+            mDataStore.setCustomerPhone(mDataStore.getDefaultBillingDetails().getPhone().getNumber());
+            mDataStore.setCustomerPhonePrefix(mDataStore.getDefaultBillingDetails().getPhone().getCountryCode());
+        }
+        if(mDataStore != null && mDataStore.getDefaultCustomerName() != null) {
+            mDataStore.setCustomerName(mDataStore.getDefaultCustomerName());
+        } else {
+            mDataStore.setLastCustomerNameState(null);
+        }
+        if(mDataStore != null && mDataStore.getDefaultCountry() != null) {
+            mDataStore.setDefaultCountry(mDataStore.getDefaultCountry());
+        }
+        customAdapter.clearFields();
+        if(mDataStore != null && mDataStore.getDefaultBillingDetails() != null) {
+            mDataStore.setBillingCompleted(true);
+            mDataStore.setLastBillingValidState(mDataStore.getDefaultBillingDetails());
+        } else {
+            mDataStore.setLastBillingValidState(null);
+        }
+    }
 
     /**
      * Returns a String without any spaces
@@ -422,7 +508,7 @@ public class PaymentForm extends FrameLayout {
     /**
      * This method used to set a callback for when the form is submitted
      */
-    public PaymentForm setSubmitListener(OnSubmitForm listener) {
+    public PaymentForm setFormListener(PaymentFormCallback listener) {
         this.mSubmitFormListener = listener;
         return this;
     }

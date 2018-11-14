@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import com.android.volley.VolleyError;
-import com.checkout.android_sdk.CheckoutAPIClient;
-import com.checkout.android_sdk.CheckoutAPIClient.OnTokenGenerated;
 import com.checkout.android_sdk.PaymentForm;
-import com.checkout.android_sdk.PaymentForm.OnSubmitForm;
-import com.checkout.android_sdk.Request.CardTokenisationRequest;
+import com.checkout.android_sdk.PaymentForm.PaymentFormCallback;
 import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Utils.CardUtils.Cards;
@@ -20,15 +17,30 @@ import com.checkout.android_sdk.Utils.Environment;
 public class DemoActivity extends Activity {
 
     private PaymentForm mPaymentForm;
-    private CheckoutAPIClient mCheckoutAPIClient;
-    private static ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog;
 
-    // Callback used when the user completed the form clicked the Pay button
-    private final OnSubmitForm mSubmitListener = new OnSubmitForm() {
+    // Callback used for the Payment Form interaction
+    private final PaymentFormCallback mFormListener = new PaymentFormCallback() {
         @Override
-        public void onSubmit(CardTokenisationRequest request) {
-            mProgressDialog.show(); // slow a spinner
-            mCheckoutAPIClient.generateToken(request);
+        public void onFormSubmit() {
+            mProgressDialog.show(); // show loader
+        }
+
+        @Override
+        public void onTokenGenerated(CardTokenisationResponse response) {
+            mProgressDialog.dismiss(); // dismiss the loader
+            mPaymentForm.clearForm(); // clear the form
+            displayMessage("Token", response.getId());
+        }
+
+        @Override
+        public void onError(CardTokenisationFail response) {
+            displayMessage("Token Error", response.getErrorCode());
+        }
+
+        @Override
+        public void onNetworkError(VolleyError error) {
+            displayMessage("Network Error", String.valueOf(error));
         }
 
         @Override
@@ -37,48 +49,22 @@ public class DemoActivity extends Activity {
         }
     };
 
-    // Callback used for the outcome of the generating a token
-    private final OnTokenGenerated mTokenListener = new OnTokenGenerated() {
-        @Override
-        public void onTokenGenerated(CardTokenisationResponse token) {
-            mProgressDialog.dismiss(); // dismiss the spinner
-            displayMessage("Success!", token.getId());
-        }
-
-        @Override
-        public void onError(CardTokenisationFail error) {
-            mProgressDialog.dismiss(); // dismiss the spinner
-            displayMessage("Error!", error.getEventId());
-        }
-
-        @Override
-        public void onNetworkError(VolleyError error) {
-            mProgressDialog.dismiss(); // dismiss the spinner
-            displayMessage("Error!", "network error"); // handle VolleyError
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
 
-        mProgressDialog = new ProgressDialog(this);
+        // initialise the loader
+        mProgressDialog = new ProgressDialog(DemoActivity.this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setMessage("Loading...");
 
         mPaymentForm = findViewById(R.id.checkout_card_form);
         mPaymentForm
-                .setSubmitListener(mSubmitListener)
+                .setFormListener(mFormListener)
+                .setEnvironment(Environment.SANDBOX)
+                .setKey("pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73")
                 .setAcceptedCard(new Cards[]{Cards.VISA, Cards.MASTERCARD});
-
-        mCheckoutAPIClient = new CheckoutAPIClient(
-                this,
-                "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
-                Environment.SANDBOX
-        );
-        mCheckoutAPIClient.setTokenListener(mTokenListener);
-
     }
 
     private void displayMessage(String title, String message) {

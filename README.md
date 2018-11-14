@@ -26,11 +26,11 @@ dependencies {
  implementation 'com.android.support:design:27.1.1'
  implementation 'com.google.code.gson:gson:2.8.5'
  implementation 'com.android.volley:volley:1.0.0'
- implementation 'com.github.checkout:frames-android:v2.0.3'
+ implementation 'com.github.checkout:frames-android:v2.0.4'
 }
 ```
 
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.0.3)
+> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.0.4)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
@@ -51,57 +51,45 @@ dependencies {
 **Step2** Include the module in your class.
 ```java
    private PaymentForm mPaymentForm; // include the payment form
-   private CheckoutAPIClient mCheckoutAPIClient; // include the API client
 ```
 
-**Step3** Create a callback for when the Payment form is submitted.
+**Step3** Create a callback for the Payment Form.
 ```java
-   OnSubmitForm mSubmitListener = new OnSubmitForm() {
-      @Override
-      public void onSubmit(CardTokenisationRequest request) {
-          mCheckoutAPIClient.generateToken(request); // send the request to generate the token
-      }
-      @Override
-      public void onBackPressed() {
-          // the user decided to leave the payment page
-      }
-   };
+    PaymentFormCallback mFormListener = new PaymentFormCallback() {
+        @Override
+        public void onFormSubmit() {
+           // form submit initiated; you can potentially display a loader 
+        }
+        @Override
+        public void onTokenGenerated(CardTokenisationResponse response) {
+            // your token is here
+            mPaymentForm.clearForm(); // this clears the Payment Form
+        }
+        @Override
+        public void onError(CardTokenisationFail response) {
+            // token request error
+        }
+        @Override
+        public void onNetworkError(VolleyError error) {
+            // network error
+        }
+        @Override
+        public void onBackPressed() {
+            // the user decided to leave the payment page
+            mPaymentForm.clearForm(); // this clears the Payment Form
+        }
+    };
 ```
 
-**Step4** Create a callback for the tokenisation request
-```java
-   CheckoutAPIClient.OnTokenGenerated mTokenListener = new CheckoutAPIClient.OnTokenGenerated() {
-     @Override
-     public void onTokenGenerated(CardTokenisationResponse token) {
-         // your token
-     }
-     @Override
-     public void onError(CardTokenisationFail error) {
-         // your tokenisation error
-     }
-     @Override
-     public void onNetworkError(VolleyError error) {
-         // your network error
-     }
-   };
-```
-
-**Step5** Initialise the module
+**Step4** Initialise the module
 ```java
     // initialise the payment from 
     mPaymentForm = findViewById(R.id.checkout_card_form);
-    mPaymentForm.setSubmitListener(mSubmitListener); // set the callback for the form submission 
-    
-    // initialise the api client
-    mCheckoutAPIClient = new CheckoutAPIClient(
-           this, // context
-           "pk_XXXXX", // your public key
-           Environment.SANDBOX
-    );
-    mCheckoutAPIClient.setTokenListener(mTokenListener); // set the callback for tokenisation
+    mPaymentForm
+        .setSubmitListener(mSubmitListener)    // set the callback
+        .setEnvironment(Environment.SANDBOX)   // set the environemnt
+        .setKey("pk_xxx");                     // set your public key 
 ```
-
-
 <br/>
 
 ### For using the module without the UI you need to do the following:
@@ -263,6 +251,19 @@ If you collected the address details from the customer prior to the payment page
                 );
 ```
 
+If you want to customise the buttons in the Payment From you have the following options :
+```java
+   mPaymentForm = findViewById(R.id.checkout_card_form);
+   mPaymentForm
+       ...
+       .setPayButtonText("Pay Now")     // Pay button text; dafault "Pay"
+       .setDoneButtonText("Save")       // Done button text on the billing address page; dafault "Done"
+       .setClearButtonText("Clear")     // Clear button text on the billing address page; dafault "Clear"
+       .setPayButtonLayout(params)      // LayoutParams for the Pay button
+       .setDoneButtonLayout(params)     // LayoutParams for the Done button
+       .setClearButtonLayout(params)    // LayoutParams for the Clear button
+```
+
 ## Handle 3D Secure
 
 The module allows you to handle 3DSecure URLs within your mobile app. Here are the steps:
@@ -335,7 +336,7 @@ The module allows you to handle a Google Pay token payload and retrieve a token,
 ```
 
 ## Objects found in callbacks
-#### When dealing with actions like generating a card token the callback will include the following objects:
+#### When dealing with actions like generating a card token the callback will include the following objects.
 
 **For success -> CardTokenisationResponse** 
 <br/>
@@ -359,7 +360,7 @@ With the following getters:
    error.getErrors();            // an array or strings with all error messages 
 ```
 
-#### When dealing with actions like generating a token for a Google Pay payload the callback will include the following objects:
+#### When dealing with actions like generating a token for a Google Pay payload the callback will include the following objects.
 
 **For success -> GooglePayTokenisationResponse** 
 <br/>

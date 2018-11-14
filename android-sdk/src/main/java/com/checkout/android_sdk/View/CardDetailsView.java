@@ -16,12 +16,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.Input.BillingInput;
 import com.checkout.android_sdk.Input.CardInput;
 import com.checkout.android_sdk.Input.DefaultInput;
 import com.checkout.android_sdk.Input.MonthInput;
 import com.checkout.android_sdk.Input.YearInput;
+import com.checkout.android_sdk.Models.BillingModel;
+import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.R;
+import com.checkout.android_sdk.Request.CardTokenisationRequest;
+import com.checkout.android_sdk.Response.CardTokenisationFail;
+import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.Utils.CardUtils;
 
@@ -45,7 +52,10 @@ public class CardDetailsView extends LinearLayout {
      * be used to communicate to the parent and start the necessary API call(s).
      */
     public interface DetailsCompleted {
-        void onDetailsCompleted();
+        void onFormSubmit();
+        void onTokeGenerated(CardTokenisationResponse reponse);
+        void onError(CardTokenisationFail error);
+        void onNetworkError(VolleyError error);
         void onBackPressed();
     }
 
@@ -141,6 +151,24 @@ public class CardDetailsView extends LinearLayout {
         }
     };
 
+    // Callback used for the outcome of the generating a token
+    private final CheckoutAPIClient.OnTokenGenerated mTokenListener = new CheckoutAPIClient.OnTokenGenerated() {
+        @Override
+        public void onTokenGenerated(CardTokenisationResponse token) {
+            mDetailsCompletedListener.onTokeGenerated(token);
+        }
+
+        @Override
+        public void onError(CardTokenisationFail error) {
+            mDetailsCompletedListener.onError(error);
+        }
+
+        @Override
+        public void onNetworkError(VolleyError error) {
+            mDetailsCompletedListener.onNetworkError(error);
+        }
+    };
+
     /**
      * The callback is used to trigger the focus change to the billing page
      */
@@ -159,6 +187,7 @@ public class CardDetailsView extends LinearLayout {
     private @Nullable
     CardDetailsView.DetailsCompleted mDetailsCompletedListener;
     private Context mContext;
+    private CheckoutAPIClient mCheckoutAPIClient;
 
     private CardInput mCardInput;
     private MonthInput mMonthInput;
@@ -233,6 +262,12 @@ public class CardDetailsView extends LinearLayout {
         }
 
         mPayButton = findViewById(R.id.pay_button);
+        if(mDataStore != null && mDataStore.getPayButtonText() != null) {
+            mPayButton.setText(mDataStore.getPayButtonText());
+        }
+        if(mDataStore!= null && mDataStore.getPayButtonLayout() != null) {
+            mPayButton.setLayoutParams(mDataStore.getPayButtonLayout());
+        }
 
         mPayButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -246,7 +281,15 @@ public class CardDetailsView extends LinearLayout {
                     e.printStackTrace();
                 }
                 if (mDetailsCompletedListener != null && isValidForm()) {
-                    mDetailsCompletedListener.onDetailsCompleted();
+                    mDetailsCompletedListener.onFormSubmit();
+                    mCheckoutAPIClient = new CheckoutAPIClient(
+                            getContext(), // context
+                            mDataStore.getKey(), // your public key
+                            mDataStore.getEnvironment()
+                    );
+                    mCheckoutAPIClient.setTokenListener(mTokenListener);
+                    CardTokenisationRequest test = generateRequest();
+                    mCheckoutAPIClient.generateToken(test);
                 }
             }
         });
@@ -443,7 +486,11 @@ public class CardDetailsView extends LinearLayout {
      * <p>
      */
     public void resetFields() {
-        clearBillingSpinner();
+        if(mDataStore != null && mDataStore.getDefaultBillingDetails() != null) {
+            updateBillingSpinner();
+        } else {
+            clearBillingSpinner();
+        }
         mCvvInput.setText("");
         mCvvLayout.setError(null);
         mCvvLayout.setErrorEnabled(false);
@@ -478,6 +525,62 @@ public class CardDetailsView extends LinearLayout {
         }
 
     }
+
+    /**
+     * This method used to generate a {@link CardTokenisationRequest} with the details
+     * completed by the user in the payment from
+     * displayed in the payment form.
+     *
+     * @return CardTokenisationRequest
+     */
+    private CardTokenisationRequest generateRequest() {
+        CardTokenisationRequest request;
+        if (mDataStore.isBillingCompleted()) {
+            request = new CardTokenisationRequest(
+                    sanitizeEntry(mDataStore.getCardNumber()),
+                    mDataStore.getCustomerName(),
+                    mDataStore.getCardMonth(),
+                    mDataStore.getCardYear(),
+                    mDataStore.getCardCvv(),
+                    new BillingModel(
+                            mDataStore.getCustomerAddress1(),
+                            mDataStore.getCustomerAddress2(),
+                            mDataStore.getCustomerZipcode(),
+                            mDataStore.getCustomerCountry(),
+                            mDataStore.getCustomerCity(),
+                            mDataStore.getCustomerState(),
+                            new PhoneModel(
+                                    mDataStore.getCustomerPhonePrefix(),
+                                    mDataStore.getCustomerPhone()
+                            )
+                    )
+            );
+        } else {
+            request = new CardTokenisationRequest(
+                    sanitizeEntry(mDataStore.getCardNumber()),
+                    mDataStore.getCustomerName(),
+                    mDataStore.getCardMonth(),
+                    mDataStore.getCardYear(),
+                    mDataStore.getCardCvv(),
+                    null
+            );
+        }
+
+        return request;
+    }
+
+    /**
+     * Returns a String without any spaces
+     * <p>
+     * This method used to take a card number input String and return a
+     * String that simply removed all whitespace, keeping only digits.
+     *
+     * @param entry the String value of a card number
+     */
+    private String sanitizeEntry(String entry) {
+        return entry.replaceAll("\\D", "");
+    }
+
 
     /**
      * Used to set the callback listener for when the form is submitted

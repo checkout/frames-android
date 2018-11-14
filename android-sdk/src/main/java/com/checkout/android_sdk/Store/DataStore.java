@@ -1,6 +1,10 @@
 package com.checkout.android_sdk.Store;
 
+import android.widget.LinearLayout;
+
+import com.checkout.android_sdk.Models.BillingModel;
 import com.checkout.android_sdk.Utils.CardUtils;
+import com.checkout.android_sdk.Utils.Environment;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -19,6 +23,8 @@ public class DataStore {
     private String mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
     private String mCardCvv;
     private int mCvvLength = 4;
+    private Environment environment = Environment.SANDBOX;
+    private String key = null;
 
     private CardUtils.Cards[] acceptedCards;
 
@@ -31,6 +37,7 @@ public class DataStore {
     private boolean IsValidCardCvv = false;
 
     private String mCustomerName = "";
+    private String mDefaultCustomerName  = null;
     private String mCustomerCountry = "";
     private Locale mDefaultCountry = null;
     private String mCustomerAddress1 = "";
@@ -56,6 +63,18 @@ public class DataStore {
     private String mStateLabel = null;
     private String mPostCodeLabel = null;
     private String mPhoneLabel = null;
+
+    private String mPayButtonText = null;
+    private String mDoneButtonText = null;
+    private String mClearButtonText = null;
+
+    private LinearLayout.LayoutParams mPayButtonLayout = null;
+    private LinearLayout.LayoutParams mDoneButtonLayout = null;
+    private LinearLayout.LayoutParams mClearButtonLayout = null;
+
+    private BillingModel mLastBillingValidState = null;
+    private BillingModel mDefaultBillingDetails = null;
+    private String mLastCustomerNameState = null;
 
     protected DataStore() {
     }
@@ -337,6 +356,102 @@ public class DataStore {
 
     public void setPhoneLabel(String mPhoneLabel) {
         this.mPhoneLabel = mPhoneLabel;
+    }
+
+    public String getPayButtonText() {
+        return mPayButtonText;
+    }
+
+    public void setPayButtonText(String mPayButtonText) {
+        this.mPayButtonText = mPayButtonText;
+    }
+
+    public String getDoneButtonText() {
+        return mDoneButtonText;
+    }
+
+    public void setDoneButtonText(String mDoneButtonText) {
+        this.mDoneButtonText = mDoneButtonText;
+    }
+
+    public String getClearButtonText() {
+        return mClearButtonText;
+    }
+
+    public void setClearButtonText(String mClearButtonText) {
+        this.mClearButtonText = mClearButtonText;
+    }
+
+    public LinearLayout.LayoutParams getPayButtonLayout() {
+        return mPayButtonLayout;
+    }
+
+    public void setPayButtonLayout(LinearLayout.LayoutParams mPayButtonLayout) {
+        this.mPayButtonLayout = mPayButtonLayout;
+    }
+
+    public LinearLayout.LayoutParams getDoneButtonLayout() {
+        return mDoneButtonLayout;
+    }
+
+    public void setDoneButtonLayout(LinearLayout.LayoutParams mDoneButtonLayout) {
+        this.mDoneButtonLayout = mDoneButtonLayout;
+    }
+
+    public LinearLayout.LayoutParams getClearButtonLayout() {
+        return mClearButtonLayout;
+    }
+
+    public void setClearButtonLayout(LinearLayout.LayoutParams mClearButtonLayout) {
+        this.mClearButtonLayout = mClearButtonLayout;
+    }
+
+    public BillingModel getLastBillingValidState() {
+        return mLastBillingValidState;
+    }
+
+    public void setLastBillingValidState(BillingModel mLastBillingValidState) {
+        this.mLastBillingValidState = mLastBillingValidState;
+    }
+
+    public String getLastCustomerNameState() {
+        return mLastCustomerNameState;
+    }
+
+    public void setLastCustomerNameState(String mLastCustomerNameState) {
+        this.mLastCustomerNameState = mLastCustomerNameState;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public BillingModel getDefaultBillingDetails() {
+        return mDefaultBillingDetails;
+    }
+
+    public void setDefaultBillingDetails(BillingModel mDefaultBillingDetails) {
+        this.mDefaultBillingDetails = mDefaultBillingDetails;
+    }
+
+    public String getDefaultCustomerName() {
+        return mDefaultCustomerName;
+    }
+
+    public void setDefaultCustomerName(String mDefaulCustomerName) {
+        this.mDefaultCustomerName = mDefaulCustomerName;
     }
 
     public void cleanBillingData() {
