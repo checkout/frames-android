@@ -609,7 +609,21 @@ public class BillingDetailsView extends LinearLayout {
                     !mState.hasFocus() &&
                     !mZip.hasFocus() &&
                     !mPhone.hasFocus()) {
-                mListener.onBillingCanceled();
+                if (mDatastore != null && mDatastore.getLastBillingValidState() != null) {
+                    mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
+                    mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddressLine1());
+                    mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddressLine2());
+                    mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getPostcode());
+                    mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
+                    mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
+                    mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
+                    mDatastore.setCustomerPhonePrefix(mDatastore.getLastBillingValidState().getPhone().getCountryCode());
+                    mDatastore.setCustomerPhone(mDatastore.getLastBillingValidState().getPhone().getNumber());
+                    repopulateFields();
+                    mListener.onBillingCompleted();
+                } else {
+                    mListener.onBillingCanceled();
+                }
                 return true;
             } else {
                 requestFocus();
