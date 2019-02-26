@@ -1,5 +1,7 @@
 buildscript {
-    
+
+    ext.kotlin_version = '1.2.30'
+
     repositories {
         google()
         jcenter()
@@ -10,6 +12,7 @@ buildscript {
 
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
