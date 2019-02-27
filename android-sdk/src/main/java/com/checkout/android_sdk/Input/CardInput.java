@@ -90,25 +90,6 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
                     mCardInputListener.onClearCardError();
                 }
                 new CardInputUseCase(CardInput.this, text).execute();
-
-//                // Remove Spaces
-//                String initial = sanitizeEntry(s.toString());
-//                // Save State
-//                mDataStore.setCardNumber(s.toString());
-//                // Format number
-//                String formatted = mCardUtils.getFormattedCardNumber(initial);
-//                // Get Card type
-//                CardUtils.Cards cardType = mCardUtils.getType(initial);
-//                // Set the CardInput maximum length based on the type of card
-//                setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardType.maxCardLength)});
-//                // Set the CardInput icon based on the type of card
-//                setCardTypeIcon(cardType);
-//
-//                // Update only is the formatted number is different from the initial input
-//                if (!s.toString().equals(formatted)) {
-//                    s.replace(0, s.toString().length(), formatted);
-//                }
-//                checkIfCardIsValid(initial, cardType);
             }
         });
 

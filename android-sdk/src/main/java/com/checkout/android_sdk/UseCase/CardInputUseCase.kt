@@ -5,12 +5,12 @@ import com.checkout.android_sdk.Architecture.UseCase
 import com.checkout.android_sdk.Utils.CardUtils
 
 
-open class CardInputUseCase(private val callback: Callback, private val chars: Editable) :
+open class CardInputUseCase(private val callback: Callback, private val editableText: Editable) :
     UseCase {
 
     override fun execute() {
         // Remove Spaces
-        val sanitized = sanitizeEntry(chars.toString()) // can we just force the keypad
+        val sanitized = sanitizeEntry(editableText.toString()) // can we just force the keypad
         // Format number
         val formatted = CardUtils.getFormattedCardNumber(sanitized)
         // Get Card type
@@ -18,11 +18,11 @@ open class CardInputUseCase(private val callback: Callback, private val chars: E
         // Check if card is valid
         val isCardValid = checkIfCardIsValid(sanitized, cardType)
 
-        if (chars.toString() != formatted) {
-            chars.replace(0, chars.toString().length, formatted)
+        if (editableText.toString() != formatted) {
+            editableText.replace(0, editableText.toString().length, formatted)
         }
 
-        val cardResult = CardInputResult(sanitized, formatted, cardType, isCardValid)
+        val cardResult = CardInputResult(sanitized, cardType, isCardValid)
         callback.onCardInputResult(cardResult)
     }
 
@@ -36,19 +36,14 @@ open class CardInputUseCase(private val callback: Callback, private val chars: E
 
     class CardInputResult(
         val cardNumber: String,
-        val formattedNumber: String,
         val cardType: CardUtils.Cards,
         val inputFinished: Boolean
     )
 
-    fun checkIfCardIsValid(number: String, cardType: CardUtils.Cards): Boolean {
-        var hasDesiredLength = false
-        for (i in cardType.cardLength) {
-            if (i == number.length) {
-                hasDesiredLength = true
-                break
-            }
-        }
-        return CardUtils.isValidCard(number) && hasDesiredLength
+    private fun checkIfCardIsValid(number: String, cardType: CardUtils.Cards): Boolean {
+        return CardUtils.isValidCard(number) && hasDesiredLength(number, cardType)
     }
+
+    private fun hasDesiredLength(number: String, cardType: CardUtils.Cards) =
+        number.length in cardType.cardLength
 }
