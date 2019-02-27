@@ -6,7 +6,7 @@ import com.checkout.android_sdk.Utils.CardUtils
 
 class CardFocusUseCase(
     private val hasFocus: Boolean,
-    private val cardNumber: String,
+    private val cardNumber: String?,
     private val callback: Callback
 ): UseCase {
 
