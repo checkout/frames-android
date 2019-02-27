@@ -6,13 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.UseCase.CardFocusUseCase;
 import com.checkout.android_sdk.UseCase.CardInputUseCase;
+import com.checkout.android_sdk.Utils.AfterTextChangedListener;
 import com.checkout.android_sdk.Utils.CardUtils;
 
 /**
@@ -86,16 +86,7 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
     private void init() {
 
         // Add listener for text input
-        addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+        addTextChangedListener(new AfterTextChangedListener() {
             @Override
             public void afterTextChanged(Editable text) {
                 new CardInputUseCase(text, DataStore.getInstance(), CardInput.this).execute();
