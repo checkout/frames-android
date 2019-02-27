@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.checkout.android_sdk.Store.DataStore;
+import com.checkout.android_sdk.UseCase.CardFocusUseCase;
 import com.checkout.android_sdk.UseCase.CardInputUseCase;
 import com.checkout.android_sdk.Utils.CardUtils;
 
@@ -22,16 +23,31 @@ import com.checkout.android_sdk.Utils.CardUtils;
  * This class will validate on the "afterTextChanged" event and display a card icon on the right
  * side based on  the users input. It will also span spaces following the {@link CardUtils} details.
  */
-public class CardInput extends android.support.v7.widget.AppCompatEditText implements CardInputUseCase.Callback {
+public class CardInput extends android.support.v7.widget.AppCompatEditText implements CardInputUseCase.Callback, CardFocusUseCase.Callback {
 
     @Override
     public void onCardInputResult(@NonNull CardInputUseCase.CardInputResult cardInputResult) {
+        // Remove error if the user is typing
+        if (mCardInputListener != null) {
+            mCardInputListener.onClearCardError();
+        }
         // Get Card type
         setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
         // Set the CardInput icon based on the type of card
         setCardTypeIcon(cardInputResult.getCardType());
         if (mCardInputListener != null && cardInputResult.getInputFinished()) {
             mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
+        }
+    }
+
+    @Override
+    public void onCardFocusResult(boolean displayError) {
+        if (mCardInputListener != null) {
+            if (displayError) {
+                mCardInputListener.onCardError();
+            } else {
+                mCardInputListener.onClearCardError();
+            }
         }
     }
 
@@ -82,10 +98,6 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
 
             @Override
             public void afterTextChanged(Editable text) {
-                // Remove error if the user is typing - TODO: This should do in the UseCase
-                if (mCardInputListener != null) {
-                    mCardInputListener.onClearCardError();
-                }
                 new CardInputUseCase(text, DataStore.getInstance(), CardInput.this).execute();
             }
         });
@@ -96,22 +108,14 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
         setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mCardInputListener != null && !mCardUtils.isValidCard(mDataStore.getCardNumber())) {
-                        mCardInputListener.onCardError();
-                    }
-                } else {
-                    // Clear the error message until the field loses focus
-                    if (mCardInputListener != null) {
-                        mCardInputListener.onClearCardError();
-                    }
-                }
+                new CardFocusUseCase(hasFocus, mDataStore.getCardNumber(), CardInput.this).execute();
             }
         });
     }
 
     /**
      * This method is used to validate the card number
+     * TODO: This is duplicated in CardInputUseCase.. should remove
      */
     public void checkIfCardIsValid(String number, CardUtils.Cards cardType) {
         boolean hasDesiredLength = false;

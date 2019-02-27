@@ -10,8 +10,7 @@ open class CardInputUseCase(
     private val editableText: Editable,
     private val dataStore: DataStore,
     private val callback: Callback
-) :
-    UseCase {
+) : UseCase {
 
     override fun execute() {
         // Remove Spaces
