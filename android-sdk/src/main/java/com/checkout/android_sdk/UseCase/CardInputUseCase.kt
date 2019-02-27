@@ -14,7 +14,7 @@ open class CardInputUseCase(
 
     override fun execute() {
         // Remove Spaces
-        val sanitized = sanitizeEntry(editableText.toString()) // can we just force the keypad
+        val sanitized = sanitizeEntry(editableText.toString())
         // Format number
         val formatted = CardUtils.getFormattedCardNumber(sanitized)
         // Get Card type
