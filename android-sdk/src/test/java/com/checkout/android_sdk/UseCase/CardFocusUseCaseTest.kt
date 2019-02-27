@@ -10,14 +10,13 @@ import org.mockito.junit.MockitoJUnitRunner
 class CardFocusUseCaseTest {
 
     @Mock
-    lateinit var callbackMock: CardFocusUseCase.Callback
+    private lateinit var callbackMock: CardFocusUseCase.Callback
 
     @Test
     fun `given valid card without focus then card focus result is error`() {
         CardFocusUseCase(false, "1234567812345678", callbackMock).execute()
 
-        then(callbackMock).should()
-            .onCardFocusResult(true)
+        then(callbackMock).should().onCardFocusResult(true)
     }
 
     @Test
@@ -32,8 +31,7 @@ class CardFocusUseCaseTest {
     fun `given invalid card without focus then card focus result is error`() {
         CardFocusUseCase(false, "11", callbackMock).execute()
 
-        then(callbackMock).should()
-            .onCardFocusResult(true)
+        then(callbackMock).should().onCardFocusResult(true)
     }
 
 }

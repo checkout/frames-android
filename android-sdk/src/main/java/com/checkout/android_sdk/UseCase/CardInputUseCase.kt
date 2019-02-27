@@ -48,7 +48,7 @@ open class CardInputUseCase(
         fun onCardInputResult(cardInputResult: CardInputResult)
     }
 
-    class CardInputResult(
+    data class CardInputResult(
         val cardNumber: String,
         val cardType: CardUtils.Cards,
         val inputFinished: Boolean
