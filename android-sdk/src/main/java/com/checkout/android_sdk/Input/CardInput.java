@@ -2,6 +2,7 @@ package com.checkout.android_sdk.Input;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -10,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.checkout.android_sdk.Store.DataStore;
+import com.checkout.android_sdk.UseCase.CardInputUseCase;
 import com.checkout.android_sdk.Utils.CardUtils;
 
 /**
@@ -20,7 +22,22 @@ import com.checkout.android_sdk.Utils.CardUtils;
  * This class will validate on the "afterTextChanged" event and display a card icon on the right
  * side based on  the users input. It will also span spaces following the {@link CardUtils} details.
  */
-public class CardInput extends android.support.v7.widget.AppCompatEditText {
+public class CardInput extends android.support.v7.widget.AppCompatEditText implements CardInputUseCase.Callback {
+
+    @Override
+    public void onCardInputResult(@NonNull CardInputUseCase.CardInputResult cardInputResult) {
+        // Save State
+        mDataStore.setCardNumber(cardInputResult.getCardNumber());
+        mDataStore.setCvvLength(cardInputResult.getCardType().maxCvvLength);
+        // Get Card type
+        setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
+        // Set the CardInput icon based on the type of card
+        setCardTypeIcon(cardInputResult.getCardType());
+        if (mCardInputListener != null && cardInputResult.getInputFinished()) {
+            mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
+        }
+    }
+
     /**
      * An interface needed to communicate with the parent once the field is successfully completed
      */
@@ -63,32 +80,35 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                // Remove error if the user is typing
+            public void afterTextChanged(Editable text) {
+                // Remove error if the user is typing - TODO: This should do in the UseCase
                 if (mCardInputListener != null) {
                     mCardInputListener.onClearCardError();
                 }
-                // Remove Spaces
-                String initial = sanitizeEntry(s.toString());
-                // Save State
-                mDataStore.setCardNumber(s.toString());
-                // Format number
-                String formatted = mCardUtils.getFormattedCardNumber(initial);
-                // Get Card type
-                CardUtils.Cards cardType = mCardUtils.getType(initial);
-                // Set the CardInput maximum length based on the type of card
-                setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardType.maxCardLength)});
-                // Set the CardInput icon based on the type of card
-                setCardTypeIcon(cardType);
+                new CardInputUseCase(CardInput.this, text).execute();
 
-                // Update only is the formatted number is different from the initial input
-                if (!s.toString().equals(formatted)) {
-                    s.replace(0, s.toString().length(), formatted);
-                }
-                checkIfCardIsValid(initial, cardType);
+//                // Remove Spaces
+//                String initial = sanitizeEntry(s.toString());
+//                // Save State
+//                mDataStore.setCardNumber(s.toString());
+//                // Format number
+//                String formatted = mCardUtils.getFormattedCardNumber(initial);
+//                // Get Card type
+//                CardUtils.Cards cardType = mCardUtils.getType(initial);
+//                // Set the CardInput maximum length based on the type of card
+//                setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardType.maxCardLength)});
+//                // Set the CardInput icon based on the type of card
+//                setCardTypeIcon(cardType);
+//
+//                // Update only is the formatted number is different from the initial input
+//                if (!s.toString().equals(formatted)) {
+//                    s.replace(0, s.toString().length(), formatted);
+//                }
+//                checkIfCardIsValid(initial, cardType);
             }
         });
 
