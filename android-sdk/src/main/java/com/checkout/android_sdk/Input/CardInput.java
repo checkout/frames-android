@@ -26,9 +26,6 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
 
     @Override
     public void onCardInputResult(@NonNull CardInputUseCase.CardInputResult cardInputResult) {
-        // Save State
-        mDataStore.setCardNumber(cardInputResult.getCardNumber());
-        mDataStore.setCvvLength(cardInputResult.getCardType().maxCvvLength);
         // Get Card type
         setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
         // Set the CardInput icon based on the type of card
@@ -89,7 +86,7 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
                 if (mCardInputListener != null) {
                     mCardInputListener.onClearCardError();
                 }
-                new CardInputUseCase(CardInput.this, text).execute();
+                new CardInputUseCase(text, DataStore.getInstance(), CardInput.this).execute();
             }
         });
 

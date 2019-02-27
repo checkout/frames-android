@@ -2,10 +2,15 @@ package com.checkout.android_sdk.UseCase
 
 import android.text.Editable
 import com.checkout.android_sdk.Architecture.UseCase
+import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.Utils.CardUtils
 
 
-open class CardInputUseCase(private val callback: Callback, private val editableText: Editable) :
+open class CardInputUseCase(
+    private val editableText: Editable,
+    private val dataStore: DataStore,
+    private val callback: Callback
+) :
     UseCase {
 
     override fun execute() {
@@ -21,6 +26,9 @@ open class CardInputUseCase(private val callback: Callback, private val editable
         if (editableText.toString() != formatted) {
             editableText.replace(0, editableText.toString().length, formatted)
         }
+        // Save State
+        dataStore.cardNumber = sanitized
+        dataStore.cvvLength = cardType.maxCvvLength
 
         val cardResult = CardInputResult(sanitized, cardType, isCardValid)
         callback.onCardInputResult(cardResult)
@@ -29,6 +37,13 @@ open class CardInputUseCase(private val callback: Callback, private val editable
     private fun sanitizeEntry(entry: String): String {
         return entry.replace("\\D".toRegex(), "")
     }
+
+    private fun checkIfCardIsValid(number: String, cardType: CardUtils.Cards): Boolean {
+        return CardUtils.isValidCard(number) && hasDesiredLength(number, cardType)
+    }
+
+    private fun hasDesiredLength(number: String, cardType: CardUtils.Cards) =
+        number.length in cardType.cardLength
 
     interface Callback {
         fun onCardInputResult(cardInputResult: CardInputResult)
@@ -39,11 +54,4 @@ open class CardInputUseCase(private val callback: Callback, private val editable
         val cardType: CardUtils.Cards,
         val inputFinished: Boolean
     )
-
-    private fun checkIfCardIsValid(number: String, cardType: CardUtils.Cards): Boolean {
-        return CardUtils.isValidCard(number) && hasDesiredLength(number, cardType)
-    }
-
-    private fun hasDesiredLength(number: String, cardType: CardUtils.Cards) =
-        number.length in cardType.cardLength
 }
