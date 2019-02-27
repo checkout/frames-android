@@ -25,32 +25,6 @@ import com.checkout.android_sdk.Utils.CardUtils;
  */
 public class CardInput extends android.support.v7.widget.AppCompatEditText implements CardInputUseCase.Callback, CardFocusUseCase.Callback {
 
-    @Override
-    public void onCardInputResult(@NonNull CardInputUseCase.CardInputResult cardInputResult) {
-        // Remove error if the user is typing
-        if (mCardInputListener != null) {
-            mCardInputListener.onClearCardError();
-        }
-        // Get Card type
-        setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
-        // Set the CardInput icon based on the type of card
-        setCardTypeIcon(cardInputResult.getCardType());
-        if (mCardInputListener != null && cardInputResult.getInputFinished()) {
-            mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
-        }
-    }
-
-    @Override
-    public void onCardFocusResult(boolean displayError) {
-        if (mCardInputListener != null) {
-            if (displayError) {
-                mCardInputListener.onCardError();
-            } else {
-                mCardInputListener.onClearCardError();
-            }
-        }
-    }
-
     /**
      * An interface needed to communicate with the parent once the field is successfully completed
      */
@@ -102,6 +76,32 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
                 new CardFocusUseCase(hasFocus, mDataStore.getCardNumber(), CardInput.this).execute();
             }
         });
+    }
+
+    @Override
+    public void onCardInputResult(@NonNull CardInputUseCase.CardInputResult cardInputResult) {
+        // Remove error if the user is typing
+        if (mCardInputListener != null) {
+            mCardInputListener.onClearCardError();
+        }
+        // Get Card type
+        setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
+        // Set the CardInput icon based on the type of card
+        setCardTypeIcon(cardInputResult.getCardType());
+        if (mCardInputListener != null && cardInputResult.getInputFinished()) {
+            mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
+        }
+    }
+
+    @Override
+    public void onCardFocusResult(boolean displayError) {
+        if (mCardInputListener != null) {
+            if (displayError) {
+                mCardInputListener.onCardError();
+            } else {
+                mCardInputListener.onClearCardError();
+            }
+        }
     }
 
     /**
