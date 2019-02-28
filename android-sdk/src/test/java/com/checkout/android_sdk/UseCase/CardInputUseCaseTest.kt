@@ -32,7 +32,7 @@ class CardInputUseCaseTest {
 
         CardInputUseCase(editable, dataStore, callbackMock).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(cardNumber, CardUtils.Cards.DEFAULT, false)
+        val expectedResult = CardInputUseCase.CardInputResult(cardNumber, CardUtils.Cards.DEFAULT, false, false)
         then(callbackMock).should().onCardInputResult(expectedResult)
         assertEquals(cardNumber, editable.toString())
     }
@@ -45,7 +45,7 @@ class CardInputUseCaseTest {
 
         CardInputUseCase(editable, dataStore, callbackMock).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(nonSpacedVisaNumber, CardUtils.Cards.VISA, true)
+        val expectedResult = CardInputUseCase.CardInputResult(nonSpacedVisaNumber, CardUtils.Cards.VISA, true, false)
         then(callbackMock).should().onCardInputResult(expectedResult)
         assertEquals(spacedVisaNumber, editable.toString())
     }
@@ -58,7 +58,7 @@ class CardInputUseCaseTest {
 
         CardInputUseCase(editable, dataStore, callbackMock).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(visaNumberToBeSpaced, CardUtils.Cards.VISA, false)
+        val expectedResult = CardInputUseCase.CardInputResult(visaNumberToBeSpaced, CardUtils.Cards.VISA, false, false)
         then(callbackMock).should().onCardInputResult(expectedResult)
         then(editable).should().replace(0, visaNumberToBeSpaced.length, visaNumberSpaced)
     }

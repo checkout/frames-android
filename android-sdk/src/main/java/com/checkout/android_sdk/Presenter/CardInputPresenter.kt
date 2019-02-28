@@ -7,12 +7,10 @@ import com.checkout.android_sdk.UseCase.CardInputUseCase
 import com.checkout.android_sdk.Utils.CardUtils
 
 
-class CardInputPresenter @JvmOverloads constructor(
-    private val dataStore: DataStore,
-    private var cardInputUiState: CardInputUiState = CardInputUiState()
-) : Presenter,
-    CardInputUseCase.Callback,
+class CardInputPresenter(private val dataStore: DataStore) : Presenter, CardInputUseCase.Callback,
     CardFocusUseCase.Callback {
+
+    private var cardInputUiState: CardInputUiState = CardInputUiState()
 
     private var view: CardInputView? = null
 
@@ -29,8 +27,8 @@ class CardInputPresenter @JvmOverloads constructor(
         CardInputUseCase(text, dataStore, this).execute()
     }
 
-    fun focusChanged(hasFocus: Boolean, cardNumber: String) {
-        CardFocusUseCase(hasFocus, cardNumber, this).execute()
+    fun focusChanged(hasFocus: Boolean) {
+        CardFocusUseCase(hasFocus, dataStore.cardNumber, this).execute()
     }
 
     override fun onCardInputResult(cardInputResult: CardInputUseCase.CardInputResult) {

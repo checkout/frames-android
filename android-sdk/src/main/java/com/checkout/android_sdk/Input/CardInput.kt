@@ -27,7 +27,6 @@ class CardInput @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : android.support.v7.widget.AppCompatEditText(mContext, attrs), CardInputPresenter.CardInputView {
 
-    private var mDataStore = DataStore.getInstance()
     private var mCardInputListener: CardInput.Listener? = null
     private lateinit var presenter: CardInputPresenter
 
@@ -43,7 +42,7 @@ class CardInput @JvmOverloads constructor(
         // Create/get and start the presenter
         presenter = PresenterStore.getOrCreate(
             CardInputPresenter::class.java,
-            { CardInputPresenter(mDataStore) })
+            { CardInputPresenter(DataStore.getInstance()) })
 
         presenter.start(this)
 
@@ -58,7 +57,7 @@ class CardInput @JvmOverloads constructor(
 
         // When the CardInput loses focus check if the card number is not valid and trigger an error
         onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            presenter.focusChanged(hasFocus, mDataStore.cardNumber)
+            presenter.focusChanged(hasFocus)
         }
     }
 
