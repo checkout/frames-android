@@ -476,7 +476,7 @@ public class CardDetailsView extends LinearLayout {
         mCvvLayout.setErrorEnabled(false);
         mYearInput.setSelection(0);
         mMonthInput.setSelection(0);
-        mCardInput.setText("");
+        mCardInput.clear();
         mCardLayout.setError(null);
         mCardLayout.setErrorEnabled(false);
     }

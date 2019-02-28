@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.InputFilter
+import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.android_sdk.Presenter.CardInputPresenter
@@ -95,10 +96,14 @@ class CardInput @JvmOverloads constructor(
 
     private fun restoreCardNumberIfNecessary(cardInputResult: CardInputPresenter.CardInputUiState) {
         if (text.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
-            setText(cardInputResult.cardNumber)
-            setSelection(cardInputResult.cardNumber.length)
-            presenter.textChanged(text)
+            setCardNumberAndPosition(cardInputResult)
         }
+    }
+
+    private fun setCardNumberAndPosition(cardInputResult: CardInputPresenter.CardInputUiState) {
+        setText(cardInputResult.cardNumber)
+        setSelection(cardInputResult.cardNumber.length)
+        presenter.textChanged(text)
     }
 
     private fun showOrClearErrors(cardInputResult: CardInputPresenter.CardInputUiState) {
@@ -120,6 +125,13 @@ class CardInput @JvmOverloads constructor(
      */
     fun setCardListener(listener: Listener) {
         this.mCardInputListener = listener
+    }
+
+    /**
+     * Clear all the ui and backing values
+     */
+    fun clear() {
+        text = SpannableStringBuilder("")
     }
 
     /**
