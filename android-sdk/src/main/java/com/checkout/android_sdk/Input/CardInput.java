@@ -2,14 +2,17 @@ package com.checkout.android_sdk.Input;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.checkout.android_sdk.Store.DataStore;
+import com.checkout.android_sdk.UseCase.CardFocusUseCase;
+import com.checkout.android_sdk.UseCase.CardInputUseCase;
+import com.checkout.android_sdk.Utils.AfterTextChangedListener;
 import com.checkout.android_sdk.Utils.CardUtils;
 
 /**
@@ -20,7 +23,8 @@ import com.checkout.android_sdk.Utils.CardUtils;
  * This class will validate on the "afterTextChanged" event and display a card icon on the right
  * side based on  the users input. It will also span spaces following the {@link CardUtils} details.
  */
-public class CardInput extends android.support.v7.widget.AppCompatEditText {
+public class CardInput extends android.support.v7.widget.AppCompatEditText implements CardInputUseCase.Callback, CardFocusUseCase.Callback {
+
     /**
      * An interface needed to communicate with the parent once the field is successfully completed
      */
@@ -56,39 +60,10 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText {
     private void init() {
 
         // Add listener for text input
-        addTextChangedListener(new TextWatcher() {
+        addTextChangedListener(new AfterTextChangedListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Remove error if the user is typing
-                if (mCardInputListener != null) {
-                    mCardInputListener.onClearCardError();
-                }
-                // Remove Spaces
-                String initial = sanitizeEntry(s.toString());
-                // Save State
-                mDataStore.setCardNumber(s.toString());
-                // Format number
-                String formatted = mCardUtils.getFormattedCardNumber(initial);
-                // Get Card type
-                CardUtils.Cards cardType = mCardUtils.getType(initial);
-                // Set the CardInput maximum length based on the type of card
-                setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardType.maxCardLength)});
-                // Set the CardInput icon based on the type of card
-                setCardTypeIcon(cardType);
-
-                // Update only is the formatted number is different from the initial input
-                if (!s.toString().equals(formatted)) {
-                    s.replace(0, s.toString().length(), formatted);
-                }
-                checkIfCardIsValid(initial, cardType);
+            public void afterTextChanged(Editable text) {
+                new CardInputUseCase(text, DataStore.getInstance(), CardInput.this).execute();
             }
         });
 
@@ -98,22 +73,40 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText {
         setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mCardInputListener != null && !mCardUtils.isValidCard(mDataStore.getCardNumber())) {
-                        mCardInputListener.onCardError();
-                    }
-                } else {
-                    // Clear the error message until the field loses focus
-                    if (mCardInputListener != null) {
-                        mCardInputListener.onClearCardError();
-                    }
-                }
+                new CardFocusUseCase(hasFocus, mDataStore.getCardNumber(), CardInput.this).execute();
             }
         });
     }
 
+    @Override
+    public void onCardInputResult(@NonNull CardInputUseCase.CardInputResult cardInputResult) {
+        // Remove error if the user is typing
+        if (mCardInputListener != null) {
+            mCardInputListener.onClearCardError();
+        }
+        // Get Card type
+        setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
+        // Set the CardInput icon based on the type of card
+        setCardTypeIcon(cardInputResult.getCardType());
+        if (mCardInputListener != null && cardInputResult.getInputFinished()) {
+            mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
+        }
+    }
+
+    @Override
+    public void onCardFocusResult(boolean displayError) {
+        if (mCardInputListener != null) {
+            if (displayError) {
+                mCardInputListener.onCardError();
+            } else {
+                mCardInputListener.onClearCardError();
+            }
+        }
+    }
+
     /**
      * This method is used to validate the card number
+     * TODO: This is duplicated in CardInputUseCase.. should remove
      */
     public void checkIfCardIsValid(String number, CardUtils.Cards cardType) {
         boolean hasDesiredLength = false;
