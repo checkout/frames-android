@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
-import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -323,25 +322,6 @@ public class CardDetailsView extends LinearLayout {
      * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
      */
     private void repopulateField() {
-        // Repopulate card number
-        if (DataStore.getInstance().getCardNumber() != null) {
-            if (mDataStore.getCardNumber() != null) {
-                // Get card type based on the saved card number
-                CardUtils.Cards cardType = CardUtils.getType(DataStore.getInstance().getCardNumber());
-                // Set the CardInput maximum length based on the type of card
-                mCardInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardType.maxCardLength)});
-                // Set the CardInput icon based on the type of card
-                mCardInput.setCardTypeIcon(cardType);
-                // Check if the card is valid
-                mCardInput.checkIfCardIsValid(mDataStore.getCardNumber(), cardType);
-                // Update the card field with the last input value
-                String formattedCard = CardUtils.getFormattedCardNumber(mDataStore.getCardNumber());
-                mCardInput.setText(formattedCard);
-                // Set the cursor to the end of the input
-                mCardInput.setSelection(formattedCard.length());
-            }
-        }
-
         //Repopulate card month
         if (DataStore.getInstance().getCardMonth() != null) {
             MonthInput.Months[] months = MonthInput.Months.values();

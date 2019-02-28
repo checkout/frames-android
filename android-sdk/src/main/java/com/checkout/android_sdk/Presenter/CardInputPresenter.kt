@@ -8,12 +8,22 @@ import com.checkout.android_sdk.Utils.CardUtils
 
 
 class CardInputPresenter @JvmOverloads constructor(
-    private val view: CardInputView,
     private val dataStore: DataStore,
     private var cardInputUiState: CardInputUiState = CardInputUiState()
 ) : Presenter,
     CardInputUseCase.Callback,
     CardFocusUseCase.Callback {
+
+    private var view: CardInputView? = null
+
+    fun start(view: CardInputView) {
+        this.view = view
+        safeUpdateView()
+    }
+
+    fun stop() {
+        view = null
+    }
 
     fun textChanged(text: Editable) {
         CardInputUseCase(text, dataStore, this).execute()
@@ -30,14 +40,18 @@ class CardInputPresenter @JvmOverloads constructor(
             inputFinished = cardInputResult.inputFinished,
             showCardError = false
         )
-        view.onCardInputStateUpdated(cardInputUiState)
+        safeUpdateView()
     }
 
     override fun onCardFocusResult(cardError: Boolean) {
         cardInputUiState = cardInputUiState.copy(
             showCardError = cardError
         )
-        view.onCardInputStateUpdated(cardInputUiState)
+        safeUpdateView()
+    }
+
+    private fun safeUpdateView() {
+        view?.onCardInputStateUpdated(cardInputUiState)
     }
 
     data class CardInputUiState(
