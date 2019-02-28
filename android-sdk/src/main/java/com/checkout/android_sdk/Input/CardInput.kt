@@ -95,14 +95,10 @@ class CardInput @JvmOverloads constructor(
 
     private fun restoreCardNumberIfNecessary(cardInputResult: CardInputPresenter.CardInputUiState) {
         if (text.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
-            setCardNumberAndPosition(cardInputResult)
+            setText(cardInputResult.cardNumber)
+            setSelection(cardInputResult.cardNumber.length)
+            presenter.textChanged(text)
         }
-    }
-
-    private fun setCardNumberAndPosition(cardInputResult: CardInputPresenter.CardInputUiState) {
-        setText(cardInputResult.cardNumber)
-        setSelection(cardInputResult.cardNumber.length)
-        presenter.textChanged(text)
     }
 
     private fun showOrClearErrors(cardInputResult: CardInputPresenter.CardInputUiState) {
