@@ -18,7 +18,7 @@ import java.util.Locale;
 public class DataStore {
 
     private static DataStore INSTANCE = null;
-    private String mCardNumber;
+    private String mCardNumber = "";
     private String mCardMonth;
     private String mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
     private String mCardCvv;

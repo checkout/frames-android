@@ -2,18 +2,18 @@ package com.checkout.android_sdk.Input;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.checkout.android_sdk.Presenter.CardInputPresenter;
 import com.checkout.android_sdk.Store.DataStore;
-import com.checkout.android_sdk.UseCase.CardFocusUseCase;
-import com.checkout.android_sdk.UseCase.CardInputUseCase;
 import com.checkout.android_sdk.Utils.AfterTextChangedListener;
 import com.checkout.android_sdk.Utils.CardUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * <h1>CardInput class</h1>
@@ -23,7 +23,30 @@ import com.checkout.android_sdk.Utils.CardUtils;
  * This class will validate on the "afterTextChanged" event and display a card icon on the right
  * side based on  the users input. It will also span spaces following the {@link CardUtils} details.
  */
-public class CardInput extends android.support.v7.widget.AppCompatEditText implements CardInputUseCase.Callback, CardFocusUseCase.Callback {
+public class CardInput extends android.support.v7.widget.AppCompatEditText implements CardInputPresenter.CardInputView {
+
+    @Override
+    public void onCardInputStateUpdated(@NotNull CardInputPresenter.CardInputUiState cardInputResult) {
+        if (mCardInputListener != null) {
+            if (cardInputResult.getShowCardError()) {
+                mCardInputListener.onCardError();
+            } else {
+                mCardInputListener.onClearCardError();
+            }
+
+            if (cardInputResult.getInputFinished()) {
+                mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
+            }
+        }
+
+        // Get Card type
+        setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
+        // Set the CardInput icon based on the type of card
+        setCardTypeIcon(cardInputResult.getCardType());
+        if (mCardInputListener != null && cardInputResult.getInputFinished()) {
+            mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
+        }
+    }
 
     /**
      * An interface needed to communicate with the parent once the field is successfully completed
@@ -59,11 +82,13 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
      */
     private void init() {
 
+        final CardInputPresenter cardInputPresenter = new CardInputPresenter(this, DataStore.getInstance());
+
         // Add listener for text input
         addTextChangedListener(new AfterTextChangedListener() {
             @Override
             public void afterTextChanged(Editable text) {
-                new CardInputUseCase(text, DataStore.getInstance(), CardInput.this).execute();
+                cardInputPresenter.textChanged(text);
             }
         });
 
@@ -73,35 +98,9 @@ public class CardInput extends android.support.v7.widget.AppCompatEditText imple
         setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                new CardFocusUseCase(hasFocus, mDataStore.getCardNumber(), CardInput.this).execute();
+                cardInputPresenter.focusChanged(hasFocus, mDataStore.getCardNumber());
             }
         });
-    }
-
-    @Override
-    public void onCardInputResult(@NonNull CardInputUseCase.CardInputResult cardInputResult) {
-        // Remove error if the user is typing
-        if (mCardInputListener != null) {
-            mCardInputListener.onClearCardError();
-        }
-        // Get Card type
-        setFilters(new InputFilter[]{new InputFilter.LengthFilter(cardInputResult.getCardType().maxCardLength)});
-        // Set the CardInput icon based on the type of card
-        setCardTypeIcon(cardInputResult.getCardType());
-        if (mCardInputListener != null && cardInputResult.getInputFinished()) {
-            mCardInputListener.onCardInputFinish(cardInputResult.getCardNumber());
-        }
-    }
-
-    @Override
-    public void onCardFocusResult(boolean displayError) {
-        if (mCardInputListener != null) {
-            if (displayError) {
-                mCardInputListener.onCardError();
-            } else {
-                mCardInputListener.onClearCardError();
-            }
-        }
     }
 
     /**
