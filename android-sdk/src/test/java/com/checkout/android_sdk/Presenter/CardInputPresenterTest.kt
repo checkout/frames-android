@@ -50,7 +50,7 @@ class CardInputPresenterTest {
     }
 
     @Test
-    fun `given card input result called then viewMock should have state updated`() {
+    fun `given card input result called then view should have state updated`() {
         val cardInputResult = CardInputUseCase.CardInputResult("1234", CardUtils.Cards.JCB, false, false)
         val cardInputUiState = CardInputPresenter.CardInputUiState(cardInputResult.cardNumber, cardInputResult.cardType, cardInputResult.inputFinished, cardInputResult.showError)
         presenter.start(viewMock)
@@ -61,7 +61,7 @@ class CardInputPresenterTest {
     }
 
     @Test
-    fun `given card focus result called then viewMock should have state updated`() {
+    fun `given card focus result called then view should have state updated`() {
         val cardInputUiState = CardInputPresenter.CardInputUiState(showCardError = true)
         presenter.start(viewMock)
 
