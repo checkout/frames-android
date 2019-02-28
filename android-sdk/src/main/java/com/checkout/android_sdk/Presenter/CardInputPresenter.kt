@@ -11,7 +11,8 @@ class CardInputPresenter @JvmOverloads constructor(
     private val view: CardInputView,
     private val dataStore: DataStore,
     private var cardInputUiState: CardInputUiState = CardInputUiState()
-) : CardInputUseCase.Callback,
+) : Presenter,
+    CardInputUseCase.Callback,
     CardFocusUseCase.Callback {
 
     fun textChanged(text: Editable) {
