@@ -3,7 +3,6 @@ package com.checkout.android_sdk.UseCase
 import com.checkout.android_sdk.Architecture.UseCase
 import com.checkout.android_sdk.Utils.DateFormatter
 import java.text.DateFormatSymbols
-import java.util.*
 
 class GenerateMonthsUseCase(
     private val dateFormatter: DateFormatter,
@@ -11,8 +10,7 @@ class GenerateMonthsUseCase(
 ) : UseCase {
 
     override fun execute() {
-        val rawShortMonths = DateFormatSymbols().shortMonths
-        val months: Array<String> = Arrays.copyOf(rawShortMonths, rawShortMonths.size - 1)
+        val months = DateFormatSymbols().shortMonths
         for (i in 0 until months.size) {
             months[i] = months[i].toUpperCase() + " - " + dateFormatter.formatMonth(i + 1)
         }
