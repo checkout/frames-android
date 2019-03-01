@@ -50,7 +50,7 @@ class GenerateMonthsUseCaseTest {
             "OCT - 10",
             "NOV - 11",
             "DEC - 12",
-            " - null"
+            " - null" // JVM adds this additional entry not present on Android OS
         )
     }
 }

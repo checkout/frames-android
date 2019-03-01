@@ -80,7 +80,8 @@ class MonthInput @JvmOverloads constructor(
         if (adapter == null) {
             val dataAdapter = ArrayAdapter(
                 mContext,
-                android.R.layout.simple_spinner_item, uiState.months
+                android.R.layout.simple_spinner_item,
+                uiState.months
             )
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             adapter = dataAdapter
