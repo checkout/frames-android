@@ -322,12 +322,6 @@ public class CardDetailsView extends LinearLayout {
      * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
      */
     private void repopulateField() {
-        //Repopulate card month
-        String cardMonth = DataStore.getInstance().getCardMonth();
-        if (cardMonth != null) {
-            mMonthInput.setSelection(Integer.parseInt(cardMonth) - 1);
-        }
-
         //Repopulate card year
         if (DataStore.getInstance().getCardYear() != null) {
             try {
