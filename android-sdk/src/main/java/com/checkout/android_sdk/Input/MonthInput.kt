@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import com.checkout.android_sdk.Presenter.MonthInputPresenter
 import com.checkout.android_sdk.Presenter.PresenterStore
 import com.checkout.android_sdk.Store.DataStore
+import com.checkout.android_sdk.Utils.DateFormatter
 
 /**
  * A custom Spinner with handling of card expiration month input
@@ -39,7 +40,7 @@ class MonthInput @JvmOverloads constructor(
 
         presenter = PresenterStore.getOrCreate(
             MonthInputPresenter::class.java,
-            { MonthInputPresenter(DataStore.getInstance()) })
+            { MonthInputPresenter(DateFormatter(), DataStore.getInstance()) })
         presenter.start(this)
 
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

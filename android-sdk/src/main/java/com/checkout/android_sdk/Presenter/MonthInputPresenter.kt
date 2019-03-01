@@ -6,7 +6,10 @@ import com.checkout.android_sdk.UseCase.MonthSelectedUseCase
 import com.checkout.android_sdk.Utils.DateFormatter
 
 
-class MonthInputPresenter(private val dataStore: DataStore) : Presenter,
+class MonthInputPresenter(
+    private val dateFormatter: DateFormatter,
+    private val dataStore: DataStore
+) : Presenter,
     GenerateMonthsUseCase.Callback,
     MonthSelectedUseCase.Callback {
 
@@ -15,7 +18,7 @@ class MonthInputPresenter(private val dataStore: DataStore) : Presenter,
 
     fun start(view: MonthInputView) {
         this.view = view
-        GenerateMonthsUseCase(this).execute()
+        GenerateMonthsUseCase(dateFormatter, this).execute()
     }
 
     fun stop() {
@@ -23,7 +26,7 @@ class MonthInputPresenter(private val dataStore: DataStore) : Presenter,
     }
 
     fun monthSelected(position: Int) {
-        MonthSelectedUseCase(DateFormatter(), position, dataStore, this).execute()
+        MonthSelectedUseCase(dateFormatter, position, dataStore, this).execute()
     }
 
     override fun onMonthsGenerated(months: Array<String>) {
