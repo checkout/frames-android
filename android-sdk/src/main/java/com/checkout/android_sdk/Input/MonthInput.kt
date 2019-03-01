@@ -8,6 +8,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.checkout.android_sdk.Store.DataStore
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -18,30 +20,10 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
 
     private var mMonthInputListener: MonthInput.MonthListener? = null
     private val mDatastore = DataStore.getInstance()
+    private val monthElements = DateFormatSymbols().shortMonths
 
     interface MonthListener {
         fun onMonthInputFinish(month: String)
-    }
-
-    // enum with month is different formats
-    enum class Months constructor(
-        val monthName: String,
-        val number: Int,
-        val numberString: String
-    ) {
-        JANUARY("JAN", 1, "01"),
-        FEBRUARY("FEB", 2, "02"),
-        MARCH("MAR", 3, "03"),
-        APRIL("APR", 4, "04"),
-        MAY("MAY", 5, "05"),
-        JUNE("JUN", 6, "06"),
-        JULY("JUL", 7, "07"),
-        AUGUST("AUG", 8, "08"),
-        SEPTEMBER("SEP", 9, "09"),
-        OCTOBER("OCT", 10, "10"),
-        NOVEMBER("NOV", 11, "11"),
-        DECEMBER("DEC", 12, "12")
-
     }
 
     /**
@@ -64,15 +46,11 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
                 position: Int,
                 id: Long
             ) {
-                val months = MonthInput.Months.values()
+                val numberString = formatMonth(position + 1)
+                mDatastore.cardMonth = numberString
 
-                mDatastore.cardMonth = months[position].numberString
-
-                for (i in 0..11) {
-                    if (mMonthInputListener != null && months[i].number - 1 == position) {
-                        mMonthInputListener!!.onMonthInputFinish(months[i].numberString)
-                        break
-                    }
+                mMonthInputListener?.let {
+                    it.onMonthInputFinish(numberString)
                 }
             }
 
@@ -99,12 +77,8 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
      * Populate the spinner with all the month of the year
      */
     private fun populateSpinner() {
-        val months = MonthInput.Months.values()
-
-        val monthElements = ArrayList<String>()
-
-        for (i in 0..11) {
-            monthElements.add(months[i].monthName + " - " + months[i].numberString)
+        for (i in 0 until monthElements.size) {
+            monthElements[i] = monthElements[i].toUpperCase() + " - " + formatMonth(i + 1)
         }
 
         val dataAdapter = ArrayAdapter(
@@ -113,6 +87,15 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapter = dataAdapter
+    }
+
+    /**
+     * Turn the month integer into a formatted String: 1 -> 01 etc
+     */
+    private fun formatMonth(monthInteger: Int): String {
+        val monthParse = SimpleDateFormat("MM", Locale.getDefault())
+        val monthDisplay = SimpleDateFormat("MM", Locale.getDefault())
+        return monthDisplay.format(monthParse.parse(monthInteger.toString()))
     }
 
     /**

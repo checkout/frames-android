@@ -323,9 +323,9 @@ public class CardDetailsView extends LinearLayout {
      */
     private void repopulateField() {
         //Repopulate card month
-        if (DataStore.getInstance().getCardMonth() != null) {
-            MonthInput.Months[] months = MonthInput.Months.values();
-            mMonthInput.setSelection(months[Integer.parseInt(DataStore.getInstance().getCardMonth()) - 1].getNumber() - 1);
+        String cardMonth = DataStore.getInstance().getCardMonth();
+        if (cardMonth != null) {
+            mMonthInput.setSelection(Integer.parseInt(cardMonth) - 1);
         }
 
         //Repopulate card year
