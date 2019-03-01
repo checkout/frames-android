@@ -33,10 +33,6 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
      * Used to initialise element as well as setting up appropriate listeners
      */
     init {
-        // Options needed for focus context switching
-        isFocusable = true
-        isFocusableInTouchMode = true
-
         populateSpinner()
 
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -64,13 +60,9 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
                 performClick()
                 val imm =
                     mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(v.windowToken, 0)
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
             }
         }
-
-        // Remove extra padding left
-        setPadding(0, this.paddingTop, this.paddingRight, this.paddingBottom)
-
     }
 
     /**
