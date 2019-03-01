@@ -18,13 +18,17 @@ class MonthInputPresenter(private val dataStore: DataStore) : Presenter,
         GenerateMonthsUseCase(this).execute()
     }
 
+    fun stop() {
+        view = null
+    }
+
     fun monthSelected(position: Int) {
         MonthSelectedUseCase(DateFormatter(), position, dataStore, this).execute()
     }
 
     override fun onMonthsGenerated(months: Array<String>) {
         monthInputUiState = monthInputUiState.copy(months = months.asList())
-        view?.onMonthInputStateUpdated(monthInputUiState)
+        safeUpdateState()
     }
 
     override fun onMonthSelected(position: Int, numberString: String, finished: Boolean) {
@@ -33,6 +37,10 @@ class MonthInputPresenter(private val dataStore: DataStore) : Presenter,
             numberString = numberString,
             finished = true
         )
+        safeUpdateState()
+    }
+
+    private fun safeUpdateState() {
         view?.onMonthInputStateUpdated(monthInputUiState)
     }
 

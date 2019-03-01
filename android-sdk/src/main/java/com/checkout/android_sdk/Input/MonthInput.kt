@@ -67,6 +67,11 @@ class MonthInput @JvmOverloads constructor(
         }
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.stop()
+    }
+
     /**
      * Populate the spinner with all the month of the year
      */
