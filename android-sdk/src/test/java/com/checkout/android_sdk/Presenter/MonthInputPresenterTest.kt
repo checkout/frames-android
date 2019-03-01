@@ -31,10 +31,7 @@ class MonthInputPresenterTest {
 
     @Test
     fun `given new months generated then view should be updated with values for months`() {
-        val expectedMonths = listOf(
-            "JAN - 01", "FEB - 02", "MAR - 03", "APR - 04", "MAY - 05",
-            "JUN - 06", "JUL - 07", "AUG - 08", "SEP - 09", "OCT - 10", "NOV - 11", "DEC - 12"
-        )
+        val expectedMonths = getExpectedMonths()
 
         presenter.start(viewMock)
         reset(viewMock)
@@ -46,10 +43,7 @@ class MonthInputPresenterTest {
 
     @Test
     fun `given month selected then view should be updated with selected month`() {
-        val expectedMonths = listOf(
-            "JAN - 01", "FEB - 02", "MAR - 03", "APR - 04", "MAY - 05",
-            "JUN - 06", "JUL - 07", "AUG - 08", "SEP - 09", "OCT - 10", "NOV - 11", "DEC - 12"
-        )
+        val expectedMonths = getExpectedMonths()
         val (position, numberString, finished) = Triple(6, "06", true)
         presenter.start(viewMock)
         reset(viewMock)
@@ -62,6 +56,13 @@ class MonthInputPresenterTest {
                 numberString = numberString,
                 finished = finished
             )
+        )
+    }
+
+    private fun getExpectedMonths(): List<String> {
+        return listOf(
+            "JAN - 01", "FEB - 02", "MAR - 03", "APR - 04", "MAY - 05",
+            "JUN - 06", "JUL - 07", "AUG - 08", "SEP - 09", "OCT - 10", "NOV - 11", "DEC - 12"
         )
     }
 
