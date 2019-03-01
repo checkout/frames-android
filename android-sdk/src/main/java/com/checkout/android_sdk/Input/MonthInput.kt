@@ -7,8 +7,9 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import com.checkout.android_sdk.Presenter.MonthInputPresenter
+import com.checkout.android_sdk.Presenter.PresenterStore
 import com.checkout.android_sdk.Store.DataStore
-import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,11 +17,11 @@ import java.util.*
  * A custom Spinner with handling of card expiration month input
  */
 class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs: AttributeSet? = null) :
-    android.support.v7.widget.AppCompatSpinner(mContext, attrs) {
+    android.support.v7.widget.AppCompatSpinner(mContext, attrs), MonthInputPresenter.MonthInputView {
 
     private var mMonthInputListener: MonthInput.MonthListener? = null
     private val mDatastore = DataStore.getInstance()
-    private val monthElements = DateFormatSymbols().shortMonths
+    private lateinit var presenter: MonthInputPresenter
 
     interface MonthListener {
         fun onMonthInputFinish(month: String)
@@ -32,8 +33,13 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
      *
      * Used to initialise element as well as setting up appropriate listeners
      */
-    init {
-        populateSpinner()
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+
+        presenter = PresenterStore.getOrCreate(
+            MonthInputPresenter::class.java,
+            { MonthInputPresenter() })
+        presenter.start(this)
 
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -45,9 +51,7 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
                 val numberString = formatMonth(position + 1)
                 mDatastore.cardMonth = numberString
 
-                mMonthInputListener?.let {
-                    it.onMonthInputFinish(numberString)
-                }
+                mMonthInputListener?.onMonthInputFinish(numberString)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -68,14 +72,10 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
     /**
      * Populate the spinner with all the month of the year
      */
-    private fun populateSpinner() {
-        for (i in 0 until monthElements.size) {
-            monthElements[i] = monthElements[i].toUpperCase() + " - " + formatMonth(i + 1)
-        }
-
+    override fun onMonthsGenerated(months: Array<String>) {
         val dataAdapter = ArrayAdapter(
             mContext,
-            android.R.layout.simple_spinner_item, monthElements
+            android.R.layout.simple_spinner_item, months
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapter = dataAdapter
