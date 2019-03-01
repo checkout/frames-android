@@ -8,19 +8,20 @@ import com.checkout.android_sdk.UseCase.CardInputUseCase
 import com.checkout.android_sdk.Utils.CardUtils
 
 
-class CardInputPresenter(private val dataStore: DataStore) : Presenter, CardInputUseCase.Callback,
+class CardInputPresenter(private val dataStore: DataStore) :
+    Presenter<CardInputPresenter.CardInputView>, CardInputUseCase.Callback,
     CardFocusUseCase.Callback {
 
     private var cardInputUiState: CardInputUiState = CardInputUiState()
 
     private var view: CardInputView? = null
 
-    fun start(view: CardInputView) {
+    override fun start(view: CardInputView) {
         this.view = view
         safeUpdateView()
     }
 
-    fun stop() {
+    override fun stop() {
         view = null
     }
 

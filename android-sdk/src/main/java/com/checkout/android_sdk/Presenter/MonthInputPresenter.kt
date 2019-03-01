@@ -1,5 +1,6 @@
 package com.checkout.android_sdk.Presenter
 
+import com.checkout.android_sdk.Architecture.MvpView
 import com.checkout.android_sdk.Architecture.Presenter
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.UseCase.GenerateMonthsUseCase
@@ -10,19 +11,19 @@ import com.checkout.android_sdk.Utils.DateFormatter
 class MonthInputPresenter(
     private val dateFormatter: DateFormatter,
     private val dataStore: DataStore
-) : Presenter,
+) : Presenter<MonthInputPresenter.MonthInputView>,
     GenerateMonthsUseCase.Callback,
     MonthSelectedUseCase.Callback {
 
     private var monthInputUiState: MonthInputUiState = MonthInputUiState()
     private var view: MonthInputView? = null
 
-    fun start(view: MonthInputView) {
+    override fun start(view: MonthInputView) {
         this.view = view
         GenerateMonthsUseCase(dateFormatter, this).execute()
     }
 
-    fun stop() {
+    override fun stop() {
         view = null
     }
 
@@ -55,7 +56,7 @@ class MonthInputPresenter(
         val finished: Boolean = false
     )
 
-    interface MonthInputView {
+    interface MonthInputView : MvpView {
         fun onMonthInputStateUpdated(monthInputUiState: MonthInputUiState)
     }
 }
