@@ -1,7 +1,9 @@
 package com.checkout.android_sdk.Presenter
 
 import android.text.Editable
-import com.checkout.android_sdk.Architecture.Presenter
+import com.checkout.android_sdk.Architecture.BasePresenter
+import com.checkout.android_sdk.Architecture.MvpView
+import com.checkout.android_sdk.Architecture.UiState
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.UseCase.CardFocusUseCase
 import com.checkout.android_sdk.UseCase.CardInputUseCase
@@ -9,20 +11,12 @@ import com.checkout.android_sdk.Utils.CardUtils
 
 
 class CardInputPresenter(private val dataStore: DataStore) :
-    Presenter<CardInputPresenter.CardInputView>, CardInputUseCase.Callback,
+    BasePresenter<CardInputPresenter.CardInputView, CardInputPresenter.CardInputUiState>(CardInputUiState()),
+    CardInputUseCase.Callback,
     CardFocusUseCase.Callback {
 
-    private var cardInputUiState: CardInputUiState = CardInputUiState()
-
-    private var view: CardInputView? = null
-
-    override fun start(view: CardInputView) {
-        this.view = view
-        safeUpdateView()
-    }
-
-    override fun stop() {
-        view = null
+    override fun initialize() {
+        // Do nothing
     }
 
     fun textChanged(text: Editable) {
@@ -34,24 +28,20 @@ class CardInputPresenter(private val dataStore: DataStore) :
     }
 
     override fun onCardInputResult(cardInputResult: CardInputUseCase.CardInputResult) {
-        cardInputUiState = cardInputUiState.copy(
+        val newState = uiState.copy(
             cardNumber = cardInputResult.cardNumber,
             cardType = cardInputResult.cardType,
             inputFinished = cardInputResult.inputFinished,
             showCardError = false
         )
-        safeUpdateView()
+        safeUpdateView(newState)
     }
 
     override fun onCardFocusResult(cardError: Boolean) {
-        cardInputUiState = cardInputUiState.copy(
+        val newState = uiState.copy(
             showCardError = cardError
         )
-        safeUpdateView()
-    }
-
-    private fun safeUpdateView() {
-        view?.onCardInputStateUpdated(cardInputUiState)
+        safeUpdateView(newState)
     }
 
     data class CardInputUiState(
@@ -59,10 +49,10 @@ class CardInputPresenter(private val dataStore: DataStore) :
         val cardType: CardUtils.Cards = CardUtils.Cards.DEFAULT,
         val inputFinished: Boolean = false,
         val showCardError: Boolean = false
-    )
+    ) : UiState
 
-    interface CardInputView {
-        fun onCardInputStateUpdated(cardInputResult: CardInputUiState)
+    interface CardInputView : MvpView<CardInputUiState> {
+        override fun onStateUpdated(uiState: CardInputUiState)
     }
 
 }

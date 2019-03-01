@@ -7,8 +7,8 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.checkout.android_sdk.Presenter.MonthInputPresenter
 import com.checkout.android_sdk.Architecture.PresenterStore
+import com.checkout.android_sdk.Presenter.MonthInputPresenter
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.Utils.DateFormatter
 
@@ -76,20 +76,20 @@ class MonthInput @JvmOverloads constructor(
     /**
      * Populate the spinner with all the month of the year
      */
-    override fun onMonthInputStateUpdated(monthInputUiState: MonthInputPresenter.MonthInputUiState) {
+    override fun onStateUpdated(uiState: MonthInputPresenter.MonthInputUiState) {
         if (adapter == null) {
             val dataAdapter = ArrayAdapter(
                 mContext,
-                android.R.layout.simple_spinner_item, monthInputUiState.months
+                android.R.layout.simple_spinner_item, uiState.months
             )
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             adapter = dataAdapter
         }
-        if (monthInputUiState.finished) {
-            monthInputListener?.onMonthInputFinish(monthInputUiState.numberString)
+        if (uiState.finished) {
+            monthInputListener?.onMonthInputFinish(uiState.numberString)
         }
-        if (monthInputUiState.position != -1) {
-            setSelection(monthInputUiState.position)
+        if (uiState.position != -1) {
+            setSelection(uiState.position)
         }
     }
 

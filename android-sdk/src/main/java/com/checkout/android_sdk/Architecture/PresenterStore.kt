@@ -3,13 +3,13 @@ package com.checkout.android_sdk.Architecture
 
 object PresenterStore {
 
-    private val presenterMap = mutableMapOf<String, Presenter<*>>()
+    private val presenterMap = mutableMapOf<String, BasePresenter<*,*>>()
 
     @Suppress("UNCHECKED_CAST")
     @Synchronized
-    fun <T : Presenter<*>> getOrCreate(
+    fun <T : BasePresenter<*,*>> getOrCreate(
         classToGet: Class<T>,
-        functionToCreate: () -> Presenter<*>
+        functionToCreate: () -> T
     ): T {
         if (!presenterMap.containsKey(classToGet.simpleName)) {
             presenterMap[classToGet.simpleName] = functionToCreate.invoke()

@@ -1,7 +1,8 @@
 package com.checkout.android_sdk.Presenter
 
+import com.checkout.android_sdk.Architecture.BasePresenter
 import com.checkout.android_sdk.Architecture.MvpView
-import com.checkout.android_sdk.Architecture.Presenter
+import com.checkout.android_sdk.Architecture.UiState
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.UseCase.GenerateMonthsUseCase
 import com.checkout.android_sdk.UseCase.MonthSelectedUseCase
@@ -11,20 +12,14 @@ import com.checkout.android_sdk.Utils.DateFormatter
 class MonthInputPresenter(
     private val dateFormatter: DateFormatter,
     private val dataStore: DataStore
-) : Presenter<MonthInputPresenter.MonthInputView>,
+) : BasePresenter<MonthInputPresenter.MonthInputView, MonthInputPresenter.MonthInputUiState>(
+    MonthInputUiState()
+),
     GenerateMonthsUseCase.Callback,
     MonthSelectedUseCase.Callback {
 
-    private var monthInputUiState: MonthInputUiState = MonthInputUiState()
-    private var view: MonthInputView? = null
-
-    override fun start(view: MonthInputView) {
-        this.view = view
+    override fun initialize() {
         GenerateMonthsUseCase(dateFormatter, this).execute()
-    }
-
-    override fun stop() {
-        view = null
     }
 
     fun monthSelected(position: Int) {
@@ -32,21 +27,17 @@ class MonthInputPresenter(
     }
 
     override fun onMonthsGenerated(months: Array<String>) {
-        monthInputUiState = monthInputUiState.copy(months = months.asList())
-        safeUpdateState()
+        val newState = uiState.copy(months = months.asList())
+        safeUpdateView(newState)
     }
 
     override fun onMonthSelected(position: Int, numberString: String, finished: Boolean) {
-        monthInputUiState = monthInputUiState.copy(
+        val newState = uiState.copy(
             position = position,
             numberString = numberString,
             finished = true
         )
-        safeUpdateState()
-    }
-
-    private fun safeUpdateState() {
-        view?.onMonthInputStateUpdated(monthInputUiState)
+        safeUpdateView(newState)
     }
 
     data class MonthInputUiState(
@@ -54,9 +45,9 @@ class MonthInputPresenter(
         val position: Int = -1,
         val numberString: String = "", // TODO: This should probably be an Int and formatted closer to dataStore
         val finished: Boolean = false
-    )
+    ) : UiState
 
-    interface MonthInputView : MvpView {
-        fun onMonthInputStateUpdated(monthInputUiState: MonthInputUiState)
+    interface MonthInputView : MvpView<MonthInputUiState> {
+        override fun onStateUpdated(uiState: MonthInputUiState)
     }
 }
