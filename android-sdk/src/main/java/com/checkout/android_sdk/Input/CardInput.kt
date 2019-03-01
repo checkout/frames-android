@@ -8,7 +8,7 @@ import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.android_sdk.Presenter.CardInputPresenter
-import com.checkout.android_sdk.Presenter.PresenterStore
+import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.Utils.AfterTextChangedListener
 import com.checkout.android_sdk.Utils.CardUtils

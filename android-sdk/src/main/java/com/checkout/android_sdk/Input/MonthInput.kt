@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.checkout.android_sdk.Presenter.MonthInputPresenter
-import com.checkout.android_sdk.Presenter.PresenterStore
+import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.Utils.DateFormatter
 

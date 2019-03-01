@@ -1,4 +1,4 @@
-package com.checkout.android_sdk.Presenter
+package com.checkout.android_sdk.Architecture
 
 
 object PresenterStore {

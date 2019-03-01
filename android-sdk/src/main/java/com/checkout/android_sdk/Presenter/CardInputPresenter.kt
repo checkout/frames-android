@@ -1,6 +1,7 @@
 package com.checkout.android_sdk.Presenter
 
 import android.text.Editable
+import com.checkout.android_sdk.Architecture.Presenter
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.UseCase.CardFocusUseCase
 import com.checkout.android_sdk.UseCase.CardInputUseCase
