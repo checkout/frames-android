@@ -29,7 +29,7 @@ open class CardInputUseCase(
         dataStore.cardNumber = sanitized
         dataStore.cvvLength = cardType.maxCvvLength
 
-        val cardResult = CardInputResult(sanitized, cardType, isCardValid)
+        val cardResult = CardInputResult(sanitized, cardType, isCardValid, false)
         callback.onCardInputResult(cardResult)
     }
 
@@ -51,6 +51,7 @@ open class CardInputUseCase(
     data class CardInputResult(
         val cardNumber: String,
         val cardType: CardUtils.Cards,
-        val inputFinished: Boolean
+        val inputFinished: Boolean,
+        val showError: Boolean
     )
 }
