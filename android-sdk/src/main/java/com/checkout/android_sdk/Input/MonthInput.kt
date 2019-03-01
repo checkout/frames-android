@@ -10,17 +10,18 @@ import android.widget.ArrayAdapter
 import com.checkout.android_sdk.Presenter.MonthInputPresenter
 import com.checkout.android_sdk.Presenter.PresenterStore
 import com.checkout.android_sdk.Store.DataStore
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * A custom Spinner with handling of card expiration month input
  */
-class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs: AttributeSet? = null) :
-    android.support.v7.widget.AppCompatSpinner(mContext, attrs), MonthInputPresenter.MonthInputView {
+class MonthInput @JvmOverloads constructor(
+    private val mContext: Context,
+    attrs: AttributeSet? = null
+) :
+    android.support.v7.widget.AppCompatSpinner(mContext, attrs),
+    MonthInputPresenter.MonthInputView {
 
-    private var mMonthInputListener: MonthInput.MonthListener? = null
-    private val mDatastore = DataStore.getInstance()
+    private var monthInputListener: MonthInput.MonthListener? = null
     private lateinit var presenter: MonthInputPresenter
 
     interface MonthListener {
@@ -38,7 +39,7 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
 
         presenter = PresenterStore.getOrCreate(
             MonthInputPresenter::class.java,
-            { MonthInputPresenter() })
+            { MonthInputPresenter(DataStore.getInstance()) })
         presenter.start(this)
 
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -48,10 +49,7 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
                 position: Int,
                 id: Long
             ) {
-                val numberString = formatMonth(position + 1)
-                mDatastore.cardMonth = numberString
-
-                mMonthInputListener?.onMonthInputFinish(numberString)
+                presenter.monthSelected(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -72,28 +70,27 @@ class MonthInput @JvmOverloads constructor(private val mContext: Context, attrs:
     /**
      * Populate the spinner with all the month of the year
      */
-    override fun onMonthsGenerated(months: Array<String>) {
-        val dataAdapter = ArrayAdapter(
-            mContext,
-            android.R.layout.simple_spinner_item, months
-        )
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        adapter = dataAdapter
-    }
-
-    /**
-     * Turn the month integer into a formatted String: 1 -> 01 etc
-     */
-    private fun formatMonth(monthInteger: Int): String {
-        val monthParse = SimpleDateFormat("MM", Locale.getDefault())
-        val monthDisplay = SimpleDateFormat("MM", Locale.getDefault())
-        return monthDisplay.format(monthParse.parse(monthInteger.toString()))
+    override fun onMonthInputStateUpdated(monthInputUiState: MonthInputPresenter.MonthInputUiState) {
+        if (adapter == null) {
+            val dataAdapter = ArrayAdapter(
+                mContext,
+                android.R.layout.simple_spinner_item, monthInputUiState.months
+            )
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter = dataAdapter
+        }
+        if (monthInputUiState.finished) {
+            monthInputListener?.onMonthInputFinish(monthInputUiState.numberString)
+        }
+        if (monthInputUiState.position != -1) {
+            setSelection(monthInputUiState.position)
+        }
     }
 
     /**
      * Used to set the callback listener for when the month input is completed
      */
     fun setMonthListener(listener: MonthInput.MonthListener) {
-        this.mMonthInputListener = listener
+        this.monthInputListener = listener
     }
 }

@@ -5,7 +5,7 @@ import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MonthInputPopulateUseCase(private val callback: Callback) : UseCase {
+class GenerateMonthsUseCase(private val callback: Callback) : UseCase {
 
     override fun execute() {
         val months: Array<String> = DateFormatSymbols().shortMonths

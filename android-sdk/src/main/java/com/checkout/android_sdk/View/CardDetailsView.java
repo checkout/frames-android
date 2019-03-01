@@ -121,7 +121,7 @@ public class CardDetailsView extends LinearLayout {
         public void onYearInputFinish(String year) {
             mDataStore.setCardYear(year);
             mDataStore.setValidCardYear(true);
-            ((TextView) mMonthInput.getSelectedView()).setError(null);
+            ((TextView) mYearInput.getSelectedView()).setError(null);
         }
     };
 
