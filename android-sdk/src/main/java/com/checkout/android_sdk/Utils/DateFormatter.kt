@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class DateFormatter {
+open class DateFormatter {
 
     /**
      * Turn the month integer into a formatted String: 1 -> 01 etc
