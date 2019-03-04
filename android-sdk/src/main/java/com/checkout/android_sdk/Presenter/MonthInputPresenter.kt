@@ -4,7 +4,6 @@ import com.checkout.android_sdk.Architecture.BasePresenter
 import com.checkout.android_sdk.Architecture.MvpView
 import com.checkout.android_sdk.Architecture.UiState
 import com.checkout.android_sdk.Store.DataStore
-import com.checkout.android_sdk.UseCase.GenerateMonthsUseCase
 import com.checkout.android_sdk.UseCase.MonthSelectedUseCase
 import com.checkout.android_sdk.Utils.DateFormatter
 import java.text.DateFormatSymbols
@@ -15,17 +14,10 @@ class MonthInputPresenter(
     private val dataStore: DataStore
 ) : BasePresenter<MonthInputPresenter.MonthInputView, MonthInputPresenter.MonthInputUiState>(
     MonthInputUiState.create(dateFormatter)
-),
-    GenerateMonthsUseCase.Callback,
-    MonthSelectedUseCase.Callback {
+), MonthSelectedUseCase.Callback {
 
     fun monthSelected(position: Int) {
         MonthSelectedUseCase(dateFormatter, position, dataStore, this).execute()
-    }
-
-    override fun onMonthsGenerated(months: Array<String>) {
-        val newState = uiState.copy(months = months.asList())
-        safeUpdateView(newState)
     }
 
     override fun onMonthSelected(position: Int, numberString: String, finished: Boolean) {
@@ -55,7 +47,5 @@ class MonthInputPresenter(
         }
     }
 
-    interface MonthInputView : MvpView<MonthInputUiState> {
-        override fun onStateUpdated(uiState: MonthInputUiState)
-    }
+    interface MonthInputView : MvpView<MonthInputUiState>
 }

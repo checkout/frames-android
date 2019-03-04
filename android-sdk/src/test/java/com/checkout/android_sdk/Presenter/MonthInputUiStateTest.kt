@@ -16,7 +16,7 @@ class MonthInputUiStateTest {
     private lateinit var dateFormatter: DateFormatter
 
     @Test
-    fun `given new months generated then view should be updated with values for months`() {
+    fun `month input state should be 12 months january to december followed by month number`() {
         prepareFormatter()
         val monthInputState = MonthInputPresenter.MonthInputUiState.create(dateFormatter)
 
