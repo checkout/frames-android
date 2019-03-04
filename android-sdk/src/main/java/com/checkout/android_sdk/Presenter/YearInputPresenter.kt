@@ -3,15 +3,28 @@ package com.checkout.android_sdk.Presenter
 import com.checkout.android_sdk.Architecture.BasePresenter
 import com.checkout.android_sdk.Architecture.MvpView
 import com.checkout.android_sdk.Architecture.UiState
+import com.checkout.android_sdk.Store.DataStore
+import com.checkout.android_sdk.UseCase.YearSelectedUseCase
 import java.util.*
 
 
-class YearInputPresenter :
+class YearInputPresenter(private val dataStore: DataStore) :
     BasePresenter<YearInputPresenter.YearInputView, YearInputPresenter.YearInputUiState>(
         YearInputUiState.create(Calendar.getInstance())
-    ) {
+    ), YearSelectedUseCase.Callback {
 
-    data class YearInputUiState(val years: List<String>) : UiState {
+    fun yearSelected(position: Int) {
+        YearSelectedUseCase(dataStore, uiState.years, position, this).execute()
+    }
+
+    override fun onYearSelected(position: Int) {
+        val newState = uiState.copy(
+            position = position
+        )
+        safeUpdateView(newState)
+    }
+
+    data class YearInputUiState(val years: List<String>, val position: Int = -1) : UiState {
 
         companion object {
             private const val MAX_YEARS_IN_FUTURE = 15
@@ -28,8 +41,5 @@ class YearInputPresenter :
 
     }
 
-    interface YearInputView : MvpView<YearInputUiState> {
-
-    }
-
+    interface YearInputView : MvpView<YearInputUiState>
 }

@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Presenter.YearInputPresenter
+import com.checkout.android_sdk.Store.DataStore
 
 /**
  * A custom Spinner with handling of card expiration year input
@@ -20,7 +21,17 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     private lateinit var presenter: YearInputPresenter
 
     override fun onStateUpdated(uiState: YearInputPresenter.YearInputUiState) {
-        displayYears(uiState.years)
+        if (adapter == null) {
+            val dataAdapter = ArrayAdapter(
+                mContext,
+                android.R.layout.simple_spinner_item, uiState.years
+            )
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter = dataAdapter
+        }
+        if (uiState.position != -1) {
+            setSelection(uiState.position)
+        }
     }
 
     interface YearListener {
@@ -38,7 +49,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
         // Create/get and start the presenter
         presenter = PresenterStore.getOrCreate(
             YearInputPresenter::class.java,
-            { YearInputPresenter() })
+            { YearInputPresenter(DataStore.getInstance()) })
         presenter.start(this)
 
         onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
@@ -57,9 +68,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
                 position: Int,
                 id: Long
             ) {
-                if (mYearInputListener != null) {
-                    mYearInputListener!!.onYearInputFinish(selectedItem.toString())
-                }
+                presenter.yearSelected(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -74,18 +83,6 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         presenter.stop()
-    }
-
-    /**
-     * Populate the spinner
-     */
-    private fun displayYears(yearElements: List<String>) {
-        val dataAdapter = ArrayAdapter(
-            mContext,
-            android.R.layout.simple_spinner_item, yearElements
-        )
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        adapter = dataAdapter
     }
 
     /**
