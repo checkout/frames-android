@@ -47,8 +47,6 @@ class CardInputPresenter(private val dataStore: DataStore) :
         val showCardError: Boolean = false
     ) : UiState
 
-    interface CardInputView : MvpView<CardInputUiState> {
-        override fun onStateUpdated(uiState: CardInputUiState)
-    }
+    interface CardInputView : MvpView<CardInputUiState>
 
 }

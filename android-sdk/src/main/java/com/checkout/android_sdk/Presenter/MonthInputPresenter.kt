@@ -47,7 +47,5 @@ class MonthInputPresenter(
         }
     }
 
-    interface MonthInputView : MvpView<MonthInputUiState> {
-        override fun onStateUpdated(uiState: MonthInputUiState)
-    }
+    interface MonthInputView : MvpView<MonthInputUiState>
 }
