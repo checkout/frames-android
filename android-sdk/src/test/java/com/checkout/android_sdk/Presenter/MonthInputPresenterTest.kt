@@ -30,18 +30,6 @@ class MonthInputPresenterTest {
     }
 
     @Test
-    fun `given new months generated then view should be updated with values for months`() {
-        val expectedMonths = getExpectedMonths()
-
-        presenter.start(viewMock)
-        reset(viewMock)
-        presenter.onMonthsGenerated(expectedMonths.toTypedArray())
-
-        then(viewMock).should()
-            .onStateUpdated(MonthInputPresenter.MonthInputUiState(months = expectedMonths))
-    }
-
-    @Test
     fun `given month selected then view should be updated with selected month`() {
         val expectedMonths = getExpectedMonths()
         val (position, numberString, finished) = Triple(6, "06", true)
