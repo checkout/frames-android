@@ -1,29 +1,26 @@
-package com.checkout.android_sdk.UseCase
+package com.checkout.android_sdk.Presenter
 
 import com.checkout.android_sdk.Utils.DateFormatter
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito.given
-import org.mockito.BDDMockito.then
+import org.mockito.BDDMockito
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class GenerateMonthsUseCaseTest {
+class MonthInputUiStateTest {
 
     @Mock
     private lateinit var dateFormatter: DateFormatter
 
-    @Mock
-    private lateinit var callbackMock: GenerateMonthsUseCase.Callback
-
     @Test
-    fun `given valid card without focus then card focus result is error`() {
+    fun `given new months generated then view should be updated with values for months`() {
         prepareFormatter()
-        GenerateMonthsUseCase(dateFormatter, callbackMock).execute()
+        val monthInputState = MonthInputPresenter.MonthInputUiState.create(dateFormatter)
 
-        then(callbackMock).should().onMonthsGenerated(getExpectedMonths())
+        assertEquals(getExpectedMonths().asList(), monthInputState.months)
     }
 
     private fun prepareFormatter() {
@@ -32,7 +29,7 @@ class GenerateMonthsUseCaseTest {
             if (iAsString.length < 2) {
                 iAsString = "0$iAsString"
             }
-            given(dateFormatter.formatMonth(i)).willReturn(iAsString)
+            BDDMockito.given(dateFormatter.formatMonth(i)).willReturn(iAsString)
         }
     }
 

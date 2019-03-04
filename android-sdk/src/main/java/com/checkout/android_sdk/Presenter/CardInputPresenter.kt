@@ -15,10 +15,6 @@ class CardInputPresenter(private val dataStore: DataStore) :
     CardInputUseCase.Callback,
     CardFocusUseCase.Callback {
 
-    override fun initialize() {
-        // Do nothing
-    }
-
     fun textChanged(text: Editable) {
         CardInputUseCase(text, dataStore, this).execute()
     }

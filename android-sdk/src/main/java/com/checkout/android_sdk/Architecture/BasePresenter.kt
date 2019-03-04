@@ -12,7 +12,6 @@ abstract class BasePresenter<in V : MvpView<U>, U: UiState> (protected var uiSta
 
     fun start(view: V) {
         this.view = view
-        initialize()
         safeUpdateView(uiState)
     }
 
@@ -23,11 +22,5 @@ abstract class BasePresenter<in V : MvpView<U>, U: UiState> (protected var uiSta
     fun safeUpdateView(uiState: U) {
         this.uiState = uiState
         view?.onStateUpdated(uiState)
-
     }
-
-    /**
-     * Override this if you need to do something when the presenter starts
-     */
-    abstract fun initialize()
 }
