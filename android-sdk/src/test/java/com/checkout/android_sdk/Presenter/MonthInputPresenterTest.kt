@@ -64,6 +64,4 @@ class MonthInputPresenterTest {
             " - null" // JVM adds this additional entry not present on Android OS
         )
     }
-
-
 }

@@ -8,9 +8,14 @@ import com.checkout.android_sdk.UseCase.YearSelectedUseCase
 import java.util.*
 
 
-class YearInputPresenter(private val dataStore: DataStore) :
+class YearInputPresenter(
+    private val dataStore: DataStore,
+    initialState: YearInputUiState = YearInputUiState.create(
+        Calendar.getInstance()
+    )
+) :
     BasePresenter<YearInputPresenter.YearInputView, YearInputPresenter.YearInputUiState>(
-        YearInputUiState.create(Calendar.getInstance())
+        initialState
     ), YearSelectedUseCase.Callback {
 
     fun yearSelected(position: Int) {
