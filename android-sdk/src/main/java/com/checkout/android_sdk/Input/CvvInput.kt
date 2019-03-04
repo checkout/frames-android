@@ -20,7 +20,10 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private lateinit var presenter: CvvInputPresenter
 
     override fun onStateUpdated(uiState: CvvInputPresenter.CvvInputUiState) {
-
+        listener?.let {
+            it.onInputFinish(uiState.cvv)
+            it.clearInputError()
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -32,10 +35,7 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         addTextChangedListener(object: AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
-                listener?.let {
-                    it.onInputFinish(s.toString())
-                    it.clearInputError()
-                }
+                presenter.inputStateChanged(s.toString())
             }
         })
 
