@@ -4,7 +4,7 @@ import com.checkout.android_sdk.Utils.DateFormatter
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito
+import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -29,7 +29,7 @@ class MonthInputUiStateTest {
             if (iAsString.length < 2) {
                 iAsString = "0$iAsString"
             }
-            BDDMockito.given(dateFormatter.formatMonth(i)).willReturn(iAsString)
+            given(dateFormatter.formatMonth(i)).willReturn(iAsString)
         }
     }
 
