@@ -121,7 +121,7 @@ public class CardDetailsView extends LinearLayout {
         public void onYearInputFinish(String year) {
             mDataStore.setCardYear(year);
             mDataStore.setValidCardYear(true);
-            ((TextView) mMonthInput.getSelectedView()).setError(null);
+            ((TextView) mYearInput.getSelectedView()).setError(null);
         }
     };
 
@@ -322,12 +322,6 @@ public class CardDetailsView extends LinearLayout {
      * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
      */
     private void repopulateField() {
-        //Repopulate card month
-        if (DataStore.getInstance().getCardMonth() != null) {
-            MonthInput.Months[] months = MonthInput.Months.values();
-            mMonthInput.setSelection(months[Integer.parseInt(DataStore.getInstance().getCardMonth()) - 1].number - 1);
-        }
-
         //Repopulate card year
         if (DataStore.getInstance().getCardYear() != null) {
             try {

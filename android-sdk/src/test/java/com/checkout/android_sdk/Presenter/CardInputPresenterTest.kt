@@ -35,7 +35,7 @@ class CardInputPresenterTest {
     fun `given presenter is started then default state should be set`() {
         presenter.start(viewMock)
 
-        then(viewMock).should().onCardInputStateUpdated(CardInputPresenter.CardInputUiState())
+        then(viewMock).should().onStateUpdated(CardInputPresenter.CardInputUiState())
     }
 
     @Test
@@ -57,7 +57,7 @@ class CardInputPresenterTest {
 
         presenter.onCardInputResult(cardInputResult)
 
-        then(viewMock).should().onCardInputStateUpdated(cardInputUiState)
+        then(viewMock).should().onStateUpdated(cardInputUiState)
     }
 
     @Test
@@ -67,7 +67,7 @@ class CardInputPresenterTest {
 
         presenter.onCardFocusResult(true)
 
-        then(viewMock).should().onCardInputStateUpdated(cardInputUiState)
+        then(viewMock).should().onStateUpdated(cardInputUiState)
     }
 
 }

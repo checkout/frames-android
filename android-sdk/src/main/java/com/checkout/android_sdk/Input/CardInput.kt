@@ -7,8 +7,8 @@ import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
+import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Presenter.CardInputPresenter
-import com.checkout.android_sdk.Presenter.PresenterStore
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.Utils.AfterTextChangedListener
 import com.checkout.android_sdk.Utils.CardUtils
@@ -26,6 +26,7 @@ class CardInput @JvmOverloads constructor(
     internal var mContext: Context,
     attrs: AttributeSet? = null
 ) : android.support.v7.widget.AppCompatEditText(mContext, attrs), CardInputPresenter.CardInputView {
+
 
     private var mCardInputListener: CardInput.Listener? = null
     private lateinit var presenter: CardInputPresenter
@@ -66,16 +67,16 @@ class CardInput @JvmOverloads constructor(
         presenter.stop()
     }
 
-    override fun onCardInputStateUpdated(cardInputResult: CardInputPresenter.CardInputUiState) {
+    override fun onStateUpdated(uiState: CardInputPresenter.CardInputUiState) {
         // Get Card type
         filters =
-                arrayOf<InputFilter>(InputFilter.LengthFilter(cardInputResult.cardType.maxCardLength))
+                arrayOf<InputFilter>(InputFilter.LengthFilter(uiState.cardType.maxCardLength))
         // Set the CardInput icon based on the type of card
-        setCardTypeIcon(cardInputResult.cardType)
+        setCardTypeIcon(uiState.cardType)
 
-        restoreCardNumberIfNecessary(cardInputResult)
+        restoreCardNumberIfNecessary(uiState)
 
-        showOrClearErrors(cardInputResult)
+        showOrClearErrors(uiState)
     }
 
     /**

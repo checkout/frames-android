@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -117,6 +118,7 @@
                         android:id="@+id/month_input"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
+                        android:paddingLeft="0dp"
                         android:layout_height="@dimen/basic_field_height"
                         android:layout_marginEnd="@dimen/basic_field_margin_side"
                         android:layout_marginRight="@dimen/basic_field_margin_side"
@@ -127,7 +129,8 @@
                         android:imeOptions="flagNoExtractUi|actionNext"
                         android:nextFocusDown="@id/year_input"
                         android:nextFocusForward="@+id/year_input"
-                        android:popupBackground="@color/spinner_background" />
+                        android:popupBackground="@color/spinner_background"
+                        tools:ignore="RtlSymmetry" />
 
                     <com.checkout.android_sdk.Input.YearInput
                         android:id="@+id/year_input"
