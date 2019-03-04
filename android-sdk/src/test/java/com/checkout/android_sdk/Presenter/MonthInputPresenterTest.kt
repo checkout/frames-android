@@ -5,8 +5,6 @@ import com.checkout.android_sdk.Utils.DateFormatter
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
-import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito.reset
@@ -47,7 +45,6 @@ class MonthInputPresenterTest {
     fun `given month selected then view should be updated with selected month`() {
         val expectedMonths = getExpectedMonths()
         val (position, numberString, finished) = Triple(6, "06", true)
-        given(dateFormatter.formatMonth(ArgumentMatchers.anyInt())).willReturn("format")
         presenter.start(viewMock)
         reset(viewMock)
         presenter.onMonthSelected(position, numberString, finished)
@@ -64,19 +61,19 @@ class MonthInputPresenterTest {
 
     private fun getExpectedMonths(): List<String> {
         return listOf(
-            "JAN - format",
-            "FEB - format",
-            "MAR - format",
-            "APR - format",
-            "MAY - format",
-            "JUN - format",
-            "JUL - format",
-            "AUG - format",
-            "SEP - format",
-            "OCT - format",
-            "NOV - format",
-            "DEC - format",
-            " - format" // JVM adds this additional entry not present on Android OS
+            "JAN - null",
+            "FEB - null",
+            "MAR - null",
+            "APR - null",
+            "MAY - null",
+            "JUN - null",
+            "JUL - null",
+            "AUG - null",
+            "SEP - null",
+            "OCT - null",
+            "NOV - null",
+            "DEC - null",
+            " - null" // JVM adds this additional entry not present on Android OS
         )
     }
 
