@@ -20,7 +20,7 @@ class CvvInputPresenter(
     }
 
     fun focusChanged(hasFocus: Boolean) {
-        CvvFocusChangedUseCase(uiState.cvv, hasFocus, this).execute()
+        CvvFocusChangedUseCase(uiState.cvv, hasFocus, dataStore, this).execute()
     }
 
     override fun onCvvUpdated(cvv: String, showError: Boolean) {
