@@ -8,9 +8,9 @@ class CvvFocusChangedUseCase(private val cvv: String,
 
     override fun execute() {
         if (hasFocus) {
-            callback.onShowCvvError(false)
+            callback.onFocusUpdated(false)
         } else if (cvv.length < MIN_CHARACTERS_FOR_VALID_CVV) {
-            callback.onShowCvvError(true)
+            callback.onFocusUpdated(true)
         }
     }
 
@@ -19,6 +19,6 @@ class CvvFocusChangedUseCase(private val cvv: String,
     }
 
     interface Callback {
-        fun onShowCvvError(showError: Boolean)
+        fun onFocusUpdated(showError: Boolean)
     }
 }
