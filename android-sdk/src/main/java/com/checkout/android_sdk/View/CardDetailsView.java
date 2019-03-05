@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.Input.BillingInput;
 import com.checkout.android_sdk.Input.CardInput;
+import com.checkout.android_sdk.Input.CvvInput;
 import com.checkout.android_sdk.Input.DefaultInput;
 import com.checkout.android_sdk.Input.MonthInput;
 import com.checkout.android_sdk.Input.YearInput;
@@ -192,7 +193,7 @@ public class CardDetailsView extends LinearLayout {
     private MonthInput mMonthInput;
     private YearInput mYearInput;
     private BillingInput mGoToBilling;
-    private DefaultInput mCvvInput;
+    private CvvInput mCvvInput;
     private TextInputLayout mCardLayout;
     private TextInputLayout mCvvLayout;
     private Button mPayButton;
