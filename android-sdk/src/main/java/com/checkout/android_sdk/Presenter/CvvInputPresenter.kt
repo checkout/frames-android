@@ -4,24 +4,34 @@ import com.checkout.android_sdk.Architecture.BasePresenter
 import com.checkout.android_sdk.Architecture.MvpView
 import com.checkout.android_sdk.Architecture.UiState
 import com.checkout.android_sdk.Store.DataStore
+import com.checkout.android_sdk.UseCase.CvvFocusChangedUseCase
 import com.checkout.android_sdk.UseCase.CvvInputUseCase
 
 
 class CvvInputPresenter(private val dataStore: DataStore) :
     BasePresenter<CvvInputPresenter.CvvInputView, CvvInputPresenter.CvvInputUiState>(
-        CvvInputUiState("")
-    ), CvvInputUseCase.Callback {
+        CvvInputUiState("" , false)
+    ), CvvInputUseCase.Callback, CvvFocusChangedUseCase.Callback {
 
     fun inputStateChanged(cvv: String) {
         CvvInputUseCase(dataStore, cvv, this).execute()
     }
 
-    override fun onCvvUpdated(cvv: String) {
-        val newState = uiState.copy(cvv = cvv)
+    fun focusChanged(hasFocus: Boolean) {
+        CvvFocusChangedUseCase(uiState.cvv, hasFocus, this).execute()
+    }
+
+    override fun onCvvUpdated(cvv: String, showError: Boolean) {
+        val newState = CvvInputUiState(cvv, showError)
         safeUpdateView(newState)
     }
 
-    data class CvvInputUiState(val cvv: String) : UiState
+    override fun onShowCvvError(showError: Boolean) {
+        val newState = uiState.copy(showError = showError)
+        safeUpdateView(newState)
+    }
+
+    data class CvvInputUiState(val cvv: String, val showError: Boolean) : UiState
 
     interface CvvInputView : MvpView<CvvInputUiState>
 

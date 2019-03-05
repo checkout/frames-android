@@ -12,11 +12,11 @@ class CvvInputUseCase(
 
     override fun execute() {
         dataStore.cardCvv = cvv
-        callback.onCvvUpdated(cvv)
+        callback.onCvvUpdated(cvv, false)
     }
 
     interface Callback {
-        fun onCvvUpdated(cvv: String)
+        fun onCvvUpdated(cvv: String, showError: Boolean)
     }
 
 }

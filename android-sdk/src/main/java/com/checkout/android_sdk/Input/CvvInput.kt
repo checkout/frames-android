@@ -22,7 +22,10 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     override fun onStateUpdated(uiState: CvvInputPresenter.CvvInputUiState) {
         listener?.let {
             it.onInputFinish(uiState.cvv)
-            it.clearInputError()
+            // TODO: Missing validation to show cvv error when we step off cvv
+            if (!uiState.showError) {
+                it.clearInputError()
+            }
         }
     }
 
@@ -39,10 +42,8 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             }
         })
 
-        onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                listener?.clearInputError()
-            }
+        onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+            presenter.focusChanged(hasFocus)
         }
     }
 
