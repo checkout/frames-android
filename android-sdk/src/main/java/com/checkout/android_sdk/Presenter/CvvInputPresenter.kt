@@ -12,23 +12,16 @@ class CvvInputPresenter(
     private val dataStore: DataStore,
     initialState: CvvInputUiState = CvvInputUiState("", false)
 ) :
-    BasePresenter<CvvInputPresenter.CvvInputView, CvvInputPresenter.CvvInputUiState>(initialState),
-    CvvInputUseCase.Callback, CvvFocusChangedUseCase.Callback {
+    BasePresenter<CvvInputPresenter.CvvInputView, CvvInputPresenter.CvvInputUiState>(initialState) {
 
     fun inputStateChanged(cvv: String) {
-        CvvInputUseCase(dataStore, cvv, this).execute()
-    }
-
-    fun focusChanged(hasFocus: Boolean) {
-        CvvFocusChangedUseCase(uiState.cvv, hasFocus, dataStore, this).execute()
-    }
-
-    override fun onCvvUpdated(cvv: String, showError: Boolean) {
-        val newState = CvvInputUiState(cvv, showError)
+        val showError = CvvInputUseCase(dataStore, cvv).execute()
+        val newState = uiState.copy(cvv = cvv, showError = showError)
         safeUpdateView(newState)
     }
 
-    override fun onFocusUpdated(showError: Boolean) {
+    fun focusChanged(hasFocus: Boolean) {
+        val showError = CvvFocusChangedUseCase(uiState.cvv, hasFocus, dataStore).execute()
         val newState = uiState.copy(showError = showError)
         safeUpdateView(newState)
     }

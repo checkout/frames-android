@@ -5,18 +5,9 @@ import com.checkout.android_sdk.Store.DataStore
 
 class CvvFocusChangedUseCase(private val cvv: String,
                              private val hasFocus: Boolean,
-                             private val dataStore: DataStore,
-                             private val callback: Callback): UseCase {
+                             private val dataStore: DataStore): UseCase<Boolean> {
 
-    override fun execute() {
-        if (hasFocus) {
-            callback.onFocusUpdated(false)
-        } else if (cvv.length < dataStore.cvvLength) {
-            callback.onFocusUpdated(true)
-        }
-    }
-
-    interface Callback {
-        fun onFocusUpdated(showError: Boolean)
+    override fun execute(): Boolean {
+        return !hasFocus && cvv.length < dataStore.cvvLength
     }
 }

@@ -5,6 +5,7 @@ import com.checkout.android_sdk.Utils.DateFormatter
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito.reset
@@ -33,9 +34,10 @@ class MonthInputPresenterTest {
     fun `given month selected then view should be updated with selected month`() {
         val expectedMonths = getExpectedMonths()
         val (position, numberString, finished) = Triple(6, "06", true)
+        given(dateFormatter.formatMonth(position + 1)).willReturn(numberString)
         presenter.start(viewMock)
         reset(viewMock)
-        presenter.onMonthSelected(position, numberString, finished)
+        presenter.monthSelected(position)
 
         then(viewMock).should().onStateUpdated(
             MonthInputPresenter.MonthInputUiState(

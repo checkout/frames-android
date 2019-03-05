@@ -16,17 +16,11 @@ class YearInputPresenter(
 ) :
     BasePresenter<YearInputPresenter.YearInputView, YearInputPresenter.YearInputUiState>(
         initialState
-    ), YearSelectedUseCase.Callback {
+    ) {
 
     fun yearSelected(position: Int) {
-        YearSelectedUseCase(dataStore, uiState.years, position, this).execute()
-    }
-
-    override fun onYearSelected(position: Int) {
-        val newState = uiState.copy(
-            position = position
-        )
-        safeUpdateView(newState)
+        YearSelectedUseCase(dataStore, uiState.years, position).execute()
+        safeUpdateView(uiState.copy(position = position))
     }
 
     data class YearInputUiState(val years: List<String>, val position: Int = -1) : UiState {

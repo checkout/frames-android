@@ -14,16 +14,13 @@ class MonthInputPresenter(
     private val dataStore: DataStore
 ) : BasePresenter<MonthInputPresenter.MonthInputView, MonthInputPresenter.MonthInputUiState>(
     MonthInputUiState.create(dateFormatter)
-), MonthSelectedUseCase.Callback {
+) {
 
     fun monthSelected(position: Int) {
-        MonthSelectedUseCase(dateFormatter, position, dataStore, this).execute()
-    }
-
-    override fun onMonthSelected(position: Int, numberString: String, finished: Boolean) {
+        val monthSelectedResult = MonthSelectedUseCase(dateFormatter, position, dataStore).execute()
         val newState = uiState.copy(
-            position = position,
-            numberString = numberString,
+            position = monthSelectedResult.position,
+            numberString = monthSelectedResult.numberString,
             finished = true
         )
         safeUpdateView(newState)

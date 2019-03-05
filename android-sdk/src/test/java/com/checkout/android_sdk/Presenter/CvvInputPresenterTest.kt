@@ -4,6 +4,7 @@ import com.checkout.android_sdk.Store.DataStore
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -30,19 +31,19 @@ class CvvInputPresenterTest {
     }
 
     @Test
-    fun `given cvv updated show the new value and an error`() {
-        val expectedState = CvvInputPresenter.CvvInputUiState("34", true)
-        presenter.onCvvUpdated(expectedState.cvv, expectedState.showError)
+    fun `given cvv updated show the new value`() {
+        val expectedState = CvvInputPresenter.CvvInputUiState("34", false)
+        presenter.inputStateChanged(expectedState.cvv)
 
         then(viewMock).should().onStateUpdated(expectedState)
     }
 
     @Test
     fun `given cvv focus updated and it has an error then error should be shown`() {
-        val expectedError = true
-        presenter.onFocusUpdated(showError = expectedError)
+        given(dataStore.cvvLength).willReturn(3)
+        presenter.focusChanged(false)
 
-        then(viewMock).should().onStateUpdated(initialState.copy(showError = expectedError))
+        then(viewMock).should().onStateUpdated(initialState.copy(showError = true))
     }
 
 }

@@ -6,23 +6,18 @@ import com.checkout.android_sdk.Utils.CardUtils
 
 class CardFocusUseCase(
     private val hasFocus: Boolean,
-    private val cardNumber: String?,
-    private val callback: Callback
-): UseCase {
+    private val cardNumber: String?
+): UseCase<Boolean> {
 
-    override fun execute() {
+    override fun execute(): Boolean {
         if (hasFocus) {
             // Clear the error message until the field loses focus
-            callback.onCardFocusResult(false)
+            return false
         } else {
             if (!CardUtils.isValidCard(cardNumber)) {
-                callback.onCardFocusResult(true)
+                return true
             }
+            return false
         }
     }
-
-    interface Callback {
-        fun onCardFocusResult(cardError: Boolean)
-    }
-
 }

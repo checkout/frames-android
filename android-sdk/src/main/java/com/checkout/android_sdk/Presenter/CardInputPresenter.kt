@@ -10,20 +10,16 @@ import com.checkout.android_sdk.UseCase.CardInputUseCase
 import com.checkout.android_sdk.Utils.CardUtils
 
 
-class CardInputPresenter(private val dataStore: DataStore) :
-    BasePresenter<CardInputPresenter.CardInputView, CardInputPresenter.CardInputUiState>(CardInputUiState()),
-    CardInputUseCase.Callback,
-    CardFocusUseCase.Callback {
+class CardInputPresenter(
+    private val dataStore: DataStore,
+    initialState: CardInputUiState = CardInputUiState()
+) :
+    BasePresenter<CardInputPresenter.CardInputView, CardInputPresenter.CardInputUiState>(
+        initialState
+    ) {
 
     fun textChanged(text: Editable) {
-        CardInputUseCase(text, dataStore, this).execute()
-    }
-
-    fun focusChanged(hasFocus: Boolean) {
-        CardFocusUseCase(hasFocus, dataStore.cardNumber, this).execute()
-    }
-
-    override fun onCardInputResult(cardInputResult: CardInputUseCase.CardInputResult) {
+        val cardInputResult = CardInputUseCase(text, dataStore).execute()
         val newState = uiState.copy(
             cardNumber = cardInputResult.cardNumber,
             cardType = cardInputResult.cardType,
@@ -33,7 +29,8 @@ class CardInputPresenter(private val dataStore: DataStore) :
         safeUpdateView(newState)
     }
 
-    override fun onCardFocusResult(cardError: Boolean) {
+    fun focusChanged(hasFocus: Boolean) {
+        val cardError = CardFocusUseCase(hasFocus, dataStore.cardNumber).execute()
         val newState = uiState.copy(
             showCardError = cardError
         )
