@@ -1,12 +1,13 @@
 package com.checkout.sdk.yearinput
 
-import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.yearinput.YearInputPresenter
+import com.checkout.sdk.architecture.MvpView
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
+import org.mockito.Mockito.reset
 import org.mockito.junit.MockitoJUnitRunner
 
 
@@ -14,29 +15,37 @@ import org.mockito.junit.MockitoJUnitRunner
 class YearInputPresenterTest {
 
     @Mock
-    private lateinit var dataStore: DataStore
+    private lateinit var viewMock: MvpView<YearInputUiState>
 
     @Mock
-    private lateinit var viewMock: YearInputPresenter.YearInputView
+    private lateinit var yearSelectedUseCaseBuilder: YearSelectedUseCase.Builder
+
+    @Mock
+    private lateinit var yearSelectedUseCase: YearSelectedUseCase
 
     private lateinit var presenter: YearInputPresenter
 
-    private lateinit var initialState: YearInputPresenter.YearInputUiState
+    private lateinit var initialState: YearInputUiState
 
     @Before
     fun onSetup() {
-        initialState =
-                YearInputPresenter.YearInputUiState(listOf("2080", "2081", "2082", "2083", "2084"), 3)
-        presenter = YearInputPresenter(dataStore, initialState)
+        initialState = YearInputUiState(listOf("2080", "2081", "2082", "2083", "2084"), 3)
+        presenter = YearInputPresenter(initialState)
+        presenter.start(viewMock)
+        reset(viewMock)
     }
 
     @Test
     fun `given year selected then view should be updated with selected year`() {
         val newPosition = 4
         val expectedState = initialState.copy(position = newPosition)
-        presenter.start(viewMock)
-        presenter.yearSelected(newPosition)
+        given(yearSelectedUseCaseBuilder.years(initialState.years)).willReturn(yearSelectedUseCaseBuilder)
+        given(yearSelectedUseCaseBuilder.getPosition()).willReturn(newPosition)
+        given(yearSelectedUseCaseBuilder.build()).willReturn(yearSelectedUseCase)
 
+        presenter.yearSelected(yearSelectedUseCaseBuilder)
+
+        then(yearSelectedUseCase).should().execute()
         then(viewMock).should().onStateUpdated(expectedState)
     }
 }
