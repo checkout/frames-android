@@ -1,6 +1,7 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.cardinput
 
 import android.text.Editable
+import com.checkout.sdk.cardinput.CardInputUseCase
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.CardUtils
 import junit.framework.Assert.assertEquals

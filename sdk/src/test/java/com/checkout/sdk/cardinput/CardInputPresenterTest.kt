@@ -1,6 +1,7 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.cardinput
 
 import android.text.Editable
+import com.checkout.sdk.cardinput.CardInputPresenter
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.CardUtils
 import org.junit.Before

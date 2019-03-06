@@ -1,12 +1,10 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.cardinput
 
 import android.text.Editable
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.UiState
 import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.usecase.CardFocusUseCase
-import com.checkout.sdk.usecase.CardInputUseCase
 import com.checkout.sdk.utils.CardUtils
 
 

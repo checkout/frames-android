@@ -1,5 +1,6 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.cardinput
 
+import com.checkout.sdk.cardinput.CardFocusUseCase
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

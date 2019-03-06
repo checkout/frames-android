@@ -80,7 +80,7 @@
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/Error">
 
-                    <com.checkout.sdk.input.CardInput
+                    <com.checkout.sdk.cardinput.CardInput
                         android:id="@+id/card_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

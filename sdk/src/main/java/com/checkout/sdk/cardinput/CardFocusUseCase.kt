@@ -1,4 +1,4 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.cardinput
 
 
 import com.checkout.sdk.architecture.UseCase

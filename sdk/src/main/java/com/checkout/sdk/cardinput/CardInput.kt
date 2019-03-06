@@ -1,4 +1,4 @@
-package com.checkout.sdk.input
+package com.checkout.sdk.cardinput
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -8,7 +8,6 @@ import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.presenter.CardInputPresenter
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import com.checkout.sdk.utils.CardUtils
@@ -28,7 +27,7 @@ class CardInput @JvmOverloads constructor(
 ) : android.support.v7.widget.AppCompatEditText(mContext, attrs), CardInputPresenter.CardInputView {
 
 
-    private var mCardInputListener: CardInput.Listener? = null
+    private var mCardInputListener: Listener? = null
     private lateinit var presenter: CardInputPresenter
 
     /**
