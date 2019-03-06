@@ -27,10 +27,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.checkout.android_sdk.CheckoutAPIClient;
-import com.checkout.android_sdk.Response.GooglePayTokenisationFail;
-import com.checkout.android_sdk.Response.GooglePayTokenisationResponse;
-import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.sdk.CheckoutAPIClient;
+import com.checkout.sdk.Response.GooglePayTokenisationFail;
+import com.checkout.sdk.Response.GooglePayTokenisationResponse;
+import com.checkout.sdk.Utils.Environment;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
