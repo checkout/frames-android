@@ -80,7 +80,7 @@
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/Error">
 
-                    <com.checkout.sdk.input.CardInput
+                    <com.checkout.sdk.cardinput.CardInput
                         android:id="@+id/card_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                     android:layout_marginTop="@dimen/basic_field_margin_top"
                     android:orientation="horizontal">
 
-                    <com.checkout.sdk.input.MonthInput
+                    <com.checkout.sdk.monthinput.MonthInput
                         android:id="@+id/month_input"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                         android:popupBackground="@color/spinner_background"
                         tools:ignore="RtlSymmetry" />
 
-                    <com.checkout.sdk.input.YearInput
+                    <com.checkout.sdk.yearinput.YearInput
                         android:id="@+id/year_input"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/Error">
 
-                    <com.checkout.sdk.input.CvvInput
+                    <com.checkout.sdk.cvvinput.CvvInput
                         android:id="@+id/cvv_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
