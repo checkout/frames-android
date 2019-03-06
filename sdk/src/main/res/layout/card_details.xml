@@ -132,7 +132,7 @@
                         android:popupBackground="@color/spinner_background"
                         tools:ignore="RtlSymmetry" />
 
-                    <com.checkout.sdk.input.YearInput
+                    <com.checkout.sdk.yearinput.YearInput
                         android:id="@+id/year_input"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"

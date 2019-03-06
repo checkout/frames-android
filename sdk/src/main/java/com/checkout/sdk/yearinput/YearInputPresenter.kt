@@ -1,10 +1,9 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.yearinput
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.UiState
 import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.usecase.YearSelectedUseCase
 import java.util.*
 
 

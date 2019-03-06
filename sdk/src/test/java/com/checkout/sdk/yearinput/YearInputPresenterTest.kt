@@ -1,6 +1,7 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.yearinput
 
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.yearinput.YearInputPresenter
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

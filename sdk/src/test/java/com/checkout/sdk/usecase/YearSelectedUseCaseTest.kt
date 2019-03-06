@@ -1,6 +1,7 @@
 package com.checkout.sdk.usecase
 
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.yearinput.YearSelectedUseCase
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.then
@@ -19,7 +20,11 @@ class YearSelectedUseCaseTest {
         val years = listOf("2022", "2023")
         val expectedPosition = 1
 
-        val position = YearSelectedUseCase(dataStoreMock, years, expectedPosition).execute()
+        val position = YearSelectedUseCase(
+            dataStoreMock,
+            years,
+            expectedPosition
+        ).execute()
 
         then(dataStoreMock).should().cardYear = years[expectedPosition]
     }

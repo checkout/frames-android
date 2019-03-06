@@ -1,4 +1,4 @@
-package com.checkout.sdk.input
+package com.checkout.sdk.yearinput
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,7 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.presenter.YearInputPresenter
 import com.checkout.sdk.store.DataStore
 
 /**
@@ -17,7 +16,7 @@ import com.checkout.sdk.store.DataStore
 class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     android.support.v7.widget.AppCompatSpinner(mContext, attrs), YearInputPresenter.YearInputView {
 
-    private var mYearInputListener: YearInput.YearListener? = null
+    private var mYearInputListener: YearListener? = null
     private lateinit var presenter: YearInputPresenter
 
     override fun onStateUpdated(uiState: YearInputPresenter.YearInputUiState) {
@@ -88,7 +87,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     /**
      * Used to set the callback listener for when the year input is completed
      */
-    fun setYearListener(listener: YearInput.YearListener) {
+    fun setYearListener(listener: YearListener) {
         this.mYearInputListener = listener
     }
 }
