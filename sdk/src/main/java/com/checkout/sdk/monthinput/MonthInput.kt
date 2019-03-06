@@ -7,6 +7,7 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.DateFormatter
@@ -19,9 +20,11 @@ class MonthInput @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) :
     android.support.v7.widget.AppCompatSpinner(mContext, attrs),
-    MonthInputPresenter.MonthInputView {
+    MvpView<MonthInputUiState> {
 
     private var monthInputListener: MonthListener? = null
+    private val dateFormatter = DateFormatter()
+    private val dataStore = DataStore.getInstance()
     private lateinit var presenter: MonthInputPresenter
 
     interface MonthListener {
@@ -40,10 +43,7 @@ class MonthInput @JvmOverloads constructor(
         presenter = PresenterStore.getOrCreate(
             MonthInputPresenter::class.java,
             {
-                MonthInputPresenter(
-                    DateFormatter(),
-                    DataStore.getInstance()
-                )
+                MonthInputPresenter(DateFormatter())
             })
         presenter.start(this)
 
@@ -54,7 +54,9 @@ class MonthInput @JvmOverloads constructor(
                 position: Int,
                 id: Long
             ) {
-                presenter.monthSelected(position)
+                val monthSelectedUseCase =
+                    MonthSelectedUseCase(dateFormatter, position, dataStore)
+                presenter.monthSelected(monthSelectedUseCase)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -80,7 +82,7 @@ class MonthInput @JvmOverloads constructor(
     /**
      * Populate the spinner with all the month of the year
      */
-    override fun onStateUpdated(uiState: MonthInputPresenter.MonthInputUiState) {
+    override fun onStateUpdated(uiState: MonthInputUiState) {
         if (adapter == null) {
             val dataAdapter = ArrayAdapter(
                 mContext,

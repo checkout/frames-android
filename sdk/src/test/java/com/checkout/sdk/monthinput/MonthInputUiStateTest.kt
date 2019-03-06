@@ -18,7 +18,7 @@ class MonthInputUiStateTest {
     @Test
     fun `month input state should be 12 months january to december followed by month number`() {
         prepareFormatter()
-        val monthInputState = MonthInputPresenter.MonthInputUiState.create(dateFormatter)
+        val monthInputState = MonthInputUiState.create(dateFormatter)
 
         assertEquals(getExpectedMonths().asList(), monthInputState.months)
     }

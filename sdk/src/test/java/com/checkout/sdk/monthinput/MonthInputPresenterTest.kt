@@ -1,6 +1,6 @@
 package com.checkout.sdk.monthinput
 
-import com.checkout.sdk.monthinput.MonthInputPresenter
+import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.DateFormatter
 import org.junit.Before
@@ -22,27 +22,30 @@ class MonthInputPresenterTest {
     private lateinit var dataStore: DataStore
 
     @Mock
-    private lateinit var viewMock: MonthInputPresenter.MonthInputView
+    private lateinit var viewMock: MvpView<MonthInputUiState>
 
     private lateinit var presenter: MonthInputPresenter
 
+    private lateinit var initialState: MonthInputUiState
+
     @Before
     fun onSetup() {
-        presenter = MonthInputPresenter(dateFormatter, dataStore)
+        initialState = MonthInputUiState(getExpectedMonths())
+        presenter = MonthInputPresenter(dateFormatter, initialState)
+        presenter.start(viewMock)
+        reset(viewMock)
     }
 
     @Test
     fun `given month selected then view should be updated with selected month`() {
-        val expectedMonths = getExpectedMonths()
         val (position, numberString, finished) = Triple(6, "06", true)
         given(dateFormatter.formatMonth(position + 1)).willReturn(numberString)
-        presenter.start(viewMock)
-        reset(viewMock)
-        presenter.monthSelected(position)
+
+        presenter.monthSelected(MonthSelectedUseCase(dateFormatter, position, dataStore))
 
         then(viewMock).should().onStateUpdated(
-            MonthInputPresenter.MonthInputUiState(
-                expectedMonths,
+            MonthInputUiState(
+                getExpectedMonths(),
                 position = position,
                 numberString = numberString,
                 finished = finished
