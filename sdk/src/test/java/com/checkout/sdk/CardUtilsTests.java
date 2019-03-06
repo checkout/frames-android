@@ -1,6 +1,6 @@
 package com.checkout.sdk;
 
-import com.checkout.sdk.Utils.CardUtils;
+import com.checkout.sdk.utils.CardUtils;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 

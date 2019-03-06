@@ -13,11 +13,11 @@ import android.widget.EditText;
 import com.android.volley.VolleyError;
 import com.checkout.sdk.CheckoutAPIClient;
 import com.checkout.sdk.CheckoutAPIClient.OnTokenGenerated;
-import com.checkout.sdk.Request.CardTokenisationRequest;
-import com.checkout.sdk.Response.CardTokenisationFail;
-import com.checkout.sdk.Response.CardTokenisationResponse;
-import com.checkout.sdk.Utils.CardUtils;
-import com.checkout.sdk.Utils.Environment;
+import com.checkout.sdk.request.CardTokenisationRequest;
+import com.checkout.sdk.response.CardTokenisationFail;
+import com.checkout.sdk.response.CardTokenisationResponse;
+import com.checkout.sdk.utils.CardUtils;
+import com.checkout.sdk.utils.Environment;
 
 import checkout.com.demo.R;
 

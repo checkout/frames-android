@@ -80,7 +80,7 @@
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/Error">
 
-                    <com.checkout.sdk.Input.CardInput
+                    <com.checkout.sdk.input.CardInput
                         android:id="@+id/card_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                     android:layout_marginTop="@dimen/basic_field_margin_top"
                     android:orientation="horizontal">
 
-                    <com.checkout.sdk.Input.MonthInput
+                    <com.checkout.sdk.input.MonthInput
                         android:id="@+id/month_input"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                         android:popupBackground="@color/spinner_background"
                         tools:ignore="RtlSymmetry" />
 
-                    <com.checkout.sdk.Input.YearInput
+                    <com.checkout.sdk.input.YearInput
                         android:id="@+id/year_input"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                     app:errorEnabled="true"
                     app:errorTextAppearance="@style/Error">
 
-                    <com.checkout.sdk.Input.CvvInput
+                    <com.checkout.sdk.input.CvvInput
                         android:id="@+id/cvv_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                     android:textColor="?attr/colorControlNormal"
                     android:textSize="@dimen/expiration_date_text_size" />
 
-                <com.checkout.sdk.Input.BillingInput
+                <com.checkout.sdk.input.BillingInput
                     android:id="@+id/go_to_billing"
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"

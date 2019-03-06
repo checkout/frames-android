@@ -3,14 +3,14 @@ package com.checkout.sdk;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
-import com.checkout.sdk.Request.CardTokenisationRequest;
-import com.checkout.sdk.Request.GooglePayTokenisationRequest;
-import com.checkout.sdk.Response.CardTokenisationFail;
-import com.checkout.sdk.Response.CardTokenisationResponse;
-import com.checkout.sdk.Response.GooglePayTokenisationFail;
-import com.checkout.sdk.Response.GooglePayTokenisationResponse;
-import com.checkout.sdk.Utils.Environment;
-import com.checkout.sdk.Utils.HttpUtils;
+import com.checkout.sdk.request.CardTokenisationRequest;
+import com.checkout.sdk.request.GooglePayTokenisationRequest;
+import com.checkout.sdk.response.CardTokenisationFail;
+import com.checkout.sdk.response.CardTokenisationResponse;
+import com.checkout.sdk.response.GooglePayTokenisationFail;
+import com.checkout.sdk.response.GooglePayTokenisationResponse;
+import com.checkout.sdk.utils.Environment;
+import com.checkout.sdk.utils.HttpUtils;
 import com.google.gson.Gson;
 
 import org.json.JSONException;

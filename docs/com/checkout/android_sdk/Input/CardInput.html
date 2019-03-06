@@ -48,8 +48,8 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../com/checkout/android_sdk/Input/BillingInput.BillingListener.html" title="interface in com.checkout.sdk.Input"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.Input"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../com/checkout/android_sdk/Input/BillingInput.BillingListener.html" title="interface in com.checkout.sdk.input"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.input"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/checkout/android_sdk/Input/CardInput.html" target="_top">Frames</a></li>
@@ -91,7 +91,7 @@ var activeTableTab = "activeTableTab";
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">com.checkout.sdk.Input</div>
+<div class="subTitle">com.checkout.sdk.input</div>
 <h2 title="Class CardInput" class="title">Class CardInput</h2>
 </div>
 <div class="contentContainer">
@@ -111,7 +111,7 @@ var activeTableTab = "activeTableTab";
 <li>android.support.v7.widget.AppCompatEditText</li>
 <li>
 <ul class="inheritance">
-<li>com.checkout.sdk.Input.CardInput</li>
+<li>com.checkout.sdk.input.CardInput</li>
 </ul>
 </li>
 </ul>
@@ -139,7 +139,7 @@ extends android.support.v7.widget.AppCompatEditText</pre>
  and formatting for the user's card details.
  <p>
  This class will validate on the "afterTextChanged" event and display a card icon on the right
- side based on  the users input. It will also span spaces following the <a href="../../../../com/checkout/android_sdk/Utils/CardUtils.html" title="class in com.checkout.sdk.Utils"><code>CardUtils</code></a> details.</div>
+ side based on  the users input. It will also span spaces following the <a href="../../../../com/checkout/android_sdk/Utils/CardUtils.html" title="class in com.checkout.sdk.utils"><code>CardUtils</code></a> details.</div>
 </li>
 </ul>
 </div>
@@ -160,7 +160,7 @@ extends android.support.v7.widget.AppCompatEditText</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.Input">CardInput.Listener</a></span></code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.input">CardInput.Listener</a></span></code>
 <div class="block">An interface needed to communicate with the parent once the field is successfully completed</div>
 </td>
 </tr>
@@ -239,7 +239,7 @@ extends android.support.v7.widget.AppCompatEditText</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/checkout/android_sdk/Input/CardInput.html#checkIfCardIsValid-java.lang.String-com.checkout.android_sdk.Utils.CardUtils.Cards-">checkIfCardIsValid</a></span>(java.lang.String&nbsp;number,
-                  <a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.Utils">CardUtils.Cards</a>&nbsp;cardType)</code>
+                  <a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.utils">CardUtils.Cards</a>&nbsp;cardType)</code>
 <div class="block">This method is used to validate the card number</div>
 </td>
 </tr>
@@ -251,13 +251,13 @@ extends android.support.v7.widget.AppCompatEditText</pre>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/checkout/android_sdk/Input/CardInput.html#setCardListener-com.checkout.android_sdk.Input.CardInput.Listener-">setCardListener</a></span>(<a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.Input">CardInput.Listener</a>&nbsp;listener)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/checkout/android_sdk/Input/CardInput.html#setCardListener-com.checkout.android_sdk.Input.CardInput.Listener-">setCardListener</a></span>(<a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.input">CardInput.Listener</a>&nbsp;listener)</code>
 <div class="block">Used to set the callback listener for when the card input is completed</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/checkout/android_sdk/Input/CardInput.html#setCardTypeIcon-com.checkout.android_sdk.Utils.CardUtils.Cards-">setCardTypeIcon</a></span>(<a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.Utils">CardUtils.Cards</a>&nbsp;type)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/checkout/android_sdk/Input/CardInput.html#setCardTypeIcon-com.checkout.android_sdk.Utils.CardUtils.Cards-">setCardTypeIcon</a></span>(<a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.utils">CardUtils.Cards</a>&nbsp;type)</code>
 <div class="block">This method will display a card icon associated to the specific card scheme</div>
 </td>
 </tr>
@@ -338,24 +338,24 @@ extends android.support.v7.widget.AppCompatEditText</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="checkIfCardIsValid-java.lang.String-com.checkout.sdk.Utils.CardUtils.Cards-">
+<a name="checkIfCardIsValid-java.lang.String-com.checkout.sdk.utils.CardUtils.Cards-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>checkIfCardIsValid</h4>
 <pre>public&nbsp;void&nbsp;checkIfCardIsValid(java.lang.String&nbsp;number,
-                               <a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.Utils">CardUtils.Cards</a>&nbsp;cardType)</pre>
+                               <a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.utils">CardUtils.Cards</a>&nbsp;cardType)</pre>
 <div class="block">This method is used to validate the card number</div>
 </li>
 </ul>
-<a name="setCardTypeIcon-com.checkout.sdk.Utils.CardUtils.Cards-">
+<a name="setCardTypeIcon-com.checkout.sdk.utils.CardUtils.Cards-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setCardTypeIcon</h4>
-<pre>public&nbsp;void&nbsp;setCardTypeIcon(<a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.Utils">CardUtils.Cards</a>&nbsp;type)</pre>
+<pre>public&nbsp;void&nbsp;setCardTypeIcon(<a href="../../../../com/checkout/android_sdk/Utils/CardUtils.Cards.html" title="enum in com.checkout.sdk.utils">CardUtils.Cards</a>&nbsp;type)</pre>
 <div class="block">This method will display a card icon associated to the specific card scheme</div>
 </li>
 </ul>
@@ -369,13 +369,13 @@ extends android.support.v7.widget.AppCompatEditText</pre>
 <div class="block">This method will clear the whitespace in a number string</div>
 </li>
 </ul>
-<a name="setCardListener-com.checkout.sdk.Input.CardInput.Listener-">
+<a name="setCardListener-com.checkout.sdk.input.CardInput.Listener-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>setCardListener</h4>
-<pre>public&nbsp;void&nbsp;setCardListener(<a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.Input">CardInput.Listener</a>&nbsp;listener)</pre>
+<pre>public&nbsp;void&nbsp;setCardListener(<a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.input">CardInput.Listener</a>&nbsp;listener)</pre>
 <div class="block">Used to set the callback listener for when the card input is completed</div>
 </li>
 </ul>
@@ -406,8 +406,8 @@ extends android.support.v7.widget.AppCompatEditText</pre>
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../com/checkout/android_sdk/Input/BillingInput.BillingListener.html" title="interface in com.checkout.sdk.Input"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.Input"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../com/checkout/android_sdk/Input/BillingInput.BillingListener.html" title="interface in com.checkout.sdk.input"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../com/checkout/android_sdk/Input/CardInput.Listener.html" title="interface in com.checkout.sdk.input"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/checkout/android_sdk/Input/CardInput.html" target="_top">Frames</a></li>
