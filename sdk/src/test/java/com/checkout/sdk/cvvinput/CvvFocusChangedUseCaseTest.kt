@@ -1,5 +1,6 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.cvvinput
 
+import com.checkout.sdk.cvvinput.CvvFocusChangedUseCase
 import com.checkout.sdk.store.DataStore
 import junit.framework.Assert.assertEquals
 import org.junit.Test
@@ -19,7 +20,11 @@ class CvvFocusChangedUseCaseTest {
     fun `given cvv has length 3 and expected length is 4 then an error will be shown`() {
         val (cvv, hasFocus) = Pair("234", false)
         given(dataStoreMock.cvvLength).willReturn(4)
-        val showError = CvvFocusChangedUseCase(cvv, hasFocus, dataStoreMock).execute()
+        val showError = CvvFocusChangedUseCase(
+            cvv,
+            hasFocus,
+            dataStoreMock
+        ).execute()
 
         assertEquals(true, showError)
     }
@@ -27,7 +32,11 @@ class CvvFocusChangedUseCaseTest {
     @Test
     fun `given cvv gains focus then error will be cleared`() {
         val (cvv, hasFocus) = Pair("23456", true)
-        val showError = CvvFocusChangedUseCase(cvv, hasFocus, dataStoreMock).execute()
+        val showError = CvvFocusChangedUseCase(
+            cvv,
+            hasFocus,
+            dataStoreMock
+        ).execute()
 
         assertEquals(false, showError)
     }

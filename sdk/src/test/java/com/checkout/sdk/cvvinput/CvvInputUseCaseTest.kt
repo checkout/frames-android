@@ -1,5 +1,6 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.cvvinput
 
+import com.checkout.sdk.cvvinput.CvvInputUseCase
 import com.checkout.sdk.store.DataStore
 import junit.framework.Assert.assertEquals
 import org.junit.Test

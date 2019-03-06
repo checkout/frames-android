@@ -1,5 +1,6 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.cvvinput
 
+import com.checkout.sdk.cvvinput.CvvInputPresenter
 import com.checkout.sdk.store.DataStore
 import org.junit.Before
 import org.junit.Test

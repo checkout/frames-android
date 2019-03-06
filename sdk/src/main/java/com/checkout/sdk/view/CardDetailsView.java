@@ -19,7 +19,7 @@ import com.android.volley.VolleyError;
 import com.checkout.sdk.CheckoutAPIClient;
 import com.checkout.sdk.input.BillingInput;
 import com.checkout.sdk.cardinput.CardInput;
-import com.checkout.sdk.input.CvvInput;
+import com.checkout.sdk.cvvinput.CvvInput;
 import com.checkout.sdk.input.DefaultInput;
 import com.checkout.sdk.monthinput.MonthInput;
 import com.checkout.sdk.yearinput.YearInput;

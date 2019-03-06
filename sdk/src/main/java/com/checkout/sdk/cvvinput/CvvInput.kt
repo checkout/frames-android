@@ -1,11 +1,11 @@
-package com.checkout.sdk.input
+package com.checkout.sdk.cvvinput
 
 import android.content.Context
 import android.text.Editable
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.presenter.CvvInputPresenter
+import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 

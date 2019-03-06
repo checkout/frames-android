@@ -1,4 +1,4 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.store.DataStore

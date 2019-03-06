@@ -1,4 +1,4 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.yearinput
 
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.yearinput.YearSelectedUseCase
