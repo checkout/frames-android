@@ -1,7 +1,7 @@
 package com.checkout.sdk.cardinput
 
 import android.text.Editable
-import com.checkout.sdk.cardinput.CardInputPresenter
+import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.CardUtils
 import org.junit.Before
@@ -20,19 +20,18 @@ class CardInputPresenterTest {
     private lateinit var dataStore: DataStore
 
     @Mock
-    private lateinit var viewMock: CardInputPresenter.CardInputView
+    private lateinit var viewMock: MvpView<CardInputUiState>
 
     @Mock
     private lateinit var editable: Editable
 
-    private lateinit var initialState: CardInputPresenter.CardInputUiState
+    private lateinit var initialState: CardInputUiState
 
     private lateinit var presenter: CardInputPresenter
 
     @Before
     fun onSetup() {
-        initialState =
-                CardInputPresenter.CardInputUiState("1234", CardUtils.Cards.JCB, false, false)
+        initialState = CardInputUiState("1234", CardUtils.Cards.JCB, false, false)
         presenter = CardInputPresenter(dataStore, initialState)
     }
 
@@ -56,7 +55,7 @@ class CardInputPresenterTest {
 
     @Test
     fun `given card input result called then view should have state updated`() {
-        val expectedState = CardInputPresenter.CardInputUiState(
+        val expectedState = CardInputUiState(
             initialState.cardNumber,
             initialState.cardType,
             initialState.inputFinished,
@@ -72,8 +71,7 @@ class CardInputPresenterTest {
 
     @Test
     fun `given card input looses focus with no card number entered then should show error`() {
-        val cardInputUiState =
-            CardInputPresenter.CardInputUiState(cardNumber = "", showCardError = true)
+        val cardInputUiState = CardInputUiState(cardNumber = "", showCardError = true)
         initPresenterWithUiState(cardInputUiState)
         presenter.start(viewMock)
         reset(viewMock)
@@ -83,7 +81,7 @@ class CardInputPresenterTest {
         then(viewMock).should().onStateUpdated(cardInputUiState)
     }
 
-    private fun initPresenterWithUiState(cardInputUiState: CardInputPresenter.CardInputUiState) {
+    private fun initPresenterWithUiState(cardInputUiState: CardInputUiState) {
         initialState = cardInputUiState
         presenter = CardInputPresenter(dataStore, initialState)
     }
