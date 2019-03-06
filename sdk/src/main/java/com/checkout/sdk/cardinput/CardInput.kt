@@ -7,6 +7,7 @@ import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
+import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.AfterTextChangedListener
@@ -24,7 +25,8 @@ import com.checkout.sdk.utils.CardUtils
 class CardInput @JvmOverloads constructor(
     internal var mContext: Context,
     attrs: AttributeSet? = null
-) : android.support.v7.widget.AppCompatEditText(mContext, attrs), CardInputPresenter.CardInputView {
+) : android.support.v7.widget.AppCompatEditText(mContext, attrs),
+    MvpView<CardInputUiState> {
 
 
     private var mCardInputListener: Listener? = null
@@ -42,14 +44,15 @@ class CardInput @JvmOverloads constructor(
         // Create/get and start the presenter
         presenter = PresenterStore.getOrCreate(
             CardInputPresenter::class.java,
-            { CardInputPresenter(DataStore.getInstance()) })
+            { CardInputPresenter() })
 
         presenter.start(this)
 
         // Add listener for text input
         addTextChangedListener(object : AfterTextChangedListener() {
             override fun afterTextChanged(text: Editable) {
-                presenter.textChanged(text)
+                val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance())
+                presenter.textChanged(cardInputUseCase)
             }
         })
 
@@ -57,7 +60,8 @@ class CardInput @JvmOverloads constructor(
 
         // When the CardInput loses focus check if the card number is not valid and trigger an error
         onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            presenter.focusChanged(hasFocus)
+            val cardFocusUseCase = CardFocusUseCase(hasFocus, DataStore.getInstance())
+            presenter.focusChanged(cardFocusUseCase)
         }
     }
 
@@ -66,7 +70,7 @@ class CardInput @JvmOverloads constructor(
         presenter.stop()
     }
 
-    override fun onStateUpdated(uiState: CardInputPresenter.CardInputUiState) {
+    override fun onStateUpdated(uiState: CardInputUiState) {
         // Get Card type
         filters =
                 arrayOf<InputFilter>(InputFilter.LengthFilter(uiState.cardType.maxCardLength))
@@ -93,15 +97,16 @@ class CardInput @JvmOverloads constructor(
         }
     }
 
-    private fun restoreCardNumberIfNecessary(cardInputResult: CardInputPresenter.CardInputUiState) {
+    private fun restoreCardNumberIfNecessary(cardInputResult: CardInputUiState) {
         if (text.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
             setText(cardInputResult.cardNumber)
             setSelection(cardInputResult.cardNumber.length)
-            presenter.textChanged(text)
+            val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance())
+            presenter.textChanged(cardInputUseCase)
         }
     }
 
-    private fun showOrClearErrors(cardInputResult: CardInputPresenter.CardInputUiState) {
+    private fun showOrClearErrors(cardInputResult: CardInputUiState) {
         mCardInputListener?.let {
             if (cardInputResult.showCardError) {
                 it.onCardError()

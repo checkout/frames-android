@@ -28,12 +28,7 @@ open class CardInputUseCase(
         dataStore.cardNumber = sanitized
         dataStore.cvvLength = cardType.maxCvvLength
 
-        return CardInputResult(
-            sanitized,
-            cardType,
-            isCardValid,
-            false
-        )
+        return CardInputResult(sanitized, cardType, isCardValid, false)
     }
 
     private fun sanitizeEntry(entry: String): String {
