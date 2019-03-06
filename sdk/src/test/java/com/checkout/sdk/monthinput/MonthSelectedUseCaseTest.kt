@@ -1,6 +1,5 @@
 package com.checkout.sdk.monthinput
 
-import com.checkout.sdk.monthinput.MonthSelectedUseCase
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.DateFormatter
 import junit.framework.Assert.assertEquals
