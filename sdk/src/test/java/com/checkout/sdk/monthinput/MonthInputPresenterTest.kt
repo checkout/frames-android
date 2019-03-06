@@ -1,5 +1,6 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.monthinput
 
+import com.checkout.sdk.monthinput.MonthInputPresenter
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.DateFormatter
 import org.junit.Before

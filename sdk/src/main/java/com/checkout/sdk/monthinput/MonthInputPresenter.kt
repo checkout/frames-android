@@ -1,10 +1,9 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.monthinput
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.UiState
 import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.usecase.MonthSelectedUseCase
 import com.checkout.sdk.utils.DateFormatter
 import java.text.DateFormatSymbols
 
@@ -17,7 +16,11 @@ class MonthInputPresenter(
 ) {
 
     fun monthSelected(position: Int) {
-        val monthSelectedResult = MonthSelectedUseCase(dateFormatter, position, dataStore).execute()
+        val monthSelectedResult = MonthSelectedUseCase(
+            dateFormatter,
+            position,
+            dataStore
+        ).execute()
         val newState = uiState.copy(
             position = monthSelectedResult.position,
             numberString = monthSelectedResult.numberString,

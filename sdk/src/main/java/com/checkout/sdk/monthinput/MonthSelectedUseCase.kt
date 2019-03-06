@@ -1,4 +1,4 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.monthinput
 
 import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.store.DataStore
@@ -13,7 +13,11 @@ class MonthSelectedUseCase(
     override fun execute(): MonthSelectedResult {
         val numberString = dateFormatter.formatMonth(monthSelectedPosition + 1)
         dataStore.cardMonth = numberString
-        return MonthSelectedResult(monthSelectedPosition, numberString, true)
+        return MonthSelectedResult(
+            monthSelectedPosition,
+            numberString,
+            true
+        )
     }
 
     data class MonthSelectedResult(

@@ -1,4 +1,4 @@
-package com.checkout.sdk.presenter
+package com.checkout.sdk.monthinput
 
 import com.checkout.sdk.utils.DateFormatter
 import org.junit.Assert.assertEquals

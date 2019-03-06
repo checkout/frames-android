@@ -1,4 +1,4 @@
-package com.checkout.sdk.input
+package com.checkout.sdk.monthinput
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,7 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.presenter.MonthInputPresenter
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.DateFormatter
 
@@ -22,7 +21,7 @@ class MonthInput @JvmOverloads constructor(
     android.support.v7.widget.AppCompatSpinner(mContext, attrs),
     MonthInputPresenter.MonthInputView {
 
-    private var monthInputListener: MonthInput.MonthListener? = null
+    private var monthInputListener: MonthListener? = null
     private lateinit var presenter: MonthInputPresenter
 
     interface MonthListener {
@@ -40,7 +39,12 @@ class MonthInput @JvmOverloads constructor(
 
         presenter = PresenterStore.getOrCreate(
             MonthInputPresenter::class.java,
-            { MonthInputPresenter(DateFormatter(), DataStore.getInstance()) })
+            {
+                MonthInputPresenter(
+                    DateFormatter(),
+                    DataStore.getInstance()
+                )
+            })
         presenter.start(this)
 
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -97,7 +101,7 @@ class MonthInput @JvmOverloads constructor(
     /**
      * Used to set the callback listener for when the month input is completed
      */
-    fun setMonthListener(listener: MonthInput.MonthListener) {
+    fun setMonthListener(listener: MonthListener) {
         this.monthInputListener = listener
     }
 }

@@ -1,5 +1,6 @@
-package com.checkout.sdk.usecase
+package com.checkout.sdk.monthinput
 
+import com.checkout.sdk.monthinput.MonthSelectedUseCase
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.DateFormatter
 import junit.framework.Assert.assertEquals
@@ -23,7 +24,11 @@ class MonthSelectedUseCaseTest {
     fun `given valid card without focus then card focus result is error`() {
         val expectedResult = MonthSelectedUseCase.MonthSelectedResult(6, "06", true)
         given(dateFormatter.formatMonth(expectedResult.position + 1)).willReturn(expectedResult.numberString)
-        val monthSelectedResult = MonthSelectedUseCase(dateFormatter, expectedResult.position, dataStoreMock).execute()
+        val monthSelectedResult = MonthSelectedUseCase(
+            dateFormatter,
+            expectedResult.position,
+            dataStoreMock
+        ).execute()
 
         assertEquals(expectedResult, monthSelectedResult)
         then(dataStoreMock).should().cardMonth = expectedResult.numberString

@@ -21,7 +21,7 @@ import com.checkout.sdk.input.BillingInput;
 import com.checkout.sdk.cardinput.CardInput;
 import com.checkout.sdk.input.CvvInput;
 import com.checkout.sdk.input.DefaultInput;
-import com.checkout.sdk.input.MonthInput;
+import com.checkout.sdk.monthinput.MonthInput;
 import com.checkout.sdk.input.YearInput;
 import com.checkout.sdk.models.BillingModel;
 import com.checkout.sdk.models.PhoneModel;

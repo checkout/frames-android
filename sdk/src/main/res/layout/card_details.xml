@@ -114,7 +114,7 @@
                     android:layout_marginTop="@dimen/basic_field_margin_top"
                     android:orientation="horizontal">
 
-                    <com.checkout.sdk.input.MonthInput
+                    <com.checkout.sdk.monthinput.MonthInput
                         android:id="@+id/month_input"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
