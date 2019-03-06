@@ -28,9 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.checkout.sdk.CheckoutAPIClient;
-import com.checkout.sdk.Response.GooglePayTokenisationFail;
-import com.checkout.sdk.Response.GooglePayTokenisationResponse;
-import com.checkout.sdk.Utils.Environment;
+import com.checkout.sdk.response.GooglePayTokenisationFail;
+import com.checkout.sdk.response.GooglePayTokenisationResponse;
+import com.checkout.sdk.utils.Environment;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;

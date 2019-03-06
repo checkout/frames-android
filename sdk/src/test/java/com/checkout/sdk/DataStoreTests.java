@@ -1,6 +1,6 @@
 package com.checkout.sdk;
 
-import com.checkout.sdk.Store.DataStore;
+import com.checkout.sdk.store.DataStore;
 
 import org.junit.Test;
 

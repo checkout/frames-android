@@ -7,12 +7,12 @@ import android.support.v7.app.AlertDialog;
 
 import com.android.volley.VolleyError;
 import com.checkout.sdk.CheckoutAPIClient;
-import com.checkout.sdk.Models.BillingModel;
-import com.checkout.sdk.Models.PhoneModel;
-import com.checkout.sdk.Request.CardTokenisationRequest;
-import com.checkout.sdk.Response.CardTokenisationFail;
-import com.checkout.sdk.Response.CardTokenisationResponse;
-import com.checkout.sdk.Utils.Environment;
+import com.checkout.sdk.models.BillingModel;
+import com.checkout.sdk.models.PhoneModel;
+import com.checkout.sdk.request.CardTokenisationRequest;
+import com.checkout.sdk.response.CardTokenisationFail;
+import com.checkout.sdk.response.CardTokenisationResponse;
+import com.checkout.sdk.utils.Environment;
 
 import checkout.com.demo.R;
 

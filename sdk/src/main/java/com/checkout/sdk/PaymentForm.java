@@ -12,16 +12,16 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
-import com.checkout.sdk.Models.BillingModel;
-import com.checkout.sdk.Response.CardTokenisationFail;
-import com.checkout.sdk.Response.CardTokenisationResponse;
-import com.checkout.sdk.Store.DataStore;
-import com.checkout.sdk.Utils.CardUtils;
-import com.checkout.sdk.Utils.CustomAdapter;
-import com.checkout.sdk.Utils.Environment;
-import com.checkout.sdk.Utils.PhoneUtils;
-import com.checkout.sdk.View.BillingDetailsView;
-import com.checkout.sdk.View.CardDetailsView;
+import com.checkout.sdk.models.BillingModel;
+import com.checkout.sdk.response.CardTokenisationFail;
+import com.checkout.sdk.response.CardTokenisationResponse;
+import com.checkout.sdk.store.DataStore;
+import com.checkout.sdk.utils.CardUtils;
+import com.checkout.sdk.utils.CustomAdapter;
+import com.checkout.sdk.utils.Environment;
+import com.checkout.sdk.utils.PhoneUtils;
+import com.checkout.sdk.view.BillingDetailsView;
+import com.checkout.sdk.view.CardDetailsView;
 
 import java.util.Locale;
 

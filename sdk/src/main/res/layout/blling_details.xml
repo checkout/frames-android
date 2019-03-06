@@ -33,7 +33,7 @@
                 android:hint="@string/placeholder_name"
                 app:errorTextAppearance="@style/Error">
 
-                <com.checkout.sdk.Input.DefaultInput
+                <com.checkout.sdk.input.DefaultInput
                     android:id="@+id/name_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:hint="@string/placeholder_address_one"
                 app:errorTextAppearance="@style/Error">
 
-                <com.checkout.sdk.Input.AddressOneInput
+                <com.checkout.sdk.input.AddressOneInput
                     android:id="@+id/address_one_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:hint="@string/placeholder_address_two"
                 app:errorTextAppearance="@style/Error">
 
-                <com.checkout.sdk.Input.DefaultInput
+                <com.checkout.sdk.input.DefaultInput
                     android:id="@+id/address_two_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 android:hint="@string/placeholder_city"
                 app:errorTextAppearance="@style/Error">
 
-                <com.checkout.sdk.Input.DefaultInput
+                <com.checkout.sdk.input.DefaultInput
                     android:id="@+id/city_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                 android:hint="@string/placeholder_state"
                 app:errorTextAppearance="@style/Error">
 
-                <com.checkout.sdk.Input.DefaultInput
+                <com.checkout.sdk.input.DefaultInput
                     android:id="@+id/state_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                 android:hint="@string/placeholder_postcode"
                 app:errorTextAppearance="@style/Error">
 
-                <com.checkout.sdk.Input.DefaultInput
+                <com.checkout.sdk.input.DefaultInput
                     android:id="@+id/zipcode_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
             </android.support.design.widget.TextInputLayout>
 
 
-            <com.checkout.sdk.Input.CountryInput
+            <com.checkout.sdk.input.CountryInput
                 android:id="@+id/country_input"
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
@@ -200,7 +200,7 @@
                 android:hint="@string/placeholder_phone"
                 app:errorTextAppearance="@style/Error">
 
-                <com.checkout.sdk.Input.PhoneInput
+                <com.checkout.sdk.input.PhoneInput
                     android:id="@+id/phone_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -161,7 +161,7 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../com/checkout/android_sdk/CheckoutAPIClient.html#CheckoutAPIClient-android.content.Context-java.lang.String-com.checkout.android_sdk.Utils.Environment-">CheckoutAPIClient</a></span>(android.content.Context&nbsp;context,
                  java.lang.String&nbsp;key,
-                 <a href="../../../com/checkout/android_sdk/Utils/Environment.html" title="enum in com.checkout.sdk.Utils">Environment</a>&nbsp;environment)</code>&nbsp;</td>
+                 <a href="../../../com/checkout/android_sdk/Utils/Environment.html" title="enum in com.checkout.sdk.utils">Environment</a>&nbsp;environment)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -187,7 +187,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../com/checkout/android_sdk/CheckoutAPIClient.html#generateToken-com.checkout.android_sdk.Request.CardTokenisationRequest-">generateToken</a></span>(<a href="../../../com/checkout/android_sdk/Request/CardTokenisationRequest.html" title="class in com.checkout.sdk.Request">CardTokenisationRequest</a>&nbsp;request)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../com/checkout/android_sdk/CheckoutAPIClient.html#generateToken-com.checkout.android_sdk.Request.CardTokenisationRequest-">generateToken</a></span>(<a href="../../../com/checkout/android_sdk/Request/CardTokenisationRequest.html" title="class in com.checkout.sdk.request">CardTokenisationRequest</a>&nbsp;request)</code>
 <div class="block">This method is used to generate a card token.</div>
 </td>
 </tr>
@@ -225,7 +225,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="CheckoutAPIClient-android.content.Context-java.lang.String-com.checkout.sdk.Utils.Environment-">
+<a name="CheckoutAPIClient-android.content.Context-java.lang.String-com.checkout.sdk.utils.Environment-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -233,7 +233,7 @@ extends java.lang.Object</pre>
 <h4>CheckoutAPIClient</h4>
 <pre>public&nbsp;CheckoutAPIClient(android.content.Context&nbsp;context,
                          java.lang.String&nbsp;key,
-                         <a href="../../../com/checkout/android_sdk/Utils/Environment.html" title="enum in com.checkout.sdk.Utils">Environment</a>&nbsp;environment)</pre>
+                         <a href="../../../com/checkout/android_sdk/Utils/Environment.html" title="enum in com.checkout.sdk.utils">Environment</a>&nbsp;environment)</pre>
 </li>
 </ul>
 <a name="CheckoutAPIClient-android.content.Context-java.lang.String-">
@@ -254,16 +254,16 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="generateToken-com.checkout.sdk.Request.CardTokenisationRequest-">
+<a name="generateToken-com.checkout.sdk.request.CardTokenisationRequest-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>generateToken</h4>
-<pre>public&nbsp;void&nbsp;generateToken(<a href="../../../com/checkout/android_sdk/Request/CardTokenisationRequest.html" title="class in com.checkout.sdk.Request">CardTokenisationRequest</a>&nbsp;request)</pre>
+<pre>public&nbsp;void&nbsp;generateToken(<a href="../../../com/checkout/android_sdk/Request/CardTokenisationRequest.html" title="class in com.checkout.sdk.request">CardTokenisationRequest</a>&nbsp;request)</pre>
 <div class="block">This method is used to generate a card token.
  <p>
- It takes a <a href="../../../com/checkout/android_sdk/Request/CardTokenisationRequest.html" title="class in com.checkout.sdk.Request"><code>CardTokenisationRequest</code></a> as the argument and it will perform a
+ It takes a <a href="../../../com/checkout/android_sdk/Request/CardTokenisationRequest.html" title="class in com.checkout.sdk.request"><code>CardTokenisationRequest</code></a> as the argument and it will perform a
  HTTP Post request to generate the token. it is important to you select an environment and
  provide your public key before calling tis method. Moreover it is important to set a callback
  <a href="../../../com/checkout/android_sdk/CheckoutAPIClient.OnTokenGenerated.html" title="interface in com.checkout.sdk"><code>CheckoutAPIClient.OnTokenGenerated</code></a> so you can receive the token back.
