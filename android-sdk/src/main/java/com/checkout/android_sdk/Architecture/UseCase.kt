@@ -1,6 +1,6 @@
 package com.checkout.android_sdk.Architecture
 
 
-interface UseCase {
-    fun execute()
+interface UseCase<out T> {
+    fun execute(): T
 }

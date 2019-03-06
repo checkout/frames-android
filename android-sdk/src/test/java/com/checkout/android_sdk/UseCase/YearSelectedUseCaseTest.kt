@@ -14,17 +14,13 @@ class YearSelectedUseCaseTest {
     @Mock
     private lateinit var dataStoreMock: DataStore
 
-    @Mock
-    private lateinit var callbackMock: YearSelectedUseCase.Callback
-
     @Test
     fun `given year is selected then it should be communicated to the data store and called back`() {
         val years = listOf("2022", "2023")
         val expectedPosition = 1
 
-        YearSelectedUseCase(dataStoreMock, years, expectedPosition, callbackMock).execute()
+        val position = YearSelectedUseCase(dataStoreMock, years, expectedPosition).execute()
 
-        then(callbackMock).should().onYearSelected(expectedPosition)
         then(dataStoreMock).should().cardYear = years[expectedPosition]
     }
 }

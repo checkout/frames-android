@@ -14,13 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class CardInputUseCaseTest {
 
-    // TODO: I think DataStore will disappear, or signigicantly change, so I am not going to
-    // TODO: write any test assertions for it
     @Mock
     private lateinit var dataStore: DataStore
-
-    @Mock
-    private lateinit var callbackMock: CardInputUseCase.Callback
 
     @Mock
     lateinit var editable: Editable
@@ -30,10 +25,10 @@ class CardInputUseCaseTest {
         val cardNumber = "1234"
         given(editable.toString()).willReturn(cardNumber)
 
-        CardInputUseCase(editable, dataStore, callbackMock).execute()
+        val cardInputResult = CardInputUseCase(editable, dataStore).execute()
 
         val expectedResult = CardInputUseCase.CardInputResult(cardNumber, CardUtils.Cards.DEFAULT, false, false)
-        then(callbackMock).should().onCardInputResult(expectedResult)
+        assertEquals(expectedResult, cardInputResult)
         assertEquals(cardNumber, editable.toString())
     }
 
@@ -43,10 +38,10 @@ class CardInputUseCaseTest {
         val nonSpacedVisaNumber = "4242424242424242"
         given(editable.toString()).willReturn(spacedVisaNumber)
 
-        CardInputUseCase(editable, dataStore, callbackMock).execute()
+        val cardInputResult = CardInputUseCase(editable, dataStore).execute()
 
         val expectedResult = CardInputUseCase.CardInputResult(nonSpacedVisaNumber, CardUtils.Cards.VISA, true, false)
-        then(callbackMock).should().onCardInputResult(expectedResult)
+        assertEquals(expectedResult, cardInputResult)
         assertEquals(spacedVisaNumber, editable.toString())
     }
 
@@ -56,10 +51,10 @@ class CardInputUseCaseTest {
         val visaNumberSpaced = "4242 4"
         given(editable.toString()).willReturn(visaNumberToBeSpaced)
 
-        CardInputUseCase(editable, dataStore, callbackMock).execute()
+        val cardInputResult = CardInputUseCase(editable, dataStore).execute()
 
         val expectedResult = CardInputUseCase.CardInputResult(visaNumberToBeSpaced, CardUtils.Cards.VISA, false, false)
-        then(callbackMock).should().onCardInputResult(expectedResult)
+        assertEquals(expectedResult, cardInputResult)
         then(editable).should().replace(0, visaNumberToBeSpaced.length, visaNumberSpaced)
     }
 

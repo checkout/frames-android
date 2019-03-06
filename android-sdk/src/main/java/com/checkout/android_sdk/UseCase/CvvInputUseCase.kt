@@ -6,17 +6,11 @@ import com.checkout.android_sdk.Store.DataStore
 
 class CvvInputUseCase(
     private val dataStore: DataStore,
-    private val cvv: String,
-    private val callback: Callback
-) : UseCase {
+    private val cvv: String
+) : UseCase<Boolean> {
 
-    override fun execute() {
+    override fun execute(): Boolean {
         dataStore.cardCvv = cvv
-        callback.onCvvUpdated(cvv, false)
+        return false
     }
-
-    interface Callback {
-        fun onCvvUpdated(cvv: String, showError: Boolean)
-    }
-
 }

@@ -8,11 +8,10 @@ import com.checkout.android_sdk.Utils.CardUtils
 
 open class CardInputUseCase(
     private val editableText: Editable,
-    private val dataStore: DataStore,
-    private val callback: Callback
-) : UseCase {
+    private val dataStore: DataStore
+) : UseCase<CardInputUseCase.CardInputResult> {
 
-    override fun execute() {
+    override fun execute(): CardInputResult {
         // Remove Spaces
         val sanitized = sanitizeEntry(editableText.toString())
         // Format number
@@ -29,8 +28,7 @@ open class CardInputUseCase(
         dataStore.cardNumber = sanitized
         dataStore.cvvLength = cardType.maxCvvLength
 
-        val cardResult = CardInputResult(sanitized, cardType, isCardValid, false)
-        callback.onCardInputResult(cardResult)
+        return CardInputResult(sanitized, cardType, isCardValid, false)
     }
 
     private fun sanitizeEntry(entry: String): String {
@@ -43,10 +41,6 @@ open class CardInputUseCase(
 
     private fun hasDesiredLength(number: String, cardType: CardUtils.Cards) =
         number.length in cardType.cardLength
-
-    interface Callback {
-        fun onCardInputResult(cardInputResult: CardInputResult)
-    }
 
     data class CardInputResult(
         val cardNumber: String,

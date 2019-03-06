@@ -24,16 +24,17 @@ class YearInputPresenterTest {
 
     @Before
     fun onSetup() {
-        initialState = YearInputPresenter.YearInputUiState(listOf("2080, 2081"), 3)
+        initialState =
+                YearInputPresenter.YearInputUiState(listOf("2080", "2081", "2082", "2083", "2084"), 3)
         presenter = YearInputPresenter(dataStore, initialState)
     }
 
     @Test
     fun `given year selected then view should be updated with selected year`() {
-        val newPosition = 5
+        val newPosition = 4
         val expectedState = initialState.copy(position = newPosition)
         presenter.start(viewMock)
-        presenter.onYearSelected(newPosition)
+        presenter.yearSelected(newPosition)
 
         then(viewMock).should().onStateUpdated(expectedState)
     }
