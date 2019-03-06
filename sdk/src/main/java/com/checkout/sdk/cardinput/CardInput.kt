@@ -44,14 +44,15 @@ class CardInput @JvmOverloads constructor(
         // Create/get and start the presenter
         presenter = PresenterStore.getOrCreate(
             CardInputPresenter::class.java,
-            { CardInputPresenter(DataStore.getInstance()) })
+            { CardInputPresenter() })
 
         presenter.start(this)
 
         // Add listener for text input
         addTextChangedListener(object : AfterTextChangedListener() {
             override fun afterTextChanged(text: Editable) {
-                presenter.textChanged(text)
+                val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance())
+                presenter.textChanged(cardInputUseCase)
             }
         })
 
@@ -59,7 +60,8 @@ class CardInput @JvmOverloads constructor(
 
         // When the CardInput loses focus check if the card number is not valid and trigger an error
         onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            presenter.focusChanged(hasFocus)
+            val cardFocusUseCase = CardFocusUseCase(hasFocus, DataStore.getInstance())
+            presenter.focusChanged(cardFocusUseCase)
         }
     }
 
@@ -99,7 +101,8 @@ class CardInput @JvmOverloads constructor(
         if (text.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
             setText(cardInputResult.cardNumber)
             setSelection(cardInputResult.cardNumber.length)
-            presenter.textChanged(text)
+            val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance())
+            presenter.textChanged(cardInputUseCase)
         }
     }
 
