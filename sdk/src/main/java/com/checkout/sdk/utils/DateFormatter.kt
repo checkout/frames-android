@@ -14,5 +14,4 @@ open class DateFormatter {
         val monthDisplay = SimpleDateFormat("MM", Locale.getDefault())
         return monthDisplay.format(monthParse.parse(monthInteger.toString()))
     }
-
 }

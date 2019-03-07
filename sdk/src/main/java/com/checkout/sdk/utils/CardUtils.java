@@ -216,24 +216,39 @@ public class CardUtils {
         }
         if (TextUtils.isDigitsOnly(sanitizeEntry(month)) &&
                 TextUtils.isDigitsOnly(sanitizeEntry(year))) {
+            return isValidDate(Integer.valueOf(month), Integer.valueOf(year));
+        }
 
-            if (Integer.valueOf(month) < 1 || Integer.valueOf(month) > 12)
-                return false;
+        return false;
+    }
 
-            // Get current year and month
-            Calendar calendar = Calendar.getInstance();
-            int calendarYear = calendar.get(Calendar.YEAR);
-            int calendarMonth = calendar.get(Calendar.MONTH);
+    // Temporarily here to allow migration from DataStore to InMemoryStore
+    public static boolean isValidDate(int month, String year) {
+        if (year.equals("")) {
+            return false;
+        }
 
-            if (Integer.valueOf(year) < calendarYear)
-                return false;
-            if (Integer.valueOf(year) == calendarYear &&
-                    Integer.valueOf(month) < calendarMonth)
-                return false;
-
-            return true;
+        if (TextUtils.isDigitsOnly(sanitizeEntry(year))) {
+            return isValidDate(month, Integer.valueOf(year));
         }
         return false;
+    }
+
+    private static boolean isValidDate(int month, int year) {
+        if (month < 1 || month > 12)
+            return false;
+
+        // Get current year and month
+        Calendar calendar = Calendar.getInstance();
+        int calendarYear = calendar.get(Calendar.YEAR);
+        int calendarMonth = calendar.get(Calendar.MONTH);
+
+        if (year < calendarYear)
+            return false;
+        if (year == calendarYear && month < calendarMonth)
+            return false;
+
+        return true;
     }
 
     /**

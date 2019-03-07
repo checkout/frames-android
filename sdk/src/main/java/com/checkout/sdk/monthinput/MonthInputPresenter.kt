@@ -11,12 +11,14 @@ class MonthInputPresenter(
 ) : BasePresenter<MvpView<MonthInputUiState>, MonthInputUiState>(initialState) {
 
     fun monthSelected(monthSelectedUseCase: MonthSelectedUseCase) {
-        val monthSelectedResult = monthSelectedUseCase.execute()
-        val newState = uiState.copy(
-            position = monthSelectedResult.position,
-            numberString = monthSelectedResult.numberString,
-            finished = true
-        )
+        monthSelectedUseCase.execute()
+        val newState = uiState.copy(position = monthSelectedUseCase.monthSelectedPosition)
+        safeUpdateView(newState)
+    }
+
+    fun reset(monthResetUseCase: MonthResetUseCase) {
+        monthResetUseCase.execute()
+        val newState = MonthInputUiState()
         safeUpdateView(newState)
     }
 }

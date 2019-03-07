@@ -24,7 +24,9 @@ import com.checkout.sdk.request.CardTokenisationRequest
 import com.checkout.sdk.response.CardTokenisationFail
 import com.checkout.sdk.response.CardTokenisationResponse
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
+import com.checkout.sdk.utils.DateFormatter
 import com.checkout.sdk.yearinput.YearInput
 import kotlinx.android.synthetic.main.card_details.view.*
 import java.util.*
@@ -41,6 +43,8 @@ class CardDetailsView @JvmOverloads constructor(
     private val mContext: Context,
     attrs: AttributeSet? = null
 ) : LinearLayout(mContext, attrs) {
+
+    private val inMemoryStore = InMemoryStore.Factory.get()
 
     /**
      * The callback is used to communicate with the card input
@@ -108,11 +112,7 @@ class CardDetailsView @JvmOverloads constructor(
     private val mCvvInputListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
             mDataStore.cardCvv = value
-            if (value.length == mDataStore.cvvLength) {
-                mDataStore.isValidCardCvv = true
-            } else {
-                mDataStore.isValidCardCvv = false
-            }
+            mDataStore.isValidCardCvv = value.length == mDataStore.cvvLength
         }
 
         override fun clearInputError() {
@@ -177,11 +177,7 @@ class CardDetailsView @JvmOverloads constructor(
                 outcome = false
             }
 
-            if (cvv_input.text.length == mDataStore.cvvLength) {
-                mDataStore.isValidCardCvv = true
-            } else {
-                mDataStore.isValidCardCvv = false
-            }
+            mDataStore.isValidCardCvv = cvv_input.text.length == mDataStore.cvvLength
 
             if (!mDataStore.isValidCardCvv) {
                 cvv_input_layout.error = resources.getString(R.string.error_cvv)
@@ -230,7 +226,6 @@ class CardDetailsView @JvmOverloads constructor(
         View.inflate(mContext, R.layout.card_details, this)
 
         card_input.setCardListener(mCardInputListener)
-        month_input.setMonthListener(mMonthInputListener)
         year_input.setYearListener(mYearInputListener)
         cvv_input.setListener(mCvvInputListener)
         my_toolbar.setNavigationOnClickListener {
@@ -322,9 +317,9 @@ class CardDetailsView @JvmOverloads constructor(
 
         // Check is the state contain the date and if it is check if the current selected
         // values are valid. Display error if applicable.
-        if (mDataStore.cardYear != null &&
+        if (inMemoryStore.cardMonth != null &&
             mDataStore.cardYear != null &&
-            !CardUtils.isValidDate(mDataStore.cardMonth, mDataStore.cardYear)
+            !CardUtils.isValidDate(inMemoryStore.cardMonth!!, mDataStore.cardYear)
         ) {
             mDataStore.isValidCardMonth = false
             (month_input.selectedView as TextView).error = resources
@@ -405,7 +400,7 @@ class CardDetailsView @JvmOverloads constructor(
         cvv_input_layout.error = null
         cvv_input_layout.isErrorEnabled = false
         year_input.setSelection(0)
-        month_input.setSelection(0)
+        month_input.reset()
         card_input.clear()
         card_input_layout.error = null
         card_input_layout.isErrorEnabled = false
@@ -454,7 +449,7 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                mDataStore.cardMonth,
+                DateFormatter().formatMonth(inMemoryStore.cardMonth!!),
                 mDataStore.cardYear,
                 mDataStore.cardCvv,
                 BillingModel(
@@ -474,7 +469,7 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                mDataStore.cardMonth,
+                DateFormatter().formatMonth(inMemoryStore.cardMonth!!),
                 mDataStore.cardYear,
                 mDataStore.cardCvv, null
             )

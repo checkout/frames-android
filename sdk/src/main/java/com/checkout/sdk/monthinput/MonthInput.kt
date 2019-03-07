@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
 
 /**
@@ -23,8 +23,6 @@ class MonthInput @JvmOverloads constructor(
     MvpView<MonthInputUiState> {
 
     private var monthInputListener: MonthListener? = null
-    private val dateFormatter = DateFormatter()
-    private val dataStore = DataStore.getInstance()
     private lateinit var presenter: MonthInputPresenter
 
     interface MonthListener {
@@ -54,8 +52,7 @@ class MonthInput @JvmOverloads constructor(
                 position: Int,
                 id: Long
             ) {
-                val monthSelectedUseCase =
-                    MonthSelectedUseCase(dateFormatter, position, dataStore)
+                val monthSelectedUseCase = MonthSelectedUseCase(position, InMemoryStore.Factory.get())
                 presenter.monthSelected(monthSelectedUseCase)
             }
 
@@ -92,18 +89,16 @@ class MonthInput @JvmOverloads constructor(
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             adapter = dataAdapter
         }
-        if (uiState.finished) {
-            monthInputListener?.onMonthInputFinish(uiState.numberString)
-        }
-        if (uiState.position != -1) {
+        if (selectedItemPosition != uiState.position) {
             setSelection(uiState.position)
         }
     }
 
     /**
-     * Used to set the callback listener for when the month input is completed
+     * Resets the values for the MonthInput view
      */
-    fun setMonthListener(listener: MonthListener) {
-        this.monthInputListener = listener
+    fun reset() {
+        val monthResetUseCase = MonthResetUseCase(InMemoryStore.Factory.get())
+        presenter.reset(monthResetUseCase)
     }
 }

@@ -7,18 +7,17 @@ import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
+
 @RunWith(MockitoJUnitRunner::class)
-class MonthSelectedUseCaseTest {
+class MonthResetUseCaseTest {
 
     @Mock
     private lateinit var store: InMemoryStore
 
     @Test
-    fun `when month is selected then position is written to store`() {
-        val position = 6
-        val expectedMonth = 7
-        MonthSelectedUseCase(position, store).execute()
+    fun `when use case is executed then card month is written to the store`() {
+        MonthResetUseCase(store).execute()
 
-        then(store).should().cardMonth = expectedMonth
+        then(store).should().cardMonth = null
     }
 }
