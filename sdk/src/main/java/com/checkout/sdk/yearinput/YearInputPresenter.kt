@@ -12,6 +12,6 @@ class YearInputPresenter(
     fun yearSelected(yearSelectedUseCaseBuilder: YearSelectedUseCase.Builder) {
         val yearSelectedUseCase = yearSelectedUseCaseBuilder.years(uiState.years).build()
         yearSelectedUseCase.execute()
-        safeUpdateView(uiState.copy(position = yearSelectedUseCaseBuilder.getPosition()))
+        safeUpdateView(uiState.copy(position = yearSelectedUseCaseBuilder.position))
     }
 }

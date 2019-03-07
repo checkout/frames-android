@@ -12,7 +12,7 @@ open class YearSelectedUseCase(
 
     private constructor(builder: Builder) : this(
         builder.dataStore,
-        builder.getPosition(),
+        builder.position,
         builder.years
     )
 
@@ -20,13 +20,11 @@ open class YearSelectedUseCase(
         dataStore.cardYear = years[position]
     }
 
-    open class Builder(val dataStore: DataStore, private val position: Int) {
+    open class Builder(val dataStore: DataStore, open val position: Int) {
         lateinit var years: List<String>
             private set
 
         open fun years(years: List<String>) = apply { this.years = years }
-
-        open fun getPosition() = position
 
         open fun build() = YearSelectedUseCase(this)
     }

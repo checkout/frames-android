@@ -40,7 +40,7 @@ class YearInputPresenterTest {
         val newPosition = 4
         val expectedState = initialState.copy(position = newPosition)
         given(yearSelectedUseCaseBuilder.years(initialState.years)).willReturn(yearSelectedUseCaseBuilder)
-        given(yearSelectedUseCaseBuilder.getPosition()).willReturn(newPosition)
+        given(yearSelectedUseCaseBuilder.position).willReturn(newPosition)
         given(yearSelectedUseCaseBuilder.build()).willReturn(yearSelectedUseCase)
 
         presenter.yearSelected(yearSelectedUseCaseBuilder)
