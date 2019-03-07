@@ -3,7 +3,7 @@ package com.checkout.sdk.cvvinput
 import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.store.DataStore
 
-class CvvFocusChangedUseCase(private val cvv: String,
+open class CvvFocusChangedUseCase(private val cvv: String,
                              private val hasFocus: Boolean,
                              private val dataStore: DataStore): UseCase<Boolean> {
 

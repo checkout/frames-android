@@ -7,6 +7,7 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.DataStore
 
@@ -14,12 +15,14 @@ import com.checkout.sdk.store.DataStore
  * A custom Spinner with handling of card expiration year input
  */
 class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
-    android.support.v7.widget.AppCompatSpinner(mContext, attrs), YearInputPresenter.YearInputView {
+    android.support.v7.widget.AppCompatSpinner(mContext, attrs),
+    MvpView<YearInputUiState> {
 
     private var mYearInputListener: YearListener? = null
+    private val dataStore = DataStore.getInstance()
     private lateinit var presenter: YearInputPresenter
 
-    override fun onStateUpdated(uiState: YearInputPresenter.YearInputUiState) {
+    override fun onStateUpdated(uiState: YearInputUiState) {
         if (adapter == null) {
             val dataAdapter = ArrayAdapter(
                 mContext,
@@ -48,7 +51,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
         // Create/get and start the presenter
         presenter = PresenterStore.getOrCreate(
             YearInputPresenter::class.java,
-            { YearInputPresenter(DataStore.getInstance()) })
+            { YearInputPresenter() })
         presenter.start(this)
 
         onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
@@ -67,7 +70,8 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
                 position: Int,
                 id: Long
             ) {
-                presenter.yearSelected(position)
+                val useCaseBuilder = YearSelectedUseCase.Builder(dataStore, position)
+                presenter.yearSelected(useCaseBuilder)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.Editable
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
+import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.store.DataStore
@@ -13,13 +14,14 @@ import com.checkout.sdk.utils.AfterTextChangedListener
  * A custom EditText with validation and handling of cvv input
  */
 class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
-    android.support.v7.widget.AppCompatEditText(context, attrs), CvvInputPresenter.CvvInputView {
+    android.support.v7.widget.AppCompatEditText(context, attrs),
+    MvpView<CvvInputUiState> {
 
     private var listener: DefaultInput.Listener? = null
 
     private lateinit var presenter: CvvInputPresenter
 
-    override fun onStateUpdated(uiState: CvvInputPresenter.CvvInputUiState) {
+    override fun onStateUpdated(uiState: CvvInputUiState) {
         listener?.let {
             it.onInputFinish(uiState.cvv)
             // TODO: Missing validation to show cvv error when we step off cvv
@@ -33,17 +35,20 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         super.onAttachedToWindow()
         presenter = PresenterStore.getOrCreate(
             CvvInputPresenter::class.java,
-            { CvvInputPresenter(DataStore.getInstance()) })
+            { CvvInputPresenter() })
         presenter.start(this)
 
         addTextChangedListener(object: AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
-                presenter.inputStateChanged(s.toString())
+                val cvvInputUseCase = CvvInputUseCase(DataStore.getInstance(), s.toString())
+                presenter.inputStateChanged(cvvInputUseCase)
             }
         })
 
         onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            presenter.focusChanged(hasFocus)
+            val cvvFocusChangedUseCase =
+                CvvFocusChangedUseCase(text.toString(), hasFocus, DataStore.getInstance())
+            presenter.focusChanged(cvvFocusChangedUseCase)
         }
     }
 
