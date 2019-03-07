@@ -1,7 +1,6 @@
 package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.store.DataStore
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,9 +12,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class CvvInputPresenterTest {
-
-    @Mock
-    private lateinit var dataStore: DataStore
 
     @Mock
     private lateinit var viewMock: MvpView<CvvInputUiState>
@@ -40,7 +36,7 @@ class CvvInputPresenterTest {
     @Test
     fun `given cvv updated show the new value`() {
         val expectedState = CvvInputUiState("34", false)
-        given(cvvInputUseCase.getCvv()).willReturn(expectedState.cvv)
+        given(cvvInputUseCase.cvv).willReturn(expectedState.cvv)
 
         presenter.inputStateChanged(cvvInputUseCase)
 
