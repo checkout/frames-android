@@ -2,19 +2,19 @@ package com.checkout.sdk.view
 
 import android.app.Activity
 import android.content.Context
-import android.support.design.widget.TextInputLayout
-import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.android.volley.VolleyError
 import com.checkout.sdk.CheckoutAPIClient
 import com.checkout.sdk.R
 import com.checkout.sdk.cardinput.CardInput
-import com.checkout.sdk.cvvinput.CvvInput
 import com.checkout.sdk.input.BillingInput
 import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.models.BillingModel
@@ -26,6 +26,7 @@ import com.checkout.sdk.response.CardTokenisationResponse
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.CardUtils
 import com.checkout.sdk.yearinput.YearInput
+import kotlinx.android.synthetic.main.card_details.view.*
 import java.util.*
 
 /**
@@ -51,17 +52,17 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private val mCardInputListener = object : CardInput.Listener {
         override fun onCardInputFinish(number: String) {
-            mDataStore!!.isValidCardNumber = true
+            mDataStore.isValidCardNumber = true
         }
 
         override fun onCardError() {
-            mCardLayout!!.error = resources.getString(R.string.error_card_number)
-            mDataStore!!.isValidCardNumber = false
+            card_input_layout.error = resources.getString(R.string.error_card_number)
+            mDataStore.isValidCardNumber = false
         }
 
         override fun onClearCardError() {
-            mCardLayout!!.error = null
-            mCardLayout!!.isErrorEnabled = false
+            card_input_layout.error = null
+            card_input_layout.isErrorEnabled = false
         }
     }
 
@@ -75,8 +76,8 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private val mMonthInputListener = object : MonthInput.MonthListener {
         override fun onMonthInputFinish(month: String) {
-            mDataStore!!.cardMonth = month
-            mDataStore!!.isValidCardMonth = true
+            mDataStore.cardMonth = month
+            mDataStore.isValidCardMonth = true
         }
     }
 
@@ -90,9 +91,9 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private val mYearInputListener = object : YearInput.YearListener {
         override fun onYearInputFinish(year: String) {
-            mDataStore!!.cardYear = year
-            mDataStore!!.isValidCardYear = true
-            (mYearInput!!.selectedView as TextView).error = null
+            mDataStore.cardYear = year
+            mDataStore.isValidCardYear = true
+            (year_input.selectedView as TextView).error = null
         }
     }
 
@@ -106,32 +107,32 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private val mCvvInputListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
-            mDataStore!!.cardCvv = value
-            if (value.length == mDataStore!!.cvvLength) {
-                mDataStore!!.isValidCardCvv = true
+            mDataStore.cardCvv = value
+            if (value.length == mDataStore.cvvLength) {
+                mDataStore.isValidCardCvv = true
             } else {
-                mDataStore!!.isValidCardCvv = false
+                mDataStore.isValidCardCvv = false
             }
         }
 
         override fun clearInputError() {
-            mCvvLayout!!.error = null
-            mCvvLayout!!.isErrorEnabled = false
+            cvv_input_layout.error = null
+            cvv_input_layout.isErrorEnabled = false
         }
     }
 
     // Callback used for the outcome of the generating a token
     private val mTokenListener = object : CheckoutAPIClient.OnTokenGenerated {
         override fun onTokenGenerated(token: CardTokenisationResponse) {
-            mDetailsCompletedListener!!.onTokeGenerated(token)
+            mDetailsCompletedListener?.onTokeGenerated(token)
         }
 
         override fun onError(error: CardTokenisationFail) {
-            mDetailsCompletedListener!!.onError(error)
+            mDetailsCompletedListener?.onError(error)
         }
 
         override fun onNetworkError(error: VolleyError) {
-            mDetailsCompletedListener!!.onNetworkError(error)
+            mDetailsCompletedListener?.onNetworkError(error)
         }
     }
 
@@ -139,28 +140,15 @@ class CardDetailsView @JvmOverloads constructor(
      * The callback is used to trigger the focus change to the billing page
      */
     private val mBillingInputListener = BillingInput.BillingListener {
-        if (mGotoBillingListener != null) {
-            mGotoBillingListener!!.onGoToBillingPressed()
-        }
+        mGotoBillingListener?.onGoToBillingPressed()
     }
 
-    internal var mDataStore: DataStore? = DataStore.getInstance()
+    internal var mDataStore: DataStore = DataStore.getInstance()
     private var mGotoBillingListener: CardDetailsView.GoToBillingListener? = null
     private var mDetailsCompletedListener: CardDetailsView.DetailsCompleted? = null
     private var mCheckoutAPIClient: CheckoutAPIClient? = null
 
-    private var mCardInput: CardInput? = null
-    private var mMonthInput: MonthInput? = null
-    private var mYearInput: YearInput? = null
-    private var mGoToBilling: BillingInput? = null
-    private var mCvvInput: CvvInput? = null
-    private var mCardLayout: TextInputLayout? = null
-    private var mCvvLayout: TextInputLayout? = null
-    private var mPayButton: Button? = null
-    private var mAcceptedCardsHelper: TextView? = null
-    private var mDateHelper: TextView? = null
-    private var mBillingHelper: TextView? = null
-    private var mToolbar: Toolbar? = null
+
     private var mAcceptedCardsView: LinearLayout? = null
 
     /**
@@ -180,27 +168,27 @@ class CardDetailsView @JvmOverloads constructor(
 
             checkFullDate()
 
-            if (!mDataStore!!.isValidCardMonth) {
+            if (!mDataStore.isValidCardMonth) {
                 outcome = false
             }
 
-            if (!mDataStore!!.isValidCardNumber) {
-                mCardLayout!!.error = resources.getString(R.string.error_card_number)
+            if (!mDataStore.isValidCardNumber) {
+                card_input_layout.error = resources.getString(R.string.error_card_number)
                 outcome = false
             }
 
-            if (mCvvInput!!.text.length == mDataStore!!.cvvLength) {
-                mDataStore!!.isValidCardCvv = true
+            if (cvv_input.text.length == mDataStore.cvvLength) {
+                mDataStore.isValidCardCvv = true
             } else {
-                mDataStore!!.isValidCardCvv = false
+                mDataStore.isValidCardCvv = false
             }
 
-            if (!mDataStore!!.isValidCardCvv) {
-                mCvvLayout!!.error = resources.getString(R.string.error_cvv)
+            if (!mDataStore.isValidCardCvv) {
+                cvv_input_layout.error = resources.getString(R.string.error_cvv)
                 outcome = false
             } else {
-                mCvvLayout!!.error = null
-                mCvvLayout!!.isErrorEnabled = false
+                cvv_input_layout.error = null
+                cvv_input_layout.isErrorEnabled = false
             }
 
             return outcome
@@ -232,83 +220,58 @@ class CardDetailsView @JvmOverloads constructor(
         fun onGoToBillingPressed()
     }
 
-    init {
-        init()
-    }
-
     /**
      * The UI initialisation
      *
      *
      * Used to initialise element and pass callbacks as well as setting up appropriate listeners
      */
-    private fun init() {
+    init {
         View.inflate(mContext, R.layout.card_details, this)
 
-        mToolbar = findViewById(R.id.my_toolbar)
-
-        mCardInput = findViewById(R.id.card_input)
-        mCardLayout = findViewById(R.id.card_input_layout)
-        mCardInput!!.setCardListener(mCardInputListener)
-
-        mMonthInput = findViewById(R.id.month_input)
-        mMonthInput!!.setMonthListener(mMonthInputListener)
-
-        mYearInput = findViewById(R.id.year_input)
-        mYearInput!!.setYearListener(mYearInputListener)
-
-        mCvvInput = findViewById(R.id.cvv_input)
-        mCvvLayout = findViewById(R.id.cvv_input_layout)
-        mCvvInput!!.setListener(mCvvInputListener)
-
-        mBillingHelper = findViewById(R.id.billing_helper_text)
-        mGoToBilling = findViewById(R.id.go_to_billing)
-
-        mAcceptedCardsHelper = findViewById(R.id.accepted_card_helper)
-        mDateHelper = findViewById(R.id.date_helper)
-
-        mToolbar!!.setNavigationOnClickListener {
-            if (mDetailsCompletedListener != null) {
-                mDetailsCompletedListener!!.onBackPressed()
-            }
+        card_input.setCardListener(mCardInputListener)
+        month_input.setMonthListener(mMonthInputListener)
+        year_input.setYearListener(mYearInputListener)
+        cvv_input.setListener(mCvvInputListener)
+        my_toolbar.setNavigationOnClickListener {
+            mDetailsCompletedListener?.onBackPressed()
         }
 
         // Hide billing details options based on the module initialisation option
-        if (!mDataStore!!.billingVisibility) {
-            mBillingHelper!!.visibility = View.GONE
-            mGoToBilling!!.visibility = View.GONE
+        if (!mDataStore.billingVisibility) {
+            billing_helper_text.visibility = View.GONE
+            go_to_billing.visibility = View.GONE
         } else {
-            mGoToBilling!!.setBillingListener(mBillingInputListener)
+            go_to_billing.setBillingListener(mBillingInputListener)
         }
 
-        mPayButton = findViewById(R.id.pay_button)
-        if (mDataStore != null && mDataStore!!.payButtonText != null) {
-            mPayButton!!.text = mDataStore!!.payButtonText
+        if (mDataStore.payButtonText != null) {
+            pay_button.text = mDataStore.payButtonText
         }
-        if (mDataStore != null && mDataStore!!.payButtonLayout != null) {
-            mPayButton!!.layoutParams = mDataStore!!.payButtonLayout
+        if (mDataStore.payButtonLayout != null) {
+            pay_button.layoutParams = mDataStore.payButtonLayout
         }
 
-        mPayButton!!.setOnClickListener {
+        pay_button.setOnClickListener {
             // hide keyboard
             try {
                 val imm =
                     mContext.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(windowToken, 0)
+                imm.hideSoftInputFromWindow(windowToken, 0)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
-            if (mDetailsCompletedListener != null && isValidForm) {
-                mDetailsCompletedListener!!.onFormSubmit()
+            if (isValidForm) {
+                mDetailsCompletedListener?.onFormSubmit()
                 mCheckoutAPIClient = CheckoutAPIClient(
                     context, // context
-                    mDataStore!!.key, // your public key
-                    mDataStore!!.environment
+                    mDataStore.key, // your public key
+                    mDataStore.environment
                 )
-                mCheckoutAPIClient!!.setTokenListener(mTokenListener)
+                mCheckoutAPIClient?.setTokenListener(mTokenListener)
                 val test = generateRequest()
-                mCheckoutAPIClient!!.generateToken(test)
+                mCheckoutAPIClient?.generateToken(test)
             }
         }
 
@@ -320,17 +283,17 @@ class CardDetailsView @JvmOverloads constructor(
         setAcceptedCards()
 
         // Set custom labels
-        if (mDataStore!!.acceptedLabel != null) {
-            mAcceptedCardsHelper!!.text = mDataStore!!.acceptedLabel
+        if (mDataStore.acceptedLabel != null) {
+            accepted_card_helper.text = mDataStore.acceptedLabel
         }
-        if (mDataStore!!.cardLabel != null) {
-            mCardLayout!!.hint = mDataStore!!.cardLabel
+        if (mDataStore.cardLabel != null) {
+            card_input_layout.hint = mDataStore.cardLabel
         }
-        if (mDataStore!!.dateLabel != null) {
-            mDateHelper!!.text = mDataStore!!.dateLabel
+        if (mDataStore.dateLabel != null) {
+            date_helper.text = mDataStore.dateLabel
         }
-        if (mDataStore!!.cvvLabel != null) {
-            mCvvLayout!!.hint = mDataStore!!.cvvLabel
+        if (mDataStore.cvvLabel != null) {
+            cvv_input_layout.hint = mDataStore.cvvLabel
         }
     }
 
@@ -359,16 +322,16 @@ class CardDetailsView @JvmOverloads constructor(
 
         // Check is the state contain the date and if it is check if the current selected
         // values are valid. Display error if applicable.
-        if (mDataStore!!.cardYear != null &&
-            mDataStore!!.cardYear != null &&
-            !CardUtils.isValidDate(mDataStore!!.cardMonth, mDataStore!!.cardYear)
+        if (mDataStore.cardYear != null &&
+            mDataStore.cardYear != null &&
+            !CardUtils.isValidDate(mDataStore.cardMonth, mDataStore.cardYear)
         ) {
-            mDataStore!!.isValidCardMonth = false
-            (mMonthInput!!.selectedView as TextView).error = resources
+            mDataStore.isValidCardMonth = false
+            (month_input.selectedView as TextView).error = resources
                 .getString(R.string.error_expiration_date)
             return false
         }
-        mDataStore!!.isValidCardMonth = true
+        mDataStore.isValidCardMonth = true
         return true
     }
 
@@ -391,8 +354,8 @@ class CardDetailsView @JvmOverloads constructor(
             android.R.layout.simple_spinner_item, billingElement
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mGoToBilling!!.adapter = dataAdapter
-        mGoToBilling!!.setSelection(0)
+        go_to_billing.adapter = dataAdapter
+        go_to_billing.setSelection(0)
     }
 
     /**
@@ -405,10 +368,10 @@ class CardDetailsView @JvmOverloads constructor(
      */
     fun updateBillingSpinner() {
 
-        val address = mDataStore!!.customerAddress1 +
-                ", " + mDataStore!!.customerAddress2 +
-                ", " + mDataStore!!.customerCity +
-                ", " + mDataStore!!.customerState
+        val address = mDataStore.customerAddress1 +
+                ", " + mDataStore.customerAddress2 +
+                ", " + mDataStore.customerCity +
+                ", " + mDataStore.customerState
 
         // Avoid updates for there are no values set
         if (address.length > 6) {
@@ -422,8 +385,8 @@ class CardDetailsView @JvmOverloads constructor(
                 android.R.layout.simple_spinner_item, billingElement
             )
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            mGoToBilling!!.adapter = dataAdapter
-            mGoToBilling!!.setSelection(0)
+            go_to_billing.adapter = dataAdapter
+            go_to_billing.setSelection(0)
         }
     }
 
@@ -433,19 +396,19 @@ class CardDetailsView @JvmOverloads constructor(
      *
      */
     fun resetFields() {
-        if (mDataStore != null && mDataStore!!.defaultBillingDetails != null) {
+        if (mDataStore.defaultBillingDetails != null) {
             updateBillingSpinner()
         } else {
             clearBillingSpinner()
         }
-        mCvvInput!!.setText("")
-        mCvvLayout!!.error = null
-        mCvvLayout!!.isErrorEnabled = false
-        mYearInput!!.setSelection(0)
-        mMonthInput!!.setSelection(0)
-        mCardInput!!.clear()
-        mCardLayout!!.error = null
-        mCardLayout!!.isErrorEnabled = false
+        cvv_input.setText("")
+        cvv_input_layout.error = null
+        cvv_input_layout.isErrorEnabled = false
+        year_input.setSelection(0)
+        month_input.setSelection(0)
+        card_input.clear()
+        card_input_layout.error = null
+        card_input_layout.isErrorEnabled = false
     }
 
     /**
@@ -453,8 +416,8 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private fun setAcceptedCards() {
 
-        val allCards = if (mDataStore!!.acceptedCards != null)
-            mDataStore!!.acceptedCards
+        val allCards = if (mDataStore.acceptedCards != null)
+            mDataStore.acceptedCards
         else
             Arrays.asList<CardUtils.Cards>(*CardUtils.Cards.values()).toTypedArray()
 
@@ -473,7 +436,7 @@ class CardDetailsView @JvmOverloads constructor(
             marginParams.setMargins(0, 0, margin, 0)
 
             // Adds the view to the layout
-            mAcceptedCardsView!!.addView(image)
+            mAcceptedCardsView?.addView(image)
         }
 
     }
@@ -487,33 +450,33 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private fun generateRequest(): CardTokenisationRequest {
         val request: CardTokenisationRequest
-        if (mDataStore!!.isBillingCompleted) {
+        if (mDataStore.isBillingCompleted) {
             request = CardTokenisationRequest(
-                sanitizeEntry(mDataStore!!.cardNumber),
-                mDataStore!!.customerName,
-                mDataStore!!.cardMonth,
-                mDataStore!!.cardYear,
-                mDataStore!!.cardCvv,
+                sanitizeEntry(mDataStore.cardNumber),
+                mDataStore.customerName,
+                mDataStore.cardMonth,
+                mDataStore.cardYear,
+                mDataStore.cardCvv,
                 BillingModel(
-                    mDataStore!!.customerAddress1,
-                    mDataStore!!.customerAddress2,
-                    mDataStore!!.customerZipcode,
-                    mDataStore!!.customerCountry,
-                    mDataStore!!.customerCity,
-                    mDataStore!!.customerState,
+                    mDataStore.customerAddress1,
+                    mDataStore.customerAddress2,
+                    mDataStore.customerZipcode,
+                    mDataStore.customerCountry,
+                    mDataStore.customerCity,
+                    mDataStore.customerState,
                     PhoneModel(
-                        mDataStore!!.customerPhonePrefix,
-                        mDataStore!!.customerPhone
+                        mDataStore.customerPhonePrefix,
+                        mDataStore.customerPhone
                     )
                 )
             )
         } else {
             request = CardTokenisationRequest(
-                sanitizeEntry(mDataStore!!.cardNumber),
-                mDataStore!!.customerName,
-                mDataStore!!.cardMonth,
-                mDataStore!!.cardYear,
-                mDataStore!!.cardCvv, null
+                sanitizeEntry(mDataStore.cardNumber),
+                mDataStore.customerName,
+                mDataStore.cardMonth,
+                mDataStore.cardYear,
+                mDataStore.cardCvv, null
             )
         }
 
