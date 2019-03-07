@@ -342,12 +342,6 @@ class CardDetailsView @JvmOverloads constructor(
      * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
      */
     private fun repopulateField() {
-        //Repopulate card cvv
-        if (DataStore.getInstance().cardCvv != null) {
-            // Update the cvv field with the last input value
-            mCvvInput!!.setText(mDataStore!!.cardCvv)
-        }
-
         //Repopulate billing spinner
         updateBillingSpinner()
     }

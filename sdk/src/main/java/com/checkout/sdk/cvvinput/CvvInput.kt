@@ -22,6 +22,9 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private lateinit var presenter: CvvInputPresenter
 
     override fun onStateUpdated(uiState: CvvInputUiState) {
+        if (text.toString() != uiState.cvv) {
+            setText(uiState.cvv)
+        }
         listener?.let {
             it.onInputFinish(uiState.cvv)
             // TODO: Missing validation to show cvv error when we step off cvv
