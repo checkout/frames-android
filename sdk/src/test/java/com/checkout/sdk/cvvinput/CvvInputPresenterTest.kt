@@ -1,6 +1,6 @@
 package com.checkout.sdk.cvvinput
 
-import com.checkout.sdk.cvvinput.CvvInputPresenter
+import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.store.DataStore
 import org.junit.Before
 import org.junit.Test
@@ -18,33 +18,43 @@ class CvvInputPresenterTest {
     private lateinit var dataStore: DataStore
 
     @Mock
-    private lateinit var viewMock: CvvInputPresenter.CvvInputView
+    private lateinit var viewMock: MvpView<CvvInputUiState>
+
+    @Mock
+    private lateinit var cvvInputUseCase: CvvInputUseCase
+
+    @Mock
+    private lateinit var cvvFocusChangedUseCase: CvvFocusChangedUseCase
 
     private lateinit var presenter: CvvInputPresenter
 
-    private lateinit var initialState: CvvInputPresenter.CvvInputUiState
+    private lateinit var initialState: CvvInputUiState
 
     @Before
     fun onSetup() {
-        initialState = CvvInputPresenter.CvvInputUiState("12", false)
-        presenter = CvvInputPresenter(dataStore, initialState)
+        initialState = CvvInputUiState("12", false)
+        presenter = CvvInputPresenter(initialState)
         presenter.start(viewMock)
     }
 
     @Test
     fun `given cvv updated show the new value`() {
-        val expectedState = CvvInputPresenter.CvvInputUiState("34", false)
-        presenter.inputStateChanged(expectedState.cvv)
+        val expectedState = CvvInputUiState("34", false)
+        given(cvvInputUseCase.getCvv()).willReturn(expectedState.cvv)
+
+        presenter.inputStateChanged(cvvInputUseCase)
 
         then(viewMock).should().onStateUpdated(expectedState)
     }
 
     @Test
-    fun `given cvv focus updated and it has an error then error should be shown`() {
-        given(dataStore.cvvLength).willReturn(3)
-        presenter.focusChanged(false)
+    fun `given cvv focus changed and it has an error then error should be shown`() {
+        val expectedError = true
+        given(cvvFocusChangedUseCase.execute()).willReturn(expectedError)
 
-        then(viewMock).should().onStateUpdated(initialState.copy(showError = true))
+        presenter.focusChanged(cvvFocusChangedUseCase)
+
+        then(viewMock).should().onStateUpdated(initialState.copy(showError = expectedError))
     }
 
 }

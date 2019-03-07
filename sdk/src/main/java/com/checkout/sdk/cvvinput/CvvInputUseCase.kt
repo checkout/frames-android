@@ -4,7 +4,7 @@ import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.store.DataStore
 
 
-class CvvInputUseCase(
+open class CvvInputUseCase(
     private val dataStore: DataStore,
     private val cvv: String
 ) : UseCase<Boolean> {
@@ -13,4 +13,6 @@ class CvvInputUseCase(
         dataStore.cardCvv = cvv
         return false
     }
+
+    open fun getCvv() = cvv
 }
