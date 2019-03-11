@@ -106,7 +106,7 @@ class MonthInput @JvmOverloads constructor(
         presenter.reset(monthResetUseCase)
     }
 
-    fun showError() {
-        presenter.showError()
+    fun showError(show: Boolean) {
+        presenter.showError(show)
     }
 }

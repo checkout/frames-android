@@ -7,6 +7,8 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.InMemoryStore
@@ -18,7 +20,6 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     android.support.v7.widget.AppCompatSpinner(mContext, attrs),
     MvpView<YearInputUiState> {
 
-    private var mYearInputListener: YearListener? = null
     private val store = InMemoryStore.Factory.get()
     private lateinit var presenter: YearInputPresenter
 
@@ -34,10 +35,13 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
         if (uiState.position != selectedItemPosition) {
             setSelection(uiState.position)
         }
-    }
-
-    interface YearListener {
-        fun onYearInputFinish(month: String)
+        if (selectedView != null && selectedView is TextView) {
+            if (uiState.showError) {
+                (selectedView as TextView).error = context.getString(R.string.error_expiration_date)
+            } else {
+                (selectedView as TextView).error = null
+            }
+        }
     }
 
     /**
@@ -89,17 +93,14 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     }
 
     /**
-     * Used to set the callback listener for when the year input is completed
-     */
-    fun setYearListener(listener: YearListener) {
-        this.mYearInputListener = listener
-    }
-
-    /**
      * Resets the values for the MonthInput view
      */
     fun reset() {
         val yearResetUseCase = YearResetUseCase(store)
         presenter.reset(yearResetUseCase)
+    }
+
+    fun showError(show: Boolean) {
+        presenter.showError(show)
     }
 }

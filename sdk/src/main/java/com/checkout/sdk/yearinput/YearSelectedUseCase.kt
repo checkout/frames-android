@@ -1,6 +1,7 @@
 package com.checkout.sdk.yearinput
 
 import com.checkout.sdk.architecture.UseCase
+import com.checkout.sdk.date.Year
 import com.checkout.sdk.store.InMemoryStore
 
 
@@ -17,7 +18,7 @@ open class YearSelectedUseCase(
     )
 
     override fun execute() {
-        store.cardYear = Year(Integer.parseInt(years[position]))
+        store.cardDate = store.cardDate.copy(year = Year(Integer.parseInt(years[position])))
     }
 
     open class Builder(val store: InMemoryStore, open val position: Int) {

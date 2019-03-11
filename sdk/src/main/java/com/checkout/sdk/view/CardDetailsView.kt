@@ -10,7 +10,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.android.volley.VolleyError
 import com.checkout.sdk.CheckoutAPIClient
 import com.checkout.sdk.R
@@ -67,22 +66,6 @@ class CardDetailsView @JvmOverloads constructor(
         override fun onClearCardError() {
             card_input_layout.error = null
             card_input_layout.isErrorEnabled = false
-        }
-    }
-
-    /**
-     * The callback is used to communicate with the year input
-     *
-     *
-     * The custom [YearInput] takes care of populating the values in the spinner
-     * and will trigger this callback when the user selects a new option. State is update
-     * accordingly.
-     */
-    private val mYearInputListener = object : YearInput.YearListener {
-        override fun onYearInputFinish(year: String) {
-            mDataStore.cardYear = year
-            mDataStore.isValidCardYear = true
-            (year_input.selectedView as TextView).error = null
         }
     }
 
@@ -207,7 +190,6 @@ class CardDetailsView @JvmOverloads constructor(
         View.inflate(mContext, R.layout.card_details, this)
 
         card_input.setCardListener(mCardInputListener)
-        year_input.setYearListener(mYearInputListener)
         cvv_input.setListener(mCvvInputListener)
         my_toolbar.setNavigationOnClickListener {
             mDetailsCompletedListener?.onBackPressed()
@@ -295,16 +277,13 @@ class CardDetailsView @JvmOverloads constructor(
      * @return boolean abut form validity of the date
      */
     private fun checkFullDate(): Boolean {
-
         // Check is the state contain the date and if it is check if the current selected
         // values are valid. Display error if applicable.
-        if (inMemoryStore.cardMonth.isKnown() &&
-            inMemoryStore.cardYear.isKnown() &&
-            CardUtils.isValidDate(inMemoryStore.cardMonth.monthInteger, inMemoryStore.cardYear.year)
-        ) {
+        month_input.showError(!inMemoryStore.cardDate.isMonthValid())
+        year_input.showError(!inMemoryStore.cardDate.isYearValid())
+        if (inMemoryStore.cardDate.isDateValid()) {
             return true
         }
-        month_input.showError()
         return false
     }
 
@@ -427,8 +406,8 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardMonth.monthInteger),
-                inMemoryStore.cardYear.year.toString(),
+                DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
+                inMemoryStore.cardDate.year.toString(),
                 mDataStore.cardCvv,
                 BillingModel(
                     mDataStore.customerAddress1,
@@ -447,8 +426,8 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardMonth.monthInteger),
-                inMemoryStore.cardYear.year.toString(),
+                DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
+                inMemoryStore.cardDate.year.toString(),
                 mDataStore.cardCvv, null
             )
         }

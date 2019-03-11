@@ -1,4 +1,4 @@
-package com.checkout.sdk.monthinput
+package com.checkout.sdk.date
 
 
 enum class Month(val monthInteger: Int) {

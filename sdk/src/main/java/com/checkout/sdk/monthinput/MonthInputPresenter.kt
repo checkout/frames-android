@@ -22,8 +22,8 @@ class MonthInputPresenter(
         safeUpdateView(newState)
     }
 
-    fun showError() {
-        val newState = uiState.copy(showError = true)
+    fun showError(show: Boolean) {
+        val newState = uiState.copy(showError = show)
         safeUpdateView(newState)
     }
 }

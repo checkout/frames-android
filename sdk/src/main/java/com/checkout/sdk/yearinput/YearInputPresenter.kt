@@ -19,4 +19,8 @@ class YearInputPresenter(
         yearResetUseCase.execute()
         safeUpdateView(YearInputUiState(uiState.years))
     }
+
+    fun showError(show: Boolean) {
+        safeUpdateView(uiState.copy(showError = show))
+    }
 }
