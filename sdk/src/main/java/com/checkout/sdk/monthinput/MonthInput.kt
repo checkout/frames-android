@@ -22,12 +22,7 @@ class MonthInput @JvmOverloads constructor(
     android.support.v7.widget.AppCompatSpinner(mContext, attrs),
     MvpView<MonthInputUiState> {
 
-    private var monthInputListener: MonthListener? = null
     private lateinit var presenter: MonthInputPresenter
-
-    interface MonthListener {
-        fun onMonthInputFinish(month: String)
-    }
 
     /**
      * The UI initialisation
