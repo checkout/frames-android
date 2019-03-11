@@ -4,7 +4,7 @@ import com.checkout.sdk.architecture.UiState
 import java.util.*
 
 
-data class YearInputUiState(val years: List<String>, val position: Int = -1) : UiState {
+data class YearInputUiState(val years: List<String>, val position: Int = 0) : UiState {
 
     companion object {
         private const val MAX_YEARS_IN_FUTURE = 15

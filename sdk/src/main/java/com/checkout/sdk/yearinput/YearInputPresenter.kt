@@ -14,4 +14,9 @@ class YearInputPresenter(
         yearSelectedUseCase.execute()
         safeUpdateView(uiState.copy(position = yearSelectedUseCaseBuilder.position))
     }
+
+    fun reset(yearResetUseCase: YearResetUseCase) {
+        yearResetUseCase.execute()
+        safeUpdateView(YearInputUiState(uiState.years))
+    }
 }

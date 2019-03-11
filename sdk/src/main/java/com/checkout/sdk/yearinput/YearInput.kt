@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 
 /**
  * A custom Spinner with handling of card expiration year input
@@ -19,7 +19,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     MvpView<YearInputUiState> {
 
     private var mYearInputListener: YearListener? = null
-    private val dataStore = DataStore.getInstance()
+    private val store = InMemoryStore.Factory.get()
     private lateinit var presenter: YearInputPresenter
 
     override fun onStateUpdated(uiState: YearInputUiState) {
@@ -31,7 +31,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             adapter = dataAdapter
         }
-        if (uiState.position != -1) {
+        if (uiState.position != selectedItemPosition) {
             setSelection(uiState.position)
         }
     }
@@ -70,7 +70,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
                 position: Int,
                 id: Long
             ) {
-                val useCaseBuilder = YearSelectedUseCase.Builder(dataStore, position)
+                val useCaseBuilder = YearSelectedUseCase.Builder(store, position)
                 presenter.yearSelected(useCaseBuilder)
             }
 
@@ -93,5 +93,13 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
      */
     fun setYearListener(listener: YearListener) {
         this.mYearInputListener = listener
+    }
+
+    /**
+     * Resets the values for the MonthInput view
+     */
+    fun reset() {
+        val yearResetUseCase = YearResetUseCase(store)
+        presenter.reset(yearResetUseCase)
     }
 }

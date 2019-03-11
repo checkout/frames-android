@@ -153,10 +153,6 @@ class CardDetailsView @JvmOverloads constructor(
 
             checkFullDate()
 
-            if (!mDataStore.isValidCardMonth) {
-                outcome = false
-            }
-
             if (!mDataStore.isValidCardNumber) {
                 card_input_layout.error = resources.getString(R.string.error_card_number)
                 outcome = false
@@ -302,17 +298,14 @@ class CardDetailsView @JvmOverloads constructor(
 
         // Check is the state contain the date and if it is check if the current selected
         // values are valid. Display error if applicable.
-        if (inMemoryStore.cardMonth != null &&
-            mDataStore.cardYear != null &&
-            !CardUtils.isValidDate(inMemoryStore.cardMonth!!.monthInteger, mDataStore.cardYear)
+        if (inMemoryStore.cardMonth.isKnown() &&
+            inMemoryStore.cardYear.isKnown() &&
+            CardUtils.isValidDate(inMemoryStore.cardMonth.monthInteger, inMemoryStore.cardYear.year)
         ) {
-            mDataStore.isValidCardMonth = false
-            (month_input.selectedView as TextView).error = resources
-                .getString(R.string.error_expiration_date)
-            return false
+            return true
         }
-        mDataStore.isValidCardMonth = true
-        return true
+        month_input.showError()
+        return false
     }
 
     /**
@@ -384,7 +377,7 @@ class CardDetailsView @JvmOverloads constructor(
         cvv_input.setText("")
         cvv_input_layout.error = null
         cvv_input_layout.isErrorEnabled = false
-        year_input.setSelection(0)
+        year_input.reset()
         month_input.reset()
         card_input.clear()
         card_input_layout.error = null
@@ -434,8 +427,8 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardMonth!!.monthInteger),
-                mDataStore.cardYear,
+                DateFormatter().formatMonth(inMemoryStore.cardMonth.monthInteger),
+                inMemoryStore.cardYear.year.toString(),
                 mDataStore.cardCvv,
                 BillingModel(
                     mDataStore.customerAddress1,
@@ -454,8 +447,8 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardMonth!!.monthInteger),
-                mDataStore.cardYear,
+                DateFormatter().formatMonth(inMemoryStore.cardMonth.monthInteger),
+                inMemoryStore.cardYear.year.toString(),
                 mDataStore.cardCvv, null
             )
         }

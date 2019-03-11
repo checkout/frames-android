@@ -5,7 +5,7 @@ import com.checkout.sdk.utils.DateFormatter
 import java.text.DateFormatSymbols
 
 
-data class MonthInputUiState(val months: List<String> = emptyList(), val position: Int = 0) :
+data class MonthInputUiState(val months: List<String> = emptyList(), val position: Int = 0, val showError: Boolean = false) :
     UiState {
 
     companion object {

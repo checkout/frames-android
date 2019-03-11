@@ -16,6 +16,10 @@ enum class Month(val monthInteger: Int) {
     NOVEMBER(11),
     DECEMBER(12);
 
+    fun isKnown(): Boolean {
+        return this != UNKNOWN
+    }
+
     companion object {
         fun monthFromInteger(monthInteger: Int) = values()[monthInteger]
     }

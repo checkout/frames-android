@@ -7,10 +7,13 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
+import kotlinx.android.synthetic.main.card_details.view.*
 
 /**
  * A custom Spinner with handling of card expiration month input
@@ -87,6 +90,12 @@ class MonthInput @JvmOverloads constructor(
         if (selectedItemPosition != uiState.position) {
             setSelection(uiState.position)
         }
+        if (uiState.showError) {
+            (month_input.selectedView as? TextView)?.error = context
+                .getString(R.string.error_expiration_date)
+        } else {
+            (month_input.selectedView as? TextView)?.error = null
+        }
     }
 
     /**
@@ -95,5 +104,9 @@ class MonthInput @JvmOverloads constructor(
     fun reset() {
         val monthResetUseCase = MonthResetUseCase(InMemoryStore.Factory.get())
         presenter.reset(monthResetUseCase)
+    }
+
+    fun showError() {
+        presenter.showError()
     }
 }

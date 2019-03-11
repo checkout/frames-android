@@ -23,6 +23,9 @@ class YearInputPresenterTest {
     @Mock
     private lateinit var yearSelectedUseCase: YearSelectedUseCase
 
+    @Mock
+    private lateinit var yearResetUseCase: YearResetUseCase
+
     private lateinit var presenter: YearInputPresenter
 
     private lateinit var initialState: YearInputUiState
@@ -48,4 +51,13 @@ class YearInputPresenterTest {
         then(yearSelectedUseCase).should().execute()
         then(viewMock).should().onStateUpdated(expectedState)
     }
+
+    @Test
+    fun `given year reset then year reset use case should be executed and the presenter should reset the view state`() {
+        presenter.reset(yearResetUseCase)
+
+        then(yearResetUseCase).should().execute()
+        then(viewMock).should().onStateUpdated(initialState.copy(position = 0))
+    }
+
 }

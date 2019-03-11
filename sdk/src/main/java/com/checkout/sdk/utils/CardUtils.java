@@ -234,7 +234,7 @@ public class CardUtils {
         return false;
     }
 
-    private static boolean isValidDate(int month, int year) {
+    public static boolean isValidDate(int month, int year) {
         if (month < 1 || month > 12)
             return false;
 

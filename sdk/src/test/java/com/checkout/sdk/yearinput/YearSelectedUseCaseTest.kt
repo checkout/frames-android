@@ -1,6 +1,6 @@
 package com.checkout.sdk.yearinput
 
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.then
@@ -12,19 +12,19 @@ import org.mockito.junit.MockitoJUnitRunner
 class YearSelectedUseCaseTest {
 
     @Mock
-    private lateinit var dataStoreMock: DataStore
+    private lateinit var store: InMemoryStore
 
     @Test
     fun `given year is selected then it should be written to the data store`() {
         val years = listOf("2022", "2023")
         val expectedPosition = 1
 
-        val useCase = YearSelectedUseCase.Builder(dataStoreMock, expectedPosition)
+        val useCase = YearSelectedUseCase.Builder(store, expectedPosition)
             .years(years)
             .build()
 
         useCase.execute()
 
-        then(dataStoreMock).should().cardYear = years[expectedPosition]
+        then(store).should().cardYear = Year(Integer.parseInt(years[expectedPosition]))
     }
 }
