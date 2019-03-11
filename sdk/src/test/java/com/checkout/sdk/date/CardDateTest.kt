@@ -18,14 +18,14 @@ class CardDateTest {
 
     @Test
     fun `given year is not known then year is not valid`() {
-        val cardDate = CardDate(Month.JANUARY, Year(Year.UNKNOWN))
+        val cardDate = CardDate(Month.JANUARY, Year.UNKNOWN)
 
         assertFalse(cardDate.isYearValid())
     }
 
     @Test
     fun `given month is known then month is valid`() {
-        val cardDate = CardDate(Month.MARCH, Year(Year.UNKNOWN))
+        val cardDate = CardDate(Month.MARCH, Year.UNKNOWN)
 
         assertTrue(cardDate.isMonthValid())
     }

@@ -10,6 +10,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import java.util.*
 
 
 @RunWith(MockitoJUnitRunner::class)
@@ -18,7 +19,9 @@ class YearSelectedUseCaseTest {
     @Mock
     private lateinit var store: InMemoryStore
 
-    private val initialCardDate = CardDate(Month.FEBRUARY, Year(2089))
+    private val calendar = Calendar.getInstance()
+
+    private val initialCardDate = CardDate(Month.FEBRUARY, Year(2089), calendar)
 
     @Test
     fun `given year is selected then it should be written to the data store`() {
@@ -26,7 +29,7 @@ class YearSelectedUseCaseTest {
         val expectedPosition = 1
 
         val year = Year(Integer.parseInt(years[expectedPosition]))
-        val expectedCardDate = CardDate(initialCardDate.month, year)
+        val expectedCardDate = CardDate(initialCardDate.month, year, calendar)
         given(store.cardDate).willReturn(initialCardDate)
 
         val useCase = YearSelectedUseCase.Builder(store, expectedPosition)

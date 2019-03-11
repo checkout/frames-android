@@ -22,7 +22,7 @@ class YearResetUseCaseTest {
 
     @Test
     fun `when use case is executed then card month is written to the store`() {
-        val expectedCardDate = CardDate(initialCardDate.month, Year(Year.UNKNOWN))
+        val expectedCardDate = CardDate(initialCardDate.month, Year.UNKNOWN)
         given(store.cardDate).willReturn(initialCardDate)
 
         YearResetUseCase(store).execute()

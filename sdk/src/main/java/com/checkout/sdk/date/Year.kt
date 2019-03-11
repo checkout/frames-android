@@ -4,10 +4,10 @@ package com.checkout.sdk.date
 data class Year(val year: Int) {
 
     fun isKnown(): Boolean {
-        return this.year != UNKNOWN
+        return this != UNKNOWN
     }
 
     companion object {
-        const val UNKNOWN = -1
+        val UNKNOWN = Year(-1)
     }
 }

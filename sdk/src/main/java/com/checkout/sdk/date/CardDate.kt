@@ -40,4 +40,8 @@ data class CardDate(
     fun isDateValid(): Boolean {
         return isMonthValid() && isYearValid()
     }
+
+    companion object {
+        val UNKNOWN = CardDate(Month.UNKNOWN, Year.UNKNOWN)
+    }
 }

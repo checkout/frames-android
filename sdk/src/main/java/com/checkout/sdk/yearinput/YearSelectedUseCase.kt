@@ -18,7 +18,8 @@ open class YearSelectedUseCase(
     )
 
     override fun execute() {
-        store.cardDate = store.cardDate.copy(year = Year(Integer.parseInt(years[position])))
+        val year = Year(Integer.parseInt(years[position]))
+        store.cardDate = store.cardDate.copy(year = year)
     }
 
     open class Builder(val store: InMemoryStore, open val position: Int) {
