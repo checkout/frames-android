@@ -71,21 +71,6 @@ class CardDetailsView @JvmOverloads constructor(
     }
 
     /**
-     * The callback is used to communicate with the month input
-     *
-     *
-     * The custom [MonthInput] takes care of populating the values in the spinner
-     * and will trigger this callback when the user selects a new option. State is update
-     * accordingly.
-     */
-    private val mMonthInputListener = object : MonthInput.MonthListener {
-        override fun onMonthInputFinish(month: String) {
-            mDataStore.cardMonth = month
-            mDataStore.isValidCardMonth = true
-        }
-    }
-
-    /**
      * The callback is used to communicate with the year input
      *
      *
