@@ -9,6 +9,6 @@ open class MonthSelectedUseCase(
 ) : UseCase<Unit> {
 
     override fun execute() {
-        store.cardMonth = monthSelectedPosition + 1
+        store.cardMonth = Month.monthFromInteger(monthSelectedPosition + 1)
     }
 }

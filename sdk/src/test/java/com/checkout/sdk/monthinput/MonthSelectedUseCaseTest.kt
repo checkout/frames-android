@@ -16,7 +16,7 @@ class MonthSelectedUseCaseTest {
     @Test
     fun `when month is selected then position is written to store`() {
         val position = 6
-        val expectedMonth = 7
+        val expectedMonth = Month.JULY
         MonthSelectedUseCase(position, store).execute()
 
         then(store).should().cardMonth = expectedMonth

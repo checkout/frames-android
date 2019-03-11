@@ -18,6 +18,6 @@ class MonthResetUseCaseTest {
     fun `when use case is executed then card month is written to the store`() {
         MonthResetUseCase(store).execute()
 
-        then(store).should().cardMonth = null
+        then(store).should().cardMonth = Month.UNKNOWN
     }
 }

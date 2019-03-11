@@ -7,6 +7,6 @@ import com.checkout.sdk.store.InMemoryStore
 open class MonthResetUseCase(private val store: InMemoryStore): UseCase<Unit> {
 
     override fun execute() {
-        store.cardMonth = null
+        store.cardMonth = Month.UNKNOWN
     }
 }

@@ -319,7 +319,7 @@ class CardDetailsView @JvmOverloads constructor(
         // values are valid. Display error if applicable.
         if (inMemoryStore.cardMonth != null &&
             mDataStore.cardYear != null &&
-            !CardUtils.isValidDate(inMemoryStore.cardMonth!!, mDataStore.cardYear)
+            !CardUtils.isValidDate(inMemoryStore.cardMonth!!.monthInteger, mDataStore.cardYear)
         ) {
             mDataStore.isValidCardMonth = false
             (month_input.selectedView as TextView).error = resources
@@ -449,7 +449,7 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardMonth!!),
+                DateFormatter().formatMonth(inMemoryStore.cardMonth!!.monthInteger),
                 mDataStore.cardYear,
                 mDataStore.cardCvv,
                 BillingModel(
@@ -469,7 +469,7 @@ class CardDetailsView @JvmOverloads constructor(
             request = CardTokenisationRequest(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardMonth!!),
+                DateFormatter().formatMonth(inMemoryStore.cardMonth!!.monthInteger),
                 mDataStore.cardYear,
                 mDataStore.cardCvv, null
             )
