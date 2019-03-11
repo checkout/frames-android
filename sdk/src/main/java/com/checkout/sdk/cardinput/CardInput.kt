@@ -10,6 +10,7 @@ import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import com.checkout.sdk.utils.CardUtils
 
@@ -29,6 +30,7 @@ class CardInput @JvmOverloads constructor(
     MvpView<CardInputUiState> {
 
 
+    private val inMemoryStore = InMemoryStore.Factory.get()
     private var mCardInputListener: Listener? = null
     private lateinit var presenter: CardInputPresenter
 
@@ -51,7 +53,7 @@ class CardInput @JvmOverloads constructor(
         // Add listener for text input
         addTextChangedListener(object : AfterTextChangedListener() {
             override fun afterTextChanged(text: Editable) {
-                val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance())
+                val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance(), inMemoryStore)
                 presenter.textChanged(cardInputUseCase)
             }
         })
@@ -101,7 +103,7 @@ class CardInput @JvmOverloads constructor(
         if (text.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
             setText(cardInputResult.cardNumber)
             setSelection(cardInputResult.cardNumber.length)
-            val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance())
+            val cardInputUseCase = CardInputUseCase(text, DataStore.getInstance(), inMemoryStore)
             presenter.textChanged(cardInputUseCase)
         }
     }

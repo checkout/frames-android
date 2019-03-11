@@ -22,7 +22,7 @@ class MonthResetUseCaseTest {
 
     @Test
     fun `when use case is executed then card month is written to the store`() {
-        val expectedCardDate = CardDate(Month.UNKNOWN, Year(2020))
+        val expectedCardDate = initialCardDate.copy(month = Month.UNKNOWN)
         given(store.cardDate).willReturn(initialCardDate)
 
         MonthResetUseCase(store).execute()

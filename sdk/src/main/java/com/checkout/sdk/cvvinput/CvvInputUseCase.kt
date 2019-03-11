@@ -1,16 +1,15 @@
 package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.UseCase
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 
 
 open class CvvInputUseCase(
-    private val dataStore: DataStore,
+    private val store: InMemoryStore,
     open val cvv: String
-) : UseCase<Boolean> {
+) : UseCase<Unit> {
 
-    override fun execute(): Boolean {
-        dataStore.cardCvv = cvv
-        return false
+    override fun execute() {
+        store.cvv = store.cvv.copy(value = cvv)
     }
 }

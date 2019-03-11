@@ -10,6 +10,7 @@ open class MonthSelectedUseCase(
 ) : UseCase<Unit> {
 
     override fun execute() {
-        store.cardDate = store.cardDate.copy(month = Month.monthFromInteger(monthSelectedPosition + 1))
+        val month = Month.monthFromInteger(monthSelectedPosition + 1)
+        store.cardDate = store.cardDate.copy(month = month)
     }
 }

@@ -141,9 +141,7 @@ class CardDetailsView @JvmOverloads constructor(
                 outcome = false
             }
 
-            mDataStore.isValidCardCvv = cvv_input.text.length == mDataStore.cvvLength
-
-            if (!mDataStore.isValidCardCvv) {
+            if (!inMemoryStore.cvv.isValid()) {
                 cvv_input_layout.error = resources.getString(R.string.error_cvv)
                 outcome = false
             } else {
@@ -281,10 +279,7 @@ class CardDetailsView @JvmOverloads constructor(
         // values are valid. Display error if applicable.
         month_input.showError(!inMemoryStore.cardDate.isMonthValid())
         year_input.showError(!inMemoryStore.cardDate.isYearValid())
-        if (inMemoryStore.cardDate.isDateValid()) {
-            return true
-        }
-        return false
+        return inMemoryStore.cardDate.isDateValid()
     }
 
     /**
@@ -408,7 +403,7 @@ class CardDetailsView @JvmOverloads constructor(
                 mDataStore.customerName,
                 DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
                 inMemoryStore.cardDate.year.toString(),
-                mDataStore.cardCvv,
+                inMemoryStore.cvv.value,
                 BillingModel(
                     mDataStore.customerAddress1,
                     mDataStore.customerAddress2,
@@ -427,8 +422,8 @@ class CardDetailsView @JvmOverloads constructor(
                 sanitizeEntry(mDataStore.cardNumber),
                 mDataStore.customerName,
                 DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
-                inMemoryStore.cardDate.year.toString(),
-                mDataStore.cardCvv, null
+                inMemoryStore.cardDate.year.value.toString(),
+                inMemoryStore.cvv.value, null
             )
         }
 

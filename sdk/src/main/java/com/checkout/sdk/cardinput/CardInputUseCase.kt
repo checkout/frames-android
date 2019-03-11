@@ -3,12 +3,14 @@ package com.checkout.sdk.cardinput
 import android.text.Editable
 import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
 
 
 open class CardInputUseCase(
     private val editableText: Editable,
-    private val dataStore: DataStore
+    private val dataStore: DataStore,
+    private val inMemoryStore: InMemoryStore
 ) : UseCase<CardInputUseCase.CardInputResult> {
 
     override fun execute(): CardInputResult {
@@ -26,7 +28,7 @@ open class CardInputUseCase(
         }
         // Save State
         dataStore.cardNumber = sanitized
-        dataStore.cvvLength = cardType.maxCvvLength
+        inMemoryStore.cvv = inMemoryStore.cvv.copy(expectedLength = cardType.maxCvvLength)
 
         return CardInputResult(sanitized, cardType, isCardValid, false)
     }

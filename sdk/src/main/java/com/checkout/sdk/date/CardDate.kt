@@ -16,7 +16,7 @@ data class CardDate(
         val calendarYear = calendar.get(Calendar.YEAR)
         val calendarMonth = calendar.get(Calendar.MONTH)
 
-        if (!month.isKnown() || (year.year == calendarYear && month.monthInteger < calendarMonth)) {
+        if (!month.isKnown() || (year.value == calendarYear && month.monthInteger < calendarMonth)) {
             return false
         }
         return true
@@ -28,7 +28,7 @@ data class CardDate(
     fun isYearValid(): Boolean {
         val calendarYear = calendar.get(Calendar.YEAR)
 
-        if (!year.isKnown() || year.year < calendarYear) {
+        if (!year.isKnown() || year.value < calendarYear) {
             return false
         }
         return true

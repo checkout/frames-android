@@ -8,6 +8,7 @@ import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 
 /**
@@ -43,7 +44,7 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         addTextChangedListener(object: AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
-                val cvvInputUseCase = CvvInputUseCase(DataStore.getInstance(), s.toString())
+                val cvvInputUseCase = CvvInputUseCase(InMemoryStore.Factory.get(), s.toString())
                 presenter.inputStateChanged(cvvInputUseCase)
             }
         })

@@ -21,7 +21,7 @@ class MonthSelectedUseCaseTest {
 
     @Test
     fun `when month is selected then position is written to store`() {
-        val expectedCardDate = CardDate(Month.JULY, initialCardDate.year)
+        val expectedCardDate = initialCardDate.copy(month = Month.JULY)
         given(store.cardDate).willReturn(initialCardDate)
         val position = 6
 

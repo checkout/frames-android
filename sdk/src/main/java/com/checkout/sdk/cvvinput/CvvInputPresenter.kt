@@ -8,8 +8,8 @@ class CvvInputPresenter(initialState: CvvInputUiState = CvvInputUiState()
 ) : BasePresenter<MvpView<CvvInputUiState>, CvvInputUiState>(initialState) {
 
     fun inputStateChanged(cvvInputUseCase: CvvInputUseCase) {
-        val showError = cvvInputUseCase.execute()
-        val newState = uiState.copy(cvv = cvvInputUseCase.cvv, showError = showError)
+        cvvInputUseCase.execute()
+        val newState = uiState.copy(cvv = cvvInputUseCase.cvv, showError = false)
         safeUpdateView(newState)
     }
 

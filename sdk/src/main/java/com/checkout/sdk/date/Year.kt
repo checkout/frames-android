@@ -1,7 +1,7 @@
 package com.checkout.sdk.date
 
 
-data class Year(val year: Int) {
+data class Year(val value: Int) {
 
     fun isKnown(): Boolean {
         return this != UNKNOWN
