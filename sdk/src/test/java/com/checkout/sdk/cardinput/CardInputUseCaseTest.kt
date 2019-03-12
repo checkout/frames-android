@@ -2,7 +2,6 @@ package com.checkout.sdk.cardinput
 
 import android.text.Editable
 import com.checkout.sdk.cvvinput.Cvv
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
 import junit.framework.Assert.assertEquals
@@ -17,13 +16,10 @@ import org.mockito.junit.MockitoJUnitRunner
 class CardInputUseCaseTest {
 
     @Mock
-    private lateinit var dataStore: DataStore
-
-    @Mock
     private lateinit var inMemoryStore: InMemoryStore
 
     @Mock
-    lateinit var editable: Editable
+    private lateinit var editable: Editable
 
     private val initialCvv = Cvv("888", 3)
 
@@ -33,11 +29,12 @@ class CardInputUseCaseTest {
         given(editable.toString()).willReturn(cardNumber)
         given(inMemoryStore.cvv).willReturn(initialCvv)
 
-        val cardInputResult = CardInputUseCase(editable, dataStore, inMemoryStore).execute()
+        val cardInputType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(cardNumber, CardUtils.Cards.DEFAULT, false, false)
-        assertEquals(expectedResult, cardInputResult)
+        val expectedType = CardUtils.Cards.DEFAULT
+        assertEquals(expectedType, cardInputType)
         assertEquals(cardNumber, editable.toString())
+        then(inMemoryStore).should().cardNumber = cardNumber
     }
 
     @Test
@@ -47,11 +44,12 @@ class CardInputUseCaseTest {
         given(editable.toString()).willReturn(spacedVisaNumber)
         given(inMemoryStore.cvv).willReturn(initialCvv)
 
-        val cardInputResult = CardInputUseCase(editable, dataStore, inMemoryStore).execute()
+        val cardType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(nonSpacedVisaNumber, CardUtils.Cards.VISA, true, false)
-        assertEquals(expectedResult, cardInputResult)
+        val expectedType = CardUtils.Cards.VISA
+        assertEquals(expectedType, cardType)
         assertEquals(spacedVisaNumber, editable.toString())
+        then(inMemoryStore).should().cardNumber = nonSpacedVisaNumber
     }
 
     @Test
@@ -61,11 +59,12 @@ class CardInputUseCaseTest {
         given(editable.toString()).willReturn(visaNumberToBeSpaced)
         given(inMemoryStore.cvv).willReturn(initialCvv)
 
-        val cardInputResult = CardInputUseCase(editable, dataStore, inMemoryStore).execute()
+        val cardType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(visaNumberToBeSpaced, CardUtils.Cards.VISA, false, false)
-        assertEquals(expectedResult, cardInputResult)
+        val expectedType = CardUtils.Cards.VISA
+        assertEquals(expectedType, cardType)
         then(editable).should().replace(0, visaNumberToBeSpaced.length, visaNumberSpaced)
+        then(inMemoryStore).should().cardNumber = visaNumberToBeSpaced
     }
 
 }

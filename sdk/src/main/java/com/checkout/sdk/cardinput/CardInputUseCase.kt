@@ -2,18 +2,16 @@ package com.checkout.sdk.cardinput
 
 import android.text.Editable
 import com.checkout.sdk.architecture.UseCase
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
 
 
 open class CardInputUseCase(
-    private val editableText: Editable,
-    private val dataStore: DataStore,
+    open val editableText: Editable,
     private val inMemoryStore: InMemoryStore
-) : UseCase<CardInputUseCase.CardInputResult> {
+) : UseCase<CardUtils.Cards> {
 
-    override fun execute(): CardInputResult {
+    override fun execute(): CardUtils.Cards {
         // Remove Spaces
         val sanitized = sanitizeEntry(editableText.toString())
         // Format number
@@ -21,16 +19,16 @@ open class CardInputUseCase(
         // Get Card type
         val cardType = CardUtils.getType(sanitized)
         // Check if card is valid
-        val isCardValid = checkIfCardIsValid(sanitized, cardType)
+        val isCardValid = checkIfCardIsValid(sanitized, cardType) // TODO: Move validation
 
         if (editableText.toString() != formatted) {
             editableText.replace(0, editableText.toString().length, formatted)
         }
         // Save State
-        dataStore.cardNumber = sanitized
+        inMemoryStore.cardNumber = sanitized
         inMemoryStore.cvv = inMemoryStore.cvv.copy(expectedLength = cardType.maxCvvLength)
 
-        return CardInputResult(sanitized, cardType, isCardValid, false)
+        return cardType
     }
 
     private fun sanitizeEntry(entry: String): String {
@@ -43,11 +41,4 @@ open class CardInputUseCase(
 
     private fun hasDesiredLength(number: String, cardType: CardUtils.Cards) =
         number.length in cardType.cardLength
-
-    data class CardInputResult(
-        val cardNumber: String,
-        val cardType: CardUtils.Cards,
-        val inputFinished: Boolean,
-        val showError: Boolean
-    )
 }

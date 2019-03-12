@@ -58,13 +58,13 @@ class CardDetailsView @JvmOverloads constructor(
         }
 
         override fun onCardError() {
-            card_input_layout.error = resources.getString(R.string.error_card_number)
+            card_input.error = resources.getString(R.string.error_card_number)
             mDataStore.isValidCardNumber = false
         }
 
         override fun onClearCardError() {
-            card_input_layout.error = null
-            card_input_layout.isErrorEnabled = false
+            card_input.error = null
+            card_input.isErrorEnabled = false
         }
     }
 
@@ -116,7 +116,7 @@ class CardDetailsView @JvmOverloads constructor(
             checkFullDate()
 
             if (!mDataStore.isValidCardNumber) {
-                card_input_layout.error = resources.getString(R.string.error_card_number)
+                card_input.error = resources.getString(R.string.error_card_number)
                 outcome = false
             }
 
@@ -221,7 +221,7 @@ class CardDetailsView @JvmOverloads constructor(
             accepted_card_helper.text = mDataStore.acceptedLabel
         }
         if (mDataStore.cardLabel != null) {
-            card_input_layout.hint = mDataStore.cardLabel
+            card_input.hint = mDataStore.cardLabel
         }
         if (mDataStore.dateLabel != null) {
             date_helper.text = mDataStore.dateLabel
@@ -330,8 +330,8 @@ class CardDetailsView @JvmOverloads constructor(
         year_input.reset()
         month_input.reset()
         card_input.clear()
-        card_input_layout.error = null
-        card_input_layout.isErrorEnabled = false
+        card_input.error = null
+        card_input.isErrorEnabled = false
     }
 
     /**

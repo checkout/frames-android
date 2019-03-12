@@ -1,5 +1,6 @@
 package com.checkout.sdk.cardinput
 
+import android.text.Editable
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.utils.CardUtils
 import org.junit.Before
@@ -23,13 +24,17 @@ class CardInputPresenterTest {
     @Mock
     private lateinit var cardFocusUseCase: CardFocusUseCase
 
+    @Mock
+    private lateinit var editable: Editable
+
+
     private lateinit var initialState: CardInputUiState
 
     private lateinit var presenter: CardInputPresenter
 
     @Before
     fun onSetup() {
-        initialState = CardInputUiState("1234", CardUtils.Cards.JCB, false, false)
+        initialState = CardInputUiState("1234", CardUtils.Cards.JCB, false)
         presenter = CardInputPresenter(initialState)
         presenter.start(viewMock)
         reset(viewMock)
@@ -37,20 +42,16 @@ class CardInputPresenterTest {
 
     @Test
     fun `given text changed then use case result should be applied to view state`() {
-        val expectedState = CardInputUiState(
+        val initialState = CardInputUiState(
             "4139578",
             CardUtils.Cards.DISCOVER,
-            true,
-            true
+            false
         )
-        given(cardInputUseCase.execute()).willReturn(
-            CardInputUseCase.CardInputResult(
-                expectedState.cardNumber,
-                expectedState.cardType,
-                expectedState.inputFinished,
-                expectedState.showCardError
-            )
-        )
+        given(cardInputUseCase.execute()).willReturn(initialState.cardType)
+        given(cardInputUseCase.editableText).willReturn(editable)
+        val expectedCardNumber = "4139 578"
+        given(editable.toString()).willReturn(expectedCardNumber)
+        val expectedState = initialState.copy(cardNumber = expectedCardNumber)
 
         presenter.textChanged(cardInputUseCase)
 

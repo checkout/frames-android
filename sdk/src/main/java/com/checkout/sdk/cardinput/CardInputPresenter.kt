@@ -8,12 +8,11 @@ class CardInputPresenter(initialState: CardInputUiState = CardInputUiState()) :
     BasePresenter<MvpView<CardInputUiState>, CardInputUiState>(initialState) {
 
     fun textChanged(cardInputUseCase: CardInputUseCase) {
-        val cardInputResult = cardInputUseCase.execute()
+        val cardType = cardInputUseCase.execute()
         val newState = uiState.copy(
-            cardNumber = cardInputResult.cardNumber,
-            cardType = cardInputResult.cardType,
-            inputFinished = cardInputResult.inputFinished,
-            showCardError = cardInputResult.showError
+            cardNumber = cardInputUseCase.editableText.toString(),
+            cardType = cardType,
+            showCardError = false
         )
         safeUpdateView(newState)
     }
