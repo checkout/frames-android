@@ -32,7 +32,6 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
 
     private val inMemoryStore = InMemoryStore.Factory.get()
-    private var mCardInputListener: Listener? = null
     private lateinit var presenter: CardInputPresenter
 
     init {
@@ -121,27 +120,9 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     /**
-     * Used to set the callback listener for when the card input is completed
-     */
-    fun setCardListener(listener: Listener) {
-        this.mCardInputListener = listener
-    }
-
-    /**
      * Clear all the ui and backing values
      */
     fun clear() {
         card_input_edit_text.text = SpannableStringBuilder("")
-    }
-
-    /**
-     * An interface needed to communicate with the parent once the field is successfully completed
-     */
-    interface Listener {
-        fun onCardInputFinish(number: String)
-
-        fun onCardError()
-
-        fun onClearCardError()
     }
 }

@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import com.android.volley.VolleyError
 import com.checkout.sdk.CheckoutAPIClient
 import com.checkout.sdk.R
-import com.checkout.sdk.cardinput.CardInput
 import com.checkout.sdk.input.BillingInput
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.models.PhoneModel
@@ -43,30 +42,6 @@ class CardDetailsView @JvmOverloads constructor(
 ) : LinearLayout(mContext, attrs) {
 
     private val inMemoryStore = InMemoryStore.Factory.get()
-
-    /**
-     * The callback is used to communicate with the card input
-     *
-     *
-     * The custom [CardInput] takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mCardInputListener = object : CardInput.Listener {
-        override fun onCardInputFinish(number: String) {
-            mDataStore.isValidCardNumber = true
-        }
-
-        override fun onCardError() {
-            card_input.error = resources.getString(R.string.error_card_number)
-            mDataStore.isValidCardNumber = false
-        }
-
-        override fun onClearCardError() {
-            card_input.error = null
-            card_input.isErrorEnabled = false
-        }
-    }
 
     // Callback used for the outcome of the generating a token
     private val mTokenListener = object : CheckoutAPIClient.OnTokenGenerated {
@@ -166,7 +141,6 @@ class CardDetailsView @JvmOverloads constructor(
     init {
         View.inflate(mContext, R.layout.card_details, this)
 
-        card_input.setCardListener(mCardInputListener)
         my_toolbar.setNavigationOnClickListener {
             mDetailsCompletedListener?.onBackPressed()
         }
