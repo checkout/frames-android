@@ -1,8 +1,7 @@
 package com.checkout.sdk.cvvinput
 
-import com.checkout.sdk.cvvinput.CvvFocusChangedUseCase
-import com.checkout.sdk.store.DataStore
-import junit.framework.Assert.assertEquals
+import com.checkout.sdk.store.InMemoryStore
+import junit.framework.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
@@ -14,19 +13,32 @@ import org.mockito.junit.MockitoJUnitRunner
 class CvvFocusChangedUseCaseTest {
 
     @Mock
-    private lateinit var dataStoreMock: DataStore
+    private lateinit var storeMock: InMemoryStore
+
+    @Test
+    fun `given cvv has length 4 and expected length is uninitialised then an error will be shown`() {
+        var initialCvv = Cvv("345678", -1)
+        given(storeMock.cvv).willReturn(initialCvv)
+        val showError = CvvFocusChangedUseCase(
+            initialCvv.value,
+            false,
+            storeMock
+        ).execute()
+
+        assertFalse(showError)
+    }
 
     @Test
     fun `given cvv has length 3 and expected length is 4 then an error will be shown`() {
-        val (cvv, hasFocus) = Pair("234", false)
-        given(dataStoreMock.cvvLength).willReturn(4)
+        val initialCvv = Cvv("146", 4)
+        given(storeMock.cvv).willReturn(initialCvv)
         val showError = CvvFocusChangedUseCase(
-            cvv,
-            hasFocus,
-            dataStoreMock
+            initialCvv.value,
+            false,
+            storeMock
         ).execute()
 
-        assertEquals(true, showError)
+        assertTrue(showError)
     }
 
     @Test
@@ -35,7 +47,7 @@ class CvvFocusChangedUseCaseTest {
         val showError = CvvFocusChangedUseCase(
             cvv,
             hasFocus,
-            dataStoreMock
+            storeMock
         ).execute()
 
         assertEquals(false, showError)
