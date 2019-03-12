@@ -24,4 +24,9 @@ class CardInputPresenter(initialState: CardInputUiState = CardInputUiState()) :
         )
         safeUpdateView(newState)
     }
+
+    fun showError(show: Boolean) {
+        val newState = uiState.copy(showCardError = show)
+        safeUpdateView(newState)
+    }
 }

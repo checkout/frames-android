@@ -11,6 +11,6 @@ open class CardFocusUseCase(
 ): UseCase<Boolean> {
 
     override fun execute(): Boolean {
-        return !hasFocus && !CardUtils.isValidCard(store.cardNumber)
+        return !hasFocus && !CardUtils.isValidCard(store.cardNumber.value)
     }
 }

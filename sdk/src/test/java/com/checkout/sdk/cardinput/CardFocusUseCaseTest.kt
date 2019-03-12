@@ -16,7 +16,7 @@ class CardFocusUseCaseTest {
 
     @Test
     fun `given valid card without focus then card focus result is error`() {
-        given(store.cardNumber).willReturn("1234567812345678")
+        given(store.cardNumber).willReturn(CardNumber("1234567812345678"))
 
         val showError = CardFocusUseCase(false, store).execute()
 
@@ -32,7 +32,7 @@ class CardFocusUseCaseTest {
 
     @Test
     fun `given invalid card without focus then card focus result is error`() {
-        given(store.cardNumber).willReturn("11")
+        given(store.cardNumber).willReturn(CardNumber("11"))
 
         val showError = CardFocusUseCase(false, store).execute()
 

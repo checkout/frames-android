@@ -18,14 +18,12 @@ open class CardInputUseCase(
         val formatted = CardUtils.getFormattedCardNumber(sanitized)
         // Get Card type
         val cardType = CardUtils.getType(sanitized)
-        // Check if card is valid
-        val isCardValid = checkIfCardIsValid(sanitized, cardType) // TODO: Move validation
 
         if (editableText.toString() != formatted) {
             editableText.replace(0, editableText.toString().length, formatted)
         }
         // Save State
-        inMemoryStore.cardNumber = sanitized
+        inMemoryStore.cardNumber = CardNumber(sanitized)
         inMemoryStore.cvv = inMemoryStore.cvv.copy(expectedLength = cardType.maxCvvLength)
 
         return cardType
@@ -34,11 +32,4 @@ open class CardInputUseCase(
     private fun sanitizeEntry(entry: String): String {
         return entry.replace("\\D".toRegex(), "")
     }
-
-    private fun checkIfCardIsValid(number: String, cardType: CardUtils.Cards): Boolean {
-        return CardUtils.isValidCard(number) && hasDesiredLength(number, cardType)
-    }
-
-    private fun hasDesiredLength(number: String, cardType: CardUtils.Cards) =
-        number.length in cardType.cardLength
 }

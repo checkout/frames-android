@@ -122,7 +122,11 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     /**
      * Clear all the ui and backing values
      */
-    fun clear() {
+    fun reset() {
         card_input_edit_text.text = SpannableStringBuilder("")
+    }
+
+    fun showError(show: Boolean) {
+        presenter.showError(show)
     }
 }

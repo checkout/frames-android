@@ -25,22 +25,22 @@ class CardInputUseCaseTest {
 
     @Test
     fun `given insufficient digits of card number will get default card and input not finished`() {
-        val cardNumber = "1234"
-        given(editable.toString()).willReturn(cardNumber)
+        val cardNumber = CardNumber("1234")
+        given(editable.toString()).willReturn(cardNumber.value)
         given(inMemoryStore.cvv).willReturn(initialCvv)
 
         val cardInputType = CardInputUseCase(editable, inMemoryStore).execute()
 
         val expectedType = CardUtils.Cards.DEFAULT
         assertEquals(expectedType, cardInputType)
-        assertEquals(cardNumber, editable.toString())
+        assertEquals(cardNumber.value, editable.toString())
         then(inMemoryStore).should().cardNumber = cardNumber
     }
 
     @Test
     fun `given sufficient digits of visa card number will get visa as type and input finished`() {
         val spacedVisaNumber = "4242 4242 4242 4242"
-        val nonSpacedVisaNumber = "4242424242424242"
+        val nonSpacedVisaNumber = CardNumber("4242424242424242")
         given(editable.toString()).willReturn(spacedVisaNumber)
         given(inMemoryStore.cvv).willReturn(initialCvv)
 
@@ -54,16 +54,16 @@ class CardInputUseCaseTest {
 
     @Test
     fun `given space should be added to a card number then card result is correct and space is added`() {
-        val visaNumberToBeSpaced = "42424"
+        val visaNumberToBeSpaced = CardNumber("42424")
         val visaNumberSpaced = "4242 4"
-        given(editable.toString()).willReturn(visaNumberToBeSpaced)
+        given(editable.toString()).willReturn(visaNumberToBeSpaced.value)
         given(inMemoryStore.cvv).willReturn(initialCvv)
 
         val cardType = CardInputUseCase(editable, inMemoryStore).execute()
 
         val expectedType = CardUtils.Cards.VISA
         assertEquals(expectedType, cardType)
-        then(editable).should().replace(0, visaNumberToBeSpaced.length, visaNumberSpaced)
+        then(editable).should().replace(0, visaNumberToBeSpaced.value.length, visaNumberSpaced)
         then(inMemoryStore).should().cardNumber = visaNumberToBeSpaced
     }
 

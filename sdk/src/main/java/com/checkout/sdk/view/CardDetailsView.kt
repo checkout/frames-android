@@ -90,8 +90,8 @@ class CardDetailsView @JvmOverloads constructor(
 
             checkFullDate()
 
-            if (!mDataStore.isValidCardNumber) {
-                card_input.error = resources.getString(R.string.error_card_number)
+            if (!inMemoryStore.cardNumber.isValid()) {
+                card_input.showError(true)
                 outcome = false
             }
 
@@ -303,9 +303,7 @@ class CardDetailsView @JvmOverloads constructor(
         cvv_input.reset()
         year_input.reset()
         month_input.reset()
-        card_input.clear()
-        card_input.error = null
-        card_input.isErrorEnabled = false
+        card_input.reset()
     }
 
     /**
@@ -349,7 +347,7 @@ class CardDetailsView @JvmOverloads constructor(
         val request: CardTokenisationRequest
         if (mDataStore.isBillingCompleted) {
             request = CardTokenisationRequest(
-                sanitizeEntry(mDataStore.cardNumber),
+                inMemoryStore.cardNumber.value,
                 mDataStore.customerName,
                 DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
                 inMemoryStore.cardDate.year.toString(),
@@ -369,7 +367,7 @@ class CardDetailsView @JvmOverloads constructor(
             )
         } else {
             request = CardTokenisationRequest(
-                sanitizeEntry(mDataStore.cardNumber),
+                inMemoryStore.cardNumber.value,
                 mDataStore.customerName,
                 DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
                 inMemoryStore.cardDate.year.value.toString(),
@@ -379,20 +377,6 @@ class CardDetailsView @JvmOverloads constructor(
 
         return request
     }
-
-    /**
-     * Returns a String without any spaces
-     *
-     *
-     * This method used to take a card number input String and return a
-     * String that simply removed all whitespace, keeping only digits.
-     *
-     * @param entry the String value of a card number
-     */
-    private fun sanitizeEntry(entry: String): String {
-        return entry.replace("\\D".toRegex(), "")
-    }
-
 
     /**
      * Used to set the callback listener for when the form is submitted
