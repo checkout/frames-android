@@ -18,4 +18,10 @@ class CvvInputPresenter(initialState: CvvInputUiState = CvvInputUiState()
         val newState = uiState.copy(showError = showError)
         safeUpdateView(newState)
     }
+
+    fun reset(cvvResetUseCase: CvvResetUseCase) {
+        cvvResetUseCase.execute()
+        val newState = CvvInputUiState()
+        safeUpdateView(newState)
+    }
 }

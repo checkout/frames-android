@@ -15,7 +15,6 @@ import com.checkout.sdk.CheckoutAPIClient
 import com.checkout.sdk.R
 import com.checkout.sdk.cardinput.CardInput
 import com.checkout.sdk.input.BillingInput
-import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.models.PhoneModel
 import com.checkout.sdk.monthinput.MonthInput
@@ -66,26 +65,6 @@ class CardDetailsView @JvmOverloads constructor(
         override fun onClearCardError() {
             card_input_layout.error = null
             card_input_layout.isErrorEnabled = false
-        }
-    }
-
-    /**
-     * The callback is used to communicate with the cvv input
-     *
-     *
-     * The custom [DefaultInput] takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mCvvInputListener = object : DefaultInput.Listener {
-        override fun onInputFinish(value: String) {
-            mDataStore.cardCvv = value
-            mDataStore.isValidCardCvv = value.length == mDataStore.cvvLength
-        }
-
-        override fun clearInputError() {
-            cvv_input_layout.error = null
-            cvv_input_layout.isErrorEnabled = false
         }
     }
 
@@ -142,11 +121,11 @@ class CardDetailsView @JvmOverloads constructor(
             }
 
             if (!inMemoryStore.cvv.isValid()) {
-                cvv_input_layout.error = resources.getString(R.string.error_cvv)
+                cvv_input.error = resources.getString(R.string.error_cvv)
                 outcome = false
             } else {
-                cvv_input_layout.error = null
-                cvv_input_layout.isErrorEnabled = false
+                cvv_input.error = null
+                cvv_input.isErrorEnabled = false
             }
 
             return outcome
@@ -188,7 +167,6 @@ class CardDetailsView @JvmOverloads constructor(
         View.inflate(mContext, R.layout.card_details, this)
 
         card_input.setCardListener(mCardInputListener)
-        cvv_input.setListener(mCvvInputListener)
         my_toolbar.setNavigationOnClickListener {
             mDetailsCompletedListener?.onBackPressed()
         }
@@ -249,7 +227,7 @@ class CardDetailsView @JvmOverloads constructor(
             date_helper.text = mDataStore.dateLabel
         }
         if (mDataStore.cvvLabel != null) {
-            cvv_input_layout.hint = mDataStore.cvvLabel
+            cvv_input.hint = mDataStore.cvvLabel
         }
     }
 
@@ -348,9 +326,7 @@ class CardDetailsView @JvmOverloads constructor(
         } else {
             clearBillingSpinner()
         }
-        cvv_input.setText("")
-        cvv_input_layout.error = null
-        cvv_input_layout.isErrorEnabled = false
+        cvv_input.reset()
         year_input.reset()
         month_input.reset()
         card_input.clear()
