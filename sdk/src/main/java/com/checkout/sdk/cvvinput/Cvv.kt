@@ -1,5 +1,7 @@
 package com.checkout.sdk.cvvinput
 
+import com.checkout.sdk.utils.CardUtils
+
 
 data class Cvv(val value: String, val expectedLength: Int) {
 
@@ -8,6 +10,6 @@ data class Cvv(val value: String, val expectedLength: Int) {
     }
 
     companion object {
-        val UNKNOWN = Cvv("unknown", -1)
+        val UNKNOWN = Cvv("unknown", CardUtils.Cards.DEFAULT.maxCvvLength)
     }
 }

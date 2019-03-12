@@ -25,9 +25,6 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_cvv_input, this)
-        hint = context.getString(R.string.placeholder_cvv)
-        setErrorTextAppearance(R.style.Error)
-        error = resources.getString(R.string.error_cvv)
     }
 
     override fun onStateUpdated(uiState: CvvInputUiState) {

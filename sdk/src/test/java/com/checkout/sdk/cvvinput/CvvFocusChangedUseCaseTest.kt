@@ -1,7 +1,8 @@
 package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.store.InMemoryStore
-import junit.framework.Assert.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
@@ -16,8 +17,8 @@ class CvvFocusChangedUseCaseTest {
     private lateinit var storeMock: InMemoryStore
 
     @Test
-    fun `given cvv has length 4 and expected length is uninitialised then an error will be shown`() {
-        var initialCvv = Cvv("345678", -1)
+    fun `given cvv has length 5 and expected length is 2 then an error will be shown`() {
+        var initialCvv = Cvv("345678", 2)
         given(storeMock.cvv).willReturn(initialCvv)
         val showError = CvvFocusChangedUseCase(
             initialCvv.value,
@@ -25,7 +26,7 @@ class CvvFocusChangedUseCaseTest {
             storeMock
         ).execute()
 
-        assertFalse(showError)
+        assertTrue(showError)
     }
 
     @Test

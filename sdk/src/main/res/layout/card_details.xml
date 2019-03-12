@@ -142,7 +142,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/basic_field_margin_side"
                     android:layout_marginRight="@dimen/basic_field_margin_side"
-                    android:layout_marginTop="@dimen/basic_field_margin_top" />
+                    android:layout_marginTop="@dimen/basic_field_margin_top"
+                    android:hint="@string/placeholder_cvv"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@style/Error" />
 
                 <TextView
                     android:id="@+id/billing_helper_text"
