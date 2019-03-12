@@ -12,7 +12,6 @@ import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import com.checkout.sdk.utils.CardUtils
@@ -65,8 +64,8 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         })
 
         // When the CardInput loses focus check if the card number is not valid and trigger an error
-        onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            val cardFocusUseCase = CardFocusUseCase(hasFocus, DataStore.getInstance())
+        card_input_edit_text.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+            val cardFocusUseCase = CardFocusUseCase(hasFocus, inMemoryStore)
             presenter.focusChanged(cardFocusUseCase)
         }
     }
