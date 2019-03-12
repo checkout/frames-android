@@ -24,4 +24,9 @@ class CvvInputPresenter(initialState: CvvInputUiState = CvvInputUiState()
         val newState = CvvInputUiState()
         safeUpdateView(newState)
     }
+
+    fun showError(show: Boolean) {
+        val newState = uiState.copy(showError = show)
+        safeUpdateView(newState)
+    }
 }

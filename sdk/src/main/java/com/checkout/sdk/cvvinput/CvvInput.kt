@@ -73,4 +73,8 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         val cvvResetUseCase = CvvResetUseCase(InMemoryStore.Factory.get())
         presenter.reset(cvvResetUseCase)
     }
+
+    fun showError(show: Boolean) {
+        presenter.showError(show)
+    }
 }

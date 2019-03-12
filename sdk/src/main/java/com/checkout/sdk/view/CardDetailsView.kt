@@ -90,17 +90,18 @@ class CardDetailsView @JvmOverloads constructor(
 
             checkFullDate()
 
-            if (!inMemoryStore.cardNumber.isValid()) {
+            if (inMemoryStore.cardNumber.isValid()) {
+                card_input.showError(false)
+            } else {
                 card_input.showError(true)
                 outcome = false
             }
 
-            if (!inMemoryStore.cvv.isValid()) {
-                cvv_input.error = resources.getString(R.string.error_cvv)
-                outcome = false
+            if (inMemoryStore.cvv.isValid()) {
+                cvv_input.showError(false)
             } else {
-                cvv_input.error = null
-                cvv_input.isErrorEnabled = false
+                cvv_input.showError(true)
+                outcome = false
             }
 
             return outcome

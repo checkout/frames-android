@@ -69,4 +69,12 @@ class CardInputPresenterTest {
 
         then(viewMock).should().onStateUpdated(cardInputUiState)
     }
+
+    @Test
+    fun `given presenter is started when show error called then the state is the same except with showError being updated`() {
+        val expectedError = true
+        presenter.showError(expectedError)
+
+        then(viewMock).should().onStateUpdated(initialState.copy(showCardError = expectedError))
+    }
 }
