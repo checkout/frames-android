@@ -1,28 +1,16 @@
 package com.checkout.sdk.monthinput
 
 import com.checkout.sdk.architecture.UseCase
-import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.utils.DateFormatter
+import com.checkout.sdk.date.Month
+import com.checkout.sdk.store.InMemoryStore
 
-class MonthSelectedUseCase(
-    private val dateFormatter: DateFormatter,
-    private val monthSelectedPosition: Int,
-    private val dataStore: DataStore
-) : UseCase<MonthSelectedUseCase.MonthSelectedResult> {
+open class MonthSelectedUseCase(
+    open val monthSelectedPosition: Int,
+    private val store: InMemoryStore
+) : UseCase<Unit> {
 
-    override fun execute(): MonthSelectedResult {
-        val numberString = dateFormatter.formatMonth(monthSelectedPosition + 1)
-        dataStore.cardMonth = numberString
-        return MonthSelectedResult(
-            monthSelectedPosition,
-            numberString,
-            true
-        )
+    override fun execute() {
+        val month = Month.monthFromInteger(monthSelectedPosition + 1)
+        store.cardDate = store.cardDate.copy(month = month)
     }
-
-    data class MonthSelectedResult(
-        val position: Int,
-        val numberString: String,
-        val finished: Boolean
-    )
 }

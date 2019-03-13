@@ -1,26 +1,28 @@
 package com.checkout.sdk.yearinput
 
 import com.checkout.sdk.architecture.UseCase
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.date.Year
+import com.checkout.sdk.store.InMemoryStore
 
 
 open class YearSelectedUseCase(
-    private val dataStore: DataStore,
+    private val store: InMemoryStore,
     private val position: Int,
     private val years: List<String>
 ) : UseCase<Unit> {
 
     private constructor(builder: Builder) : this(
-        builder.dataStore,
+        builder.store,
         builder.position,
         builder.years
     )
 
     override fun execute() {
-        dataStore.cardYear = years[position]
+        val year = Year(Integer.parseInt(years[position]))
+        store.cardDate = store.cardDate.copy(year = year)
     }
 
-    open class Builder(val dataStore: DataStore, open val position: Int) {
+    open class Builder(val store: InMemoryStore, open val position: Int) {
         lateinit var years: List<String>
             private set
 

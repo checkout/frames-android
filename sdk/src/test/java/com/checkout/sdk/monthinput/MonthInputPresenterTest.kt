@@ -1,7 +1,6 @@
 package com.checkout.sdk.monthinput
 
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.DateFormatter
 import org.junit.Before
 import org.junit.Test
@@ -19,10 +18,13 @@ class MonthInputPresenterTest {
     private lateinit var dateFormatter: DateFormatter
 
     @Mock
-    private lateinit var dataStore: DataStore
+    private lateinit var monthSelectedUseCase: MonthSelectedUseCase
 
     @Mock
     private lateinit var viewMock: MvpView<MonthInputUiState>
+
+    @Mock
+    private lateinit var monthResetUseCase: MonthResetUseCase
 
     private lateinit var presenter: MonthInputPresenter
 
@@ -38,19 +40,22 @@ class MonthInputPresenterTest {
 
     @Test
     fun `given month selected then view should be updated with selected month`() {
-        val (position, numberString, finished) = Triple(6, "06", true)
-        given(dateFormatter.formatMonth(position + 1)).willReturn(numberString)
+        val position = 6
+        given(monthSelectedUseCase.monthSelectedPosition).willReturn(position)
 
-        presenter.monthSelected(MonthSelectedUseCase(dateFormatter, position, dataStore))
+        presenter.monthSelected(monthSelectedUseCase)
 
         then(viewMock).should().onStateUpdated(
-            MonthInputUiState(
-                getExpectedMonths(),
-                position = position,
-                numberString = numberString,
-                finished = finished
-            )
+            MonthInputUiState(getExpectedMonths(), position = position)
         )
+    }
+
+    @Test
+    fun `given a started presenter when reset is called the view is updated with the default state`() {
+        presenter.reset(monthResetUseCase)
+
+        then(monthResetUseCase).should().execute()
+        then(viewMock).should().onStateUpdated(MonthInputUiState())
     }
 
     private fun getExpectedMonths(): List<String> {

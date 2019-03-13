@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/card_input_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="0123456789 "
+        android:imeOptions="flagNoExtractUi|actionNext"
+        android:inputType="number"
+        android:maxLines="1"
+        android:nextFocusDown="@id/month_input" />
+
+</merge>

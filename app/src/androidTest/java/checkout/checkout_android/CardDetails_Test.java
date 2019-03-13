@@ -53,7 +53,7 @@ public class CardDetails_Test {
                 allOf(withId(R.id.textinput_error), withText("The card number is invalid"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.card_input_layout),
+                                        withId(R.id.card_input),
                                         1),
                                 0),
                         isDisplayed()));
@@ -63,7 +63,7 @@ public class CardDetails_Test {
                 allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.cvv_input_layout),
+                                        withId(R.id.cvv_input),
                                         1),
                                 0),
                         isDisplayed()));
@@ -73,13 +73,7 @@ public class CardDetails_Test {
 
     @Test
     public void Card_Input_Empty() {
-        ViewInteraction defaultInput = onView(
-                allOf(withId(R.id.cvv_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput = onView(withId(R.id.cvv_edit_text));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
         ViewInteraction button = onView(
@@ -95,7 +89,7 @@ public class CardDetails_Test {
                 allOf(withId(R.id.textinput_error), withText("The card number is invalid"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.card_input_layout),
+                                        withId(R.id.card_input),
                                         1),
                                 0),
                         isDisplayed()));
@@ -105,7 +99,7 @@ public class CardDetails_Test {
                 allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.cvv_input_layout),
+                                        withId(R.id.cvv_input),
                                         1),
                                 0),
                         isDisplayed()));
@@ -115,7 +109,7 @@ public class CardDetails_Test {
                 allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.cvv_input_layout),
+                                        withId(R.id.cvv_input),
                                         1),
                                 0),
                         isDisplayed()));
@@ -125,13 +119,7 @@ public class CardDetails_Test {
 
     @Test
     public void Cvv_Input_Empty() {
-        ViewInteraction cardInput = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction cardInput = onView(withId(R.id.card_input_edit_text));
         cardInput.perform(scrollTo(), replaceText("4242 4242 4242 4242"), closeSoftKeyboard());
 
         ViewInteraction button = onView(
@@ -147,7 +135,7 @@ public class CardDetails_Test {
                 allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.cvv_input_layout),
+                                        withId(R.id.cvv_input),
                                         1),
                                 0),
                         isDisplayed()));
@@ -157,7 +145,7 @@ public class CardDetails_Test {
                 allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.cvv_input_layout),
+                                        withId(R.id.cvv_input),
                                         1),
                                 0),
                         isDisplayed()));
@@ -167,22 +155,7 @@ public class CardDetails_Test {
 
     @Test
     public void All_Inputs_Correct() throws InterruptedException {
-        ViewInteraction cardInput = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
-        cardInput.perform(scrollTo(), click());
-
-        ViewInteraction cardInput2 = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction cardInput2 = onView(withId(R.id.card_input_edit_text));
         cardInput2.perform(scrollTo(), replaceText("4242 4242 4242 4242"), closeSoftKeyboard());
 
         ViewInteraction monthInput = onView(
@@ -202,13 +175,7 @@ public class CardDetails_Test {
                 .atPosition(5);
         checkedTextView.perform(click());
 
-        ViewInteraction defaultInput = onView(
-                allOf(withId(R.id.cvv_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput = onView(withId(R.id.cvv_edit_text));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
         ViewInteraction button = onView(

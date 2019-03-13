@@ -22,6 +22,9 @@ class CvvInputPresenterTest {
     @Mock
     private lateinit var cvvFocusChangedUseCase: CvvFocusChangedUseCase
 
+    @Mock
+    private lateinit var cvvResetUseCase: CvvResetUseCase
+
     private lateinit var presenter: CvvInputPresenter
 
     private lateinit var initialState: CvvInputUiState
@@ -53,4 +56,19 @@ class CvvInputPresenterTest {
         then(viewMock).should().onStateUpdated(initialState.copy(showError = expectedError))
     }
 
+    @Test
+    fun `given presenter is started when reset is called then the use case is executed and the state is the initial state`() {
+        presenter.reset(cvvResetUseCase)
+
+        then(cvvResetUseCase).should().execute()
+        then(viewMock).should().onStateUpdated(CvvInputUiState())
+    }
+
+    @Test
+    fun `given presenter is started when show error called then the state is the same except with showError being updated`() {
+        val expectedError = true
+        presenter.showError(expectedError)
+
+        then(viewMock).should().onStateUpdated(initialState.copy(showError = expectedError))
+    }
 }

@@ -1,33 +1,41 @@
 package com.checkout.sdk.cvvinput
 
 import android.content.Context
+import android.support.design.widget.TextInputLayout
 import android.text.Editable
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View.OnFocusChangeListener
+import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.input.DefaultInput
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
+import kotlinx.android.synthetic.main.view_cvv_input.view.*
 
 /**
  * A custom EditText with validation and handling of cvv input
  */
 class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
-    android.support.v7.widget.AppCompatEditText(context, attrs),
+    TextInputLayout(context, attrs),
     MvpView<CvvInputUiState> {
 
-    private var listener: DefaultInput.Listener? = null
-
+    val store = InMemoryStore.Factory.get()
     private lateinit var presenter: CvvInputPresenter
 
+    init {
+        LayoutInflater.from(context).inflate(R.layout.view_cvv_input, this)
+    }
+
     override fun onStateUpdated(uiState: CvvInputUiState) {
-        listener?.let {
-            it.onInputFinish(uiState.cvv)
-            // TODO: Missing validation to show cvv error when we step off cvv
-            if (!uiState.showError) {
-                it.clearInputError()
-            }
+        if (cvv_edit_text.text.toString() != uiState.cvv) {
+            cvv_edit_text.setText(uiState.cvv)
+        }
+        if (uiState.showError) {
+            error = resources.getString(R.string.error_cvv)
+            isErrorEnabled = true
+        } else {
+            isErrorEnabled = false
         }
     }
 
@@ -38,16 +46,16 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             { CvvInputPresenter() })
         presenter.start(this)
 
-        addTextChangedListener(object: AfterTextChangedListener() {
+        cvv_edit_text.addTextChangedListener(object: AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
-                val cvvInputUseCase = CvvInputUseCase(DataStore.getInstance(), s.toString())
+                val cvvInputUseCase = CvvInputUseCase(store, s.toString())
                 presenter.inputStateChanged(cvvInputUseCase)
             }
         })
 
-        onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+        cvv_edit_text.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             val cvvFocusChangedUseCase =
-                CvvFocusChangedUseCase(text.toString(), hasFocus, DataStore.getInstance())
+                CvvFocusChangedUseCase(cvv_edit_text.text.toString(), hasFocus, store)
             presenter.focusChanged(cvvFocusChangedUseCase)
         }
     }
@@ -58,9 +66,15 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     /**
-     * Used to set the callback listener for when the zip input is completed
+     * Reset the Cvv EditText to contain no text and clear the value
+     * stored in the backing storage
      */
-    fun setListener(listener: DefaultInput.Listener) {
-        this.listener = listener
+    fun reset() {
+        val cvvResetUseCase = CvvResetUseCase(InMemoryStore.Factory.get())
+        presenter.reset(cvvResetUseCase)
+    }
+
+    fun showError(show: Boolean) {
+        presenter.showError(show)
     }
 }

@@ -7,10 +7,13 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
+import kotlinx.android.synthetic.main.card_details.view.*
 
 /**
  * A custom Spinner with handling of card expiration month input
@@ -22,14 +25,7 @@ class MonthInput @JvmOverloads constructor(
     android.support.v7.widget.AppCompatSpinner(mContext, attrs),
     MvpView<MonthInputUiState> {
 
-    private var monthInputListener: MonthListener? = null
-    private val dateFormatter = DateFormatter()
-    private val dataStore = DataStore.getInstance()
     private lateinit var presenter: MonthInputPresenter
-
-    interface MonthListener {
-        fun onMonthInputFinish(month: String)
-    }
 
     /**
      * The UI initialisation
@@ -54,8 +50,7 @@ class MonthInput @JvmOverloads constructor(
                 position: Int,
                 id: Long
             ) {
-                val monthSelectedUseCase =
-                    MonthSelectedUseCase(dateFormatter, position, dataStore)
+                val monthSelectedUseCase = MonthSelectedUseCase(position, InMemoryStore.Factory.get())
                 presenter.monthSelected(monthSelectedUseCase)
             }
 
@@ -92,18 +87,26 @@ class MonthInput @JvmOverloads constructor(
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             adapter = dataAdapter
         }
-        if (uiState.finished) {
-            monthInputListener?.onMonthInputFinish(uiState.numberString)
-        }
-        if (uiState.position != -1) {
+        if (selectedItemPosition != uiState.position) {
             setSelection(uiState.position)
+        }
+        if (uiState.showError) {
+            (month_input.selectedView as? TextView)?.error = context
+                .getString(R.string.error_expiration_date)
+        } else {
+            (month_input.selectedView as? TextView)?.error = null
         }
     }
 
     /**
-     * Used to set the callback listener for when the month input is completed
+     * Resets the values for the MonthInput view
      */
-    fun setMonthListener(listener: MonthListener) {
-        this.monthInputListener = listener
+    fun reset() {
+        val monthResetUseCase = MonthResetUseCase(InMemoryStore.Factory.get())
+        presenter.reset(monthResetUseCase)
+    }
+
+    fun showError(show: Boolean) {
+        presenter.showError(show)
     }
 }

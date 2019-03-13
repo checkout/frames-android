@@ -5,12 +5,8 @@ import com.checkout.sdk.utils.DateFormatter
 import java.text.DateFormatSymbols
 
 
-data class MonthInputUiState(
-    val months: List<String> = emptyList(),
-    val position: Int = -1,
-    val numberString: String = "", // TODO: This should probably be an Int and formatted closer to dataStore
-    val finished: Boolean = false
-) : UiState {
+data class MonthInputUiState(val months: List<String> = emptyList(), val position: Int = 0, val showError: Boolean = false) :
+    UiState {
 
     companion object {
         fun create(dateFormatter: DateFormatter): MonthInputUiState {

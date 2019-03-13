@@ -45,22 +45,7 @@ public class Flow_Test {
 
     @Test
     public void Card_And_Billing() throws InterruptedException {
-        ViewInteraction cardInput = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
-        cardInput.perform(scrollTo(), click());
-
-        ViewInteraction cardInput2 = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction cardInput2 = onView(withId(R.id.card_input_edit_text));
         cardInput2.perform(scrollTo(), replaceText("4242 4242 4242 4242"), closeSoftKeyboard());
 
         ViewInteraction monthInput = onView(
@@ -97,13 +82,7 @@ public class Flow_Test {
                 .atPosition(0);
         checkedTextView2.perform(click());
 
-        ViewInteraction defaultInput = onView(
-                allOf(withId(R.id.cvv_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput = onView(withId(R.id.cvv_edit_text));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
         ViewInteraction billingInput = onView(
