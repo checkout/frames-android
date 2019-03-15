@@ -27,6 +27,11 @@ public class DemoActivity extends Activity {
         }
 
         @Override
+        public void onValidationError() {
+            mProgressDialog.dismiss();
+        }
+
+        @Override
         public void onTokenGenerated(CardTokenisationResponse response) {
             mProgressDialog.dismiss(); // dismiss the loader
             mPaymentForm.clearForm(); // clear the form
@@ -35,11 +40,13 @@ public class DemoActivity extends Activity {
 
         @Override
         public void onError(CardTokenisationFail response) {
+            mProgressDialog.dismiss();
             displayMessage("Token Error", response.getErrorCode());
         }
 
         @Override
         public void onNetworkError(VolleyError error) {
+            mProgressDialog.dismiss();
             displayMessage("Network Error", String.valueOf(error));
         }
 

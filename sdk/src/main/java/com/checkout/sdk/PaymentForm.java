@@ -21,7 +21,7 @@ import com.checkout.sdk.utils.CustomAdapter;
 import com.checkout.sdk.utils.Environment;
 import com.checkout.sdk.utils.PhoneUtils;
 import com.checkout.sdk.view.BillingDetailsView;
-import com.checkout.sdk.view.CardDetailsView;
+import com.checkout.sdk.carddetails.CardDetailsView;
 
 import java.util.Locale;
 
@@ -49,6 +49,7 @@ public class PaymentForm extends FrameLayout {
      */
     public interface PaymentFormCallback {
         void onFormSubmit();
+        void onValidationError();
         void onTokenGenerated(CardTokenisationResponse response);
         void onError(CardTokenisationFail response);
         void onNetworkError(VolleyError error);
@@ -68,6 +69,11 @@ public class PaymentForm extends FrameLayout {
         @Override
         public void onFormSubmit() {
             mSubmitFormListener.onFormSubmit();
+        }
+
+        @Override
+        public void onValidationError() {
+            mSubmitFormListener.onValidationError();
         }
 
         @Override

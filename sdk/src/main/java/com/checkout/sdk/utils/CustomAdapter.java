@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.checkout.sdk.view.BillingDetailsView;
-import com.checkout.sdk.view.CardDetailsView;
+import com.checkout.sdk.carddetails.CardDetailsView;
 
 import java.util.ArrayList;
 import java.util.List;
