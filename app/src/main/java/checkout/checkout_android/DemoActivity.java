@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import com.android.volley.VolleyError;
-import com.checkout.sdk.PaymentForm;
-import com.checkout.sdk.PaymentForm.PaymentFormCallback;
+import com.checkout.sdk.paymentform.PaymentForm;
+import com.checkout.sdk.paymentform.PaymentForm.PaymentFormCallback;
 import com.checkout.sdk.response.CardTokenisationFail;
 import com.checkout.sdk.response.CardTokenisationResponse;
 import com.checkout.sdk.utils.CardUtils.Cards;
@@ -72,6 +72,18 @@ public class DemoActivity extends Activity {
                 .setEnvironment(Environment.SANDBOX)
                 .setKey("pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73")
                 .setAcceptedCard(new Cards[]{Cards.VISA, Cards.MASTERCARD});
+
+        // TODO: Make it look more like:
+        // CheckoutAPIClient checkoutAPIClient = new CheckoutAPIClient(this,
+//        "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
+//                tokenListener,
+//                Environment.SANDBOX
+//        );
+//        UiCustomizer uiCustomizer = new UiCustomizer.Builder()
+//                .acceptedCards(Arrays.asList(Cards.VISA, Cards.MASTERCARD))
+//                .build();
+//        mPaymentForm = findViewById(R.id.checkout_card_form);
+//        mPaymentForm.initialize(checkoutAPIClient, mFormListener, uiCustomizer);
     }
 
     private void displayMessage(String title, String message) {
