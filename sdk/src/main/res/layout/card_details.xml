@@ -169,29 +169,24 @@
                     android:focusableInTouchMode="true"
                     android:popupBackground="@color/spinner_background" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_area"
-                    android:layout_marginTop="@dimen/basic_field_margin_top"
-                    android:gravity="end"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/pay_button"
-                        style="@style/ThemeOverlay.AppCompat.Dark"
-                        android:layout_width="@dimen/button_width"
-                        android:layout_height="@dimen/button_height"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/basic_field_margin_side"
-                        android:layout_marginRight="@dimen/basic_field_margin_side"
-                        android:height="@dimen/button_height"
-                        android:background="?attr/colorButtonNormal"
-                        android:focusable="true"
-                        android:text="@string/button_pay"
-                        android:textAlignment="center"
-                        android:textAllCaps="true"
-                        android:textColor="@color/pay_button_text" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/pay_button"
+                    style="@style/ThemeOverlay.AppCompat.Dark"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginTop="@dimen/button_margin_top"
+                    android:paddingTop="@dimen/button_padding_vertical"
+                    android:paddingBottom="@dimen/button_padding_vertical"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/basic_field_margin_side"
+                    android:layout_marginRight="@dimen/basic_field_margin_side"
+                    android:height="@dimen/button_height"
+                    android:background="?attr/colorButtonNormal"
+                    android:focusable="true"
+                    android:text="@string/button_pay"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/pay_button_text" />
 
             </LinearLayout>
 
