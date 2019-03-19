@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import com.android.volley.VolleyError;
+import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.paymentform.PaymentForm;
-import com.checkout.sdk.paymentform.PaymentForm.PaymentFormCallback;
 import com.checkout.sdk.response.CardTokenisationFail;
 import com.checkout.sdk.response.CardTokenisationResponse;
 import com.checkout.sdk.utils.CardUtils.Cards;
@@ -19,17 +19,8 @@ public class DemoActivity extends Activity {
     private PaymentForm mPaymentForm;
     private ProgressDialog mProgressDialog;
 
-    // Callback used for the Payment Form interaction
-    private final PaymentFormCallback mFormListener = new PaymentFormCallback() {
-        @Override
-        public void onFormSubmit() {
-            mProgressDialog.show(); // show loader
-        }
 
-        @Override
-        public void onValidationError() {
-            mProgressDialog.dismiss();
-        }
+    private final CheckoutClient.OnTokenGenerated tokenListener = new CheckoutClient.OnTokenGenerated() {
 
         @Override
         public void onTokenGenerated(CardTokenisationResponse response) {
@@ -51,8 +42,8 @@ public class DemoActivity extends Activity {
         }
 
         @Override
-        public void onBackPressed() {
-            displayMessage("Back", "The user decided to leave the payment page.");
+        public void onTokenRequested() {
+            mProgressDialog.show();
         }
     };
 
@@ -67,14 +58,17 @@ public class DemoActivity extends Activity {
         mProgressDialog.setMessage("Loading...");
 
         mPaymentForm = findViewById(R.id.checkout_card_form);
+        CheckoutClient checkoutClient = new CheckoutClient(
+                this,
+                "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
+                Environment.SANDBOX,
+                tokenListener);
         mPaymentForm
-                .setFormListener(mFormListener)
-                .setEnvironment(Environment.SANDBOX)
-                .setKey("pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73")
-                .setAcceptedCard(new Cards[]{Cards.VISA, Cards.MASTERCARD});
+                .setAcceptedCard(new Cards[]{Cards.VISA, Cards.MASTERCARD})
+                .initialize(checkoutClient);
 
         // TODO: Make it look more like:
-        // CheckoutAPIClient checkoutAPIClient = new CheckoutAPIClient(this,
+        // CheckoutClient checkoutClient = new CheckoutClient(this,
 //        "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
 //                tokenListener,
 //                Environment.SANDBOX
@@ -83,7 +77,7 @@ public class DemoActivity extends Activity {
 //                .acceptedCards(Arrays.asList(Cards.VISA, Cards.MASTERCARD))
 //                .build();
 //        mPaymentForm = findViewById(R.id.checkout_card_form);
-//        mPaymentForm.initialize(checkoutAPIClient, mFormListener, uiCustomizer);
+//        mPaymentForm.initialize(checkoutClient, mFormListener, uiCustomizer);
     }
 
     private void displayMessage(String title, String message) {

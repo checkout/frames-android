@@ -3,10 +3,10 @@ package com.checkout.sdk.core
 import com.checkout.sdk.store.InMemoryStore
 
 
-class RequestValidator(private val store: InMemoryStore) {
+class CardDetailsValidator(private val store: InMemoryStore) {
 
-    fun getRequestValidity(): RequestValidity {
-        return RequestValidity(
+    fun getValidity(): CardDetailsValidity {
+        return CardDetailsValidity(
             store.cardNumber.isValid(),
             store.cvv.isValid(),
             store.cardDate.isMonthValid(),

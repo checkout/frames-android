@@ -9,17 +9,16 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.android.volley.VolleyError
+import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.R
+import com.checkout.sdk.architecture.MvpView
+import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.carddetails.CardDetailsView
+import com.checkout.sdk.core.RequestGenerator
 import com.checkout.sdk.models.BillingModel
-import com.checkout.sdk.response.CardTokenisationFail
-import com.checkout.sdk.response.CardTokenisationResponse
 import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.utils.CardUtils
-import com.checkout.sdk.utils.CustomAdapter
-import com.checkout.sdk.utils.Environment
-import com.checkout.sdk.utils.PhoneUtils
+import com.checkout.sdk.store.InMemoryStore
+import com.checkout.sdk.utils.*
 import com.checkout.sdk.view.BillingDetailsView
 import java.util.*
 
@@ -34,41 +33,46 @@ import java.util.*
 class PaymentForm @JvmOverloads constructor(
     private val mContext: Context,
     attrs: AttributeSet? = null
-) : FrameLayout(mContext, attrs) {
+) : FrameLayout(mContext, attrs), MvpView<PaymentFormUiState> {
 
-    /**
-     * This is a callback used to generate a payload with the user details and pass them to the
-     * mSubmitFormListener so the user can act upon them. The next step will most likely include using
-     * this payload to generate a token in  the CheckoutAPIClient
-     */
-    private val mDetailsCompletedListener = object : CardDetailsView.DetailsCompleted {
-        override fun onFormSubmit() {
-            mSubmitFormListener?.onFormSubmit()
+    private val inMemoryStore = InMemoryStore.Factory.get()
+    private lateinit var checkoutClient: CheckoutClient
+    private lateinit var presenter: PaymentFormPresenter
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        presenter = PresenterStore.getOrCreate(
+            PaymentFormPresenter::class.java,
+            { PaymentFormPresenter() })
+        presenter.start(this)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.stop()
+    }
+
+    fun initialize(checkoutClient: CheckoutClient) {
+        this.checkoutClient = checkoutClient
+    }
+
+    override fun onStateUpdated(uiState: PaymentFormUiState) {
+        // TODO: We should pull the spinner in as a part of the Payment Form
+    }
+
+    private var validCardDetailsListener: ValidCardDetailsListener =
+        object : ValidCardDetailsListener {
+            override fun onValidCardDetails() {
+                val getTokenUseCase = GetTokenUseCase(
+                    RequestGenerator(inMemoryStore, mDataStore, DateFormatter()),
+                    checkoutClient
+                )
+                presenter.getToken(getTokenUseCase)
+            }
         }
 
-        override fun onValidationError() {
-            mSubmitFormListener?.onValidationError()
-        }
-
-        override fun onTokeGenerated(reponse: CardTokenisationResponse) {
-            mSubmitFormListener?.onTokenGenerated(reponse)
-        }
-
-        override fun onError(error: CardTokenisationFail) {
-            mSubmitFormListener?.onError(error)
-        }
-
-        override fun onNetworkError(error: VolleyError) {
-            mSubmitFormListener?.onNetworkError(error)
-        }
-
-        override fun onBackPressed() {
-            mDataStore.cleanState()
-            mDataStore.lastCustomerNameState = null
-            mDataStore.lastBillingValidState = null
-            customAdapter!!.clearFields()
-            mSubmitFormListener?.onBackPressed()
-        }
+    interface ValidCardDetailsListener {
+        fun onValidCardDetails()
     }
 
     /**
@@ -96,7 +100,6 @@ class PaymentForm @JvmOverloads constructor(
         }
     }
     var m3DSecureListener: On3DSFinished? = null
-    var mSubmitFormListener: PaymentFormCallback? = null
 
     private var customAdapter: CustomAdapter? = null
     private var mPager: ViewPager? = null
@@ -112,19 +115,6 @@ class PaymentForm @JvmOverloads constructor(
     }
 
     /**
-     * This is interface used as a callback for when the form is completed and the user pressed the
-     * pay button. You can use this to potentially display a loader.
-     */
-    interface PaymentFormCallback {
-        fun onFormSubmit()
-        fun onValidationError()
-        fun onTokenGenerated(response: CardTokenisationResponse)
-        fun onError(response: CardTokenisationFail)
-        fun onNetworkError(error: VolleyError)
-        fun onBackPressed()
-    }
-
-    /**
      * This method is used to initialise the UI of the module
      */
     init {
@@ -136,8 +126,8 @@ class PaymentForm @JvmOverloads constructor(
         customAdapter = CustomAdapter(mContext)
         // Set up the callbacks
         customAdapter!!.setCardDetailsListener(mCardListener)
+        customAdapter!!.setValidCardDetailsListener(validCardDetailsListener)
         customAdapter!!.setBillingListener(mBillingListener)
-        customAdapter!!.setTokenDetailsCompletedListener(mDetailsCompletedListener)
         mPager!!.adapter = customAdapter
         mPager!!.isEnabled = false
     }
@@ -482,14 +472,6 @@ class PaymentForm @JvmOverloads constructor(
      */
     fun set3DSListener(listener: On3DSFinished): PaymentForm {
         this.m3DSecureListener = listener
-        return this
-    }
-
-    /**
-     * This method used to set a callback for when the form is submitted
-     */
-    fun setFormListener(listener: PaymentFormCallback): PaymentForm {
-        this.mSubmitFormListener = listener
         return this
     }
 

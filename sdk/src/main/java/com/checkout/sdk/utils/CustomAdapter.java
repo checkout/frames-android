@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.checkout.sdk.view.BillingDetailsView;
 import com.checkout.sdk.carddetails.CardDetailsView;
+import com.checkout.sdk.paymentform.PaymentForm;
+import com.checkout.sdk.view.BillingDetailsView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ public class CustomAdapter extends PagerAdapter {
     private CardDetailsView.GoToBillingListener mCardDetailsListener;
     private BillingDetailsView billingDetailsView;
     private BillingDetailsView.Listener mBillingListener;
-    private CardDetailsView.DetailsCompleted mDetailsCompletedListener;
+    private PaymentForm.ValidCardDetailsListener validCardDetailsListener;
 
     public CustomAdapter(Context context) {
         mContext = context;
@@ -42,17 +45,17 @@ public class CustomAdapter extends PagerAdapter {
     }
 
     /**
+     * Listens for field validity on the CardDetails View
+     */
+    public void setValidCardDetailsListener(@NotNull PaymentForm.ValidCardDetailsListener validCardDetailsListener) {
+        this.validCardDetailsListener = validCardDetailsListener;
+    }
+
+    /**
      * Pass the callback to go to the card details page
      */
     public void setBillingListener(BillingDetailsView.Listener listener) {
         mBillingListener = listener;
-    }
-
-    /**
-     * Pass the callback for when the card toke is generated
-     */
-    public void setTokenDetailsCompletedListener(CardDetailsView.DetailsCompleted listener) {
-        mDetailsCompletedListener = listener;
     }
 
     /**
@@ -117,7 +120,7 @@ public class CustomAdapter extends PagerAdapter {
         if (mViews.isEmpty()) {
             cardDetailsView = new CardDetailsView(mContext);
             cardDetailsView.setGoToBillingListener(mCardDetailsListener);
-            cardDetailsView.setDetailsCompletedListener(mDetailsCompletedListener);
+            cardDetailsView.setValidCardDetailsListener(validCardDetailsListener);
 
             billingDetailsView = new BillingDetailsView(mContext);
             billingDetailsView.setGoToCardDetailsListener(mBillingListener);

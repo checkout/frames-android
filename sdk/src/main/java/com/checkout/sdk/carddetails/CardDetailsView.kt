@@ -11,20 +11,18 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.android.volley.VolleyError
-import com.checkout.sdk.CheckoutAPIClient
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.core.RequestGenerator
-import com.checkout.sdk.core.RequestValidator
-import com.checkout.sdk.core.RequestValidity
+import com.checkout.sdk.core.CardDetailsValidity
+import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.input.BillingInput
+import com.checkout.sdk.paymentform.PaymentForm
 import com.checkout.sdk.response.CardTokenisationFail
 import com.checkout.sdk.response.CardTokenisationResponse
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
-import com.checkout.sdk.utils.DateFormatter
 import kotlinx.android.synthetic.main.card_details.view.*
 import java.util.*
 
@@ -43,39 +41,25 @@ class CardDetailsView @JvmOverloads constructor(
 
     private val inMemoryStore = InMemoryStore.Factory.get()
     lateinit var presenter: CardDetailsPresenter
+    private lateinit var validCardDetailsListener: PaymentForm.ValidCardDetailsListener
 
     override fun onStateUpdated(uiState: CardDetailsUiState) {
         if (uiState.hideKeyboard) {
             hideKeyboard()
         }
-        uiState.requestValidity?.let { updateFieldValidity(it) }
-        if (uiState.inProgress) {
-            mDetailsCompletedListener?.onFormSubmit()
-        } else {
-            mDetailsCompletedListener?.onValidationError()
+        uiState.cardDetailsValidity?.let {
+            updateFieldValidity(it)
+            if (it.areDetailsValid()) {
+                validCardDetailsListener.onValidCardDetails()
+            }
         }
     }
 
-    private fun updateFieldValidity(validity: RequestValidity) {
+    private fun updateFieldValidity(validity: CardDetailsValidity) {
         card_input.showError(!validity.cardNumberValid)
         cvv_input.showError(!validity.cvvValid)
         month_input.showError(!validity.monthValid)
         year_input.showError(!validity.yearValid)
-    }
-
-    // Callback used for the outcome of the generating a token
-    private val mTokenListener = object : CheckoutAPIClient.OnTokenGenerated {
-        override fun onTokenGenerated(token: CardTokenisationResponse) {
-            mDetailsCompletedListener?.onTokeGenerated(token)
-        }
-
-        override fun onError(error: CardTokenisationFail) {
-            mDetailsCompletedListener?.onError(error)
-        }
-
-        override fun onNetworkError(error: VolleyError) {
-            mDetailsCompletedListener?.onNetworkError(error)
-        }
     }
 
     /**
@@ -152,14 +136,10 @@ class CardDetailsView @JvmOverloads constructor(
             pay_button.layoutParams = mDataStore.payButtonLayout
         }
 
+        // TODO: pay_button should probably be in PaymentForm's view
         pay_button.setOnClickListener {
-            val playButtonClickedUseCaseBuilder = PayButtonClickedUseCase.Builder(
-                RequestValidator(inMemoryStore),
-                RequestGenerator(inMemoryStore, mDataStore, DateFormatter()),
-                CheckoutAPIClient(context, mDataStore.key, mDataStore.environment),
-                mTokenListener
-            )
-            presenter.payButtonClicked(playButtonClickedUseCaseBuilder)
+            val playButtonClickedUseCase = PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))
+            presenter.payButtonClicked(playButtonClickedUseCase)
         }
 
         // Restore state in case the orientation changes
@@ -181,9 +161,6 @@ class CardDetailsView @JvmOverloads constructor(
         }
         if (mDataStore.cvvLabel != null) {
             cvv_input.hint = mDataStore.cvvLabel
-        }
-        my_toolbar.setNavigationOnClickListener {
-            mDetailsCompletedListener?.onBackPressed()
         }
     }
 
@@ -309,8 +286,8 @@ class CardDetailsView @JvmOverloads constructor(
     /**
      * Used to set the callback listener for when the form is submitted
      */
-    fun setDetailsCompletedListener(listener: DetailsCompleted) {
-        mDetailsCompletedListener = listener
+    fun setValidCardDetailsListener(listener: PaymentForm.ValidCardDetailsListener) {
+        validCardDetailsListener = listener
     }
 
     /**
