@@ -3,6 +3,7 @@ package com.checkout.sdk.carddetails
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +11,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.android.volley.VolleyError
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.core.CardDetailsValidity
 import com.checkout.sdk.core.CardDetailsValidator
+import com.checkout.sdk.core.CardDetailsValidity
 import com.checkout.sdk.input.BillingInput
 import com.checkout.sdk.paymentform.PaymentForm
-import com.checkout.sdk.response.CardTokenisationFail
-import com.checkout.sdk.response.CardTokenisationResponse
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
@@ -43,10 +41,18 @@ class CardDetailsView @JvmOverloads constructor(
     lateinit var presenter: CardDetailsPresenter
     private lateinit var validCardDetailsListener: PaymentForm.ValidCardDetailsListener
 
+    fun showProgress(inProgress: Boolean) {
+        presenter.showProgress(inProgress)
+    }
+
     override fun onStateUpdated(uiState: CardDetailsUiState) {
         if (uiState.hideKeyboard) {
             hideKeyboard()
         }
+        val visibility = if (uiState.inProgress) View.VISIBLE else View.INVISIBLE
+        Log.e("JOHN", "Visibility: $visibility")
+        progress_bar.visibility = visibility
+
         uiState.cardDetailsValidity?.let {
             updateFieldValidity(it)
             if (it.areDetailsValid()) {
@@ -71,26 +77,9 @@ class CardDetailsView @JvmOverloads constructor(
 
     internal var mDataStore: DataStore = DataStore.getInstance()
     private var mGotoBillingListener: GoToBillingListener? = null
-    private var mDetailsCompletedListener: DetailsCompleted? = null
 
 
     private var mAcceptedCardsView: LinearLayout? = null
-
-    /**
-     * The callback used to indicate the form submission
-     *
-     *
-     * After the user completes their details and the form is valid this callback will
-     * be used to communicate to the parent and start the necessary API call(s).
-     */
-    interface DetailsCompleted {
-        fun onFormSubmit()
-        fun onValidationError()
-        fun onTokeGenerated(reponse: CardTokenisationResponse)
-        fun onError(error: CardTokenisationFail)
-        fun onNetworkError(error: VolleyError)
-        fun onBackPressed()
-    }
 
     /**
      * The callback used to indicate the view needs to moved to the billing details page

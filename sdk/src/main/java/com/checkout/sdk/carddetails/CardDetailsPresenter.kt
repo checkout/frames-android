@@ -8,7 +8,12 @@ class CardDetailsPresenter(initialState: CardDetailsUiState = CardDetailsUiState
 
     fun payButtonClicked(payButtonClickedUseCase: PayButtonClickedUseCase) {
         val cardDetailsValidity = payButtonClickedUseCase.execute()
-        uiState = CardDetailsUiState(cardDetailsValidity = cardDetailsValidity)
-        safeUpdateView(uiState)
+        val newState = uiState.copy(cardDetailsValidity = cardDetailsValidity) //CardDetailsUiState(cardDetailsValidity = cardDetailsValidity)
+        safeUpdateView(newState)
+    }
+
+    fun showProgress(inProgress: Boolean) {
+        val newState = CardDetailsUiState(inProgress = inProgress)
+        safeUpdateView(newState)
     }
 }

@@ -3,6 +3,7 @@ package com.checkout.sdk;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
+import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.request.CardTokenisationRequest;
 import com.checkout.sdk.request.GooglePayTokenisationRequest;
 import com.checkout.sdk.response.CardTokenisationFail;
@@ -20,6 +21,10 @@ public class CheckoutClient {
 
     private String key;
 
+    public interface TokenCallback {
+        void onTokenResult(TokenResult tokenResult);
+    }
+
     /**
      * This is interface used as a callback for when the card token is generated
      */
@@ -29,10 +34,6 @@ public class CheckoutClient {
         void onError(CardTokenisationFail error);
 
         void onNetworkError(VolleyError error);
-
-        // TODO: This addition is needed due to having the spinner outside the PaymentForm View
-        // TODO: Should bring the Spinner inside that view and then remove this
-        void onTokenRequested();
     }
 
     /**
@@ -48,19 +49,19 @@ public class CheckoutClient {
 
     private Context mContext;
     private Environment mEnvironment = Environment.SANDBOX;
-    private final CheckoutClient.OnTokenGenerated tokenListener;
+    private final CheckoutClient.TokenCallback tokenCallback;
     private CheckoutClient.OnGooglePayTokenGenerated mGooglePayTokenListener;
 
 
-    public CheckoutClient(Context context, String key, Environment environment, CheckoutClient.OnTokenGenerated tokenListener) {
+    public CheckoutClient(Context context, String key, Environment environment, CheckoutClient.TokenCallback tokenCallback) {
         this.mContext = context;
         this.key = key;
         this.mEnvironment = environment;
-        this.tokenListener = tokenListener;
+        this.tokenCallback = tokenCallback;
     }
 
-    public CheckoutClient.OnTokenGenerated getTokenListener() {
-        return tokenListener;
+    public CheckoutClient.TokenCallback getTokenCallback() {
+        return tokenCallback;
     }
 
     /**
@@ -76,7 +77,7 @@ public class CheckoutClient {
      *
      * @param request Custom request body to be used in the HTTP call.
      */
-    public void generateToken(CardTokenisationRequest request) {
+    public void generateToken(CardTokenisationRequest request, OnTokenGenerated tokenListener) {
 
         // Initialise the HTTP utility class
         HttpUtils http = new HttpUtils(mContext);

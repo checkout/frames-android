@@ -57,17 +57,17 @@ class PaymentForm @JvmOverloads constructor(
     }
 
     override fun onStateUpdated(uiState: PaymentFormUiState) {
-        // TODO: We should pull the spinner in as a part of the Payment Form
+        customAdapter?.showCardDetailsProgress(uiState.inProgress)
     }
 
     private var validCardDetailsListener: ValidCardDetailsListener =
         object : ValidCardDetailsListener {
             override fun onValidCardDetails() {
-                val getTokenUseCase = GetTokenUseCase(
+                val getTokenUseCaseBuilder = GetTokenUseCase.Builder(
                     RequestGenerator(inMemoryStore, mDataStore, DateFormatter()),
                     checkoutClient
                 )
-                presenter.getToken(getTokenUseCase)
+                presenter.getToken(getTokenUseCaseBuilder)
             }
         }
 

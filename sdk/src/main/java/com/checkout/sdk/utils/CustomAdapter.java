@@ -132,4 +132,10 @@ public class CustomAdapter extends PagerAdapter {
             container.addView(billingDetailsView);
         }
     }
+
+    public void showCardDetailsProgress(boolean inProgress) {
+        if (cardDetailsView != null) {
+            cardDetailsView.showProgress(inProgress);
+        }
+    }
 }

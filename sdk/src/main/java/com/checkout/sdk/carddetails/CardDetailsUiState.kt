@@ -6,5 +6,6 @@ import com.checkout.sdk.core.CardDetailsValidity
 
 data class CardDetailsUiState(
     val hideKeyboard: Boolean = true,
-    val cardDetailsValidity: CardDetailsValidity? = null
+    val cardDetailsValidity: CardDetailsValidity? = null,
+    val inProgress: Boolean = false
 ) : UiState
