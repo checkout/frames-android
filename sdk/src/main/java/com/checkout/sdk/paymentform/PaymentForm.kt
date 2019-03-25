@@ -60,9 +60,9 @@ class PaymentForm @JvmOverloads constructor(
         customAdapter?.showCardDetailsProgress(uiState.inProgress)
     }
 
-    private var validCardDetailsListener: ValidCardDetailsListener =
-        object : ValidCardDetailsListener {
-            override fun onValidCardDetails() {
+    private var validPayRequestListener: ValidPayRequestListener =
+        object : ValidPayRequestListener {
+            override fun onValidPayRequest() {
                 val getTokenUseCaseBuilder = GetTokenUseCase.Builder(
                     RequestGenerator(inMemoryStore, mDataStore, DateFormatter()),
                     checkoutClient
@@ -71,8 +71,8 @@ class PaymentForm @JvmOverloads constructor(
             }
         }
 
-    interface ValidCardDetailsListener {
-        fun onValidCardDetails()
+    interface ValidPayRequestListener {
+        fun onValidPayRequest()
     }
 
     /**
@@ -126,7 +126,7 @@ class PaymentForm @JvmOverloads constructor(
         customAdapter = CustomAdapter(mContext)
         // Set up the callbacks
         customAdapter!!.setCardDetailsListener(mCardListener)
-        customAdapter!!.setValidCardDetailsListener(validCardDetailsListener)
+        customAdapter!!.setValidPayRequestListener(validPayRequestListener)
         customAdapter!!.setBillingListener(mBillingListener)
         mPager!!.adapter = customAdapter
         mPager!!.isEnabled = false

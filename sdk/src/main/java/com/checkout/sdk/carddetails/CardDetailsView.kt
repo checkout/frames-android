@@ -39,7 +39,7 @@ class CardDetailsView @JvmOverloads constructor(
 
     private val inMemoryStore = InMemoryStore.Factory.get()
     lateinit var presenter: CardDetailsPresenter
-    private lateinit var validCardDetailsListener: PaymentForm.ValidCardDetailsListener
+    private lateinit var validPayRequestListener: PaymentForm.ValidPayRequestListener
 
     fun showProgress(inProgress: Boolean) {
         presenter.showProgress(inProgress)
@@ -56,7 +56,7 @@ class CardDetailsView @JvmOverloads constructor(
         uiState.cardDetailsValidity?.let {
             updateFieldValidity(it)
             if (it.areDetailsValid()) {
-                validCardDetailsListener.onValidCardDetails()
+                validPayRequestListener.onValidPayRequest()
             }
         }
     }
@@ -275,8 +275,8 @@ class CardDetailsView @JvmOverloads constructor(
     /**
      * Used to set the callback listener for when the form is submitted
      */
-    fun setValidCardDetailsListener(listener: PaymentForm.ValidCardDetailsListener) {
-        validCardDetailsListener = listener
+    fun setValidCardDetailsListener(listener: PaymentForm.ValidPayRequestListener) {
+        validPayRequestListener = listener
     }
 
     /**

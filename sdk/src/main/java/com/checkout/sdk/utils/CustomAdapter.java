@@ -31,7 +31,7 @@ public class CustomAdapter extends PagerAdapter {
     private CardDetailsView.GoToBillingListener mCardDetailsListener;
     private BillingDetailsView billingDetailsView;
     private BillingDetailsView.Listener mBillingListener;
-    private PaymentForm.ValidCardDetailsListener validCardDetailsListener;
+    private PaymentForm.ValidPayRequestListener validPayRequestListener;
 
     public CustomAdapter(Context context) {
         mContext = context;
@@ -47,8 +47,8 @@ public class CustomAdapter extends PagerAdapter {
     /**
      * Listens for field validity on the CardDetails View
      */
-    public void setValidCardDetailsListener(@NotNull PaymentForm.ValidCardDetailsListener validCardDetailsListener) {
-        this.validCardDetailsListener = validCardDetailsListener;
+    public void setValidPayRequestListener(@NotNull PaymentForm.ValidPayRequestListener validPayRequestListener) {
+        this.validPayRequestListener = validPayRequestListener;
     }
 
     /**
@@ -120,7 +120,7 @@ public class CustomAdapter extends PagerAdapter {
         if (mViews.isEmpty()) {
             cardDetailsView = new CardDetailsView(mContext);
             cardDetailsView.setGoToBillingListener(mCardDetailsListener);
-            cardDetailsView.setValidCardDetailsListener(validCardDetailsListener);
+            cardDetailsView.setValidCardDetailsListener(validPayRequestListener);
 
             billingDetailsView = new BillingDetailsView(mContext);
             billingDetailsView.setGoToCardDetailsListener(mBillingListener);
