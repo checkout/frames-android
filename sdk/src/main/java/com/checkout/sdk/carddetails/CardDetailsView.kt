@@ -75,7 +75,7 @@ class CardDetailsView @JvmOverloads constructor(
         mGotoBillingListener?.onGoToBillingPressed()
     }
 
-    internal var mDataStore: DataStore = DataStore.getInstance()
+    private var mDataStore: DataStore = DataStore.getInstance()
     private var mGotoBillingListener: GoToBillingListener? = null
 
 
@@ -93,7 +93,8 @@ class CardDetailsView @JvmOverloads constructor(
     }
 
     init {
-        View.inflate(mContext, R.layout.card_details, this)
+        inflate(mContext, R.layout.card_details, this)
+        orientation = VERTICAL
     }
 
     /**
