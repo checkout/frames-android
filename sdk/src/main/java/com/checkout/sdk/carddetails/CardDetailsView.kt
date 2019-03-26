@@ -126,7 +126,6 @@ class CardDetailsView @JvmOverloads constructor(
             pay_button.layoutParams = mDataStore.payButtonLayout
         }
 
-        // TODO: pay_button should probably be in PaymentForm's view
         pay_button.setOnClickListener {
             val playButtonClickedUseCase = PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))
             presenter.payButtonClicked(playButtonClickedUseCase)
@@ -276,7 +275,7 @@ class CardDetailsView @JvmOverloads constructor(
     /**
      * Used to set the callback listener for when the form is submitted
      */
-    fun setValidCardDetailsListener(listener: PaymentForm.ValidPayRequestListener) {
+    fun setValidPayRequestListener(listener: PaymentForm.ValidPayRequestListener) {
         validPayRequestListener = listener
     }
 

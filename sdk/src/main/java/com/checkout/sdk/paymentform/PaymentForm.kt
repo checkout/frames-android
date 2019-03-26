@@ -9,8 +9,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.R
+import com.checkout.sdk.animation.SlidingViewAnimator
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.carddetails.CardDetailsView
@@ -18,8 +20,12 @@ import com.checkout.sdk.core.RequestGenerator
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
-import com.checkout.sdk.utils.*
+import com.checkout.sdk.utils.CardUtils
+import com.checkout.sdk.utils.DateFormatter
+import com.checkout.sdk.utils.Environment
+import com.checkout.sdk.utils.PhoneUtils
 import com.checkout.sdk.view.BillingDetailsView
+import kotlinx.android.synthetic.main.payment_form.view.*
 import java.util.*
 
 /**
@@ -33,11 +39,12 @@ import java.util.*
 class PaymentForm @JvmOverloads constructor(
     private val mContext: Context,
     attrs: AttributeSet? = null
-) : FrameLayout(mContext, attrs), MvpView<PaymentFormUiState> {
+) : RelativeLayout(mContext, attrs), MvpView<PaymentFormUiState> {
 
     private val inMemoryStore = InMemoryStore.Factory.get()
     private lateinit var checkoutClient: CheckoutClient
     private lateinit var presenter: PaymentFormPresenter
+    private val slidingViewAnimator: SlidingViewAnimator = SlidingViewAnimator(context)
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -50,6 +57,7 @@ class PaymentForm @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         presenter.stop()
+        slidingViewAnimator.cancelAnimations()
     }
 
     fun initialize(checkoutClient: CheckoutClient) {
@@ -57,7 +65,7 @@ class PaymentForm @JvmOverloads constructor(
     }
 
     override fun onStateUpdated(uiState: PaymentFormUiState) {
-        customAdapter?.showCardDetailsProgress(uiState.inProgress)
+        uiState.inProgress?.let { card_details_view.showProgress(it) }
     }
 
     private var validPayRequestListener: ValidPayRequestListener =
@@ -81,27 +89,18 @@ class PaymentForm @JvmOverloads constructor(
      */
     private val mBillingListener = object : BillingDetailsView.Listener {
         override fun onBillingCompleted() {
-            customAdapter!!.updateBillingSpinner()
-            mPager!!.currentItem = CARD_DETAILS_PAGE_INDEX
+            card_details_view.updateBillingSpinner()
+            slidingViewAnimator.transitionOutToRight(billing_details_view, card_details_view)
         }
 
         override fun onBillingCanceled() {
-            customAdapter!!.clearBillingSpinner()
-            mPager!!.currentItem = CARD_DETAILS_PAGE_INDEX
+            card_details_view.clearBillingSpinner()
+            slidingViewAnimator.transitionOutToRight(billing_details_view, card_details_view)
         }
     }
 
-    /**
-     * This is a callback used to navigate to the billing details page
-     */
-    private val mCardListener = object : CardDetailsView.GoToBillingListener {
-        override fun onGoToBillingPressed() {
-            mPager!!.currentItem = BILLING_DETAILS_PAGE_INDEX
-        }
-    }
     var m3DSecureListener: On3DSFinished? = null
 
-    private var customAdapter: CustomAdapter? = null
     private var mPager: ViewPager? = null
     private val mDataStore = DataStore.getInstance()
 
@@ -119,17 +118,16 @@ class PaymentForm @JvmOverloads constructor(
      */
     init {
         // Set up the layout
-        View.inflate(mContext, R.layout.payment_form, this)
+        inflate(mContext, R.layout.payment_form, this)
 
-        mPager = findViewById(R.id.view_pager)
-        // Use a custom adapter for the viewpager
-        customAdapter = CustomAdapter(mContext)
-        // Set up the callbacks
-        customAdapter!!.setCardDetailsListener(mCardListener)
-        customAdapter!!.setValidPayRequestListener(validPayRequestListener)
-        customAdapter!!.setBillingListener(mBillingListener)
-        mPager!!.adapter = customAdapter
-        mPager!!.isEnabled = false
+        card_details_view.setGoToBillingListener(object: CardDetailsView.GoToBillingListener {
+            override fun onGoToBillingPressed() {
+                slidingViewAnimator.transitionInFromRight(billing_details_view, card_details_view)
+            }
+        })
+
+        card_details_view.setValidPayRequestListener(validPayRequestListener)
+        billing_details_view.setGoToCardDetailsListener(mBillingListener)
     }
 
     /**
@@ -445,7 +443,8 @@ class PaymentForm @JvmOverloads constructor(
         if (mDataStore != null && mDataStore.defaultCountry != null) {
             mDataStore.defaultCountry = mDataStore.defaultCountry
         }
-        customAdapter!!.clearFields()
+        card_details_view.resetFields()
+        billing_details_view.resetFields()
         if (mDataStore != null && mDataStore.defaultBillingDetails != null) {
             mDataStore.isBillingCompleted = true
             mDataStore.lastBillingValidState = mDataStore.defaultBillingDetails
@@ -474,12 +473,4 @@ class PaymentForm @JvmOverloads constructor(
         this.m3DSecureListener = listener
         return this
     }
-
-    companion object {
-
-        // Indexes for the pages
-        private const val CARD_DETAILS_PAGE_INDEX = 0
-        private const val BILLING_DETAILS_PAGE_INDEX = 1
-    }
-
 }

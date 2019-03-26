@@ -251,7 +251,8 @@ public class BillingDetailsView extends LinearLayout {
      * Used to initialise element and pass callbacks as well as setting up appropriate listeners
      */
     private void init() {
-        inflate(mContext, R.layout.blling_details, this);
+        inflate(mContext, R.layout.billing_details, this);
+        setOrientation(VERTICAL);
         mToolbar = findViewById(R.id.my_toolbar);
 
         setFocusableInTouchMode(true);
