@@ -8,9 +8,9 @@ import android.util.Log;
 
 import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.FormCustomizer;
+import com.checkout.sdk.core.Card;
 import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.paymentform.PaymentForm;
-import com.checkout.sdk.utils.CardUtils.Card;
 import com.checkout.sdk.utils.Environment;
 
 import java.util.Arrays;

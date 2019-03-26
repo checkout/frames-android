@@ -2,7 +2,7 @@ package com.checkout.sdk.cardinput
 
 import android.text.Editable
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.utils.CardUtils
+import com.checkout.sdk.core.Card
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +34,7 @@ class CardInputPresenterTest {
 
     @Before
     fun onSetup() {
-        initialState = CardInputUiState("1234", CardUtils.Card.JCB, false)
+        initialState = CardInputUiState("1234", Card.JCB, false)
         presenter = CardInputPresenter(initialState)
         presenter.start(viewMock)
         reset(viewMock)
@@ -44,7 +44,7 @@ class CardInputPresenterTest {
     fun `given text changed then use case result should be applied to view state`() {
         val initialState = CardInputUiState(
             "4139578",
-            CardUtils.Card.DISCOVER,
+            Card.DISCOVER,
             false
         )
         given(cardInputUseCase.execute()).willReturn(initialState.cardType)

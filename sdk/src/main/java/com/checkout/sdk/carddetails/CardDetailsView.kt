@@ -12,12 +12,12 @@ import android.widget.LinearLayout
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
+import com.checkout.sdk.core.Card
 import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.CardDetailsValidity
 import com.checkout.sdk.paymentform.PaymentForm
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
-import com.checkout.sdk.utils.CardUtils
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.card_details.view.*
 import java.util.*
@@ -236,9 +236,9 @@ class CardDetailsView @JvmOverloads constructor(
         val allCards = if (mDataStore.acceptedCards != null) {
             mDataStore.acceptedCards
         } else {
-            val allCardsIncludingDefault = mutableListOf(*CardUtils.Card.values())
-            allCardsIncludingDefault.remove(CardUtils.Card.DEFAULT)
-            allCardsIncludingDefault.toList()
+            val allCardsIncludingDefault = mutableListOf(*Card.values())
+            allCardsIncludingDefault.remove(Card.DEFAULT)
+            allCardsIncludingDefault
         }
 
         for (card in allCards) {

@@ -2,8 +2,8 @@ package com.checkout.sdk.store;
 
 import android.widget.LinearLayout;
 
+import com.checkout.sdk.core.Card;
 import com.checkout.sdk.models.BillingModel;
-import com.checkout.sdk.utils.CardUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -24,7 +24,7 @@ public class DataStore {
     private String mCardCvv;
     private int mCvvLength = 4;
 
-    private List<CardUtils.Card> acceptedCards;
+    private List<Card> acceptedCards;
 
     private String mSuccessUrl;
     private String mFailUrl;
@@ -471,11 +471,11 @@ public class DataStore {
         this.billingCompleted = false;
     }
 
-    public List<CardUtils.Card> getAcceptedCards() {
+    public List<Card> getAcceptedCards() {
         return acceptedCards;
     }
 
-    public void setAcceptedCards(List<CardUtils.Card> acceptedCards) {
+    public void setAcceptedCards(List<Card> acceptedCards) {
         this.acceptedCards = acceptedCards;
     }
 }

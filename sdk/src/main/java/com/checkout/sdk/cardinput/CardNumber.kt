@@ -1,5 +1,6 @@
 package com.checkout.sdk.cardinput
 
+import com.checkout.sdk.core.Card
 import com.checkout.sdk.utils.CardUtils
 
 
@@ -10,7 +11,7 @@ data class CardNumber(val value: String) {
         return CardUtils.isValidCard(value) && hasDesiredLength(value, cardType)
     }
 
-    private fun hasDesiredLength(number: String, cardType: CardUtils.Card) =
+    private fun hasDesiredLength(number: String, cardType: Card) =
         number.length in cardType.cardLength
 
     companion object {

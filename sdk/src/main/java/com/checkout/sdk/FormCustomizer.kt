@@ -1,9 +1,9 @@
 package com.checkout.sdk
 
 import android.widget.LinearLayout
+import com.checkout.sdk.core.Card
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.utils.CardUtils
 import com.checkout.sdk.utils.PhoneUtils
 import java.util.*
 
@@ -17,7 +17,7 @@ class FormCustomizer {
      *
      * @param cards array of accepted cards
      */
-    fun setAcceptedCards(cards: List<CardUtils.Card>): FormCustomizer {
+    fun setAcceptedCards(cards: List<Card>): FormCustomizer {
         mDataStore.acceptedCards = cards
         return this
     }
