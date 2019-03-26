@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+
 import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.paymentform.PaymentForm;
@@ -22,6 +24,7 @@ public class DemoActivity extends Activity {
                 mPaymentForm.clearForm(); // clear the form
                 String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().getId();
                 displayMessage("Token", id);
+                Log.e("JOHN", "Token: " + id);
             } else if (tokenResult instanceof TokenResult.TokenResultTokenisationFail) {
                 String errorCode = ((TokenResult.TokenResultTokenisationFail) tokenResult).getError().getErrorCode();
                 displayMessage("Token Error", errorCode);

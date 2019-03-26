@@ -2,7 +2,6 @@ package com.checkout.sdk.paymentform
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.View
 import android.webkit.WebView
@@ -101,7 +100,6 @@ class PaymentForm @JvmOverloads constructor(
 
     var m3DSecureListener: On3DSFinished? = null
 
-    private var mPager: ViewPager? = null
     private val mDataStore = DataStore.getInstance()
 
     /**
@@ -152,9 +150,7 @@ class PaymentForm @JvmOverloads constructor(
      * @param failsUrl   the Redirection Fail url set up in the Checkout.com HUB
      */
     fun handle3DS(url: String, successUrl: String, failsUrl: String) {
-        if (mPager != null) {
-            mPager!!.visibility = View.GONE // dismiss the card form UI
-        }
+        visibility = View.GONE // dismiss the card form UI
         val web = WebView(mContext)
         web.loadUrl(url)
         web.settings.javaScriptEnabled = true
