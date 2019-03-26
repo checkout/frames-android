@@ -119,7 +119,7 @@ class PaymentForm @JvmOverloads constructor(
         inflate(mContext, R.layout.payment_form, this)
 
         card_details_view.setGoToBillingListener(object: CardDetailsView.GoToBillingListener {
-            override fun onGoToBillingPressed() {
+            override fun onGoToBilling() {
                 slidingViewAnimator.transitionInFromRight(billing_details_view, card_details_view)
             }
         })

@@ -3,7 +3,6 @@ package com.checkout.sdk.carddetails
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.CardDetailsValidity
-import com.checkout.sdk.input.BillingInput
 import com.checkout.sdk.paymentform.PaymentForm
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
@@ -39,46 +37,9 @@ class CardDetailsView @JvmOverloads constructor(
 
     private val inMemoryStore = InMemoryStore.Factory.get()
     lateinit var presenter: CardDetailsPresenter
-    private lateinit var validPayRequestListener: PaymentForm.ValidPayRequestListener
-
-    fun showProgress(inProgress: Boolean) {
-        presenter.showProgress(inProgress)
-    }
-
-    override fun onStateUpdated(uiState: CardDetailsUiState) {
-        if (uiState.hideKeyboard) {
-            hideKeyboard()
-        }
-        val visibility = if (uiState.inProgress) View.VISIBLE else View.INVISIBLE
-        Log.e("JOHN", "Visibility: $visibility")
-        progress_bar.visibility = visibility
-
-        uiState.cardDetailsValidity?.let {
-            updateFieldValidity(it)
-            if (it.areDetailsValid()) {
-                validPayRequestListener.onValidPayRequest()
-            }
-        }
-    }
-
-    private fun updateFieldValidity(validity: CardDetailsValidity) {
-        card_input.showError(!validity.cardNumberValid)
-        cvv_input.showError(!validity.cvvValid)
-        month_input.showError(!validity.monthValid)
-        year_input.showError(!validity.yearValid)
-    }
-
-    /**
-     * The callback is used to trigger the focus change to the billing page
-     */
-    private val mBillingInputListener = BillingInput.BillingListener {
-        mGotoBillingListener?.onGoToBillingPressed()
-    }
-
+    private var validPayRequestListener: PaymentForm.ValidPayRequestListener? = null
     private var mDataStore: DataStore = DataStore.getInstance()
     private var mGotoBillingListener: GoToBillingListener? = null
-
-
     private var mAcceptedCardsView: LinearLayout? = null
 
     /**
@@ -89,7 +50,7 @@ class CardDetailsView @JvmOverloads constructor(
      * to communicate to the parent the focus change is requested
      */
     interface GoToBillingListener {
-        fun onGoToBillingPressed()
+        fun onGoToBilling()
     }
 
     init {
@@ -116,7 +77,7 @@ class CardDetailsView @JvmOverloads constructor(
             billing_helper_text.visibility = View.GONE
             go_to_billing.visibility = View.GONE
         } else {
-            go_to_billing.setBillingListener(mBillingInputListener)
+            go_to_billing.setBillingListener(mGotoBillingListener)
         }
 
         if (mDataStore.payButtonText != null) {
@@ -127,7 +88,8 @@ class CardDetailsView @JvmOverloads constructor(
         }
 
         pay_button.setOnClickListener {
-            val playButtonClickedUseCase = PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))
+            val playButtonClickedUseCase =
+                PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))
             presenter.payButtonClicked(playButtonClickedUseCase)
         }
 
@@ -151,6 +113,32 @@ class CardDetailsView @JvmOverloads constructor(
         if (mDataStore.cvvLabel != null) {
             cvv_input.hint = mDataStore.cvvLabel
         }
+    }
+
+    fun showProgress(inProgress: Boolean) {
+        presenter.showProgress(inProgress)
+    }
+
+    override fun onStateUpdated(uiState: CardDetailsUiState) {
+        if (uiState.hideKeyboard) {
+            hideKeyboard()
+        }
+        val visibility = if (uiState.inProgress) View.VISIBLE else View.INVISIBLE
+        progress_bar.visibility = visibility
+
+        uiState.cardDetailsValidity?.let {
+            updateFieldValidity(it)
+            if (it.areDetailsValid()) {
+                validPayRequestListener?.onValidPayRequest()
+            }
+        }
+    }
+
+    private fun updateFieldValidity(validity: CardDetailsValidity) {
+        card_input.showError(!validity.cardNumberValid)
+        cvv_input.showError(!validity.cvvValid)
+        month_input.showError(!validity.monthValid)
+        year_input.showError(!validity.yearValid)
     }
 
     override fun onDetachedFromWindow() {
