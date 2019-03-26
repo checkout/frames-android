@@ -2,10 +2,9 @@ package com.checkout.sdk.carddetails
 
 import android.app.Activity
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -19,6 +18,7 @@ import com.checkout.sdk.paymentform.PaymentForm
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
+import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.card_details.view.*
 import java.util.*
 
@@ -236,27 +236,23 @@ class CardDetailsView @JvmOverloads constructor(
         val allCards = if (mDataStore.acceptedCards != null) {
             mDataStore.acceptedCards
         } else {
-            listOf(*CardUtils.Card.values())
+            val allCardsIncludingDefault = mutableListOf(*CardUtils.Card.values())
+            allCardsIncludingDefault.remove(CardUtils.Card.DEFAULT)
+            allCardsIncludingDefault.toList()
         }
-
-        val size =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35f, resources.displayMetrics)
-                .toInt()
-        val margin =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, resources.displayMetrics)
-                .toInt()
 
         for (card in allCards) {
-            val image = ImageView(mContext)
-            image.layoutParams = android.view.ViewGroup.LayoutParams(size, size)
-            image.setImageResource(card.resourceId)
-            val marginParams = ViewGroup.MarginLayoutParams(image.layoutParams)
-            marginParams.setMargins(0, 0, margin, 0)
+            val cardIconView = inflate(context, R.layout.view_credit_card_icon, null) as ImageView
+            val cardDrawable = ContextCompat.getDrawable(context, card.resourceId)
+            cardIconView.setImageDrawable(cardDrawable)
 
-            // Adds the view to the layout
-            card_icons_layout.addView(image)
+            val cardIconSize = context.resources.getDimensionPixelSize(R.dimen.cards_icon_size)
+            val layoutParams = FlexboxLayout.LayoutParams(cardIconSize, cardIconSize)
+            val cardRightMargin = context.resources.getDimensionPixelSize(R.dimen.cards_icon_margin)
+            layoutParams.setMargins(0, 0, cardRightMargin, 0)
+            cardIconView.layoutParams = layoutParams
+            card_icons_flexbox.addView(cardIconView)
         }
-
     }
 
     /**
