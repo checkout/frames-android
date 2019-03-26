@@ -48,7 +48,7 @@ public class CheckoutClient {
     }
 
     private Context mContext;
-    private Environment mEnvironment = Environment.SANDBOX;
+    private final Environment mEnvironment;
     private final CheckoutClient.TokenCallback tokenCallback;
     private CheckoutClient.OnGooglePayTokenGenerated mGooglePayTokenListener;
 
