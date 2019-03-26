@@ -5,6 +5,6 @@ import com.checkout.sdk.utils.CardUtils
 
 data class CardInputUiState(
     val cardNumber: String = "",
-    val cardType: CardUtils.Cards = CardUtils.Cards.DEFAULT,
+    val cardType: CardUtils.Card = CardUtils.Card.DEFAULT,
     val showCardError: Boolean = false
 ) : UiState

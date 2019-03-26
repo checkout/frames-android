@@ -89,7 +89,7 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     /**
      * This method will display a card icon associated to the specific card scheme
      */
-    private fun setCardTypeIcon(type: CardUtils.Cards) {
+    private fun setCardTypeIcon(type: CardUtils.Card) {
         val img: Drawable
         if (type.resourceId != 0) {
             img = context.resources.getDrawable(type.resourceId)

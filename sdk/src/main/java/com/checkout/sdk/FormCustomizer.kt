@@ -17,7 +17,7 @@ class FormCustomizer {
      *
      * @param cards array of accepted cards
      */
-    fun setAcceptedCard(cards: Array<CardUtils.Cards>): FormCustomizer {
+    fun setAcceptedCards(cards: List<CardUtils.Card>): FormCustomizer {
         mDataStore.acceptedCards = cards
         return this
     }

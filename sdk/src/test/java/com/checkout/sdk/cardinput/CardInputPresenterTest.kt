@@ -34,7 +34,7 @@ class CardInputPresenterTest {
 
     @Before
     fun onSetup() {
-        initialState = CardInputUiState("1234", CardUtils.Cards.JCB, false)
+        initialState = CardInputUiState("1234", CardUtils.Card.JCB, false)
         presenter = CardInputPresenter(initialState)
         presenter.start(viewMock)
         reset(viewMock)
@@ -44,7 +44,7 @@ class CardInputPresenterTest {
     fun `given text changed then use case result should be applied to view state`() {
         val initialState = CardInputUiState(
             "4139578",
-            CardUtils.Cards.DISCOVER,
+            CardUtils.Card.DISCOVER,
             false
         )
         given(cardInputUseCase.execute()).willReturn(initialState.cardType)

@@ -6,6 +6,7 @@ import com.checkout.sdk.models.BillingModel;
 import com.checkout.sdk.utils.CardUtils;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -23,7 +24,7 @@ public class DataStore {
     private String mCardCvv;
     private int mCvvLength = 4;
 
-    private CardUtils.Cards[] acceptedCards;
+    private List<CardUtils.Card> acceptedCards;
 
     private String mSuccessUrl;
     private String mFailUrl;
@@ -470,11 +471,11 @@ public class DataStore {
         this.billingCompleted = false;
     }
 
-    public CardUtils.Cards[] getAcceptedCards() {
+    public List<CardUtils.Card> getAcceptedCards() {
         return acceptedCards;
     }
 
-    public void setAcceptedCards(CardUtils.Cards[] acceptedCards) {
+    public void setAcceptedCards(List<CardUtils.Card> acceptedCards) {
         this.acceptedCards = acceptedCards;
     }
 }

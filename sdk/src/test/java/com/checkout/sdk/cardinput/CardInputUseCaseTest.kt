@@ -31,7 +31,7 @@ class CardInputUseCaseTest {
 
         val cardInputType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedType = CardUtils.Cards.DEFAULT
+        val expectedType = CardUtils.Card.DEFAULT
         assertEquals(expectedType, cardInputType)
         assertEquals(cardNumber.value, editable.toString())
         then(inMemoryStore).should().cardNumber = cardNumber
@@ -46,7 +46,7 @@ class CardInputUseCaseTest {
 
         val cardType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedType = CardUtils.Cards.VISA
+        val expectedType = CardUtils.Card.VISA
         assertEquals(expectedType, cardType)
         assertEquals(spacedVisaNumber, editable.toString())
         then(inMemoryStore).should().cardNumber = nonSpacedVisaNumber
@@ -61,7 +61,7 @@ class CardInputUseCaseTest {
 
         val cardType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedType = CardUtils.Cards.VISA
+        val expectedType = CardUtils.Card.VISA
         assertEquals(expectedType, cardType)
         then(editable).should().replace(0, visaNumberToBeSpaced.value.length, visaNumberSpaced)
         then(inMemoryStore).should().cardNumber = visaNumberToBeSpaced

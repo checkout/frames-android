@@ -10,6 +10,6 @@ data class Cvv(val value: String, val expectedLength: Int) {
     }
 
     companion object {
-        val UNKNOWN = Cvv("unknown", CardUtils.Cards.DEFAULT.maxCvvLength)
+        val UNKNOWN = Cvv("unknown", CardUtils.Card.DEFAULT.maxCvvLength)
     }
 }

@@ -40,7 +40,6 @@ class CardDetailsView @JvmOverloads constructor(
     private var validPayRequestListener: PaymentForm.ValidPayRequestListener? = null
     private var mDataStore: DataStore = DataStore.getInstance()
     private var mGotoBillingListener: GoToBillingListener? = null
-    private var mAcceptedCardsView: LinearLayout? = null
 
     /**
      * The callback used to indicate the view needs to moved to the billing details page
@@ -97,7 +96,6 @@ class CardDetailsView @JvmOverloads constructor(
         repopulateField()
 
         // Populate accepted cards
-        mAcceptedCardsView = findViewById(R.id.card_icons_layout)
         setAcceptedCards()
 
         // Set custom labels
@@ -235,10 +233,11 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private fun setAcceptedCards() {
 
-        val allCards = if (mDataStore.acceptedCards != null)
+        val allCards = if (mDataStore.acceptedCards != null) {
             mDataStore.acceptedCards
-        else
-            Arrays.asList<CardUtils.Cards>(*CardUtils.Cards.values()).toTypedArray()
+        } else {
+            listOf(*CardUtils.Card.values())
+        }
 
         val size =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35f, resources.displayMetrics)
@@ -255,7 +254,7 @@ class CardDetailsView @JvmOverloads constructor(
             marginParams.setMargins(0, 0, margin, 0)
 
             // Adds the view to the layout
-            mAcceptedCardsView?.addView(image)
+            card_icons_layout.addView(image)
         }
 
     }

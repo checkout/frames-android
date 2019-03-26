@@ -10,7 +10,7 @@ data class CardNumber(val value: String) {
         return CardUtils.isValidCard(value) && hasDesiredLength(value, cardType)
     }
 
-    private fun hasDesiredLength(number: String, cardType: CardUtils.Cards) =
+    private fun hasDesiredLength(number: String, cardType: CardUtils.Card) =
         number.length in cardType.cardLength
 
     companion object {

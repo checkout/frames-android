@@ -9,9 +9,9 @@ import com.checkout.sdk.utils.CardUtils
 open class CardInputUseCase(
     open val editableText: Editable,
     private val inMemoryStore: InMemoryStore
-) : UseCase<CardUtils.Cards> {
+) : UseCase<CardUtils.Card> {
 
-    override fun execute(): CardUtils.Cards {
+    override fun execute(): CardUtils.Card {
         // Remove Spaces
         val sanitized = sanitizeEntry(editableText.toString())
         // Format number

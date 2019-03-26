@@ -21,17 +21,17 @@ public class CardUtils {
      *
      * @param number the String value of a card number
      * @return Cards object for the given type found
-     * @see Cards
+     * @see Card
      */
-    public static Cards getType(String number) {
+    public static Card getType(String number) {
 
         // Remove spaces from The number String
         number = sanitizeEntry(number);
-        CardUtils.Cards[] cards = CardUtils.Cards.values();
+        Card[] cards = Card.values();
 
         // Iterate over the card card types and check what pattern matches
         if (!number.equals("")) {
-            for (Cards card : cards) {
+            for (Card card : cards) {
                 if (number.matches(card.pattern)) {
                     return card;
                 }
@@ -39,13 +39,13 @@ public class CardUtils {
         }
 
         // Return a default card if no card type is matched
-        return Cards.DEFAULT;
+        return Card.DEFAULT;
     }
 
     /**
      * Returns a boolean showing is the card String is a valid card number.
      * <p>
-     * This method is using the regex in {@link Cards} as well as the Luhn algorithm to
+     * This method is using the regex in {@link Card} as well as the Luhn algorithm to
      * the terms the validity of a card number
      *
      * @param number the String value of a card number
@@ -57,9 +57,9 @@ public class CardUtils {
         }
 
         number = sanitizeEntry(number);
-        Cards type = getType(number);
+        Card type = getType(number);
         // If the card is not on the available card list return false
-        if (type == Cards.DEFAULT) {
+        if (type == Card.DEFAULT) {
             return false;
         }
 
@@ -133,7 +133,7 @@ public class CardUtils {
         // Remove spaces form the card String
         String processedCard = sanitizeEntry(number);
 
-        CardUtils.Cards cardType = getType(number);
+        Card cardType = getType(number);
 
         // If the card is an AMEX or DINERSCLUB we iterate and span spaces at specific positions
         if (cardType.name.equals("amex") || cardType.name.equals("dinersclub") || cardType.name.equals("unionpay")) {
@@ -157,7 +157,7 @@ public class CardUtils {
      * @param card the card object
      * @return boolean representing validity
      */
-    public static boolean isValidCvv(String cvv, Cards card) {
+    public static boolean isValidCvv(String cvv, Card card) {
         if (TextUtils.isDigitsOnly(sanitizeEntry(cvv)) &&
                 card != null) {
             if (card.maxCvvLength == cvv.length())
@@ -171,7 +171,7 @@ public class CardUtils {
      * The sported card types are: VISA, AMEX, DISCOVER, UNIONPAY, JCB,
      * LASER, DINERSCLUB, MASTERCARD, MAESTRO and a DEFAULT abstract card.
      */
-    public enum Cards {
+    public enum Card {
         VISA("visa", R.drawable.visa, "^4\\d*$", "^4[0-9]{12}(?:[0-9]{3})?$", new int[]{13, 16}, 19, 3, new int[]{4, 9, 14}, true),
         AMEX("amex", R.drawable.amex, "^3[47]\\d*$", "/(\\d{1,4})(\\d{1,6})?(\\d{1,5})?/", new int[]{15}, 18, 4, new int[]{4, 6}, true),
         DISCOVER("discover", R.drawable.discover, "^(6011|65|64[4-9])\\d*$", "^6(?:011|5[0-9]{2})[0-9]{12}$", new int[]{16}, 23, 3, new int[]{4, 9, 14}, true),
@@ -193,7 +193,7 @@ public class CardUtils {
         private final boolean luhn;
 
         /**
-         * The {@link Cards} constructor
+         * The {@link Card} constructor
          * <p>
          *
          * @param name          card name
@@ -202,9 +202,9 @@ public class CardUtils {
          * @param maxCardLength the max length a card of a type can have
          * @param maxCvvLength  the max CVV a card of a type can have
          * @param gaps          the positions of the spaces spans ina formatted card
-         * @see Cards
+         * @see Card
          */
-        Cards(String name, int resourceId, String pattern, String regex, int[] cardLength, int maxCardLength, int maxCvvLength, int[] gaps, boolean luhn) {
+        Card(String name, int resourceId, String pattern, String regex, int[] cardLength, int maxCardLength, int maxCvvLength, int[] gaps, boolean luhn) {
             this.name = name;
             this.resourceId = resourceId;
             this.pattern = pattern;
