@@ -54,7 +54,7 @@ class PaymentForm @JvmOverloads constructor(
         }
 
         override fun onBillingCanceled() {
-            card_details_view.clearBillingSpinner()
+            card_details_view.updateBillingSpinner()
             slidingViewAnimator.transitionOutToRight(billing_details_view, card_details_view)
         }
     }

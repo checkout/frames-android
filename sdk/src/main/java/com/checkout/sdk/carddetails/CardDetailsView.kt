@@ -20,7 +20,6 @@ import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.card_details.view.*
-import java.util.*
 
 /**
  * The controller of the card details view page
@@ -92,10 +91,9 @@ class CardDetailsView @JvmOverloads constructor(
             presenter.payButtonClicked(playButtonClickedUseCase)
         }
 
-        // Restore state in case the orientation changes
-        repopulateField()
-
         initializeAcceptedCards()
+
+        updateBillingSpinner()
 
         // Set custom labels
         if (mDataStore.acceptedLabel != null) {
@@ -130,9 +128,11 @@ class CardDetailsView @JvmOverloads constructor(
             }
         }
         uiState.acceptedCards?.let { displayAcceptedCards(it) }
+        uiState.spinnerStrings?.let { populateBillingSpinner(it) }
     }
 
     private fun displayAcceptedCards(cards: List<Card>) {
+        card_icons_flexbox.removeAllViews()
         for (card in cards) {
             val cardIconView = inflate(context, R.layout.view_credit_card_icon, null) as ImageView
             val cardDrawable = ContextCompat.getDrawable(context, card.resourceId)
@@ -160,87 +160,29 @@ class CardDetailsView @JvmOverloads constructor(
     }
 
     /**
-     * Used to restore state on orientation changes
-     *
-     *
-     * The method will repopulate all the card input fields with the latest state they were in
-     * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
-     */
-    private fun repopulateField() {
-        //Repopulate billing spinner
-        updateBillingSpinner()
-    }
-
-    /**
-     * Used to clear/reset the billing details spinner
-     *
-     *
-     * The method will be used to clear/reset the billing details spinner in case the user
-     * has decide to clear their details from the [BillingDetailsView]
-     */
-    fun clearBillingSpinner() {
-        val billingElement = ArrayList<String>()
-
-        // Set the default value fo the spinner
-        billingElement.add(resources.getString(R.string.select_billing_details))
-        billingElement.add(resources.getString(R.string.billing_details_add))
-
-        val dataAdapter = ArrayAdapter(
-            context,
-            android.R.layout.simple_spinner_item, billingElement
-        )
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        go_to_billing.adapter = dataAdapter
-        go_to_billing.setSelection(0)
-    }
-
-    /**
-     * Used to populate the billing spinner with the user billing details
-     *
-     *
-     * The method will be called when the user has successfully saved their billing details and
-     * to visually confirm that, the spinner is populated with the details and the default ADD
-     * button is replaced by a EDIT button
-     */
-    fun updateBillingSpinner() {
-
-        val address = mDataStore.customerAddress1 +
-                ", " + mDataStore.customerAddress2 +
-                ", " + mDataStore.customerCity +
-                ", " + mDataStore.customerState
-
-        // Avoid updates for there are no values set
-        if (address.length > 6) {
-            val billingElement = ArrayList<String>()
-
-            billingElement.add(address)
-            billingElement.add("Edit")
-
-            val dataAdapter = ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_item, billingElement
-            )
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            go_to_billing.adapter = dataAdapter
-            go_to_billing.setSelection(0)
-        }
-    }
-
-    /**
      * Used to clear the text and state of the fields
      *
      *
      */
     fun resetFields() {
-        if (mDataStore.defaultBillingDetails != null) {
-            updateBillingSpinner()
-        } else {
-            clearBillingSpinner()
-        }
+        updateBillingSpinner()
         cvv_input.reset()
         year_input.reset()
         month_input.reset()
         card_input.reset()
+    }
+
+    /**
+     * Used to update the billing spinner based on values added in the BillingDetailsView
+     */
+    fun updateBillingSpinner() {
+        val resetBillingSpinnerUseCase = UpdateBillingSpinnerUseCase(
+            mDataStore,
+            context.getString(com.checkout.sdk.R.string.select_billing_details),
+            context.getString(com.checkout.sdk.R.string.billing_details_add),
+            context.getString(com.checkout.sdk.R.string.edit_billing_details)
+        )
+        presenter.updateBillingSpinner(resetBillingSpinnerUseCase)
     }
 
     /**
@@ -249,6 +191,17 @@ class CardDetailsView @JvmOverloads constructor(
     private fun initializeAcceptedCards() {
         val initializeAcceptedCardsUseCase = InitializeAcceptedCardsUseCase(mDataStore)
         presenter.initializeAcceptedCards(initializeAcceptedCardsUseCase)
+    }
+
+    private fun populateBillingSpinner(elements: List<String>) {
+        val dataAdapter = ArrayAdapter(
+            context,
+            android.R.layout.simple_spinner_item,
+            elements
+        )
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        go_to_billing.adapter = dataAdapter
+        go_to_billing.setSelection(0)
     }
 
     /**

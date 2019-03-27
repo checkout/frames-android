@@ -9,5 +9,6 @@ data class CardDetailsUiState(
     val hideKeyboard: Boolean = true,
     val cardDetailsValidity: CardDetailsValidity? = null,
     val inProgress: Boolean = false,
-    val acceptedCards: List<Card>? = null
+    val acceptedCards: List<Card>? = null,
+    val spinnerStrings: List<String>? = null
 ) : UiState

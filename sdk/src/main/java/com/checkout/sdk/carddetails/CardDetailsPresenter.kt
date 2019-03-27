@@ -8,7 +8,7 @@ class CardDetailsPresenter(initialState: CardDetailsUiState = CardDetailsUiState
 
     fun payButtonClicked(payButtonClickedUseCase: PayButtonClickedUseCase) {
         val cardDetailsValidity = payButtonClickedUseCase.execute()
-        val newState = uiState.copy(cardDetailsValidity = cardDetailsValidity) //CardDetailsUiState(cardDetailsValidity = cardDetailsValidity)
+        val newState = uiState.copy(cardDetailsValidity = cardDetailsValidity)
         safeUpdateView(newState)
     }
 
@@ -21,6 +21,14 @@ class CardDetailsPresenter(initialState: CardDetailsUiState = CardDetailsUiState
         if (uiState.acceptedCards == null) {
             val acceptedCards = initializeAcceptedCardsUseCase.execute()
             val newState = uiState.copy(acceptedCards = acceptedCards)
+            safeUpdateView(newState)
+        }
+    }
+
+    fun updateBillingSpinner(updateBillingSpinnerUseCase: UpdateBillingSpinnerUseCase) {
+        val spinnerStrings = updateBillingSpinnerUseCase.execute()
+        spinnerStrings?.let {
+            val newState = uiState.copy(spinnerStrings = spinnerStrings)
             safeUpdateView(newState)
         }
     }
