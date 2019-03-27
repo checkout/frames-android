@@ -3,7 +3,7 @@ package com.checkout.sdk.carddetails
 import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.store.DataStore
 
-class UpdateBillingSpinnerUseCase(
+open class UpdateBillingSpinnerUseCase(
     private val dataStore: DataStore,
     private val selectText: String,
     private val addText: String,

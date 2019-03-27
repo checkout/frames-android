@@ -4,7 +4,7 @@ import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.store.DataStore
 
-class InitializeAcceptedCardsUseCase(private val dataStore: DataStore) : UseCase<List<Card>> {
+open class InitializeAcceptedCardsUseCase(private val dataStore: DataStore) : UseCase<List<Card>> {
 
     override fun execute(): List<Card> {
         return if (dataStore.acceptedCards != null) {

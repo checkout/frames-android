@@ -1,10 +1,11 @@
 package com.checkout.sdk.carddetails
 
 import com.checkout.sdk.architecture.BasePresenter
+import com.checkout.sdk.architecture.MvpView
 
 
 class CardDetailsPresenter(initialState: CardDetailsUiState = CardDetailsUiState()) :
-    BasePresenter<CardDetailsView, CardDetailsUiState>(initialState) {
+    BasePresenter<MvpView<CardDetailsUiState>, CardDetailsUiState>(initialState) {
 
     fun payButtonClicked(payButtonClickedUseCase: PayButtonClickedUseCase) {
         val cardDetailsValidity = payButtonClickedUseCase.execute()
