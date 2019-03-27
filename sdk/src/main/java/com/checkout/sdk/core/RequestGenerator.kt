@@ -21,7 +21,7 @@ class RequestGenerator(
                 inMemoryStore.cardNumber.value,
                 dataStore.customerName,
                 dateFormatter.formatMonth(inMemoryStore.cardDate.month.monthInteger),
-                inMemoryStore.cardDate.year.toString(),
+                inMemoryStore.cardDate.year.value.toString(),
                 inMemoryStore.cvv.value,
                 BillingModel(
                     dataStore.customerAddress1,
