@@ -31,9 +31,9 @@ import java.util.*
  * validation, listeners, persistence over orientation.
  */
 class CardDetailsView @JvmOverloads constructor(
-    private val mContext: Context,
+    context: Context,
     attrs: AttributeSet? = null
-) : LinearLayout(mContext, attrs), MvpView<CardDetailsUiState> {
+) : LinearLayout(context, attrs), MvpView<CardDetailsUiState> {
 
     private val inMemoryStore = InMemoryStore.Factory.get()
     lateinit var presenter: CardDetailsPresenter
@@ -53,7 +53,7 @@ class CardDetailsView @JvmOverloads constructor(
     }
 
     init {
-        inflate(mContext, R.layout.card_details, this)
+        inflate(context, R.layout.card_details, this)
         orientation = VERTICAL
     }
 
@@ -95,8 +95,7 @@ class CardDetailsView @JvmOverloads constructor(
         // Restore state in case the orientation changes
         repopulateField()
 
-        // Populate accepted cards
-        setAcceptedCards()
+        initializeAcceptedCards()
 
         // Set custom labels
         if (mDataStore.acceptedLabel != null) {
@@ -129,6 +128,23 @@ class CardDetailsView @JvmOverloads constructor(
             if (it.areDetailsValid()) {
                 validPayRequestListener?.onValidPayRequest()
             }
+        }
+        uiState.acceptedCards?.let { displayAcceptedCards(it) }
+
+    }
+
+    private fun displayAcceptedCards(cards: List<Card>) {
+        for (card in cards) {
+            val cardIconView = inflate(context, R.layout.view_credit_card_icon, null) as ImageView
+            val cardDrawable = ContextCompat.getDrawable(context, card.resourceId)
+            cardIconView.setImageDrawable(cardDrawable)
+
+            val cardIconSize = context.resources.getDimensionPixelSize(R.dimen.cards_icon_size)
+            val layoutParams = FlexboxLayout.LayoutParams(cardIconSize, cardIconSize)
+            val cardRightMargin = context.resources.getDimensionPixelSize(R.dimen.cards_icon_margin)
+            layoutParams.setMargins(0, 0, cardRightMargin, 0)
+            cardIconView.layoutParams = layoutParams
+            card_icons_flexbox.addView(cardIconView)
         }
     }
 
@@ -171,7 +187,7 @@ class CardDetailsView @JvmOverloads constructor(
         billingElement.add(resources.getString(R.string.billing_details_add))
 
         val dataAdapter = ArrayAdapter(
-            mContext,
+            context,
             android.R.layout.simple_spinner_item, billingElement
         )
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -202,7 +218,7 @@ class CardDetailsView @JvmOverloads constructor(
             billingElement.add("Edit")
 
             val dataAdapter = ArrayAdapter(
-                mContext,
+                context,
                 android.R.layout.simple_spinner_item, billingElement
             )
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -231,28 +247,9 @@ class CardDetailsView @JvmOverloads constructor(
     /**
      * Used dynamically populate the accepted cards view is the option is used
      */
-    private fun setAcceptedCards() {
-
-        val allCards = if (mDataStore.acceptedCards != null) {
-            mDataStore.acceptedCards
-        } else {
-            val allCardsIncludingDefault = mutableListOf(*Card.values())
-            allCardsIncludingDefault.remove(Card.DEFAULT)
-            allCardsIncludingDefault
-        }
-
-        for (card in allCards) {
-            val cardIconView = inflate(context, R.layout.view_credit_card_icon, null) as ImageView
-            val cardDrawable = ContextCompat.getDrawable(context, card.resourceId)
-            cardIconView.setImageDrawable(cardDrawable)
-
-            val cardIconSize = context.resources.getDimensionPixelSize(R.dimen.cards_icon_size)
-            val layoutParams = FlexboxLayout.LayoutParams(cardIconSize, cardIconSize)
-            val cardRightMargin = context.resources.getDimensionPixelSize(R.dimen.cards_icon_margin)
-            layoutParams.setMargins(0, 0, cardRightMargin, 0)
-            cardIconView.layoutParams = layoutParams
-            card_icons_flexbox.addView(cardIconView)
-        }
+    private fun initializeAcceptedCards() {
+        val initializeAcceptedCardsUseCase = InitializeAcceptedCardsUseCase(mDataStore)
+        presenter.initializeAcceptedCards(initializeAcceptedCardsUseCase)
     }
 
     /**
@@ -272,7 +269,7 @@ class CardDetailsView @JvmOverloads constructor(
     private fun hideKeyboard() {
         try {
             val imm =
-                mContext.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(windowToken, 0)
         } catch (e: Exception) {
             e.printStackTrace()

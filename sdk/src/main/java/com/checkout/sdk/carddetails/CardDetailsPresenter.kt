@@ -16,4 +16,10 @@ class CardDetailsPresenter(initialState: CardDetailsUiState = CardDetailsUiState
         val newState = CardDetailsUiState(inProgress = inProgress)
         safeUpdateView(newState)
     }
+
+    fun initializeAcceptedCards(initializeAcceptedCardsUseCase: InitializeAcceptedCardsUseCase) {
+        val acceptedCards = initializeAcceptedCardsUseCase.execute()
+        val newState = uiState.copy(acceptedCards = acceptedCards)
+        safeUpdateView(newState)
+    }
 }
