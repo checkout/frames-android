@@ -42,9 +42,10 @@ class CardDetailsView @JvmOverloads constructor(
 
     private val resetBillingSpinnerUseCase = UpdateBillingSpinnerUseCase(
         mDataStore,
-        context.getString(com.checkout.sdk.R.string.select_billing_details),
-        context.getString(com.checkout.sdk.R.string.billing_details_add),
-        context.getString(com.checkout.sdk.R.string.edit_billing_details)
+        context.getString(R.string.select_billing_details),
+        context.getString(R.string.billing_details_add),
+        context.getString(R.string.edit_billing_details),
+        context.getString(R.string.address_format)
     )
     private val playButtonClickedUseCase =
         PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))

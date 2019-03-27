@@ -7,7 +7,8 @@ open class UpdateBillingSpinnerUseCase(
     private val dataStore: DataStore,
     private val selectText: String,
     private val addText: String,
-    private val editText: String
+    private val editText: String,
+    private val format: String
 ) : UseCase<List<String>?> {
 
     override fun execute(): List<String>? {
@@ -30,16 +31,22 @@ open class UpdateBillingSpinnerUseCase(
     }
 
     private fun getFormattedAddress(): String {
-        return dataStore.customerAddress1 +
-                ", " + dataStore.customerAddress2 +
-                ", " + dataStore.customerCity +
-                ", " + dataStore.customerState
+        return format.format(
+            dataStore.customerAddress1,
+            dataStore.customerAddress2,
+            dataStore.customerCity,
+            dataStore.customerState
+        )
     }
 
+    // TODO: This is here to avoid breaking old behaviour; it will disappear soon once the
+    // TODO: default address storage in DataStore is changed
     private fun getDefaultAddress(): String {
-        return dataStore.defaultBillingDetails.addressLine1 +
-                ", " + dataStore.defaultBillingDetails.addressLine2 +
-                ", " + dataStore.defaultBillingDetails.city +
-                ", " + dataStore.defaultBillingDetails.state
+        return format.format(
+            dataStore.defaultBillingDetails.addressLine1,
+            dataStore.defaultBillingDetails.addressLine2,
+            dataStore.defaultBillingDetails.city,
+            dataStore.defaultBillingDetails.state
+        )
     }
 }

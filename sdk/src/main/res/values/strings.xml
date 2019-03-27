@@ -11,6 +11,7 @@
     <string name="label_billing_details" translatable="true">Billing Details</string>
     <string name="select_billing_details" translatable="true">SELECT</string>
     <string name="edit_billing_details" translatable="true">Edit</string>
+    <string name="address_format" translatable="true">%1$s, %2$s, %3$s, %4$s</string>
     <string name="billing_details_add" translatable="true"> + ADD</string>
     <string name="button_pay" translatable="true">Pay</string>
     <string name="title_billing_details" translatable="true">Billing Details</string>
