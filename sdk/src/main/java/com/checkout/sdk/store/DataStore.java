@@ -4,7 +4,6 @@ import android.widget.LinearLayout;
 
 import com.checkout.sdk.models.BillingModel;
 import com.checkout.sdk.utils.CardUtils;
-import com.checkout.sdk.utils.Environment;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -23,8 +22,6 @@ public class DataStore {
     private String mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
     private String mCardCvv;
     private int mCvvLength = 4;
-    private Environment environment = Environment.SANDBOX;
-    private String key = null;
 
     private CardUtils.Cards[] acceptedCards;
 
@@ -420,22 +417,6 @@ public class DataStore {
 
     public void setLastCustomerNameState(String mLastCustomerNameState) {
         this.mLastCustomerNameState = mLastCustomerNameState;
-    }
-
-    public Environment getEnvironment() {
-        return environment;
-    }
-
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
     public BillingModel getDefaultBillingDetails() {

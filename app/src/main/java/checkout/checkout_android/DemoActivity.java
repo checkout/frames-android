@@ -1,51 +1,40 @@
 package checkout.checkout_android;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
-import com.android.volley.VolleyError;
-import com.checkout.sdk.PaymentForm;
-import com.checkout.sdk.PaymentForm.PaymentFormCallback;
-import com.checkout.sdk.response.CardTokenisationFail;
-import com.checkout.sdk.response.CardTokenisationResponse;
+import com.checkout.sdk.CheckoutClient;
+import com.checkout.sdk.FormCustomizer;
+import com.checkout.sdk.core.TokenResult;
+import com.checkout.sdk.paymentform.PaymentForm;
 import com.checkout.sdk.utils.CardUtils.Cards;
 import com.checkout.sdk.utils.Environment;
 
 public class DemoActivity extends Activity {
 
     private PaymentForm mPaymentForm;
-    private ProgressDialog mProgressDialog;
 
-    // Callback used for the Payment Form interaction
-    private final PaymentFormCallback mFormListener = new PaymentFormCallback() {
-        @Override
-        public void onFormSubmit() {
-            mProgressDialog.show(); // show loader
-        }
+    private final CheckoutClient.TokenCallback callback = new CheckoutClient.TokenCallback() {
 
         @Override
-        public void onTokenGenerated(CardTokenisationResponse response) {
-            mProgressDialog.dismiss(); // dismiss the loader
-            mPaymentForm.clearForm(); // clear the form
-            displayMessage("Token", response.getId());
-        }
-
-        @Override
-        public void onError(CardTokenisationFail response) {
-            displayMessage("Token Error", response.getErrorCode());
-        }
-
-        @Override
-        public void onNetworkError(VolleyError error) {
-            displayMessage("Network Error", String.valueOf(error));
-        }
-
-        @Override
-        public void onBackPressed() {
-            displayMessage("Back", "The user decided to leave the payment page.");
+        public void onTokenResult(TokenResult tokenResult) {
+            if (tokenResult instanceof TokenResult.TokenResultSuccess) {
+                mPaymentForm.clearForm(); // clear the form
+                String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().getId();
+                displayMessage("Token", id);
+                Log.e("TOKEN", "Token: " + id);
+            } else if (tokenResult instanceof TokenResult.TokenResultTokenisationFail) {
+                String errorCode = ((TokenResult.TokenResultTokenisationFail) tokenResult).getError().getErrorCode();
+                displayMessage("Token Error", errorCode);
+            } else if (tokenResult instanceof TokenResult.TokenResultVolleyError) {
+                String volleyError = String.valueOf(((TokenResult.TokenResultVolleyError) tokenResult).getError());
+                displayMessage("Network Error", volleyError);
+            } else {
+                throw new RuntimeException("Unknown Error");
+            }
         }
     };
 
@@ -54,17 +43,16 @@ public class DemoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
 
-        // initialise the loader
-        mProgressDialog = new ProgressDialog(DemoActivity.this);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setMessage("Loading...");
+        CheckoutClient checkoutClient = new CheckoutClient(
+                this,
+                "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
+                Environment.SANDBOX,
+                callback);
 
-        mPaymentForm = findViewById(R.id.checkout_card_form);
-        mPaymentForm
-                .setFormListener(mFormListener)
-                .setEnvironment(Environment.SANDBOX)
-                .setKey("pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73")
+        FormCustomizer formCustomizer = new FormCustomizer()
                 .setAcceptedCard(new Cards[]{Cards.VISA, Cards.MASTERCARD});
+        mPaymentForm = findViewById(R.id.checkout_card_form);
+        mPaymentForm.initialize(checkoutClient, formCustomizer);
     }
 
     private void displayMessage(String title, String message) {

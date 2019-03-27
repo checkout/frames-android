@@ -1,4 +1,4 @@
-package com.checkout.sdk.view
+package com.checkout.sdk.carddetails
 
 import android.app.Activity
 import android.content.Context
@@ -10,21 +10,15 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.android.volley.VolleyError
-import com.checkout.sdk.CheckoutAPIClient
 import com.checkout.sdk.R
-import com.checkout.sdk.input.BillingInput
-import com.checkout.sdk.models.BillingModel
-import com.checkout.sdk.models.PhoneModel
-import com.checkout.sdk.monthinput.MonthInput
-import com.checkout.sdk.request.CardTokenisationRequest
-import com.checkout.sdk.response.CardTokenisationFail
-import com.checkout.sdk.response.CardTokenisationResponse
+import com.checkout.sdk.architecture.MvpView
+import com.checkout.sdk.architecture.PresenterStore
+import com.checkout.sdk.core.CardDetailsValidator
+import com.checkout.sdk.core.CardDetailsValidity
+import com.checkout.sdk.paymentform.PaymentForm
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.CardUtils
-import com.checkout.sdk.utils.DateFormatter
-import com.checkout.sdk.yearinput.YearInput
 import kotlinx.android.synthetic.main.card_details.view.*
 import java.util.*
 
@@ -39,88 +33,14 @@ import java.util.*
 class CardDetailsView @JvmOverloads constructor(
     private val mContext: Context,
     attrs: AttributeSet? = null
-) : LinearLayout(mContext, attrs) {
+) : LinearLayout(mContext, attrs), MvpView<CardDetailsUiState> {
 
     private val inMemoryStore = InMemoryStore.Factory.get()
-
-    // Callback used for the outcome of the generating a token
-    private val mTokenListener = object : CheckoutAPIClient.OnTokenGenerated {
-        override fun onTokenGenerated(token: CardTokenisationResponse) {
-            mDetailsCompletedListener?.onTokeGenerated(token)
-        }
-
-        override fun onError(error: CardTokenisationFail) {
-            mDetailsCompletedListener?.onError(error)
-        }
-
-        override fun onNetworkError(error: VolleyError) {
-            mDetailsCompletedListener?.onNetworkError(error)
-        }
-    }
-
-    /**
-     * The callback is used to trigger the focus change to the billing page
-     */
-    private val mBillingInputListener = BillingInput.BillingListener {
-        mGotoBillingListener?.onGoToBillingPressed()
-    }
-
-    internal var mDataStore: DataStore = DataStore.getInstance()
-    private var mGotoBillingListener: CardDetailsView.GoToBillingListener? = null
-    private var mDetailsCompletedListener: CardDetailsView.DetailsCompleted? = null
-    private var mCheckoutAPIClient: CheckoutAPIClient? = null
-
-
+    lateinit var presenter: CardDetailsPresenter
+    private var validPayRequestListener: PaymentForm.ValidPayRequestListener? = null
+    private var mDataStore: DataStore = DataStore.getInstance()
+    private var mGotoBillingListener: GoToBillingListener? = null
     private var mAcceptedCardsView: LinearLayout? = null
-
-    /**
-     * Used to indicate the validity of the full card from
-     *
-     *
-     * The method will check if the inputs are valid and also check the relation between the inputs
-     * to ensure validity (e.g. month to year relation).
-     * This method will also populate the field error accordingly
-     *
-     * @return boolean abut form validity
-     */
-    private val isValidForm: Boolean
-        get() {
-
-            var outcome = true
-
-            checkFullDate()
-
-            if (inMemoryStore.cardNumber.isValid()) {
-                card_input.showError(false)
-            } else {
-                card_input.showError(true)
-                outcome = false
-            }
-
-            if (inMemoryStore.cvv.isValid()) {
-                cvv_input.showError(false)
-            } else {
-                cvv_input.showError(true)
-                outcome = false
-            }
-
-            return outcome
-        }
-
-    /**
-     * The callback used to indicate the form submission
-     *
-     *
-     * After the user completes their details and the form is valid this callback will
-     * be used to communicate to the parent and start the necessary API call(s).
-     */
-    interface DetailsCompleted {
-        fun onFormSubmit()
-        fun onTokeGenerated(reponse: CardTokenisationResponse)
-        fun onError(error: CardTokenisationFail)
-        fun onNetworkError(error: VolleyError)
-        fun onBackPressed()
-    }
 
     /**
      * The callback used to indicate the view needs to moved to the billing details page
@@ -130,7 +50,12 @@ class CardDetailsView @JvmOverloads constructor(
      * to communicate to the parent the focus change is requested
      */
     interface GoToBillingListener {
-        fun onGoToBillingPressed()
+        fun onGoToBilling()
+    }
+
+    init {
+        inflate(mContext, R.layout.card_details, this)
+        orientation = VERTICAL
     }
 
     /**
@@ -139,19 +64,20 @@ class CardDetailsView @JvmOverloads constructor(
      *
      * Used to initialise element and pass callbacks as well as setting up appropriate listeners
      */
-    init {
-        View.inflate(mContext, R.layout.card_details, this)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
 
-        my_toolbar.setNavigationOnClickListener {
-            mDetailsCompletedListener?.onBackPressed()
-        }
+        presenter = PresenterStore.getOrCreate(
+            CardDetailsPresenter::class.java,
+            { CardDetailsPresenter() })
+        presenter.start(this)
 
         // Hide billing details options based on the module initialisation option
         if (!mDataStore.billingVisibility) {
             billing_helper_text.visibility = View.GONE
             go_to_billing.visibility = View.GONE
         } else {
-            go_to_billing.setBillingListener(mBillingInputListener)
+            go_to_billing.setBillingListener(mGotoBillingListener)
         }
 
         if (mDataStore.payButtonText != null) {
@@ -162,26 +88,9 @@ class CardDetailsView @JvmOverloads constructor(
         }
 
         pay_button.setOnClickListener {
-            // hide keyboard
-            try {
-                val imm =
-                    mContext.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(windowToken, 0)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-            if (isValidForm) {
-                mDetailsCompletedListener?.onFormSubmit()
-                mCheckoutAPIClient = CheckoutAPIClient(
-                    context, // context
-                    mDataStore.key, // your public key
-                    mDataStore.environment
-                )
-                mCheckoutAPIClient?.setTokenListener(mTokenListener)
-                val test = generateRequest()
-                mCheckoutAPIClient?.generateToken(test)
-            }
+            val playButtonClickedUseCase =
+                PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))
+            presenter.payButtonClicked(playButtonClickedUseCase)
         }
 
         // Restore state in case the orientation changes
@@ -206,6 +115,37 @@ class CardDetailsView @JvmOverloads constructor(
         }
     }
 
+    fun showProgress(inProgress: Boolean) {
+        presenter.showProgress(inProgress)
+    }
+
+    override fun onStateUpdated(uiState: CardDetailsUiState) {
+        if (uiState.hideKeyboard) {
+            hideKeyboard()
+        }
+        val visibility = if (uiState.inProgress) View.VISIBLE else View.INVISIBLE
+        progress_bar.visibility = visibility
+
+        uiState.cardDetailsValidity?.let {
+            updateFieldValidity(it)
+            if (it.areDetailsValid()) {
+                validPayRequestListener?.onValidPayRequest()
+            }
+        }
+    }
+
+    private fun updateFieldValidity(validity: CardDetailsValidity) {
+        card_input.showError(!validity.cardNumberValid)
+        cvv_input.showError(!validity.cvvValid)
+        month_input.showError(!validity.monthValid)
+        year_input.showError(!validity.yearValid)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.stop()
+    }
+
     /**
      * Used to restore state on orientation changes
      *
@@ -216,23 +156,6 @@ class CardDetailsView @JvmOverloads constructor(
     private fun repopulateField() {
         //Repopulate billing spinner
         updateBillingSpinner()
-    }
-
-    /**
-     * Used to indicate the validity of the date
-     *
-     *
-     * The method will check if the values from the [MonthInput] and [YearInput] are
-     * not representing a date in the past.
-     *
-     * @return boolean abut form validity of the date
-     */
-    private fun checkFullDate(): Boolean {
-        // Check is the state contain the date and if it is check if the current selected
-        // values are valid. Display error if applicable.
-        month_input.showError(!inMemoryStore.cardDate.isMonthValid())
-        year_input.showError(!inMemoryStore.cardDate.isYearValid())
-        return inMemoryStore.cardDate.isDateValid()
     }
 
     /**
@@ -338,52 +261,10 @@ class CardDetailsView @JvmOverloads constructor(
     }
 
     /**
-     * This method used to generate a [CardTokenisationRequest] with the details
-     * completed by the user in the payment from
-     * displayed in the payment form.
-     *
-     * @return CardTokenisationRequest
-     */
-    private fun generateRequest(): CardTokenisationRequest {
-        val request: CardTokenisationRequest
-        if (mDataStore.isBillingCompleted) {
-            request = CardTokenisationRequest(
-                inMemoryStore.cardNumber.value,
-                mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
-                inMemoryStore.cardDate.year.toString(),
-                inMemoryStore.cvv.value,
-                BillingModel(
-                    mDataStore.customerAddress1,
-                    mDataStore.customerAddress2,
-                    mDataStore.customerZipcode,
-                    mDataStore.customerCountry,
-                    mDataStore.customerCity,
-                    mDataStore.customerState,
-                    PhoneModel(
-                        mDataStore.customerPhonePrefix,
-                        mDataStore.customerPhone
-                    )
-                )
-            )
-        } else {
-            request = CardTokenisationRequest(
-                inMemoryStore.cardNumber.value,
-                mDataStore.customerName,
-                DateFormatter().formatMonth(inMemoryStore.cardDate.month.monthInteger),
-                inMemoryStore.cardDate.year.value.toString(),
-                inMemoryStore.cvv.value, null
-            )
-        }
-
-        return request
-    }
-
-    /**
      * Used to set the callback listener for when the form is submitted
      */
-    fun setDetailsCompletedListener(listener: CardDetailsView.DetailsCompleted) {
-        mDetailsCompletedListener = listener
+    fun setValidPayRequestListener(listener: PaymentForm.ValidPayRequestListener) {
+        validPayRequestListener = listener
     }
 
     /**
@@ -391,5 +272,15 @@ class CardDetailsView @JvmOverloads constructor(
      */
     fun setGoToBillingListener(listener: GoToBillingListener) {
         mGotoBillingListener = listener
+    }
+
+    private fun hideKeyboard() {
+        try {
+            val imm =
+                mContext.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(windowToken, 0)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

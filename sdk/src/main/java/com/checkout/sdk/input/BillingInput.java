@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
 import com.checkout.sdk.R;
+import com.checkout.sdk.carddetails.CardDetailsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,7 @@ import java.util.List;
  */
 public class BillingInput extends android.support.v7.widget.AppCompatSpinner {
 
-    public interface BillingListener {
-        void onGoToBilling();
-    }
-
-    private @Nullable
-    BillingInput.BillingListener mBillingListener;
+    private @Nullable CardDetailsView.GoToBillingListener mBillingListener;
     private Context mContext;
 
     public BillingInput(Context context) {
@@ -92,7 +88,7 @@ public class BillingInput extends android.support.v7.widget.AppCompatSpinner {
     /**
      * Used to set the callback listener for when the address input is completed
      */
-    public void setBillingListener(BillingInput.BillingListener listener) {
+    public void setBillingListener(CardDetailsView.GoToBillingListener listener) {
         this.mBillingListener = listener;
     }
 }

@@ -3,6 +3,7 @@ package com.checkout.sdk;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
+import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.request.CardTokenisationRequest;
 import com.checkout.sdk.request.GooglePayTokenisationRequest;
 import com.checkout.sdk.response.CardTokenisationFail;
@@ -16,9 +17,13 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CheckoutAPIClient {
+public class CheckoutClient {
 
     private String key;
+
+    public interface TokenCallback {
+        void onTokenResult(TokenResult tokenResult);
+    }
 
     /**
      * This is interface used as a callback for when the card token is generated
@@ -43,20 +48,20 @@ public class CheckoutAPIClient {
     }
 
     private Context mContext;
-    private Environment mEnvironment = Environment.SANDBOX;
-    private CheckoutAPIClient.OnTokenGenerated mTokenListener;
-    private CheckoutAPIClient.OnGooglePayTokenGenerated mGooglePayTokenListener;
+    private final Environment mEnvironment;
+    private final CheckoutClient.TokenCallback tokenCallback;
+    private CheckoutClient.OnGooglePayTokenGenerated mGooglePayTokenListener;
 
 
-    public CheckoutAPIClient(Context context, String key, Environment environment) {
+    public CheckoutClient(Context context, String key, Environment environment, CheckoutClient.TokenCallback tokenCallback) {
         this.mContext = context;
         this.key = key;
         this.mEnvironment = environment;
+        this.tokenCallback = tokenCallback;
     }
 
-    public CheckoutAPIClient(Context context, String key) {
-        this.mContext = context;
-        this.key = key;
+    public CheckoutClient.TokenCallback getTokenCallback() {
+        return tokenCallback;
     }
 
     /**
@@ -65,20 +70,20 @@ public class CheckoutAPIClient {
      * It takes a {@link CardTokenisationRequest} as the argument and it will perform a
      * HTTP Post request to generate the token. it is important to you select an environment and
      * provide your public key before calling tis method. Moreover it is important to set a callback
-     * {@link CheckoutAPIClient.OnTokenGenerated} so you can receive the token back.
+     * {@link CheckoutClient.OnTokenGenerated} so you can receive the token back.
      * <p>
      * If you are using the UI of the SDK this method will be called automatically, but you still
      * need to provide the callback, key and environment when initialising this class
      *
      * @param request Custom request body to be used in the HTTP call.
      */
-    public void generateToken(CardTokenisationRequest request) {
+    public void generateToken(CardTokenisationRequest request, OnTokenGenerated tokenListener) {
 
         // Initialise the HTTP utility class
         HttpUtils http = new HttpUtils(mContext);
 
         // Provide a callback for when the token request is completed
-        http.setTokenListener(mTokenListener);
+        http.setTokenListener(tokenListener);
 
         // Using Gson to convert the custom request object into a JSON string for use in the HTTP call
         Gson gson = new Gson();
@@ -128,21 +133,11 @@ public class CheckoutAPIClient {
     }
 
     /**
-     * This method used to set a callback for 3D Secure handling.
-     *
-     * @return CheckoutAPIClient to allow method chaining
-     */
-    public CheckoutAPIClient setTokenListener(OnTokenGenerated listener) {
-        this.mTokenListener = listener;
-        return this;
-    }
-
-    /**
      * This method used to set a callback for Google Pay handling.
      *
-     * @return CheckoutAPIClient to allow method chaining
+     * @return CheckoutClient to allow method chaining
      */
-    public CheckoutAPIClient setGooglePayListener(OnGooglePayTokenGenerated listener) {
+    public CheckoutClient setGooglePayListener(OnGooglePayTokenGenerated listener) {
         this.mGooglePayTokenListener = listener;
         return this;
     }
