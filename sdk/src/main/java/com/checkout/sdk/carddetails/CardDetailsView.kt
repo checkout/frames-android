@@ -130,7 +130,6 @@ class CardDetailsView @JvmOverloads constructor(
             }
         }
         uiState.acceptedCards?.let { displayAcceptedCards(it) }
-
     }
 
     private fun displayAcceptedCards(cards: List<Card>) {

@@ -70,7 +70,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
