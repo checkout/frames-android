@@ -7,12 +7,13 @@ import com.checkout.sdk.store.DataStore
 open class InitializeAcceptedCardsUseCase(private val dataStore: DataStore) : UseCase<List<Card>> {
 
     override fun execute(): List<Card> {
-        return if (dataStore.acceptedCards != null) {
-            dataStore.acceptedCards
-        } else {
+        val acceptedCards = dataStore.acceptedCards
+        return if (acceptedCards == null) {
             val allCardsIncludingDefault = mutableListOf(*Card.values())
             allCardsIncludingDefault.remove(Card.DEFAULT)
             allCardsIncludingDefault
+        } else {
+            acceptedCards
         }
     }
 }
