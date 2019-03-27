@@ -40,6 +40,15 @@ class CardDetailsView @JvmOverloads constructor(
     private var mDataStore: DataStore = DataStore.getInstance()
     private var mGotoBillingListener: GoToBillingListener? = null
 
+    private val resetBillingSpinnerUseCase = UpdateBillingSpinnerUseCase(
+        mDataStore,
+        context.getString(com.checkout.sdk.R.string.select_billing_details),
+        context.getString(com.checkout.sdk.R.string.billing_details_add),
+        context.getString(com.checkout.sdk.R.string.edit_billing_details)
+    )
+    private val playButtonClickedUseCase =
+        PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))
+
     /**
      * The callback used to indicate the view needs to moved to the billing details page
      *
@@ -70,46 +79,19 @@ class CardDetailsView @JvmOverloads constructor(
             { CardDetailsPresenter() })
         presenter.start(this)
 
-        // Hide billing details options based on the module initialisation option
-        if (!mDataStore.billingVisibility) {
-            billing_helper_text.visibility = View.GONE
-            go_to_billing.visibility = View.GONE
-        } else {
-            go_to_billing.setBillingListener(mGotoBillingListener)
-        }
-
-        if (mDataStore.payButtonText != null) {
-            pay_button.text = mDataStore.payButtonText
-        }
-        if (mDataStore.payButtonLayout != null) {
-            pay_button.layoutParams = mDataStore.payButtonLayout
-        }
+        go_to_billing.setBillingListener(mGotoBillingListener)
 
         pay_button.setOnClickListener {
-            val playButtonClickedUseCase =
-                PayButtonClickedUseCase(CardDetailsValidator(inMemoryStore))
             presenter.payButtonClicked(playButtonClickedUseCase)
         }
 
         initializeAcceptedCards()
-
         updateBillingSpinner()
-
-        // Set custom labels
-        if (mDataStore.acceptedLabel != null) {
-            accepted_card_helper.text = mDataStore.acceptedLabel
-        }
-        if (mDataStore.cardLabel != null) {
-            card_input.hint = mDataStore.cardLabel
-        }
-        if (mDataStore.dateLabel != null) {
-            date_helper.text = mDataStore.dateLabel
-        }
-        if (mDataStore.cvvLabel != null) {
-            cvv_input.hint = mDataStore.cvvLabel
-        }
     }
 
+    /**
+     * Display a progress bar to show that Payment is in progress
+     */
     fun showProgress(inProgress: Boolean) {
         presenter.showProgress(inProgress)
     }
@@ -161,8 +143,6 @@ class CardDetailsView @JvmOverloads constructor(
 
     /**
      * Used to clear the text and state of the fields
-     *
-     *
      */
     fun resetFields() {
         updateBillingSpinner()
@@ -176,12 +156,6 @@ class CardDetailsView @JvmOverloads constructor(
      * Used to update the billing spinner based on values added in the BillingDetailsView
      */
     fun updateBillingSpinner() {
-        val resetBillingSpinnerUseCase = UpdateBillingSpinnerUseCase(
-            mDataStore,
-            context.getString(com.checkout.sdk.R.string.select_billing_details),
-            context.getString(com.checkout.sdk.R.string.billing_details_add),
-            context.getString(com.checkout.sdk.R.string.edit_billing_details)
-        )
         presenter.updateBillingSpinner(resetBillingSpinnerUseCase)
     }
 
