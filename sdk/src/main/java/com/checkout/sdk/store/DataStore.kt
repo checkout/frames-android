@@ -1,6 +1,5 @@
 package com.checkout.sdk.store
 
-import android.widget.LinearLayout
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.models.BillingModel
 import java.util.*
@@ -24,11 +23,6 @@ open class DataStore protected constructor() {
     var successUrl: String? = null
     var failUrl: String? = null
 
-    var isValidCardNumber = false
-    var isValidCardMonth = false
-    var isValidCardYear = false
-    var isValidCardCvv = false
-
     var customerName = ""
     var defaultCustomerName: String? = null
     var customerCountry = ""
@@ -51,12 +45,6 @@ open class DataStore protected constructor() {
     var postCodeLabel: String? = null
     var phoneLabel: String? = null
 
-    var doneButtonText: String? = null
-    var clearButtonText: String? = null
-
-    var doneButtonLayout: LinearLayout.LayoutParams? = null
-    var clearButtonLayout: LinearLayout.LayoutParams? = null
-
     var lastBillingValidState: BillingModel? = null
     var defaultBillingDetails: BillingModel? = null
     var lastCustomerNameState: String? = null
@@ -77,11 +65,6 @@ open class DataStore protected constructor() {
         this.cardYear = Calendar.getInstance().get(Calendar.YEAR).toString()
         this.cardCvv = ""
         this.cvvLength = 4
-
-        this.isValidCardNumber = false
-        this.isValidCardMonth = false
-        this.isValidCardYear = false
-        this.isValidCardCvv = false
 
         this.customerName = ""
         this.customerCountry = ""

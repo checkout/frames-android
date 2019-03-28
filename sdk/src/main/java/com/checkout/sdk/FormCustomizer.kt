@@ -1,6 +1,5 @@
 package com.checkout.sdk
 
-import android.widget.LinearLayout
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
@@ -101,46 +100,6 @@ class FormCustomizer {
      */
     fun setPhoneLabel(label: String): FormCustomizer {
         mDataStore.phoneLabel = label
-        return this
-    }
-
-    /**
-     * This method used to set a custom text for the Done button
-     *
-     * @param text String representing the text for the Button
-     */
-    fun setDoneButtonText(text: String): FormCustomizer {
-        mDataStore.doneButtonText = text
-        return this
-    }
-
-    /**
-     * This method used to set a custom text for the Clear button
-     *
-     * @param text String representing the text for the Button
-     */
-    fun setClearButtonText(text: String): FormCustomizer {
-        mDataStore.clearButtonText = text
-        return this
-    }
-
-    /**
-     * This method used to set a custom LayoutParameters for the Done button
-     *
-     * @param layout LayoutParameters representing the style for the Button
-     */
-    fun setDoneButtonLayout(layout: LinearLayout.LayoutParams): FormCustomizer {
-        mDataStore.doneButtonLayout = layout
-        return this
-    }
-
-    /**
-     * This method used to set a custom LayoutParameters for the Clear button
-     *
-     * @param layout LayoutParameters representing the style for the Button
-     */
-    fun setClearButtonLayout(layout: LinearLayout.LayoutParams): FormCustomizer {
-        mDataStore.clearButtonLayout = layout
         return this
     }
 

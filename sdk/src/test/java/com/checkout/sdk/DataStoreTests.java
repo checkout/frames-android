@@ -46,38 +46,6 @@ public class DataStoreTests {
         assertEquals(2, mDataStore.getCvvLength());
     }
 
-    @Test
-    public void get_set_card_number_validity() {
-        mDataStore.setValidCardNumber(false);
-        assertEquals(false, mDataStore.isValidCardNumber());
-        mDataStore.setValidCardNumber(true);
-        assertEquals(true, mDataStore.isValidCardNumber());
-    }
-
-    @Test
-    public void get_set_card_month_validity() {
-        mDataStore.setValidCardMonth(false);
-        assertEquals(false, mDataStore.isValidCardMonth());
-        mDataStore.setValidCardMonth(true);
-        assertEquals(true, mDataStore.isValidCardMonth());
-    }
-
-    @Test
-    public void get_set_card_year_validity() {
-        mDataStore.setValidCardYear(false);
-        assertEquals(false, mDataStore.isValidCardYear());
-        mDataStore.setValidCardYear(true);
-        assertEquals(true, mDataStore.isValidCardYear());
-    }
-
-    @Test
-    public void get_set_card_cvv_validity() {
-        mDataStore.setValidCardCvv(false);
-        assertEquals(false, mDataStore.isValidCardCvv());
-        mDataStore.setValidCardCvv(true);
-        assertEquals(true, mDataStore.isValidCardCvv());
-    }
-
     private static final String CARD_ENV_SANDBOX = "https://sandbox.checkout.com/api2/v2/tokens/card/";
     private static final String CARD_ENV_LIVE = "https://api2.checkout.com/v2/tokens/card/";
     private static final String GOOGLE_ENV_SANDBOX = "https://sandbox.checkout.com/api2/v2/tokens/card/";
