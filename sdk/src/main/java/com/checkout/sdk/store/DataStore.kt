@@ -19,7 +19,7 @@ open class DataStore protected constructor() {
     var cardCvv: String? = null
     var cvvLength = 4
 
-    var acceptedCards: List<Card>? = null
+    open var acceptedCards: List<Card>? = null
 
     var successUrl: String? = null
     var failUrl: String? = null
@@ -33,10 +33,10 @@ open class DataStore protected constructor() {
     var defaultCustomerName: String? = null
     var customerCountry = ""
     var defaultCountry: Locale? = null
-    var customerAddress1 = ""
-    var customerAddress2 = ""
-    var customerCity = ""
-    var customerState = ""
+    open var customerAddress1 = ""
+    open var customerAddress2 = ""
+    open var customerCity = ""
+    open var customerState = ""
     var customerZipcode = ""
     var customerPhonePrefix = ""
     var customerPhone = ""
