@@ -19,7 +19,7 @@ import com.checkout.sdk.core.RequestGenerator
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
-import com.checkout.sdk.view.BillingDetailsView
+import com.checkout.sdk.billingdetails.BillingDetailsView
 import kotlinx.android.synthetic.main.payment_form.view.*
 
 /**
