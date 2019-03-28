@@ -37,7 +37,7 @@ class CardDetailsView @JvmOverloads constructor(
     private val inMemoryStore = InMemoryStore.Factory.get()
     lateinit var presenter: CardDetailsPresenter
     private var validPayRequestListener: PaymentForm.ValidPayRequestListener? = null
-    private var mDataStore: DataStore = DataStore.getInstance()
+    private var mDataStore: DataStore = DataStore.Factory.get()
     private var mGotoBillingListener: GoToBillingListener? = null
 
     private val resetBillingSpinnerUseCase = UpdateBillingSpinnerUseCase(

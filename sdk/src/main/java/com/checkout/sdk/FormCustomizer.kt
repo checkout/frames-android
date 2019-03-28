@@ -10,7 +10,7 @@ import java.util.*
 
 class FormCustomizer {
 
-    private val mDataStore = DataStore.getInstance()
+    private val mDataStore = DataStore.Factory.get()
 
     /**
      * This method is used set the accepted card schemes
@@ -181,17 +181,17 @@ class FormCustomizer {
         if (mDataStore != null && mDataStore.defaultBillingDetails != null) {
             mDataStore.isBillingCompleted = true
             mDataStore.lastBillingValidState = mDataStore.defaultBillingDetails
-            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails.addressLine1
-            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails.addressLine2
-            mDataStore.customerZipcode = mDataStore.defaultBillingDetails.postcode
-            mDataStore.customerCountry = mDataStore.defaultBillingDetails.country
-            mDataStore.customerCity = mDataStore.defaultBillingDetails.city
-            mDataStore.customerState = mDataStore.defaultBillingDetails.state
-            mDataStore.customerPhone = mDataStore.defaultBillingDetails.phone.number
-            mDataStore.customerPhonePrefix = mDataStore.defaultBillingDetails.phone.countryCode
+            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressLine1
+            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressLine2
+            mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
+            mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
+            mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city
+            mDataStore.customerState = mDataStore.defaultBillingDetails!!.state
+            mDataStore.customerPhone = mDataStore.defaultBillingDetails!!.phone.number
+            mDataStore.customerPhonePrefix = mDataStore.defaultBillingDetails!!.phone.countryCode
         }
         if (mDataStore != null && mDataStore.defaultCustomerName != null) {
-            mDataStore.customerName = mDataStore.defaultCustomerName
+            mDataStore.customerName = mDataStore.defaultCustomerName!!
         } else {
             mDataStore.lastCustomerNameState = null
         }

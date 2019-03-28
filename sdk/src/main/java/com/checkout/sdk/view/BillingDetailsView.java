@@ -227,7 +227,7 @@ public class BillingDetailsView extends LinearLayout {
     private DefaultInput mState;
     private DefaultInput mZip;
     private PhoneInput mPhone;
-    private DataStore mDatastore = DataStore.getInstance();
+    private DataStore mDatastore = DataStore.Factory.INSTANCE.get();
     private TextInputLayout mAddressOneLayout;
     private TextInputLayout mAddressTwoLayout;
     private TextInputLayout mCityLayout;

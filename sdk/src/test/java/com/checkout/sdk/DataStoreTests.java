@@ -8,11 +8,11 @@ import static org.junit.Assert.assertEquals;
 
 public class DataStoreTests {
 
-    private DataStore mDataStore = DataStore.getInstance();
+    private DataStore mDataStore = DataStore.Companion.getInstance();
 
     @Test
     public void get_instance() {
-        mDataStore = DataStore.getInstance();
+        mDataStore = DataStore.Companion.getInstance();
         assertEquals(mDataStore, mDataStore);
     }
 
