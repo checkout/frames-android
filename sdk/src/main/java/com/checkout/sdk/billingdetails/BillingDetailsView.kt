@@ -1,11 +1,9 @@
 package com.checkout.sdk.billingdetails
 
 import android.content.Context
-import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.checkout.sdk.R
@@ -17,6 +15,7 @@ import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.models.PhoneModel
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.utils.PhoneUtils
+import kotlinx.android.synthetic.main.billing_details.view.*
 import java.util.*
 
 /**
@@ -42,12 +41,12 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mNameListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
-            mDatastore.customerName = value
+            dataStore.customerName = value
         }
 
         override fun clearInputError() {
-            mNameLayout!!.error = null
-            mNameLayout!!.isErrorEnabled = false
+            name_input_layout.error = null
+            name_input_layout.isErrorEnabled = false
         }
     }
 
@@ -61,15 +60,15 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mCountryListener = CountryInput.CountryListener { country, prefix ->
         if (country != "") {
-            mDatastore.customerCountry = country
+            dataStore.customerCountry = country
         }
         if (prefix != "") {
-            mDatastore.customerPhonePrefix = prefix
+            dataStore.customerPhonePrefix = prefix
         }
-        mPhone!!.setText(prefix + " " + mDatastore.customerPhone)
-        mPhone!!.requestFocus()
-        mPhone!!.performClick()
-        mPhone!!.setSelection(mPhone!!.text.length)
+        phone_input.setText(prefix + " " + dataStore.customerPhone)
+        phone_input.requestFocus()
+        phone_input.performClick()
+        phone_input.setSelection(phone_input!!.text.length)
     }
 
     /**
@@ -83,12 +82,12 @@ class BillingDetailsView @JvmOverloads constructor(
     private val mAddressOneListener = object : AddressOneInput.AddressOneListener {
 
         override fun onAddressOneInputFinish(value: String) {
-            mDatastore.customerAddress1 = value
+            dataStore.customerAddress1 = value
         }
 
         override fun clearAddressOneError() {
-            mAddressOneLayout!!.error = null
-            mAddressOneLayout!!.isErrorEnabled = false
+            address_one_input_layout.error = null
+            address_one_input_layout.isErrorEnabled = false
         }
     }
 
@@ -102,12 +101,12 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mAddressTwoListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
-            mDatastore.customerAddress2 = value
+            dataStore.customerAddress2 = value
         }
 
         override fun clearInputError() {
-            mAddressTwoLayout!!.error = null
-            mAddressTwoLayout!!.isErrorEnabled = false
+            address_two_input_layout.error = null
+            address_two_input_layout.isErrorEnabled = false
         }
     }
 
@@ -121,12 +120,12 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mCityListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
-            mDatastore.customerCity = value
+            dataStore.customerCity = value
         }
 
         override fun clearInputError() {
-            mCityLayout!!.error = null
-            mCityLayout!!.isErrorEnabled = false
+            city_input_layout.error = null
+            city_input_layout.isErrorEnabled = false
         }
     }
 
@@ -140,12 +139,12 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mStateListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
-            mDatastore.customerState = value
+            dataStore.customerState = value
         }
 
         override fun clearInputError() {
-            mStateLayout!!.error = null
-            mStateLayout!!.isErrorEnabled = false
+            state_input_layout.error = null
+            state_input_layout.isErrorEnabled = false
         }
 
     }
@@ -160,12 +159,12 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mZipListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
-            mDatastore.customerZipcode = value
+            dataStore.customerZipcode = value
         }
 
         override fun clearInputError() {
-            mZipLayout!!.error = null
-            mZipLayout!!.isErrorEnabled = false
+            zipcode_input_layout.error = null
+            zipcode_input_layout.isErrorEnabled = false
         }
     }
 
@@ -179,37 +178,19 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mPhoneListener = object : PhoneInput.PhoneListener {
         override fun onPhoneInputFinish(phone: String) {
-            mDatastore
-                .customerPhone = phone.replace(mDatastore.customerPhonePrefix, "")
+            dataStore
+                .customerPhone = phone.replace(dataStore.customerPhonePrefix, "")
                 .replace("\\D".toRegex(), "")
         }
 
         override fun clearPhoneError() {
-            mPhoneLayout!!.error = null
-            mPhoneLayout!!.isErrorEnabled = false
+            phone_input_layout.error = null
+            phone_input_layout.isErrorEnabled = false
         }
     }
 
     private var mListener: BillingDetailsView.Listener? = null
-    private val mDone: Button? = null
-    private var mClear: Button? = null
-    private var mToolbar: android.support.v7.widget.Toolbar? = null
-    private var mName: DefaultInput? = null
-    private var mNameLayout: TextInputLayout? = null
-    private var mCountryInput: CountryInput? = null
-    private var mAddressOne: AddressOneInput? = null
-    private var mAddressTwo: DefaultInput? = null
-    private var mCity: DefaultInput? = null
-    private var mState: DefaultInput? = null
-    private var mZip: DefaultInput? = null
-    private var mPhone: PhoneInput? = null
-    private val mDatastore = DataStore.Factory.get()
-    private var mAddressOneLayout: TextInputLayout? = null
-    private var mAddressTwoLayout: TextInputLayout? = null
-    private var mCityLayout: TextInputLayout? = null
-    private var mStateLayout: TextInputLayout? = null
-    private var mZipLayout: TextInputLayout? = null
-    private var mPhoneLayout: TextInputLayout? = null
+    private val dataStore: DataStore = DataStore.Factory.get()
 
     /**
      * Used to indicate the validity of the billing details from
@@ -224,38 +205,38 @@ class BillingDetailsView @JvmOverloads constructor(
         get() {
             var result = true
 
-            if (mName!!.length() < 3) {
-                mNameLayout!!.error = resources.getString(R.string.error_name)
+            if (name_input.length() < 3) {
+                name_input_layout.error = resources.getString(R.string.error_name)
                 result = false
             }
 
-            if (mCountryInput!!.selectedItemPosition == 0) {
-                (mCountryInput!!.selectedView as TextView).error =
+            if (country_input.selectedItemPosition == 0) {
+                (country_input.selectedView as TextView).error =
                         resources.getString(R.string.error_country)
                 result = false
             }
-            if (mAddressOne!!.length() < 3) {
-                mAddressOneLayout!!.error = resources.getString(R.string.error_address_one)
+            if (address_one_input.length() < 3) {
+                address_one_input_layout.error = resources.getString(R.string.error_address_one)
                 result = false
             }
 
-            if (mCity!!.length() < 2) {
-                mCityLayout!!.error = resources.getString(R.string.error_city)
+            if (city_input.length() < 2) {
+                city_input_layout.error = resources.getString(R.string.error_city)
                 result = false
             }
 
-            if (mState!!.length() < 3) {
-                mStateLayout!!.error = resources.getString(R.string.error_state)
+            if (state_input.length() < 3) {
+                state_input_layout.error = resources.getString(R.string.error_state)
                 result = false
             }
 
-            if (mZip!!.length() < 3) {
-                mZipLayout!!.error = resources.getString(R.string.error_postcode)
+            if (zipcode_input.length() < 3) {
+                zipcode_input_layout.error = resources.getString(R.string.error_postcode)
                 result = false
             }
 
-            if (mPhone!!.length() < 3) {
-                mPhoneLayout!!.error = resources.getString(R.string.error_phone)
+            if (phone_input.length() < 3) {
+                phone_input_layout.error = resources.getString(R.string.error_phone)
                 result = false
             }
 
@@ -276,174 +257,118 @@ class BillingDetailsView @JvmOverloads constructor(
     }
 
     init {
-        init()
-    }
-
-    /**
-     * The UI initialisation
-     *
-     *
-     * Used to initialise element and pass callbacks as well as setting up appropriate listeners
-     */
-    private fun init() {
-        inflate(context, R.layout.billing_details, this)
-        orientation = LinearLayout.VERTICAL
-        mToolbar = findViewById(R.id.my_toolbar)
-
+        inflate(this.context, R.layout.billing_details, this)
+        orientation = VERTICAL
         isFocusableInTouchMode = true
-
-        mAddressOneLayout = findViewById(R.id.address_one_input_layout)
-        mAddressTwoLayout = findViewById(R.id.address_two_input_layout)
-        mCityLayout = findViewById(R.id.city_input_layout)
-        mStateLayout = findViewById(R.id.state_input_layout)
-        mZipLayout = findViewById(R.id.zipcode_input_layout)
-        mPhoneLayout = findViewById(R.id.phone_input_layout)
-
-        // trigger focus change to the card details view on the toolbar back button press
-        mToolbar!!.setNavigationOnClickListener {
-            if (mDatastore.lastBillingValidState != null) {
-                mDatastore.customerName = mDatastore.lastCustomerNameState!!
-                mDatastore.customerAddress1 = mDatastore.lastBillingValidState!!.addressLine1
-                mDatastore.customerAddress2 = mDatastore.lastBillingValidState!!.addressLine2
-                mDatastore.customerZipcode = mDatastore.lastBillingValidState!!.postcode
-                mDatastore.customerCountry = mDatastore.lastBillingValidState!!.country
-                mDatastore.customerCity = mDatastore.lastBillingValidState!!.city
-                mDatastore.customerState = mDatastore.lastBillingValidState!!.state
-                mDatastore.customerPhonePrefix =
-                        mDatastore.lastBillingValidState!!.phone.countryCode
-                mDatastore.customerPhone = mDatastore.lastBillingValidState!!.phone.number
+        my_toolbar.setNavigationOnClickListener {
+            if (dataStore.lastBillingValidState != null) {
+                dataStore.customerName = dataStore.lastCustomerNameState!!
+                dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressLine1
+                dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressLine2
+                dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
+                dataStore.customerCountry = dataStore.lastBillingValidState!!.country
+                dataStore.customerCity = dataStore.lastBillingValidState!!.city
+                dataStore.customerState = dataStore.lastBillingValidState!!.state
+                dataStore.customerPhonePrefix =
+                        dataStore.lastBillingValidState!!.phone.countryCode
+                dataStore.customerPhone = dataStore.lastBillingValidState!!.phone.number
                 repopulateFields()
-                mListener!!.onBillingCompleted()
+                mListener?.onBillingCompleted()
             } else {
-                mListener!!.onBillingCanceled()
+                mListener?.onBillingCanceled()
             }
         }
-
-        mName = findViewById(R.id.name_input)
-        mNameLayout = findViewById(R.id.name_input_layout)
-        mName!!.setListener(mNameListener)
-
-        mCountryInput = findViewById(R.id.country_input)
-        mCountryInput!!.setCountryListener(mCountryListener)
-
-        mAddressOne = findViewById(R.id.address_one_input)
-        mAddressOne!!.setAddressOneListener(mAddressOneListener)
-
-        mAddressTwo = findViewById(R.id.address_two_input)
-        mAddressTwo!!.setListener(mAddressTwoListener)
-
-        mCity = findViewById(R.id.city_input)
-        mCity!!.setListener(mCityListener)
-
-        mState = findViewById(R.id.state_input)
-        mState!!.setListener(mStateListener)
-
-        mZip = findViewById(R.id.zipcode_input)
-        mZip!!.setListener(mZipListener)
-
-        mPhone = findViewById(R.id.phone_input)
-        mPhone!!.setPhoneListener(mPhoneListener)
-
-        mClear = findViewById(R.id.clear_button)
-
-        // Used to restore state on orientation changes
+        name_input.setListener(mNameListener)
+        address_one_input.setAddressOneListener(mAddressOneListener)
+        address_two_input.setListener(mAddressTwoListener)
+        country_input.setCountryListener(mCountryListener)
+        city_input.setListener(mCityListener)
+        state_input.setListener(mStateListener)
+        zipcode_input.setListener(mZipListener)
+        phone_input.setPhoneListener(mPhoneListener)
         repopulateFields()
-
-        // Clear the state and the fields if the user chooses to press the clear button
-        mClear!!.setOnClickListener {
-            mName!!.setText("")
-            mNameLayout!!.error = null
-            mNameLayout!!.isErrorEnabled = false
-            if (mDatastore.defaultCountry != null) {
-                mCountryInput!!.setSelection(
-                    (mCountryInput!!.adapter as ArrayAdapter<String>)
-                        .getPosition(mDatastore.defaultCountry!!.displayCountry)
+        clear_button.setOnClickListener {
+            name_input.setText("")
+            name_input_layout.error = null
+            name_input_layout.isErrorEnabled = false
+            if (dataStore.defaultCountry != null) {
+                country_input.setSelection(
+                    (country_input.adapter as ArrayAdapter<String>)
+                        .getPosition(dataStore.defaultCountry!!.displayCountry)
                 )
-                mDatastore.customerCountry = mDatastore.defaultCountry!!.country
-                mDatastore.customerPhonePrefix = PhoneUtils.getPrefix(
-                    mDatastore.defaultCountry!!
-                        .country
-                )
+                dataStore.customerCountry = dataStore.defaultCountry!!.country
+                dataStore.customerPhonePrefix = PhoneUtils.getPrefix(
+                    dataStore.defaultCountry!!.country)
             } else {
-                mCountryInput!!.setSelection(0)
+                country_input.setSelection(0)
             }
-            (mCountryInput!!.selectedView as TextView).error = null
-            mAddressOne!!.setText("")
-            mAddressOneLayout!!.error = null
-            mAddressOneLayout!!.isErrorEnabled = false
-            mAddressTwo!!.setText("")
-            mAddressTwoLayout!!.error = null
-            mAddressTwoLayout!!.isErrorEnabled = false
-            mCity!!.setText("")
-            mCityLayout!!.error = null
-            mCityLayout!!.isErrorEnabled = false
-            mState!!.setText("")
-            mStateLayout!!.error = null
-            mStateLayout!!.isErrorEnabled = false
-            mZip!!.setText("")
-            mZipLayout!!.error = null
-            mZipLayout!!.isErrorEnabled = false
-            if (mDatastore.defaultCountry != null) {
-                mPhone!!.setText(PhoneUtils.getPrefix(mDatastore.defaultCountry!!.country) + " ")
+            (country_input.selectedView as TextView).error = null
+            address_one_input.setText("")
+            address_one_input_layout.error = null
+            address_one_input_layout.isErrorEnabled = false
+            address_two_input.setText("")
+            address_two_input_layout.error = null
+            address_two_input_layout.isErrorEnabled = false
+            city_input.setText("")
+            city_input_layout.error = null
+            city_input_layout.isErrorEnabled = false
+            state_input.setText("")
+            state_input_layout.error = null
+            state_input_layout.isErrorEnabled = false
+            zipcode_input.setText("")
+            zipcode_input_layout.error = null
+            zipcode_input_layout.isErrorEnabled = false
+            if (dataStore.defaultCountry != null) {
+                phone_input.setText(PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) + " ")
             } else {
-                mPhone!!.setText("")
+                phone_input.setText("")
             }
-            mPhoneLayout!!.error = null
-            mPhoneLayout!!.isErrorEnabled = false
-            mDatastore.cleanBillingData()
-            if (mListener != null) {
-                mListener!!.onBillingCanceled()
-            }
-            mDatastore.isBillingCompleted = false
+            phone_input_layout.error = null
+            phone_input_layout.isErrorEnabled = false
+            dataStore.cleanBillingData()
+            mListener?.onBillingCanceled()
+            dataStore.isBillingCompleted = false
         }
-
-        // Is the form is valid indicate the billing was completed using the callback
-        // so the billing spinner can be updated adn teh focus can be changes
-        mDone!!.setOnClickListener {
+        done_button.setOnClickListener {
             if (isValidForm) {
-                if (mListener != null) {
-                    mDatastore.isBillingCompleted = true
-                    mDatastore.lastCustomerNameState = mDatastore.customerName
-                    mDatastore.lastBillingValidState = BillingModel(
-                        mDatastore.customerAddress1,
-                        mDatastore.customerAddress2,
-                        mDatastore.customerZipcode,
-                        mDatastore.customerCountry,
-                        mDatastore.customerCity,
-                        mDatastore.customerState,
+                    dataStore.isBillingCompleted = true
+                    dataStore.lastCustomerNameState = dataStore.customerName
+                    dataStore.lastBillingValidState = BillingModel(
+                        dataStore.customerAddress1,
+                        dataStore.customerAddress2,
+                        dataStore.customerZipcode,
+                        dataStore.customerCountry,
+                        dataStore.customerCity,
+                        dataStore.customerState,
                         PhoneModel(
-                            mDatastore.customerPhonePrefix,
-                            mDatastore.customerPhone
+                            dataStore.customerPhonePrefix,
+                            dataStore.customerPhone
                         )
                     )
-                    mListener!!.onBillingCompleted()
-                }
+                    mListener?.onBillingCompleted()
             }
         }
-
         requestFocus()
-
-        // Set custom labels
-        if (mDatastore.cardHolderLabel != null) {
-            mNameLayout!!.hint = mDatastore.cardHolderLabel
+        if (dataStore.cardHolderLabel != null) {
+            name_input_layout.hint = dataStore.cardHolderLabel
         }
-        if (mDatastore.addressLine1Label != null) {
-            mAddressOneLayout!!.hint = mDatastore.addressLine1Label
+        if (dataStore.addressLine1Label != null) {
+            address_one_input_layout.hint = dataStore.addressLine1Label
         }
-        if (mDatastore.addressLine2Label != null) {
-            mAddressTwoLayout!!.hint = mDatastore.addressLine2Label
+        if (dataStore.addressLine2Label != null) {
+            address_two_input_layout.hint = dataStore.addressLine2Label
         }
-        if (mDatastore.townLabel != null) {
-            mCityLayout!!.hint = mDatastore.townLabel
+        if (dataStore.townLabel != null) {
+            city_input_layout.hint = dataStore.townLabel
         }
-        if (mDatastore.stateLabel != null) {
-            mStateLayout!!.hint = mDatastore.stateLabel
+        if (dataStore.stateLabel != null) {
+            state_input_layout.hint = dataStore.stateLabel
         }
-        if (mDatastore.postCodeLabel != null) {
-            mZipLayout!!.hint = mDatastore.postCodeLabel
+        if (dataStore.postCodeLabel != null) {
+            zipcode_input_layout.hint = dataStore.postCodeLabel
         }
-        if (mDatastore.phoneLabel != null) {
-            mPhoneLayout!!.hint = mDatastore.phoneLabel
+        if (dataStore.phoneLabel != null) {
+            phone_input_layout.hint = dataStore.phoneLabel
         }
     }
 
@@ -456,7 +381,7 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private fun repopulateFields() {
         // Repopulate name
-        mName!!.setText(mDatastore.customerName)
+        name_input.setText(dataStore.customerName)
 
         // Repopulate country
         val locale = Locale.getAvailableLocales()
@@ -464,111 +389,109 @@ class BillingDetailsView @JvmOverloads constructor(
 
         for (loc in locale) {
             country = loc.displayCountry
-            if (loc.country == mDatastore.customerCountry) {
-                mCountryInput!!.setSelection(
-                    (mCountryInput!!.adapter as ArrayAdapter<String>)
-                        .getPosition(country)
+            if (loc.country == dataStore.customerCountry) {
+                country_input.setSelection(
+                    (country_input.adapter as ArrayAdapter<String>).getPosition(country)
                 )
             }
         }
 
         // Repopulate address line 1
-        mAddressOne!!.setText(mDatastore.customerAddress1)
+        address_one_input.setText(dataStore.customerAddress1)
 
         // Repopulate address line 1
-        mAddressTwo!!.setText(mDatastore.customerAddress2)
+        address_two_input.setText(dataStore.customerAddress2)
 
         // Repopulate city
-        mCity!!.setText(mDatastore.customerCity)
+        city_input.setText(dataStore.customerCity)
 
         // Repopulate state
-        mState!!.setText(mDatastore.customerState)
+        state_input.setText(dataStore.customerState)
 
         // Repopulate zip/post code
-        mZip!!.setText(mDatastore.customerZipcode)
+        zipcode_input.setText(dataStore.customerZipcode)
 
         // Repopulate phone
-        mPhone!!.setText(mDatastore.customerPhone)
+        phone_input.setText(dataStore.customerPhone)
     }
 
     /**
      * Used to clear the text and state of the fields
      */
     fun resetFields() {
-        if (mDatastore.defaultCustomerName != null) {
-            mName!!.setText(mDatastore.defaultCustomerName)
-            mNameLayout!!.error = null
-            mNameLayout!!.isErrorEnabled = false
+        if (dataStore.defaultCustomerName != null) {
+            name_input.setText(dataStore.defaultCustomerName)
+            name_input_layout.error = null
+            name_input_layout.isErrorEnabled = false
         } else {
-            mName!!.setText("")
-            mNameLayout!!.error = null
-            mNameLayout!!.isErrorEnabled = false
+            name_input.setText("")
+            name_input_layout.error = null
+            name_input_layout.isErrorEnabled = false
         }
         // Repopulate country
-        if (mDatastore.defaultCountry != null) {
-            mCountryInput!!.setSelection(
-                (mCountryInput!!.adapter as ArrayAdapter<String>)
-                    .getPosition(mDatastore.defaultCountry!!.displayCountry)
+        if (dataStore.defaultCountry != null) {
+            country_input.setSelection(
+                (country_input.adapter as ArrayAdapter<String>)
+                    .getPosition(dataStore.defaultCountry!!.displayCountry)
             )
-            mDatastore.customerCountry = mDatastore.defaultCountry!!.country
-            mDatastore.customerPhonePrefix = PhoneUtils.getPrefix(
-                mDatastore.defaultCountry!!
-                    .country
+            dataStore.customerCountry = dataStore.defaultCountry!!.country
+            dataStore.customerPhonePrefix = PhoneUtils.getPrefix(
+                dataStore.defaultCountry!!.country
             )
         } else {
-            mCountryInput!!.setSelection(0)
+            country_input.setSelection(0)
         }
 
-        if (mDatastore.defaultBillingDetails != null &&
-            mDatastore.defaultCountry != null &&
-            mDatastore.customerPhone != null
+        if (dataStore.defaultBillingDetails != null &&
+            dataStore.defaultCountry != null &&
+            dataStore.customerPhone != null
         ) {
-            mPhone!!.setText(
-                PhoneUtils.getPrefix(mDatastore.defaultCountry!!.country) +
-                        " " + mDatastore.customerPhone
+            phone_input.setText(
+                PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) +
+                        " " + dataStore.customerPhone
             )
-            mAddressOne!!.setText(mDatastore.defaultBillingDetails!!.addressLine1)
-            mAddressOneLayout!!.error = null
-            mAddressOneLayout!!.isErrorEnabled = false
-            mAddressTwo!!.setText(mDatastore.defaultBillingDetails!!.addressLine2)
-            mAddressTwoLayout!!.error = null
-            mAddressTwoLayout!!.isErrorEnabled = false
-            mCity!!.setText(mDatastore.defaultBillingDetails!!.city)
-            mCityLayout!!.error = null
-            mCityLayout!!.isErrorEnabled = false
-            mState!!.setText(mDatastore.defaultBillingDetails!!.state)
-            mStateLayout!!.error = null
-            mStateLayout!!.isErrorEnabled = false
-            mZip!!.setText(mDatastore.defaultBillingDetails!!.postcode)
-            mZipLayout!!.error = null
-            mZipLayout!!.isErrorEnabled = false
-            mPhoneLayout!!.error = null
-            mPhoneLayout!!.isErrorEnabled = false
+            address_one_input.setText(dataStore.defaultBillingDetails!!.addressLine1)
+            address_one_input_layout.error = null
+            address_one_input_layout.isErrorEnabled = false
+            address_two_input.setText(dataStore.defaultBillingDetails!!.addressLine2)
+            address_two_input_layout.error = null
+            address_two_input_layout.isErrorEnabled = false
+            city_input.setText(dataStore.defaultBillingDetails!!.city)
+            city_input_layout.error = null
+            city_input_layout.isErrorEnabled = false
+            state_input.setText(dataStore.defaultBillingDetails!!.state)
+            state_input_layout.error = null
+            state_input_layout.isErrorEnabled = false
+            zipcode_input.setText(dataStore.defaultBillingDetails!!.postcode)
+            zipcode_input_layout.error = null
+            zipcode_input_layout.isErrorEnabled = false
+            phone_input_layout.error = null
+            phone_input_layout.isErrorEnabled = false
         } else {
             // Reset phone prefix
-            if (mDatastore.defaultCountry != null) {
-                mPhone!!.setText(PhoneUtils.getPrefix(mDatastore.defaultCountry!!.country) + " ")
+            if (dataStore.defaultCountry != null) {
+                phone_input.setText(PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) + " ")
             } else {
-                mPhone!!.setText("")
+                phone_input.setText("")
             }
-            (mCountryInput!!.selectedView as TextView).error = null
-            mAddressOne!!.setText("")
-            mAddressOneLayout!!.error = null
-            mAddressOneLayout!!.isErrorEnabled = false
-            mAddressTwo!!.setText("")
-            mAddressTwoLayout!!.error = null
-            mAddressTwoLayout!!.isErrorEnabled = false
-            mCity!!.setText("")
-            mCityLayout!!.error = null
-            mCityLayout!!.isErrorEnabled = false
-            mState!!.setText("")
-            mStateLayout!!.error = null
-            mStateLayout!!.isErrorEnabled = false
-            mZip!!.setText("")
-            mZipLayout!!.error = null
-            mZipLayout!!.isErrorEnabled = false
-            mPhoneLayout!!.error = null
-            mPhoneLayout!!.isErrorEnabled = false
+            (country_input.selectedView as TextView).error = null
+            address_one_input.setText("")
+            address_one_input_layout.error = null
+            address_one_input_layout.isErrorEnabled = false
+            address_two_input.setText("")
+            address_two_input_layout.error = null
+            address_two_input_layout.isErrorEnabled = false
+            city_input.setText("")
+            city_input_layout.error = null
+            city_input_layout.isErrorEnabled = false
+            state_input.setText("")
+            state_input_layout.error = null
+            state_input_layout.isErrorEnabled = false
+            zipcode_input.setText("")
+            zipcode_input_layout.error = null
+            zipcode_input_layout.isErrorEnabled = false
+            phone_input_layout.error = null
+            phone_input_layout.isErrorEnabled = false
         }
     }
 
@@ -580,29 +503,29 @@ class BillingDetailsView @JvmOverloads constructor(
         if (event.keyCode == KeyEvent.KEYCODE_BACK) {
             // Prevent back button to trigger the mListener is any is focused
             if (mListener != null &&
-                !mAddressOne!!.hasFocus() &&
-                !mName!!.hasFocus() &&
-                !mAddressTwo!!.hasFocus() &&
-                !mCity!!.hasFocus() &&
-                !mState!!.hasFocus() &&
-                !mZip!!.hasFocus() &&
-                !mPhone!!.hasFocus()
+                !address_one_input.hasFocus() &&
+                !name_input.hasFocus() &&
+                !address_two_input.hasFocus() &&
+                !city_input.hasFocus() &&
+                !state_input.hasFocus() &&
+                !zipcode_input.hasFocus() &&
+                !phone_input.hasFocus()
             ) {
-                if (mDatastore.lastBillingValidState != null) {
-                    mDatastore.customerName = mDatastore.lastCustomerNameState!!
-                    mDatastore.customerAddress1 = mDatastore.lastBillingValidState!!.addressLine1
-                    mDatastore.customerAddress2 = mDatastore.lastBillingValidState!!.addressLine2
-                    mDatastore.customerZipcode = mDatastore.lastBillingValidState!!.postcode
-                    mDatastore.customerCountry = mDatastore.lastBillingValidState!!.country
-                    mDatastore.customerCity = mDatastore.lastBillingValidState!!.city
-                    mDatastore.customerState = mDatastore.lastBillingValidState!!.state
-                    mDatastore.customerPhonePrefix =
-                            mDatastore.lastBillingValidState!!.phone.countryCode
-                    mDatastore.customerPhone = mDatastore.lastBillingValidState!!.phone.number
+                if (dataStore.lastBillingValidState != null) {
+                    dataStore.customerName = dataStore.lastCustomerNameState!!
+                    dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressLine1
+                    dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressLine2
+                    dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
+                    dataStore.customerCountry = dataStore.lastBillingValidState!!.country
+                    dataStore.customerCity = dataStore.lastBillingValidState!!.city
+                    dataStore.customerState = dataStore.lastBillingValidState!!.state
+                    dataStore.customerPhonePrefix =
+                            dataStore.lastBillingValidState!!.phone.countryCode
+                    dataStore.customerPhone = dataStore.lastBillingValidState!!.phone.number
                     repopulateFields()
-                    mListener!!.onBillingCompleted()
+                    mListener?.onBillingCompleted()
                 } else {
-                    mListener!!.onBillingCanceled()
+                    mListener?.onBillingCanceled()
                 }
                 return true
             } else {
@@ -614,12 +537,10 @@ class BillingDetailsView @JvmOverloads constructor(
         return super.dispatchKeyEventPreIme(event)
     }
 
-
     /**
      * Used to set the callback listener for when the card details page is requested
      */
     fun setGoToCardDetailsListener(listener: BillingDetailsView.Listener) {
         mListener = listener
     }
-
 }
