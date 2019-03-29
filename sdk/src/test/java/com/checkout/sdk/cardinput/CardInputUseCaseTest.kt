@@ -1,9 +1,9 @@
 package com.checkout.sdk.cardinput
 
 import android.text.Editable
+import com.checkout.sdk.core.Card
 import com.checkout.sdk.cvvinput.Cvv
 import com.checkout.sdk.store.InMemoryStore
-import com.checkout.sdk.utils.CardUtils
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +31,7 @@ class CardInputUseCaseTest {
 
         val cardInputType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedType = CardUtils.Cards.DEFAULT
+        val expectedType = Card.DEFAULT
         assertEquals(expectedType, cardInputType)
         assertEquals(cardNumber.value, editable.toString())
         then(inMemoryStore).should().cardNumber = cardNumber
@@ -46,7 +46,7 @@ class CardInputUseCaseTest {
 
         val cardType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedType = CardUtils.Cards.VISA
+        val expectedType = Card.VISA
         assertEquals(expectedType, cardType)
         assertEquals(spacedVisaNumber, editable.toString())
         then(inMemoryStore).should().cardNumber = nonSpacedVisaNumber
@@ -61,7 +61,7 @@ class CardInputUseCaseTest {
 
         val cardType = CardInputUseCase(editable, inMemoryStore).execute()
 
-        val expectedType = CardUtils.Cards.VISA
+        val expectedType = Card.VISA
         assertEquals(expectedType, cardType)
         then(editable).should().replace(0, visaNumberToBeSpaced.value.length, visaNumberSpaced)
         then(inMemoryStore).should().cardNumber = visaNumberToBeSpaced

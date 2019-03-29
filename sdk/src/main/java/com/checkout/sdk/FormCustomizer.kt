@@ -1,9 +1,9 @@
 package com.checkout.sdk
 
 import android.widget.LinearLayout
+import com.checkout.sdk.core.Card
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
-import com.checkout.sdk.utils.CardUtils
 import com.checkout.sdk.utils.PhoneUtils
 import java.util.*
 
@@ -17,23 +17,9 @@ class FormCustomizer {
      *
      * @param cards array of accepted cards
      */
-    fun setAcceptedCard(cards: Array<CardUtils.Cards>): FormCustomizer {
+    fun setAcceptedCards(cards: List<Card>): FormCustomizer {
         mDataStore.acceptedCards = cards
         return this
-    }
-
-    /**
-     * This method used to decide if the billing details option will be
-     * displayed in the payment form.
-     *
-     * @param include boolean showing if the billing should be used
-     */
-    fun includeBilling(include: Boolean) {
-        if (!include) {
-            mDataStore.setShowBilling(false)
-        } else {
-            mDataStore.setShowBilling(true)
-        }
     }
 
     /**
@@ -45,46 +31,6 @@ class FormCustomizer {
         mDataStore.customerCountry = country.country
         mDataStore.defaultCountry = country
         mDataStore.customerPhonePrefix = PhoneUtils.getPrefix(country.country)
-        return this
-    }
-
-    /**
-     * This method used to set a custom label for the accepted cards
-     *
-     * @param accepted String representing the value for the Label
-     */
-    fun setAcceptedCardsLabel(accepted: String): FormCustomizer {
-        mDataStore.acceptedLabel = accepted
-        return this
-    }
-
-    /**
-     * This method used to set a custom label for the CardInput
-     *
-     * @param card String representing the value for the Label
-     */
-    fun setCardLabel(card: String): FormCustomizer {
-        mDataStore.cardLabel = card
-        return this
-    }
-
-    /**
-     * This method used to set a custom label for the DateInput
-     *
-     * @param date String representing the value for the Label
-     */
-    fun setDateLabel(date: String): FormCustomizer {
-        mDataStore.dateLabel = date
-        return this
-    }
-
-    /**
-     * This method used to set a custom label for the CvvInput
-     *
-     * @param cvv String representing the value for the Label
-     */
-    fun setCvvLabel(cvv: String): FormCustomizer {
-        mDataStore.cvvLabel = cvv
         return this
     }
 
@@ -159,16 +105,6 @@ class FormCustomizer {
     }
 
     /**
-     * This method used to set a custom text for the Pay button
-     *
-     * @param text String representing the text for the Button
-     */
-    fun setPayButtonText(text: String): FormCustomizer {
-        mDataStore.payButtonText = text
-        return this
-    }
-
-    /**
      * This method used to set a custom text for the Done button
      *
      * @param text String representing the text for the Button
@@ -185,16 +121,6 @@ class FormCustomizer {
      */
     fun setClearButtonText(text: String): FormCustomizer {
         mDataStore.clearButtonText = text
-        return this
-    }
-
-    /**
-     * This method used to set a custom LayoutParameters for the Pay button
-     *
-     * @param layout LayoutParameters representing the style for the Button
-     */
-    fun setPayButtonLayout(layout: LinearLayout.LayoutParams): FormCustomizer {
-        mDataStore.payButtonLayout = layout
         return this
     }
 

@@ -51,26 +51,14 @@
                     android:textSize="@dimen/label_text_size" />
 
             </LinearLayout>
-
-            <HorizontalScrollView
+            
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/card_icons_flexbox"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cards_icons_view_height"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/cards_icons_view_margin_sides"
-                android:paddingRight="@dimen/cards_icons_view_margin_sides">
-
-                <LinearLayout
-                    android:id="@+id/card_icons_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
-                    android:layout_marginLeft="-3dp"
-                    android:layout_marginStart="-3dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-            </HorizontalScrollView>
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/cards_icon_view_margin_side"
+                android:paddingRight="@dimen/cards_icon_view_margin_side"
+                app:flexWrap="wrap" />
 
             <com.checkout.sdk.cardinput.CardInput
                 android:id="@+id/card_input"

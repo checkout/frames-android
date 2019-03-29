@@ -2,10 +2,11 @@ package com.checkout.sdk.store;
 
 import android.widget.LinearLayout;
 
+import com.checkout.sdk.core.Card;
 import com.checkout.sdk.models.BillingModel;
-import com.checkout.sdk.utils.CardUtils;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -23,7 +24,7 @@ public class DataStore {
     private String mCardCvv;
     private int mCvvLength = 4;
 
-    private CardUtils.Cards[] acceptedCards;
+    private List<Card> acceptedCards;
 
     private String mSuccessUrl;
     private String mFailUrl;
@@ -45,13 +46,7 @@ public class DataStore {
     private String mCustomerPhonePrefix = "";
     private String mCustomerPhone = "";
 
-    private boolean showBilling = true;
     private boolean billingCompleted = false;
-
-    private String mAcceptedLabel = null;
-    private String mCardLabel = null;
-    private String mDateLabel = null;
-    private String mCvvLabel = null;
 
     private String mCardHolderLabel = null;
     private String mAddressLine1Label = null;
@@ -61,11 +56,9 @@ public class DataStore {
     private String mPostCodeLabel = null;
     private String mPhoneLabel = null;
 
-    private String mPayButtonText = null;
     private String mDoneButtonText = null;
     private String mClearButtonText = null;
 
-    private LinearLayout.LayoutParams mPayButtonLayout = null;
     private LinearLayout.LayoutParams mDoneButtonLayout = null;
     private LinearLayout.LayoutParams mClearButtonLayout = null;
 
@@ -243,14 +236,6 @@ public class DataStore {
         mCustomerPhone = customerPhone;
     }
 
-    public boolean getBillingVisibility() {
-        return showBilling;
-    }
-
-    public void setShowBilling(boolean showBilling) {
-        this.showBilling = showBilling;
-    }
-
     public String getCustomerName() {
         return mCustomerName;
     }
@@ -265,38 +250,6 @@ public class DataStore {
 
     public void setBillingCompleted(boolean billingCompleted) {
         this.billingCompleted = billingCompleted;
-    }
-
-    public String getCardLabel() {
-        return mCardLabel;
-    }
-
-    public void setCardLabel(String mCardLabel) {
-        this.mCardLabel = mCardLabel;
-    }
-
-    public String getDateLabel() {
-        return mDateLabel;
-    }
-
-    public void setDateLabel(String mDateLabel) {
-        this.mDateLabel = mDateLabel;
-    }
-
-    public String getCvvLabel() {
-        return mCvvLabel;
-    }
-
-    public void setCvvLabel(String mCvvLabel) {
-        this.mCvvLabel = mCvvLabel;
-    }
-
-    public String getAcceptedLabel() {
-        return mAcceptedLabel;
-    }
-
-    public void setAcceptedLabel(String mAcceptedLabel) {
-        this.mAcceptedLabel = mAcceptedLabel;
     }
 
     public String getCardHolderLabel() {
@@ -355,14 +308,6 @@ public class DataStore {
         this.mPhoneLabel = mPhoneLabel;
     }
 
-    public String getPayButtonText() {
-        return mPayButtonText;
-    }
-
-    public void setPayButtonText(String mPayButtonText) {
-        this.mPayButtonText = mPayButtonText;
-    }
-
     public String getDoneButtonText() {
         return mDoneButtonText;
     }
@@ -377,14 +322,6 @@ public class DataStore {
 
     public void setClearButtonText(String mClearButtonText) {
         this.mClearButtonText = mClearButtonText;
-    }
-
-    public LinearLayout.LayoutParams getPayButtonLayout() {
-        return mPayButtonLayout;
-    }
-
-    public void setPayButtonLayout(LinearLayout.LayoutParams mPayButtonLayout) {
-        this.mPayButtonLayout = mPayButtonLayout;
     }
 
     public LinearLayout.LayoutParams getDoneButtonLayout() {
@@ -470,11 +407,11 @@ public class DataStore {
         this.billingCompleted = false;
     }
 
-    public CardUtils.Cards[] getAcceptedCards() {
+    public List<Card> getAcceptedCards() {
         return acceptedCards;
     }
 
-    public void setAcceptedCards(CardUtils.Cards[] acceptedCards) {
+    public void setAcceptedCards(List<Card> acceptedCards) {
         this.acceptedCards = acceptedCards;
     }
 }

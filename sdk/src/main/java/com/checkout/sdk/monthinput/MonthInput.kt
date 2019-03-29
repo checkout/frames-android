@@ -19,10 +19,10 @@ import kotlinx.android.synthetic.main.card_details.view.*
  * A custom Spinner with handling of card expiration month input
  */
 class MonthInput @JvmOverloads constructor(
-    private val mContext: Context,
+    context: Context,
     attrs: AttributeSet? = null
 ) :
-    android.support.v7.widget.AppCompatSpinner(mContext, attrs),
+    android.support.v7.widget.AppCompatSpinner(context, attrs),
     MvpView<MonthInputUiState> {
 
     private lateinit var presenter: MonthInputPresenter
@@ -37,16 +37,13 @@ class MonthInput @JvmOverloads constructor(
         super.onAttachedToWindow()
 
         presenter = PresenterStore.getOrCreate(
-            MonthInputPresenter::class.java,
-            {
-                MonthInputPresenter(DateFormatter())
-            })
+            MonthInputPresenter::class.java, { MonthInputPresenter(DateFormatter()) })
         presenter.start(this)
 
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
@@ -63,8 +60,8 @@ class MonthInput @JvmOverloads constructor(
             if (hasFocus) {
                 performClick()
                 val imm =
-                    mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm?.hideSoftInputFromWindow(v.windowToken, 0)
             }
         }
     }
@@ -72,6 +69,8 @@ class MonthInput @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         presenter.stop()
+        onItemSelectedListener = null
+        onFocusChangeListener = null
     }
 
     /**
@@ -80,7 +79,7 @@ class MonthInput @JvmOverloads constructor(
     override fun onStateUpdated(uiState: MonthInputUiState) {
         if (adapter == null) {
             val dataAdapter = ArrayAdapter(
-                mContext,
+                context,
                 android.R.layout.simple_spinner_item,
                 uiState.months
             )

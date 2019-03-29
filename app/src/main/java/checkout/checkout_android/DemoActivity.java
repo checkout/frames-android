@@ -8,10 +8,12 @@ import android.util.Log;
 
 import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.FormCustomizer;
+import com.checkout.sdk.core.Card;
 import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.paymentform.PaymentForm;
-import com.checkout.sdk.utils.CardUtils.Cards;
 import com.checkout.sdk.utils.Environment;
+
+import java.util.Arrays;
 
 public class DemoActivity extends Activity {
 
@@ -50,7 +52,7 @@ public class DemoActivity extends Activity {
                 callback);
 
         FormCustomizer formCustomizer = new FormCustomizer()
-                .setAcceptedCard(new Cards[]{Cards.VISA, Cards.MASTERCARD});
+                .setAcceptedCards(Arrays.asList(Card.VISA, Card.MASTERCARD));
         mPaymentForm = findViewById(R.id.checkout_card_form);
         mPaymentForm.initialize(checkoutClient, formCustomizer);
     }

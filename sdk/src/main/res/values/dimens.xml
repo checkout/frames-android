@@ -5,10 +5,9 @@
     <dimen name="label_text_size">11sp</dimen>
     <dimen name="accepted_cards_margin_top">10dp</dimen>
 
-    <dimen name="cards_icons_view_margin_sides">14dp</dimen>
-    <dimen name="cards_icons_view_height">35dp</dimen>
     <dimen name="cards_icon_size">35dp</dimen>
     <dimen name="cards_icon_margin">3dp</dimen>
+    <dimen name="cards_icon_view_margin_side">11dp</dimen>
 
     <dimen name="basic_field_margin_side">10dp</dimen>
     <dimen name="basic_field_height">45dp</dimen>

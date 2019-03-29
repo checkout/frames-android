@@ -1,10 +1,10 @@
 package com.checkout.sdk.cardinput
 
 import com.checkout.sdk.architecture.UiState
-import com.checkout.sdk.utils.CardUtils
+import com.checkout.sdk.core.Card
 
 data class CardInputUiState(
     val cardNumber: String = "",
-    val cardType: CardUtils.Cards = CardUtils.Cards.DEFAULT,
+    val cardType: Card = Card.DEFAULT,
     val showCardError: Boolean = false
 ) : UiState
