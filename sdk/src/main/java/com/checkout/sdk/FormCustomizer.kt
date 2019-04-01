@@ -1,6 +1,5 @@
 package com.checkout.sdk
 
-import android.widget.LinearLayout
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
@@ -10,7 +9,7 @@ import java.util.*
 
 class FormCustomizer {
 
-    private val mDataStore = DataStore.getInstance()
+    private val mDataStore = DataStore.Factory.get()
 
     /**
      * This method is used set the accepted card schemes
@@ -105,46 +104,6 @@ class FormCustomizer {
     }
 
     /**
-     * This method used to set a custom text for the Done button
-     *
-     * @param text String representing the text for the Button
-     */
-    fun setDoneButtonText(text: String): FormCustomizer {
-        mDataStore.doneButtonText = text
-        return this
-    }
-
-    /**
-     * This method used to set a custom text for the Clear button
-     *
-     * @param text String representing the text for the Button
-     */
-    fun setClearButtonText(text: String): FormCustomizer {
-        mDataStore.clearButtonText = text
-        return this
-    }
-
-    /**
-     * This method used to set a custom LayoutParameters for the Done button
-     *
-     * @param layout LayoutParameters representing the style for the Button
-     */
-    fun setDoneButtonLayout(layout: LinearLayout.LayoutParams): FormCustomizer {
-        mDataStore.doneButtonLayout = layout
-        return this
-    }
-
-    /**
-     * This method used to set a custom LayoutParameters for the Clear button
-     *
-     * @param layout LayoutParameters representing the style for the Button
-     */
-    fun setClearButtonLayout(layout: LinearLayout.LayoutParams): FormCustomizer {
-        mDataStore.clearButtonLayout = layout
-        return this
-    }
-
-    /**
      * This method used to inject address details if they have already been collected
      *
      * @param billing BillingModel representing the value for the billing details
@@ -181,17 +140,17 @@ class FormCustomizer {
         if (mDataStore != null && mDataStore.defaultBillingDetails != null) {
             mDataStore.isBillingCompleted = true
             mDataStore.lastBillingValidState = mDataStore.defaultBillingDetails
-            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails.addressLine1
-            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails.addressLine2
-            mDataStore.customerZipcode = mDataStore.defaultBillingDetails.postcode
-            mDataStore.customerCountry = mDataStore.defaultBillingDetails.country
-            mDataStore.customerCity = mDataStore.defaultBillingDetails.city
-            mDataStore.customerState = mDataStore.defaultBillingDetails.state
-            mDataStore.customerPhone = mDataStore.defaultBillingDetails.phone.number
-            mDataStore.customerPhonePrefix = mDataStore.defaultBillingDetails.phone.countryCode
+            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressLine1
+            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressLine2
+            mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
+            mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
+            mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city
+            mDataStore.customerState = mDataStore.defaultBillingDetails!!.state
+            mDataStore.customerPhone = mDataStore.defaultBillingDetails!!.phone.number
+            mDataStore.customerPhonePrefix = mDataStore.defaultBillingDetails!!.phone.countryCode
         }
         if (mDataStore != null && mDataStore.defaultCustomerName != null) {
-            mDataStore.customerName = mDataStore.defaultCustomerName
+            mDataStore.customerName = mDataStore.defaultCustomerName!!
         } else {
             mDataStore.lastCustomerNameState = null
         }

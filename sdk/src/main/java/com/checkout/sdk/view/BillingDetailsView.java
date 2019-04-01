@@ -227,7 +227,7 @@ public class BillingDetailsView extends LinearLayout {
     private DefaultInput mState;
     private DefaultInput mZip;
     private PhoneInput mPhone;
-    private DataStore mDatastore = DataStore.getInstance();
+    private DataStore mDatastore = DataStore.Factory.INSTANCE.get();
     private TextInputLayout mAddressOneLayout;
     private TextInputLayout mAddressTwoLayout;
     private TextInputLayout mCityLayout;
@@ -312,20 +312,6 @@ public class BillingDetailsView extends LinearLayout {
         mPhone.setPhoneListener(mPhoneListener);
 
         mClear = findViewById(R.id.clear_button);
-        if (mDatastore != null && mDatastore.getClearButtonText() != null) {
-            mClear.setText(mDatastore.getClearButtonText());
-        }
-        if (mDatastore != null && mDatastore.getClearButtonLayout() != null) {
-            mClear.setLayoutParams(mDatastore.getClearButtonLayout());
-        }
-
-        mDone = findViewById(R.id.done_button);
-        if (mDatastore != null && mDatastore.getDoneButtonText() != null) {
-            mDone.setText(mDatastore.getDoneButtonText());
-        }
-        if (mDatastore != null && mDatastore.getDoneButtonLayout() != null) {
-            mDone.setLayoutParams(mDatastore.getDoneButtonLayout());
-        }
 
         // Used to restore state on orientation changes
         repopulateFields();

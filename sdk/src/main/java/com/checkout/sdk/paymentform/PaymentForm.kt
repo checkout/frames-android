@@ -41,7 +41,7 @@ class PaymentForm @JvmOverloads constructor(
     private lateinit var presenter: PaymentFormPresenter
     private val slidingViewAnimator: SlidingViewAnimator = SlidingViewAnimator(context)
     private var m3DSecureListener: On3DSFinished? = null
-    private val mDataStore = DataStore.getInstance()
+    private val mDataStore = DataStore.Factory.get()
 
     /**
      * This is a callback used to go back to the card details view from the billing page

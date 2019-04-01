@@ -43,10 +43,10 @@ open class UpdateBillingSpinnerUseCase(
     // TODO: default address storage in DataStore is changed
     private fun getDefaultAddress(): String {
         return format.format(
-            dataStore.defaultBillingDetails.addressLine1,
-            dataStore.defaultBillingDetails.addressLine2,
-            dataStore.defaultBillingDetails.city,
-            dataStore.defaultBillingDetails.state
+            dataStore.defaultBillingDetails!!.addressLine1,
+            dataStore.defaultBillingDetails!!.addressLine2,
+            dataStore.defaultBillingDetails!!.city,
+            dataStore.defaultBillingDetails!!.state
         )
     }
 }
