@@ -128,7 +128,7 @@
 
             </LinearLayout>
 
-            <com.checkout.sdk.core.TextInputView
+            <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/cvv_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

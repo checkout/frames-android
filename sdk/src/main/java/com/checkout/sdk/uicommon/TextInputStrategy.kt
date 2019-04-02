@@ -1,4 +1,4 @@
-package com.checkout.sdk.core
+package com.checkout.sdk.uicommon
 
 
 interface TextInputStrategy {

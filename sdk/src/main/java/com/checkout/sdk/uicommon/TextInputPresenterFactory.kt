@@ -1,4 +1,4 @@
-package com.checkout.sdk.core
+package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.billingdetails.CustomerNameStrategy
@@ -7,7 +7,7 @@ import com.checkout.sdk.cvvinput.TextInputPresenter
 import com.checkout.sdk.store.InMemoryStore
 
 
-class TextInputPresenterMaker {
+class TextInputPresenterFactory {
 
     companion object {
         fun getOrCreatePresenter(strategyKey: String): TextInputPresenter {

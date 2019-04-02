@@ -2,7 +2,7 @@ package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.core.TextInputStrategy
+import com.checkout.sdk.uicommon.TextInputStrategy
 
 
 class TextInputPresenter (

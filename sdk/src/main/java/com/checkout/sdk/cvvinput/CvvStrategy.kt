@@ -1,6 +1,6 @@
 package com.checkout.sdk.cvvinput
 
-import com.checkout.sdk.core.TextInputStrategy
+import com.checkout.sdk.uicommon.TextInputStrategy
 import com.checkout.sdk.store.InMemoryStore
 
 

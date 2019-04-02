@@ -1,4 +1,4 @@
-package com.checkout.sdk.core
+package com.checkout.sdk.uicommon
 
 import android.content.Context
 import android.support.design.widget.TextInputLayout
@@ -25,22 +25,10 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
 
     init {
         inflate(context, R.layout.view_cvv_input, this)
-        val textInputAttributeProperties = getTextInputAttributeProperties(attrs)
+        val textInputAttributeProperties =
+            TextInputAttributeProperties.extractFromAttributes(context, attrs)
         presenter = textInputAttributeProperties.presenter
         errorText = textInputAttributeProperties.errorText
-    }
-
-    private fun getTextInputAttributeProperties(attrs: AttributeSet?): TextInputAttributeProperties {
-        if (attrs == null) {
-            throw IllegalArgumentException("You must specify a presenter key: `app:presenter_key`")
-        }
-        val attributesArray =
-            context.obtainStyledAttributes(attrs, R.styleable.TextInputView)
-        val strategyKey = attributesArray.getString(R.styleable.TextInputView_strategy_key)
-        val errorText = attributesArray.getString(R.styleable.TextInputView_error_text)
-        attributesArray.recycle()
-        val presenter = TextInputPresenterMaker.getOrCreatePresenter(strategyKey)
-        return TextInputAttributeProperties(presenter, errorText)
     }
 
     override fun onStateUpdated(uiState: TextInputUiState) {
@@ -59,7 +47,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
         super.onAttachedToWindow()
         presenter.start(this)
 
-        cvv_edit_text.addTextChangedListener(object: AfterTextChangedListener() {
+        cvv_edit_text.addTextChangedListener(object : AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
                 val textInputUseCaseBuilder = TextInputUseCase.Builder(s.toString())
                 presenter.inputStateChanged(textInputUseCaseBuilder)
@@ -94,10 +82,4 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     fun showError(show: Boolean) {
         presenter.showError(show)
     }
-
-    // TODO: Extract to own class; move all related to uicommon -> textinput package
-    class TextInputAttributeProperties(
-        val presenter: TextInputPresenter,
-        val errorText: String
-    )
 }

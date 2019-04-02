@@ -1,7 +1,7 @@
 package com.checkout.sdk.billingdetails
 
-import com.checkout.sdk.core.TextInputStrategy
 import com.checkout.sdk.store.InMemoryStore
+import com.checkout.sdk.uicommon.TextInputStrategy
 
 
 class CustomerNameStrategy(private val store: InMemoryStore) : TextInputStrategy {

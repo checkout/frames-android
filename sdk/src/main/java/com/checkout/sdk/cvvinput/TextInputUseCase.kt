@@ -1,7 +1,7 @@
 package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.UseCase
-import com.checkout.sdk.core.TextInputStrategy
+import com.checkout.sdk.uicommon.TextInputStrategy
 
 
 open class TextInputUseCase (

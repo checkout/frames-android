@@ -25,7 +25,7 @@
             android:layout_marginTop="@dimen/accepted_cards_margin_top"
             android:orientation="vertical">
 
-            <com.checkout.sdk.core.TextInputView
+            <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
