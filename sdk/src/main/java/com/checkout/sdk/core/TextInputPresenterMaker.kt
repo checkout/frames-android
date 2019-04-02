@@ -10,12 +10,12 @@ import com.checkout.sdk.store.InMemoryStore
 class TextInputPresenterMaker {
 
     companion object {
-        fun getOrCreatePresenter(key: String): TextInputPresenter {
-            val strategy = when (key) {
+        fun getOrCreatePresenter(strategyKey: String): TextInputPresenter {
+            val strategy = when (strategyKey) {
                 "cvv" -> CvvStrategy(InMemoryStore.Factory.get())
                 "customer_name" -> CustomerNameStrategy(InMemoryStore.Factory.get())
                 else -> {
-                    throw IllegalArgumentException("Unknown class key: $key")
+                    throw IllegalArgumentException("Unknown class key: $strategyKey")
                 }
             }
             return PresenterStore.getOrCreate(
