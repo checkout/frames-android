@@ -12,7 +12,7 @@ class TextInputPresenter (
 
     fun inputStateChanged(textInputUseCaseBuilder: TextInputUseCase.Builder) {
         textInputUseCaseBuilder.strategy(strategy).build().execute()
-        val newState = uiState.copy(cvv = textInputUseCaseBuilder.text, showError = false)
+        val newState = uiState.copy(text = textInputUseCaseBuilder.text, showError = false)
         safeUpdateView(newState)
     }
 

@@ -39,7 +39,7 @@ class TextInputPresenterTest {
     @Test
     fun `given cvv updated show the new value`() {
         val expectedState = TextInputUiState("34", false)
-        given(textInputUseCase.text).willReturn(expectedState.cvv)
+        given(textInputUseCase.text).willReturn(expectedState.text)
 
         presenter.inputStateChanged(textInputUseCase)
 

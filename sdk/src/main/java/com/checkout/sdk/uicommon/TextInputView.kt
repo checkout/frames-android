@@ -10,7 +10,7 @@ import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.cvvinput.*
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
-import kotlinx.android.synthetic.main.view_cvv_input.view.*
+import kotlinx.android.synthetic.main.view_text_input.view.*
 
 /**
  * A custom EditText with validation and handling of cvv input
@@ -24,7 +24,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     private val errorText: String
 
     init {
-        inflate(context, R.layout.view_cvv_input, this)
+        inflate(context, R.layout.view_text_input, this)
         val textInputAttributeProperties =
             TextInputAttributeProperties.extractFromAttributes(context, attrs)
         presenter = textInputAttributeProperties.presenter
@@ -32,8 +32,8 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     override fun onStateUpdated(uiState: TextInputUiState) {
-        if (cvv_edit_text.text.toString() != uiState.cvv) {
-            cvv_edit_text.setText(uiState.cvv)
+        if (cvv_edit_text.text.toString() != uiState.text) {
+            cvv_edit_text.setText(uiState.text)
         }
         if (uiState.showError) {
             error = errorText
