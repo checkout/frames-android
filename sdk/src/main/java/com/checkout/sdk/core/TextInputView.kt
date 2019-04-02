@@ -35,7 +35,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
             context.obtainStyledAttributes(attrs, R.styleable.TextInputView)
         val presenterKey = attributesArray.getString(R.styleable.TextInputView_presenter_key)
         attributesArray.recycle()
-        return TextInputPresenterProvider.getOrCreatePresenter(presenterKey)
+        return TextInputPresenterMaker.getOrCreatePresenter(presenterKey)
     }
 
     override fun onStateUpdated(uiState: TextInputUiState) {

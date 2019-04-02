@@ -15,12 +15,14 @@ object PresenterStore {
     @Synchronized
     fun <T : BasePresenter<*,*>> getOrCreate(
         classToGet: Class<T>,
-        functionToCreate: () -> T
+        functionToCreate: () -> T,
+        uniqueKey: String = ""
     ): T {
-        if (!presenterMap.containsKey(classToGet.simpleName)) {
-            presenterMap[classToGet.simpleName] = functionToCreate.invoke()
+        val mapKey = classToGet.simpleName + uniqueKey
+        if (!presenterMap.containsKey(mapKey)) {
+            presenterMap[mapKey] = functionToCreate.invoke()
         }
-        return presenterMap[classToGet.simpleName]!! as T
+        return presenterMap[mapKey]!! as T
     }
 
     /**
@@ -32,11 +34,9 @@ object PresenterStore {
     @Suppress("UNCHECKED_CAST")
     @Synchronized
     fun <T : BasePresenter<*,*>> getOrCreateDefault(
-        classToGet: Class<T>
+        classToGet: Class<T>,
+        uniqueKey: String = ""
     ): T {
-        if (!presenterMap.containsKey(classToGet.simpleName)) {
-            presenterMap[classToGet.simpleName] = classToGet.newInstance()
-        }
-        return presenterMap[classToGet.simpleName]!! as T
+        return getOrCreate(classToGet, { classToGet.newInstance() }, uniqueKey)
     }
 }

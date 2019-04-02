@@ -7,18 +7,21 @@ import com.checkout.sdk.cvvinput.TextInputPresenter
 import com.checkout.sdk.store.InMemoryStore
 
 
-class TextInputPresenterProvider {
+class TextInputPresenterMaker {
 
     companion object {
         fun getOrCreatePresenter(key: String): TextInputPresenter {
             val strategy = when (key) {
-                "text" -> CvvStrategy(InMemoryStore.Factory.get())
+                "cvv" -> CvvStrategy(InMemoryStore.Factory.get())
                 "customer_name" -> CustomerNameStrategy(InMemoryStore.Factory.get())
                 else -> {
                     throw IllegalArgumentException("Unknown class key: $key")
                 }
             }
-            return PresenterStore.getOrCreate(TextInputPresenter::class.java, { TextInputPresenter(strategy) } )
+            return PresenterStore.getOrCreate(
+                TextInputPresenter::class.java,
+                { TextInputPresenter(strategy) },
+                strategy.javaClass.simpleName)
         }
     }
 }
