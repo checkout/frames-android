@@ -1,4 +1,4 @@
-package com.checkout.sdk.cvvinput
+package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.architecture.UiState
 

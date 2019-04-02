@@ -3,7 +3,6 @@ package com.checkout.sdk.uicommon
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.billingdetails.CustomerNameStrategy
 import com.checkout.sdk.cvvinput.CvvStrategy
-import com.checkout.sdk.cvvinput.TextInputPresenter
 import com.checkout.sdk.store.InMemoryStore
 
 

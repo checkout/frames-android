@@ -1,6 +1,7 @@
 package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.store.InMemoryStore
+import com.checkout.sdk.uicommon.TextInputUseCase
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given

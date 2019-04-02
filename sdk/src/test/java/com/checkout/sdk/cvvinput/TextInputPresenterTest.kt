@@ -1,6 +1,9 @@
 package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.MvpView
+import com.checkout.sdk.uicommon.TextInputPresenter
+import com.checkout.sdk.uicommon.TextInputUiState
+import com.checkout.sdk.uicommon.TextInputUseCase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

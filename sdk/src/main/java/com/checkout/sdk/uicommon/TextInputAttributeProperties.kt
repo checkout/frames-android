@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo.*
 import com.checkout.sdk.R
-import com.checkout.sdk.cvvinput.TextInputPresenter
 
 
 class TextInputAttributeProperties(

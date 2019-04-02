@@ -1,8 +1,9 @@
-package com.checkout.sdk.cvvinput
+package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.uicommon.TextInputStrategy
+import com.checkout.sdk.cvvinput.CvvFocusChangedUseCase
+import com.checkout.sdk.cvvinput.CvvResetUseCase
 
 
 class TextInputPresenter (
