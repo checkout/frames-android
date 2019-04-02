@@ -1,4 +1,4 @@
-package com.checkout.sdk.cvvinput
+package com.checkout.sdk.core
 
 import android.content.Context
 import android.support.design.widget.TextInputLayout
@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.core.TextInputPresenterProvider
+import com.checkout.sdk.cvvinput.*
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import kotlinx.android.synthetic.main.view_cvv_input.view.*
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.view_cvv_input.view.*
 /**
  * A custom EditText with validation and handling of cvv input
  */
-class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
+class TextInputView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
     TextInputLayout(context, attrs),
     MvpView<CvvInputUiState> {
 
@@ -32,8 +32,8 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             throw IllegalArgumentException("You must specify a presenter key: `app:presenter_key`")
         }
         val attributesArray =
-            context.obtainStyledAttributes(attrs, R.styleable.CvvInput)
-        val presenterKey = attributesArray.getString(R.styleable.CvvInput_presenter_key)
+            context.obtainStyledAttributes(attrs, R.styleable.TextInputView)
+        val presenterKey = attributesArray.getString(R.styleable.TextInputView_presenter_key)
         attributesArray.recycle()
         return TextInputPresenterProvider.getOrCreatePresenter(presenterKey)
     }
@@ -63,7 +63,11 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
         cvv_edit_text.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             val cvvFocusChangedUseCase =
-                CvvFocusChangedUseCase(cvv_edit_text.text.toString(), hasFocus, store)
+                CvvFocusChangedUseCase(
+                    cvv_edit_text.text.toString(),
+                    hasFocus,
+                    store
+                )
             presenter.focusChanged(cvvFocusChangedUseCase)
         }
     }

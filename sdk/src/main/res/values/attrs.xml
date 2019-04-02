@@ -4,7 +4,7 @@
         <attr name="formBackground" format="string"/>
         <attr name="highlight" format="string"/>
     </declare-styleable>
-    <declare-styleable name="CvvInput">
+    <declare-styleable name="TextInputView">
         <attr name="presenter_key" format="string"/>
     </declare-styleable>
 </resources>
