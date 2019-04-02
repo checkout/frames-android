@@ -140,7 +140,9 @@
                 app:errorTextAppearance="@style/Error"
                 app:strategy_key="cvv"
                 app:error_text="@string/error_cvv"
-                app:ime_options="flagNoExtractUi|actionDone" />
+                app:ime_options="flagNoExtractUi|actionDone"
+                app:digits="0123456789"
+                app:input_type="number" />
 
             <TextView
                 android:id="@+id/billing_helper_text"

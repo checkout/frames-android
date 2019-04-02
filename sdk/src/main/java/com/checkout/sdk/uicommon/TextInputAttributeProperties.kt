@@ -1,6 +1,7 @@
 package com.checkout.sdk.uicommon
 
 import android.content.Context
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo.*
 import com.checkout.sdk.R
@@ -9,7 +10,9 @@ import com.checkout.sdk.R
 class TextInputAttributeProperties(
     val presenter: TextInputPresenter,
     val errorText: String,
-    val imeFlag: Int
+    val imeFlag: Int,
+    val digits: String?,
+    val inputType: Int
 ) {
     companion object {
         fun extractFromAttributes(
@@ -23,13 +26,24 @@ class TextInputAttributeProperties(
             val strategyKey = attributesArray.getString(R.styleable.TextInputView_strategy_key)
             val errorText = attributesArray.getString(R.styleable.TextInputView_error_text)
             val imeOptions = attributesArray.getString(R.styleable.TextInputView_ime_options)
+            val digits = attributesArray.getString(R.styleable.TextInputView_digits)
+            val inputType =
+                convertToInputType(attributesArray.getString(R.styleable.TextInputView_input_type))
             attributesArray.recycle()
-            val imeFlag = convertFlagsStringToFlags(imeOptions)
+            val imeFlag = convertToImeFlag(imeOptions)
             val presenter = TextInputPresenterFactory.getOrCreatePresenter(strategyKey)
-            return TextInputAttributeProperties(presenter, errorText, imeFlag)
+            return TextInputAttributeProperties(presenter, errorText, imeFlag, digits, inputType)
         }
 
-        private fun convertFlagsStringToFlags(imeOptions: String): Int {
+        private fun convertToInputType(inputTypeString: String): Int {
+            return when (inputTypeString) {
+                "number" -> InputType.TYPE_CLASS_NUMBER
+                "text" -> InputType.TYPE_CLASS_TEXT
+                else -> throw IllegalArgumentException("Unexpected value for inputTypeString $inputTypeString")
+            }
+        }
+
+        private fun convertToImeFlag(imeOptions: String): Int {
             val imeList = imeOptions.split("|")
             var imeInt = 0
             for (flagString in imeList) {

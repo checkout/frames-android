@@ -3,11 +3,13 @@ package com.checkout.sdk.uicommon
 import android.content.Context
 import android.support.design.widget.TextInputLayout
 import android.text.Editable
+import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.cvvinput.*
+import com.checkout.sdk.cvvinput.CvvFocusChangedUseCase
+import com.checkout.sdk.cvvinput.CvvResetUseCase
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import kotlinx.android.synthetic.main.view_text_input.view.*
@@ -30,6 +32,10 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
         presenter = textInputAttributeProperties.presenter
         errorText = textInputAttributeProperties.errorText
         text_input_edit_text.imeOptions = textInputAttributeProperties.imeFlag
+        textInputAttributeProperties.digits?.also {
+            text_input_edit_text.keyListener = DigitsKeyListener.getInstance(it)
+        }
+        text_input_edit_text.inputType = textInputAttributeProperties.inputType
     }
 
     override fun onStateUpdated(uiState: TextInputUiState) {
