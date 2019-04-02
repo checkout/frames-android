@@ -137,7 +137,8 @@
                 android:layout_marginTop="@dimen/basic_field_margin_top"
                 android:hint="@string/placeholder_cvv"
                 app:errorEnabled="true"
-                app:errorTextAppearance="@style/Error" />
+                app:errorTextAppearance="@style/Error"
+                app:presenter_key="cvv" />
 
             <TextView
                 android:id="@+id/billing_helper_text"

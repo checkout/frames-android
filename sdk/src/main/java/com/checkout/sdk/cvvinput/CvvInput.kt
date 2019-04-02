@@ -4,11 +4,10 @@ import android.content.Context
 import android.support.design.widget.TextInputLayout
 import android.text.Editable
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.architecture.PresenterStore
+import com.checkout.sdk.core.TextInputPresenterProvider
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import kotlinx.android.synthetic.main.view_cvv_input.view.*
@@ -21,10 +20,22 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     MvpView<CvvInputUiState> {
 
     val store = InMemoryStore.Factory.get()
-    private lateinit var presenter: CvvInputPresenter
+    private val presenter: CvvInputPresenter
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_cvv_input, this)
+        inflate(context, R.layout.view_cvv_input, this)
+        presenter = getPresenterFromAttributes(attrs)
+    }
+
+    private fun getPresenterFromAttributes(attrs: AttributeSet?): CvvInputPresenter {
+        if (attrs == null) {
+            throw IllegalArgumentException("You must specify a presenter key: `app:presenter_key`")
+        }
+        val attributesArray =
+            context.obtainStyledAttributes(attrs, R.styleable.CvvInput)
+        val presenterKey = attributesArray.getString(R.styleable.CvvInput_presenter_key)
+        attributesArray.recycle()
+        return TextInputPresenterProvider.getOrCreatePresenter(presenterKey)
     }
 
     override fun onStateUpdated(uiState: CvvInputUiState) {
@@ -41,9 +52,6 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        presenter = PresenterStore.getOrCreate(
-            CvvInputPresenter::class.java,
-            { CvvInputPresenter() })
         presenter.start(this)
 
         cvv_edit_text.addTextChangedListener(object: AfterTextChangedListener() {
