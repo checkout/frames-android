@@ -10,7 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class CvvInputUseCaseTest {
+class TextInputUseCaseTest {
 
     @Mock
     private lateinit var store: InMemoryStore
@@ -22,7 +22,7 @@ class CvvInputUseCaseTest {
         val cvv = "234"
         given(store.cvv).willReturn(initialCvv)
 
-        CvvInputUseCase(store, cvv).execute()
+        TextInputUseCase(store, cvv).execute()
 
         then(store).should().cvv = Cvv(cvv, initialCvv.expectedLength)
     }

@@ -15,7 +15,7 @@
     <string name="billing_details_add" translatable="true"> + ADD</string>
     <string name="button_pay" translatable="true">Pay</string>
     <string name="title_billing_details" translatable="true">Billing Details</string>
-    <string name="placeholder_name" translatable="true">Cardholder\'s name*</string>
+    <string name="cardholder_name" translatable="true">Cardholder\'s name*</string>
     <string name="error_name" translatable="true">Value must be longer then 3 characters</string>
     <string name="placeholder_country" translatable="true"> SELECT COUNTRY/REGION</string>
     <string name="error_country" translatable="true">Please select a country/region</string>

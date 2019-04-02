@@ -25,29 +25,39 @@
             android:layout_marginTop="@dimen/accepted_cards_margin_top"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/name_input_layout"
+            <com.checkout.sdk.core.TextInputView
+                android:id="@+id/name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/basic_field_margin_side"
                 android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:hint="@string/placeholder_name"
-                app:errorTextAppearance="@style/Error">
+                android:hint="@string/cardholder_name"
+                app:errorTextAppearance="@style/Error"
+                app:presenter_key="customer_name" />
 
-                <com.checkout.sdk.input.DefaultInput
-                    android:id="@+id/name_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:imeOptions="flagNoExtractUi|actionNext"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:nextFocusForward="@+id/address_one_input"
-                    android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:id="@+id/name_input_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/basic_field_margin_side"-->
+                <!--android:layout_marginRight="@dimen/basic_field_margin_side"-->
+                <!--android:hint="@string/cardholder_name"-->
+                <!--app:errorTextAppearance="@style/Error">-->
 
-            </android.support.design.widget.TextInputLayout>
+                <!--<com.checkout.sdk.input.DefaultInput-->
+                    <!--android:id="@+id/name_input"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:focusableInTouchMode="true"-->
+                    <!--android:imeOptions="flagNoExtractUi|actionNext"-->
+                    <!--android:inputType="text"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:nextFocusForward="@+id/address_one_input"-->
+                    <!--android:singleLine="true"-->
+                    <!--android:textColor="@color/card_view_details_text" />-->
+
+            <!--</android.support.design.widget.TextInputLayout>-->
 
 
             <android.support.design.widget.TextInputLayout

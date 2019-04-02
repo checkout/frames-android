@@ -11,13 +11,13 @@ import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class CvvInputPresenterTest {
+class TextInputPresenterTest {
 
     @Mock
-    private lateinit var viewMock: MvpView<CvvInputUiState>
+    private lateinit var viewMock: MvpView<TextInputUiState>
 
     @Mock
-    private lateinit var cvvInputUseCase: CvvInputUseCase
+    private lateinit var textInputUseCase: TextInputUseCase
 
     @Mock
     private lateinit var cvvFocusChangedUseCase: CvvFocusChangedUseCase
@@ -25,23 +25,23 @@ class CvvInputPresenterTest {
     @Mock
     private lateinit var cvvResetUseCase: CvvResetUseCase
 
-    private lateinit var presenter: CvvInputPresenter
+    private lateinit var presenter: TextInputPresenter
 
-    private lateinit var initialState: CvvInputUiState
+    private lateinit var initialState: TextInputUiState
 
     @Before
     fun onSetup() {
-        initialState = CvvInputUiState("12", false)
-        presenter = CvvInputPresenter(initialState)
+        initialState = TextInputUiState("12", false)
+        presenter = TextInputPresenter(initialState)
         presenter.start(viewMock)
     }
 
     @Test
     fun `given cvv updated show the new value`() {
-        val expectedState = CvvInputUiState("34", false)
-        given(cvvInputUseCase.cvv).willReturn(expectedState.cvv)
+        val expectedState = TextInputUiState("34", false)
+        given(textInputUseCase.text).willReturn(expectedState.cvv)
 
-        presenter.inputStateChanged(cvvInputUseCase)
+        presenter.inputStateChanged(textInputUseCase)
 
         then(viewMock).should().onStateUpdated(expectedState)
     }
@@ -61,7 +61,7 @@ class CvvInputPresenterTest {
         presenter.reset(cvvResetUseCase)
 
         then(cvvResetUseCase).should().execute()
-        then(viewMock).should().onStateUpdated(CvvInputUiState())
+        then(viewMock).should().onStateUpdated(TextInputUiState())
     }
 
     @Test

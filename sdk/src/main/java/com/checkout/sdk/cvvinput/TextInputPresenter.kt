@@ -2,14 +2,17 @@ package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
+import com.checkout.sdk.core.TextInputStrategy
 
 
-class CvvInputPresenter(initialState: CvvInputUiState = CvvInputUiState()
-) : BasePresenter<MvpView<CvvInputUiState>, CvvInputUiState>(initialState) {
+class TextInputPresenter (
+    private val strategy: TextInputStrategy,
+    initialState: TextInputUiState = TextInputUiState()
+) : BasePresenter<MvpView<TextInputUiState>, TextInputUiState>(initialState) {
 
-    fun inputStateChanged(cvvInputUseCase: CvvInputUseCase) {
-        cvvInputUseCase.execute()
-        val newState = uiState.copy(cvv = cvvInputUseCase.cvv, showError = false)
+    fun inputStateChanged(textInputUseCaseBuilder: TextInputUseCase.Builder) {
+        textInputUseCaseBuilder.strategy(strategy).build().execute()
+        val newState = uiState.copy(cvv = textInputUseCaseBuilder.text, showError = false)
         safeUpdateView(newState)
     }
 
@@ -21,7 +24,7 @@ class CvvInputPresenter(initialState: CvvInputUiState = CvvInputUiState()
 
     fun reset(cvvResetUseCase: CvvResetUseCase) {
         cvvResetUseCase.execute()
-        val newState = CvvInputUiState()
+        val newState = TextInputUiState()
         safeUpdateView(newState)
     }
 

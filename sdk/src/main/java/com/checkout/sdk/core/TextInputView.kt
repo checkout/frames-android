@@ -17,17 +17,17 @@ import kotlinx.android.synthetic.main.view_cvv_input.view.*
  */
 class TextInputView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
     TextInputLayout(context, attrs),
-    MvpView<CvvInputUiState> {
+    MvpView<TextInputUiState> {
 
     val store = InMemoryStore.Factory.get()
-    private val presenter: CvvInputPresenter
+    private val presenter: TextInputPresenter
 
     init {
         inflate(context, R.layout.view_cvv_input, this)
         presenter = getPresenterFromAttributes(attrs)
     }
 
-    private fun getPresenterFromAttributes(attrs: AttributeSet?): CvvInputPresenter {
+    private fun getPresenterFromAttributes(attrs: AttributeSet?): TextInputPresenter {
         if (attrs == null) {
             throw IllegalArgumentException("You must specify a presenter key: `app:presenter_key`")
         }
@@ -38,7 +38,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
         return TextInputPresenterProvider.getOrCreatePresenter(presenterKey)
     }
 
-    override fun onStateUpdated(uiState: CvvInputUiState) {
+    override fun onStateUpdated(uiState: TextInputUiState) {
         if (cvv_edit_text.text.toString() != uiState.cvv) {
             cvv_edit_text.setText(uiState.cvv)
         }
@@ -56,8 +56,8 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         cvv_edit_text.addTextChangedListener(object: AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
-                val cvvInputUseCase = CvvInputUseCase(store, s.toString())
-                presenter.inputStateChanged(cvvInputUseCase)
+                val textInputUseCaseBuilder = TextInputUseCase.Builder(s.toString())
+                presenter.inputStateChanged(textInputUseCaseBuilder)
             }
         })
 

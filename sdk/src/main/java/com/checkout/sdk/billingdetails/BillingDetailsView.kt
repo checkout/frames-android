@@ -41,12 +41,12 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mNameListener = object : DefaultInput.Listener {
         override fun onInputFinish(value: String) {
-            dataStore.customerName = value
+//            dataStore.customerName = value
         }
 
         override fun clearInputError() {
-            name_input_layout.error = null
-            name_input_layout.isErrorEnabled = false
+//            name_input_layout.error = null
+//            name_input_layout.isErrorEnabled = false
         }
     }
 
@@ -205,10 +205,10 @@ class BillingDetailsView @JvmOverloads constructor(
         get() {
             var result = true
 
-            if (name_input.length() < 3) {
-                name_input_layout.error = resources.getString(R.string.error_name)
-                result = false
-            }
+//            if (name_input.length() < 3) {
+//                name_input_layout.error = resources.getString(R.string.error_name)
+//                result = false
+//            }
 
             if (country_input.selectedItemPosition == 0) {
                 (country_input.selectedView as TextView).error =
@@ -278,7 +278,7 @@ class BillingDetailsView @JvmOverloads constructor(
                 mListener?.onBillingCanceled()
             }
         }
-        name_input.setListener(mNameListener)
+//        name_input.setListener(mNameListener)
         address_one_input.setAddressOneListener(mAddressOneListener)
         address_two_input.setListener(mAddressTwoListener)
         country_input.setCountryListener(mCountryListener)
@@ -288,9 +288,9 @@ class BillingDetailsView @JvmOverloads constructor(
         phone_input.setPhoneListener(mPhoneListener)
         repopulateFields()
         clear_button.setOnClickListener {
-            name_input.setText("")
-            name_input_layout.error = null
-            name_input_layout.isErrorEnabled = false
+//            name_input.setText("")
+//            name_input_layout.error = null
+//            name_input_layout.isErrorEnabled = false
             if (dataStore.defaultCountry != null) {
                 country_input.setSelection(
                     (country_input.adapter as ArrayAdapter<String>)
@@ -349,9 +349,9 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         requestFocus()
-        if (dataStore.cardHolderLabel != null) {
-            name_input_layout.hint = dataStore.cardHolderLabel
-        }
+//        if (dataStore.cardHolderLabel != null) {
+//            name_input_layout.hint = dataStore.cardHolderLabel
+//        }
         if (dataStore.addressLine1Label != null) {
             address_one_input_layout.hint = dataStore.addressLine1Label
         }
@@ -381,7 +381,7 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private fun repopulateFields() {
         // Repopulate name
-        name_input.setText(dataStore.customerName)
+//        name_input.setText(dataStore.customerName)
 
         // Repopulate country
         val locale = Locale.getAvailableLocales()
@@ -420,13 +420,13 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     fun resetFields() {
         if (dataStore.defaultCustomerName != null) {
-            name_input.setText(dataStore.defaultCustomerName)
-            name_input_layout.error = null
-            name_input_layout.isErrorEnabled = false
+//            name_input.setText(dataStore.defaultCustomerName)
+//            name_input_layout.error = null
+//            name_input_layout.isErrorEnabled = false
         } else {
-            name_input.setText("")
-            name_input_layout.error = null
-            name_input_layout.isErrorEnabled = false
+//            name_input.setText("")
+//            name_input_layout.error = null
+//            name_input_layout.isErrorEnabled = false
         }
         // Repopulate country
         if (dataStore.defaultCountry != null) {

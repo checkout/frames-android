@@ -15,7 +15,7 @@
     <string name="billing_details_add"> + ADAUGA</string>
     <string name="button_pay">Plateste</string>
     <string name="title_billing_details">Detalii Facturare</string>
-    <string name="placeholder_name">Nume</string>
+    <string name="cardholder_name">Nume</string>
     <string name="error_name">Numele trebuie sa aiba minim 3 caractere</string>
     <string name="placeholder_country">" SELECTATI TARA"</string>
     <string name="error_country">Selectati o tara</string>
