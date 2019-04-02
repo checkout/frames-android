@@ -4,11 +4,10 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/cvv_edit_text"
+        android:id="@+id/text_input_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:digits="0123456789"
-        android:imeOptions="flagNoExtractUi|actionDone"
         android:inputType="number"
         android:maxLength="4"
         android:maxLines="1" />

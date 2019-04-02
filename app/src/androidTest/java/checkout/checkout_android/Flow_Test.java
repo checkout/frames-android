@@ -82,7 +82,7 @@ public class Flow_Test {
                 .atPosition(0);
         checkedTextView2.perform(click());
 
-        ViewInteraction defaultInput = onView(withId(R.id.cvv_edit_text));
+        ViewInteraction defaultInput = onView(withId(R.id.text_input_edit_text));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
         ViewInteraction billingInput = onView(

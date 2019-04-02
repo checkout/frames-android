@@ -139,7 +139,8 @@
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/Error"
                 app:strategy_key="cvv"
-                app:error_text="@string/error_cvv" />
+                app:error_text="@string/error_cvv"
+                app:ime_options="flagNoExtractUi|actionDone" />
 
             <TextView
                 android:id="@+id/billing_helper_text"

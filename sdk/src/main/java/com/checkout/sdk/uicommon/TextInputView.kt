@@ -29,11 +29,12 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
             TextInputAttributeProperties.extractFromAttributes(context, attrs)
         presenter = textInputAttributeProperties.presenter
         errorText = textInputAttributeProperties.errorText
+        text_input_edit_text.imeOptions = textInputAttributeProperties.imeFlag
     }
 
     override fun onStateUpdated(uiState: TextInputUiState) {
-        if (cvv_edit_text.text.toString() != uiState.text) {
-            cvv_edit_text.setText(uiState.text)
+        if (text_input_edit_text.text.toString() != uiState.text) {
+            text_input_edit_text.setText(uiState.text)
         }
         if (uiState.showError) {
             error = errorText
@@ -47,17 +48,17 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
         super.onAttachedToWindow()
         presenter.start(this)
 
-        cvv_edit_text.addTextChangedListener(object : AfterTextChangedListener() {
+        text_input_edit_text.addTextChangedListener(object : AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
                 val textInputUseCaseBuilder = TextInputUseCase.Builder(s.toString())
                 presenter.inputStateChanged(textInputUseCaseBuilder)
             }
         })
 
-        cvv_edit_text.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+        text_input_edit_text.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             val cvvFocusChangedUseCase =
                 CvvFocusChangedUseCase(
-                    cvv_edit_text.text.toString(),
+                    text_input_edit_text.text.toString(),
                     hasFocus,
                     store
                 )
