@@ -6,5 +6,6 @@
     </declare-styleable>
     <declare-styleable name="TextInputView">
         <attr name="strategy_key" format="string"/>
+        <attr name="error_text" format="string"/>
     </declare-styleable>
 </resources>

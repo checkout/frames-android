@@ -21,21 +21,26 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
 
     val store = InMemoryStore.Factory.get()
     private val presenter: TextInputPresenter
+    private val errorText: String
 
     init {
         inflate(context, R.layout.view_cvv_input, this)
-        presenter = getPresenterFromAttributes(attrs)
+        val textInputAttributeProperties = getTextInputAttributeProperties(attrs)
+        presenter = textInputAttributeProperties.presenter
+        errorText = textInputAttributeProperties.errorText
     }
 
-    private fun getPresenterFromAttributes(attrs: AttributeSet?): TextInputPresenter {
+    private fun getTextInputAttributeProperties(attrs: AttributeSet?): TextInputAttributeProperties {
         if (attrs == null) {
             throw IllegalArgumentException("You must specify a presenter key: `app:presenter_key`")
         }
         val attributesArray =
             context.obtainStyledAttributes(attrs, R.styleable.TextInputView)
         val strategyKey = attributesArray.getString(R.styleable.TextInputView_strategy_key)
+        val errorText = attributesArray.getString(R.styleable.TextInputView_error_text)
         attributesArray.recycle()
-        return TextInputPresenterMaker.getOrCreatePresenter(strategyKey)
+        val presenter = TextInputPresenterMaker.getOrCreatePresenter(strategyKey)
+        return TextInputAttributeProperties(presenter, errorText)
     }
 
     override fun onStateUpdated(uiState: TextInputUiState) {
@@ -43,7 +48,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
             cvv_edit_text.setText(uiState.cvv)
         }
         if (uiState.showError) {
-            error = resources.getString(R.string.error_cvv)
+            error = errorText
             isErrorEnabled = true
         } else {
             isErrorEnabled = false
@@ -89,4 +94,10 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     fun showError(show: Boolean) {
         presenter.showError(show)
     }
+
+    // TODO: Extract to own class; move all related to uicommon -> textinput package
+    class TextInputAttributeProperties(
+        val presenter: TextInputPresenter,
+        val errorText: String
+    )
 }

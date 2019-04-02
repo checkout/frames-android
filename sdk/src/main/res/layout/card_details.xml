@@ -138,7 +138,8 @@
                 android:hint="@string/placeholder_cvv"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/Error"
-                app:strategy_key="cvv" />
+                app:strategy_key="cvv"
+                app:error_text="@string/error_cvv" />
 
             <TextView
                 android:id="@+id/billing_helper_text"
