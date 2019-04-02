@@ -4,8 +4,8 @@ import com.checkout.sdk.core.TextInputStrategy
 import com.checkout.sdk.store.InMemoryStore
 
 
-class CustomerNameStrategy(store: InMemoryStore) : TextInputStrategy {
+class CustomerNameStrategy(private val store: InMemoryStore) : TextInputStrategy {
     override fun execute(text: String) {
-        // TODO: Implement
+        store.customerName = text
     }
 }

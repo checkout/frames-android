@@ -8,12 +8,14 @@ import com.checkout.sdk.date.CardDate
 open class InMemoryStore(
     open var cardDate: CardDate,
     open var cvv: Cvv,
-    open var cardNumber: CardNumber
+    open var cardNumber: CardNumber,
+    open var customerName: String
 ) {
     private constructor() : this(
         CardDate.UNKNOWN,
         Cvv.UNKNOWN,
-        CardNumber.UNKNOWN
+        CardNumber.UNKNOWN,
+        ""
     )
 
     object Factory {
