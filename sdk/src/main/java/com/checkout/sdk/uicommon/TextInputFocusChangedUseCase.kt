@@ -1,7 +1,6 @@
 package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.architecture.UseCase
-import com.checkout.sdk.uicommon.TextInputStrategy
 
 open class TextInputFocusChangedUseCase(
     private val text: String,

@@ -9,22 +9,25 @@ import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class TextInputResetUseCaseTest {
+class TextInputFocusChangedUseCaseTest {
 
     @Mock
     private lateinit var strategy: TextInputStrategy
 
-    private lateinit var textInputResetUseCase: TextInputResetUseCase
+    private val text = "any text"
+    private val hasFocus = true
+
+    private lateinit var textInputFocusChangedUseCase: TextInputFocusChangedUseCase
 
     @Before
     fun setup() {
-        textInputResetUseCase = TextInputResetUseCase(strategy)
+        textInputFocusChangedUseCase = TextInputFocusChangedUseCase(text, hasFocus, strategy)
     }
 
     @Test
     fun `when use case is executed we tell the strategy to reset`() {
-        textInputResetUseCase.execute()
+        textInputFocusChangedUseCase.execute()
 
-        then(strategy).should().reset()
+        then(strategy).should().focusChanged(text, hasFocus)
     }
 }
