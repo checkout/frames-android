@@ -39,7 +39,7 @@ class TextInputAttributeProperties(
             val imeFlag = convertToImeFlag(imeOptions)
             val presenter =
                 PresenterStore.getOrCreateDefault(TextInputPresenter::class.java, strategyKey)
-            val strategy = StrategyFactory.createStrategy(strategyKey)
+            val strategy = TextInputStrategyFactory.createStrategy(strategyKey)
 
             return TextInputAttributeProperties(
                 presenter,

@@ -13,4 +13,8 @@ class CvvStrategy(private val store: InMemoryStore) : TextInputStrategy {
     override fun focusChanged(text: String, hasFocus: Boolean): Boolean {
         return !hasFocus && text.length != store.cvv.expectedLength
     }
+
+    override fun reset() {
+        store.cvv = Cvv.UNKNOWN
+    }
 }

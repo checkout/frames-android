@@ -2,7 +2,6 @@ package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.cvvinput.CvvResetUseCase
 
 
 class TextInputPresenter(initialState: TextInputUiState = TextInputUiState()) :
@@ -20,8 +19,8 @@ class TextInputPresenter(initialState: TextInputUiState = TextInputUiState()) :
         safeUpdateView(newState)
     }
 
-    fun reset(cvvResetUseCase: CvvResetUseCase) {
-        cvvResetUseCase.execute()
+    fun reset(textInputResetUseCase: TextInputResetUseCase) {
+        textInputResetUseCase.execute()
         val newState = TextInputUiState()
         safeUpdateView(newState)
     }

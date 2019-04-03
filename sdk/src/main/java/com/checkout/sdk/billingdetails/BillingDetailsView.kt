@@ -288,9 +288,7 @@ class BillingDetailsView @JvmOverloads constructor(
         phone_input.setPhoneListener(mPhoneListener)
         repopulateFields()
         clear_button.setOnClickListener {
-//            name_input.setText("")
-//            name_input_layout.error = null
-//            name_input_layout.isErrorEnabled = false
+            name_input.reset()
             if (dataStore.defaultCountry != null) {
                 country_input.setSelection(
                     (country_input.adapter as ArrayAdapter<String>)
@@ -419,6 +417,7 @@ class BillingDetailsView @JvmOverloads constructor(
      * Used to clear the text and state of the fields
      */
     fun resetFields() {
+        name_input.reset()
         if (dataStore.defaultCustomerName != null) {
 //            name_input.setText(dataStore.defaultCustomerName)
 //            name_input_layout.error = null

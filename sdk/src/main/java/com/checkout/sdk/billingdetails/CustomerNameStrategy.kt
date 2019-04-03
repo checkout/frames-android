@@ -14,6 +14,10 @@ class CustomerNameStrategy(private val store: InMemoryStore) : TextInputStrategy
         return !hasFocus && text.length < MINIMUM_CUSTOMER_NAME_LENGTH
     }
 
+    override fun reset() {
+        store.customerName = ""
+    }
+
     companion object {
         private const val MINIMUM_CUSTOMER_NAME_LENGTH = 3
     }

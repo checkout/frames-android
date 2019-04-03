@@ -2,6 +2,7 @@ package com.checkout.sdk.cvvinput
 
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.uicommon.TextInputPresenter
+import com.checkout.sdk.uicommon.TextInputResetUseCase
 import com.checkout.sdk.uicommon.TextInputUiState
 import com.checkout.sdk.uicommon.TextInputUseCase
 import org.junit.Before
@@ -26,7 +27,7 @@ class TextInputPresenterTest {
     private lateinit var cvvFocusChangedUseCase: CvvFocusChangedUseCase
 
     @Mock
-    private lateinit var cvvResetUseCase: CvvResetUseCase
+    private lateinit var textInputResetUseCase: TextInputResetUseCase
 
     private lateinit var presenter: TextInputPresenter
 
@@ -61,9 +62,9 @@ class TextInputPresenterTest {
 
     @Test
     fun `given presenter is started when reset is called then the use case is executed and the state is the initial state`() {
-        presenter.reset(cvvResetUseCase)
+        presenter.reset(textInputResetUseCase)
 
-        then(cvvResetUseCase).should().execute()
+        then(textInputResetUseCase).should().execute()
         then(viewMock).should().onStateUpdated(TextInputUiState())
     }
 

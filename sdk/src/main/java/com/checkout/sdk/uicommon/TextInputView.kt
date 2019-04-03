@@ -9,8 +9,6 @@ import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.cvvinput.CvvResetUseCase
-import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import kotlinx.android.synthetic.main.view_text_input.view.*
 
@@ -84,7 +82,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
      * stored in the backing storage
      */
     fun reset() {
-        val cvvResetUseCase = CvvResetUseCase(InMemoryStore.Factory.get())
+        val cvvResetUseCase = TextInputResetUseCase(strategy)
         presenter.reset(cvvResetUseCase)
     }
 

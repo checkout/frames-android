@@ -5,7 +5,7 @@ import com.checkout.sdk.cvvinput.CvvStrategy
 import com.checkout.sdk.store.InMemoryStore
 
 
-class StrategyFactory {
+class TextInputStrategyFactory {
 
     companion object {
 
