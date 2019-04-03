@@ -142,7 +142,8 @@
                 app:error_text="@string/error_cvv"
                 app:ime_options="flagNoExtractUi|actionDone"
                 app:digits="0123456789"
-                app:input_type="number" />
+                app:input_type="number"
+                app:max_length="4" />
 
             <TextView
                 android:id="@+id/billing_helper_text"

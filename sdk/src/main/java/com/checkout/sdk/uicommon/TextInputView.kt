@@ -3,6 +3,7 @@ package com.checkout.sdk.uicommon
 import android.content.Context
 import android.support.design.widget.TextInputLayout
 import android.text.Editable
+import android.text.InputFilter
 import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
@@ -36,6 +37,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
             text_input_edit_text.keyListener = DigitsKeyListener.getInstance(it)
         }
         text_input_edit_text.inputType = textInputAttributeProperties.inputType
+        text_input_edit_text.filters = arrayOf(InputFilter.LengthFilter(textInputAttributeProperties.maxLength))
     }
 
     override fun onStateUpdated(uiState: TextInputUiState) {
