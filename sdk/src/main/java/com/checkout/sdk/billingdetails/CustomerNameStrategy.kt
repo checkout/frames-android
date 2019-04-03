@@ -5,7 +5,16 @@ import com.checkout.sdk.uicommon.TextInputStrategy
 
 
 class CustomerNameStrategy(private val store: InMemoryStore) : TextInputStrategy {
-    override fun execute(text: String) {
+
+    override fun textChanged(text: String) {
         store.customerName = text
+    }
+
+    override fun focusChanged(text: String, hasFocus: Boolean): Boolean {
+        return !hasFocus && text.length < MINIMUM_CUSTOMER_NAME_LENGTH
+    }
+
+    companion object {
+        private const val MINIMUM_CUSTOMER_NAME_LENGTH = 3
     }
 }

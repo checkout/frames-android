@@ -5,10 +5,12 @@ import android.text.InputType
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo.*
 import com.checkout.sdk.R
+import com.checkout.sdk.architecture.PresenterStore
 
 
 class TextInputAttributeProperties(
     val presenter: TextInputPresenter,
+    val strategy: TextInputStrategy,
     val errorText: String,
     val imeFlag: Int,
     val digits: String?,
@@ -33,10 +35,15 @@ class TextInputAttributeProperties(
             val maxLength =
                 attributesArray.getInteger(R.styleable.TextInputView_max_length, Int.MAX_VALUE)
             attributesArray.recycle()
+
             val imeFlag = convertToImeFlag(imeOptions)
-            val presenter = TextInputPresenterFactory.getOrCreatePresenter(strategyKey)
+            val presenter =
+                PresenterStore.getOrCreateDefault(TextInputPresenter::class.java, strategyKey)
+            val strategy = StrategyFactory.createStrategy(strategyKey)
+
             return TextInputAttributeProperties(
                 presenter,
+                strategy,
                 errorText,
                 imeFlag,
                 digits,

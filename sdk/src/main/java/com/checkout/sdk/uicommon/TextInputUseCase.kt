@@ -8,21 +8,7 @@ open class TextInputUseCase (
     private val strategy: TextInputStrategy
 ) : UseCase<Unit> {
 
-    private constructor(builder: Builder) : this(
-        builder.text,
-        builder.strategy
-    )
-
     override fun execute() {
-        strategy.execute(text)
-    }
-
-    open class Builder (open val text: String) {
-        lateinit var strategy: TextInputStrategy
-            private set
-
-        open fun strategy(strategy: TextInputStrategy) = apply { this.strategy = strategy }
-
-        open fun build() = TextInputUseCase(this)
+        strategy.textChanged(text)
     }
 }

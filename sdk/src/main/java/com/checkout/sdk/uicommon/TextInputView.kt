@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.cvvinput.CvvFocusChangedUseCase
 import com.checkout.sdk.cvvinput.CvvResetUseCase
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
@@ -22,15 +21,16 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     TextInputLayout(context, attrs),
     MvpView<TextInputUiState> {
 
-    val store = InMemoryStore.Factory.get()
     private val presenter: TextInputPresenter
     private val errorText: String
+    private val strategy: TextInputStrategy
 
     init {
         inflate(context, R.layout.view_text_input, this)
         val textInputAttributeProperties =
             TextInputAttributeProperties.extractFromAttributes(context, attrs)
         presenter = textInputAttributeProperties.presenter
+        strategy = textInputAttributeProperties.strategy
         errorText = textInputAttributeProperties.errorText
         text_input_edit_text.imeOptions = textInputAttributeProperties.imeFlag
         textInputAttributeProperties.digits?.also {
@@ -58,17 +58,17 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         text_input_edit_text.addTextChangedListener(object : AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
-                val textInputUseCaseBuilder = TextInputUseCase.Builder(s.toString())
-                presenter.inputStateChanged(textInputUseCaseBuilder)
+                val textInputUseCase = TextInputUseCase(s.toString(), strategy)
+                presenter.inputStateChanged(textInputUseCase)
             }
         })
 
         text_input_edit_text.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             val cvvFocusChangedUseCase =
-                CvvFocusChangedUseCase(
+                TextInputFocusChangedUseCase(
                     text_input_edit_text.text.toString(),
                     hasFocus,
-                    store
+                    strategy
                 )
             presenter.focusChanged(cvvFocusChangedUseCase)
         }

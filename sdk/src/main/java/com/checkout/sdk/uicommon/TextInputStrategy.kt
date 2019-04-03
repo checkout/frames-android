@@ -2,5 +2,8 @@ package com.checkout.sdk.uicommon
 
 
 interface TextInputStrategy {
-    fun execute(text: String)
+
+    fun textChanged(text: String)
+
+    fun focusChanged(text: String, hasFocus: Boolean): Boolean
 }
