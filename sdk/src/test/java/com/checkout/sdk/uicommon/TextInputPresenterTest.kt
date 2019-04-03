@@ -1,10 +1,7 @@
-package com.checkout.sdk.cvvinput
+package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.architecture.MvpView
-import com.checkout.sdk.uicommon.TextInputPresenter
-import com.checkout.sdk.uicommon.TextInputResetUseCase
-import com.checkout.sdk.uicommon.TextInputUiState
-import com.checkout.sdk.uicommon.TextInputUseCase
+import com.checkout.sdk.uicommon.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +21,7 @@ class TextInputPresenterTest {
     private lateinit var textInputUseCase: TextInputUseCase
 
     @Mock
-    private lateinit var cvvFocusChangedUseCase: CvvFocusChangedUseCase
+    private lateinit var cvvFocusChangedUseCase: TextInputFocusChangedUseCase
 
     @Mock
     private lateinit var textInputResetUseCase: TextInputResetUseCase

@@ -6,12 +6,13 @@ import junit.framework.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class CvvFocusChangedUseCaseTest {
+class CvvStrategyTest {
 
     @Mock
     private lateinit var storeMock: InMemoryStore
@@ -20,11 +21,8 @@ class CvvFocusChangedUseCaseTest {
     fun `given cvv has length 5 and expected length is 2 then an error will be shown`() {
         var initialCvv = Cvv("345678", 2)
         given(storeMock.cvv).willReturn(initialCvv)
-        val showError = CvvFocusChangedUseCase(
-            initialCvv.value,
-            false,
-            storeMock
-        ).execute()
+        val showError = CvvStrategy(storeMock)
+            .focusChanged(initialCvv.value, false)
 
         assertTrue(showError)
     }
@@ -33,11 +31,8 @@ class CvvFocusChangedUseCaseTest {
     fun `given cvv has length 3 and expected length is 4 then an error will be shown`() {
         val initialCvv = Cvv("146", 4)
         given(storeMock.cvv).willReturn(initialCvv)
-        val showError = CvvFocusChangedUseCase(
-            initialCvv.value,
-            false,
-            storeMock
-        ).execute()
+        val showError = CvvStrategy(storeMock)
+            .focusChanged(initialCvv.value, false)
 
         assertTrue(showError)
     }
@@ -45,12 +40,27 @@ class CvvFocusChangedUseCaseTest {
     @Test
     fun `given cvv gains focus then error will be cleared`() {
         val (cvv, hasFocus) = Pair("23456", true)
-        val showError = CvvFocusChangedUseCase(
-            cvv,
-            hasFocus,
-            storeMock
-        ).execute()
+        val showError = CvvStrategy(storeMock)
+            .focusChanged(cvv, hasFocus)
 
         assertEquals(false, showError)
+    }
+
+    @Test
+    fun `given cvv updated then it should be written to data store and called back`() {
+        val initialCvv = Cvv("345678", 2)
+        val newCvv = "123"
+        given(storeMock.cvv).willReturn(initialCvv)
+
+        CvvStrategy(storeMock).textChanged(newCvv)
+
+        then(storeMock).should().cvv = Cvv(newCvv, initialCvv.expectedLength)
+    }
+
+    @Test
+    fun `given cvv is reset then store should have cvv value reset`() {
+        CvvStrategy(storeMock).reset()
+
+        then(storeMock).should().cvv = Cvv.UNKNOWN
     }
 }
