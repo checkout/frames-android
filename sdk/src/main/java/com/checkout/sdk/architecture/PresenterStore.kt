@@ -8,8 +8,10 @@ object PresenterStore {
     /**
      * Gets a Presenter of the specified class from the map if it has already been created.
      * If the Presenter is not already created, creates a Presenter of the specified class,
-     * invoking the `functionToCreate` in order to do so. This method must be used (in
-     * preference to getOrCreateDefault) when the Presenter has no default constructor
+     * invoking the `functionToCreate` in order to do so. If you want multiple presenters of
+     * the same class then you must provide a unique key to create and get that presenter.
+     * This method must be used (in preference to getOrCreateDefault) when the Presenter has
+     * no default constructor
      */
     @Suppress("UNCHECKED_CAST")
     @Synchronized
@@ -18,7 +20,7 @@ object PresenterStore {
         functionToCreate: () -> T,
         uniqueKey: String = ""
     ): T {
-        val mapKey = classToGet.simpleName + uniqueKey
+        val mapKey = classToGet.simpleName.addSuffixIfKeyNotEmpty(uniqueKey)
         if (!presenterMap.containsKey(mapKey)) {
             presenterMap[mapKey] = functionToCreate.invoke()
         }
@@ -38,5 +40,13 @@ object PresenterStore {
         uniqueKey: String = ""
     ): T {
         return getOrCreate(classToGet, { classToGet.newInstance() }, uniqueKey)
+    }
+}
+
+private fun String.addSuffixIfKeyNotEmpty(uniqueKey: String): String {
+    return if (uniqueKey.isEmpty()) {
+        this
+    } else {
+        this.plus("_$uniqueKey")
     }
 }

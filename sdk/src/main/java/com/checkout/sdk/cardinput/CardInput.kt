@@ -49,9 +49,7 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         super.onAttachedToWindow()
 
         // Create/get and start the presenter
-        presenter = PresenterStore.getOrCreate(
-            CardInputPresenter::class.java,
-            { CardInputPresenter() })
+        presenter = PresenterStore.getOrCreateDefault(CardInputPresenter::class.java)
 
         presenter.start(this)
 

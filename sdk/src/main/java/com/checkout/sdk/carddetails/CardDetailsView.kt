@@ -75,9 +75,7 @@ class CardDetailsView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        presenter = PresenterStore.getOrCreate(
-            CardDetailsPresenter::class.java,
-            { CardDetailsPresenter() })
+        presenter = PresenterStore.getOrCreateDefault(CardDetailsPresenter::class.java)
         presenter.start(this)
 
         go_to_billing.setBillingListener(mGotoBillingListener)

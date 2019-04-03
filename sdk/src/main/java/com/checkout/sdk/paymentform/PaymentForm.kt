@@ -14,12 +14,12 @@ import com.checkout.sdk.R
 import com.checkout.sdk.animation.SlidingViewAnimator
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
+import com.checkout.sdk.billingdetails.BillingDetailsView
 import com.checkout.sdk.carddetails.CardDetailsView
 import com.checkout.sdk.core.RequestGenerator
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
-import com.checkout.sdk.billingdetails.BillingDetailsView
 import kotlinx.android.synthetic.main.payment_form.view.*
 
 /**
@@ -102,9 +102,7 @@ class PaymentForm @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        presenter = PresenterStore.getOrCreate(
-            PaymentFormPresenter::class.java,
-            { PaymentFormPresenter() })
+        presenter = PresenterStore.getOrCreateDefault(PaymentFormPresenter::class.java)
         presenter.start(this)
     }
 
