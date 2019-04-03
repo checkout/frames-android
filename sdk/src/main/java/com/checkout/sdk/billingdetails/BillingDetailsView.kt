@@ -32,25 +32,6 @@ class BillingDetailsView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
 
     /**
-     * The callback is used to communicate with the name input
-     *
-     *
-     * The custom [DefaultInput] takes care takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mNameListener = object : DefaultInput.Listener {
-        override fun onInputFinish(value: String) {
-//            dataStore.customerName = value
-        }
-
-        override fun clearInputError() {
-//            name_input_layout.error = null
-//            name_input_layout.isErrorEnabled = false
-        }
-    }
-
-    /**
      * The callback is used to communicate with the country input
      *
      *
@@ -205,10 +186,7 @@ class BillingDetailsView @JvmOverloads constructor(
         get() {
             var result = true
 
-//            if (name_input.length() < 3) {
-//                name_input_layout.error = resources.getString(R.string.error_name)
-//                result = false
-//            }
+            // TODO: Check store.customer_name is filled in
 
             if (country_input.selectedItemPosition == 0) {
                 (country_input.selectedView as TextView).error =
@@ -278,7 +256,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 mListener?.onBillingCanceled()
             }
         }
-//        name_input.setListener(mNameListener)
         address_one_input.setAddressOneListener(mAddressOneListener)
         address_two_input.setListener(mAddressTwoListener)
         country_input.setCountryListener(mCountryListener)
@@ -347,9 +324,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         requestFocus()
-//        if (dataStore.cardHolderLabel != null) {
-//            name_input_layout.hint = dataStore.cardHolderLabel
-//        }
         if (dataStore.addressLine1Label != null) {
             address_one_input_layout.hint = dataStore.addressLine1Label
         }
@@ -378,9 +352,6 @@ class BillingDetailsView @JvmOverloads constructor(
      * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
      */
     private fun repopulateFields() {
-        // Repopulate name
-//        name_input.setText(dataStore.customerName)
-
         // Repopulate country
         val locale = Locale.getAvailableLocales()
         var country: String
@@ -418,15 +389,16 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     fun resetFields() {
         name_input.reset()
-        if (dataStore.defaultCustomerName != null) {
+        // TODO: Need a solution for default customer name (and for default billing address)
+//        if (dataStore.defaultCustomerName != null) {
 //            name_input.setText(dataStore.defaultCustomerName)
 //            name_input_layout.error = null
 //            name_input_layout.isErrorEnabled = false
-        } else {
+//        } else {
 //            name_input.setText("")
 //            name_input_layout.error = null
 //            name_input_layout.isErrorEnabled = false
-        }
+//        }
         // Repopulate country
         if (dataStore.defaultCountry != null) {
             country_input.setSelection(
