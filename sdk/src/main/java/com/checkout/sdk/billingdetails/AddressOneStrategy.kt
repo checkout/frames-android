@@ -4,10 +4,10 @@ import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.uicommon.TextInputStrategy
 
 
-class CustomerNameStrategy(private val store: InMemoryStore) : TextInputStrategy {
+class AddressOneStrategy(private val store: InMemoryStore) : TextInputStrategy {
 
     override fun textChanged(text: String) {
-        store.customerName = text
+        store.addressOne = text
     }
 
     override fun focusChanged(text: String, hasFocus: Boolean): Boolean {
@@ -15,6 +15,6 @@ class CustomerNameStrategy(private val store: InMemoryStore) : TextInputStrategy
     }
 
     override fun reset() {
-        store.customerName = ""
+        store.addressOne = ""
     }
 }

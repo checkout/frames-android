@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.checkout.sdk.R
-import com.checkout.sdk.input.AddressOneInput
 import com.checkout.sdk.input.CountryInput
 import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.input.PhoneInput
@@ -50,26 +49,6 @@ class BillingDetailsView @JvmOverloads constructor(
         phone_input.requestFocus()
         phone_input.performClick()
         phone_input.setSelection(phone_input!!.text.length)
-    }
-
-    /**
-     * The callback is used to communicate with the address one  input
-     *
-     *
-     * The custom [AddressOneInput] takes care takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mAddressOneListener = object : AddressOneInput.AddressOneListener {
-
-        override fun onAddressOneInputFinish(value: String) {
-            dataStore.customerAddress1 = value
-        }
-
-        override fun clearAddressOneError() {
-            address_one_input_layout.error = null
-            address_one_input_layout.isErrorEnabled = false
-        }
     }
 
     /**
@@ -193,10 +172,6 @@ class BillingDetailsView @JvmOverloads constructor(
                         resources.getString(R.string.error_country)
                 result = false
             }
-            if (address_one_input.length() < 3) {
-                address_one_input_layout.error = resources.getString(R.string.error_address_one)
-                result = false
-            }
 
             if (city_input.length() < 2) {
                 city_input_layout.error = resources.getString(R.string.error_city)
@@ -256,7 +231,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 mListener?.onBillingCanceled()
             }
         }
-        address_one_input.setAddressOneListener(mAddressOneListener)
         address_two_input.setListener(mAddressTwoListener)
         country_input.setCountryListener(mCountryListener)
         city_input.setListener(mCityListener)
@@ -278,9 +252,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 country_input.setSelection(0)
             }
             (country_input.selectedView as TextView).error = null
-            address_one_input.setText("")
-            address_one_input_layout.error = null
-            address_one_input_layout.isErrorEnabled = false
             address_two_input.setText("")
             address_two_input_layout.error = null
             address_two_input_layout.isErrorEnabled = false
@@ -324,9 +295,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         requestFocus()
-        if (dataStore.addressLine1Label != null) {
-            address_one_input_layout.hint = dataStore.addressLine1Label
-        }
         if (dataStore.addressLine2Label != null) {
             address_two_input_layout.hint = dataStore.addressLine2Label
         }
@@ -366,9 +334,6 @@ class BillingDetailsView @JvmOverloads constructor(
         }
 
         // Repopulate address line 1
-        address_one_input.setText(dataStore.customerAddress1)
-
-        // Repopulate address line 1
         address_two_input.setText(dataStore.customerAddress2)
 
         // Repopulate city
@@ -389,6 +354,7 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     fun resetFields() {
         name_input.reset()
+        address_one_input.reset()
         // TODO: Need a solution for default customer name (and for default billing address)
 //        if (dataStore.defaultCustomerName != null) {
 //            name_input.setText(dataStore.defaultCustomerName)
@@ -421,9 +387,8 @@ class BillingDetailsView @JvmOverloads constructor(
                 PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) +
                         " " + dataStore.customerPhone
             )
-            address_one_input.setText(dataStore.defaultBillingDetails!!.addressLine1)
-            address_one_input_layout.error = null
-            address_one_input_layout.isErrorEnabled = false
+            // TODO: Solution for default Billing Address needed
+//            address_one_input.setText(dataStore.defaultBillingDetails!!.addressLine1)
             address_two_input.setText(dataStore.defaultBillingDetails!!.addressLine2)
             address_two_input_layout.error = null
             address_two_input_layout.isErrorEnabled = false
@@ -446,9 +411,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 phone_input.setText("")
             }
             (country_input.selectedView as TextView).error = null
-            address_one_input.setText("")
-            address_one_input_layout.error = null
-            address_one_input_layout.isErrorEnabled = false
             address_two_input.setText("")
             address_two_input_layout.error = null
             address_two_input_layout.isErrorEnabled = false
