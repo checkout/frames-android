@@ -37,9 +37,12 @@ class TextInputAttributeProperties(
             attributesArray.recycle()
 
             val imeFlag = convertToImeFlag(imeOptions)
-            val presenter =
-                PresenterStore.getOrCreateDefault(TextInputPresenter::class.java, strategyKey)
             val strategy = TextInputStrategyFactory.createStrategy(strategyKey)
+            val initialValue = strategy.getInitialValue()
+            val presenter =
+                PresenterStore.getOrCreate(TextInputPresenter::class.java,
+                    { TextInputPresenter(TextInputUiState(initialValue)) },
+                    strategyKey)
 
             return TextInputAttributeProperties(
                 presenter,
@@ -73,6 +76,4 @@ class TextInputAttributeProperties(
             return imeInt
         }
     }
-
-
 }

@@ -4,6 +4,7 @@ import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -17,6 +18,16 @@ class CustomerNameStrategyTest {
 
     @InjectMocks
     private lateinit var strategy: CustomerNameStrategy
+
+    @Test
+    fun `given store has an initial value when get initial value read it from the store`() {
+        val expectedText = "something"
+        given(store.customerName).willReturn(expectedText)
+
+        val value = strategy.getInitialValue()
+
+        assertEquals(expectedText, value)
+    }
 
     @Test
     fun `when text changed then store the value as address one`() {

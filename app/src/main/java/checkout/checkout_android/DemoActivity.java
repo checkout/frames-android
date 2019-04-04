@@ -43,6 +43,12 @@ public class DemoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Form Customisation should happen before any views are inflated i.e. before setContentView
+        FormCustomizer formCustomizer = new FormCustomizer()
+                .setAcceptedCards(Arrays.asList(Card.VISA, Card.MASTERCARD))
+                .injectCardHolderName("John Doe");
+
         setContentView(R.layout.activity_demo);
 
         CheckoutClient checkoutClient = new CheckoutClient(
@@ -51,8 +57,7 @@ public class DemoActivity extends Activity {
                 Environment.SANDBOX,
                 callback);
 
-        FormCustomizer formCustomizer = new FormCustomizer()
-                .setAcceptedCards(Arrays.asList(Card.VISA, Card.MASTERCARD));
+
         mPaymentForm = findViewById(R.id.checkout_card_form);
         mPaymentForm.initialize(checkoutClient, formCustomizer);
     }

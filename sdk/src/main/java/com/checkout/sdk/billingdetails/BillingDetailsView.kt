@@ -165,7 +165,7 @@ class BillingDetailsView @JvmOverloads constructor(
         get() {
             var result = true
 
-            // TODO: Check store.customer_name is filled in
+            // TODO: validate store.customer_name
 
             if (country_input.selectedItemPosition == 0) {
                 (country_input.selectedView as TextView).error =
@@ -355,16 +355,7 @@ class BillingDetailsView @JvmOverloads constructor(
     fun resetFields() {
         name_input.reset()
         address_one_input.reset()
-        // TODO: Need a solution for default customer name (and for default billing address)
-//        if (dataStore.defaultCustomerName != null) {
-//            name_input.setText(dataStore.defaultCustomerName)
-//            name_input_layout.error = null
-//            name_input_layout.isErrorEnabled = false
-//        } else {
-//            name_input.setText("")
-//            name_input_layout.error = null
-//            name_input_layout.isErrorEnabled = false
-//        }
+
         // Repopulate country
         if (dataStore.defaultCountry != null) {
             country_input.setSelection(

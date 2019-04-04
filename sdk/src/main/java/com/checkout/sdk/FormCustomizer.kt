@@ -3,6 +3,7 @@ package com.checkout.sdk
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
 import java.util.*
 
@@ -132,6 +133,7 @@ class FormCustomizer {
         mDataStore.customerName = name
         mDataStore.defaultCustomerName = name
         mDataStore.lastCustomerNameState = name
+        InMemoryStore.Factory.get().customerName = name
         return this
     }
 

@@ -6,6 +6,10 @@ import com.checkout.sdk.uicommon.TextInputStrategy
 
 class AddressOneStrategy(private val store: InMemoryStore) : TextInputStrategy {
 
+    override fun getInitialValue(): String {
+        return store.addressOne
+    }
+
     override fun textChanged(text: String) {
         store.addressOne = text
     }
