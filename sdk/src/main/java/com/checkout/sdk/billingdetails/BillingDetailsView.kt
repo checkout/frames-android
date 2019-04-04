@@ -52,25 +52,6 @@ class BillingDetailsView @JvmOverloads constructor(
     }
 
     /**
-     * The callback is used to communicate with the address two input
-     *
-     *
-     * The custom [DefaultInput] takes care takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mAddressTwoListener = object : DefaultInput.Listener {
-        override fun onInputFinish(value: String) {
-            dataStore.customerAddress2 = value
-        }
-
-        override fun clearInputError() {
-            address_two_input_layout.error = null
-            address_two_input_layout.isErrorEnabled = false
-        }
-    }
-
-    /**
      * The callback is used to communicate with the city input
      *
      *
@@ -231,7 +212,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 mListener?.onBillingCanceled()
             }
         }
-        address_two_input.setListener(mAddressTwoListener)
         country_input.setCountryListener(mCountryListener)
         city_input.setListener(mCityListener)
         state_input.setListener(mStateListener)
@@ -252,9 +232,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 country_input.setSelection(0)
             }
             (country_input.selectedView as TextView).error = null
-            address_two_input.setText("")
-            address_two_input_layout.error = null
-            address_two_input_layout.isErrorEnabled = false
             city_input.setText("")
             city_input_layout.error = null
             city_input_layout.isErrorEnabled = false
@@ -277,6 +254,7 @@ class BillingDetailsView @JvmOverloads constructor(
         }
         done_button.setOnClickListener {
             if (isValidForm) {
+                // TODO: Use InMemoryStore instead
                     dataStore.isBillingCompleted = true
                     dataStore.lastCustomerNameState = dataStore.customerName
                     dataStore.lastBillingValidState = BillingModel(
@@ -295,9 +273,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         requestFocus()
-        if (dataStore.addressLine2Label != null) {
-            address_two_input_layout.hint = dataStore.addressLine2Label
-        }
         if (dataStore.townLabel != null) {
             city_input_layout.hint = dataStore.townLabel
         }
@@ -333,9 +308,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
 
-        // Repopulate address line 1
-        address_two_input.setText(dataStore.customerAddress2)
-
         // Repopulate city
         city_input.setText(dataStore.customerCity)
 
@@ -355,6 +327,7 @@ class BillingDetailsView @JvmOverloads constructor(
     fun resetFields() {
         name_input.reset()
         address_one_input.reset()
+        address_two_input.reset()
 
         // Repopulate country
         if (dataStore.defaultCountry != null) {
@@ -378,11 +351,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) +
                         " " + dataStore.customerPhone
             )
-            // TODO: Solution for default Billing Address needed
-//            address_one_input.setText(dataStore.defaultBillingDetails!!.addressLine1)
-            address_two_input.setText(dataStore.defaultBillingDetails!!.addressTwo)
-            address_two_input_layout.error = null
-            address_two_input_layout.isErrorEnabled = false
             city_input.setText(dataStore.defaultBillingDetails!!.city)
             city_input_layout.error = null
             city_input_layout.isErrorEnabled = false
@@ -402,9 +370,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 phone_input.setText("")
             }
             (country_input.selectedView as TextView).error = null
-            address_two_input.setText("")
-            address_two_input_layout.error = null
-            address_two_input_layout.isErrorEnabled = false
             city_input.setText("")
             city_input_layout.error = null
             city_input_layout.isErrorEnabled = false

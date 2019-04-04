@@ -22,7 +22,7 @@
     <string name="placeholder_address_one">Prima linie de din adresa</string>
     <string name="error_address_one">Adresa trebuie sa aiba minim 3 caractere</string>
     <string name="placeholder_address_two">A doua linie de adresa</string>
-    <string name="error_address_tow">Adresa trebuie sa aiba minim 3 caractere</string>
+    <string name="error_address_two">Adresa trebuie sa aiba minim 3 caractere</string>
     <string name="placeholder_city">Oras</string>
     <string name="error_city">Orasul trebuie sa aiba cel putin 2 caractere</string>
     <string name="placeholder_state">Statul</string>

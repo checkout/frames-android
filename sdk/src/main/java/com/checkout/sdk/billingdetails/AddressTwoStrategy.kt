@@ -3,15 +3,14 @@ package com.checkout.sdk.billingdetails
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.uicommon.TextInputStrategy
 
-
-class AddressOneStrategy(private val store: InMemoryStore) : TextInputStrategy {
+class AddressTwoStrategy(private val store: InMemoryStore) : TextInputStrategy {
 
     override fun getInitialValue(): String {
-        return store.billingDetails.addressOne
+        return store.billingDetails.addressTwo
     }
 
     override fun textChanged(text: String) {
-        store.billingDetails = store.billingDetails.copy(addressOne = text)
+        store.billingDetails = store.billingDetails.copy(addressTwo = text)
     }
 
     override fun focusChanged(text: String, hasFocus: Boolean): Boolean {
@@ -19,6 +18,6 @@ class AddressOneStrategy(private val store: InMemoryStore) : TextInputStrategy {
     }
 
     override fun reset() {
-        store.billingDetails = store.billingDetails.copy(addressOne = "")
+        store.billingDetails = store.billingDetails.copy(addressTwo = "")
     }
 }

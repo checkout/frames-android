@@ -51,30 +51,18 @@
                 app:ime_options="flagNoExtractUi|actionNext"
                 app:input_type="text" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/address_two_input_layout"
+            <com.checkout.sdk.uicommon.TextInputView
+                android:id="@+id/address_two_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/basic_field_margin_side"
                 android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
                 android:hint="@string/placeholder_address_two"
-                app:errorTextAppearance="@style/Error">
-
-                <com.checkout.sdk.input.DefaultInput
-                    android:id="@+id/address_two_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:imeOptions="flagNoExtractUi|actionNext"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:nextFocusForward="@+id/city_input"
-                    android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
-
-            </android.support.design.widget.TextInputLayout>
+                app:errorTextAppearance="@style/Error"
+                app:strategy_key="address_two"
+                app:error_text="@string/error_address_two"
+                app:ime_options="flagNoExtractUi|actionNext"
+                app:input_type="text" />
 
 
             <android.support.design.widget.TextInputLayout

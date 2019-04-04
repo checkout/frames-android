@@ -22,7 +22,7 @@
     <string name="placeholder_address_one" translatable="true">Address line 1*</string>
     <string name="error_address_one" translatable="true">Value must be longer than 3 characters</string>
     <string name="placeholder_address_two" translatable="true">Address line 2</string>
-    <string name="error_address_tow" translatable="true">Value must be longer than 3 characters</string>
+    <string name="error_address_two" translatable="true">Value must be longer than 3 characters</string>
     <string name="placeholder_city" translatable="true">Postal Town*</string>
     <string name="error_city" translatable="true">Value must be longer than 2 characters</string>
     <string name="placeholder_state" translatable="true">State</string>

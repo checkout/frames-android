@@ -11,14 +11,12 @@ open class InMemoryStore(
     open var cvv: Cvv,
     open var cardNumber: CardNumber,
     open var customerName: String,
-    open var addressOne: String,
     open var billingDetails: BillingModel
 ) {
     private constructor() : this(
         CardDate.UNKNOWN,
         Cvv.UNKNOWN,
         CardNumber.UNKNOWN,
-        "",
         "",
         BillingModel()
     )
