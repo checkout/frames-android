@@ -90,30 +90,18 @@
                 app:ime_options="flagNoExtractUi|actionNext"
                 app:input_type="text" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/zipcode_input_layout"
+            <com.checkout.sdk.uicommon.TextInputView
+                android:id="@+id/zipcode_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/basic_field_margin_side"
                 android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
                 android:hint="@string/placeholder_postcode"
-                app:errorTextAppearance="@style/Error">
-
-                <com.checkout.sdk.input.DefaultInput
-                    android:id="@+id/zipcode_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:imeOptions="flagNoExtractUi|actionNext"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:nextFocusForward="@+id/country_input"
-                    android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
-
-            </android.support.design.widget.TextInputLayout>
+                app:errorTextAppearance="@style/Error"
+                app:strategy_key="postcode"
+                app:error_text="@string/error_city"
+                app:ime_options="flagNoExtractUi|actionNext"
+                app:input_type="text" />
 
 
             <com.checkout.sdk.input.CountryInput

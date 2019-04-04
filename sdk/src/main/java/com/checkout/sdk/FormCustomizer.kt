@@ -146,7 +146,7 @@ class FormCustomizer {
             mDataStore.lastBillingValidState = mDataStore.defaultBillingDetails
             mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressOne.value
             mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressTwo.value
-            mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
+            mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode.value
             mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
             mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city.value
             mDataStore.customerState = mDataStore.defaultBillingDetails!!.state.value

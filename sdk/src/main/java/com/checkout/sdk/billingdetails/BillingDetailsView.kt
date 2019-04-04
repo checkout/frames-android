@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.checkout.sdk.R
 import com.checkout.sdk.input.CountryInput
-import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.input.PhoneInput
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
@@ -48,25 +47,6 @@ class BillingDetailsView @JvmOverloads constructor(
         phone_input.requestFocus()
         phone_input.performClick()
         phone_input.setSelection(phone_input!!.text.length)
-    }
-
-    /**
-     * The callback is used to communicate with the zip input
-     *
-     *
-     * The custom [DefaultInput] takes care takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mZipListener = object : DefaultInput.Listener {
-        override fun onInputFinish(value: String) {
-            dataStore.customerZipcode = value
-        }
-
-        override fun clearInputError() {
-            zipcode_input_layout.error = null
-            zipcode_input_layout.isErrorEnabled = false
-        }
     }
 
     /**
@@ -119,11 +99,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 result = false
             }
 
-            if (zipcode_input.length() < 3) {
-                zipcode_input_layout.error = resources.getString(R.string.error_postcode)
-                result = false
-            }
-
             if (phone_input.length() < 3) {
                 phone_input_layout.error = resources.getString(R.string.error_phone)
                 result = false
@@ -154,7 +129,7 @@ class BillingDetailsView @JvmOverloads constructor(
                 dataStore.customerName = dataStore.lastCustomerNameState!!
                 dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne.value
                 dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
-                dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
+                dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode.value
                 dataStore.customerCountry = dataStore.lastBillingValidState!!.country
                 dataStore.customerCity = dataStore.lastBillingValidState!!.city.value
                 dataStore.customerState = dataStore.lastBillingValidState!!.state.value
@@ -167,7 +142,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         country_input.setCountryListener(mCountryListener)
-        zipcode_input.setListener(mZipListener)
         phone_input.setPhoneListener(mPhoneListener)
         repopulateFields()
         clear_button.setOnClickListener {
@@ -184,9 +158,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 country_input.setSelection(0)
             }
             (country_input.selectedView as TextView).error = null
-            zipcode_input.setText("")
-            zipcode_input_layout.error = null
-            zipcode_input_layout.isErrorEnabled = false
             if (dataStore.defaultCountry != null) {
                 phone_input.setText(PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) + " ")
             } else {
@@ -219,9 +190,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         requestFocus()
-        if (dataStore.postCodeLabel != null) {
-            zipcode_input_layout.hint = dataStore.postCodeLabel
-        }
         if (dataStore.phoneLabel != null) {
             phone_input_layout.hint = dataStore.phoneLabel
         }
@@ -248,9 +216,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
 
-        // Repopulate zip/post code
-        zipcode_input.setText(dataStore.customerZipcode)
-
         // Repopulate phone
         phone_input.setText(dataStore.customerPhone)
     }
@@ -262,6 +227,8 @@ class BillingDetailsView @JvmOverloads constructor(
         name_input.reset()
         address_one_input.reset()
         address_two_input.reset()
+        city_input.reset()
+        state_input.reset()
 
         // Repopulate country
         if (dataStore.defaultCountry != null) {
@@ -285,9 +252,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) +
                         " " + dataStore.customerPhone
             )
-            zipcode_input.setText(dataStore.defaultBillingDetails!!.postcode)
-            zipcode_input_layout.error = null
-            zipcode_input_layout.isErrorEnabled = false
             phone_input_layout.error = null
             phone_input_layout.isErrorEnabled = false
         } else {
@@ -298,9 +262,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 phone_input.setText("")
             }
             (country_input.selectedView as TextView).error = null
-            zipcode_input.setText("")
-            zipcode_input_layout.error = null
-            zipcode_input_layout.isErrorEnabled = false
             phone_input_layout.error = null
             phone_input_layout.isErrorEnabled = false
         }
@@ -326,7 +287,7 @@ class BillingDetailsView @JvmOverloads constructor(
                     dataStore.customerName = dataStore.lastCustomerNameState!!
                     dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne.value
                     dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
-                    dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
+                    dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode.value
                     dataStore.customerCountry = dataStore.lastBillingValidState!!.country
                     dataStore.customerCity = dataStore.lastBillingValidState!!.city.value
                     dataStore.customerState = dataStore.lastBillingValidState!!.state.value

@@ -39,7 +39,7 @@ class UpdateBillingSpinnerUseCaseTest {
             BillingDetail("39 Wendell St"),
             CityDetail("London"),
             BillingDetail("Middlesex"),
-            "",
+            BillingDetail(""),
             "",
             PhoneModel("uk", "+44")
         )
