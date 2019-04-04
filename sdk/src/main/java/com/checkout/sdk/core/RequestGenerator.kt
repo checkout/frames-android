@@ -28,9 +28,9 @@ class RequestGenerator(
                     inMemoryStore.billingDetails.addressOne,
                     inMemoryStore.billingDetails.addressTwo,
                     inMemoryStore.billingDetails.city,
-                    dataStore.customerCountry,
+                    inMemoryStore.billingDetails.state,
                     dataStore.customerZipcode,
-                    dataStore.customerState,
+                    dataStore.customerCountry,
                     PhoneModel(
                         dataStore.customerPhonePrefix,
                         dataStore.customerPhone

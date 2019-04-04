@@ -1,8 +1,8 @@
 package com.checkout.sdk.carddetails
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
-import com.checkout.sdk.billingdetails.model.CityDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
+import com.checkout.sdk.billingdetails.model.CityDetail
 import com.checkout.sdk.models.PhoneModel
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
@@ -38,14 +38,13 @@ class UpdateBillingSpinnerUseCaseTest {
             BillingDetail("Flat 4"),
             BillingDetail("39 Wendell St"),
             CityDetail("London"),
+            BillingDetail("Middlesex"),
             "",
             "",
-            "Middlesex",
             PhoneModel("uk", "+44")
         )
         given(inMemoryStore.billingDetails).willReturn(billingModel)
 
-        given(dataStore.customerState).willReturn(billingModel.state)
         val expected = listOf(
             String.format(
                 FORMAT,

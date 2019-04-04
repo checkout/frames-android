@@ -1,9 +1,6 @@
 package com.checkout.sdk.uicommon
 
-import com.checkout.sdk.billingdetails.AddressOneStrategy
-import com.checkout.sdk.billingdetails.AddressTwoStrategy
-import com.checkout.sdk.billingdetails.CityStrategy
-import com.checkout.sdk.billingdetails.CustomerNameStrategy
+import com.checkout.sdk.billingdetails.*
 import com.checkout.sdk.cvvinput.CvvStrategy
 import junit.framework.Assert.assertEquals
 import org.junit.Test
@@ -39,6 +36,12 @@ class TextInputStrategyFactoryTest {
     fun `when strategy key is city then strategy is CityStrategy`() {
         val strategy = TextInputStrategyFactory.createStrategy("city")
         assertEquals(CityStrategy::class.java, strategy.javaClass)
+    }
+
+    @Test
+    fun `when strategy key is state then strategy is StateStrategy`() {
+        val strategy = TextInputStrategyFactory.createStrategy("state")
+        assertEquals(StateStrategy::class.java, strategy.javaClass)
     }
 
     @Test(expected = IllegalArgumentException::class)

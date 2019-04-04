@@ -10,9 +10,9 @@ data class BillingDetails(
     val addressOne: BillingDetail = BillingDetail(),
     val addressTwo: BillingDetail = BillingDetail(),
     val city: CityDetail = CityDetail(),
-    val country: String = "",
+    val state: BillingDetail = BillingDetail(),
     val postcode: String = "",
-    val state: String = "",
+    val country: String = "",
     val phone: PhoneModel = PhoneModel()
 ) {
 
@@ -22,9 +22,9 @@ data class BillingDetails(
                 BillingDetail(billingModel.addressOne),
                 BillingDetail(billingModel.addressTwo),
                 CityDetail(billingModel.city),
-                billingModel.country,
+                BillingDetail(billingModel.state),
                 billingModel.postcode,
-                billingModel.state,
+                billingModel.country,
                 billingModel.phone
             )
         }

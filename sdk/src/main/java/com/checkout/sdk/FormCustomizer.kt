@@ -1,8 +1,8 @@
 package com.checkout.sdk
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
-import com.checkout.sdk.core.Card
 import com.checkout.sdk.billingdetails.model.BillingDetails
+import com.checkout.sdk.core.Card
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
@@ -149,7 +149,7 @@ class FormCustomizer {
             mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
             mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
             mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city.value
-            mDataStore.customerState = mDataStore.defaultBillingDetails!!.state
+            mDataStore.customerState = mDataStore.defaultBillingDetails!!.state.value
             mDataStore.customerPhone = mDataStore.defaultBillingDetails!!.phone.number
             mDataStore.customerPhonePrefix = mDataStore.defaultBillingDetails!!.phone.countryCode
         }
