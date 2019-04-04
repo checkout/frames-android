@@ -10,6 +10,8 @@ import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.FormCustomizer;
 import com.checkout.sdk.core.Card;
 import com.checkout.sdk.core.TokenResult;
+import com.checkout.sdk.models.BillingModel;
+import com.checkout.sdk.models.PhoneModel;
 import com.checkout.sdk.paymentform.PaymentForm;
 import com.checkout.sdk.utils.Environment;
 
@@ -45,9 +47,18 @@ public class DemoActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // Form Customisation should happen before any views are inflated i.e. before setContentView
+        PhoneModel phoneModel = new PhoneModel("+44", "73926403");
+        BillingModel billingModel = new BillingModel("48 Rayfield Terrace",
+                "Burton on Thames",
+                "TU1 8FS",
+                "United Kingdom",
+                "Norwich",
+                "Cumbria",
+                phoneModel);
         FormCustomizer formCustomizer = new FormCustomizer()
                 .setAcceptedCards(Arrays.asList(Card.VISA, Card.MASTERCARD))
-                .injectCardHolderName("John Doe");
+                .injectCardHolderName("John Doe")
+                .injectBilling(billingModel);
 
         setContentView(R.layout.activity_demo);
 

@@ -35,15 +35,15 @@ class UpdateBillingSpinnerUseCaseTest {
             "Middlesex",
             PhoneModel("uk", "+44")
         )
-        given(dataStore.customerAddress1).willReturn(billingModel.addressLine1)
-        given(dataStore.customerAddress2).willReturn(billingModel.addressLine2)
+        given(dataStore.customerAddress1).willReturn(billingModel.addressOne)
+        given(dataStore.customerAddress2).willReturn(billingModel.addressTwo)
         given(dataStore.customerCity).willReturn(billingModel.city)
         given(dataStore.customerState).willReturn(billingModel.state)
         val expected = listOf(
             String.format(
                 FORMAT,
-                billingModel.addressLine1,
-                billingModel.addressLine2,
+                billingModel.addressOne,
+                billingModel.addressTwo,
                 billingModel.city,
                 billingModel.state
             ),

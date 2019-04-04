@@ -7,11 +7,11 @@ import com.checkout.sdk.uicommon.TextInputStrategy
 class AddressOneStrategy(private val store: InMemoryStore) : TextInputStrategy {
 
     override fun getInitialValue(): String {
-        return store.addressOne
+        return store.billingDetails.addressOne
     }
 
     override fun textChanged(text: String) {
-        store.addressOne = text
+        store.billingDetails = store.billingDetails.copy(addressOne = text)
     }
 
     override fun focusChanged(text: String, hasFocus: Boolean): Boolean {

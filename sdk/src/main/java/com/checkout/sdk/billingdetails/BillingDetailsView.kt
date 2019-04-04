@@ -216,8 +216,8 @@ class BillingDetailsView @JvmOverloads constructor(
         my_toolbar.setNavigationOnClickListener {
             if (dataStore.lastBillingValidState != null) {
                 dataStore.customerName = dataStore.lastCustomerNameState!!
-                dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressLine1
-                dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressLine2
+                dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne
+                dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo
                 dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
                 dataStore.customerCountry = dataStore.lastBillingValidState!!.country
                 dataStore.customerCity = dataStore.lastBillingValidState!!.city
@@ -380,7 +380,7 @@ class BillingDetailsView @JvmOverloads constructor(
             )
             // TODO: Solution for default Billing Address needed
 //            address_one_input.setText(dataStore.defaultBillingDetails!!.addressLine1)
-            address_two_input.setText(dataStore.defaultBillingDetails!!.addressLine2)
+            address_two_input.setText(dataStore.defaultBillingDetails!!.addressTwo)
             address_two_input_layout.error = null
             address_two_input_layout.isErrorEnabled = false
             city_input.setText(dataStore.defaultBillingDetails!!.city)
@@ -437,8 +437,8 @@ class BillingDetailsView @JvmOverloads constructor(
             ) {
                 if (dataStore.lastBillingValidState != null) {
                     dataStore.customerName = dataStore.lastCustomerNameState!!
-                    dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressLine1
-                    dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressLine2
+                    dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne
+                    dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo
                     dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
                     dataStore.customerCountry = dataStore.lastBillingValidState!!.country
                     dataStore.customerCity = dataStore.lastBillingValidState!!.city

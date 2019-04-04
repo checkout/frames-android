@@ -113,14 +113,15 @@ class FormCustomizer {
         mDataStore.isBillingCompleted = true
         mDataStore.lastBillingValidState = billing
         mDataStore.defaultBillingDetails = billing
-        mDataStore.customerAddress1 = billing.addressLine1
-        mDataStore.customerAddress2 = billing.addressLine2
+        mDataStore.customerAddress1 = billing.addressOne
+        mDataStore.customerAddress2 = billing.addressTwo
         mDataStore.customerZipcode = billing.postcode
         mDataStore.customerCountry = billing.country
         mDataStore.customerCity = billing.city
         mDataStore.customerState = billing.state
         mDataStore.customerPhone = billing.phone.number
         mDataStore.customerPhonePrefix = billing.phone.countryCode
+        InMemoryStore.Factory.get().billingDetails = billing
         return this
     }
 
@@ -142,8 +143,8 @@ class FormCustomizer {
         if (mDataStore != null && mDataStore.defaultBillingDetails != null) {
             mDataStore.isBillingCompleted = true
             mDataStore.lastBillingValidState = mDataStore.defaultBillingDetails
-            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressLine1
-            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressLine2
+            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressOne
+            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressTwo
             mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
             mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
             mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city
