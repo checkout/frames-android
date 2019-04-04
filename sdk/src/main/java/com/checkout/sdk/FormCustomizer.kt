@@ -1,5 +1,6 @@
 package com.checkout.sdk
 
+import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
@@ -113,8 +114,8 @@ class FormCustomizer {
         mDataStore.isBillingCompleted = true
         mDataStore.lastBillingValidState = billing
         mDataStore.defaultBillingDetails = billing
-        mDataStore.customerAddress1 = billing.addressOne
-        mDataStore.customerAddress2 = billing.addressTwo
+        mDataStore.customerAddress1 = billing.addressOne.value
+        mDataStore.customerAddress2 = billing.addressTwo.value
         mDataStore.customerZipcode = billing.postcode
         mDataStore.customerCountry = billing.country
         mDataStore.customerCity = billing.city
@@ -134,7 +135,7 @@ class FormCustomizer {
         mDataStore.customerName = name
         mDataStore.defaultCustomerName = name
         mDataStore.lastCustomerNameState = name
-        InMemoryStore.Factory.get().customerName = name
+        InMemoryStore.Factory.get().customerName = BillingDetail(name)
         return this
     }
 
@@ -143,8 +144,8 @@ class FormCustomizer {
         if (mDataStore != null && mDataStore.defaultBillingDetails != null) {
             mDataStore.isBillingCompleted = true
             mDataStore.lastBillingValidState = mDataStore.defaultBillingDetails
-            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressOne
-            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressTwo
+            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressOne.value
+            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressTwo.value
             mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
             mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
             mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city

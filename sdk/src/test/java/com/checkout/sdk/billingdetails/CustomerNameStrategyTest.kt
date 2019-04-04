@@ -1,7 +1,9 @@
 package com.checkout.sdk.billingdetails
 
+import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
@@ -11,7 +13,7 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class CustomerNameStrategyTest {
+class BillingDetailStrategyTest {
 
     @Mock
     private lateinit var store: InMemoryStore
@@ -21,39 +23,45 @@ class CustomerNameStrategyTest {
 
     @Test
     fun `given store has an initial value when get initial value read it from the store`() {
-        val expectedText = "something"
-        given(store.customerName).willReturn(expectedText)
+        val expectedBillingDetail = BillingDetail("something")
+        given(store.customerName).willReturn(expectedBillingDetail)
 
         val value = strategy.getInitialValue()
 
-        assertEquals(expectedText, value)
+        assertEquals(expectedBillingDetail.value, value)
     }
 
     @Test
     fun `when text changed then store the value as address one`() {
-        val expectedText = "something"
-        strategy.textChanged(expectedText)
-        then(store).should().customerName = expectedText
+        val expectedBillingDetail = BillingDetail("something")
+        given(store.customerName).willReturn(expectedBillingDetail)
+
+        strategy.textChanged(expectedBillingDetail.value)
+
+        then(store).should().customerName = expectedBillingDetail
     }
 
     @Test
     fun `given text length shorter than minimum when focus changed then error shown is true`() {
-        val (shortText, expectedResult) = Pair("ab", true)
-        val result = strategy.focusChanged(shortText, false)
-        assertEquals(expectedResult, result)
+        val expectedBillingDetail = BillingDetail("ab")
+        given(store.customerName).willReturn(expectedBillingDetail)
+        val result = strategy.focusChanged( false)
+        assertTrue(result)
     }
 
     @Test
     fun `given text length longer than minimum when focus changed then error shown is false`() {
         val (shortText, expectedResult) = Pair("abcd", false)
-        val result = strategy.focusChanged(shortText, false)
+        given(store.customerName).willReturn(BillingDetail(shortText))
+
+        val result = strategy.focusChanged(false)
         assertEquals(expectedResult, result)
     }
 
     @Test
     fun `when reset then stored address one is an empty string`() {
-        val expectedText = ""
+        val expectedBillingDetail = BillingDetail("")
         strategy.reset()
-        then(store).should().customerName = expectedText
+        then(store).should().customerName = expectedBillingDetail
     }
 }

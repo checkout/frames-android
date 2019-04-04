@@ -22,7 +22,7 @@ class CvvStrategyTest {
         var initialCvv = Cvv("345678", 2)
         given(storeMock.cvv).willReturn(initialCvv)
         val showError = CvvStrategy(storeMock)
-            .focusChanged(initialCvv.value, false)
+            .focusChanged(false)
 
         assertTrue(showError)
     }
@@ -32,16 +32,16 @@ class CvvStrategyTest {
         val initialCvv = Cvv("146", 4)
         given(storeMock.cvv).willReturn(initialCvv)
         val showError = CvvStrategy(storeMock)
-            .focusChanged(initialCvv.value, false)
+            .focusChanged(false)
 
         assertTrue(showError)
     }
 
     @Test
     fun `given cvv gains focus then error will be cleared`() {
-        val (cvv, hasFocus) = Pair("23456", true)
+        val hasFocus = true
         val showError = CvvStrategy(storeMock)
-            .focusChanged(cvv, hasFocus)
+            .focusChanged(hasFocus)
 
         assertEquals(false, showError)
     }

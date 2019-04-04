@@ -16,16 +16,17 @@ class RequestGenerator(
 
     fun generate(): CardTokenisationRequest {
         val request: CardTokenisationRequest
+        // TODO: Check validity on inMemoryStore
         if (dataStore.isBillingCompleted) {
             request = CardTokenisationRequest(
                 inMemoryStore.cardNumber.value,
-                dataStore.customerName,
+                inMemoryStore.customerName.value,
                 dateFormatter.formatMonth(inMemoryStore.cardDate.month.monthInteger),
                 inMemoryStore.cardDate.year.toString(),
                 inMemoryStore.cvv.value,
                 BillingModel(
-                    dataStore.customerAddress1,
-                    dataStore.customerAddress2,
+                    inMemoryStore.billingDetails.addressOne,
+                    inMemoryStore.billingDetails.addressTwo,
                     dataStore.customerZipcode,
                     dataStore.customerCountry,
                     dataStore.customerCity,
@@ -39,10 +40,11 @@ class RequestGenerator(
         } else {
             request = CardTokenisationRequest(
                 inMemoryStore.cardNumber.value,
-                dataStore.customerName,
+                inMemoryStore.customerName.value,
                 dateFormatter.formatMonth(inMemoryStore.cardDate.month.monthInteger),
                 inMemoryStore.cardDate.year.value.toString(),
-                inMemoryStore.cvv.value, null
+                inMemoryStore.cvv.value,
+                null
             )
         }
 

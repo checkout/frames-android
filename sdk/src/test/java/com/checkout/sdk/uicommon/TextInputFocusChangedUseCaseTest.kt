@@ -14,20 +14,19 @@ class TextInputFocusChangedUseCaseTest {
     @Mock
     private lateinit var strategy: TextInputStrategy
 
-    private val text = "any text"
     private val hasFocus = true
 
     private lateinit var textInputFocusChangedUseCase: TextInputFocusChangedUseCase
 
     @Before
     fun setup() {
-        textInputFocusChangedUseCase = TextInputFocusChangedUseCase(text, hasFocus, strategy)
+        textInputFocusChangedUseCase = TextInputFocusChangedUseCase(hasFocus, strategy)
     }
 
     @Test
     fun `when use case is executed we tell the strategy to reset`() {
         textInputFocusChangedUseCase.execute()
 
-        then(strategy).should().focusChanged(text, hasFocus)
+        then(strategy).should().focusChanged(hasFocus)
     }
 }

@@ -10,9 +10,8 @@ import com.checkout.sdk.R
 import com.checkout.sdk.input.CountryInput
 import com.checkout.sdk.input.DefaultInput
 import com.checkout.sdk.input.PhoneInput
-import com.checkout.sdk.models.BillingModel
-import com.checkout.sdk.models.PhoneModel
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
 import kotlinx.android.synthetic.main.billing_details.view.*
 import java.util.*
@@ -146,7 +145,12 @@ class BillingDetailsView @JvmOverloads constructor(
         get() {
             var result = true
 
-            // TODO: validate store.customer_name
+            val inMemoryStore = InMemoryStore.Factory.get()
+            if (!inMemoryStore.customerName.isValid()) {
+                result = false
+            }
+
+            // TODO: validate inMemoryStore.billingAddress
 
             if (country_input.selectedItemPosition == 0) {
                 (country_input.selectedView as TextView).error =
@@ -197,8 +201,8 @@ class BillingDetailsView @JvmOverloads constructor(
         my_toolbar.setNavigationOnClickListener {
             if (dataStore.lastBillingValidState != null) {
                 dataStore.customerName = dataStore.lastCustomerNameState!!
-                dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne
-                dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo
+                dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne.value
+                dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
                 dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
                 dataStore.customerCountry = dataStore.lastBillingValidState!!.country
                 dataStore.customerCity = dataStore.lastBillingValidState!!.city
@@ -255,21 +259,21 @@ class BillingDetailsView @JvmOverloads constructor(
         done_button.setOnClickListener {
             if (isValidForm) {
                 // TODO: Use InMemoryStore instead
-                    dataStore.isBillingCompleted = true
-                    dataStore.lastCustomerNameState = dataStore.customerName
-                    dataStore.lastBillingValidState = BillingModel(
-                        dataStore.customerAddress1,
-                        dataStore.customerAddress2,
-                        dataStore.customerZipcode,
-                        dataStore.customerCountry,
-                        dataStore.customerCity,
-                        dataStore.customerState,
-                        PhoneModel(
-                            dataStore.customerPhonePrefix,
-                            dataStore.customerPhone
-                        )
-                    )
-                    mListener?.onBillingCompleted()
+//                    dataStore.isBillingCompleted = true
+//                    dataStore.lastCustomerNameState = dataStore.customerName
+//                    dataStore.lastBillingValidState = BillingModel(
+//                        dataStore.customerAddress1,
+//                        dataStore.customerAddress2,
+//                        dataStore.customerZipcode,
+//                        dataStore.customerCountry,
+//                        dataStore.customerCity,
+//                        dataStore.customerState,
+//                        PhoneModel(
+//                            dataStore.customerPhonePrefix,
+//                            dataStore.customerPhone
+//                        )
+//                    )
+//                    mListener?.onBillingCompleted()
             }
         }
         requestFocus()
@@ -402,8 +406,8 @@ class BillingDetailsView @JvmOverloads constructor(
             ) {
                 if (dataStore.lastBillingValidState != null) {
                     dataStore.customerName = dataStore.lastCustomerNameState!!
-                    dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne
-                    dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo
+                    dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne.value
+                    dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
                     dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
                     dataStore.customerCountry = dataStore.lastBillingValidState!!.country
                     dataStore.customerCity = dataStore.lastBillingValidState!!.city

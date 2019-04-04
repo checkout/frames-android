@@ -64,7 +64,6 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
         text_input_edit_text.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             val cvvFocusChangedUseCase =
                 TextInputFocusChangedUseCase(
-                    text_input_edit_text.text.toString(),
                     hasFocus,
                     strategy
                 )
