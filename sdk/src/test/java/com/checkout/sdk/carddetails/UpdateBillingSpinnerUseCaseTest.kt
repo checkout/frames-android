@@ -1,7 +1,8 @@
 package com.checkout.sdk.carddetails
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
-import com.checkout.sdk.models.BillingModel
+import com.checkout.sdk.billingdetails.model.CityDetail
+import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.models.PhoneModel
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
@@ -33,18 +34,17 @@ class UpdateBillingSpinnerUseCaseTest {
     @Ignore("Need to refactor Billing Spinner to use InMemoryStore")
     @Test
     fun `given data store has a valid address when we execute then we get the formatted address and the edit string`() {
-        val billingModel = BillingModel(
+        val billingModel = BillingDetails(
             BillingDetail("Flat 4"),
             BillingDetail("39 Wendell St"),
+            CityDetail("London"),
             "",
             "",
-            "London",
             "Middlesex",
             PhoneModel("uk", "+44")
         )
         given(inMemoryStore.billingDetails).willReturn(billingModel)
 
-        given(dataStore.customerCity).willReturn(billingModel.city)
         given(dataStore.customerState).willReturn(billingModel.state)
         val expected = listOf(
             String.format(

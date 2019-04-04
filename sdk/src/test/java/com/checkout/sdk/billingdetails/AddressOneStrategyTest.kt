@@ -1,7 +1,7 @@
 package com.checkout.sdk.billingdetails
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
-import com.checkout.sdk.models.BillingModel
+import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
 import org.junit.Test
@@ -16,7 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class AddressOneStrategyTest {
 
-    private val billingDetails = BillingModel(addressOne = BillingDetail("27 Parch St"))
+    private val billingDetails =
+        BillingDetails(addressOne = BillingDetail("27 Parch St"))
 
     @Mock
     private lateinit var store: InMemoryStore
@@ -46,7 +47,11 @@ class AddressOneStrategyTest {
     @Test
     fun `given text length shorter than minimum when focus changed then error shown is true`() {
         val (shortText, expectedResult) = Pair("ab", true)
-        given(store.billingDetails).willReturn(BillingModel(addressOne = BillingDetail(shortText)))
+        given(store.billingDetails).willReturn(
+            BillingDetails(
+                addressOne = BillingDetail(shortText)
+            )
+        )
 
         val result = strategy.focusChanged(false)
         assertEquals(expectedResult, result)
@@ -55,7 +60,11 @@ class AddressOneStrategyTest {
     @Test
     fun `given text length longer than minimum when focus changed then error shown is false`() {
         val (shortText, expectedResult) = Pair("abcd", false)
-        given(store.billingDetails).willReturn(BillingModel(addressOne = BillingDetail(shortText)))
+        given(store.billingDetails).willReturn(
+            BillingDetails(
+                addressOne = BillingDetail(shortText)
+            )
+        )
 
         val result = strategy.focusChanged(false)
         assertEquals(expectedResult, result)

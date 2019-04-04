@@ -2,7 +2,7 @@ package com.checkout.sdk
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.core.Card
-import com.checkout.sdk.models.BillingModel
+import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
@@ -110,19 +110,19 @@ class FormCustomizer {
      *
      * @param billing BillingModel representing the value for the billing details
      */
-    fun injectBilling(billing: BillingModel): FormCustomizer {
+    fun injectBilling(billingModel: BillingModel): FormCustomizer {
         mDataStore.isBillingCompleted = true
-        mDataStore.lastBillingValidState = billing
-        mDataStore.defaultBillingDetails = billing
-        mDataStore.customerAddress1 = billing.addressOne.value
-        mDataStore.customerAddress2 = billing.addressTwo.value
-        mDataStore.customerZipcode = billing.postcode
-        mDataStore.customerCountry = billing.country
-        mDataStore.customerCity = billing.city
-        mDataStore.customerState = billing.state
-        mDataStore.customerPhone = billing.phone.number
-        mDataStore.customerPhonePrefix = billing.phone.countryCode
-        InMemoryStore.Factory.get().billingDetails = billing
+//        mDataStore.lastBillingValidState = billing
+//        mDataStore.defaultBillingDetails = billing
+//        mDataStore.customerAddress1 = billing.addressOne.value
+//        mDataStore.customerAddress2 = billing.addressTwo.value
+//        mDataStore.customerZipcode = billing.postcode
+//        mDataStore.customerCountry = billing.country
+//        mDataStore.customerCity = billing.city.value
+//        mDataStore.customerState = billing.state
+//        mDataStore.customerPhone = billing.phone.number
+//        mDataStore.customerPhonePrefix = billing.phone.countryCode
+        InMemoryStore.Factory.get().billingDetails = BillingDetails.from(billingModel)
         return this
     }
 
@@ -148,7 +148,7 @@ class FormCustomizer {
             mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressTwo.value
             mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
             mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
-            mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city
+            mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city.value
             mDataStore.customerState = mDataStore.defaultBillingDetails!!.state
             mDataStore.customerPhone = mDataStore.defaultBillingDetails!!.phone.number
             mDataStore.customerPhonePrefix = mDataStore.defaultBillingDetails!!.phone.countryCode

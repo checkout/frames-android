@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.checkout.sdk.BillingModel;
 import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.FormCustomizer;
 import com.checkout.sdk.core.Card;
 import com.checkout.sdk.core.TokenResult;
-import com.checkout.sdk.models.BillingModel;
 import com.checkout.sdk.models.PhoneModel;
 import com.checkout.sdk.paymentform.PaymentForm;
 import com.checkout.sdk.utils.Environment;
@@ -50,9 +50,7 @@ public class DemoActivity extends Activity {
         PhoneModel phoneModel = new PhoneModel("+44", "73926403");
         BillingModel billingModel = new BillingModel("48 Rayfield Terrace",
                 "Burton on Thames",
-                "TU1 8FS",
-                "United Kingdom",
-                "Norwich",
+                "Norwich", "United Kingdom", "TU1 8FS",
                 "Cumbria",
                 phoneModel);
         FormCustomizer formCustomizer = new FormCustomizer()

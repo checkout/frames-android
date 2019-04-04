@@ -51,25 +51,6 @@ class BillingDetailsView @JvmOverloads constructor(
     }
 
     /**
-     * The callback is used to communicate with the city input
-     *
-     *
-     * The custom [DefaultInput] takes care takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mCityListener = object : DefaultInput.Listener {
-        override fun onInputFinish(value: String) {
-            dataStore.customerCity = value
-        }
-
-        override fun clearInputError() {
-            city_input_layout.error = null
-            city_input_layout.isErrorEnabled = false
-        }
-    }
-
-    /**
      * The callback is used to communicate with the state input
      *
      *
@@ -158,11 +139,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 result = false
             }
 
-            if (city_input.length() < 2) {
-                city_input_layout.error = resources.getString(R.string.error_city)
-                result = false
-            }
-
             if (state_input.length() < 3) {
                 state_input_layout.error = resources.getString(R.string.error_state)
                 result = false
@@ -205,7 +181,7 @@ class BillingDetailsView @JvmOverloads constructor(
                 dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
                 dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
                 dataStore.customerCountry = dataStore.lastBillingValidState!!.country
-                dataStore.customerCity = dataStore.lastBillingValidState!!.city
+                dataStore.customerCity = dataStore.lastBillingValidState!!.city.value
                 dataStore.customerState = dataStore.lastBillingValidState!!.state
                 dataStore.customerPhonePrefix =
                         dataStore.lastBillingValidState!!.phone.countryCode
@@ -217,7 +193,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         country_input.setCountryListener(mCountryListener)
-        city_input.setListener(mCityListener)
         state_input.setListener(mStateListener)
         zipcode_input.setListener(mZipListener)
         phone_input.setPhoneListener(mPhoneListener)
@@ -236,9 +211,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 country_input.setSelection(0)
             }
             (country_input.selectedView as TextView).error = null
-            city_input.setText("")
-            city_input_layout.error = null
-            city_input_layout.isErrorEnabled = false
             state_input.setText("")
             state_input_layout.error = null
             state_input_layout.isErrorEnabled = false
@@ -277,9 +249,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         requestFocus()
-        if (dataStore.townLabel != null) {
-            city_input_layout.hint = dataStore.townLabel
-        }
         if (dataStore.stateLabel != null) {
             state_input_layout.hint = dataStore.stateLabel
         }
@@ -311,9 +280,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 )
             }
         }
-
-        // Repopulate city
-        city_input.setText(dataStore.customerCity)
 
         // Repopulate state
         state_input.setText(dataStore.customerState)
@@ -355,9 +321,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) +
                         " " + dataStore.customerPhone
             )
-            city_input.setText(dataStore.defaultBillingDetails!!.city)
-            city_input_layout.error = null
-            city_input_layout.isErrorEnabled = false
             state_input.setText(dataStore.defaultBillingDetails!!.state)
             state_input_layout.error = null
             state_input_layout.isErrorEnabled = false
@@ -374,9 +337,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 phone_input.setText("")
             }
             (country_input.selectedView as TextView).error = null
-            city_input.setText("")
-            city_input_layout.error = null
-            city_input_layout.isErrorEnabled = false
             state_input.setText("")
             state_input_layout.error = null
             state_input_layout.isErrorEnabled = false
@@ -410,7 +370,7 @@ class BillingDetailsView @JvmOverloads constructor(
                     dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
                     dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode
                     dataStore.customerCountry = dataStore.lastBillingValidState!!.country
-                    dataStore.customerCity = dataStore.lastBillingValidState!!.city
+                    dataStore.customerCity = dataStore.lastBillingValidState!!.city.value
                     dataStore.customerState = dataStore.lastBillingValidState!!.state
                     dataStore.customerPhonePrefix =
                             dataStore.lastBillingValidState!!.phone.countryCode

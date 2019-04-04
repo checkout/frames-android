@@ -1,6 +1,6 @@
 package com.checkout.sdk.core
 
-import com.checkout.sdk.models.BillingModel
+import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.models.PhoneModel
 import com.checkout.sdk.request.CardTokenisationRequest
 import com.checkout.sdk.store.DataStore
@@ -24,12 +24,12 @@ class RequestGenerator(
                 dateFormatter.formatMonth(inMemoryStore.cardDate.month.monthInteger),
                 inMemoryStore.cardDate.year.toString(),
                 inMemoryStore.cvv.value,
-                BillingModel(
+                BillingDetails(
                     inMemoryStore.billingDetails.addressOne,
                     inMemoryStore.billingDetails.addressTwo,
-                    dataStore.customerZipcode,
+                    inMemoryStore.billingDetails.city,
                     dataStore.customerCountry,
-                    dataStore.customerCity,
+                    dataStore.customerZipcode,
                     dataStore.customerState,
                     PhoneModel(
                         dataStore.customerPhonePrefix,

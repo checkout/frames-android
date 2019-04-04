@@ -1,7 +1,7 @@
 package com.checkout.sdk.store
 
 import com.checkout.sdk.core.Card
-import com.checkout.sdk.models.BillingModel
+import com.checkout.sdk.billingdetails.model.BillingDetails
 import java.util.*
 
 /**
@@ -45,8 +45,8 @@ open class DataStore protected constructor() {
     var postCodeLabel: String? = null
     var phoneLabel: String? = null
 
-    var lastBillingValidState: BillingModel? = null
-    var defaultBillingDetails: BillingModel? = null
+    var lastBillingValidState: BillingDetails? = null
+    var defaultBillingDetails: BillingDetails? = null
     var lastCustomerNameState: String? = null
 
     fun cleanBillingData() {

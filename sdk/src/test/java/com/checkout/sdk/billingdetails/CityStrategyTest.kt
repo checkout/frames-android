@@ -1,7 +1,7 @@
 package com.checkout.sdk.billingdetails
 
-import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
+import com.checkout.sdk.billingdetails.model.CityDetail
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
 import org.junit.Test
@@ -14,20 +14,20 @@ import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class AddressTwoStrategyTest {
+class CityStrategyTest {
 
     private val billingDetails =
-        BillingDetails(addressTwo = BillingDetail("Barnstorm Way"))
+        BillingDetails(city = CityDetail("Troy"))
 
     @Mock
     private lateinit var store: InMemoryStore
 
     @InjectMocks
-    private lateinit var strategy: AddressTwoStrategy
+    private lateinit var strategy: CityStrategy
 
     @Test
     fun `given store has an initial value when get initial value read it from the store`() {
-        val expectedBillingValue = billingDetails.addressTwo.value
+        val expectedBillingValue = billingDetails.city.value
         given(store.billingDetails).willReturn(billingDetails)
 
         val value = strategy.getInitialValue()
@@ -38,7 +38,7 @@ class AddressTwoStrategyTest {
     @Test
     fun `when text changed then store the value as address one`() {
         val expectedText = "something new"
-        val expectedBillingDetails = billingDetails.copy(addressTwo = BillingDetail(expectedText))
+        val expectedBillingDetails = billingDetails.copy(city = CityDetail(expectedText))
         given(store.billingDetails).willReturn(billingDetails)
 
         strategy.textChanged(expectedText)
@@ -48,12 +48,8 @@ class AddressTwoStrategyTest {
 
     @Test
     fun `given text length shorter than minimum when focus changed then error shown is true`() {
-        val (shortText, expectedResult) = Pair("ab", true)
-        given(store.billingDetails).willReturn(
-            BillingDetails(
-                addressTwo = BillingDetail(value = shortText)
-            )
-        )
+        val (shortText, expectedResult) = Pair("a", true)
+        given(store.billingDetails).willReturn(BillingDetails(city = CityDetail(shortText)))
 
         val result = strategy.focusChanged(false)
 
@@ -62,12 +58,8 @@ class AddressTwoStrategyTest {
 
     @Test
     fun `given text length longer than minimum when focus changed then error shown is false`() {
-        val (shortText, expectedResult) = Pair("abcd", false)
-        given(store.billingDetails).willReturn(
-            BillingDetails(
-                addressTwo = BillingDetail(value = shortText)
-            )
-        )
+        val (shortText, expectedResult) = Pair("abc", false)
+        given(store.billingDetails).willReturn(BillingDetails(city = CityDetail(shortText)))
 
         val result = strategy.focusChanged(false)
         assertEquals(expectedResult, result)
@@ -76,7 +68,7 @@ class AddressTwoStrategyTest {
     @Test
     fun `when reset then stored address one is an empty string`() {
         val expectedText = ""
-        val expectedBillingDetails = billingDetails.copy(addressTwo = BillingDetail(expectedText))
+        val expectedBillingDetails = billingDetails.copy(city = CityDetail(expectedText))
         given(store.billingDetails).willReturn(billingDetails)
         strategy.reset()
         then(store).should().billingDetails = expectedBillingDetails
