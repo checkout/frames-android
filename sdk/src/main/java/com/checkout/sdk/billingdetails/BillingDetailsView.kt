@@ -38,15 +38,16 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     private val mCountryListener = CountryInput.CountryListener { country, prefix ->
         if (country != "") {
-            dataStore.customerCountry = country
+            inMemoryStore.billingDetails = inMemoryStore.billingDetails.copy(country = country)
         }
         if (prefix != "") {
-            dataStore.customerPhonePrefix = prefix
+            val phoneModel = inMemoryStore.billingDetails.phone.copy(countryCode = prefix)
+            inMemoryStore.billingDetails = inMemoryStore.billingDetails.copy(phone = phoneModel)
         }
-        phone_input.setText(prefix + " " + dataStore.customerPhone)
+        phone_input.setText(prefix + " " + inMemoryStore.billingDetails.phone.number)
         phone_input.requestFocus()
         phone_input.performClick()
-        phone_input.setSelection(phone_input!!.text.length)
+        phone_input.setSelection(phone_input.text.length)
     }
 
     /**
@@ -72,6 +73,7 @@ class BillingDetailsView @JvmOverloads constructor(
 
     private var mListener: BillingDetailsView.Listener? = null
     private val dataStore: DataStore = DataStore.Factory.get()
+    private val inMemoryStore: InMemoryStore = InMemoryStore.Factory.get()
 
     /**
      * Used to indicate the validity of the billing details from
@@ -205,13 +207,12 @@ class BillingDetailsView @JvmOverloads constructor(
     private fun repopulateFields() {
         // Repopulate country
         val locale = Locale.getAvailableLocales()
-        var country: String
 
         for (loc in locale) {
-            country = loc.displayCountry
-            if (loc.country == dataStore.customerCountry) {
+            val displayCountry = loc.displayCountry
+            if (displayCountry == inMemoryStore.billingDetails.country) {
                 country_input.setSelection(
-                    (country_input.adapter as ArrayAdapter<String>).getPosition(country)
+                    (country_input.adapter as ArrayAdapter<String>).getPosition(displayCountry)
                 )
             }
         }
