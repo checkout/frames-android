@@ -18,6 +18,7 @@ class TextInputStrategyFactory {
                 "city" -> CityStrategy(InMemoryStore.Factory.get())
                 "state" -> StateStrategy(InMemoryStore.Factory.get())
                 "postcode" -> PostcodeStrategy(InMemoryStore.Factory.get())
+                "phone_number" -> PhoneNumberStrategy(InMemoryStore.Factory.get())
                 else -> {
                     throw IllegalArgumentException("Unknown class key: $strategyKey")
                 }

@@ -11,8 +11,6 @@ import android.widget.TextView
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.input.CountryInput
-import com.checkout.sdk.input.PhoneInput
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
@@ -39,49 +37,6 @@ class BillingDetailsView @JvmOverloads constructor(
         }
         if (country_input.selectedItemPosition != uiState.position) {
             country_input.setSelection(uiState.position)
-        }
-    }
-
-    /**
-     * The callback is used to communicate with the country input
-     *
-     *
-     * The custom [CountryInput] takes care of populating the values in the spinner
-     * and will trigger this callback when the user selects a new option. State is update
-     * accordingly. Moreover, the phone prefix is added bade on the country selected.
-     */
-    private val mCountryListener = CountryInput.CountryListener { country, prefix ->
-        if (country != "") {
-            inMemoryStore.billingDetails = inMemoryStore.billingDetails.copy(country = country)
-        }
-        if (prefix != "") {
-            val phoneModel = inMemoryStore.billingDetails.phone.copy(countryCode = prefix)
-            inMemoryStore.billingDetails = inMemoryStore.billingDetails.copy(phone = phoneModel)
-        }
-        phone_input.setText(prefix + " " + inMemoryStore.billingDetails.phone.number)
-        phone_input.requestFocus()
-        phone_input.performClick()
-        phone_input.setSelection(phone_input.text.length)
-    }
-
-    /**
-     * The callback is used to communicate with the phone input
-     *
-     *
-     * The custom [PhoneInput] takes care takes care of the validation and it uses a callback
-     * to indicate this controller if there is any error or if the error state needs to
-     * be cleared. State is also updates based on the outcome of the input.
-     */
-    private val mPhoneListener = object : PhoneInput.PhoneListener {
-        override fun onPhoneInputFinish(phone: String) {
-            dataStore
-                .customerPhone = phone.replace(dataStore.customerPhonePrefix, "")
-                .replace("\\D".toRegex(), "")
-        }
-
-        override fun clearPhoneError() {
-            phone_input_layout.error = null
-            phone_input_layout.isErrorEnabled = false
         }
     }
 
@@ -115,10 +70,7 @@ class BillingDetailsView @JvmOverloads constructor(
                 result = false
             }
 
-            if (phone_input.length() < 3) {
-                phone_input_layout.error = resources.getString(R.string.error_phone)
-                result = false
-            }
+            // TODO: Validate Phone number
 
             return result
         }
@@ -147,6 +99,7 @@ class BillingDetailsView @JvmOverloads constructor(
             BillingDetailsPresenter::class.java,
             { BillingDetailsPresenter(BillingDetailsUiState.create(inMemoryStore, positionZeroString)) })
         presenter.start(this)
+        phone_input.listenForRepositoryChange()
 
         my_toolbar.setNavigationOnClickListener {
             if (dataStore.lastBillingValidState != null) {
@@ -159,7 +112,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 dataStore.customerState = dataStore.lastBillingValidState!!.state.value
                 dataStore.customerPhonePrefix = dataStore.lastBillingValidState!!.phone.countryCode
                 dataStore.customerPhone = dataStore.lastBillingValidState!!.phone.number
-                repopulateFields()
                 mListener?.onBillingCompleted()
             } else {
                 mListener?.onBillingCanceled()
@@ -182,10 +134,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
 
-
-
-        phone_input.setPhoneListener(mPhoneListener)
-        repopulateFields()
         clear_button.setOnClickListener {
             name_input.reset()
             if (dataStore.defaultCountry != null) {
@@ -201,13 +149,6 @@ class BillingDetailsView @JvmOverloads constructor(
                 country_input.setSelection(0)
             }
             (country_input.selectedView as TextView).error = null
-            if (dataStore.defaultCountry != null) {
-                phone_input.setText(PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) + " ")
-            } else {
-                phone_input.setText("")
-            }
-            phone_input_layout.error = null
-            phone_input_layout.isErrorEnabled = false
             dataStore.cleanBillingData()
             mListener?.onBillingCanceled()
             dataStore.isBillingCompleted = false
@@ -233,21 +174,6 @@ class BillingDetailsView @JvmOverloads constructor(
             }
         }
         requestFocus()
-        if (dataStore.phoneLabel != null) {
-            phone_input_layout.hint = dataStore.phoneLabel
-        }
-    }
-
-    /**
-     * Used to restore state on orientation changes
-     *
-     *
-     * The method will repopulate all the card input fields with the latest state they were in
-     * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
-     */
-    private fun repopulateFields() {
-        // Repopulate phone
-        phone_input.setText(dataStore.customerPhone)
     }
 
     /**
@@ -259,42 +185,8 @@ class BillingDetailsView @JvmOverloads constructor(
         address_two_input.reset()
         city_input.reset()
         state_input.reset()
-
-        // Repopulate country
-        if (dataStore.defaultCountry != null) {
-            country_input.setSelection(
-                (country_input.adapter as ArrayAdapter<String>)
-                    .getPosition(dataStore.defaultCountry!!.displayCountry)
-            )
-            dataStore.customerCountry = dataStore.defaultCountry!!.country
-            dataStore.customerPhonePrefix = PhoneUtils.getPrefix(
-                dataStore.defaultCountry!!.country
-            )
-        } else {
-            country_input.setSelection(0)
-        }
-
-        if (dataStore.defaultBillingDetails != null &&
-            dataStore.defaultCountry != null &&
-            dataStore.customerPhone != null
-        ) {
-            phone_input.setText(
-                PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) +
-                        " " + dataStore.customerPhone
-            )
-            phone_input_layout.error = null
-            phone_input_layout.isErrorEnabled = false
-        } else {
-            // Reset phone prefix
-            if (dataStore.defaultCountry != null) {
-                phone_input.setText(PhoneUtils.getPrefix(dataStore.defaultCountry!!.country) + " ")
-            } else {
-                phone_input.setText("")
-            }
-            (country_input.selectedView as TextView).error = null
-            phone_input_layout.error = null
-            phone_input_layout.isErrorEnabled = false
-        }
+        country_input.setSelection(0)
+        phone_input.reset()
     }
 
     // Move to previous view on back button pressed
@@ -324,7 +216,6 @@ class BillingDetailsView @JvmOverloads constructor(
                     dataStore.customerPhonePrefix =
                             dataStore.lastBillingValidState!!.phone.countryCode
                     dataStore.customerPhone = dataStore.lastBillingValidState!!.phone.number
-                    repopulateFields()
                     mListener?.onBillingCompleted()
                 } else {
                     mListener?.onBillingCanceled()

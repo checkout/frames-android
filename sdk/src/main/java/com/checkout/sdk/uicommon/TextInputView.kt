@@ -88,4 +88,9 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     fun showError(show: Boolean) {
         presenter.showError(show)
     }
+
+    fun listenForRepositoryChange() {
+        val repositoryChangeUseCaseBuilder = RepositoryChangeUseCase.Builder(strategy)
+        presenter.listenForRepositoryChange(repositoryChangeUseCaseBuilder)
+    }
 }

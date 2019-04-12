@@ -2,10 +2,22 @@ package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
+import com.checkout.sdk.store.InMemoryStore
 
 
 class TextInputPresenter(initialState: TextInputUiState = TextInputUiState()) :
-    BasePresenter<MvpView<TextInputUiState>, TextInputUiState>(initialState) {
+    BasePresenter<MvpView<TextInputUiState>, TextInputUiState>(initialState),
+    InMemoryStore.PhoneModelListener {
+
+    fun listenForRepositoryChange(repositoryChangeUseCase: RepositoryChangeUseCase.Builder) {
+        repositoryChangeUseCase.listener(this).build().execute()
+    }
+
+    override fun onRepositoryChanged(store: InMemoryStore) {
+        val phoneModel = store.billingDetails.phone
+        val newState = uiState.copy(text = phoneModel.countryCode + " " + phoneModel.number.trim())
+        safeUpdateView(newState)
+    }
 
     fun inputStateChanged(textInputUseCase: TextInputUseCase) {
         textInputUseCase.execute()

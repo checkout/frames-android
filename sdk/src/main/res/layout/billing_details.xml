@@ -118,30 +118,20 @@
                 android:paddingStart="0dp"
                 android:popupBackground="@color/spinner_background" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/phone_input_layout"
+            <com.checkout.sdk.uicommon.TextInputView
+                android:id="@+id/phone_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/basic_field_margin_side"
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:layout_marginTop="@dimen/basic_field_margin_top"
                 android:hint="@string/placeholder_phone"
-                app:errorTextAppearance="@style/Error">
-
-                <com.checkout.sdk.input.PhoneInput
-                    android:id="@+id/phone_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:digits="0123456789+- "
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:imeOptions="flagNoExtractUi|actionDone"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
-
-            </android.support.design.widget.TextInputLayout>
+                app:digits="0123456789+- "
+                app:errorTextAppearance="@style/Error"
+                app:error_text="@string/error_phone"
+                app:ime_options="flagNoExtractUi|actionDone"
+                app:input_type="phone"
+                app:strategy_key="phone_number" />
 
             <LinearLayout
                 android:layout_width="match_parent"

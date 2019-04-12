@@ -1,6 +1,7 @@
 package com.checkout.sdk.billingdetails
 
 import com.checkout.sdk.architecture.UseCase
+import com.checkout.sdk.billingdetails.BillingDetailsUiState.Companion.mapCountryToCode
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
 
@@ -22,10 +23,11 @@ class CountrySelectedUseCase(
         if (country != "") {
             inMemoryStore.billingDetails = inMemoryStore.billingDetails.copy(country = country)
         }
-        val prefix = PhoneUtils.getPrefix(country)
+        val countryCode = mapCountryToCode[country]
+        val prefix = PhoneUtils.getPrefix(countryCode)
         if (prefix != "") {
             val phoneModel = inMemoryStore.billingDetails.phone.copy(countryCode = prefix)
-            inMemoryStore.billingDetails = inMemoryStore.billingDetails.copy(phone = phoneModel)
+            inMemoryStore.updatePhoneModel(phoneModel)
         }
     }
 

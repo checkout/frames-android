@@ -7,6 +7,8 @@ import java.util.*
 data class BillingDetailsUiState(val countries: List<String> = emptyList(), val position: Int = 0) : UiState {
 
     companion object {
+        val mapCountryToCode = mutableMapOf<String, String>()
+
         fun create(inMemoryStore: InMemoryStore, positionZeroString: String): BillingDetailsUiState {
             val locale = Locale.getAvailableLocales()
             val countries = ArrayList<String>()
@@ -16,6 +18,7 @@ data class BillingDetailsUiState(val countries: List<String> = emptyList(), val 
                 country = loc.displayCountry
                 if (country.isNotEmpty() && !countries.contains(country)) {
                     countries.add(country)
+                    mapCountryToCode[country] = loc.country
                 }
             }
             Collections.sort(countries, String.CASE_INSENSITIVE_ORDER)

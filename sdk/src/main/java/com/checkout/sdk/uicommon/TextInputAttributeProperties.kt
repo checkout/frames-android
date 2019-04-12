@@ -59,6 +59,7 @@ class TextInputAttributeProperties(
             return when (inputTypeString) {
                 "number" -> InputType.TYPE_CLASS_NUMBER
                 "text" -> InputType.TYPE_CLASS_TEXT
+                "phone" -> InputType.TYPE_CLASS_PHONE
                 else -> throw IllegalArgumentException("Unexpected value for inputTypeString $inputTypeString")
             }
         }
