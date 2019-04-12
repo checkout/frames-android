@@ -3,17 +3,20 @@ package com.checkout.sdk.billingdetails
 import android.content.Context
 import android.util.AttributeSet
 import android.view.KeyEvent
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.checkout.sdk.R
+import com.checkout.sdk.architecture.MvpView
+import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.input.CountryInput
 import com.checkout.sdk.input.PhoneInput
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
 import kotlinx.android.synthetic.main.billing_details.view.*
-import java.util.*
 
 /**
  * The controller of the billing details view page
@@ -26,7 +29,18 @@ import java.util.*
 class BillingDetailsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : LinearLayout(context, attrs) {
+) : LinearLayout(context, attrs),
+    MvpView<BillingDetailsUiState> {
+
+    override fun onStateUpdated(uiState: BillingDetailsUiState) {
+        if (!uiState.countries.isEmpty() && country_input.adapter == null) {
+            val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, uiState.countries)
+            country_input.adapter = adapter
+        }
+        if (country_input.selectedItemPosition != uiState.position) {
+            country_input.setSelection(uiState.position)
+        }
+    }
 
     /**
      * The callback is used to communicate with the country input
@@ -122,10 +136,18 @@ class BillingDetailsView @JvmOverloads constructor(
         fun onBillingCanceled()
     }
 
+    private var presenter: BillingDetailsPresenter
+
     init {
         inflate(this.context, R.layout.billing_details, this)
         orientation = VERTICAL
         isFocusableInTouchMode = true
+        val positionZeroString = context.getString(R.string.placeholder_country)
+        presenter = PresenterStore.getOrCreate(
+            BillingDetailsPresenter::class.java,
+            { BillingDetailsPresenter(BillingDetailsUiState.create(inMemoryStore, positionZeroString)) })
+        presenter.start(this)
+
         my_toolbar.setNavigationOnClickListener {
             if (dataStore.lastBillingValidState != null) {
                 dataStore.customerName = dataStore.lastCustomerNameState!!
@@ -143,7 +165,25 @@ class BillingDetailsView @JvmOverloads constructor(
                 mListener?.onBillingCanceled()
             }
         }
-        country_input.setCountryListener(mCountryListener)
+        country_input.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val countrySelectedUseCaseBuilder =
+                    CountrySelectedUseCase.Builder(inMemoryStore, position)
+                presenter.countrySelected(countrySelectedUseCaseBuilder)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Nothing
+            }
+        }
+
+
+
         phone_input.setPhoneListener(mPhoneListener)
         repopulateFields()
         clear_button.setOnClickListener {
@@ -155,7 +195,8 @@ class BillingDetailsView @JvmOverloads constructor(
                 )
                 dataStore.customerCountry = dataStore.defaultCountry!!.country
                 dataStore.customerPhonePrefix = PhoneUtils.getPrefix(
-                    dataStore.defaultCountry!!.country)
+                    dataStore.defaultCountry!!.country
+                )
             } else {
                 country_input.setSelection(0)
             }
@@ -205,18 +246,6 @@ class BillingDetailsView @JvmOverloads constructor(
      * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
      */
     private fun repopulateFields() {
-        // Repopulate country
-        val locale = Locale.getAvailableLocales()
-
-        for (loc in locale) {
-            val displayCountry = loc.displayCountry
-            if (displayCountry == inMemoryStore.billingDetails.country) {
-                country_input.setSelection(
-                    (country_input.adapter as ArrayAdapter<String>).getPosition(displayCountry)
-                )
-            }
-        }
-
         // Repopulate phone
         phone_input.setText(dataStore.customerPhone)
     }

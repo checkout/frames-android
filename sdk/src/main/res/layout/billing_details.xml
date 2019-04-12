@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="android.widget.LinearLayout" >
+    tools:showIn="android.widget.LinearLayout">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -33,10 +33,10 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/cardholder_name"
                 app:errorTextAppearance="@style/Error"
-                app:strategy_key="customer_name"
                 app:error_text="@string/error_name"
                 app:ime_options="flagNoExtractUi|actionNext"
-                app:input_type="text" />
+                app:input_type="text"
+                app:strategy_key="customer_name" />
 
             <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/address_one_input"
@@ -46,10 +46,10 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/placeholder_address_one"
                 app:errorTextAppearance="@style/Error"
-                app:strategy_key="address_one"
                 app:error_text="@string/error_address_one"
                 app:ime_options="flagNoExtractUi|actionNext"
-                app:input_type="text" />
+                app:input_type="text"
+                app:strategy_key="address_one" />
 
             <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/address_two_input"
@@ -59,10 +59,10 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/placeholder_address_two"
                 app:errorTextAppearance="@style/Error"
-                app:strategy_key="address_two"
                 app:error_text="@string/error_address_two"
                 app:ime_options="flagNoExtractUi|actionNext"
-                app:input_type="text" />
+                app:input_type="text"
+                app:strategy_key="address_two" />
 
             <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/city_input"
@@ -72,10 +72,10 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/placeholder_city"
                 app:errorTextAppearance="@style/Error"
-                app:strategy_key="city"
                 app:error_text="@string/error_city"
                 app:ime_options="flagNoExtractUi|actionNext"
-                app:input_type="text" />
+                app:input_type="text"
+                app:strategy_key="city" />
 
             <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/state_input"
@@ -85,10 +85,10 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/placeholder_state"
                 app:errorTextAppearance="@style/Error"
-                app:strategy_key="state"
                 app:error_text="@string/error_city"
                 app:ime_options="flagNoExtractUi|actionNext"
-                app:input_type="text" />
+                app:input_type="text"
+                app:strategy_key="state" />
 
             <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/zipcode_input"
@@ -98,13 +98,12 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/placeholder_postcode"
                 app:errorTextAppearance="@style/Error"
-                app:strategy_key="postcode"
                 app:error_text="@string/error_city"
                 app:ime_options="flagNoExtractUi|actionNext"
-                app:input_type="text" />
+                app:input_type="text"
+                app:strategy_key="postcode" />
 
-
-            <com.checkout.sdk.input.CountryInput
+            <Spinner
                 android:id="@+id/country_input"
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
@@ -115,8 +114,9 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:nextFocusForward="@+id/address_one_input"
+                android:paddingLeft="0dp"
+                android:paddingStart="0dp"
                 android:popupBackground="@color/spinner_background" />
-
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/phone_input_layout"
