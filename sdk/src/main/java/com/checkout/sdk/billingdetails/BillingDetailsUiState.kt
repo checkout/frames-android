@@ -4,12 +4,19 @@ import com.checkout.sdk.architecture.UiState
 import com.checkout.sdk.store.InMemoryStore
 import java.util.*
 
-data class BillingDetailsUiState(val countries: List<String> = emptyList(), val position: Int = 0) : UiState {
+data class BillingDetailsUiState(
+    val countries: List<String> = emptyList(),
+    val position: Int = 0,
+    val billingDetailsValidity: BillingDetailsValidity? = null
+) : UiState {
 
     companion object {
         val mapCountryToCode = mutableMapOf<String, String>()
 
-        fun create(inMemoryStore: InMemoryStore, positionZeroString: String): BillingDetailsUiState {
+        fun create(
+            inMemoryStore: InMemoryStore,
+            positionZeroString: String
+        ): BillingDetailsUiState {
             val locale = Locale.getAvailableLocales()
             val countries = ArrayList<String>()
             var country: String

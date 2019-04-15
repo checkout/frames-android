@@ -15,4 +15,10 @@ class BillingDetailsPresenter(uiState: BillingDetailsUiState = BillingDetailsUiS
         safeUpdateView(newState)
     }
 
+    fun doneButtonClicked(doneButtonClickedUseCase: DoneButtonClickedUseCase) {
+        val validity = doneButtonClickedUseCase.execute()
+        val newState = uiState.copy(billingDetailsValidity = validity)
+        safeUpdateView(newState)
+    }
+
 }

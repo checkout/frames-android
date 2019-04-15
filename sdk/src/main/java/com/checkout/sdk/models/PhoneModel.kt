@@ -5,4 +5,9 @@ package com.checkout.sdk.models
  */
 data class PhoneModel(
     val countryCode: String = "",
-    val number: String = "")
+    val number: String = "") {
+
+    fun isValid(): Boolean {
+        return countryCode.length + number.length > 2
+    }
+}

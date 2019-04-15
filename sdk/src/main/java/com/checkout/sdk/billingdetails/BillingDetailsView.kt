@@ -2,7 +2,6 @@ package com.checkout.sdk.billingdetails
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -29,50 +28,51 @@ class BillingDetailsView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs),
     MvpView<BillingDetailsUiState> {
 
+    private var listener: BillingDetailsView.Listener? = null
+    private val dataStore: DataStore = DataStore.Factory.get()
+    private val inMemoryStore: InMemoryStore = InMemoryStore.Factory.get()
+
     override fun onStateUpdated(uiState: BillingDetailsUiState) {
         if (!uiState.countries.isEmpty() && country_input.adapter == null) {
-            val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, uiState.countries)
+            val adapter = ArrayAdapter(
+                context,
+                android.R.layout.simple_spinner_dropdown_item,
+                uiState.countries
+            )
             country_input.adapter = adapter
         }
         if (country_input.selectedItemPosition != uiState.position) {
             country_input.setSelection(uiState.position)
         }
+        uiState.billingDetailsValidity?.let {
+            updateFieldValidity(it)
+            if (it.areDetailsValid()) {
+                listener?.onBillingCompleted()
+            }
+        }
     }
 
-    private var mListener: BillingDetailsView.Listener? = null
-    private val dataStore: DataStore = DataStore.Factory.get()
-    private val inMemoryStore: InMemoryStore = InMemoryStore.Factory.get()
+    private fun updateFieldValidity(validity: BillingDetailsValidity) {
+        name_input.showError(!validity.nameValid)
+        address_one_input.showError(!validity.addressOneValid)
+        address_two_input.showError(!validity.addressTwoValid)
+        city_input.showError(!validity.cityValid)
+        state_input.showError(!validity.stateValid)
+        zipcode_input.showError(!validity.zipcodeValid)
+        showCountryError(validity)
+        phone_input.showError(!validity.phoneValid)
+    }
 
-    /**
-     * Used to indicate the validity of the billing details from
-     *
-     *
-     * The method will check if the inputs are valid.
-     * This method will also populate the field error accordingly
-     *
-     * @return boolean abut form validity
-     */
-    private val isValidForm: Boolean
-        get() {
-            var result = true
-
-            val inMemoryStore = InMemoryStore.Factory.get()
-            if (!inMemoryStore.customerName.isValid()) {
-                result = false
+    private fun showCountryError(validity: BillingDetailsValidity) {
+        val errorView = country_input.selectedView as? TextView
+        errorView?.let {
+            if (validity.countryValid) {
+                it.error = null
+            } else {
+                it.error = resources.getString(R.string.error_country)
             }
-
-            // TODO: validate inMemoryStore.billingAddress
-
-            if (country_input.selectedItemPosition == 0) {
-                (country_input.selectedView as TextView).error =
-                        resources.getString(R.string.error_country)
-                result = false
-            }
-
-            // TODO: Validate Phone number
-
-            return result
         }
+    }
 
     /**
      * The callback used to indicate is the billing details were completed
@@ -96,7 +96,14 @@ class BillingDetailsView @JvmOverloads constructor(
         val positionZeroString = context.getString(R.string.placeholder_country)
         presenter = PresenterStore.getOrCreate(
             BillingDetailsPresenter::class.java,
-            { BillingDetailsPresenter(BillingDetailsUiState.create(inMemoryStore, positionZeroString)) })
+            {
+                BillingDetailsPresenter(
+                    BillingDetailsUiState.create(
+                        inMemoryStore,
+                        positionZeroString
+                    )
+                )
+            })
         presenter.start(this)
         phone_input.listenForRepositoryChange()
 
@@ -111,9 +118,9 @@ class BillingDetailsView @JvmOverloads constructor(
                 dataStore.customerState = dataStore.lastBillingValidState!!.state.value
                 dataStore.customerPhonePrefix = dataStore.lastBillingValidState!!.phone.countryCode
                 dataStore.customerPhone = dataStore.lastBillingValidState!!.phone.number
-                mListener?.onBillingCompleted()
+                listener?.onBillingCompleted()
             } else {
-                mListener?.onBillingCanceled()
+                listener?.onBillingCanceled()
             }
         }
         country_input.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -136,25 +143,11 @@ class BillingDetailsView @JvmOverloads constructor(
         clear_button.setOnClickListener {
             resetFields()
         }
+
         done_button.setOnClickListener {
-            if (isValidForm) {
-                // TODO: Use InMemoryStore instead
-//                    dataStore.isBillingCompleted = true
-//                    dataStore.lastCustomerNameState = dataStore.customerName
-//                    dataStore.lastBillingValidState = BillingModel(
-//                        dataStore.customerAddress1,
-//                        dataStore.customerAddress2,
-//                        dataStore.customerZipcode,
-//                        dataStore.customerCountry,
-//                        dataStore.customerCity,
-//                        dataStore.customerState,
-//                        PhoneModel(
-//                            dataStore.customerPhonePrefix,
-//                            dataStore.customerPhone
-//                        )
-//                    )
-//                    mListener?.onBillingCompleted()
-            }
+            val doneButtonClickedUseCase =
+                DoneButtonClickedUseCase(BillingFormValidator(inMemoryStore))
+            presenter.doneButtonClicked(doneButtonClickedUseCase)
         }
         requestFocus()
     }
@@ -173,51 +166,10 @@ class BillingDetailsView @JvmOverloads constructor(
         phone_input.reset()
     }
 
-    // Move to previous view on back button pressed
-    override fun dispatchKeyEventPreIme(event: KeyEvent): Boolean {
-        if (event.action != KeyEvent.ACTION_DOWN) {
-            return false
-        }
-        if (event.keyCode == KeyEvent.KEYCODE_BACK) {
-            // Prevent back button to trigger the mListener is any is focused
-            if (mListener != null &&
-                !address_one_input.hasFocus() &&
-                !name_input.hasFocus() &&
-                !address_two_input.hasFocus() &&
-                !city_input.hasFocus() &&
-                !state_input.hasFocus() &&
-                !zipcode_input.hasFocus() &&
-                !phone_input.hasFocus()
-            ) {
-                if (dataStore.lastBillingValidState != null) {
-                    dataStore.customerName = dataStore.lastCustomerNameState!!
-                    dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne.value
-                    dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
-                    dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode.value
-                    dataStore.customerCountry = dataStore.lastBillingValidState!!.country
-                    dataStore.customerCity = dataStore.lastBillingValidState!!.city.value
-                    dataStore.customerState = dataStore.lastBillingValidState!!.state.value
-                    dataStore.customerPhonePrefix =
-                            dataStore.lastBillingValidState!!.phone.countryCode
-                    dataStore.customerPhone = dataStore.lastBillingValidState!!.phone.number
-                    mListener?.onBillingCompleted()
-                } else {
-                    mListener?.onBillingCanceled()
-                }
-                return true
-            } else {
-                requestFocus()
-                return false
-            }
-        }
-
-        return super.dispatchKeyEventPreIme(event)
-    }
-
     /**
      * Used to set the callback listener for when the card details page is requested
      */
     fun setGoToCardDetailsListener(listener: BillingDetailsView.Listener) {
-        mListener = listener
+        this.listener = listener
     }
 }

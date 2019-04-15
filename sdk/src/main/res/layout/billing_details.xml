@@ -85,7 +85,7 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/placeholder_state"
                 app:errorTextAppearance="@style/Error"
-                app:error_text="@string/error_city"
+                app:error_text="@string/error_state"
                 app:ime_options="flagNoExtractUi|actionNext"
                 app:input_type="text"
                 app:strategy_key="state" />
@@ -98,7 +98,7 @@
                 android:layout_marginRight="@dimen/basic_field_margin_side"
                 android:hint="@string/placeholder_postcode"
                 app:errorTextAppearance="@style/Error"
-                app:error_text="@string/error_city"
+                app:error_text="@string/error_postcode"
                 app:ime_options="flagNoExtractUi|actionNext"
                 app:input_type="text"
                 app:strategy_key="postcode" />
