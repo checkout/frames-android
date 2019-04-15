@@ -29,6 +29,68 @@ class BillingDetailsView @JvmOverloads constructor(
 
     private var listener: BillingDetailsView.Listener? = null
     private val inMemoryStore: InMemoryStore = InMemoryStore.Factory.get()
+    private lateinit var presenter: BillingDetailsPresenter
+
+    /**
+     * The callback used to indicate when the billing details are finished
+     *
+     * This callback is invoked when the user presses the back button;
+     * or when they click the done button with valid values for every field
+     */
+    interface Listener {
+        fun onBillingFinished()
+
+    }
+
+    init {
+        inflate(this.context, R.layout.billing_details, this)
+        orientation = VERTICAL
+        isFocusableInTouchMode = true
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        val positionZeroString = context.getString(R.string.placeholder_country)
+        presenter = PresenterStore.getOrCreate(
+            BillingDetailsPresenter::class.java,
+            {
+                BillingDetailsPresenter(
+                    BillingDetailsUiState.create(inMemoryStore, positionZeroString)
+                )
+            })
+        presenter.start(this)
+        phone_input.listenForRepositoryChange()
+
+        my_toolbar.setNavigationOnClickListener {
+            listener?.onBillingFinished()
+        }
+        country_input.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val countrySelectedUseCaseBuilder =
+                    CountrySelectedUseCase.Builder(inMemoryStore, position)
+                presenter.countrySelected(countrySelectedUseCaseBuilder)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Nothing
+            }
+        }
+
+        clear_button.setOnClickListener {
+            resetFields()
+        }
+
+        done_button.setOnClickListener {
+            val doneButtonClickedUseCase =
+                DoneButtonClickedUseCase(BillingDetailsValidator(inMemoryStore))
+            presenter.doneButtonClicked(doneButtonClickedUseCase)
+        }
+    }
 
     override fun onStateUpdated(uiState: BillingDetailsUiState) {
         if (!uiState.countries.isEmpty() && country_input.adapter == null) {
@@ -72,66 +134,9 @@ class BillingDetailsView @JvmOverloads constructor(
         }
     }
 
-    /**
-     * The callback used to indicate when the billing details are finished
-     *
-     * This callback is invoked when the user presses the back button;
-     * or when they click the done button with valid values for every field
-     */
-    interface Listener {
-        fun onBillingFinished()
-    }
-
-    private var presenter: BillingDetailsPresenter
-
-    init {
-        inflate(this.context, R.layout.billing_details, this)
-        orientation = VERTICAL
-        isFocusableInTouchMode = true
-        val positionZeroString = context.getString(R.string.placeholder_country)
-        presenter = PresenterStore.getOrCreate(
-            BillingDetailsPresenter::class.java,
-            {
-                BillingDetailsPresenter(
-                    BillingDetailsUiState.create(
-                        inMemoryStore,
-                        positionZeroString
-                    )
-                )
-            })
-        presenter.start(this)
-        phone_input.listenForRepositoryChange()
-
-        my_toolbar.setNavigationOnClickListener {
-            listener?.onBillingFinished()
-        }
-        country_input.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val countrySelectedUseCaseBuilder =
-                    CountrySelectedUseCase.Builder(inMemoryStore, position)
-                presenter.countrySelected(countrySelectedUseCaseBuilder)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Nothing
-            }
-        }
-
-        clear_button.setOnClickListener {
-            resetFields()
-        }
-
-        done_button.setOnClickListener {
-            val doneButtonClickedUseCase =
-                DoneButtonClickedUseCase(BillingDetailsValidator(inMemoryStore))
-            presenter.doneButtonClicked(doneButtonClickedUseCase)
-        }
-        requestFocus()
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.stop()
     }
 
     /**
