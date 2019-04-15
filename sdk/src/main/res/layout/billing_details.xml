@@ -130,7 +130,7 @@
                 app:errorTextAppearance="@style/Error"
                 app:error_text="@string/error_phone"
                 app:ime_options="flagNoExtractUi|actionDone"
-                app:input_type="phone"
+                app:input_type="number"
                 app:strategy_key="phone_number" />
 
             <LinearLayout
