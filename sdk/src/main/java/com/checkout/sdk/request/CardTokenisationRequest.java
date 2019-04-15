@@ -1,6 +1,6 @@
 package com.checkout.sdk.request;
 
-import com.checkout.sdk.billingdetails.model.BillingDetails;
+import com.checkout.sdk.billingdetails.NetworkBillingModel;
 
 /**
  * The request model object for the card tokenisation request
@@ -13,15 +13,15 @@ public class CardTokenisationRequest {
     private String expiryYear;
     private String cvv;
 
-    private BillingDetails billingDetails;
+    private NetworkBillingModel billingModel;
 
-    public CardTokenisationRequest(String number, String name, String expiryMonth, String expiryYear, String cvv, BillingDetails billingDetails) {
+    public CardTokenisationRequest(String number, String name, String expiryMonth, String expiryYear, String cvv, NetworkBillingModel billingModel) {
         this.number = number;
         this.name = name;
         this.expiryMonth = expiryMonth;
         this.expiryYear = expiryYear;
         this.cvv = cvv;
-        this.billingDetails = billingDetails;
+        this.billingModel = billingModel;
     }
 
     public CardTokenisationRequest(String number, String name, String expiryMonth, String expiryYear, String cvv) {

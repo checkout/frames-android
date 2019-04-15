@@ -146,7 +146,7 @@ class BillingDetailsView @JvmOverloads constructor(
 
         done_button.setOnClickListener {
             val doneButtonClickedUseCase =
-                DoneButtonClickedUseCase(BillingFormValidator(inMemoryStore))
+                DoneButtonClickedUseCase(BillingDetailsValidator(inMemoryStore))
             presenter.doneButtonClicked(doneButtonClickedUseCase)
         }
         requestFocus()

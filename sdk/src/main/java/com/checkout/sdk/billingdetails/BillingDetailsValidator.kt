@@ -3,7 +3,7 @@ package com.checkout.sdk.billingdetails
 import com.checkout.sdk.store.InMemoryStore
 
 
-class BillingFormValidator(private val store: InMemoryStore) {
+class BillingDetailsValidator(private val store: InMemoryStore) {
 
     fun getValidity(): BillingDetailsValidity {
         val billingDetails = store.billingDetails
@@ -17,5 +17,9 @@ class BillingFormValidator(private val store: InMemoryStore) {
             !billingDetails.country.isEmpty(),
             billingDetails.phone.isValid()
         )
+    }
+
+    fun isValid(): Boolean {
+        return getValidity().areDetailsValid()
     }
 }

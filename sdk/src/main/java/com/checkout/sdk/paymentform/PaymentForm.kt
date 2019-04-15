@@ -14,8 +14,10 @@ import com.checkout.sdk.R
 import com.checkout.sdk.animation.SlidingViewAnimator
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
+import com.checkout.sdk.billingdetails.BillingDetailsValidator
 import com.checkout.sdk.billingdetails.BillingDetailsView
 import com.checkout.sdk.carddetails.CardDetailsView
+import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.RequestGenerator
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
@@ -63,7 +65,7 @@ class PaymentForm @JvmOverloads constructor(
         object : ValidPayRequestListener {
             override fun onValidPayRequest() {
                 val getTokenUseCaseBuilder = GetTokenUseCase.Builder(
-                    RequestGenerator(inMemoryStore, mDataStore, DateFormatter()),
+                    RequestGenerator(inMemoryStore, DateFormatter(), CardDetailsValidator(inMemoryStore), BillingDetailsValidator(inMemoryStore)),
                     checkoutClient
                 )
                 presenter.getToken(getTokenUseCaseBuilder)
