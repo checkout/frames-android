@@ -2,6 +2,7 @@ package com.checkout.sdk.billingdetails
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
+import com.checkout.sdk.billingdetails.strategy.AddressOneStrategy
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
 import org.junit.Test

@@ -20,12 +20,12 @@ class CountrySelectedUseCase(
 
     override fun execute() {
         val country = countries[position]
-        if (country != "") {
+        if (!country.isEmpty()) {
             inMemoryStore.billingDetails = inMemoryStore.billingDetails.copy(country = country)
         }
         val countryCode = mapCountryToCode[country]
         val prefix = PhoneUtils.getPrefix(countryCode)
-        if (prefix != "") {
+        if (!prefix.isEmpty()) {
             val phoneModel = inMemoryStore.billingDetails.phone.copy(countryCode = prefix)
             inMemoryStore.updatePhoneModel(phoneModel)
         }

@@ -1,6 +1,7 @@
 package com.checkout.sdk.billingdetails
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
+import com.checkout.sdk.billingdetails.strategy.CustomerNameStrategy
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue

@@ -1,4 +1,4 @@
-package com.checkout.sdk.billingdetails
+package com.checkout.sdk.billingdetails.strategy
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.store.InMemoryStore

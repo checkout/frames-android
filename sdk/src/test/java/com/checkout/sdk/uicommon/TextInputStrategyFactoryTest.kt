@@ -1,6 +1,6 @@
 package com.checkout.sdk.uicommon
 
-import com.checkout.sdk.billingdetails.*
+import com.checkout.sdk.billingdetails.strategy.*
 import com.checkout.sdk.cvvinput.CvvStrategy
 import junit.framework.Assert.assertEquals
 import org.junit.Test
