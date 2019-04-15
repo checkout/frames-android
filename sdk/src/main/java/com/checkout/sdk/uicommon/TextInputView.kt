@@ -81,8 +81,8 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
      * stored in the backing storage
      */
     fun reset() {
-        val cvvResetUseCase = TextInputResetUseCase(strategy)
-        presenter.reset(cvvResetUseCase)
+        val textInputResetUseCase = TextInputResetUseCase(strategy)
+        presenter.reset(textInputResetUseCase)
     }
 
     fun showError(show: Boolean) {

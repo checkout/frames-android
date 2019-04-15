@@ -13,7 +13,6 @@ import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
-import com.checkout.sdk.utils.PhoneUtils
 import kotlinx.android.synthetic.main.billing_details.view.*
 
 /**
@@ -135,23 +134,7 @@ class BillingDetailsView @JvmOverloads constructor(
         }
 
         clear_button.setOnClickListener {
-            name_input.reset()
-            if (dataStore.defaultCountry != null) {
-                country_input.setSelection(
-                    (country_input.adapter as ArrayAdapter<String>)
-                        .getPosition(dataStore.defaultCountry!!.displayCountry)
-                )
-                dataStore.customerCountry = dataStore.defaultCountry!!.country
-                dataStore.customerPhonePrefix = PhoneUtils.getPrefix(
-                    dataStore.defaultCountry!!.country
-                )
-            } else {
-                country_input.setSelection(0)
-            }
-            (country_input.selectedView as TextView).error = null
-            dataStore.cleanBillingData()
-            mListener?.onBillingCanceled()
-            dataStore.isBillingCompleted = false
+            resetFields()
         }
         done_button.setOnClickListener {
             if (isValidForm) {
@@ -185,6 +168,7 @@ class BillingDetailsView @JvmOverloads constructor(
         address_two_input.reset()
         city_input.reset()
         state_input.reset()
+        zipcode_input.reset()
         country_input.setSelection(0)
         phone_input.reset()
     }
