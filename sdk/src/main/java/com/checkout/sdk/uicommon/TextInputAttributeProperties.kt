@@ -35,14 +35,18 @@ class TextInputAttributeProperties(
             val maxLength =
                 attributesArray.getInteger(R.styleable.TextInputView_max_length, Int.MAX_VALUE)
             attributesArray.recycle()
-
             val imeFlag = convertToImeFlag(imeOptions)
             val strategy = TextInputStrategyFactory.createStrategy(strategyKey)
-            val initialValue = strategy.getInitialValue()
+
             val presenter =
-                PresenterStore.getOrCreate(TextInputPresenter::class.java,
-                    { TextInputPresenter(TextInputUiState(initialValue)) },
-                    strategyKey)
+                PresenterStore.getOrCreate(
+                    TextInputPresenter::class.java,
+                    {
+                        val initialValue = strategy.getInitialValue()
+                        TextInputPresenter(TextInputUiState(initialValue))
+                    },
+                    strategyKey
+                )
 
             return TextInputAttributeProperties(
                 presenter,
