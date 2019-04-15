@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import kotlinx.android.synthetic.main.billing_details.view.*
 
@@ -29,7 +28,6 @@ class BillingDetailsView @JvmOverloads constructor(
     MvpView<BillingDetailsUiState> {
 
     private var listener: BillingDetailsView.Listener? = null
-    private val dataStore: DataStore = DataStore.Factory.get()
     private val inMemoryStore: InMemoryStore = InMemoryStore.Factory.get()
 
     override fun onStateUpdated(uiState: BillingDetailsUiState) {
@@ -47,7 +45,7 @@ class BillingDetailsView @JvmOverloads constructor(
         uiState.billingDetailsValidity?.let {
             updateFieldValidity(it)
             if (it.areDetailsValid()) {
-                listener?.onBillingCompleted()
+                listener?.onBillingFinished()
             }
         }
     }
@@ -75,16 +73,13 @@ class BillingDetailsView @JvmOverloads constructor(
     }
 
     /**
-     * The callback used to indicate is the billing details were completed
+     * The callback used to indicate when the billing details are finished
      *
-     *
-     * After the user completes their details and the form is valid this callback will
-     * be used to communicate to the parent that teh focus needs to change
+     * This callback is invoked when the user presses the back button;
+     * or when they click the done button with valid values for every field
      */
     interface Listener {
-        fun onBillingCompleted()
-
-        fun onBillingCanceled()
+        fun onBillingFinished()
     }
 
     private var presenter: BillingDetailsPresenter
@@ -108,20 +103,7 @@ class BillingDetailsView @JvmOverloads constructor(
         phone_input.listenForRepositoryChange()
 
         my_toolbar.setNavigationOnClickListener {
-            if (dataStore.lastBillingValidState != null) {
-                dataStore.customerName = dataStore.lastCustomerNameState!!
-                dataStore.customerAddress1 = dataStore.lastBillingValidState!!.addressOne.value
-                dataStore.customerAddress2 = dataStore.lastBillingValidState!!.addressTwo.value
-                dataStore.customerZipcode = dataStore.lastBillingValidState!!.postcode.value
-                dataStore.customerCountry = dataStore.lastBillingValidState!!.country
-                dataStore.customerCity = dataStore.lastBillingValidState!!.city.value
-                dataStore.customerState = dataStore.lastBillingValidState!!.state.value
-                dataStore.customerPhonePrefix = dataStore.lastBillingValidState!!.phone.countryCode
-                dataStore.customerPhone = dataStore.lastBillingValidState!!.phone.number
-                listener?.onBillingCompleted()
-            } else {
-                listener?.onBillingCanceled()
-            }
+            listener?.onBillingFinished()
         }
         country_input.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

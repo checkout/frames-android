@@ -19,7 +19,6 @@ import com.checkout.sdk.billingdetails.BillingDetailsView
 import com.checkout.sdk.carddetails.CardDetailsView
 import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.RequestGenerator
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
 import kotlinx.android.synthetic.main.payment_form.view.*
@@ -43,19 +42,13 @@ class PaymentForm @JvmOverloads constructor(
     private lateinit var presenter: PaymentFormPresenter
     private val slidingViewAnimator: SlidingViewAnimator = SlidingViewAnimator(context)
     private var m3DSecureListener: On3DSFinished? = null
-    private val mDataStore = DataStore.Factory.get()
 
     /**
      * This is a callback used to go back to the card details view from the billing page
      * and based on the action used decide is the billing spinner will be updated
      */
     private val mBillingListener = object : BillingDetailsView.Listener {
-        override fun onBillingCompleted() {
-            card_details_view.updateBillingSpinner()
-            slidingViewAnimator.transitionOutToRight(billing_details_view, card_details_view)
-        }
-
-        override fun onBillingCanceled() {
+        override fun onBillingFinished() {
             card_details_view.updateBillingSpinner()
             slidingViewAnimator.transitionOutToRight(billing_details_view, card_details_view)
         }
