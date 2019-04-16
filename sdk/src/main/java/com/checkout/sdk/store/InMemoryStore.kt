@@ -39,7 +39,7 @@ open class InMemoryStore(
         }
     }
 
-    fun listenForCountryCodeChange(phoneModelListener: PhoneModelListener) {
+    open fun listenForCountryCodeChange(phoneModelListener: PhoneModelListener) {
         this.phoneModelListener = phoneModelListener
     }
 
