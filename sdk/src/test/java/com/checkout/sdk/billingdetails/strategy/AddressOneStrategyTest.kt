@@ -1,8 +1,8 @@
-package com.checkout.sdk.billingdetails
+package com.checkout.sdk.billingdetails.strategy
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
-import com.checkout.sdk.billingdetails.strategy.AddressTwoStrategy
+import com.checkout.sdk.billingdetails.strategy.AddressOneStrategy
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
 import org.junit.Test
@@ -15,35 +15,33 @@ import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class AddressTwoStrategyTest {
+class AddressOneStrategyTest {
 
     private val billingDetails =
-        BillingDetails(addressTwo = BillingDetail("Barnstorm Way"))
+        BillingDetails(addressOne = BillingDetail("27 Parch St"))
 
     @Mock
     private lateinit var store: InMemoryStore
 
     @InjectMocks
-    private lateinit var strategy: AddressTwoStrategy
+    private lateinit var strategy: AddressOneStrategy
 
     @Test
     fun `given store has an initial value when get initial value read it from the store`() {
-        val expectedBillingValue = billingDetails.addressTwo.value
+        val expectedText = billingDetails.addressOne.value
         given(store.billingDetails).willReturn(billingDetails)
 
         val value = strategy.getInitialValue()
 
-        assertEquals(expectedBillingValue, value)
+        assertEquals(expectedText, value)
     }
 
     @Test
     fun `when text changed then store the value as address one`() {
         val expectedText = "something new"
-        val expectedBillingDetails = billingDetails.copy(addressTwo = BillingDetail(expectedText))
+        val expectedBillingDetails = billingDetails.copy(addressOne = BillingDetail(expectedText))
         given(store.billingDetails).willReturn(billingDetails)
-
         strategy.textChanged(expectedText)
-
         then(store).should().billingDetails = expectedBillingDetails
     }
 
@@ -52,12 +50,11 @@ class AddressTwoStrategyTest {
         val (shortText, expectedResult) = Pair("ab", true)
         given(store.billingDetails).willReturn(
             BillingDetails(
-                addressTwo = BillingDetail(value = shortText)
+                addressOne = BillingDetail(shortText)
             )
         )
 
         val result = strategy.focusChanged(false)
-
         assertEquals(expectedResult, result)
     }
 
@@ -66,7 +63,7 @@ class AddressTwoStrategyTest {
         val (shortText, expectedResult) = Pair("abcd", false)
         given(store.billingDetails).willReturn(
             BillingDetails(
-                addressTwo = BillingDetail(value = shortText)
+                addressOne = BillingDetail(shortText)
             )
         )
 
@@ -77,7 +74,7 @@ class AddressTwoStrategyTest {
     @Test
     fun `when reset then stored address one is an empty string`() {
         val expectedText = ""
-        val expectedBillingDetails = billingDetails.copy(addressTwo = BillingDetail(expectedText))
+        val expectedBillingDetails = billingDetails.copy(addressOne = BillingDetail(expectedText))
         given(store.billingDetails).willReturn(billingDetails)
         strategy.reset()
         then(store).should().billingDetails = expectedBillingDetails

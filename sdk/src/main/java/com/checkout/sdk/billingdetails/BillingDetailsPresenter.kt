@@ -7,11 +7,11 @@ import com.checkout.sdk.architecture.MvpView
 class BillingDetailsPresenter(uiState: BillingDetailsUiState = BillingDetailsUiState()) :
     BasePresenter<MvpView<BillingDetailsUiState>, BillingDetailsUiState>(uiState) {
 
-    fun countrySelected(countrySelectedUseCase: CountrySelectedUseCase.Builder) {
-        countrySelectedUseCase.countries(uiState.countries)
+    fun countrySelected(countrySelectedUseCaseBuilder: CountrySelectedUseCase.Builder) {
+        countrySelectedUseCaseBuilder.countries(uiState.countries)
             .build()
             .execute()
-        val newState = uiState.copy(position = countrySelectedUseCase.position)
+        val newState = uiState.copy(position = countrySelectedUseCaseBuilder.position)
         safeUpdateView(newState)
     }
 
@@ -20,5 +20,4 @@ class BillingDetailsPresenter(uiState: BillingDetailsUiState = BillingDetailsUiS
         val newState = uiState.copy(billingDetailsValidity = validity)
         safeUpdateView(newState)
     }
-
 }

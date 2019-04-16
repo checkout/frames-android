@@ -6,9 +6,9 @@ import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
 
 
-class CountrySelectedUseCase(
+open class CountrySelectedUseCase(
     private val inMemoryStore: InMemoryStore,
-    val position: Int,
+    open val position: Int,
     private val countries: List<String>
 ) : UseCase<Unit> {
 
