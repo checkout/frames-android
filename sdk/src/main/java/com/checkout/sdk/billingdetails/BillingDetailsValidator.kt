@@ -3,9 +3,9 @@ package com.checkout.sdk.billingdetails
 import com.checkout.sdk.store.InMemoryStore
 
 
-class BillingDetailsValidator(private val store: InMemoryStore) {
+open class BillingDetailsValidator(private val store: InMemoryStore) {
 
-    fun getValidity(): BillingDetailsValidity {
+    open fun getValidity(): BillingDetailsValidity {
         val billingDetails = store.billingDetails
         return BillingDetailsValidity(
             store.customerName.isValid(),
