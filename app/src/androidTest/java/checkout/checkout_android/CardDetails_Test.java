@@ -73,7 +73,7 @@ public class CardDetails_Test {
 
     @Test
     public void Card_Input_Empty() {
-        ViewInteraction defaultInput = onView(withId(R.id.cvv_edit_text));
+        ViewInteraction defaultInput = onView(withId(R.id.text_input_edit_text));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
         ViewInteraction button = onView(
@@ -175,7 +175,7 @@ public class CardDetails_Test {
                 .atPosition(5);
         checkedTextView.perform(click());
 
-        ViewInteraction defaultInput = onView(withId(R.id.cvv_edit_text));
+        ViewInteraction defaultInput = onView(withId(R.id.text_input_edit_text));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
         ViewInteraction button = onView(

@@ -128,7 +128,7 @@
 
             </LinearLayout>
 
-            <com.checkout.sdk.cvvinput.CvvInput
+            <com.checkout.sdk.uicommon.TextInputView
                 android:id="@+id/cvv_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,7 +137,13 @@
                 android:layout_marginTop="@dimen/basic_field_margin_top"
                 android:hint="@string/placeholder_cvv"
                 app:errorEnabled="true"
-                app:errorTextAppearance="@style/Error" />
+                app:errorTextAppearance="@style/Error"
+                app:strategy_key="cvv"
+                app:error_text="@string/error_cvv"
+                app:ime_options="flagNoExtractUi|actionDone"
+                app:digits="0123456789"
+                app:input_type="number"
+                app:max_length="4" />
 
             <TextView
                 android:id="@+id/billing_helper_text"

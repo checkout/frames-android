@@ -13,4 +13,8 @@ open class CardDetailsValidator(private val store: InMemoryStore) {
             store.cardDate.isYearValid()
         )
     }
+
+    fun isValid(): Boolean {
+        return getValidity().areDetailsValid()
+    }
 }

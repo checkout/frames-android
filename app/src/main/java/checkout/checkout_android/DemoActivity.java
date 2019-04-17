@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.checkout.sdk.BillingModel;
 import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.FormCustomizer;
 import com.checkout.sdk.core.Card;
 import com.checkout.sdk.core.TokenResult;
+import com.checkout.sdk.models.PhoneModel;
 import com.checkout.sdk.paymentform.PaymentForm;
 import com.checkout.sdk.utils.Environment;
 
@@ -43,6 +45,19 @@ public class DemoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Form Customisation should happen before any views are inflated i.e. before setContentView
+        PhoneModel phoneModel = new PhoneModel("+44", "73926403");
+        BillingModel billingModel = new BillingModel("48 Rayfield Terrace",
+                "Burton on Thames",
+                "Norwich", "United Kingdom", "TU1 8FS",
+                "Cumbria",
+                phoneModel);
+        FormCustomizer formCustomizer = new FormCustomizer()
+                .setAcceptedCards(Arrays.asList(Card.VISA, Card.MASTERCARD))
+                .injectCardHolderName("John Doe")
+                .injectBilling(billingModel);
+
         setContentView(R.layout.activity_demo);
 
         CheckoutClient checkoutClient = new CheckoutClient(
@@ -51,8 +66,7 @@ public class DemoActivity extends Activity {
                 Environment.SANDBOX,
                 callback);
 
-        FormCustomizer formCustomizer = new FormCustomizer()
-                .setAcceptedCards(Arrays.asList(Card.VISA, Card.MASTERCARD));
+
         mPaymentForm = findViewById(R.id.checkout_card_form);
         mPaymentForm.initialize(checkoutClient, formCustomizer);
     }

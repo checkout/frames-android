@@ -3,4 +3,11 @@ package com.checkout.sdk.models
 /**
  * Http request Phone object model
  */
-class PhoneModel(val countryCode: String, val number: String)
+data class PhoneModel(
+    val countryCode: String = "",
+    val number: String = "") {
+
+    fun isValid(): Boolean {
+        return countryCode.length + number.length > 2
+    }
+}

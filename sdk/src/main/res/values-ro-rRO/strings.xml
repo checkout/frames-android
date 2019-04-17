@@ -15,14 +15,14 @@
     <string name="billing_details_add"> + ADAUGA</string>
     <string name="button_pay">Plateste</string>
     <string name="title_billing_details">Detalii Facturare</string>
-    <string name="placeholder_name">Nume</string>
+    <string name="cardholder_name">Nume</string>
     <string name="error_name">Numele trebuie sa aiba minim 3 caractere</string>
     <string name="placeholder_country">" SELECTATI TARA"</string>
     <string name="error_country">Selectati o tara</string>
     <string name="placeholder_address_one">Prima linie de din adresa</string>
     <string name="error_address_one">Adresa trebuie sa aiba minim 3 caractere</string>
     <string name="placeholder_address_two">A doua linie de adresa</string>
-    <string name="error_address_tow">Adresa trebuie sa aiba minim 3 caractere</string>
+    <string name="error_address_two">Adresa trebuie sa aiba minim 3 caractere</string>
     <string name="placeholder_city">Oras</string>
     <string name="error_city">Orasul trebuie sa aiba cel putin 2 caractere</string>
     <string name="placeholder_state">Statul</string>

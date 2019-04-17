@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.checkout.sdk.view.BillingDetailsView
+    <com.checkout.sdk.billingdetails.BillingDetailsView
         android:id="@+id/billing_details_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

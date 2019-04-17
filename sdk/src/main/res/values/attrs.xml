@@ -4,4 +4,12 @@
         <attr name="formBackground" format="string"/>
         <attr name="highlight" format="string"/>
     </declare-styleable>
+    <declare-styleable name="TextInputView">
+        <attr name="strategy_key" format="string"/>
+        <attr name="error_text" format="string"/>
+        <attr name="ime_options" format="string"/>
+        <attr name="digits" format="string"/>
+        <attr name="input_type" format="string"/>
+        <attr name="max_length" format="integer"/>
+    </declare-styleable>
 </resources>

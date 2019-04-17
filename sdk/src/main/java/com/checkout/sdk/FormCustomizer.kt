@@ -1,8 +1,10 @@
 package com.checkout.sdk
 
+import com.checkout.sdk.billingdetails.model.BillingDetail
+import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.core.Card
-import com.checkout.sdk.models.BillingModel
 import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.PhoneUtils
 import java.util.*
 
@@ -10,6 +12,7 @@ import java.util.*
 class FormCustomizer {
 
     private val mDataStore = DataStore.Factory.get()
+    private val inMemoryStore = InMemoryStore.Factory.get()
 
     /**
      * This method is used set the accepted card schemes
@@ -108,18 +111,8 @@ class FormCustomizer {
      *
      * @param billing BillingModel representing the value for the billing details
      */
-    fun injectBilling(billing: BillingModel): FormCustomizer {
-        mDataStore.isBillingCompleted = true
-        mDataStore.lastBillingValidState = billing
-        mDataStore.defaultBillingDetails = billing
-        mDataStore.customerAddress1 = billing.addressLine1
-        mDataStore.customerAddress2 = billing.addressLine2
-        mDataStore.customerZipcode = billing.postcode
-        mDataStore.customerCountry = billing.country
-        mDataStore.customerCity = billing.city
-        mDataStore.customerState = billing.state
-        mDataStore.customerPhone = billing.phone.number
-        mDataStore.customerPhonePrefix = billing.phone.countryCode
+    fun injectBilling(billingModel: BillingModel): FormCustomizer {
+        inMemoryStore.billingDetails = BillingDetails.from(billingModel)
         return this
     }
 
@@ -129,9 +122,7 @@ class FormCustomizer {
      * @param name String representing the value for the cardholder name
      */
     fun injectCardHolderName(name: String): FormCustomizer {
-        mDataStore.customerName = name
-        mDataStore.defaultCustomerName = name
-        mDataStore.lastCustomerNameState = name
+        inMemoryStore.customerName = BillingDetail(name)
         return this
     }
 
@@ -140,12 +131,12 @@ class FormCustomizer {
         if (mDataStore != null && mDataStore.defaultBillingDetails != null) {
             mDataStore.isBillingCompleted = true
             mDataStore.lastBillingValidState = mDataStore.defaultBillingDetails
-            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressLine1
-            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressLine2
-            mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode
+            mDataStore.customerAddress1 = mDataStore.defaultBillingDetails!!.addressOne.value
+            mDataStore.customerAddress2 = mDataStore.defaultBillingDetails!!.addressTwo.value
+            mDataStore.customerZipcode = mDataStore.defaultBillingDetails!!.postcode.value
             mDataStore.customerCountry = mDataStore.defaultBillingDetails!!.country
-            mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city
-            mDataStore.customerState = mDataStore.defaultBillingDetails!!.state
+            mDataStore.customerCity = mDataStore.defaultBillingDetails!!.city.value
+            mDataStore.customerState = mDataStore.defaultBillingDetails!!.state.value
             mDataStore.customerPhone = mDataStore.defaultBillingDetails!!.phone.number
             mDataStore.customerPhonePrefix = mDataStore.defaultBillingDetails!!.phone.countryCode
         }

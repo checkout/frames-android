@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
+import com.checkout.sdk.billingdetails.BillingDetailsValidator
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.CardDetailsValidity
@@ -41,7 +42,8 @@ class CardDetailsView @JvmOverloads constructor(
     private var mGotoBillingListener: GoToBillingListener? = null
 
     private val resetBillingSpinnerUseCase = UpdateBillingSpinnerUseCase(
-        mDataStore,
+        inMemoryStore,
+        BillingDetailsValidator(inMemoryStore),
         context.getString(R.string.select_billing_details),
         context.getString(R.string.billing_details_add),
         context.getString(R.string.edit_billing_details),
@@ -75,9 +77,7 @@ class CardDetailsView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        presenter = PresenterStore.getOrCreate(
-            CardDetailsPresenter::class.java,
-            { CardDetailsPresenter() })
+        presenter = PresenterStore.getOrCreateDefault(CardDetailsPresenter::class.java)
         presenter.start(this)
 
         go_to_billing.setBillingListener(mGotoBillingListener)

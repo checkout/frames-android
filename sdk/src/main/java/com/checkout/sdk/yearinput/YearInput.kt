@@ -53,9 +53,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
         super.onAttachedToWindow()
 
         // Create/get and start the presenter
-        presenter = PresenterStore.getOrCreate(
-            YearInputPresenter::class.java,
-            { YearInputPresenter() })
+        presenter = PresenterStore.getOrCreateDefault(YearInputPresenter::class.java)
         presenter.start(this)
 
         onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
