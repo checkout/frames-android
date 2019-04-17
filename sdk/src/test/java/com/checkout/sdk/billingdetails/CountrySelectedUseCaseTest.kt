@@ -48,10 +48,11 @@ class CountrySelectedUseCaseTest {
         val expectedCountry = "Sri Lanka"
         given(store.billingDetails).willReturn(billingDetails)
         given(countriesManager.getCountryCode(expectedCountry)).willReturn("LK")
+        val expectedBillingDetails = billingDetails.phone.copy(countryCode = "+94")
 
         countrySelectedUseCase.execute()
 
         then(store).should().billingDetails = billingDetails.copy(country = expectedCountry)
+        then(store).should().updatePhoneModel(expectedBillingDetails)
     }
-
 }

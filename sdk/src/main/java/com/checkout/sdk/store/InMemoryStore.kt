@@ -31,7 +31,7 @@ open class InMemoryStore(
         fun get() = inMemoryStore
     }
 
-    fun updatePhoneModel(phoneModel: PhoneModel) {
+    open fun updatePhoneModel(phoneModel: PhoneModel) {
         val oldPhoneModel = billingDetails.phone
         billingDetails = billingDetails.copy(phone = phoneModel)
         if (phoneModel.countryCode != oldPhoneModel.countryCode) {
