@@ -2,7 +2,6 @@ package com.checkout.sdk.billingdetails
 
 import com.checkout.sdk.architecture.UiState
 import com.checkout.sdk.store.InMemoryStore
-import java.util.*
 
 data class BillingDetailsUiState(
     val countries: List<String> = emptyList(),
@@ -11,27 +10,15 @@ data class BillingDetailsUiState(
 ) : UiState {
 
     companion object {
-        val mapCountryToCode = mutableMapOf<String, String>()
-
         fun create(
-            inMemoryStore: InMemoryStore,
+            countriesManager: CountriesManager,
+            store: InMemoryStore,
             positionZeroString: String
         ): BillingDetailsUiState {
-            val locale = Locale.getAvailableLocales()
-            val countries = ArrayList<String>()
-            var country: String
-
-            for (loc in locale) {
-                country = loc.displayCountry
-                if (country.isNotEmpty() && !countries.contains(country)) {
-                    countries.add(country)
-                    mapCountryToCode[country] = loc.country
-                }
-            }
-            Collections.sort(countries, String.CASE_INSENSITIVE_ORDER)
+            val countries = countriesManager.getSortedCountriesList()
             countries.add(0, positionZeroString)
 
-            val countryIndex = countries.indexOf(inMemoryStore.billingDetails.country)
+            val countryIndex = countries.indexOf(store.billingDetails.country)
             val position = if (countryIndex == -1) 0 else countryIndex
 
             return BillingDetailsUiState(countries, position)

@@ -27,8 +27,9 @@ class BillingDetailsView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs),
     MvpView<BillingDetailsUiState> {
 
-    private var listener: BillingDetailsView.Listener? = null
     private val inMemoryStore: InMemoryStore = InMemoryStore.Factory.get()
+    private val countriesManager: CountriesManager = CountriesManager()
+    private var listener: BillingDetailsView.Listener? = null
     private lateinit var presenter: BillingDetailsPresenter
 
     /**
@@ -53,11 +54,7 @@ class BillingDetailsView @JvmOverloads constructor(
         val positionZeroString = context.getString(R.string.placeholder_country)
         presenter = PresenterStore.getOrCreate(
             BillingDetailsPresenter::class.java,
-            {
-                BillingDetailsPresenter(
-                    BillingDetailsUiState.create(inMemoryStore, positionZeroString)
-                )
-            })
+            { BillingDetailsPresenter(createInitialUiState(positionZeroString)) })
         presenter.start(this)
         phone_input.listenForRepositoryChange()
 
@@ -72,7 +69,7 @@ class BillingDetailsView @JvmOverloads constructor(
                 id: Long
             ) {
                 val countrySelectedUseCaseBuilder =
-                    CountrySelectedUseCase.Builder(inMemoryStore, position)
+                    CountrySelectedUseCase.Builder(countriesManager, inMemoryStore, position)
                 presenter.countrySelected(countrySelectedUseCaseBuilder)
             }
 
@@ -90,6 +87,14 @@ class BillingDetailsView @JvmOverloads constructor(
                 DoneButtonClickedUseCase(BillingDetailsValidator(inMemoryStore))
             presenter.doneButtonClicked(doneButtonClickedUseCase)
         }
+    }
+
+    private fun createInitialUiState(positionZeroString: String): BillingDetailsUiState {
+        return BillingDetailsUiState.create(
+            CountriesManager(),
+            inMemoryStore,
+            positionZeroString
+        )
     }
 
     override fun onStateUpdated(uiState: BillingDetailsUiState) {
