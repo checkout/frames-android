@@ -14,7 +14,7 @@ open class CountriesManager {
         }
     }
 
-    fun getSortedCountriesList(): MutableList<String> {
+    open fun getSortedCountriesList(): MutableList<String> {
         val keyList = mapCountryToCountryCode.keys.toMutableList()
         keyList.sortWith(String.CASE_INSENSITIVE_ORDER)
         return keyList
