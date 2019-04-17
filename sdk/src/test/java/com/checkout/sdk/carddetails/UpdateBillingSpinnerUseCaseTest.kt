@@ -1,14 +1,13 @@
 package com.checkout.sdk.carddetails
 
+import com.checkout.sdk.billingdetails.BillingDetailsValidator
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.billingdetails.model.CityDetail
 import com.checkout.sdk.models.PhoneModel
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
@@ -19,19 +18,25 @@ import org.mockito.junit.MockitoJUnitRunner
 class UpdateBillingSpinnerUseCaseTest {
 
     @Mock
-    private lateinit var dataStore: DataStore
+    private lateinit var inMemoryStore: InMemoryStore
 
     @Mock
-    private lateinit var inMemoryStore: InMemoryStore
+    private lateinit var billingDetailsValidator: BillingDetailsValidator
 
     private lateinit var useCase: UpdateBillingSpinnerUseCase
 
     @Before
     fun setup() {
-        useCase = UpdateBillingSpinnerUseCase(dataStore, SELECT_TEXT, ADD_TEXT, EDIT_TEXT, FORMAT)
+        useCase = UpdateBillingSpinnerUseCase(
+            inMemoryStore,
+            billingDetailsValidator,
+            SELECT_TEXT,
+            ADD_TEXT,
+            EDIT_TEXT,
+            FORMAT
+        )
     }
 
-    @Ignore("Need to refactor Billing Spinner to use InMemoryStore")
     @Test
     fun `given data store has a valid address when we execute then we get the formatted address and the edit string`() {
         val billingModel = BillingDetails(
@@ -44,14 +49,15 @@ class UpdateBillingSpinnerUseCaseTest {
             PhoneModel("uk", "+44")
         )
         given(inMemoryStore.billingDetails).willReturn(billingModel)
+        given(billingDetailsValidator.isValid()).willReturn(true)
 
         val expected = listOf(
             String.format(
                 FORMAT,
-                billingModel.addressOne,
-                billingModel.addressTwo,
-                billingModel.city,
-                billingModel.state
+                billingModel.addressOne.value,
+                billingModel.addressTwo.value,
+                billingModel.city.value,
+                billingModel.state.value
             ),
             EDIT_TEXT
         )

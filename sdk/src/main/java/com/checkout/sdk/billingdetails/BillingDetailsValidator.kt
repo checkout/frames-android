@@ -19,7 +19,7 @@ open class BillingDetailsValidator(private val store: InMemoryStore) {
         )
     }
 
-    fun isValid(): Boolean {
+    open fun isValid(): Boolean {
         return getValidity().areDetailsValid()
     }
 }

@@ -1,10 +1,12 @@
 package com.checkout.sdk.carddetails
 
 import com.checkout.sdk.architecture.UseCase
-import com.checkout.sdk.store.DataStore
+import com.checkout.sdk.billingdetails.BillingDetailsValidator
+import com.checkout.sdk.store.InMemoryStore
 
 open class UpdateBillingSpinnerUseCase(
-    private val dataStore: DataStore,
+    private val inMemoryStore: InMemoryStore,
+    private val billingDetailsValidator: BillingDetailsValidator,
     private val selectText: String,
     private val addText: String,
     private val editText: String,
@@ -13,8 +15,7 @@ open class UpdateBillingSpinnerUseCase(
 
     override fun execute(): List<String>? {
         return when {
-            isDataStoreAddressValid() -> listOf(getFormattedAddress(), editText)
-            dataStore.defaultBillingDetails != null -> listOf(getDefaultAddress(), editText)
+            billingDetailsValidator.isValid() -> listOf(getFormattedAddress(), editText)
             else -> clearBillingSpinner()
         }
     }
@@ -23,30 +24,13 @@ open class UpdateBillingSpinnerUseCase(
         return listOf(selectText, addText)
     }
 
-    private fun isDataStoreAddressValid(): Boolean {
-        return !(dataStore.customerAddress1.isNullOrBlank() ||
-                dataStore.customerAddress2.isNullOrBlank() ||
-                dataStore.customerCity.isNullOrBlank() ||
-                dataStore.customerState.isNullOrBlank())
-    }
-
     private fun getFormattedAddress(): String {
+        val billingDetails = inMemoryStore.billingDetails
         return format.format(
-            dataStore.customerAddress1,
-            dataStore.customerAddress2,
-            dataStore.customerCity,
-            dataStore.customerState
-        )
-    }
-
-    // TODO: This is here to avoid breaking old behaviour; it will disappear soon once the
-    // TODO: default address storage in DataStore is changed
-    private fun getDefaultAddress(): String {
-        return format.format(
-            dataStore.defaultBillingDetails!!.addressOne,
-            dataStore.defaultBillingDetails!!.addressTwo,
-            dataStore.defaultBillingDetails!!.city,
-            dataStore.defaultBillingDetails!!.state
+            billingDetails.addressOne.value,
+            billingDetails.addressTwo.value,
+            billingDetails.city.value,
+            billingDetails.state.value
         )
     }
 }
