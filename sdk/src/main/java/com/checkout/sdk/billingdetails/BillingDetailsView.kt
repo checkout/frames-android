@@ -40,7 +40,6 @@ class BillingDetailsView @JvmOverloads constructor(
      */
     interface Listener {
         fun onBillingFinished()
-
     }
 
     init {

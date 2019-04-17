@@ -10,25 +10,16 @@ class TextInputStrategyFactory {
     companion object {
 
         fun createStrategy(strategyKey: String): TextInputStrategy {
+            val store = InMemoryStore.Factory.get()
             return when (strategyKey) {
-                "cvv" -> CvvStrategy(InMemoryStore.Factory.get())
-                "customer_name" -> CustomerNameStrategy(
-                    InMemoryStore.Factory.get()
-                )
-                "address_one" -> AddressOneStrategy(
-                    InMemoryStore.Factory.get()
-                )
-                "address_two" -> AddressTwoStrategy(
-                    InMemoryStore.Factory.get()
-                )
-                "city" -> CityStrategy(InMemoryStore.Factory.get())
-                "state" -> StateStrategy(InMemoryStore.Factory.get())
-                "postcode" -> PostcodeStrategy(
-                    InMemoryStore.Factory.get()
-                )
-                "phone_number" -> PhoneNumberStrategy(
-                    InMemoryStore.Factory.get()
-                )
+                "cvv" -> CvvStrategy(store)
+                "customer_name" -> CustomerNameStrategy(store)
+                "address_one" -> AddressOneStrategy(store)
+                "address_two" -> AddressTwoStrategy(store)
+                "city" -> CityStrategy(store)
+                "state" -> StateStrategy(store)
+                "postcode" -> PostcodeStrategy(store)
+                "phone_number" -> PhoneNumberStrategy(store)
                 else -> {
                     throw IllegalArgumentException("Unknown class key: $strategyKey")
                 }

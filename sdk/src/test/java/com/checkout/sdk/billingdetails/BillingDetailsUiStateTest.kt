@@ -22,7 +22,7 @@ class BillingDetailsUiStateTest {
     fun `given a store with a selected country and a CountriesManager with a map of counties we get a list with the a specified string at the first position and the position of the country in the list`() {
         val positionZeroString = "You will pick a country from the list"
         val selectedCountry = "Bolivia"
-        val expectedList = mutableListOf("Algeria", "Bolivia", "Canada")
+        val expectedList = mutableListOf("Algeria", selectedCountry, "Canada")
         val expectedUiState = BillingDetailsUiState(expectedList, 2, null)
         given(store.billingDetails).willReturn(BillingDetails(country = selectedCountry))
         given(countriesManager.getSortedCountriesList()).willReturn(expectedList)
