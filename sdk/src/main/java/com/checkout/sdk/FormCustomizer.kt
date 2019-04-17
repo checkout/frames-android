@@ -12,6 +12,7 @@ import java.util.*
 class FormCustomizer {
 
     private val mDataStore = DataStore.Factory.get()
+    private val inMemoryStore = InMemoryStore.Factory.get()
 
     /**
      * This method is used set the accepted card schemes
@@ -111,18 +112,7 @@ class FormCustomizer {
      * @param billing BillingModel representing the value for the billing details
      */
     fun injectBilling(billingModel: BillingModel): FormCustomizer {
-        mDataStore.isBillingCompleted = true
-//        mDataStore.lastBillingValidState = billing
-//        mDataStore.defaultBillingDetails = billing
-//        mDataStore.customerAddress1 = billing.addressOne.value
-//        mDataStore.customerAddress2 = billing.addressTwo.value
-//        mDataStore.customerZipcode = billing.postcode
-//        mDataStore.customerCountry = billing.country
-//        mDataStore.customerCity = billing.city.value
-//        mDataStore.customerState = billing.state
-//        mDataStore.customerPhone = billing.phone.number
-//        mDataStore.customerPhonePrefix = billing.phone.countryCode
-        InMemoryStore.Factory.get().billingDetails = BillingDetails.from(billingModel)
+        inMemoryStore.billingDetails = BillingDetails.from(billingModel)
         return this
     }
 
@@ -132,10 +122,7 @@ class FormCustomizer {
      * @param name String representing the value for the cardholder name
      */
     fun injectCardHolderName(name: String): FormCustomizer {
-        mDataStore.customerName = name
-        mDataStore.defaultCustomerName = name
-        mDataStore.lastCustomerNameState = name
-        InMemoryStore.Factory.get().customerName = BillingDetail(name)
+        inMemoryStore.customerName = BillingDetail(name)
         return this
     }
 
