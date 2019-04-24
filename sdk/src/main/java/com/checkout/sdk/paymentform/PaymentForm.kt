@@ -164,7 +164,6 @@ class PaymentForm @JvmOverloads constructor(
      * This method used to clear the state and fields of the Payment Form
      */
     fun clearForm() {
-        formCustomizer?.resetState()
         card_details_view.resetFields()
         billing_details_view.resetFields()
     }
