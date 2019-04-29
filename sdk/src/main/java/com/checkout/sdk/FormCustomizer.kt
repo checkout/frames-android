@@ -45,18 +45,18 @@ open class FormCustomizer {
         return this
     }
 
-    open class Factory {
+    class Holder {
 
         companion object {
 
-            private val factory: FormCustomizer.Factory = Factory()
+            private val holder: FormCustomizer.Holder = Holder()
 
-            fun get() = factory
+            fun get() = holder
         }
 
         private var formCustomizer: FormCustomizer? = null
 
-        open fun getFormCustomizer(): FormCustomizer {
+        fun getFormCustomizer(): FormCustomizer {
             return formCustomizer ?: throw UninitializedPropertyAccessException()
         }
 

@@ -163,7 +163,7 @@ class CardDetailsView @JvmOverloads constructor(
      * Used dynamically populate the accepted cards view is the option is used
      */
     private fun initializeAcceptedCards() {
-        val initializeAcceptedCardsUseCase = InitializeAcceptedCardsUseCase(FormCustomizer.Factory.get().getFormCustomizer())
+        val initializeAcceptedCardsUseCase = InitializeAcceptedCardsUseCase(FormCustomizer.Holder.get().getFormCustomizer())
         presenter.initializeAcceptedCards(initializeAcceptedCardsUseCase)
     }
 

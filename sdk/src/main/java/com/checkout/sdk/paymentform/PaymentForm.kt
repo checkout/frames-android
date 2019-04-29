@@ -108,7 +108,7 @@ class PaymentForm @JvmOverloads constructor(
      */
     fun initialize(checkoutClient: CheckoutClient, formCustomizer: FormCustomizer? = null) {
         this.checkoutClient = checkoutClient
-        formCustomizer?.let { FormCustomizer.Factory.get().setFormCustomizer(it) }
+        formCustomizer?.let { FormCustomizer.Holder.get().setFormCustomizer(it) }
     }
 
     override fun onStateUpdated(uiState: PaymentFormUiState) {
