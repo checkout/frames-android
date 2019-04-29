@@ -3,23 +3,26 @@ package com.checkout.sdk
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.core.Card
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 
 
-class FormCustomizer {
+open class FormCustomizer {
 
-    private val mDataStore = DataStore.Factory.get()
     private val inMemoryStore = InMemoryStore.Factory.get()
+    private var acceptedCards: List<Card>? = null
 
     /**
      * This method is used set the accepted card schemes
      *
      * @param cards array of accepted cards
      */
-    fun setAcceptedCards(cards: List<Card>): FormCustomizer {
-        mDataStore.acceptedCards = cards
+    open fun setAcceptedCards(cards: List<Card>): FormCustomizer {
+        acceptedCards = cards
         return this
+    }
+
+    open fun getAcceptedCards(): List<Card>? {
+        return acceptedCards
     }
 
     /**
@@ -40,5 +43,25 @@ class FormCustomizer {
     fun injectCardHolderName(name: String): FormCustomizer {
         inMemoryStore.customerName = BillingDetail(name)
         return this
+    }
+
+    open class Factory {
+
+        companion object {
+
+            private val factory: FormCustomizer.Factory = Factory()
+
+            fun get() = factory
+        }
+
+        private var formCustomizer: FormCustomizer? = null
+
+        open fun getFormCustomizer(): FormCustomizer {
+            return formCustomizer ?: throw UninitializedPropertyAccessException()
+        }
+
+        fun setFormCustomizer(formCustomizer: FormCustomizer) {
+            this.formCustomizer = formCustomizer
+        }
     }
 }

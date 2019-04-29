@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.checkout.sdk.FormCustomizer
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
@@ -17,7 +18,6 @@ import com.checkout.sdk.core.Card
 import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.CardDetailsValidity
 import com.checkout.sdk.paymentform.PaymentForm
-import com.checkout.sdk.store.DataStore
 import com.checkout.sdk.store.InMemoryStore
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.card_details.view.*
@@ -38,7 +38,6 @@ class CardDetailsView @JvmOverloads constructor(
     private val inMemoryStore = InMemoryStore.Factory.get()
     lateinit var presenter: CardDetailsPresenter
     private var validPayRequestListener: PaymentForm.ValidPayRequestListener? = null
-    private var mDataStore: DataStore = DataStore.Factory.get()
     private var mGotoBillingListener: GoToBillingListener? = null
 
     private val resetBillingSpinnerUseCase = UpdateBillingSpinnerUseCase(
@@ -164,7 +163,7 @@ class CardDetailsView @JvmOverloads constructor(
      * Used dynamically populate the accepted cards view is the option is used
      */
     private fun initializeAcceptedCards() {
-        val initializeAcceptedCardsUseCase = InitializeAcceptedCardsUseCase(mDataStore)
+        val initializeAcceptedCardsUseCase = InitializeAcceptedCardsUseCase(FormCustomizer.Factory.get().getFormCustomizer())
         presenter.initializeAcceptedCards(initializeAcceptedCardsUseCase)
     }
 
