@@ -19,4 +19,9 @@ class PaymentFormPresenter(initialState: PaymentFormUiState = PaymentFormUiState
         val newUiState = uiState.copy(inProgress = inProgress)
         safeUpdateView(newUiState)
     }
+
+    fun changeScreen(screen: PaymentFormUiState.Showing) {
+        val newState = uiState.copy(showing = screen)
+        safeUpdateView(newState)
+    }
 }

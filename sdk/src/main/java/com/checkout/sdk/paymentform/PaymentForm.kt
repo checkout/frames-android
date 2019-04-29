@@ -11,7 +11,7 @@ import android.widget.RelativeLayout
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.FormCustomizer
 import com.checkout.sdk.R
-import com.checkout.sdk.animation.SlidingViewAnimator
+import com.checkout.sdk.animation.ViewChanger
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.billingdetails.BillingDetailsValidator
@@ -39,8 +39,9 @@ class PaymentForm @JvmOverloads constructor(
     private val inMemoryStore = InMemoryStore.Factory.get()
     private lateinit var checkoutClient: CheckoutClient
     private lateinit var presenter: PaymentFormPresenter
-    private val slidingViewAnimator: SlidingViewAnimator = SlidingViewAnimator(context)
+    private val viewChanger: ViewChanger = ViewChanger(context)
     private var m3DSecureListener: On3DSFinished? = null
+    private var pendingAnimation: Boolean = false
 
     /**
      * This is a callback used to go back to the card details view from the billing page
@@ -49,7 +50,8 @@ class PaymentForm @JvmOverloads constructor(
     private val mBillingListener = object : BillingDetailsView.Listener {
         override fun onBillingFinished() {
             card_details_view.updateBillingSpinner()
-            slidingViewAnimator.transitionOutToRight(billing_details_view, card_details_view)
+            pendingAnimation = true
+            presenter.changeScreen(PaymentFormUiState.Showing.CARD_DETAILS_SCREEN)
         }
     }
 
@@ -86,18 +88,19 @@ class PaymentForm @JvmOverloads constructor(
 
         card_details_view.setGoToBillingListener(object: CardDetailsView.GoToBillingListener {
             override fun onGoToBilling() {
-                slidingViewAnimator.transitionInFromRight(billing_details_view, card_details_view)
+                pendingAnimation = true
+                presenter.changeScreen(PaymentFormUiState.Showing.BILLING_DETAILS_SCREEN)
             }
         })
-
-        card_details_view.setValidPayRequestListener(validPayRequestListener)
-        billing_details_view.setGoToCardDetailsListener(mBillingListener)
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         presenter = PresenterStore.getOrCreateDefault(PaymentFormPresenter::class.java)
         presenter.start(this)
+
+        card_details_view.setValidPayRequestListener(validPayRequestListener)
+        billing_details_view.setGoToCardDetailsListener(mBillingListener)
     }
 
     /**
@@ -113,12 +116,40 @@ class PaymentForm @JvmOverloads constructor(
 
     override fun onStateUpdated(uiState: PaymentFormUiState) {
         uiState.inProgress?.let { card_details_view.showProgress(it) }
+
+        changeScreen(uiState)
+    }
+
+    private fun changeScreen(uiState: PaymentFormUiState) {
+        when (uiState.showing) {
+            PaymentFormUiState.Showing.CARD_DETAILS_SCREEN -> {
+                if (card_details_view.visibility != View.VISIBLE) {
+                    viewChanger.changeBack(
+                        card_details_view,
+                        billing_details_view,
+                        pendingAnimation
+                    )
+                }
+            }
+            PaymentFormUiState.Showing.BILLING_DETAILS_SCREEN -> {
+                if (billing_details_view.visibility != View.VISIBLE) {
+                    viewChanger.changeForward(
+                        billing_details_view,
+                        card_details_view,
+                        pendingAnimation
+                    )
+                }
+            }
+        }
+        if (pendingAnimation) {
+            pendingAnimation = false
+        }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         presenter.stop()
-        slidingViewAnimator.cancelAnimations()
+        viewChanger.cancelAnimations()
     }
 
     /**

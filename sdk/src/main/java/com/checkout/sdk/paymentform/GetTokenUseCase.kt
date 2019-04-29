@@ -8,7 +8,7 @@ import com.checkout.sdk.core.TokenResult
 import com.checkout.sdk.response.CardTokenisationFail
 import com.checkout.sdk.response.CardTokenisationResponse
 
-class GetTokenUseCase(
+open class GetTokenUseCase(
     private val generator: RequestGenerator,
     private val client: CheckoutClient,
     private val callback: Callback
@@ -41,16 +41,16 @@ class GetTokenUseCase(
         callback.onProgressChanged(false)
     }
 
-    class Builder(
+    open class Builder(
         val generator: RequestGenerator,
         val client: CheckoutClient
     ) {
         lateinit var callback: Callback
             private set
 
-        fun callback(callback: Callback) = apply { this.callback = callback }
+        open fun callback(callback: Callback) = apply { this.callback = callback }
 
-        fun build() = GetTokenUseCase(this)
+        open fun build() = GetTokenUseCase(this)
     }
 
     interface Callback {
