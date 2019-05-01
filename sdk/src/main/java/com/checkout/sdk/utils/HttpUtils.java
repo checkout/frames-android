@@ -13,7 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.response.CardTokenisationFail;
-import com.checkout.sdk.response.CardTokenisationResponse;
+import com.checkout.sdk.response.CardTokenizationResponse;
 import com.checkout.sdk.response.GooglePayTokenisationFail;
 import com.checkout.sdk.response.GooglePayTokenisationResponse;
 import com.google.gson.Gson;
@@ -124,7 +124,7 @@ public class HttpUtils {
                     @Override
                     public void onResponse(JSONObject response) {
                         if (mTokenListener != null) {
-                            CardTokenisationResponse responseBody = new Gson().fromJson(response.toString(), CardTokenisationResponse.class);
+                            CardTokenizationResponse responseBody = new Gson().fromJson(response.toString(), CardTokenizationResponse.class);
                             mTokenListener.onTokenGenerated(responseBody);
                         }
 

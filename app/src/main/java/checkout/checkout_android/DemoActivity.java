@@ -33,9 +33,9 @@ public class DemoActivity extends Activity {
             } else if (tokenResult instanceof TokenResult.TokenResultTokenisationFail) {
                 String errorCode = ((TokenResult.TokenResultTokenisationFail) tokenResult).getError().getErrorCode();
                 displayMessage("Token Error", errorCode);
-            } else if (tokenResult instanceof TokenResult.TokenResultVolleyError) {
-                String volleyError = String.valueOf(((TokenResult.TokenResultVolleyError) tokenResult).getError());
-                displayMessage("Network Error", volleyError);
+            } else if (tokenResult instanceof TokenResult.TokenResultNetworkError) {
+                String networkError = ((TokenResult.TokenResultNetworkError) tokenResult).getException().getClass().getSimpleName();
+                displayMessage("Network Error", networkError);
             } else {
                 throw new RuntimeException("Unknown Error");
             }

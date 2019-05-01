@@ -12,6 +12,7 @@ import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.FormCustomizer
 import com.checkout.sdk.R
 import com.checkout.sdk.animation.ViewChanger
+import com.checkout.sdk.api.ApiFactory
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.billingdetails.BillingDetailsValidator
@@ -58,10 +59,11 @@ class PaymentForm @JvmOverloads constructor(
     private var validPayRequestListener: ValidPayRequestListener =
         object : ValidPayRequestListener {
             override fun onValidPayRequest() {
+                val api = ApiFactory(context).api
                 val getTokenUseCaseBuilder = GetTokenUseCase.Builder(
                     RequestGenerator(inMemoryStore, DateFormatter(), CardDetailsValidator(inMemoryStore), BillingDetailsValidator(inMemoryStore)),
                     checkoutClient
-                )
+                , api)
                 presenter.getToken(getTokenUseCaseBuilder)
             }
         }

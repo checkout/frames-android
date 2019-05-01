@@ -7,7 +7,7 @@ import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.request.CardTokenisationRequest;
 import com.checkout.sdk.request.GooglePayTokenisationRequest;
 import com.checkout.sdk.response.CardTokenisationFail;
-import com.checkout.sdk.response.CardTokenisationResponse;
+import com.checkout.sdk.response.CardTokenizationResponse;
 import com.checkout.sdk.response.GooglePayTokenisationFail;
 import com.checkout.sdk.response.GooglePayTokenisationResponse;
 import com.checkout.sdk.utils.Environment;
@@ -29,7 +29,7 @@ public class CheckoutClient {
      * This is interface used as a callback for when the card token is generated
      */
     public interface OnTokenGenerated {
-        void onTokenGenerated(CardTokenisationResponse response);
+        void onTokenGenerated(CardTokenizationResponse response);
 
         void onError(CardTokenisationFail error);
 
