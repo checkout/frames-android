@@ -5,7 +5,7 @@ import com.checkout.sdk.api.OfflineException
 import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.models.CardModel
-import com.checkout.sdk.request.CardTokenisationRequest
+import com.checkout.sdk.request.CardTokenizationRequest
 import com.checkout.sdk.response.CardTokenizationResponse
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +41,7 @@ class RequestMakerTest {
 
     @Test
     fun `when the request throws an exception we call that back to the token callback and we update the progress`() {
-        val cardTokenisationRequest = CardTokenisationRequest("a", "b", "c", "d", "e")
+        val cardTokenisationRequest = CardTokenizationRequest("a", "b", "c", "d", "e")
         val completableDeferred = CompletableDeferred<Response<CardTokenizationResponse>>()
         completableDeferred.completeExceptionally(OfflineException())
 
@@ -58,7 +58,7 @@ class RequestMakerTest {
 
     @Test
     fun `when the request is successful we return the successful response and update the progress`() {
-        val cardTokenisationRequest = CardTokenisationRequest("a", "b", "c", "d", "e")
+        val cardTokenisationRequest = CardTokenizationRequest("a", "b", "c", "d", "e")
         val cardTokenizationResponse = CardTokenizationResponse("1", "2", "3", "4", CardModel())
         val completableDeferred = CompletableDeferred<Response<CardTokenizationResponse>>()
         completableDeferred.complete(Response.success(cardTokenizationResponse))

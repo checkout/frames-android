@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.android.volley.VolleyError;
 import com.checkout.sdk.core.TokenResult;
-import com.checkout.sdk.request.CardTokenisationRequest;
+import com.checkout.sdk.request.CardTokenizationRequest;
 import com.checkout.sdk.request.GooglePayTokenisationRequest;
 import com.checkout.sdk.response.CardTokenisationFail;
 import com.checkout.sdk.response.CardTokenizationResponse;
@@ -67,7 +67,7 @@ public class CheckoutClient {
     /**
      * This method is used to generate a card token.
      * <p>
-     * It takes a {@link CardTokenisationRequest} as the argument and it will perform a
+     * It takes a {@link CardTokenizationRequest} as the argument and it will perform a
      * HTTP Post request to generate the token. it is important to you select an environment and
      * provide your public key before calling tis method. Moreover it is important to set a callback
      * {@link CheckoutClient.OnTokenGenerated} so you can receive the token back.
@@ -77,7 +77,7 @@ public class CheckoutClient {
      *
      * @param request Custom request body to be used in the HTTP call.
      */
-    public void generateToken(CardTokenisationRequest request, OnTokenGenerated tokenListener) {
+    public void generateToken(CardTokenizationRequest request, OnTokenGenerated tokenListener) {
 
         // Initialise the HTTP utility class
         HttpUtils http = new HttpUtils(mContext);

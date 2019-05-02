@@ -3,7 +3,7 @@ package com.checkout.sdk.core
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
-import com.checkout.sdk.request.CardTokenisationRequest
+import com.checkout.sdk.request.CardTokenizationRequest
 import com.checkout.sdk.response.CardTokenisationFail
 import com.checkout.sdk.response.CardTokenizationResponse
 import com.google.gson.Gson
@@ -19,7 +19,7 @@ class RequestMaker(
     private val progressCallback: ProgressCallback
 ) {
 
-    fun makeTokenRequest(request: CardTokenisationRequest) {
+    fun makeTokenRequest(request: CardTokenizationRequest) {
         val deferred = tokenApi.getTokenAsync(request)
         coroutines.IOScope.launch {
             val response =
