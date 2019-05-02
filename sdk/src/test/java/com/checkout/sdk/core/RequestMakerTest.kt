@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.junit.Test
@@ -102,7 +103,7 @@ class RequestMakerTest {
     }
 
     companion object {
+        @UseExperimental(ExperimentalCoroutinesApi::class)
         val DISPATCHER = Dispatchers.Unconfined
     }
-
 }
