@@ -4,7 +4,6 @@ import com.checkout.sdk.architecture.MvpView
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -15,9 +14,6 @@ class PaymentFormPresenterTest {
 
     @Mock
     private lateinit var viewMock: MvpView<PaymentFormUiState>
-
-    @Mock
-    private lateinit var getTokenUseCaseBuilder: GetTokenUseCase.Builder
 
     @Mock
     private lateinit var getTokenUseCase: GetTokenUseCase
@@ -36,10 +32,7 @@ class PaymentFormPresenterTest {
 
     @Test
     fun `when we get token we execute the use case`() {
-        given(getTokenUseCaseBuilder.callback(presenter)).willReturn(getTokenUseCaseBuilder)
-        given(getTokenUseCaseBuilder.build()).willReturn(getTokenUseCase)
-
-        presenter.getToken(getTokenUseCaseBuilder)
+        presenter.getToken(getTokenUseCase)
 
         then(getTokenUseCase).should().execute()
     }

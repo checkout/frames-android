@@ -21,9 +21,7 @@ import com.checkout.sdk.carddetails.CardDetailsView
 import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.RequestGenerator
 import com.checkout.sdk.core.RequestMaker
-import com.checkout.sdk.executors.Executors
-import com.checkout.sdk.executors.IoExecutor
-import com.checkout.sdk.executors.MainExecutor
+import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
 import kotlinx.android.synthetic.main.payment_form.view.*
@@ -66,7 +64,7 @@ class PaymentForm @JvmOverloads constructor(
                 val api = ApiFactory(context).api
                 val getTokenUseCase = GetTokenUseCase(
                     RequestGenerator(inMemoryStore, DateFormatter(), CardDetailsValidator(inMemoryStore), BillingDetailsValidator(inMemoryStore)),
-                    RequestMaker(api, Executors(MainExecutor(), IoExecutor()), checkoutClient.tokenCallback, presenter))
+                    RequestMaker(api, Coroutines(), checkoutClient.tokenCallback, presenter))
                 presenter.getToken(getTokenUseCase)
             }
         }

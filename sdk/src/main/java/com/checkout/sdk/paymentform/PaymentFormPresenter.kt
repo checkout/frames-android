@@ -7,7 +7,7 @@ import com.checkout.sdk.core.RequestMaker
 
 class PaymentFormPresenter(initialState: PaymentFormUiState = PaymentFormUiState()) :
     BasePresenter<MvpView<PaymentFormUiState>, PaymentFormUiState>(initialState),
-    RequestMaker.Callback {
+    RequestMaker.ProgressCallback {
 
     fun getToken(getTokenUseCase: GetTokenUseCase) {
         getTokenUseCase.execute()

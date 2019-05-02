@@ -2,30 +2,32 @@ package com.checkout.sdk.core
 
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.api.TokenApi
-import com.checkout.sdk.executors.Executors
+import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.request.CardTokenisationRequest
 import com.checkout.sdk.response.CardTokenisationFail
 import com.checkout.sdk.response.CardTokenizationResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 
 class RequestMaker(
     private val tokenApi: TokenApi,
-    private val executors: Executors,
+    private val coroutines: Coroutines,
     private val tokenCallback: CheckoutClient.TokenCallback,
-    private val callback: Callback
+    private val progressCallback: ProgressCallback
 ) {
 
     fun makeTokenRequest(request: CardTokenisationRequest) {
         val deferred = tokenApi.getTokenAsync(request)
-        executors.launchOnIo {
+        coroutines.IOScope.launch {
             val response =
                 try {
                     deferred.await()
                 } catch (e: Exception) {
                     handleRequestError(e)
-                    return@launchOnIo
+                    return@launch
                 }
 
             if (response.isSuccessful) {
@@ -34,33 +36,33 @@ class RequestMaker(
                 handleResponseFailure(response)
             }
         }
-        callback.onProgressChanged(true)
+        progressCallback.onProgressChanged(true)
     }
 
     private suspend fun handleRequestError(e: Exception) {
-        executors.backOnMain {
+        withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultNetworkError(e))
-            callback.onProgressChanged(false)
+            progressCallback.onProgressChanged(false)
         }
     }
 
     private suspend fun handleResponseSuccessful(result: Response<CardTokenizationResponse>) {
-        executors.backOnMain {
+        withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(result.body()!!))
-            callback.onProgressChanged(false)
+            progressCallback.onProgressChanged(false)
         }
     }
 
     private suspend fun handleResponseFailure(result: Response<CardTokenizationResponse>) {
         val fail =
             Gson().fromJson(result.errorBody().toString(), CardTokenisationFail::class.java)
-        executors.backOnMain {
+        withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultTokenisationFail(fail))
-            callback.onProgressChanged(false)
+            progressCallback.onProgressChanged(false)
         }
     }
 
-    interface Callback {
+    interface ProgressCallback {
         fun onProgressChanged(inProgress: Boolean)
     }
 }
