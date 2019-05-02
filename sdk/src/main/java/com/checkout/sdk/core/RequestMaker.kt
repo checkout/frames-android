@@ -1,6 +1,8 @@
 package com.checkout.sdk.core
 
+import android.content.Context
 import com.checkout.sdk.CheckoutClient
+import com.checkout.sdk.api.ApiFactory
 import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.request.CardTokenizationRequest
@@ -16,7 +18,7 @@ class RequestMaker(
     private val tokenApi: TokenApi,
     private val coroutines: Coroutines,
     private val tokenCallback: CheckoutClient.TokenCallback,
-    private val progressCallback: ProgressCallback
+    private val progressCallback: ProgressCallback? = null
 ) {
 
     fun makeTokenRequest(request: CardTokenizationRequest) {
@@ -36,20 +38,20 @@ class RequestMaker(
                 handleResponseFailure(response)
             }
         }
-        progressCallback.onProgressChanged(true)
+        progressCallback?.onProgressChanged(true)
     }
 
     private suspend fun handleRequestError(e: Exception) {
         withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultNetworkError(e))
-            progressCallback.onProgressChanged(false)
+            progressCallback?.onProgressChanged(false)
         }
     }
 
     private suspend fun handleResponseSuccessful(result: Response<CardTokenizationResponse>) {
         withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(result.body()!!))
-            progressCallback.onProgressChanged(false)
+            progressCallback?.onProgressChanged(false)
         }
     }
 
@@ -59,11 +61,19 @@ class RequestMaker(
             Gson().fromJson(errorString, CardTokenizationFail::class.java)
         withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultTokenisationFail(fail))
-            progressCallback.onProgressChanged(false)
+            progressCallback?.onProgressChanged(false)
         }
     }
 
     interface ProgressCallback {
         fun onProgressChanged(inProgress: Boolean)
+    }
+
+    companion object {
+        fun create(context: Context, tokenCallback: CheckoutClient.TokenCallback): RequestMaker {
+            val apiFactory = ApiFactory(context)
+            val tokenApi = apiFactory.api
+            return RequestMaker(tokenApi, Coroutines(), tokenCallback)
+        }
     }
 }

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TokenGenerator</string>
+    <string name="token_success_format" translatable="false">"Token: %1$s"</string>
+    <string name="token_failed_tokenization_format" translatable="false">"Tokenization fail: %1$s"</string>
+    <string name="token_failed_network_format" translatable="false">"Network fail: %1$s"</string>
+</resources>
