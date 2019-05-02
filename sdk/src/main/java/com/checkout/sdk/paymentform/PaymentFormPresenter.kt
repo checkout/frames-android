@@ -2,17 +2,15 @@ package com.checkout.sdk.paymentform
 
 import com.checkout.sdk.architecture.BasePresenter
 import com.checkout.sdk.architecture.MvpView
+import com.checkout.sdk.core.RequestMaker
 
 
 class PaymentFormPresenter(initialState: PaymentFormUiState = PaymentFormUiState()) :
     BasePresenter<MvpView<PaymentFormUiState>, PaymentFormUiState>(initialState),
-    GetTokenUseCase.Callback {
+    RequestMaker.Callback {
 
-    fun getToken(getTokenUseCaseBuilder: GetTokenUseCase.Builder) {
-        getTokenUseCaseBuilder
-            .callback(this)
-            .build()
-            .execute()
+    fun getToken(getTokenUseCase: GetTokenUseCase) {
+        getTokenUseCase.execute()
     }
 
     override fun onProgressChanged(inProgress: Boolean) {
