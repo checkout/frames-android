@@ -4,7 +4,7 @@ import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.request.CardTokenizationRequest
-import com.checkout.sdk.response.CardTokenisationFail
+import com.checkout.sdk.response.CardTokenizationFail
 import com.checkout.sdk.response.CardTokenizationResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -54,8 +54,9 @@ class RequestMaker(
     }
 
     private suspend fun handleResponseFailure(result: Response<CardTokenizationResponse>) {
+        val errorString = result.errorBody()!!.string()
         val fail =
-            Gson().fromJson(result.errorBody().toString(), CardTokenisationFail::class.java)
+            Gson().fromJson(errorString, CardTokenizationFail::class.java)
         withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultTokenisationFail(fail))
             progressCallback.onProgressChanged(false)

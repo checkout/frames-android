@@ -6,10 +6,14 @@ import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.models.CardModel
 import com.checkout.sdk.request.CardTokenizationRequest
+import com.checkout.sdk.response.CardTokenizationFail
 import com.checkout.sdk.response.CardTokenizationResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import okhttp3.MediaType
+import okhttp3.ResponseBody
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
@@ -41,15 +45,16 @@ class RequestMakerTest {
 
     @Test
     fun `when the request throws an exception we call that back to the token callback and we update the progress`() {
-        val cardTokenisationRequest = CardTokenizationRequest("a", "b", "c", "d", "e")
+        val cardTokenizationRequest = CardTokenizationRequest("a", "b", "c", "d", "e")
         val completableDeferred = CompletableDeferred<Response<CardTokenizationResponse>>()
         completableDeferred.completeExceptionally(OfflineException())
 
-        given(tokenApi.getTokenAsync(cardTokenisationRequest)).willReturn(completableDeferred)
-        given(coroutines.Main).willReturn(Dispatchers.Unconfined)
-        given(coroutines.IOScope).willReturn(CoroutineScope(Dispatchers.Unconfined))
+        given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
 
-        requestMaker.makeTokenRequest(cardTokenisationRequest)
+        given(coroutines.Main).willReturn(DISPATCHER)
+        given(coroutines.IOScope).willReturn(CoroutineScope(DISPATCHER))
+
+        requestMaker.makeTokenRequest(cardTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
         then(tokenCallback.onTokenResult(TokenResult.TokenResultNetworkError(OfflineException())))
@@ -58,20 +63,46 @@ class RequestMakerTest {
 
     @Test
     fun `when the request is successful we return the successful response and update the progress`() {
-        val cardTokenisationRequest = CardTokenizationRequest("a", "b", "c", "d", "e")
+        val cardTokenizationRequest = CardTokenizationRequest("a", "b", "c", "d", "e")
         val cardTokenizationResponse = CardTokenizationResponse("1", "2", "3", "4", CardModel())
         val completableDeferred = CompletableDeferred<Response<CardTokenizationResponse>>()
         completableDeferred.complete(Response.success(cardTokenizationResponse))
 
-        given(tokenApi.getTokenAsync(cardTokenisationRequest)).willReturn(completableDeferred)
-        given(coroutines.Main).willReturn(Dispatchers.Unconfined)
-        given(coroutines.IOScope).willReturn(CoroutineScope(Dispatchers.Unconfined))
+        given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
+        given(coroutines.Main).willReturn(DISPATCHER)
+        given(coroutines.IOScope).willReturn(CoroutineScope(DISPATCHER))
 
-        requestMaker.makeTokenRequest(cardTokenisationRequest)
+        requestMaker.makeTokenRequest(cardTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
         then(tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(cardTokenizationResponse)))
         then(progressCallback.onProgressChanged(false))
+    }
+
+    @Test
+    fun `when the request is unsuccessful we return the unsuccessful response and update the progress`() {
+        val cardTokenizationRequest = CardTokenizationRequest("a", "b", "c", "d", "e")
+        val cardTokenizationFail = CardTokenizationFail("1", "2", "3", listOf("301", "404"), listOf("Redirect", "Unknown server"))
+
+        val jsonMediaType = MediaType.parse("application/json;charset=UTF-8")
+        val failureBody = Gson().toJson(cardTokenizationFail)
+        val completableDeferred = CompletableDeferred<Response<CardTokenizationResponse>>()
+        val response = Response.error<CardTokenizationResponse>(404, ResponseBody.create(jsonMediaType, failureBody))
+        completableDeferred.complete(response)
+
+        given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
+        given(coroutines.Main).willReturn(DISPATCHER)
+        given(coroutines.IOScope).willReturn(CoroutineScope(DISPATCHER))
+
+        requestMaker.makeTokenRequest(cardTokenizationRequest)
+
+        then(progressCallback.onProgressChanged(true))
+        then(tokenCallback.onTokenResult(TokenResult.TokenResultTokenisationFail(cardTokenizationFail)))
+        then(progressCallback.onProgressChanged(false))
+    }
+
+    companion object {
+        val DISPATCHER = Dispatchers.Unconfined
     }
 
 }

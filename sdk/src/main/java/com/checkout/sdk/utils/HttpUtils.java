@@ -12,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.checkout.sdk.CheckoutClient;
-import com.checkout.sdk.response.CardTokenisationFail;
+import com.checkout.sdk.response.CardTokenizationFail;
 import com.checkout.sdk.response.CardTokenizationResponse;
 import com.checkout.sdk.response.GooglePayTokenisationFail;
 import com.checkout.sdk.response.GooglePayTokenisationResponse;
@@ -137,9 +137,9 @@ public class HttpUtils {
                         if (networkResponse != null && networkResponse.data != null) {
                             try {
                                 JSONObject jsonError = new JSONObject(new String(networkResponse.data));
-                                CardTokenisationFail cardTokenisationFail = new Gson().fromJson(jsonError.toString(), CardTokenisationFail.class);
+                                CardTokenizationFail cardTokenizationFail = new Gson().fromJson(jsonError.toString(), CardTokenizationFail.class);
                                 if (mTokenListener != null) {
-                                    mTokenListener.onError(cardTokenisationFail);
+                                    mTokenListener.onError(cardTokenizationFail);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
