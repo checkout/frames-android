@@ -1,6 +1,7 @@
 package com.checkout.sdk.core
 
 import com.checkout.sdk.CheckoutClient
+import com.checkout.sdk.ThreadsUnconfinedExtension
 import com.checkout.sdk.api.OfflineException
 import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
@@ -10,8 +11,6 @@ import com.checkout.sdk.response.CardTokenizationFail
 import com.checkout.sdk.response.CardTokenizationResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.junit.jupiter.api.BeforeEach
@@ -24,8 +23,8 @@ import org.mockito.junit.jupiter.MockitoExtension
 import retrofit2.Response
 
 
-@ExtendWith(MockitoExtension::class)
-class RequestMakerTest {
+@ExtendWith(MockitoExtension::class, ThreadsUnconfinedExtension::class)
+class RequestMakerTest : TestUsesCoroutines {
 
     @Mock
     private lateinit var tokenApi: TokenApi
@@ -41,6 +40,8 @@ class RequestMakerTest {
 
     private lateinit var requestMaker: RequestMaker
 
+    override fun getCoroutines(): Coroutines = coroutines
+
     @BeforeEach
     fun onSetup() {
         requestMaker = RequestMaker(tokenApi, coroutines, tokenCallback, progressCallback)
@@ -53,9 +54,6 @@ class RequestMakerTest {
         completableDeferred.completeExceptionally(OfflineException())
 
         given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
-
-        given(coroutines.Main).willReturn(DISPATCHER)
-        given(coroutines.IOScope).willReturn(CoroutineScope(DISPATCHER))
 
         requestMaker.makeTokenRequest(cardTokenizationRequest)
 
@@ -72,8 +70,6 @@ class RequestMakerTest {
         completableDeferred.complete(Response.success(cardTokenizationResponse))
 
         given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
-        given(coroutines.Main).willReturn(DISPATCHER)
-        given(coroutines.IOScope).willReturn(CoroutineScope(DISPATCHER))
 
         requestMaker.makeTokenRequest(cardTokenizationRequest)
 
@@ -94,8 +90,6 @@ class RequestMakerTest {
         completableDeferred.complete(response)
 
         given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
-        given(coroutines.Main).willReturn(DISPATCHER)
-        given(coroutines.IOScope).willReturn(CoroutineScope(DISPATCHER))
 
         requestMaker.makeTokenRequest(cardTokenizationRequest)
 
@@ -103,8 +97,12 @@ class RequestMakerTest {
         then(tokenCallback.onTokenResult(TokenResult.TokenResultTokenisationFail(cardTokenizationFail)))
         then(progressCallback.onProgressChanged(false))
     }
+}
 
-    companion object {
-        val DISPATCHER = Dispatchers.Unconfined
-    }
+/**
+ * Implementing this interface and adding the ThreadsUnconfinedExtension as an `ExtendWith`
+ * allows us to put all coroutines onto Dispatchers.Unconfined
+ */
+interface TestUsesCoroutines {
+    fun getCoroutines(): Coroutines
 }
