@@ -12,20 +12,19 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.MediaType
 import okhttp3.ResponseBody
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
-import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import retrofit2.Response
 
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class RequestMakerTest {
 
     @Mock
@@ -40,9 +39,12 @@ class RequestMakerTest {
     @Mock
     private lateinit var progressCallback: RequestMaker.ProgressCallback
 
-
-    @InjectMocks
     private lateinit var requestMaker: RequestMaker
+
+    @BeforeEach
+    fun onSetup() {
+        requestMaker = RequestMaker(tokenApi, coroutines, tokenCallback, progressCallback)
+    }
 
     @Test
     fun `when the request throws an exception we call that back to the token callback and we update the progress`() {
@@ -103,7 +105,6 @@ class RequestMakerTest {
     }
 
     companion object {
-        @UseExperimental(ExperimentalCoroutinesApi::class)
         val DISPATCHER = Dispatchers.Unconfined
     }
 }

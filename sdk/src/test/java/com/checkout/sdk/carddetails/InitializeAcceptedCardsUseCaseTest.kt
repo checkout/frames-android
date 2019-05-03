@@ -3,15 +3,15 @@ package com.checkout.sdk.carddetails
 import com.checkout.sdk.FormCustomizer
 import com.checkout.sdk.core.Card
 import junit.framework.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class InitializeAcceptedCardsUseCaseTest {
 
     @Mock
@@ -19,7 +19,7 @@ class InitializeAcceptedCardsUseCaseTest {
 
     private lateinit var useCase: InitializeAcceptedCardsUseCase
 
-    @Before
+    @BeforeEach
     fun onSetup() {
         useCase = InitializeAcceptedCardsUseCase(formCustomizer)
     }

@@ -1,15 +1,16 @@
 package com.checkout.sdk.monthinput
 
 import com.checkout.sdk.utils.DateFormatter
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.BDDMockito.given
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers.any
+import org.mockito.BDDMockito.willAnswer
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class MonthInputUiStateTest {
 
     @Mock
@@ -24,13 +25,13 @@ class MonthInputUiStateTest {
     }
 
     private fun prepareFormatter() {
-        for (i in 0 .. 12) {
-            var iAsString = i.toString()
+        willAnswer {
+            var iAsString = it.getArgument<Int>(0).toString()
             if (iAsString.length < 2) {
                 iAsString = "0$iAsString"
             }
-            given(dateFormatter.formatMonth(i)).willReturn(iAsString)
-        }
+            iAsString
+        }.given(dateFormatter).formatMonth(any(Int::class.java))
     }
 
     private fun getExpectedMonths(): Array<String> {
@@ -47,7 +48,7 @@ class MonthInputUiStateTest {
             "OCT - 10",
             "NOV - 11",
             "DEC - 12",
-            " - null" // JVM adds this additional entry not present on Android OS
+            " - 13" // JVM adds this additional entry not present on Android OS
         )
     }
 }

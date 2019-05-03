@@ -2,19 +2,18 @@ package com.checkout.sdk.billingdetails.strategy
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
-import com.checkout.sdk.billingdetails.strategy.AddressOneStrategy
 import com.checkout.sdk.store.InMemoryStore
 import junit.framework.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class AddressOneStrategyTest {
 
     private val billingDetails =

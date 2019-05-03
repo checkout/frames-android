@@ -1,8 +1,9 @@
 package com.checkout.sdk;
 
 import com.checkout.sdk.utils.CardUtils;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CardUtilsTests {
 
@@ -13,7 +14,7 @@ public class CardUtilsTests {
         assertEquals("visa", CardUtils.INSTANCE.getType("4").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void visa_full_isFound() {
         assertEquals("visa", CardUtils.INSTANCE.getType("4242424242424242").getCardName());
     }
@@ -23,12 +24,12 @@ public class CardUtilsTests {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("42"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void visa_short_isValid() {
         assertEquals(true, CardUtils.INSTANCE.isValidCard("4242424242424242"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void visa_short_isFormatted() {
         assertEquals("4242 4242", CardUtils.INSTANCE.getFormattedCardNumber("42424242"));
     }
@@ -50,7 +51,7 @@ public class CardUtilsTests {
         assertEquals("mastercard", CardUtils.INSTANCE.getType("5436031030606378").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void mastercard_short_isNotValid() {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("5436"));
     }
@@ -77,7 +78,7 @@ public class CardUtilsTests {
         assertEquals("amex", CardUtils.INSTANCE.getType("3456").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void amex_full_isFound() {
         assertEquals("amex", CardUtils.INSTANCE.getType("345678901234564").getCardName());
     }
@@ -119,17 +120,17 @@ public class CardUtilsTests {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("301234"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void diners_short_isValid() {
         assertEquals(true, CardUtils.INSTANCE.isValidCard("30123456789019"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void diners_short_isFormatted() {
         assertEquals("3012 345678", CardUtils.INSTANCE.getFormattedCardNumber("3012345678"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void diners_full_isFormatted() {
         assertEquals("3012 345678 9019", CardUtils.INSTANCE.getFormattedCardNumber("30123456789019"));
     }
@@ -141,7 +142,7 @@ public class CardUtilsTests {
         assertEquals("discover", CardUtils.INSTANCE.getType("60111111").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void discover_full_isFound() {
         assertEquals("discover", CardUtils.INSTANCE.getType("6011111111111117").getCardName());
     }
@@ -156,19 +157,19 @@ public class CardUtilsTests {
         assertEquals(true, CardUtils.INSTANCE.isValidCard("6011111111111117"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void discover_short_isFormatted() {
         assertEquals("6011 1111", CardUtils.INSTANCE.getFormattedCardNumber("60111111"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void discover_full_isFormatted() {
         assertEquals("6011 1111 1111 1117", CardUtils.INSTANCE.getFormattedCardNumber("6011111111111117"));
     }
 
     // JCB
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void jcb_short_isFound() {
         assertEquals("jcb", CardUtils.INSTANCE.getType("35301113").getCardName());
     }
@@ -183,12 +184,12 @@ public class CardUtilsTests {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("35301113"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void jcb_short_isValid() {
         assertEquals(true, CardUtils.INSTANCE.isValidCard("3530111333300000"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void jcb_short_isFormatted() {
         assertEquals("3530 1113", CardUtils.INSTANCE.getFormattedCardNumber("35301113"));
     }
@@ -205,12 +206,12 @@ public class CardUtilsTests {
         assertEquals("unionpay", CardUtils.INSTANCE.getType("621234").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void unionpay_full_isFound() {
         assertEquals("unionpay", CardUtils.INSTANCE.getType("6212345678901265").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void unionpay_short_isNotValid() {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("621234"));
     }
@@ -225,39 +226,39 @@ public class CardUtilsTests {
         assertEquals("6212 3456", CardUtils.INSTANCE.getFormattedCardNumber("62123456"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void unionpay_full_isFormatted() {
         assertEquals("6212 345678 901265", CardUtils.INSTANCE.getFormattedCardNumber("6212345678901265"));
     }
 
     // MAESTRO
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void maestro_short_isFound() {
         assertEquals("maestro", CardUtils.INSTANCE.getType("6759649826438").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void maestro_full_isFound() {
         assertEquals("maestro", CardUtils.INSTANCE.getType("6759649826438453").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void maestro_short_isNotValid() {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("6759649"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void maestro_short_isValid() {
         assertEquals(true, CardUtils.INSTANCE.isValidCard("6759649826438453"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void maestro_short_isFormatted() {
         assertEquals("6759 6498", CardUtils.INSTANCE.getFormattedCardNumber("67596498"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void maestro_full_isFormatted() {
         assertEquals("6759 6498 2643 8453", CardUtils.INSTANCE.getFormattedCardNumber("6759649826438453"));
     }
