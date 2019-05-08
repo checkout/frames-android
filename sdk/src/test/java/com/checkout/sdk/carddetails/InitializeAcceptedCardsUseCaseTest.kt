@@ -1,7 +1,7 @@
 package com.checkout.sdk.carddetails
 
+import com.checkout.sdk.FormCustomizer
 import com.checkout.sdk.core.Card
-import com.checkout.sdk.store.DataStore
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -15,19 +15,19 @@ import org.mockito.junit.MockitoJUnitRunner
 class InitializeAcceptedCardsUseCaseTest {
 
     @Mock
-    private lateinit var dataStore: DataStore
+    private lateinit var formCustomizer: FormCustomizer
 
     private lateinit var useCase: InitializeAcceptedCardsUseCase
 
     @Before
     fun onSetup() {
-        useCase = InitializeAcceptedCardsUseCase(dataStore)
+        useCase = InitializeAcceptedCardsUseCase(formCustomizer)
     }
 
     @Test
     fun `given there are accepted cards in the data store when the use case is executed then we will return those cards`() {
         val expectedCards = listOf(Card.UNIONPAY, Card.AMEX, Card.DINERSCLUB)
-        given(dataStore.acceptedCards).willReturn(expectedCards)
+        given(formCustomizer.getAcceptedCards()).willReturn(expectedCards)
 
         val actualCards = useCase.execute()
 
@@ -46,7 +46,7 @@ class InitializeAcceptedCardsUseCaseTest {
             Card.MASTERCARD,
             Card.MAESTRO
         )
-        given(dataStore.acceptedCards).willReturn(null)
+        given(formCustomizer.getAcceptedCards()).willReturn(null)
 
         val actualCards = useCase.execute()
 

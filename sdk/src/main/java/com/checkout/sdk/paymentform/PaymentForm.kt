@@ -38,7 +38,6 @@ class PaymentForm @JvmOverloads constructor(
 
     private val inMemoryStore = InMemoryStore.Factory.get()
     private lateinit var checkoutClient: CheckoutClient
-    private var formCustomizer: FormCustomizer? = null
     private lateinit var presenter: PaymentFormPresenter
     private val slidingViewAnimator: SlidingViewAnimator = SlidingViewAnimator(context)
     private var m3DSecureListener: On3DSFinished? = null
@@ -109,7 +108,7 @@ class PaymentForm @JvmOverloads constructor(
      */
     fun initialize(checkoutClient: CheckoutClient, formCustomizer: FormCustomizer? = null) {
         this.checkoutClient = checkoutClient
-        this.formCustomizer = formCustomizer
+        formCustomizer?.let { FormCustomizer.Holder.get().setFormCustomizer(it) }
     }
 
     override fun onStateUpdated(uiState: PaymentFormUiState) {
@@ -164,7 +163,6 @@ class PaymentForm @JvmOverloads constructor(
      * This method used to clear the state and fields of the Payment Form
      */
     fun clearForm() {
-        formCustomizer?.resetState()
         card_details_view.resetFields()
         billing_details_view.resetFields()
     }
