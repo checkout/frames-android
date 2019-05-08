@@ -64,6 +64,10 @@ public class CheckoutClient {
         return tokenCallback;
     }
 
+    public Environment getEnvironment() {
+        return mEnvironment;
+    }
+
     /**
      * This method is used to generate a card token.
      * <p>
@@ -90,7 +94,7 @@ public class CheckoutClient {
         String jsonBody = gson.toJson(request);
 
         try {
-            http.generateToken(key, mEnvironment.token, jsonBody);
+            http.generateToken(key, mEnvironment.getTokenHost() + "/" + Environment.TOKEN_PATH, jsonBody);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -125,7 +129,8 @@ public class CheckoutClient {
         String jsonBody = gson.toJson(gPay);
 
         try {
-            http.generateGooglePayToken(key, mEnvironment.googlePay, jsonBody);
+            String url = mEnvironment.getGooglePayHost() + "/" + Environment.GOOGLE_PAY_PATH;
+            http.generateGooglePayToken(key, url, jsonBody);
         } catch (JSONException e) {
             e.printStackTrace();
         }

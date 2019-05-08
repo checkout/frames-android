@@ -71,10 +71,15 @@ class RequestMaker(
     }
 
     companion object {
-        fun create(key: String, context: Context, tokenCallback: CheckoutClient.TokenCallback): RequestMaker {
-            val apiFactory = ApiFactory(context)
+        fun create(context: Context, checkoutClient: CheckoutClient): RequestMaker {
+            val apiFactory = ApiFactory(context, checkoutClient.environment)
             val tokenApi = apiFactory.api
-            return RequestMaker(key, tokenApi, Coroutines(), tokenCallback)
+            return RequestMaker(
+                checkoutClient.key,
+                tokenApi,
+                Coroutines(),
+                checkoutClient.tokenCallback
+            )
         }
     }
 }

@@ -61,7 +61,7 @@ class PaymentForm @JvmOverloads constructor(
     private var validPayRequestListener: ValidPayRequestListener =
         object : ValidPayRequestListener {
             override fun onValidPayRequest() {
-                val api = ApiFactory(context).api
+                val api = ApiFactory(context, checkoutClient.environment).api
                 val getTokenUseCase = GetTokenUseCase(
                     RequestGenerator(inMemoryStore, DateFormatter(), CardDetailsValidator(inMemoryStore), BillingDetailsValidator(inMemoryStore)),
                     RequestMaker(checkoutClient.key, api, Coroutines(), checkoutClient.tokenCallback, presenter))
