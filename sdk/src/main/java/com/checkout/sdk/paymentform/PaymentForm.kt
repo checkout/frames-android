@@ -64,7 +64,7 @@ class PaymentForm @JvmOverloads constructor(
                 val api = ApiFactory(context).api
                 val getTokenUseCase = GetTokenUseCase(
                     RequestGenerator(inMemoryStore, DateFormatter(), CardDetailsValidator(inMemoryStore), BillingDetailsValidator(inMemoryStore)),
-                    RequestMaker(api, Coroutines(), checkoutClient.tokenCallback, presenter))
+                    RequestMaker(checkoutClient.key, api, Coroutines(), checkoutClient.tokenCallback, presenter))
                 presenter.getToken(getTokenUseCase)
             }
         }

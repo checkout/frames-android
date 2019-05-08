@@ -38,13 +38,15 @@ class RequestMakerTest : TestUsesCoroutines {
     @Mock
     private lateinit var progressCallback: RequestMaker.ProgressCallback
 
+    private val key: String = "pk-78904256897"
+
     private lateinit var requestMaker: RequestMaker
 
     override fun getCoroutines(): Coroutines = coroutines
 
     @BeforeEach
     fun onSetup() {
-        requestMaker = RequestMaker(tokenApi, coroutines, tokenCallback, progressCallback)
+        requestMaker = RequestMaker(key, tokenApi, coroutines, tokenCallback, progressCallback)
     }
 
     @Test
@@ -53,7 +55,7 @@ class RequestMakerTest : TestUsesCoroutines {
         val completableDeferred = CompletableDeferred<Response<CardTokenizationResponse>>()
         completableDeferred.completeExceptionally(OfflineException())
 
-        given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
+        given(tokenApi.getTokenAsync(key, cardTokenizationRequest)).willReturn(completableDeferred)
 
         requestMaker.makeTokenRequest(cardTokenizationRequest)
 
@@ -69,7 +71,7 @@ class RequestMakerTest : TestUsesCoroutines {
         val completableDeferred = CompletableDeferred<Response<CardTokenizationResponse>>()
         completableDeferred.complete(Response.success(cardTokenizationResponse))
 
-        given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
+        given(tokenApi.getTokenAsync(key, cardTokenizationRequest)).willReturn(completableDeferred)
 
         requestMaker.makeTokenRequest(cardTokenizationRequest)
 
@@ -89,7 +91,7 @@ class RequestMakerTest : TestUsesCoroutines {
         val response = Response.error<CardTokenizationResponse>(404, ResponseBody.create(jsonMediaType, failureBody))
         completableDeferred.complete(response)
 
-        given(tokenApi.getTokenAsync(cardTokenizationRequest)).willReturn(completableDeferred)
+        given(tokenApi.getTokenAsync(key, cardTokenizationRequest)).willReturn(completableDeferred)
 
         requestMaker.makeTokenRequest(cardTokenizationRequest)
 

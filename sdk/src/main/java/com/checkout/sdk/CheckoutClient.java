@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 public class CheckoutClient {
 
-    private String key;
+    public String key;
 
     public interface TokenCallback {
         void onTokenResult(TokenResult tokenResult);

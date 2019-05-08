@@ -15,6 +15,7 @@ import retrofit2.Response
 
 
 class RequestMaker(
+    private val key: String,
     private val tokenApi: TokenApi,
     private val coroutines: Coroutines,
     private val tokenCallback: CheckoutClient.TokenCallback,
@@ -22,7 +23,7 @@ class RequestMaker(
 ) {
 
     fun makeTokenRequest(request: CardTokenizationRequest) {
-        val deferred = tokenApi.getTokenAsync(request)
+        val deferred = tokenApi.getTokenAsync(key, request)
         coroutines.IOScope.launch {
             val response =
                 try {
@@ -70,10 +71,10 @@ class RequestMaker(
     }
 
     companion object {
-        fun create(context: Context, tokenCallback: CheckoutClient.TokenCallback): RequestMaker {
+        fun create(key: String, context: Context, tokenCallback: CheckoutClient.TokenCallback): RequestMaker {
             val apiFactory = ApiFactory(context)
             val tokenApi = apiFactory.api
-            return RequestMaker(tokenApi, Coroutines(), tokenCallback)
+            return RequestMaker(key, tokenApi, Coroutines(), tokenCallback)
         }
     }
 }
