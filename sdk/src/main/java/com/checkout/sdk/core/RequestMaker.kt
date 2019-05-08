@@ -71,14 +71,18 @@ class RequestMaker(
     }
 
     companion object {
-        fun create(context: Context, checkoutClient: CheckoutClient): RequestMaker {
+        /**
+         * Convenience method for simple creation of a RequestMaker
+         */
+        fun create(context: Context, checkoutClient: CheckoutClient, progressCallback: ProgressCallback? = null): RequestMaker {
             val apiFactory = ApiFactory(context, checkoutClient.environment)
             val tokenApi = apiFactory.api
             return RequestMaker(
                 checkoutClient.key,
                 tokenApi,
                 Coroutines(),
-                checkoutClient.tokenCallback
+                checkoutClient.tokenCallback,
+                progressCallback
             )
         }
     }
