@@ -101,10 +101,11 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     private fun restoreCardNumberIfNecessary(cardInputResult: CardInputUiState) {
-        if (card_input_edit_text.text.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
+        val cardInputEditable = card_input_edit_text.text as Editable
+        if (cardInputEditable.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
             card_input_edit_text.setText(cardInputResult.cardNumber)
             card_input_edit_text.setSelection(cardInputResult.cardNumber.length)
-            val cardInputUseCase = CardInputUseCase(card_input_edit_text.text, inMemoryStore)
+            val cardInputUseCase = CardInputUseCase(cardInputEditable, inMemoryStore)
             presenter.textChanged(cardInputUseCase)
         }
     }
