@@ -9,11 +9,13 @@ import com.checkout.sdk.request.CardTokenizationRequest
 import com.checkout.sdk.request.GooglePayTokenizationRequest
 import com.checkout.sdk.request.TokenRequest
 import com.checkout.sdk.response.CardTokenizationFail
+import com.checkout.sdk.response.GooglePayTokenisationFail
+import com.checkout.sdk.response.TokenFail
 import com.checkout.sdk.response.TokenResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
+import okhttp3.ResponseBody
 
 
 class RequestMaker(
@@ -40,9 +42,9 @@ class RequestMaker(
                 }
 
             if (response.isSuccessful) {
-                handleResponseSuccessful(response)
+                handleResponseSuccessful(response.body()!!)
             } else {
-                handleResponseFailure(response)
+                handleResponseFailure(response.errorBody()!!, request.javaClass)
             }
         }
         progressCallback?.onProgressChanged(true)
@@ -55,21 +57,31 @@ class RequestMaker(
         }
     }
 
-    private suspend fun handleResponseSuccessful(result: Response<out TokenResponse>) {
+    private suspend fun handleResponseSuccessful(body: TokenResponse) {
         withContext(coroutines.Main) {
-            tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(result.body()!!))
+            tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(body))
             progressCallback?.onProgressChanged(false)
         }
     }
 
-    private suspend fun handleResponseFailure(result: Response<out TokenResponse>) {
-        val errorString = result.errorBody()!!.string()
-        val fail =
-            Gson().fromJson(errorString, CardTokenizationFail::class.java)
+    private suspend fun handleResponseFailure(
+        errorBody: ResponseBody,
+        clazz: Class<TokenRequest>
+    ) {
+        val tokenError = getTokenError(errorBody.string(), clazz)
         withContext(coroutines.Main) {
-            tokenCallback.onTokenResult(TokenResult.TokenResultTokenizationFail(fail))
+            tokenCallback.onTokenResult(TokenResult.TokenResultTokenizationFail(tokenError))
             progressCallback?.onProgressChanged(false)
         }
+    }
+
+    private fun getTokenError(errorString: String, clazz: Class<TokenRequest>): TokenFail {
+        val fail = when (clazz) {
+            CardTokenizationRequest::class.java -> CardTokenizationFail::class.java
+            CardTokenizationRequest::class.java -> GooglePayTokenisationFail::class.java
+            else -> throw IllegalArgumentException("Unknown class: $clazz")
+        }
+        return Gson().fromJson(errorString, fail)
     }
 
     interface ProgressCallback {

@@ -27,11 +27,11 @@ public class DemoActivity extends Activity {
         public void onTokenResult(TokenResult tokenResult) {
             if (tokenResult instanceof TokenResult.TokenResultSuccess) {
                 mPaymentForm.clearForm(); // clear the form
-                String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().getId();
+                String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().token();
                 displayMessage("Token", id);
                 Log.e("TOKEN", "Token: " + id);
             } else if (tokenResult instanceof TokenResult.TokenResultTokenizationFail) {
-                String errorCode = ((TokenResult.TokenResultTokenizationFail) tokenResult).getError().getErrorCode();
+                String errorCode = ((TokenResult.TokenResultTokenizationFail) tokenResult).getError().errorCode();
                 displayMessage("Token Error", errorCode);
             } else if (tokenResult instanceof TokenResult.TokenResultNetworkError) {
                 String networkError = ((TokenResult.TokenResultNetworkError) tokenResult).getException().getClass().getSimpleName();

@@ -25,6 +25,7 @@ import android.view.View
 import android.widget.Toast
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.core.RequestMaker
+import com.checkout.sdk.core.TokenResult
 import com.checkout.sdk.request.GooglePayTokenizationRequest
 import com.checkout.sdk.utils.Environment
 import com.google.android.gms.common.api.ApiException
@@ -271,12 +272,11 @@ class GooglePayActivity : Activity() {
 
     private fun createTokenCallback(): CheckoutClient.TokenCallback {
         return CheckoutClient.TokenCallback { tokenResult ->
-//            when (tokenResult) {
-//                is TokenResult.TokenResultSuccess -> setSuccessText(tokenResult)
-//                is TokenResult.TokenResultTokenisationFail -> setTokenizationFail(tokenResult)
-//                is TokenResult.TokenResultNetworkError -> setNetworkFail(tokenResult)
-//            }
-            Log.e("JOHN", "Token Result: $tokenResult")
+            when (tokenResult) {
+                is TokenResult.TokenResultSuccess -> googleTokenResult.text = "Token: ${tokenResult.response.token()}"
+                is TokenResult.TokenResultTokenizationFail -> googleTokenResult.text = "Error: ${tokenResult.error.errorCode()}"
+                is TokenResult.TokenResultNetworkError -> googleTokenResult.text = "Network Error: ${tokenResult.exception.javaClass.simpleName}"
+            }
         }
     }
 

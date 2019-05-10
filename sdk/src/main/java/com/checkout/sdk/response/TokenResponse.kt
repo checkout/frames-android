@@ -1,4 +1,6 @@
 package com.checkout.sdk.response
 
 
-interface TokenResponse
+interface TokenResponse {
+    fun token(): String
+}

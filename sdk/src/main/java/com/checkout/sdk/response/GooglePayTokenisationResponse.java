@@ -13,7 +13,7 @@ public class GooglePayTokenisationResponse implements TokenResponse {
         return type;
     }
 
-    public String getToken() {
+    public String token() {
         return token;
     }
 

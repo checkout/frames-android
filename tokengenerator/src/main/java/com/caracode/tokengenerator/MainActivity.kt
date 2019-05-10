@@ -56,12 +56,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSuccessText(tokenSuccess: TokenResult.TokenResultSuccess) {
-        token_text_view.text = getString(R.string.token_success_format, tokenSuccess.response.id)
+        token_text_view.text = getString(R.string.token_success_format, tokenSuccess.response.token())
     }
 
     private fun setTokenizationFail(tokenizationFail: TokenResult.TokenResultTokenizationFail) {
         token_text_view.text =
-            getString(R.string.token_failed_tokenization_format, tokenizationFail.error.errorCode)
+            getString(R.string.token_failed_tokenization_format, tokenizationFail.error.errorCode())
     }
 
     private fun setNetworkFail(networkFail: TokenResult.TokenResultNetworkError) {
