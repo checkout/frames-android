@@ -2,14 +2,14 @@ package com.checkout.sdk.paymentform
 
 import com.checkout.sdk.architecture.UseCase
 import com.checkout.sdk.core.RequestGenerator
-import com.checkout.sdk.core.RequestMaker
+import com.checkout.sdk.CheckoutClient
 
 open class GetTokenUseCase(
     private val generator: RequestGenerator,
-    private val requestMaker: RequestMaker
+    private val checkoutClient: CheckoutClient
 ) : UseCase<Unit> {
 
     override fun execute() {
-        requestMaker.makeTokenRequest(generator.generate()!!)
+        checkoutClient.requestToken(generator.generate()!!)
     }
 }

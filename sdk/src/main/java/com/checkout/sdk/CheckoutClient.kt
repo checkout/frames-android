@@ -1,9 +1,9 @@
-package com.checkout.sdk.core
+package com.checkout.sdk
 
 import android.content.Context
-import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.api.ApiFactory
 import com.checkout.sdk.api.TokenApi
+import com.checkout.sdk.core.TokenResult
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.request.CardTokenizationRequest
 import com.checkout.sdk.request.GooglePayTokenizationRequest
@@ -12,21 +12,27 @@ import com.checkout.sdk.response.CardTokenizationFail
 import com.checkout.sdk.response.GooglePayTokenisationFail
 import com.checkout.sdk.response.TokenFail
 import com.checkout.sdk.response.TokenResponse
+import com.checkout.sdk.utils.Environment
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 
 
-class RequestMaker(
+class CheckoutClient(
     private val key: String,
     private val tokenApi: TokenApi,
     private val coroutines: Coroutines,
-    private val tokenCallback: CheckoutClient.TokenCallback,
-    private val progressCallback: ProgressCallback? = null
+    private val tokenCallback: TokenCallback,
+    var progressCallback: ProgressCallback? = null
 ) {
 
-    fun makeTokenRequest(request: TokenRequest) {
+    /**
+     * Request a token:
+     * - either straight from card details: CardTokenizationRequest, or
+     * - from a GooglePay generated token: GooglePayTokenizationRequest
+     */
+    fun requestToken(request: TokenRequest) {
         val deferred = when (request) {
             is CardTokenizationRequest -> tokenApi.getTokenAsync(key, request)
             is GooglePayTokenizationRequest -> tokenApi.getGooglePayTokenAsync(key, request)
@@ -70,7 +76,11 @@ class RequestMaker(
     ) {
         val tokenError = getTokenError(errorBody.string(), clazz)
         withContext(coroutines.Main) {
-            tokenCallback.onTokenResult(TokenResult.TokenResultTokenizationFail(tokenError))
+            tokenCallback.onTokenResult(
+                TokenResult.TokenResultTokenizationFail(
+                    tokenError
+                )
+            )
             progressCallback?.onProgressChanged(false)
         }
     }
@@ -90,18 +100,35 @@ class RequestMaker(
 
     companion object {
         /**
-         * Convenience method for simple creation of a RequestMaker
+         * Convenience method for simple creation of a CheckoutClient
+         *
+         * @param context The android context (activity or application context)
+         * @param key Your public key (https://sandbox.checkout.com/settings/channels -> Public Key)
+         * @param environment Sandbox (for testing) or live
+         * @param tokenCallback The callback for receiveing your Token, or an Error
          */
-        fun create(context: Context, checkoutClient: CheckoutClient, progressCallback: ProgressCallback? = null): RequestMaker {
-            val apiFactory = ApiFactory(context, checkoutClient.environment)
+        fun create(context: Context, key: String, environment: Environment, tokenCallback: TokenCallback): CheckoutClient {
+            val apiFactory = ApiFactory(context, environment)
             val tokenApi = apiFactory.api
-            return RequestMaker(
-                checkoutClient.key,
+            return CheckoutClient(
+                key,
                 tokenApi,
                 Coroutines(),
-                checkoutClient.tokenCallback,
-                progressCallback
+                tokenCallback
             )
         }
+    }
+
+    /**
+     * Receive your result from your token request (requestToken) via this callback
+     *
+     * TokenResult will be one of the following:
+     * - TokenResultSuccess if you receive the Token successfully
+     * - TokenResultTokenizationFail if you there is an error creating your token (typically due
+     *   to incorrect values being sent or a server error)
+     * - TokenResultNetworkError if Network problems (e.g. being Offline) case a failure
+     */
+    interface TokenCallback {
+        fun onTokenResult(tokenResult: TokenResult)
     }
 }

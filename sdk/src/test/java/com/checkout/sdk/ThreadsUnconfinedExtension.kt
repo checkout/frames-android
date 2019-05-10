@@ -1,6 +1,5 @@
 package com.checkout.sdk
 
-import com.checkout.sdk.core.TestUsesCoroutines
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.junit.jupiter.api.extension.BeforeEachCallback

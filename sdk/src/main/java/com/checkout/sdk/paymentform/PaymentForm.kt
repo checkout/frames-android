@@ -12,7 +12,6 @@ import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.FormCustomizer
 import com.checkout.sdk.R
 import com.checkout.sdk.animation.ViewChanger
-import com.checkout.sdk.api.ApiFactory
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.billingdetails.BillingDetailsValidator
@@ -20,7 +19,6 @@ import com.checkout.sdk.billingdetails.BillingDetailsView
 import com.checkout.sdk.carddetails.CardDetailsView
 import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.RequestGenerator
-import com.checkout.sdk.core.RequestMaker
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
 import kotlinx.android.synthetic.main.payment_form.view.*
@@ -60,10 +58,10 @@ class PaymentForm @JvmOverloads constructor(
     private var validPayRequestListener: ValidPayRequestListener =
         object : ValidPayRequestListener {
             override fun onValidPayRequest() {
-                val api = ApiFactory(context, checkoutClient.environment).api
+                checkoutClient.progressCallback = presenter
                 val getTokenUseCase = GetTokenUseCase(
                     RequestGenerator(inMemoryStore, DateFormatter(), CardDetailsValidator(inMemoryStore), BillingDetailsValidator(inMemoryStore)),
-                    RequestMaker.create(context, checkoutClient, presenter))
+                    checkoutClient)
                 presenter.getToken(getTokenUseCase)
             }
         }

@@ -24,7 +24,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.checkout.sdk.CheckoutClient
-import com.checkout.sdk.core.RequestMaker
 import com.checkout.sdk.core.TokenResult
 import com.checkout.sdk.request.GooglePayTokenizationRequest
 import com.checkout.sdk.utils.Environment
@@ -261,30 +260,27 @@ class GooglePayActivity : Activity() {
     private fun sendGooglePayToken(jsonToken: String) {
         val googlePayToken = JSONObject(jsonToken)
 
-        val client = createCheckoutClient(createTokenCallback())
-        val requestMaker = createRequestMaker(client)
+        val requestMaker = createRequestMaker(createTokenCallback())
         val googlePayTokenizationRequest = GooglePayTokenizationRequest(
             googlePayToken.getString("protocolVersion"),
             googlePayToken.getString("signature"),
             googlePayToken.getString("signedMessage"))
-        requestMaker.makeTokenRequest(googlePayTokenizationRequest)
+        requestMaker.requestToken(googlePayTokenizationRequest)
     }
 
     private fun createTokenCallback(): CheckoutClient.TokenCallback {
-        return CheckoutClient.TokenCallback { tokenResult ->
-            when (tokenResult) {
-                is TokenResult.TokenResultSuccess -> googleTokenResult.text = "Token: ${tokenResult.response.token()}"
-                is TokenResult.TokenResultTokenizationFail -> googleTokenResult.text = "Error: ${tokenResult.error.errorCode()}"
-                is TokenResult.TokenResultNetworkError -> googleTokenResult.text = "Network Error: ${tokenResult.exception.javaClass.simpleName}"
+        return object: CheckoutClient.TokenCallback {
+            override fun onTokenResult(tokenResult: TokenResult) {
+                when (tokenResult) {
+                    is TokenResult.TokenResultSuccess -> googleTokenResult.text = "Token: ${tokenResult.response.token()}"
+                    is TokenResult.TokenResultTokenizationFail -> googleTokenResult.text = "Error: ${tokenResult.error.errorCode()}"
+                    is TokenResult.TokenResultNetworkError -> googleTokenResult.text = "Network Error: ${tokenResult.exception.javaClass.simpleName}"
+                }
             }
         }
     }
 
-    private fun createRequestMaker(checkoutClient: CheckoutClient): RequestMaker {
-        return RequestMaker.create(this, checkoutClient)
-    }
-
-    private fun createCheckoutClient(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
-        return CheckoutClient(this, "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73", Environment.SANDBOX, tokenCallback)
+    private fun createRequestMaker(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
+        return CheckoutClient.create(this, "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73", Environment.SANDBOX, tokenCallback)
     }
 }

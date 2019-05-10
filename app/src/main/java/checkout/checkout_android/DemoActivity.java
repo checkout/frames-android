@@ -7,9 +7,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.checkout.sdk.BillingModel;
-import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.FormCustomizer;
 import com.checkout.sdk.core.Card;
+import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.models.PhoneModel;
 import com.checkout.sdk.paymentform.PaymentForm;
@@ -26,7 +26,7 @@ public class DemoActivity extends Activity {
         @Override
         public void onTokenResult(TokenResult tokenResult) {
             if (tokenResult instanceof TokenResult.TokenResultSuccess) {
-                mPaymentForm.clearForm(); // clear the form
+                mPaymentForm.clearForm();
                 String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().token();
                 displayMessage("Token", id);
                 Log.e("TOKEN", "Token: " + id);
@@ -60,11 +60,12 @@ public class DemoActivity extends Activity {
 
         setContentView(R.layout.activity_demo);
 
-        CheckoutClient checkoutClient = new CheckoutClient(
+        CheckoutClient checkoutClient = CheckoutClient.Companion.create(
                 this,
                 "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
                 Environment.SANDBOX,
-                callback);
+                callback
+        );
 
 
         mPaymentForm = findViewById(R.id.checkout_card_form);

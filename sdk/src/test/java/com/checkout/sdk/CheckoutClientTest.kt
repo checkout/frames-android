@@ -1,9 +1,8 @@
-package com.checkout.sdk.core
+package com.checkout.sdk
 
-import com.checkout.sdk.CheckoutClient
-import com.checkout.sdk.ThreadsUnconfinedExtension
 import com.checkout.sdk.api.OfflineException
 import com.checkout.sdk.api.TokenApi
+import com.checkout.sdk.core.TokenResult
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.models.CardModel
 import com.checkout.sdk.request.CardTokenizationRequest
@@ -27,7 +26,7 @@ import retrofit2.Response
 
 
 @ExtendWith(MockitoExtension::class, ThreadsUnconfinedExtension::class)
-class RequestMakerTest : TestUsesCoroutines {
+class CheckoutClientTest : TestUsesCoroutines {
 
     @Mock
     private lateinit var tokenApi: TokenApi
@@ -39,17 +38,23 @@ class RequestMakerTest : TestUsesCoroutines {
     private lateinit var tokenCallback: CheckoutClient.TokenCallback
 
     @Mock
-    private lateinit var progressCallback: RequestMaker.ProgressCallback
+    private lateinit var progressCallback: CheckoutClient.ProgressCallback
 
     private val key: String = "pk-78904256897"
 
-    private lateinit var requestMaker: RequestMaker
+    private lateinit var checkoutClient: CheckoutClient
 
     override fun getCoroutines(): Coroutines = coroutines
 
     @BeforeEach
     fun onSetup() {
-        requestMaker = RequestMaker(key, tokenApi, coroutines, tokenCallback, progressCallback)
+        checkoutClient = CheckoutClient(
+            key,
+            tokenApi,
+            coroutines,
+            tokenCallback,
+            progressCallback
+        )
     }
 
     @Test
@@ -60,10 +65,14 @@ class RequestMakerTest : TestUsesCoroutines {
 
         given(tokenApi.getTokenAsync(key, cardTokenizationRequest)).willReturn(completableDeferred)
 
-        requestMaker.makeTokenRequest(cardTokenizationRequest)
+        checkoutClient.requestToken(cardTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
-        then(tokenCallback.onTokenResult(TokenResult.TokenResultNetworkError(OfflineException())))
+        then(tokenCallback.onTokenResult(
+            TokenResult.TokenResultNetworkError(
+                OfflineException()
+            )
+        ))
         then(progressCallback.onProgressChanged(false))
     }
 
@@ -75,10 +84,14 @@ class RequestMakerTest : TestUsesCoroutines {
 
         given(tokenApi.getGooglePayTokenAsync(key, googlePayTokenizationRequest)).willReturn(completableDeferred)
 
-        requestMaker.makeTokenRequest(googlePayTokenizationRequest)
+        checkoutClient.requestToken(googlePayTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
-        then(tokenCallback.onTokenResult(TokenResult.TokenResultNetworkError(OfflineException())))
+        then(tokenCallback.onTokenResult(
+            TokenResult.TokenResultNetworkError(
+                OfflineException()
+            )
+        ))
         then(progressCallback.onProgressChanged(false))
     }
 
@@ -91,10 +104,14 @@ class RequestMakerTest : TestUsesCoroutines {
 
         given(tokenApi.getTokenAsync(key, cardTokenizationRequest)).willReturn(completableDeferred)
 
-        requestMaker.makeTokenRequest(cardTokenizationRequest)
+        checkoutClient.requestToken(cardTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
-        then(tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(cardTokenizationResponse)))
+        then(tokenCallback.onTokenResult(
+            TokenResult.TokenResultSuccess(
+                cardTokenizationResponse
+            )
+        ))
         then(progressCallback.onProgressChanged(false))
     }
 
@@ -107,10 +124,14 @@ class RequestMakerTest : TestUsesCoroutines {
 
         given(tokenApi.getGooglePayTokenAsync(key, googlePayTokenizationRequest)).willReturn(completableDeferred)
 
-        requestMaker.makeTokenRequest(googlePayTokenizationRequest)
+        checkoutClient.requestToken(googlePayTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
-        then(tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(cardTokenizationResponse)))
+        then(tokenCallback.onTokenResult(
+            TokenResult.TokenResultSuccess(
+                cardTokenizationResponse
+            )
+        ))
         then(progressCallback.onProgressChanged(false))
     }
 
@@ -127,10 +148,14 @@ class RequestMakerTest : TestUsesCoroutines {
 
         given(tokenApi.getGooglePayTokenAsync(key, googlePayTokenizationRequest)).willReturn(completableDeferred)
 
-        requestMaker.makeTokenRequest(googlePayTokenizationRequest)
+        checkoutClient.requestToken(googlePayTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
-        then(tokenCallback.onTokenResult(TokenResult.TokenResultTokenizationFail(cardTokenizationFail)))
+        then(tokenCallback.onTokenResult(
+            TokenResult.TokenResultTokenizationFail(
+                cardTokenizationFail
+            )
+        ))
         then(progressCallback.onProgressChanged(false))
     }
 
@@ -147,10 +172,14 @@ class RequestMakerTest : TestUsesCoroutines {
 
         given(tokenApi.getTokenAsync(key, cardTokenizationRequest)).willReturn(completableDeferred)
 
-        requestMaker.makeTokenRequest(cardTokenizationRequest)
+        checkoutClient.requestToken(cardTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
-        then(tokenCallback.onTokenResult(TokenResult.TokenResultTokenizationFail(cardTokenizationFail)))
+        then(tokenCallback.onTokenResult(
+            TokenResult.TokenResultTokenizationFail(
+                cardTokenizationFail
+            )
+        ))
         then(progressCallback.onProgressChanged(false))
     }
 }

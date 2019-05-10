@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.checkout.sdk.CheckoutClient
-import com.checkout.sdk.core.RequestMaker
 import com.checkout.sdk.core.TokenResult
 import com.checkout.sdk.request.CardTokenizationRequest
 import com.checkout.sdk.utils.Environment
@@ -17,31 +16,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val tokenCallback = createTokenCallback()
-        val checkoutClient = createCheckoutClient(tokenCallback)
-        val requestMaker = createRequestMaker(checkoutClient)
+        val requestMaker = createRequestMaker(tokenCallback)
         generate_token_button.setOnClickListener {
             progress_bar.visibility = VISIBLE
-            requestMaker.makeTokenRequest(createCardTokenizationRequest())
+            requestMaker.requestToken(createCardTokenizationRequest())
         }
     }
 
     private fun createTokenCallback(): CheckoutClient.TokenCallback {
-       return CheckoutClient.TokenCallback { tokenResult ->
-            when (tokenResult) {
-                is TokenResult.TokenResultSuccess -> setSuccessText(tokenResult)
-                is TokenResult.TokenResultTokenizationFail -> setTokenizationFail(tokenResult)
-                is TokenResult.TokenResultNetworkError -> setNetworkFail(tokenResult)
+        return object : CheckoutClient.TokenCallback {
+            override fun onTokenResult(tokenResult: TokenResult) {
+                when (tokenResult) {
+                    is TokenResult.TokenResultSuccess -> setSuccessText(tokenResult)
+                    is TokenResult.TokenResultTokenizationFail -> setTokenizationFail(tokenResult)
+                    is TokenResult.TokenResultNetworkError -> setNetworkFail(tokenResult)
+                }
+                progress_bar.visibility = GONE
             }
-            progress_bar.visibility = GONE
         }
     }
 
-    private fun createRequestMaker(checkoutClient: CheckoutClient): RequestMaker {
-        return RequestMaker.create(this, checkoutClient)
-    }
-
-    private fun createCheckoutClient(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
-        return CheckoutClient(this, KEY, Environment.SANDBOX, tokenCallback)
+    private fun createRequestMaker(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
+        return CheckoutClient.create(this, KEY, Environment.SANDBOX, tokenCallback)
     }
 
     fun createCardTokenizationRequest(): CardTokenizationRequest {
@@ -56,7 +52,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSuccessText(tokenSuccess: TokenResult.TokenResultSuccess) {
-        token_text_view.text = getString(R.string.token_success_format, tokenSuccess.response.token())
+        token_text_view.text =
+            getString(R.string.token_success_format, tokenSuccess.response.token())
     }
 
     private fun setTokenizationFail(tokenizationFail: TokenResult.TokenResultTokenizationFail) {
