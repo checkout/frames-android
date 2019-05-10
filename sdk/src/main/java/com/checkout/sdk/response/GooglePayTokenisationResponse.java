@@ -3,7 +3,7 @@ package com.checkout.sdk.response;
 /**
  * The response model object for the Google Pay tokenisation response
  */
-public class GooglePayTokenisationResponse {
+public class GooglePayTokenisationResponse implements TokenResponse {
 
     private String type;
     private String token;

@@ -1,15 +1,15 @@
 package com.checkout.sdk.core
 
 import android.content.Context
-import android.util.Log
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.api.ApiFactory
 import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.request.CardTokenizationRequest
 import com.checkout.sdk.request.GooglePayTokenizationRequest
+import com.checkout.sdk.request.TokenRequest
 import com.checkout.sdk.response.CardTokenizationFail
-import com.checkout.sdk.response.CardTokenizationResponse
+import com.checkout.sdk.response.TokenResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,8 +24,12 @@ class RequestMaker(
     private val progressCallback: ProgressCallback? = null
 ) {
 
-    fun makeTokenRequest(request: CardTokenizationRequest) {
-        val deferred = tokenApi.getTokenAsync(key, request)
+    fun makeTokenRequest(request: TokenRequest) {
+        val deferred = when (request) {
+            is CardTokenizationRequest -> tokenApi.getTokenAsync(key, request)
+            is GooglePayTokenizationRequest -> tokenApi.getGooglePayTokenAsync(key, request)
+            else -> throw IllegalArgumentException("Unknown class: ${request.javaClass}")
+        }
         coroutines.IOScope.launch {
             val response =
                 try {
@@ -44,26 +48,6 @@ class RequestMaker(
         progressCallback?.onProgressChanged(true)
     }
 
-    fun makeGooglePayTokenRequest(request: GooglePayTokenizationRequest) {
-        val deferred = tokenApi.getGooglePayTokenAsync(key, request)
-        coroutines.IOScope.launch {
-            val response =
-                try {
-                    deferred.await()
-                } catch (e: Exception) {
-                    handleRequestError(e)
-                    return@launch
-                }
-
-            if (response.isSuccessful) {
-                Log.e("JOHN", "Success: " + response.body()!!.token)
-            } else {
-                Log.e("JOHN", "Fail: $response")
-            }
-        }
-        progressCallback?.onProgressChanged(true)
-    }
-
     private suspend fun handleRequestError(e: Exception) {
         withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultNetworkError(e))
@@ -71,19 +55,19 @@ class RequestMaker(
         }
     }
 
-    private suspend fun handleResponseSuccessful(result: Response<CardTokenizationResponse>) {
+    private suspend fun handleResponseSuccessful(result: Response<out TokenResponse>) {
         withContext(coroutines.Main) {
             tokenCallback.onTokenResult(TokenResult.TokenResultSuccess(result.body()!!))
             progressCallback?.onProgressChanged(false)
         }
     }
 
-    private suspend fun handleResponseFailure(result: Response<CardTokenizationResponse>) {
+    private suspend fun handleResponseFailure(result: Response<out TokenResponse>) {
         val errorString = result.errorBody()!!.string()
         val fail =
             Gson().fromJson(errorString, CardTokenizationFail::class.java)
         withContext(coroutines.Main) {
-            tokenCallback.onTokenResult(TokenResult.TokenResultTokenisationFail(fail))
+            tokenCallback.onTokenResult(TokenResult.TokenResultTokenizationFail(fail))
             progressCallback?.onProgressChanged(false)
         }
     }

@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
        return CheckoutClient.TokenCallback { tokenResult ->
             when (tokenResult) {
                 is TokenResult.TokenResultSuccess -> setSuccessText(tokenResult)
-                is TokenResult.TokenResultTokenisationFail -> setTokenizationFail(tokenResult)
+                is TokenResult.TokenResultTokenizationFail -> setTokenizationFail(tokenResult)
                 is TokenResult.TokenResultNetworkError -> setNetworkFail(tokenResult)
             }
             progress_bar.visibility = GONE
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         token_text_view.text = getString(R.string.token_success_format, tokenSuccess.response.id)
     }
 
-    private fun setTokenizationFail(tokenizationFail: TokenResult.TokenResultTokenisationFail) {
+    private fun setTokenizationFail(tokenizationFail: TokenResult.TokenResultTokenizationFail) {
         token_text_view.text =
             getString(R.string.token_failed_tokenization_format, tokenizationFail.error.errorCode)
     }

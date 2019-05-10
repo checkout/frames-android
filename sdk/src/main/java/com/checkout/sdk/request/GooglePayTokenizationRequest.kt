@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 class GooglePayTokenizationRequest(protocolVersion: String,
                                    signature: String,
                                    signedMessage: String
-) {
+) : TokenRequest {
     @SerializedName("type")
     private val type = "googlepay"
     @SerializedName("token_data")

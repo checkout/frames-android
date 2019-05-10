@@ -96,7 +96,7 @@ class RequestMakerTest : TestUsesCoroutines {
         requestMaker.makeTokenRequest(cardTokenizationRequest)
 
         then(progressCallback.onProgressChanged(true))
-        then(tokenCallback.onTokenResult(TokenResult.TokenResultTokenisationFail(cardTokenizationFail)))
+        then(tokenCallback.onTokenResult(TokenResult.TokenResultTokenizationFail(cardTokenizationFail)))
         then(progressCallback.onProgressChanged(false))
     }
 }

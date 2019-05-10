@@ -12,4 +12,4 @@ class CardTokenizationRequest (
     private val expiryYear: String,
     private val cvv: String,
     private val billingModel: NetworkBillingModel? = null
-)
+) : TokenRequest

@@ -36,14 +36,14 @@ import org.json.JSONException
 import org.json.JSONObject
 
 
-class GooglePlayActivity : Activity() {
+class GooglePayActivity : Activity() {
 
     /**
      * A client for interacting with the Google Pay API.
      *
      * @see [PaymentsClient](https://developers.google.com/android/reference/com/google/android/gms/wallet/PaymentsClient)
      */
-    private val TAG = GooglePlayActivity::class.java.simpleName
+    private val TAG = GooglePayActivity::class.java.simpleName
     private lateinit var paymentsClient: PaymentsClient
     private val bikeItem = ItemInfo("Complex Bike", (1 * 1000000).toLong(), R.drawable.bike)
     private val shippingCost = (0 * 1000000).toLong()
@@ -266,7 +266,7 @@ class GooglePlayActivity : Activity() {
             googlePayToken.getString("protocolVersion"),
             googlePayToken.getString("signature"),
             googlePayToken.getString("signedMessage"))
-        requestMaker.makeGooglePayTokenRequest(googlePayTokenizationRequest)
+        requestMaker.makeTokenRequest(googlePayTokenizationRequest)
     }
 
     private fun createTokenCallback(): CheckoutClient.TokenCallback {

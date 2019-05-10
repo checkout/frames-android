@@ -9,4 +9,4 @@ data class CardTokenizationResponse(val id: String?,
                                     val liveMode: String?,
                                     val created: String?,
                                     val used: String?,
-                                    val card: CardModel?)
+                                    val card: CardModel?) : TokenResponse

@@ -30,8 +30,8 @@ public class DemoActivity extends Activity {
                 String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().getId();
                 displayMessage("Token", id);
                 Log.e("TOKEN", "Token: " + id);
-            } else if (tokenResult instanceof TokenResult.TokenResultTokenisationFail) {
-                String errorCode = ((TokenResult.TokenResultTokenisationFail) tokenResult).getError().getErrorCode();
+            } else if (tokenResult instanceof TokenResult.TokenResultTokenizationFail) {
+                String errorCode = ((TokenResult.TokenResultTokenizationFail) tokenResult).getError().getErrorCode();
                 displayMessage("Token Error", errorCode);
             } else if (tokenResult instanceof TokenResult.TokenResultNetworkError) {
                 String networkError = ((TokenResult.TokenResultNetworkError) tokenResult).getException().getClass().getSimpleName();
