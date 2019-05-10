@@ -2,7 +2,7 @@ package com.checkout.sdk.carddetails
 
 import com.checkout.sdk.FormCustomizer
 import com.checkout.sdk.core.Card
-import junit.framework.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

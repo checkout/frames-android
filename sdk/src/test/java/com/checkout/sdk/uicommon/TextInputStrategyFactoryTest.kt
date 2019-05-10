@@ -2,8 +2,8 @@ package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.billingdetails.strategy.*
 import com.checkout.sdk.cvvinput.CvvStrategy
-import junit.framework.Assert.assertEquals
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 

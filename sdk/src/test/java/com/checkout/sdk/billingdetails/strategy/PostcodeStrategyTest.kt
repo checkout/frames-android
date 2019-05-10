@@ -3,8 +3,7 @@ package com.checkout.sdk.billingdetails.strategy
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.store.InMemoryStore
-import junit.framework.Assert
-import junit.framework.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
@@ -32,7 +31,7 @@ class PostcodeStrategyTest {
 
         val value = strategy.getInitialValue()
 
-        Assert.assertEquals(expectedText, value)
+        assertEquals(expectedText, value)
     }
 
     @Test
@@ -51,7 +50,7 @@ class PostcodeStrategyTest {
             .willReturn(BillingDetails(postcode = BillingDetail(shortText)))
 
         val result = strategy.focusChanged(false)
-        Assert.assertEquals(expectedResult, result)
+        assertEquals(expectedResult, result)
     }
 
     @Test

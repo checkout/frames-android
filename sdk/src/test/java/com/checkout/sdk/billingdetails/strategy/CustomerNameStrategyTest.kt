@@ -2,8 +2,8 @@ package com.checkout.sdk.billingdetails.strategy
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.store.InMemoryStore
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given

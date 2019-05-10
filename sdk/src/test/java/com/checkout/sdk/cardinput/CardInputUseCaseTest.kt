@@ -4,7 +4,7 @@ import android.text.Editable
 import com.checkout.sdk.core.Card
 import com.checkout.sdk.cvvinput.Cvv
 import com.checkout.sdk.store.InMemoryStore
-import junit.framework.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given

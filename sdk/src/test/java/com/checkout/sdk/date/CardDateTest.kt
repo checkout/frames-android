@@ -1,7 +1,7 @@
 package com.checkout.sdk.date
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.*
 import java.util.Calendar.YEAR

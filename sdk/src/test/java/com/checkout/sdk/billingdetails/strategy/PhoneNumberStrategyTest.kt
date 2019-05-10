@@ -5,7 +5,7 @@ import com.checkout.sdk.billingdetails.model.BillingDetails
 import com.checkout.sdk.billingdetails.model.CityDetail
 import com.checkout.sdk.models.PhoneModel
 import com.checkout.sdk.store.InMemoryStore
-import junit.framework.Assert.*
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
