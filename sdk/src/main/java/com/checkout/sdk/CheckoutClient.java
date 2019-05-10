@@ -117,13 +117,13 @@ public class CheckoutClient {
         // Provide a callback for when the token request is completed
         http.setGooglePayTokenListener(mGooglePayTokenListener);
 
-        GooglePayTokenizationRequest.TokenData tokenData = new GooglePayTokenizationRequest.TokenData(
+
+        GooglePayTokenizationRequest gPay = new GooglePayTokenizationRequest(
                 googlePayToken.getString("protocolVersion"),
                 googlePayToken.getString("signature"),
                 googlePayToken.getString("signedMessage")
         );
-        GooglePayTokenizationRequest gPayz = new GooglePayTokenizationRequest(tokenData);
-        String jsonBody = new Gson().toJson(gPayz);
+        String jsonBody = new Gson().toJson(gPay);
 
         try {
             String url = mEnvironment.getHost() + "/" + Environment.GOOGLE_PAY_PATH;

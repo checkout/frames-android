@@ -26,8 +26,6 @@ import android.widget.Toast
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.core.RequestMaker
 import com.checkout.sdk.request.GooglePayTokenizationRequest
-import com.checkout.sdk.response.GooglePayTokenisationFail
-import com.checkout.sdk.response.GooglePayTokenisationResponse
 import com.checkout.sdk.utils.Environment
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.samples.wallet.PaymentsUtil
@@ -205,8 +203,7 @@ class GooglePlayActivity : Activity() {
                     .getString("token")
             )
 
-//            sendGooglePlayToken(paymentMethodData.getJSONObject("tokenizationData").getString("token"))
-            sendGooglePayToken2(paymentMethodData.getJSONObject("tokenizationData").getString("token"))
+            sendGooglePayToken(paymentMethodData.getJSONObject("tokenizationData").getString("token"))
 
         } catch (e: JSONException) {
             Log.e("handlePaymentSuccess", "Error: " + e.toString())
@@ -260,39 +257,15 @@ class GooglePlayActivity : Activity() {
         itemPrice.text = bikeItem.priceMicros.microsToString()
     }
 
-    private fun sendGooglePlayToken(jsonPayToken: String) {
-        val tokenCallback: CheckoutClient.TokenCallback = CheckoutClient.TokenCallback {
-            Log.e(TAG, it.toString())
-        }
-        val checkoutClient = CheckoutClient(
-            this,
-            "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
-            Environment.SANDBOX,
-            tokenCallback
-        )
-        checkoutClient.setGooglePayListener(object: CheckoutClient.OnGooglePayTokenGenerated {
-            override fun onTokenGenerated(response: GooglePayTokenisationResponse?) {
-                Log.i(TAG, "Token Generated: ${response!!.token}")
-            }
-
-            override fun onError(error: GooglePayTokenisationFail?) {
-                Log.e(TAG, "Error: $error")
-            }
-
-        })
-        checkoutClient.generateGooglePayToken(jsonPayToken)
-    }
-
-    private fun sendGooglePayToken2(jsonToken: String) {
+    private fun sendGooglePayToken(jsonToken: String) {
         val googlePayToken = JSONObject(jsonToken)
 
         val client = createCheckoutClient(createTokenCallback())
         val requestMaker = createRequestMaker(client)
-        val googlePayTokenizationRequest = GooglePayTokenizationRequest(GooglePayTokenizationRequest.TokenData(
+        val googlePayTokenizationRequest = GooglePayTokenizationRequest(
             googlePayToken.getString("protocolVersion"),
             googlePayToken.getString("signature"),
-            googlePayToken.getString("signedMessage")
-        ))
+            googlePayToken.getString("signedMessage"))
         requestMaker.makeGooglePayTokenRequest(googlePayTokenizationRequest)
     }
 
