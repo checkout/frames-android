@@ -5,7 +5,7 @@ import android.content.Context;
 import com.android.volley.VolleyError;
 import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.request.CardTokenizationRequest;
-import com.checkout.sdk.request.GooglePayTokenisationRequest;
+import com.checkout.sdk.request.GooglePayTokenizationRequest;
 import com.checkout.sdk.response.CardTokenizationFail;
 import com.checkout.sdk.response.CardTokenizationResponse;
 import com.checkout.sdk.response.GooglePayTokenisationFail;
@@ -117,16 +117,13 @@ public class CheckoutClient {
         // Provide a callback for when the token request is completed
         http.setGooglePayTokenListener(mGooglePayTokenListener);
 
-        GooglePayTokenisationRequest gPay = new GooglePayTokenisationRequest();
-
-        gPay
-                .setSignature(googlePayToken.getString("signature"))
-                .setProtocolVersion(googlePayToken.getString("protocolVersion"))
-                .setSignedMessage(googlePayToken.getString("signedMessage"));
-
-        // Using Gson to convert the custom request object into a JSON string for use in the HTTP call
-        Gson gson = new Gson();
-        String jsonBody = gson.toJson(gPay);
+        GooglePayTokenizationRequest.TokenData tokenData = new GooglePayTokenizationRequest.TokenData(
+                googlePayToken.getString("protocolVersion"),
+                googlePayToken.getString("signature"),
+                googlePayToken.getString("signedMessage")
+        );
+        GooglePayTokenizationRequest gPayz = new GooglePayTokenizationRequest(tokenData);
+        String jsonBody = new Gson().toJson(gPayz);
 
         try {
             String url = mEnvironment.getGooglePayHost() + "/" + Environment.GOOGLE_PAY_PATH;
