@@ -1,11 +1,13 @@
 package com.checkout.sdk.core
 
 import android.content.Context
+import android.util.Log
 import com.checkout.sdk.CheckoutClient
 import com.checkout.sdk.api.ApiFactory
 import com.checkout.sdk.api.TokenApi
 import com.checkout.sdk.executors.Coroutines
 import com.checkout.sdk.request.CardTokenizationRequest
+import com.checkout.sdk.request.GooglePayTokenizationRequest
 import com.checkout.sdk.response.CardTokenizationFail
 import com.checkout.sdk.response.CardTokenizationResponse
 import com.google.gson.Gson
@@ -37,6 +39,26 @@ class RequestMaker(
                 handleResponseSuccessful(response)
             } else {
                 handleResponseFailure(response)
+            }
+        }
+        progressCallback?.onProgressChanged(true)
+    }
+
+    fun makeGooglePayTokenRequest(request: GooglePayTokenizationRequest) {
+        val deferred = tokenApi.getGooglePayTokenAsync(key, request)
+        coroutines.IOScope.launch {
+            val response =
+                try {
+                    deferred.await()
+                } catch (e: Exception) {
+                    handleRequestError(e)
+                    return@launch
+                }
+
+            if (response.isSuccessful) {
+                Log.e("JOHN", "Success: " + response.body()!!.token)
+            } else {
+                Log.e("JOHN", "Fail: $response")
             }
         }
         progressCallback?.onProgressChanged(true)

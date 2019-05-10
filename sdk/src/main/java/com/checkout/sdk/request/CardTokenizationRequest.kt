@@ -5,7 +5,7 @@ import com.checkout.sdk.billingdetails.NetworkBillingModel
 /**
  * The request model object for the card tokenisation request
  */
-class CardTokenizationRequest(
+class CardTokenizationRequest (
     private val number: String,
     private val name: String,
     private val expiryMonth: String,

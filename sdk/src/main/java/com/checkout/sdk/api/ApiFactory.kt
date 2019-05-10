@@ -20,7 +20,7 @@ class ApiFactory(context: Context, private val environment: Environment) {
 
     private fun retrofit(): Retrofit = Retrofit.Builder()
         .client(client)
-        .baseUrl(environment.tokenHost)
+        .baseUrl(environment.host)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()

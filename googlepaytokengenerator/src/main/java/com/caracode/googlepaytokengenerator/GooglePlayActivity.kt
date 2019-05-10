@@ -24,6 +24,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.checkout.sdk.CheckoutClient
+import com.checkout.sdk.core.RequestMaker
+import com.checkout.sdk.request.GooglePayTokenizationRequest
 import com.checkout.sdk.response.GooglePayTokenisationFail
 import com.checkout.sdk.response.GooglePayTokenisationResponse
 import com.checkout.sdk.utils.Environment
@@ -203,7 +205,8 @@ class GooglePlayActivity : Activity() {
                     .getString("token")
             )
 
-            sendGooglePlayToken(paymentMethodData.getJSONObject("tokenizationData").getString("token"))
+//            sendGooglePlayToken(paymentMethodData.getJSONObject("tokenizationData").getString("token"))
+            sendGooglePayToken2(paymentMethodData.getJSONObject("tokenizationData").getString("token"))
 
         } catch (e: JSONException) {
             Log.e("handlePaymentSuccess", "Error: " + e.toString())
@@ -259,7 +262,7 @@ class GooglePlayActivity : Activity() {
 
     private fun sendGooglePlayToken(jsonPayToken: String) {
         val tokenCallback: CheckoutClient.TokenCallback = CheckoutClient.TokenCallback {
-            Log.e("JOHN", it.toString())
+            Log.e(TAG, it.toString())
         }
         val checkoutClient = CheckoutClient(
             this,
@@ -280,4 +283,35 @@ class GooglePlayActivity : Activity() {
         checkoutClient.generateGooglePayToken(jsonPayToken)
     }
 
+    private fun sendGooglePayToken2(jsonToken: String) {
+        val googlePayToken = JSONObject(jsonToken)
+
+        val client = createCheckoutClient(createTokenCallback())
+        val requestMaker = createRequestMaker(client)
+        val googlePayTokenizationRequest = GooglePayTokenizationRequest(GooglePayTokenizationRequest.TokenData(
+            googlePayToken.getString("protocolVersion"),
+            googlePayToken.getString("signature"),
+            googlePayToken.getString("signedMessage")
+        ))
+        requestMaker.makeGooglePayTokenRequest(googlePayTokenizationRequest)
+    }
+
+    private fun createTokenCallback(): CheckoutClient.TokenCallback {
+        return CheckoutClient.TokenCallback { tokenResult ->
+//            when (tokenResult) {
+//                is TokenResult.TokenResultSuccess -> setSuccessText(tokenResult)
+//                is TokenResult.TokenResultTokenisationFail -> setTokenizationFail(tokenResult)
+//                is TokenResult.TokenResultNetworkError -> setNetworkFail(tokenResult)
+//            }
+            Log.e("JOHN", "Token Result: $tokenResult")
+        }
+    }
+
+    private fun createRequestMaker(checkoutClient: CheckoutClient): RequestMaker {
+        return RequestMaker.create(this, checkoutClient)
+    }
+
+    private fun createCheckoutClient(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
+        return CheckoutClient(this, "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73", Environment.SANDBOX, tokenCallback)
+    }
 }
