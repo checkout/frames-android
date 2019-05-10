@@ -13,5 +13,4 @@ data class CardTokenizationResponse(val id: String,
     override fun token(): String {
         return id
     }
-
 }

@@ -78,7 +78,7 @@ class RequestMaker(
     private fun getTokenError(errorString: String, clazz: Class<TokenRequest>): TokenFail {
         val fail = when (clazz) {
             CardTokenizationRequest::class.java -> CardTokenizationFail::class.java
-            CardTokenizationRequest::class.java -> GooglePayTokenisationFail::class.java
+            GooglePayTokenizationRequest::class.java -> GooglePayTokenisationFail::class.java
             else -> throw IllegalArgumentException("Unknown class: $clazz")
         }
         return Gson().fromJson(errorString, fail)

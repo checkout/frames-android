@@ -9,7 +9,7 @@ import com.checkout.sdk.request.GooglePayTokenizationRequest;
 import com.checkout.sdk.response.CardTokenizationFail;
 import com.checkout.sdk.response.CardTokenizationResponse;
 import com.checkout.sdk.response.GooglePayTokenisationFail;
-import com.checkout.sdk.response.GooglePayTokenisationResponse;
+import com.checkout.sdk.response.GooglePayTokenizationResponse;
 import com.checkout.sdk.utils.Environment;
 import com.checkout.sdk.utils.HttpUtils;
 import com.google.gson.Gson;
@@ -40,7 +40,7 @@ public class CheckoutClient {
      * This is interface used as a callback for when the google pay token is generated
      */
     public interface OnGooglePayTokenGenerated {
-        void onTokenGenerated(GooglePayTokenisationResponse response);
+        void onTokenGenerated(GooglePayTokenizationResponse response);
 
         void onError(GooglePayTokenisationFail error);
 

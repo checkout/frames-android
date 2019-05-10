@@ -15,7 +15,7 @@ import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.response.CardTokenizationFail;
 import com.checkout.sdk.response.CardTokenizationResponse;
 import com.checkout.sdk.response.GooglePayTokenisationFail;
-import com.checkout.sdk.response.GooglePayTokenisationResponse;
+import com.checkout.sdk.response.GooglePayTokenizationResponse;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -62,7 +62,7 @@ public class HttpUtils {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Create a response object and populate it
-                        GooglePayTokenisationResponse responseBody = new Gson().fromJson(response.toString(), GooglePayTokenisationResponse.class);
+                        GooglePayTokenizationResponse responseBody = new Gson().fromJson(response.toString(), GooglePayTokenizationResponse.class);
                         // Use the callback to send the response
                         if (mGooglePayTokenListener != null) {
                             mGooglePayTokenListener.onTokenGenerated(responseBody);
