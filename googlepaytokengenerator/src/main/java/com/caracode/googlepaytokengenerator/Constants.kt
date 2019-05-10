@@ -91,7 +91,7 @@ object Constants {
      *
      * @value #PAYMENT_GATEWAY_TOKENIZATION_NAME
      */
-    const val PAYMENT_GATEWAY_TOKENIZATION_NAME = "example"
+    const val PAYMENT_GATEWAY_TOKENIZATION_NAME = "checkoutltd"
 
     /**
      * Custom parameters required by the processor/gateway.
@@ -103,7 +103,7 @@ object Constants {
      */
     val PAYMENT_GATEWAY_TOKENIZATION_PARAMETERS = mapOf(
             "gateway" to PAYMENT_GATEWAY_TOKENIZATION_NAME,
-            "gatewayMerchantId" to "exampleGatewayMerchantId"
+            "gatewayMerchantId" to "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73"
     )
 
     /**

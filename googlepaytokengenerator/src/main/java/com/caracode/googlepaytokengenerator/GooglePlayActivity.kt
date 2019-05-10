@@ -24,6 +24,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.checkout.sdk.CheckoutClient
+import com.checkout.sdk.response.GooglePayTokenisationFail
+import com.checkout.sdk.response.GooglePayTokenisationResponse
 import com.checkout.sdk.utils.Environment
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.samples.wallet.PaymentsUtil
@@ -41,6 +43,7 @@ class GooglePlayActivity : Activity() {
      *
      * @see [PaymentsClient](https://developers.google.com/android/reference/com/google/android/gms/wallet/PaymentsClient)
      */
+    private val TAG = GooglePlayActivity::class.java.simpleName
     private lateinit var paymentsClient: PaymentsClient
     private val bikeItem = ItemInfo("Complex Bike", (1 * 1000000).toLong(), R.drawable.bike)
     private val shippingCost = (0 * 1000000).toLong()
@@ -200,7 +203,7 @@ class GooglePlayActivity : Activity() {
                     .getString("token")
             )
 
-            sendGooglePlayToken(paymentMethodData.getJSONObject("tokenizationData").toString())
+            sendGooglePlayToken(paymentMethodData.getJSONObject("tokenizationData").getString("token"))
 
         } catch (e: JSONException) {
             Log.e("handlePaymentSuccess", "Error: " + e.toString())
@@ -264,6 +267,16 @@ class GooglePlayActivity : Activity() {
             Environment.SANDBOX,
             tokenCallback
         )
+        checkoutClient.setGooglePayListener(object: CheckoutClient.OnGooglePayTokenGenerated {
+            override fun onTokenGenerated(response: GooglePayTokenisationResponse?) {
+                Log.i(TAG, "Token Generated: ${response!!.token}")
+            }
+
+            override fun onError(error: GooglePayTokenisationFail?) {
+                Log.e(TAG, "Error: $error")
+            }
+
+        })
         checkoutClient.generateGooglePayToken(jsonPayToken)
     }
 

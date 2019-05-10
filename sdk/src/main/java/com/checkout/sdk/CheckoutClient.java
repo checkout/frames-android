@@ -44,7 +44,7 @@ public class CheckoutClient {
 
         void onError(GooglePayTokenisationFail error);
 
-        void onNetworkError(VolleyError error);
+//        void onNetworkError(VolleyError error);
     }
 
     private Context mContext;
