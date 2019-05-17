@@ -2,8 +2,9 @@ package com.checkout.sdk.uicommon
 
 import com.checkout.sdk.billingdetails.strategy.*
 import com.checkout.sdk.cvvinput.CvvStrategy
-import junit.framework.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 
 class TextInputStrategyFactoryTest {
@@ -44,8 +45,10 @@ class TextInputStrategyFactoryTest {
         assertEquals(StateStrategy::class.java, strategy.javaClass)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `when strategy key is unknown then an IllegalArgumentException is thrown`() {
-        TextInputStrategyFactory.createStrategy("unknown")
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            TextInputStrategyFactory.createStrategy("unknown")
+        }
     }
 }

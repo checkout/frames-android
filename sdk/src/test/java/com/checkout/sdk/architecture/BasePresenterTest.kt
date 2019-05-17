@@ -1,16 +1,16 @@
 package com.checkout.sdk.architecture
 
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.reset
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class BasePresenterTest {
 
     @Mock
@@ -21,7 +21,7 @@ class BasePresenterTest {
 
     private lateinit var presenter: BasePresenter<MvpView<UiState>, UiState>
 
-    @Before
+    @BeforeEach
     fun setup() {
         presenter = object : BasePresenter<MvpView<UiState>, UiState>(uiState) { }
     }

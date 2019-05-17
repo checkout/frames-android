@@ -2,20 +2,18 @@ package com.checkout.sdk.billingdetails.strategy
 
 import com.checkout.sdk.billingdetails.model.BillingDetail
 import com.checkout.sdk.billingdetails.model.BillingDetails
-import com.checkout.sdk.billingdetails.strategy.PostcodeStrategy
 import com.checkout.sdk.store.InMemoryStore
-import junit.framework.Assert
-import junit.framework.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class PostcodeStrategyTest {
 
     private val billingDetails = BillingDetails(postcode = BillingDetail("WR9 3FT"))
@@ -33,7 +31,7 @@ class PostcodeStrategyTest {
 
         val value = strategy.getInitialValue()
 
-        Assert.assertEquals(expectedText, value)
+        assertEquals(expectedText, value)
     }
 
     @Test
@@ -52,7 +50,7 @@ class PostcodeStrategyTest {
             .willReturn(BillingDetails(postcode = BillingDetail(shortText)))
 
         val result = strategy.focusChanged(false)
-        Assert.assertEquals(expectedResult, result)
+        assertEquals(expectedResult, result)
     }
 
     @Test

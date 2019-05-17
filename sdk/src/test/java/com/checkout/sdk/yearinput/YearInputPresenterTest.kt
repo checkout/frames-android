@@ -1,17 +1,17 @@
 package com.checkout.sdk.yearinput
 
 import com.checkout.sdk.architecture.MvpView
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito.reset
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class YearInputPresenterTest {
 
     @Mock
@@ -30,7 +30,7 @@ class YearInputPresenterTest {
 
     private lateinit var initialState: YearInputUiState
 
-    @Before
+    @BeforeEach
     fun onSetup() {
         initialState = YearInputUiState(listOf("2080", "2081", "2082", "2083", "2084"), 3)
         presenter = YearInputPresenter(initialState)
