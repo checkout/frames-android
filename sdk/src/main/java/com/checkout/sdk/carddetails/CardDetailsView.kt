@@ -20,7 +20,7 @@ import com.checkout.sdk.core.CardDetailsValidity
 import com.checkout.sdk.paymentform.PaymentForm
 import com.checkout.sdk.store.InMemoryStore
 import com.google.android.flexbox.FlexboxLayout
-import kotlinx.android.synthetic.main.card_details.view.*
+import kotlinx.android.synthetic.main.cko_card_details.view.*
 
 /**
  * The controller of the card details view page
@@ -63,8 +63,9 @@ class CardDetailsView @JvmOverloads constructor(
     }
 
     init {
-        inflate(context, R.layout.card_details, this)
+        inflate(context, R.layout.cko_card_details, this)
         orientation = VERTICAL
+        background = ContextCompat.getDrawable(context, R.color.background)
     }
 
     /**
@@ -116,7 +117,7 @@ class CardDetailsView @JvmOverloads constructor(
     private fun displayAcceptedCards(cards: List<Card>) {
         card_icons_flexbox.removeAllViews()
         for (card in cards) {
-            val cardIconView = inflate(context, R.layout.view_credit_card_icon, null) as ImageView
+            val cardIconView = inflate(context, R.layout.cko_view_credit_card_icon, null) as ImageView
             val cardDrawable = ContextCompat.getDrawable(context, card.resourceId)
             cardIconView.setImageDrawable(cardDrawable)
 

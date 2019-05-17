@@ -16,7 +16,7 @@ import com.checkout.sdk.core.Card
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.AfterTextChangedListener
 import com.checkout.sdk.utils.CardUtils
-import kotlinx.android.synthetic.main.view_card_input.view.*
+import kotlinx.android.synthetic.main.cko_view_card_input.view.*
 
 /**
  * <h1>CardInput class</h1>
@@ -36,7 +36,7 @@ class CardInput @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private lateinit var presenter: CardInputPresenter
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_card_input, this)
+        LayoutInflater.from(context).inflate(R.layout.cko_view_card_input, this)
     }
 
     /**

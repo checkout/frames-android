@@ -56,8 +56,8 @@ open class FormCustomizer {
 
         private var formCustomizer: FormCustomizer? = null
 
-        fun getFormCustomizer(): FormCustomizer {
-            return formCustomizer ?: throw UninitializedPropertyAccessException()
+        fun getFormCustomizer(): FormCustomizer? {
+            return formCustomizer
         }
 
         fun setFormCustomizer(formCustomizer: FormCustomizer) {

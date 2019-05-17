@@ -21,7 +21,7 @@ import com.checkout.sdk.core.CardDetailsValidator
 import com.checkout.sdk.core.RequestGenerator
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
-import kotlinx.android.synthetic.main.payment_form.view.*
+import kotlinx.android.synthetic.main.cko_payment_form.view.*
 
 /**
  * Contains helper methods dealing with the tokenisation or payment from customisation
@@ -84,7 +84,7 @@ class PaymentForm @JvmOverloads constructor(
      */
     init {
         // Set up the layout
-        inflate(mContext, R.layout.payment_form, this)
+        inflate(mContext, R.layout.cko_payment_form, this)
 
         card_details_view.setGoToBillingListener(object: CardDetailsView.GoToBillingListener {
             override fun onGoToBilling() {

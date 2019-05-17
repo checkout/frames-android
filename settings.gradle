@@ -1,1 +1,1 @@
-include ':app', ':sdk', ':tokengenerator', ':googlepaytokengenerator'
+include ':app', ':sdk', ':tokengenerator', ':googlepaytokengenerator', ':uicustomizing'

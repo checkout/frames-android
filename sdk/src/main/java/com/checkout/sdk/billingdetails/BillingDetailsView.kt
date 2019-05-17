@@ -11,7 +11,7 @@ import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.InMemoryStore
-import kotlinx.android.synthetic.main.billing_details.view.*
+import kotlinx.android.synthetic.main.cko_billing_details.view.*
 
 /**
  * The controller of the billing details view page
@@ -43,7 +43,7 @@ class BillingDetailsView @JvmOverloads constructor(
     }
 
     init {
-        inflate(this.context, R.layout.billing_details, this)
+        inflate(this.context, R.layout.cko_billing_details, this)
         orientation = VERTICAL
         isFocusableInTouchMode = true
     }
