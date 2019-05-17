@@ -7,9 +7,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.checkout.sdk.BillingModel;
-import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.FormCustomizer;
 import com.checkout.sdk.core.Card;
+import com.checkout.sdk.CheckoutClient;
 import com.checkout.sdk.core.TokenResult;
 import com.checkout.sdk.models.PhoneModel;
 import com.checkout.sdk.paymentform.PaymentForm;
@@ -26,16 +26,16 @@ public class DemoActivity extends Activity {
         @Override
         public void onTokenResult(TokenResult tokenResult) {
             if (tokenResult instanceof TokenResult.TokenResultSuccess) {
-                mPaymentForm.clearForm(); // clear the form
-                String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().getId();
+                mPaymentForm.clearForm();
+                String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().token();
                 displayMessage("Token", id);
                 Log.e("TOKEN", "Token: " + id);
-            } else if (tokenResult instanceof TokenResult.TokenResultTokenisationFail) {
-                String errorCode = ((TokenResult.TokenResultTokenisationFail) tokenResult).getError().getErrorCode();
+            } else if (tokenResult instanceof TokenResult.TokenResultTokenizationFail) {
+                String errorCode = ((TokenResult.TokenResultTokenizationFail) tokenResult).getError().errorCode();
                 displayMessage("Token Error", errorCode);
-            } else if (tokenResult instanceof TokenResult.TokenResultVolleyError) {
-                String volleyError = String.valueOf(((TokenResult.TokenResultVolleyError) tokenResult).getError());
-                displayMessage("Network Error", volleyError);
+            } else if (tokenResult instanceof TokenResult.TokenResultNetworkError) {
+                String networkError = ((TokenResult.TokenResultNetworkError) tokenResult).getException().getClass().getSimpleName();
+                displayMessage("Network Error", networkError);
             } else {
                 throw new RuntimeException("Unknown Error");
             }
@@ -60,11 +60,12 @@ public class DemoActivity extends Activity {
 
         setContentView(R.layout.activity_demo);
 
-        CheckoutClient checkoutClient = new CheckoutClient(
+        CheckoutClient checkoutClient = CheckoutClient.Companion.create(
                 this,
                 "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
                 Environment.SANDBOX,
-                callback);
+                callback
+        );
 
 
         mPaymentForm = findViewById(R.id.checkout_card_form);

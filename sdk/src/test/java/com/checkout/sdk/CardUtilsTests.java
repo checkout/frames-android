@@ -1,8 +1,9 @@
 package com.checkout.sdk;
 
 import com.checkout.sdk.utils.CardUtils;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CardUtilsTests {
 
@@ -13,7 +14,7 @@ public class CardUtilsTests {
         assertEquals("visa", CardUtils.INSTANCE.getType("4").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void visa_full_isFound() {
         assertEquals("visa", CardUtils.INSTANCE.getType("4242424242424242").getCardName());
     }
@@ -23,12 +24,12 @@ public class CardUtilsTests {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("42"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void visa_short_isValid() {
         assertEquals(true, CardUtils.INSTANCE.isValidCard("4242424242424242"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void visa_short_isFormatted() {
         assertEquals("4242 4242", CardUtils.INSTANCE.getFormattedCardNumber("42424242"));
     }
@@ -50,7 +51,7 @@ public class CardUtilsTests {
         assertEquals("mastercard", CardUtils.INSTANCE.getType("5436031030606378").getCardName());
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void mastercard_short_isNotValid() {
         assertEquals(false, CardUtils.INSTANCE.isValidCard("5436"));
     }

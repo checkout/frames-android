@@ -1,23 +1,19 @@
 package com.checkout.sdk.paymentform
 
 import com.checkout.sdk.architecture.MvpView
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.BDDMockito.given
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class PaymentFormPresenterTest {
 
     @Mock
     private lateinit var viewMock: MvpView<PaymentFormUiState>
-
-    @Mock
-    private lateinit var getTokenUseCaseBuilder: GetTokenUseCase.Builder
 
     @Mock
     private lateinit var getTokenUseCase: GetTokenUseCase
@@ -26,7 +22,7 @@ class PaymentFormPresenterTest {
 
     private lateinit var initialState: PaymentFormUiState
 
-    @Before
+    @BeforeEach
     fun onSetup() {
         initialState = PaymentFormUiState()
         presenter = PaymentFormPresenter()
@@ -36,10 +32,7 @@ class PaymentFormPresenterTest {
 
     @Test
     fun `when we get token we execute the use case`() {
-        given(getTokenUseCaseBuilder.callback(presenter)).willReturn(getTokenUseCaseBuilder)
-        given(getTokenUseCaseBuilder.build()).willReturn(getTokenUseCase)
-
-        presenter.getToken(getTokenUseCaseBuilder)
+        presenter.getToken(getTokenUseCase)
 
         then(getTokenUseCase).should().execute()
     }

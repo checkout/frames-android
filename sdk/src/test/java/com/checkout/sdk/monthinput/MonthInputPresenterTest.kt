@@ -2,16 +2,16 @@ package com.checkout.sdk.monthinput
 
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.utils.DateFormatter
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito.reset
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class MonthInputPresenterTest {
 
     @Mock
@@ -30,7 +30,7 @@ class MonthInputPresenterTest {
 
     private lateinit var initialState: MonthInputUiState
 
-    @Before
+    @BeforeEach
     fun onSetup() {
         initialState = MonthInputUiState(getExpectedMonths())
         presenter = MonthInputPresenter(dateFormatter, initialState)

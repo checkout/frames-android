@@ -1,8 +1,8 @@
 package com.checkout.sdk.billingdetails.model
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 
 class BillingDetailTest {

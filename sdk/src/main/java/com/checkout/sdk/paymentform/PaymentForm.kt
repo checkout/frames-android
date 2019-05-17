@@ -58,11 +58,11 @@ class PaymentForm @JvmOverloads constructor(
     private var validPayRequestListener: ValidPayRequestListener =
         object : ValidPayRequestListener {
             override fun onValidPayRequest() {
-                val getTokenUseCaseBuilder = GetTokenUseCase.Builder(
+                checkoutClient.progressCallback = presenter
+                val getTokenUseCase = GetTokenUseCase(
                     RequestGenerator(inMemoryStore, DateFormatter(), CardDetailsValidator(inMemoryStore), BillingDetailsValidator(inMemoryStore)),
-                    checkoutClient
-                )
-                presenter.getToken(getTokenUseCaseBuilder)
+                    checkoutClient)
+                presenter.getToken(getTokenUseCase)
             }
         }
 
