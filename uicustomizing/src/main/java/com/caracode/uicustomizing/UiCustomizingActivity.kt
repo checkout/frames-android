@@ -9,6 +9,9 @@ import android.os.Bundle
  * that you want to use (in cko_strings.xml and colors.xml respectively)
  * This gives usa more Shakespearean version of the text, a blue accent colour and an orange error colour.
  *
+ * We also change the styling of the pay button by adding a new `cko_card_details.xml` in the project
+ * and adding a background to the `Button` (all the rest of the `cko_card_details.xml` file is the same)
+ *
  * The same idea can be applied to change color and size:
  *
  * `cko_colors.xml`
