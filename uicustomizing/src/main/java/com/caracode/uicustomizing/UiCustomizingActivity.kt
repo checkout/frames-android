@@ -2,6 +2,11 @@ package com.caracode.uicustomizing
 
 import android.app.Activity
 import android.os.Bundle
+import android.widget.Toast
+import com.checkout.sdk.CheckoutClient
+import com.checkout.sdk.core.TokenResult
+import com.checkout.sdk.paymentform.PaymentForm
+import com.checkout.sdk.utils.Environment
 
 /**
  * Here we customize the wording and coloring used on the CardDetails and BillingDetails form by
@@ -38,6 +43,21 @@ class UiCustomizingActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
-    }
 
+        val callback = object : CheckoutClient.TokenCallback {
+            override fun onTokenResult(tokenResult: TokenResult) {
+                Toast.makeText(this@UiCustomizingActivity, "Token result: $tokenResult", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        val checkoutClient = CheckoutClient.create(
+            this,
+            "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
+            Environment.SANDBOX,
+            callback
+        )
+
+        val paymentForm: PaymentForm = findViewById(R.id.checkout_card_form)
+        paymentForm.initialize(checkoutClient)
+    }
 }
