@@ -16,10 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val tokenCallback = createTokenCallback()
-        val requestMaker = createRequestMaker(tokenCallback)
+        val checkoutClient = CheckoutClient.create(this, KEY, Environment.SANDBOX, tokenCallback)
         generate_token_button.setOnClickListener {
             progress_bar.visibility = VISIBLE
-            requestMaker.requestToken(createCardTokenizationRequest())
+            checkoutClient.requestToken(createCardTokenizationRequest())
         }
     }
 
@@ -34,10 +34,6 @@ class MainActivity : AppCompatActivity() {
                 progress_bar.visibility = GONE
             }
         }
-    }
-
-    private fun createRequestMaker(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
-        return CheckoutClient.create(this, KEY, Environment.SANDBOX, tokenCallback)
     }
 
     fun createCardTokenizationRequest(): CardTokenizationRequest {
