@@ -36,7 +36,7 @@ class CardDetailsView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs), MvpView<CardDetailsUiState> {
 
     private val inMemoryStore = InMemoryStore.Factory.get()
-    lateinit var presenter: CardDetailsPresenter
+    var presenter: CardDetailsPresenter? = null
     private var validPayRequestListener: PaymentForm.ValidPayRequestListener? = null
     private var mGotoBillingListener: GoToBillingListener? = null
 
@@ -78,12 +78,12 @@ class CardDetailsView @JvmOverloads constructor(
         super.onAttachedToWindow()
 
         presenter = PresenterStore.getOrCreateDefault(CardDetailsPresenter::class.java)
-        presenter.start(this)
+        presenter?.start(this)
 
         go_to_billing.setBillingListener(mGotoBillingListener)
 
         pay_button.setOnClickListener {
-            presenter.payButtonClicked(playButtonClickedUseCase)
+            presenter?.payButtonClicked(playButtonClickedUseCase)
         }
 
         initializeAcceptedCards()
@@ -94,7 +94,7 @@ class CardDetailsView @JvmOverloads constructor(
      * Display a progress bar to show that Payment is in progress
      */
     fun showProgress(inProgress: Boolean) {
-        presenter.showProgress(inProgress)
+        presenter?.showProgress(inProgress)
     }
 
     override fun onStateUpdated(uiState: CardDetailsUiState) {
@@ -139,7 +139,7 @@ class CardDetailsView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.stop()
+        presenter?.stop()
     }
 
     /**
@@ -157,7 +157,7 @@ class CardDetailsView @JvmOverloads constructor(
      * Used to update the billing spinner based on values added in the BillingDetailsView
      */
     fun updateBillingSpinner() {
-        presenter.updateBillingSpinner(resetBillingSpinnerUseCase)
+        presenter?.updateBillingSpinner(resetBillingSpinnerUseCase)
     }
 
     /**
@@ -165,7 +165,7 @@ class CardDetailsView @JvmOverloads constructor(
      */
     private fun initializeAcceptedCards() {
         val initializeAcceptedCardsUseCase = InitializeAcceptedCardsUseCase(FormCustomizer.Holder.get().getFormCustomizer())
-        presenter.initializeAcceptedCards(initializeAcceptedCardsUseCase)
+        presenter?.initializeAcceptedCards(initializeAcceptedCardsUseCase)
     }
 
     private fun populateBillingSpinner(elements: List<String>) {
