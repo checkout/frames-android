@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import com.android.volley.VolleyError;
+import com.checkout.android_sdk.Models.BillingModel;
+import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.PaymentForm;
 import com.checkout.android_sdk.PaymentForm.PaymentFormCallback;
 import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Utils.CardUtils.Cards;
 import com.checkout.android_sdk.Utils.Environment;
+
+import java.util.Locale;
 
 public class DemoActivity extends Activity {
 
@@ -30,12 +34,12 @@ public class DemoActivity extends Activity {
         public void onTokenGenerated(CardTokenisationResponse response) {
             mProgressDialog.dismiss(); // dismiss the loader
             mPaymentForm.clearForm(); // clear the form
-            displayMessage("Token", response.getId());
+            displayMessage("Token", response.getToken());
         }
 
         @Override
         public void onError(CardTokenisationFail response) {
-            displayMessage("Token Error", response.getErrorCode());
+            displayMessage("Token Error", response.getErrorType());
         }
 
         @Override
@@ -64,7 +68,7 @@ public class DemoActivity extends Activity {
                 .setFormListener(mFormListener)
                 .setEnvironment(Environment.SANDBOX)
                 .setKey("pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73")
-                .setAcceptedCard(new Cards[]{Cards.VISA, Cards.MASTERCARD});
+                .setDefaultBillingCountry(Locale.UK);
     }
 
     private void displayMessage(String title, String message) {

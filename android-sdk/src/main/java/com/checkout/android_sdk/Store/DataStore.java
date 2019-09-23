@@ -3,6 +3,7 @@ package com.checkout.android_sdk.Store;
 import android.widget.LinearLayout;
 
 import com.checkout.android_sdk.Models.BillingModel;
+import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.Utils.CardUtils;
 import com.checkout.android_sdk.Utils.Environment;
 
@@ -73,7 +74,9 @@ public class DataStore {
     private LinearLayout.LayoutParams mClearButtonLayout = null;
 
     private BillingModel mLastBillingValidState = null;
+    private PhoneModel mLastPhoneValidState = null;
     private BillingModel mDefaultBillingDetails = null;
+    private PhoneModel mDefaultPhoneDetails = null;
     private String mLastCustomerNameState = null;
 
     protected DataStore() {
@@ -414,6 +417,14 @@ public class DataStore {
         this.mLastBillingValidState = mLastBillingValidState;
     }
 
+    public PhoneModel getLastPhoneValidState() {
+        return mLastPhoneValidState;
+    }
+
+    public void setLastPhoneValidState(PhoneModel mLastPhoneValidState) {
+        this.mLastPhoneValidState = mLastPhoneValidState;
+    }
+
     public String getLastCustomerNameState() {
         return mLastCustomerNameState;
     }
@@ -444,6 +455,14 @@ public class DataStore {
 
     public void setDefaultBillingDetails(BillingModel mDefaultBillingDetails) {
         this.mDefaultBillingDetails = mDefaultBillingDetails;
+    }
+
+    public PhoneModel getDefaultPhoneDetails() {
+        return mDefaultPhoneDetails;
+    }
+
+    public void setDefaultPhoneDetails(PhoneModel mDefaultPhoneDetails) {
+        this.mDefaultPhoneDetails = mDefaultPhoneDetails;
     }
 
     public String getDefaultCustomerName() {

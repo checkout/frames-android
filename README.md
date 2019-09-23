@@ -26,11 +26,11 @@ dependencies {
  implementation 'com.android.support:design:27.1.1'
  implementation 'com.google.code.gson:gson:2.8.5'
  implementation 'com.android.volley:volley:1.1.0'
- implementation 'com.github.checkout:frames-android:v2.0.6'
+ implementation 'com.github.checkout:frames-android:v2.1.0'
 }
 ```
 
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.0.6)
+> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.1.0)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
@@ -58,11 +58,11 @@ dependencies {
     PaymentFormCallback mFormListener = new PaymentFormCallback() {
         @Override
         public void onFormSubmit() {
-           // form submit initiated; you can potentially display a loader 
+           // form submit initiated; you can potentially display a loader
         }
         @Override
         public void onTokenGenerated(CardTokenisationResponse response) {
-            // your token is here
+            // your token is here: response.token
             mPaymentForm.clearForm(); // this clears the Payment Form
         }
         @Override
@@ -83,12 +83,12 @@ dependencies {
 
 **Step4** Initialise the module
 ```java
-    // initialise the payment from 
+    // initialise the payment from
     mPaymentForm = findViewById(R.id.checkout_card_form);
     mPaymentForm
         .setSubmitListener(mSubmitListener)    // set the callback
         .setEnvironment(Environment.SANDBOX)   // set the environemnt
-        .setKey("pk_xxx");                     // set your public key 
+        .setKey("pk_xxx");                     // set your public key
 ```
 <br/>
 
@@ -97,7 +97,7 @@ dependencies {
 
 **Step1** Include the module in your class.
 ```java
-   private CheckoutAPIClient mCheckoutAPIClient; // include the module 
+   private CheckoutAPIClient mCheckoutAPIClient; // include the module
 ```
 
 **Step2** Create a callback.
@@ -142,11 +142,11 @@ dependencies {
                   "postcode",
                   "UK",
                   "city",
-                  "state",
-                  new PhoneModel(
-                          "+44",
-                          "07123456789"
-                  )
+                  "state"
+          )
+          new PhoneModel(
+                  "+44",
+                  "07123456789"
           )
      )
    );
@@ -242,13 +242,16 @@ If you collected the address details from the customer prior to the payment page
                             "POST CODE",
                             "GB",
                             "City",
-                            "State",
-                            new PhoneModel(
-                                    "+44",
-                                    "07123456789"
-                            )
+                            "State"
                     )
                 );
+             .injectPhone(
+                    new PhoneModel(
+                            "+44",
+                            "07123456789"
+                    )
+                );
+             .injectCardHolderName("John Smith");
 ```
 
 If you want to customise the buttons in the Payment From you have the following options :
@@ -272,7 +275,7 @@ The module allows you to handle 3DSecure URLs within your mobile app. Here are t
 
 **Step1** Create a callback.
 ```java
-    PaymentForm.On3DSFinished m3DSecureListener = 
+    PaymentForm.On3DSFinished m3DSecureListener =
            new PaymentForm.On3DSFinished() {
 
         @Override
@@ -291,7 +294,7 @@ The module allows you to handle 3DSecure URLs within your mobile app. Here are t
 ```java
     mPaymentForm = findViewById(R.id.checkout_card_form);
     mPaymentForm.set3DSListener(m3DSecureListener); // pass the callback
-    
+
     mPaymentForm.handle3DS(
             "https://sandbox.checkout.com/api2/v2/3ds/acs/687805", // the 3D Secure URL
             "http://example.com/success", // the Redirection URL
@@ -338,46 +341,67 @@ The module allows you to handle a Google Pay token payload and retrieve a token,
 ## Objects found in callbacks
 #### When dealing with actions like generating a card token the callback will include the following objects.
 
-**For success -> CardTokenisationResponse** 
+**For success -> CardTokenisationResponse**
 <br/>
 With the following getters:
 ```java
-   response.getId();               // the card token 
-   response.getLiveMode();         // environment mode
-   response.getCreated();          // timestamp of creation
-   response.getUsed();             // show usage
-   response.getCard();             // card object containing card information and billing details
+  response.getType();             // the token type
+  response.getToken();            // the card token
+  response.getTokenExpiry();      // token expiration timestamp (e.g. 2019-09-23T13:25:01Z)
+  response.getCardExpiryMonth();   // card expiry month
+  response.getCardExpiryYear();    // card expiry year
+  response.getScheme();            // card scheme (e.g. Visa)
+  response.getLast4();             // last 4 digitst fo the card number
+  response.getBin();               // card BIN
+  response.getCardType();          // card type (e.g. Credit)
+  response.getCardCategory();      // card category (e.g. Consumer)
+  response.getIssuer();            // card issuer
+  response.getIssuerCountry();     // card issuer contry (e.g. US)
+  response.getProductId();         // issuer/card scheme product identifier
+  response.getProductType();       // issuer/card scheme product type
+  response.getBillingAddress();    // card billing address
+  response.getPhone();             // phone
+  response.getName();              // cardholder name
 ```
 
-**For error -> CardTokenisationResponse** 
+**For error -> CardTokenisationResponse**
 <br/>
 With the following getters:
 ```java
-   error.getEventId();           // a unique identifier for the event 
-   error.getMessage();           // the error message
-   error.getErrorCode();         // the error code
-   error.getErrorMessageCodes(); // an array or strings with all error codes 
-   error.getErrors();            // an array or strings with all error messages 
+   error.getRequestId();         // a unique identifier for the request
+   error.getErrorType();         // the error type
+   error.getErrorCodes();        // the error codes
 ```
 
 #### When dealing with actions like generating a token for a Google Pay payload the callback will include the following objects.
 
-**For success -> GooglePayTokenisationResponse** 
+**For success -> GooglePayTokenisationResponse**
 <br/>
 With the following getters:
 ```java
-   response.getToken();      // the token
-   response.getExpiration(); // the token exiration 
-   response.getType();       // the token type
+  response.getType();             // the token type
+  response.getToken();            // the card token
+  response.getTokenExpiry();      // token expiration timestamp (e.g. 2019-09-23T13:25:01Z)
+  response.getCardExpiryMonth();   // card expiry month
+  response.getCardExpiryYear();    // card expiry year
+  response.getScheme();            // card scheme (e.g. Visa)
+  response.getLast4();             // last 4 digitst fo the card number
+  response.getBin();               // card BIN
+  response.getCardType();          // card type (e.g. Credit)
+  response.getCardCategory();      // card category (e.g. Consumer)
+  response.getIssuer();            // card issuer
+  response.getIssuerCountry();     // card issuer contry (e.g. US)
+  response.getProductId();         // issuer/card scheme product identifier
+  response.getProductType();       // issuer/card scheme product type
 ```
 
-**For error -> GooglePayTokenisationFail** 
+**For error -> GooglePayTokenisationFail**
 <br/>
 With the following getters:
 ```java
-   error.getRequestId();  // a unique identifier for the request 
-   error.getErrorType();  // the error type
-   error.getErrorCodes(); // an array of strings with all the error codes
+   error.getRequestId();         // a unique identifier for the request
+   error.getErrorType();         // the error type
+   error.getErrorCodes();        // the error codes
 ```
 
 ## License

@@ -514,11 +514,11 @@ public class CardDetailsView extends LinearLayout {
                             mDataStore.getCustomerZipcode(),
                             mDataStore.getCustomerCountry(),
                             mDataStore.getCustomerCity(),
-                            mDataStore.getCustomerState(),
-                            new PhoneModel(
-                                    mDataStore.getCustomerPhonePrefix(),
-                                    mDataStore.getCustomerPhone()
-                            )
+                            mDataStore.getCustomerState()
+                    ),
+                    new PhoneModel(
+                            mDataStore.getCustomerPhonePrefix(),
+                            mDataStore.getCustomerPhone()
                     )
             );
         } else {
@@ -528,6 +528,7 @@ public class CardDetailsView extends LinearLayout {
                     mDataStore.getCardMonth(),
                     mDataStore.getCardYear(),
                     mDataStore.getCardCvv(),
+                    null,
                     null
             );
         }
