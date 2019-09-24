@@ -5,29 +5,19 @@ package com.checkout.android_sdk.Response;
  */
 public class CardTokenisationFail {
 
-    private String eventId;
-    private String errorCode;
-    private String message;
-    private String[] errorMessageCodes;
-    private String[] errors;
+    private String request_id;
+    private String error_type;
+    private String[] error_codes;
 
-    public String getEventId() {
-        return eventId;
+    public String getRequestId() {
+        return request_id;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public String getErrorType() {
+        return error_type;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public String[] getErrorMessageCodes() {
-        return errorMessageCodes;
-    }
-
-    public String[] getErrors() {
-        return errors;
+    public String[] getErrorCodes() {
+        return error_codes;
     }
 }

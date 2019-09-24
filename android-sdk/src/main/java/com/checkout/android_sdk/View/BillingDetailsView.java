@@ -269,14 +269,14 @@ public class BillingDetailsView extends LinearLayout {
             public void onClick(View v) {
                 if (mDatastore != null && mDatastore.getLastBillingValidState() != null) {
                     mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
-                    mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddressLine1());
-                    mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddressLine2());
-                    mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getPostcode());
+                    mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
+                    mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
+                    mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getZip());
                     mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
                     mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
                     mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
-                    mDatastore.setCustomerPhonePrefix(mDatastore.getLastBillingValidState().getPhone().getCountryCode());
-                    mDatastore.setCustomerPhone(mDatastore.getLastBillingValidState().getPhone().getNumber());
+                    mDatastore.setCustomerPhonePrefix(mDatastore.getLastPhoneValidState().getCountry_code());
+                    mDatastore.setCustomerPhone(mDatastore.getLastPhoneValidState().getNumber());
                     repopulateFields();
                     mListener.onBillingCompleted();
                 } else {
@@ -391,11 +391,11 @@ public class BillingDetailsView extends LinearLayout {
                                 mDatastore.getCustomerZipcode(),
                                 mDatastore.getCustomerCountry(),
                                 mDatastore.getCustomerCity(),
-                                mDatastore.getCustomerState(),
-                                new PhoneModel(
-                                        mDatastore.getCustomerPhonePrefix(),
-                                        mDatastore.getCustomerPhone()
-                                )
+                                mDatastore.getCustomerState()
+                        ));
+                        mDatastore.setLastPhoneValidState(new PhoneModel(
+                                mDatastore.getCustomerPhonePrefix(),
+                                mDatastore.getCustomerPhone()
                         ));
                         mListener.onBillingCompleted();
                     }
@@ -548,10 +548,10 @@ public class BillingDetailsView extends LinearLayout {
                 mDatastore.getCustomerPhone() != null) {
             mPhone.setText(PhoneUtils.getPrefix(mDatastore.getDefaultCountry().getCountry()) +
                     " " + mDatastore.getCustomerPhone());
-            mAddressOne.setText(mDatastore.getDefaultBillingDetails().getAddressLine1());
+            mAddressOne.setText(mDatastore.getDefaultBillingDetails().getAddress_line1());
             mAddressOneLayout.setError(null);
             mAddressOneLayout.setErrorEnabled(false);
-            mAddressTwo.setText(mDatastore.getDefaultBillingDetails().getAddressLine2());
+            mAddressTwo.setText(mDatastore.getDefaultBillingDetails().getAddress_line2());
             mAddressTwoLayout.setError(null);
             mAddressTwoLayout.setErrorEnabled(false);
             mCity.setText(mDatastore.getDefaultBillingDetails().getCity());
@@ -560,7 +560,7 @@ public class BillingDetailsView extends LinearLayout {
             mState.setText(mDatastore.getDefaultBillingDetails().getState());
             mStateLayout.setError(null);
             mStateLayout.setErrorEnabled(false);
-            mZip.setText(mDatastore.getDefaultBillingDetails().getPostcode());
+            mZip.setText(mDatastore.getDefaultBillingDetails().getZip());
             mZipLayout.setError(null);
             mZipLayout.setErrorEnabled(false);
             mPhoneLayout.setError(null);
@@ -611,14 +611,14 @@ public class BillingDetailsView extends LinearLayout {
                     !mPhone.hasFocus()) {
                 if (mDatastore != null && mDatastore.getLastBillingValidState() != null) {
                     mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
-                    mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddressLine1());
-                    mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddressLine2());
-                    mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getPostcode());
+                    mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
+                    mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
+                    mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getZip());
                     mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
                     mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
                     mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
-                    mDatastore.setCustomerPhonePrefix(mDatastore.getLastBillingValidState().getPhone().getCountryCode());
-                    mDatastore.setCustomerPhone(mDatastore.getLastBillingValidState().getPhone().getNumber());
+                    mDatastore.setCustomerPhonePrefix(mDatastore.getLastPhoneValidState().getCountry_code());
+                    mDatastore.setCustomerPhone(mDatastore.getLastPhoneValidState().getNumber());
                     repopulateFields();
                     mListener.onBillingCompleted();
                 } else {

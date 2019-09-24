@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.checkout.android_sdk.Models.BillingModel;
+import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Store.DataStore;
@@ -418,14 +419,24 @@ public class PaymentForm extends FrameLayout {
         mDataStore.setBillingCompleted(true);
         mDataStore.setLastBillingValidState(billing);
         mDataStore.setDefaultBillingDetails(billing);
-        mDataStore.setCustomerAddress1(billing.getAddressLine1());
-        mDataStore.setCustomerAddress2(billing.getAddressLine2());
-        mDataStore.setCustomerZipcode(billing.getPostcode());
+        mDataStore.setCustomerAddress1(billing.getAddress_line1());
+        mDataStore.setCustomerAddress2(billing.getAddress_line2());
+        mDataStore.setCustomerZipcode(billing.getZip());
         mDataStore.setCustomerCountry(billing.getCountry());
         mDataStore.setCustomerCity(billing.getCity());
         mDataStore.setCustomerState(billing.getState());
-        mDataStore.setCustomerPhone(billing.getPhone().getNumber());
-        mDataStore.setCustomerPhonePrefix(billing.getPhone().getCountryCode());
+        return this;
+    }
+
+    /**
+     * This method used to inject phone details if they have already been collected
+     *
+     * @param phone PhoneModel representing the value for the phone details
+     */
+    public PaymentForm injectPhone(PhoneModel phone) {
+        mDataStore.setCustomerPhone(phone.getNumber());
+        mDataStore.setCustomerPhonePrefix(phone.getCountry_code());
+        mDataStore.setDefaultPhoneDetails(phone);
         return this;
     }
 
@@ -459,14 +470,14 @@ public class PaymentForm extends FrameLayout {
         if(mDataStore != null && mDataStore.getDefaultBillingDetails() != null) {
             mDataStore.setBillingCompleted(true);
             mDataStore.setLastBillingValidState(mDataStore.getDefaultBillingDetails());
-            mDataStore.setCustomerAddress1(mDataStore.getDefaultBillingDetails().getAddressLine1());
-            mDataStore.setCustomerAddress2(mDataStore.getDefaultBillingDetails().getAddressLine2());
-            mDataStore.setCustomerZipcode(mDataStore.getDefaultBillingDetails().getPostcode());
+            mDataStore.setCustomerAddress1(mDataStore.getDefaultBillingDetails().getAddress_line1());
+            mDataStore.setCustomerAddress2(mDataStore.getDefaultBillingDetails().getAddress_line2());
+            mDataStore.setCustomerZipcode(mDataStore.getDefaultBillingDetails().getZip());
             mDataStore.setCustomerCountry(mDataStore.getDefaultBillingDetails().getCountry());
             mDataStore.setCustomerCity(mDataStore.getDefaultBillingDetails().getCity());
             mDataStore.setCustomerState(mDataStore.getDefaultBillingDetails().getState());
-            mDataStore.setCustomerPhone(mDataStore.getDefaultBillingDetails().getPhone().getNumber());
-            mDataStore.setCustomerPhonePrefix(mDataStore.getDefaultBillingDetails().getPhone().getCountryCode());
+            mDataStore.setCustomerPhone(mDataStore.getDefaultPhoneDetails().getNumber());
+            mDataStore.setCustomerPhonePrefix(mDataStore.getDefaultPhoneDetails().getCountry_code());
         }
         if(mDataStore != null && mDataStore.getDefaultCustomerName() != null) {
             mDataStore.setCustomerName(mDataStore.getDefaultCustomerName());
