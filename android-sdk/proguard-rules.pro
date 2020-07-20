@@ -9,7 +9,7 @@
 # and specify the fully qualified class name to the JavaScript interface
 # class:
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
+#   public *;p
 #}
 
 # Uncomment this to preserve the line number information for
@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontshrink
+-dontoptimize
+-dontpreverify
+-keep class com.checkout.*** { *; }

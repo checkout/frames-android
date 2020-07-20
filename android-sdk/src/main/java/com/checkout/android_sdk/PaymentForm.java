@@ -200,11 +200,21 @@ public class PaymentForm extends FrameLayout {
                 if (url.contains(successUrl)) {
                     Uri uri = Uri.parse(url);
                     String paymentToken = uri.getQueryParameter("cko-payment-token");
-                    m3DSecureListener.onSuccess(paymentToken);
+                    String sessionId = uri.getQueryParameter("cko-session-id");
+                    if(paymentToken==null) {
+                        m3DSecureListener.onSuccess(sessionId);
+                    } else {
+                        m3DSecureListener.onSuccess(paymentToken);
+                    }
                 } else if (url.contains(failsUrl)) {
                     Uri uri = Uri.parse(url);
                     String paymentToken = uri.getQueryParameter("cko-payment-token");
-                    m3DSecureListener.onError(paymentToken);
+                    String sessionId = uri.getQueryParameter("cko-session-id");
+                    if(paymentToken==null) {
+                        m3DSecureListener.onError(sessionId);
+                    } else {
+                        m3DSecureListener.onError(paymentToken);
+                    }
                 }
             }
         });
