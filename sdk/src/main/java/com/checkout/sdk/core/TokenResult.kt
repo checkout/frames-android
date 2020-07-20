@@ -5,10 +5,10 @@ import com.checkout.sdk.response.TokenResponse
 
 sealed class TokenResult {
 
-    class TokenResultSuccess(val response: TokenResponse) : TokenResult()
+    data class TokenResultSuccess(val response: TokenResponse) : TokenResult()
 
-    class TokenResultTokenizationFail(val error: TokenFail) : TokenResult()
+    data class TokenResultTokenizationFail(val error: TokenFail) : TokenResult()
 
-    class TokenResultNetworkError(val exception: Exception) : TokenResult()
+    data class TokenResultNetworkError(val exception: Exception) : TokenResult()
 
 }

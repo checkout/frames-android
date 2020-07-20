@@ -13,7 +13,7 @@ import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.architecture.PresenterStore
 import com.checkout.sdk.store.InMemoryStore
 import com.checkout.sdk.utils.DateFormatter
-import kotlinx.android.synthetic.main.card_details.view.*
+import kotlinx.android.synthetic.main.cko_card_details.view.*
 
 /**
  * A custom Spinner with handling of card expiration month input

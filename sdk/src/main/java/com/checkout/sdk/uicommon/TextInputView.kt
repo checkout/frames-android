@@ -10,7 +10,7 @@ import android.view.View.OnFocusChangeListener
 import com.checkout.sdk.R
 import com.checkout.sdk.architecture.MvpView
 import com.checkout.sdk.utils.AfterTextChangedListener
-import kotlinx.android.synthetic.main.view_text_input.view.*
+import kotlinx.android.synthetic.main.cko_view_text_input.view.*
 
 /**
  * A custom EditText with validation and handling of cvv input
@@ -24,7 +24,7 @@ class TextInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     private val strategy: TextInputStrategy
 
     init {
-        inflate(context, R.layout.view_text_input, this)
+        inflate(context, R.layout.cko_view_text_input, this)
         val textInputAttributeProperties =
             TextInputAttributeProperties.extractFromAttributes(context, attrs)
         presenter = textInputAttributeProperties.presenter

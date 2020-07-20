@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">checkout-android-sdk</string>
     <string name="title_card_details" translatable="true">Card Details</string>

@@ -36,12 +36,12 @@ dependencies {
 
 ## Usage
 
-### For using the module's UI you need to do the following:
+### For using the module's UI you need to do the following (see app/.. DemoActivity):
 <br/>
 
 **Step1** Add the module to your XML layout.
 ```xml
-   <com.checkout.android_sdk.PaymentForm
+   <com.checkout.sdk.paymentform.PaymentForm
         android:id="@+id/checkout_card_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,101 +55,82 @@ dependencies {
 
 **Step3** Create a callback for the Payment Form.
 ```java
-    PaymentFormCallback mFormListener = new PaymentFormCallback() {
-        @Override
-        public void onFormSubmit() {
-           // form submit initiated; you can potentially display a loader 
-        }
-        @Override
-        public void onTokenGenerated(CardTokenisationResponse response) {
-            // your token is here
-            mPaymentForm.clearForm(); // this clears the Payment Form
-        }
-        @Override
-        public void onError(CardTokenisationFail response) {
-            // token request error
-        }
-        @Override
-        public void onNetworkError(VolleyError error) {
-            // network error
-        }
-        @Override
-        public void onBackPressed() {
-            // the user decided to leave the payment page
-            mPaymentForm.clearForm(); // this clears the Payment Form
-        }
-    };
+    private final CheckoutClient.TokenCallback callback = new CheckoutClient.TokenCallback() {
+
+            @Override
+            public void onTokenResult(TokenResult tokenResult) {
+                if (tokenResult instanceof TokenResult.TokenResultSuccess) {
+                    mPaymentForm.clearForm();
+                    String id = ((TokenResult.TokenResultSuccess) tokenResult).getResponse().token();
+                    displayMessage("Token", id);
+                    Log.e("TOKEN", "Token: " + id);
+                } else if (tokenResult instanceof TokenResult.TokenResultTokenizationFail) {
+                    String errorCode = ((TokenResult.TokenResultTokenizationFail) tokenResult).getError().errorCode();
+                    displayMessage("Token Error", errorCode);
+                } else if (tokenResult instanceof TokenResult.TokenResultNetworkError) {
+                    String networkError = ((TokenResult.TokenResultNetworkError) tokenResult).getException().getClass().getSimpleName();
+                    displayMessage("Network Error", networkError);
+                } else {
+                    throw new RuntimeException("Unknown Error");
+                }
+            }
+        };
 ```
 
-**Step4** Initialise the module
+**Step4** Initialise the checkout client
+```java
+    CheckoutClient checkoutClient = CheckoutClient.Companion.create(
+                    this,
+                    "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
+                    Environment.SANDBOX,
+                    callback
+            );
+```
+
+**Step5** Initialise the UI
 ```java
     // initialise the payment from 
     mPaymentForm = findViewById(R.id.checkout_card_form);
-    mPaymentForm
-        .setSubmitListener(mSubmitListener)    // set the callback
-        .setEnvironment(Environment.SANDBOX)   // set the environemnt
-        .setKey("pk_xxx");                     // set your public key 
+    mPaymentForm.initialize(checkoutClient)
 ```
 <br/>
 
-### For using the module without the UI you need to do the following:
+### For using the module without the UI you need to do the following (see tokengenerator/.. MainActivity):
 <br/>
 
-**Step1** Include the module in your class.
-```java
-   private CheckoutAPIClient mCheckoutAPIClient; // include the module 
+**Step1** Create a token callback.
+```kotlin
+   val tokenCallback = object : CheckoutClient.TokenCallback {
+               override fun onTokenResult(tokenResult: TokenResult) {
+                   when (tokenResult) {
+                       is TokenResult.TokenResultSuccess -> setSuccessText(tokenResult)
+                       is TokenResult.TokenResultTokenizationFail -> setTokenizationFail(tokenResult)
+                       is TokenResult.TokenResultNetworkError -> setNetworkFail(tokenResult)
+                   }
+               }
+          }
 ```
 
-**Step2** Create a callback.
-```java
-   CheckoutAPIClient.OnTokenGenerated mTokenListener = new CheckoutAPIClient.OnTokenGenerated() {
-     @Override
-     public void onTokenGenerated(CardTokenisationResponse token) {
-         // your token
-     }
-     @Override
-     public void onError(CardTokenisationFail error) {
-         // your error
-     }
-     @Override
-     public void onNetworkError(VolleyError error) {
-         // your network error
-     }
-   };
+**Step2** Create a CheckoutClient
+```kotlin
+   val checkoutClient = CheckoutClient.create(this, KEY, Environment.SANDBOX, tokenCallback)
 ```
 
-**Step3** Initialise the module and pass the card details.
-```java
-   mCheckoutAPIClient = new CheckoutAPIClient(
-           this,                // context
-           "pk_XXXXX",          // your public key
-           Environment.SANDBOX  // the environment
-   );
-   mCheckoutAPIClient.setTokenListener(mTokenListener); // pass the callback
+**Step3** Create a CardTokenizationRequest
+```kotlin
+   val cardTokenizationRequest = CardTokenizationRequest(
+               "4242424242424242",
+               "Jim Stynes",
+               "06",
+               "2020",
+               "100",
+               null
+           )
+```
 
-
-   // Pass the paylod and generate the token
-   mCheckoutAPIClient.generateToken(
-     new CardTokenisationRequest(
-          "4242424242424242",
-          "name",
-          "06",
-          "25",
-          "100",
-          new BillingModel(
-                  "address line 1",
-                  "address line 2",
-                  "postcode",
-                  "UK",
-                  "city",
-                  "state",
-                  new PhoneModel(
-                          "+44",
-                          "07123456789"
-                  )
-          )
-     )
-   );
+**Step4** Request a token
+```kotlin
+   checkoutClient.requestToken(cardTokenizationRequest)
 
 ```
 
@@ -176,93 +157,43 @@ Moreover, the module inherits the  **Theme.AppCompat.Light.DarkActionBar** style
      <item name="android:fontFamily">@font/myFont</item>
    </style>
    ...
-   <com.example.android_sdk.PaymentForm
+   <com.checkout.sdk.paymentform.PaymentForm
      android:id="@+id/checkout_card_form"
      android:layout_width="match_parent"
      android:layout_height="match_parent"
      android:theme="@style/YourCustomTheme"/>
 ```
 
-If you would like to customise the helper labels of the payment form fields you can use the following method:
-```java
-        mPaymentForm
-            ...
-            .setAcceptedCardsLabel("We accept this card types")
-            .setCardHolderLabel("Name on Card")
-            .setCardLabel("Card Number")
-            .setDateLabel("Expiration Datee")
-            .setCvvLabel("Security Code")
-            .setAddress1Label("Address 1")
-            .setAddress2Label("Address 2")
-            .setTownLabel("City")
-            .setStateLabel("State")
-            .setPostcodeLabel("Zip Code")
-            .setPhoneLabel("Phone No.")
-```
+If you would like to customise the helper labels of the payment form fields you can override the strings
+by dropping in a new `cko_string.xml` in your project: run the `uicustomizing app` and see
+ /Users/caracode/Workspace/frames-android/uicustomizing/src/main/res/values/cko_strings.xml
 
 If you would like to allow users to input their billing details when completing the payment form, you can simply use the following method:
-```java
-        mPaymentForm
-            ...
-            .includeBilling(true); // false value will hide the option
+```kotlin
+    BillingModel billingModel = new BillingModel("48 Rayfield Terrace",
+                    "Burton on Thames",
+                    "Norwich", "United Kingdom", "TU1 8FS",
+                    "Cumbria",
+                    phoneModel);
+    FormCustomizer formCustomizer = new FormCustomizer()
+            .injectBilling(billingModel);
+    ...
+    mPaymentForm.initialize(checkoutClient, formCustomizer)
 ```
 
 If you want to display a limited array of accepted card types you can select them in the following way:
-```java
-        mPaymentForm
-            ...
-            .setAcceptedCard(new Cards[]{VISA, MASTERCARD});
-```
-
-If you target a specific region, and would like to set a default country for the billing details you can use the following:
-```java
-   mPaymentForm = findViewById(R.id.checkout_card_form);
-        mPaymentForm
-            ...
-            .setDefaultBillingCountry(Locale.UK)  // the parameter needs to be a Locale country object
+```kotlin
+   formCustomizer.setAcceptedCards(Arrays.asList(Card.VISA, Card.MASTERCARD))
 ```
 
 If you collected the customer name and you would like to pre-populate it in the billing details, you can use the following:
-```java
-   mPaymentForm = findViewById(R.id.checkout_card_form);
-        mPaymentForm
-            ...
-            .injectCardHolderName("John Smith")
+```kotlin
+  formCustomizer.injectCardHolderName("John Doe")
 ```
 
-If you collected the address details from the customer prior to the payment page, you can inject the details, to avoid the customer re-entering them:
-```java
-   mPaymentForm = findViewById(R.id.checkout_card_form);
-        mPaymentForm
-            ...
-            .injectBilling(
-                    new BillingModel(
-                            "1 address",
-                            "2 address",
-                            "POST CODE",
-                            "GB",
-                            "City",
-                            "State",
-                            new PhoneModel(
-                                    "+44",
-                                    "07123456789"
-                            )
-                    )
-                );
-```
+N.B. You must call any methods on `FormCustomizer` before inflating the view (i.e. before `setContentView`)
 
-If you want to customise the buttons in the Payment From you have the following options :
-```java
-   mPaymentForm = findViewById(R.id.checkout_card_form);
-   mPaymentForm
-       ...
-       .setPayButtonText("Pay Now")     // Pay button text; dafault "Pay"
-       .setDoneButtonText("Save")       // Done button text on the billing address page; dafault "Done"
-       .setClearButtonText("Clear")     // Clear button text on the billing address page; dafault "Clear"
-       .setPayButtonLayout(params)      // LayoutParams for the Pay button
-       .setDoneButtonLayout(params)     // LayoutParams for the Done button
-       .setClearButtonLayout(params)    // LayoutParams for the Clear button
-```
+If you want to customise the buttons in the Payment From can override the strings by adding a `cko_strings.xml` in your project (see uicustomizing app) :
 
 ## Handle 3D Secure
 
@@ -300,40 +231,39 @@ The module allows you to handle 3DSecure URLs within your mobile app. Here are t
 ```
 > Keep in mind that the Redirection and Redirection Fail URLs are set in the Checkout Hub, but they can be overwritten in the charge request sent from your server. It is important to provide the correct URLs to ensure a successful payment flow.
 
-## Handle Google Pay
+## Handle Google Pay: see googlePayTokenGenerator app
 
 The module allows you to handle a Google Pay token payload and retrieve a token, that can be used to create a charge from your backend.
 
+**Step0** Copy the Google Pay token sample code from google's website
+
 **Step1** Create a callback.
-```java
-
-     CheckoutAPIClient.OnGooglePayTokenGenerated mGooglePayListener =
-        new CheckoutAPIClient.OnGooglePayTokenGenerated() {
-            @Override
-            public void onTokenGenerated(GooglePayTokenisationResponse response) {
-                // success
-            }
-            @Override
-            public void onError(GooglePayTokenisationFail error) {
-                // fail
-            }
-            @Override
-            public void onNetworkError(VolleyError error) {
-                // your network error
-            }
-        };
+```kotlin
+     val tokenCallback = object: CheckoutClient.TokenCallback {
+                 override fun onTokenResult(tokenResult: TokenResult) {
+                     when (tokenResult) {
+                         is TokenResult.TokenResultSuccess -> googleTokenResult.text = "Token: ${tokenResult.response.token()}"
+                         is TokenResult.TokenResultTokenizationFail -> googleTokenResult.text = "Error: ${tokenResult.error.errorCode()}"
+                         is TokenResult.TokenResultNetworkError -> googleTokenResult.text = "Network Error: ${tokenResult.exception.javaClass.simpleName}"
+                     }
+                 }
+             }
 ```
-**Step2** Pass the callback to the module and generate the token
-```java
-   mCheckoutAPIClient = new CheckoutAPIClient(
-        context,             // activity context
-        "pk_XXXXX",          // your public key
-        Environment.SANDBOX  // the environment
-   );
-   mCheckoutAPIClient.setGooglePayListener(mGooglePayListener); // pass the callback
-
-   mCheckoutAPIClient.generateGooglePayToken(payload); // the payload is the JSON string generated by GooglePay
+**Step2** Use the Google Pay Token to create a GooglePayTokenizationRequest
+```kotlin
+    val googlePayTokenizationRequest = GooglePayTokenizationRequest(
+               googlePayToken.getString("protocolVersion"),
+               googlePayToken.getString("signature"),
+               googlePayToken.getString("signedMessage"))
 ```
+
+**Step3** Request a token
+```kotlin
+    val checkoutClient = CheckoutClient.create(this, "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73", Environment.SANDBOX, tokenCallback)
+    checkoutClient.requestToken(googlePayTokenizationRequest)
+```
+
+
 
 ## Objects found in callbacks
 #### When dealing with actions like generating a card token the callback will include the following objects.

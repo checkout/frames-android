@@ -44,19 +44,19 @@ class ViewChanger(context: Context) {
     }
 
     private fun transitionInForward(view: View, animate: Boolean) {
-        slideView(view, R.anim.in_forward, ViewChangeOn.START, View.VISIBLE, animate)
+        slideView(view, R.anim.cko_in_forward, ViewChangeOn.START, View.VISIBLE, animate)
     }
 
     private fun transitionOutForward(view: View, animate: Boolean) {
-        slideView(view, R.anim.out_forward, ViewChangeOn.END, View.GONE, animate)
+        slideView(view, R.anim.cko_out_forward, ViewChangeOn.END, View.GONE, animate)
     }
 
     private fun transitionOutBack(view: View, animate: Boolean) {
-        slideView(view, R.anim.out_back, ViewChangeOn.END, View.GONE, animate)
+        slideView(view, R.anim.cko_out_back, ViewChangeOn.END, View.GONE, animate)
     }
 
     private fun transitionInBack(view: View, animate: Boolean) {
-        slideView(view, R.anim.in_back, ViewChangeOn.START, View.VISIBLE, animate)
+        slideView(view, R.anim.cko_in_back, ViewChangeOn.START, View.VISIBLE, animate)
     }
 
     private fun slideView(

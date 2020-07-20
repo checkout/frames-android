@@ -260,12 +260,12 @@ class GooglePayActivity : Activity() {
     private fun sendGooglePayToken(jsonToken: String) {
         val googlePayToken = JSONObject(jsonToken)
 
-        val requestMaker = createRequestMaker(createTokenCallback())
+        val checkoutClient = createCheckoutClient(createTokenCallback())
         val googlePayTokenizationRequest = GooglePayTokenizationRequest(
             googlePayToken.getString("protocolVersion"),
             googlePayToken.getString("signature"),
             googlePayToken.getString("signedMessage"))
-        requestMaker.requestToken(googlePayTokenizationRequest)
+        checkoutClient.requestToken(googlePayTokenizationRequest)
     }
 
     private fun createTokenCallback(): CheckoutClient.TokenCallback {
@@ -280,7 +280,7 @@ class GooglePayActivity : Activity() {
         }
     }
 
-    private fun createRequestMaker(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
+    private fun createCheckoutClient(tokenCallback: CheckoutClient.TokenCallback): CheckoutClient {
         return CheckoutClient.create(this, "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73", Environment.SANDBOX, tokenCallback)
     }
 }
