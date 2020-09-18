@@ -5,10 +5,12 @@ package com.checkout.android_sdk.Request;
  */
 
 import com.checkout.android_sdk.Models.GooglePayModel;
+import com.google.gson.annotations.SerializedName;
 
 public class GooglePayTokenisationRequest {
 
     private String type = "googlepay";
+    @SerializedName("token_data")
     private GooglePayModel token_data = new GooglePayModel();
 
     public GooglePayTokenisationRequest setSignature(String signature) {

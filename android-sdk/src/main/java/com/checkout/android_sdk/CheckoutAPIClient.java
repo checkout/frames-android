@@ -83,7 +83,6 @@ public class CheckoutAPIClient {
         // Using Gson to convert the custom request object into a JSON string for use in the HTTP call
         Gson gson = new Gson();
         String jsonBody = gson.toJson(request);
-
         try {
             http.generateToken(key, mEnvironment.token, jsonBody);
         } catch (JSONException e) {
