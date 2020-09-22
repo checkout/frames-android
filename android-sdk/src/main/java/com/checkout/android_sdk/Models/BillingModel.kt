@@ -1,9 +1,21 @@
 package com.checkout.android_sdk.Models
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Http request billing details object model
  */
 class BillingModel(
-    val address_line1: String, val address_line2: String, val zip: String, val country: String,
-    val city: String, val state: String
+        @SerializedName("address_line1")
+        val address_line1: String,
+        @SerializedName("address_line2")
+        val address_line2: String,
+        @SerializedName("zip")
+        val zip: String,
+        @SerializedName("country")
+        val country: String,
+        @SerializedName("city")
+        val city: String,
+        @SerializedName("state")
+        val state: String
 )

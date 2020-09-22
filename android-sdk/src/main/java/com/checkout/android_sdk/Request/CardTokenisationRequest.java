@@ -9,13 +9,21 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CardTokenisationRequest {
 
+    @SerializedName("type")
     private String type = "card";
+    @SerializedName("number")
     private String number;
+    @SerializedName("name")
     private String name;
+    @SerializedName("expiry_month")
     private String expiry_month;
+    @SerializedName("expiry_year")
     private String expiry_year;
+    @SerializedName("cvv")
     private String cvv;
+    @SerializedName("billing_address")
     private BillingModel billing_address;
+    @SerializedName("phone")
     private PhoneModel phone;
 
     public CardTokenisationRequest(String number, String name, String expiryMonth, String expiryYear, String cvv, BillingModel billingDetails, PhoneModel phone) {

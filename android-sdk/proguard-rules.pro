@@ -23,4 +23,3 @@
 -dontshrink
 -dontoptimize
 -dontpreverify
--keep class com.checkout.** { *; }
