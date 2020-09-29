@@ -1,13 +1,15 @@
 package com.checkout.android_sdk.Input;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class DefaultInput extends android.support.v7.widget.AppCompatEditText {
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+
+public class DefaultInput extends AppCompatEditText {
     public interface Listener {
         void onInputFinish(String value);
 

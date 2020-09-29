@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -24,7 +24,7 @@
             android:layout_marginTop="@dimen/accepted_cards_margin_top"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/name_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,10 +46,10 @@
                     android:singleLine="true"
                     android:textColor="@color/card_view_details_text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/address_one_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,9 +72,9 @@
                     android:singleLine="true"
                     android:textColor="@color/card_view_details_text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/address_two_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,10 +97,10 @@
                     android:singleLine="true"
                     android:textColor="@color/card_view_details_text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/city_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,9 +123,9 @@
                     android:singleLine="true"
                     android:textColor="@color/card_view_details_text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/state_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,9 +148,9 @@
                     android:singleLine="true"
                     android:textColor="@color/card_view_details_text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/zipcode_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                     android:singleLine="true"
                     android:textColor="@color/card_view_details_text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.checkout.android_sdk.Input.CountryInput
@@ -190,7 +190,7 @@
                 android:popupBackground="@color/spinner_background" />
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phone_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                     android:singleLine="true"
                     android:textColor="@color/card_view_details_text" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -247,6 +247,7 @@
                     android:background="?attr/colorButtonNormal"
                     android:text="@string/button_done"
                     android:textAlignment="center"
+                    android:gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/pay_button_text" />
 

@@ -1,12 +1,14 @@
 package com.checkout.android_sdk.Input;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.checkout.android_sdk.R;
 import com.checkout.android_sdk.Utils.PhoneUtils;
@@ -18,7 +20,7 @@ import java.util.Locale;
 /**
  * A custom Spinner with handling of city input
  */
-public class CountryInput extends android.support.v7.widget.AppCompatSpinner {
+public class CountryInput extends AppCompatSpinner {
 
     public interface CountryListener {
         void onCountryInputFinish(String country, String prefix);
@@ -59,7 +61,7 @@ public class CountryInput extends android.support.v7.widget.AppCompatSpinner {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mCountryListener != null) {
-                    if(getSelectedItemPosition() == 0)
+                    if (getSelectedItemPosition() == 0)
                         // empty phone field on default value
                         mCountryListener.onCountryInputFinish("", "");
                     Locale[] locale = Locale.getAvailableLocales();
@@ -113,7 +115,7 @@ public class CountryInput extends android.support.v7.widget.AppCompatSpinner {
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
 
         // Add the helper label on the first position
-        countries.add(0,getResources().getString(R.string.placeholder_country));
+        countries.add(0, getResources().getString(R.string.placeholder_country));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, countries);
         setAdapter(adapter);

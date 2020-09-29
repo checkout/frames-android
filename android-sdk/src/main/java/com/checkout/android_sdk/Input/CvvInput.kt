@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.Editable
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
+import androidx.appcompat.widget.AppCompatEditText
 import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Presenter.CvvInputPresenter
 import com.checkout.android_sdk.Store.DataStore
@@ -13,7 +14,7 @@ import com.checkout.android_sdk.Utils.AfterTextChangedListener
  * A custom EditText with validation and handling of cvv input
  */
 class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
-    android.support.v7.widget.AppCompatEditText(context, attrs), CvvInputPresenter.CvvInputView {
+    AppCompatEditText(context, attrs), CvvInputPresenter.CvvInputView {
 
     private var listener: DefaultInput.Listener? = null
 
@@ -31,12 +32,12 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        presenter = PresenterStore.getOrCreate(
-            CvvInputPresenter::class.java,
-            { CvvInputPresenter(DataStore.getInstance()) })
+        presenter = PresenterStore.getOrCreate(CvvInputPresenter::class.java) {
+            CvvInputPresenter(DataStore.getInstance())
+        }
         presenter.start(this)
 
-        addTextChangedListener(object: AfterTextChangedListener() {
+        addTextChangedListener(object : AfterTextChangedListener() {
             override fun afterTextChanged(s: Editable?) {
                 presenter.inputStateChanged(s.toString())
             }

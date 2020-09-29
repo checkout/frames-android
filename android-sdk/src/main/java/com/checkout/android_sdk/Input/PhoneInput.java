@@ -1,16 +1,18 @@
 package com.checkout.android_sdk.Input;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+
 /**
  * A custom EdiText with validation and handling of phone number input
  */
-public class PhoneInput extends android.support.v7.widget.AppCompatEditText {
+public class PhoneInput extends AppCompatEditText {
 
     public interface PhoneListener {
         void onPhoneInputFinish(String phone);

@@ -7,6 +7,7 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.AppCompatSpinner
 import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Presenter.MonthInputPresenter
 import com.checkout.android_sdk.Store.DataStore
@@ -19,7 +20,7 @@ class MonthInput @JvmOverloads constructor(
     private val mContext: Context,
     attrs: AttributeSet? = null
 ) :
-    android.support.v7.widget.AppCompatSpinner(mContext, attrs),
+    AppCompatSpinner(mContext, attrs),
     MonthInputPresenter.MonthInputView {
 
     private var monthInputListener: MonthInput.MonthListener? = null
@@ -38,9 +39,12 @@ class MonthInput @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        presenter = PresenterStore.getOrCreate(
-            MonthInputPresenter::class.java,
-            { MonthInputPresenter(DateFormatter(), DataStore.getInstance()) })
+        presenter = PresenterStore.getOrCreate(MonthInputPresenter::class.java) {
+            MonthInputPresenter(
+                DateFormatter(),
+                DataStore.getInstance()
+            )
+        }
         presenter.start(this)
 
         onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

@@ -1,7 +1,8 @@
 package com.checkout.android_sdk.Utils;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
 
 import com.checkout.android_sdk.R;
 

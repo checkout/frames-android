@@ -7,6 +7,7 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.AppCompatSpinner
 import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Presenter.YearInputPresenter
 import com.checkout.android_sdk.Store.DataStore
@@ -15,7 +16,7 @@ import com.checkout.android_sdk.Store.DataStore
  * A custom Spinner with handling of card expiration year input
  */
 class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
-    android.support.v7.widget.AppCompatSpinner(mContext, attrs), YearInputPresenter.YearInputView {
+    AppCompatSpinner(mContext, attrs), YearInputPresenter.YearInputView {
 
     private var mYearInputListener: YearInput.YearListener? = null
     private lateinit var presenter: YearInputPresenter
@@ -47,9 +48,9 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
         super.onAttachedToWindow()
 
         // Create/get and start the presenter
-        presenter = PresenterStore.getOrCreate(
-            YearInputPresenter::class.java,
-            { YearInputPresenter(DataStore.getInstance()) })
+        presenter = PresenterStore.getOrCreate(YearInputPresenter::class.java) {
+            YearInputPresenter(DataStore.getInstance())
+        }
         presenter.start(this)
 
         onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
