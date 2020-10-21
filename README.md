@@ -2,8 +2,20 @@
 [![CircleCI](https://circleci.com/gh/checkout/frames-android/tree/master.svg?style=svg)](https://circleci.com/gh/checkout/frames-android/tree/master)
 [![](https://jitpack.io/v/checkout/frames-android.svg)](https://jitpack.io/#checkout/frames-android)
 
+
+
+>Since Google Play target API level has changed (new apps must target API level 29+ and app updates must target API level 28+), 
+we have introduced AndroidX libraries replacing deprecated support libraries (those versioned 27 and earlier, and packaged as `android.support.*`). 
+>
+>Updating to the Frames release 2.2.0 (with AndroidX) requires that your app uses AndroidX and not the (now deprecated) Android Support Library.
+>
+>Frames release 2.2.0 is not backward compatible with the release 2.1.0 (uses Android Support Library).  
+>
+>We encourage you to upgrade Frames to 2.2.0 and provide a feedback about your experience.
+ 
 ## Requirements
 - Android minimum SDK 16
+- For release 2.2.0 and above: Target API level 28+
 
 ## Demo
 
@@ -20,17 +32,49 @@ allprojects {
  }
 }
 ```
+
+### Release 2.2.0 and above:
+1. Add Frames SDK dependency:
+
+```gradle
+// module gradle file
+dependencies {
+ implementation 'com.github.checkout:frames-android:2.2.0'
+}
+```
+2. The Frames SDK dependencies are:
+```gradle
+// module gradle file
+dependencies {
+ implementation 'androidx.core:core-ktx:1.3.2'
+ implementation 'androidx.appcompat:appcompat:1.2.0'
+ implementation 'com.google.code.gson:gson:2.8.6'
+ implementation 'com.android.volley:volley:1.1.0'
+ implementation 'androidx.viewpager:viewpager:1.0.0'
+ implementation 'com.google.android.material:material:1.2.1'
+}
+```
+
+### Releases up to 2.2.0:
+1. Add Frames SDK dependency:
+
+```gradle
+// module gradle file
+dependencies {
+ implementation 'com.github.checkout:frames-android:2.1.4'
+}
+```
+2. The Frames SDK dependencies are:
 ```gradle
 // module gradle file
 dependencies {
  implementation 'com.android.support:design:27.1.1'
  implementation 'com.google.code.gson:gson:2.8.5'
  implementation 'com.android.volley:volley:1.1.0'
- implementation 'com.github.checkout:frames-android:v2.1.3'
 }
 ```
 
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/v2.1.3)
+> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/2.2.0)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
