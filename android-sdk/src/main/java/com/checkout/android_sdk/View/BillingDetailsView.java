@@ -1,8 +1,6 @@
 package com.checkout.android_sdk.View;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.checkout.android_sdk.Input.AddressOneInput;
 import com.checkout.android_sdk.Input.CountryInput;
@@ -20,6 +21,7 @@ import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.R;
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.Utils.PhoneUtils;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Locale;
 
@@ -217,7 +219,7 @@ public class BillingDetailsView extends LinearLayout {
     Context mContext;
     private Button mDone;
     private Button mClear;
-    private android.support.v7.widget.Toolbar mToolbar;
+    private Toolbar mToolbar;
     private DefaultInput mName;
     private TextInputLayout mNameLayout;
     private CountryInput mCountryInput;

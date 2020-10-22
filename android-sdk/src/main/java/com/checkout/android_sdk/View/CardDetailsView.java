@@ -2,9 +2,6 @@ package com.checkout.android_sdk.View;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -14,6 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.VolleyError;
 import com.checkout.android_sdk.CheckoutAPIClient;
@@ -31,6 +31,7 @@ import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.Utils.CardUtils;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;

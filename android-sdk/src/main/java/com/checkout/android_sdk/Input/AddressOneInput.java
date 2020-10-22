@@ -1,17 +1,19 @@
 package com.checkout.android_sdk.Input;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+
 /**
  * A custom EdiText with validation and handling of address input
  */
-public class AddressOneInput extends android.support.v7.widget.AppCompatEditText {
+public class AddressOneInput extends AppCompatEditText {
 
     public interface AddressOneListener {
         void onAddressOneInputFinish(String number);

@@ -1,14 +1,15 @@
 package com.checkout.android_sdk.Input;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.checkout.android_sdk.R;
-import com.checkout.android_sdk.Store.DataStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * A custom Spinner with handling of billing input
  */
-public class BillingInput extends android.support.v7.widget.AppCompatSpinner {
+public class BillingInput extends AppCompatSpinner {
 
     public interface BillingListener {
         void onGoToBilling();
