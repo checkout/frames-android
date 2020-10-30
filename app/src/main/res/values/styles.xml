@@ -10,7 +10,7 @@
     </style>
 
     <!-- Customise the theme.-->
-    <style name="YourCustomTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="CustomPaymentFormTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
         <!-- TOOLBAR COLOR. -->
         <item name="colorPrimary">#000000</item>
@@ -25,7 +25,5 @@
         <item name="colorControlNormal">#000</item>
 
     </style>
-
-
 
 </resources>
