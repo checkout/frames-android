@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">checkout-android-sdk</string>
     <string name="title_card_details" translatable="true">Card Details</string>
     <string name="label_accepted_cards" translatable="true">Accepted Cards</string>
     <string name="placeholder_card_number" translatable="true">Card number*</string>
