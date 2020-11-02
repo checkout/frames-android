@@ -74,7 +74,7 @@ dependencies {
 }
 ```
 
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/2.2.0)
+> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/2.2.1)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
