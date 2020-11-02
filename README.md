@@ -9,7 +9,7 @@ we have introduced AndroidX libraries replacing deprecated support libraries (th
 >
 >Updating to the Frames release 2.2.0 (with AndroidX) requires that your app uses AndroidX and not the (now deprecated) Android Support Library.
 >
->Frames release 2.2.0 is not backward compatible with the release 2.1.0 (uses Android Support Library).  
+>Frames release 2.2.0+ is not backward compatible with 2.1.X releases which uses Android Support Library.
 >
 >We encourage you to upgrade Frames to 2.2.0 and provide a feedback about your experience.
  
@@ -39,7 +39,7 @@ allprojects {
 ```gradle
 // module gradle file
 dependencies {
- implementation 'com.github.checkout:frames-android:2.2.0'
+ implementation 'com.github.checkout:frames-android:2.2.1'
 }
 ```
 2. The Frames SDK dependencies are:
