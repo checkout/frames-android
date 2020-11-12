@@ -49,7 +49,7 @@ dependencies {
  implementation 'androidx.core:core-ktx:1.3.2'
  implementation 'androidx.appcompat:appcompat:1.2.0'
  implementation 'com.google.code.gson:gson:2.8.6'
- implementation 'com.android.volley:volley:1.1.0'
+ implementation 'com.android.volley:volley:1.1.1'
  implementation 'androidx.viewpager:viewpager:1.0.0'
  implementation 'com.google.android.material:material:1.2.1'
 }
@@ -69,8 +69,8 @@ dependencies {
 // module gradle file
 dependencies {
  implementation 'com.android.support:design:27.1.1'
- implementation 'com.google.code.gson:gson:2.8.5'
- implementation 'com.android.volley:volley:1.1.0'
+ implementation 'com.google.code.gson:gson:2.8.6'
+ implementation 'com.android.volley:volley:1.1.1'
 }
 ```
 
