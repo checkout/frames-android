@@ -23,7 +23,7 @@ class MonthInput @JvmOverloads constructor(
     AppCompatSpinner(mContext, attrs),
     MonthInputPresenter.MonthInputView {
 
-    private var monthInputListener: MonthInput.MonthListener? = null
+    private var monthInputListener: MonthListener? = null
     private lateinit var presenter: MonthInputPresenter
 
     interface MonthListener {
@@ -47,7 +47,7 @@ class MonthInput @JvmOverloads constructor(
         }
         presenter.start(this)
 
-        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -74,7 +74,7 @@ class MonthInput @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.stop()
+        presenter.stop(this)
     }
 
     /**
@@ -101,7 +101,7 @@ class MonthInput @JvmOverloads constructor(
     /**
      * Used to set the callback listener for when the month input is completed
      */
-    fun setMonthListener(listener: MonthInput.MonthListener) {
+    fun setMonthListener(listener: MonthListener) {
         this.monthInputListener = listener
     }
 }

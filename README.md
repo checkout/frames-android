@@ -2,27 +2,31 @@
 [![CircleCI](https://circleci.com/gh/checkout/frames-android/tree/master.svg?style=svg)](https://circleci.com/gh/checkout/frames-android/tree/master)
 [![](https://jitpack.io/v/checkout/frames-android.svg)](https://jitpack.io/#checkout/frames-android)
 
+Further information on using the Frames SDK is available in the [integration guide](https://docs.checkout.com/quickstart/integrate/frames-for-android).
 
+Frames for Android provides a convenient solution that can take the customer's sensitive information and exchange them for a secure token that can be used within Checkout.com's infrastructure.
 
->Since Google Play target API level has changed (new apps must target API level 29+ and app updates must target API level 28+), 
-we have introduced AndroidX libraries replacing deprecated support libraries (those versioned 27 and earlier, and packaged as `android.support.*`). 
->
->Updating to the Frames release 2.2.0 (with AndroidX) requires that your app uses AndroidX and not the (now deprecated) Android Support Library.
->
->Frames release 2.2.0+ is not backward compatible with 2.1.X releases which uses Android Support Library.
->
->We encourage you to upgrade Frames to 2.2.0 and provide a feedback about your experience.
+Frames can be integrated in 2 ways:
+
+#### 1. Integrated with the UI
+Embed the fully customisable UI provided by the SDK to accept card details, customer name and billling details and exchange them for a secure token. (See [Using frames with the provided UI](#using-frames-with-the-provided-ui))
+
+#### 2. Integrated without the UI
+Use the provided API to send sensitive data to the Checkout.com server and retrieve the secure token (See [Using frames without the UI](#using-frames-without-the-ui)). 
+ 
+**_You can find information on previous releases [here](readme-docs/archive/readme-v2-releases.md)._**
  
 ## Requirements
-- Android minimum SDK 16
-- For release 2.2.0 and above: Target API level 28+
+- Android minimum SDK 21
+- Target API level 30
 
 ## Demo
 
-<img src="docs/frames-andoid-demo.gif" width="38%"/>
+<img src="readme-docs/frames-android-demo.gif" width="38%"/>
 
 ## Installation
 
+Add JitPack repository to the project level `build.gradle` file:
 ```gradle
 // project gradle file
 allprojects {
@@ -33,55 +37,22 @@ allprojects {
 }
 ```
 
-### Release 2.2.0 and above:
-1. Add Frames SDK dependency:
-
+Add Frames SDK dependency to the module gradble file:
 ```gradle
 // module gradle file
 dependencies {
- implementation 'com.github.checkout:frames-android:2.2.1'
-}
-```
-2. The Frames SDK dependencies are:
-```gradle
-// module gradle file
-dependencies {
- implementation 'androidx.core:core-ktx:1.3.2'
- implementation 'androidx.appcompat:appcompat:1.2.0'
- implementation 'com.google.code.gson:gson:2.8.6'
- implementation 'com.android.volley:volley:1.1.0'
- implementation 'androidx.viewpager:viewpager:1.0.0'
- implementation 'com.google.android.material:material:1.2.1'
+ implementation 'com.github.checkout:frames-android:3.0.0'
 }
 ```
 
-### Releases up to 2.2.0:
-1. Add Frames SDK dependency:
 
-```gradle
-// module gradle file
-dependencies {
- implementation 'com.github.checkout:frames-android:2.1.4'
-}
-```
-2. The Frames SDK dependencies are:
-```gradle
-// module gradle file
-dependencies {
- implementation 'com.android.support:design:27.1.1'
- implementation 'com.google.code.gson:gson:2.8.5'
- implementation 'com.android.volley:volley:1.1.0'
-}
-```
-
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android/2.2.1)
+> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
 ## Usage
 
-### For using the module's UI you need to do the following:
-<br/>
+### Using frames with the provided UI:
 
 **Step1** Add the module to your XML layout.
 ```xml
@@ -114,7 +85,7 @@ dependencies {
             // token request error
         }
         @Override
-        public void onNetworkError(VolleyError error) {
+        public void onNetworkError(NetworkError error) {
             // network error
         }
         @Override
@@ -134,10 +105,8 @@ dependencies {
         .setEnvironment(Environment.SANDBOX)   // set the environemnt
         .setKey("pk_xxx");                     // set your public key
 ```
-<br/>
 
-### For using the module without the UI you need to do the following:
-<br/>
+### Using frames _without_ the UI:
 
 **Step1** Include the module in your class.
 ```java
@@ -156,7 +125,7 @@ dependencies {
          // your error
      }
      @Override
-     public void onNetworkError(VolleyError error) {
+     public void onNetworkError(NetworkError error) {
          // your network error
      }
    };
@@ -365,7 +334,7 @@ The module allows you to handle a Google Pay token payload and retrieve a token,
                 // fail
             }
             @Override
-            public void onNetworkError(VolleyError error) {
+            public void onNetworkError(NetworkError error) {
                 // your network error
             }
         };
@@ -386,7 +355,7 @@ The module allows you to handle a Google Pay token payload and retrieve a token,
 #### When dealing with actions like generating a card token the callback will include the following objects.
 
 **For success -> CardTokenisationResponse**
-<br/>
+
 With the following getters:
 ```java
   response.getType();             // the token type
@@ -409,7 +378,7 @@ With the following getters:
 ```
 
 **For error -> CardTokenisationResponse**
-<br/>
+
 With the following getters:
 ```java
    error.getRequestId();         // a unique identifier for the request
@@ -420,7 +389,7 @@ With the following getters:
 #### When dealing with actions like generating a token for a Google Pay payload the callback will include the following objects.
 
 **For success -> GooglePayTokenisationResponse**
-<br/>
+
 With the following getters:
 ```java
   response.getType();             // the token type
@@ -440,7 +409,7 @@ With the following getters:
 ```
 
 **For error -> GooglePayTokenisationFail**
-<br/>
+
 With the following getters:
 ```java
    error.getRequestId();         // a unique identifier for the request

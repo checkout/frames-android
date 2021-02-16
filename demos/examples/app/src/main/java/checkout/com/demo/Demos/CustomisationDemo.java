@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
-import com.android.volley.VolleyError;
+import androidx.appcompat.app.AlertDialog;
+
 import com.checkout.android_sdk.Models.BillingModel;
 import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.PaymentForm;
@@ -15,6 +16,7 @@ import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Utils.CardUtils.Cards;
 import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.android_sdk.network.NetworkError;
 
 import java.util.Locale;
 
@@ -36,22 +38,24 @@ public class CustomisationDemo extends Activity {
         public void onTokenGenerated(CardTokenisationResponse response) {
             mProgressDialog.dismiss(); // dismiss the loader
             mPaymentForm.clearForm(); // clear the form
-            displayMessage("Token", response.getId());
+            displayMessage("Token", response.getToken());
         }
 
         @Override
         public void onError(CardTokenisationFail response) {
-            displayMessage("Token Error", response.getErrorCode());
+            mProgressDialog.dismiss(); // dismiss the loader
+            displayMessage("Token Error", response.getErrorType());
         }
 
         @Override
-        public void onNetworkError(VolleyError error) {
-            displayMessage("Network Error", String.valueOf(error));
+        public void onNetworkError(NetworkError error) {
+            mProgressDialog.dismiss(); // dismiss the loader
+            displayMessage("Network Error: ", Log.getStackTraceString(error));
         }
 
         @Override
         public void onBackPressed() {
-            displayMessage("Back", "The user decided to leave the payment page.");
+            finish();
         }
     };
 
@@ -75,7 +79,7 @@ public class CustomisationDemo extends Activity {
                 .setAcceptedCardsLabel("We accept this card types")
                 .setCardHolderLabel("Name on Card")
                 .setCardLabel("Card Number")
-                .setDateLabel("Expiration Datee")
+                .setDateLabel("Expiration Date")
                 .setCvvLabel("Security Code")
                 .setAddress1Label("Address 1")
                 .setAddress2Label("Address 2")
@@ -95,11 +99,13 @@ public class CustomisationDemo extends Activity {
                                 "POST CODE",
                                 "GB",
                                 "City",
-                                "State",
-                                new PhoneModel(
-                                        "+44",
-                                        "07123456789"
-                                )
+                                "State"
+                        )
+                )
+                .injectPhone(
+                        new PhoneModel(
+                                "+44",
+                                "07123456789"
                         )
                 );
     }

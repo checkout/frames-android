@@ -269,20 +269,34 @@ public class BillingDetailsView extends LinearLayout {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDatastore != null && mDatastore.getLastBillingValidState() != null) {
-                    mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
-                    mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
-                    mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
-                    mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getZip());
-                    mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
-                    mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
-                    mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
-                    mDatastore.setCustomerPhonePrefix(mDatastore.getLastPhoneValidState().getCountry_code());
-                    mDatastore.setCustomerPhone(mDatastore.getLastPhoneValidState().getNumber());
+                boolean billingDataValid = false;
+                if (mDatastore != null) {
+                    if (mDatastore.getLastBillingValidState() != null) {
+                        mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
+                        mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
+                        mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
+                        mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getZip());
+                        mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
+                        mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
+                        mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
+
+                        billingDataValid = true;
+                    }
+                    if (mDatastore.getLastPhoneValidState() != null) {
+                        mDatastore.setCustomerPhonePrefix(mDatastore.getLastPhoneValidState().getCountry_code());
+                        mDatastore.setCustomerPhone(mDatastore.getLastPhoneValidState().getNumber());
+                    }
+
+                    if (billingDataValid) {
+                        repopulateFields();
+                    }
+                }
+
+                if (billingDataValid) {
                     repopulateFields();
-                    mListener.onBillingCompleted();
+                    if (mListener != null) mListener.onBillingCompleted();
                 } else {
-                    mListener.onBillingCanceled();
+                    if (mListener != null) mListener.onBillingCanceled();
                 }
             }
         });

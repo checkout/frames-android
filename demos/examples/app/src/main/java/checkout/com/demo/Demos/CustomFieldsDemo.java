@@ -1,16 +1,16 @@
 package checkout.com.demo.Demos;
 
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.VolleyError;
+import androidx.appcompat.app.AlertDialog;
+
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.CheckoutAPIClient.OnTokenGenerated;
 import com.checkout.android_sdk.Request.CardTokenisationRequest;
@@ -18,6 +18,7 @@ import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Utils.CardUtils;
 import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.android_sdk.network.NetworkError;
 
 import checkout.com.demo.R;
 
@@ -29,27 +30,36 @@ public class CustomFieldsDemo extends Activity {
 
         @Override
         public void onTokenGenerated(CardTokenisationResponse token) {
-            displayMessage("Success!", token.getId());
+            mProgressDialog.dismiss();
+            displayMessage("Success!", token.getToken());
         }
 
         @Override
         public void onError(CardTokenisationFail error) {
-            displayMessage("Error!", error.getEventId());
+            mProgressDialog.dismiss();
+            displayMessage("Error!", error.getErrorType());
         }
 
         @Override
-        public void onNetworkError(VolleyError error) {
-            // your network error
+        public void onNetworkError(NetworkError error) {
+            mProgressDialog.dismiss();
+            displayMessage("Network Error", String.valueOf(error));
         }
     };
 
     private EditText mName, mCard, mMonth, mYear, mCvv;
     private Button mPay;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_fields_activity);
+
+        // initialise the loader
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage("Loading...");
 
         mName = findViewById(R.id.name_input);
         mCard = findViewById(R.id.card_input);
@@ -65,10 +75,10 @@ public class CustomFieldsDemo extends Activity {
         );
         mCheckoutAPIClient.setTokenListener(mTokenListener); // pass the callback
 
-        mPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (formValidationOutcome()) {
+        mPay.setOnClickListener(v -> {
+            if (formValidationOutcome()) {
+                mProgressDialog.show(); // show loader
+                try {
                     mCheckoutAPIClient.generateToken(
                             new CardTokenisationRequest(
                                     mCard.getText().toString(),
@@ -78,6 +88,9 @@ public class CustomFieldsDemo extends Activity {
                                     mCvv.getText().toString()
                             )
                     );
+                } catch (Exception e) {
+                    mProgressDialog.hide();
+                    displayMessage("Exception", Log.getStackTraceString(e));
                 }
             }
         });
@@ -117,11 +130,7 @@ public class CustomFieldsDemo extends Activity {
         builder.setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
+                .setPositiveButton("OK", (dialog, id) -> { /*do things */ });
         AlertDialog alert = builder.create();
         alert.show();
     }

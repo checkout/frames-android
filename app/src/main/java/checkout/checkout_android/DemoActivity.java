@@ -3,17 +3,20 @@ package checkout.checkout_android;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
-import com.android.volley.VolleyError;
+import androidx.annotation.NonNull;
+
 import com.checkout.android_sdk.PaymentForm;
+import com.checkout.android_sdk.PaymentForm.On3DSFinished;
 import com.checkout.android_sdk.PaymentForm.PaymentFormCallback;
 import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
-import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.android_sdk.network.NetworkError;
 
 import java.util.Locale;
+
+import checkout.checkout_android.utils.PaymentUtil;
 
 public class DemoActivity extends Activity {
 
@@ -31,22 +34,36 @@ public class DemoActivity extends Activity {
         public void onTokenGenerated(CardTokenisationResponse response) {
             mProgressDialog.dismiss(); // dismiss the loader
             mPaymentForm.clearForm(); // clear the form
-            displayMessage("Token", response.getToken());
+            displayMakePaymentMessage(response.getToken());
         }
 
         @Override
         public void onError(CardTokenisationFail response) {
-            displayMessage("Token Error", response.getErrorType());
+            mProgressDialog.dismiss(); // dismiss the loader
+            displayMessage("Token Error", response.getErrorType(), false);
         }
 
         @Override
-        public void onNetworkError(VolleyError error) {
-            displayMessage("Network Error", String.valueOf(error));
+        public void onNetworkError(NetworkError error) {
+            mProgressDialog.dismiss(); // dismiss the loader
+            displayMessage("Network Error", String.valueOf(error), false);
         }
 
         @Override
         public void onBackPressed() {
-            displayMessage("Back", "The user decided to leave the payment page.");
+            finish();
+        }
+    };
+
+    private final On3DSFinished m3DSecureListener = new On3DSFinished() {
+        @Override
+        public void onSuccess(String token) {
+            displayMessage("Result", "Authentication success: " + token, true);
+        }
+
+        @Override
+        public void onError(String errorMessage) {
+            displayMessage("Result", "Authentication failure: " + errorMessage, true);
         }
     };
 
@@ -63,22 +80,57 @@ public class DemoActivity extends Activity {
         mPaymentForm = findViewById(R.id.checkout_card_form);
         mPaymentForm
                 .setFormListener(mFormListener)
-                .setEnvironment(Environment.SANDBOX)
-                .setKey("pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73")
+                .set3DSListener(m3DSecureListener)
+                .setEnvironment(Constants.ENVIRONMENT)
+                .setKey(Constants.PUBLIC_KEY)
                 .setDefaultBillingCountry(Locale.UK);
     }
 
-    private void displayMessage(String title, String message) {
+    private void displayMessage(String title, String message, boolean exitScreen) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
+                .setPositiveButton("OK", (dialog, which) -> {
+                    if (exitScreen) finish();
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void displayMakePaymentMessage(final String token) {
+        StringBuilder message = new StringBuilder();
+        message.append("Card Token: ").append(token);
+        message.append("\n\n");
+        message.append("Purchase using this card with 3DS?");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Token Created")
+                .setMessage(message)
+                .setCancelable(false)
+                .setNeutralButton("Yes", (dialog, id) -> purchase(token))
+                .setNegativeButton("No", (dialog, which) -> finish())
+                .show();
+    }
+
+
+    private void purchase(String token) {
+        mProgressDialog.show();
+        PaymentUtil.createPayment(token, (success, redirectUrl) -> {
+            mProgressDialog.dismiss();
+            if (redirectUrl != null) {
+                start3DS(redirectUrl);
+            } else {
+                displayMessage("Payment", success ? "Payment Success" : "Payment Failed", false);
+            }
+        });
+    }
+
+    private void start3DS(@NonNull String redirectUrl) {
+        mPaymentForm.handle3DS(
+                redirectUrl,
+                Constants.SUCCESS_URL,
+                Constants.FAILURE_URL
+        );
     }
 }

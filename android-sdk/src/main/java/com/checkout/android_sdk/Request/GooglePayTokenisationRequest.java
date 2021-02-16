@@ -1,15 +1,14 @@
 package com.checkout.android_sdk.Request;
 
-/**
- * The request model object for the Google Pay tokenisation request
- */
-
 import com.checkout.android_sdk.Models.GooglePayModel;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * The request model object for the Google Pay tokenisation request
+ */
 public class GooglePayTokenisationRequest {
 
-    private String type = "googlepay";
+    private final String type = TokenType.GOOGLEPAY.getValue();
     @SerializedName("token_data")
     private GooglePayModel token_data = new GooglePayModel();
 

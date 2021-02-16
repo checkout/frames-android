@@ -1,1 +1,5 @@
 include ':app', ':android-sdk'
+include ':examples_app'
+project(':examples_app').projectDir = new File(rootDir, "demos/examples/app")
+include ':googlepay_examples_app'
+project(':googlepay_examples_app').projectDir = new File(rootDir, "demos/googlepay_example/app")

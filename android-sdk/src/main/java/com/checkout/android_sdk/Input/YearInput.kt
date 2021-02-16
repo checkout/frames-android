@@ -18,7 +18,7 @@ import com.checkout.android_sdk.Store.DataStore
 class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
     AppCompatSpinner(mContext, attrs), YearInputPresenter.YearInputView {
 
-    private var mYearInputListener: YearInput.YearListener? = null
+    private var mYearInputListener: YearListener? = null
     private lateinit var presenter: YearInputPresenter
 
     override fun onStateUpdated(uiState: YearInputPresenter.YearInputUiState) {
@@ -62,7 +62,7 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
             }
         }
 
-        onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View,
@@ -83,13 +83,13 @@ class YearInput(internal var mContext: Context, attrs: AttributeSet? = null) :
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.stop()
+        presenter.stop(this)
     }
 
     /**
      * Used to set the callback listener for when the year input is completed
      */
-    fun setYearListener(listener: YearInput.YearListener) {
+    fun setYearListener(listener: YearListener) {
         this.mYearInputListener = listener
     }
 }
