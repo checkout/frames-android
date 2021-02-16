@@ -2,6 +2,7 @@ package com.checkout.android_sdk.Utils;
 
 import android.text.TextUtils;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
 import com.checkout.android_sdk.R;
@@ -30,6 +31,7 @@ public class CardUtils {
         DEFAULT("default", 0, "", "", new int[]{16}, 19, 3, new int[]{4, 9, 14}, false);
 
         public final String name;
+        @DrawableRes
         public final int resourceId;
         private final String pattern;
         public final String regex;
@@ -51,7 +53,7 @@ public class CardUtils {
          * @param gaps          the positions of the spaces spans ina formatted card
          * @see Cards
          */
-        Cards(String name, int resourceId, String pattern, String regex, int[] cardLength, int maxCardLength, int maxCvvLength, int[] gaps, boolean luhn) {
+        Cards(String name, @DrawableRes int resourceId, String pattern, String regex, int[] cardLength, int maxCardLength, int maxCvvLength, int[] gaps, boolean luhn) {
             this.name = name;
             this.resourceId = resourceId;
             this.pattern = pattern;

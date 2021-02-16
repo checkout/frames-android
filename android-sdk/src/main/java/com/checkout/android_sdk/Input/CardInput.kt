@@ -1,13 +1,14 @@
 package com.checkout.android_sdk.Input
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.content.res.Resources
 import android.text.Editable
 import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View.OnFocusChangeListener
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
 import com.checkout.android_sdk.Architecture.PresenterStore
 import com.checkout.android_sdk.Presenter.CardInputPresenter
 import com.checkout.android_sdk.Store.DataStore
@@ -29,7 +30,7 @@ class CardInput @JvmOverloads constructor(
 ) : AppCompatEditText(mContext, attrs), CardInputPresenter.CardInputView {
 
 
-    private var mCardInputListener: CardInput.Listener? = null
+    private var mCardInputListener: Listener? = null
     private lateinit var presenter: CardInputPresenter
 
     /**
@@ -65,7 +66,7 @@ class CardInput @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.stop()
+        presenter.stop(this)
     }
 
     override fun onStateUpdated(uiState: CardInputPresenter.CardInputUiState) {
@@ -84,9 +85,16 @@ class CardInput @JvmOverloads constructor(
      * This method will display a card icon associated to the specific card scheme
      */
     private fun setCardTypeIcon(type: CardUtils.Cards) {
-        val img: Drawable
-        if (type.resourceId != 0) {
-            img = context.resources.getDrawable(type.resourceId)
+        val img = if (type.resourceId > 0) {
+            try {
+                ContextCompat.getDrawable(context, type.resourceId)
+            } catch (e: Resources.NotFoundException) {
+                // Resource not found.
+                null
+            }
+        } else null
+
+        if (img != null) {
             img.setBounds(0, 0, 68, 68)
             setCompoundDrawables(null, null, img, null)
             compoundDrawablePadding = 5

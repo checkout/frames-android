@@ -15,8 +15,10 @@ abstract class BasePresenter<in V : MvpView<U>, U: UiState> (protected var uiSta
         safeUpdateView(uiState)
     }
 
-    fun stop() {
-        view = null
+    fun stop(view: V) {
+        if (this.view == view) {
+            this.view = null
+        }
     }
 
     fun safeUpdateView(uiState: U) {

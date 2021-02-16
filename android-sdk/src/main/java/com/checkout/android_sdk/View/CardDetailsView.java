@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import com.android.volley.VolleyError;
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.Input.BillingInput;
 import com.checkout.android_sdk.Input.CardInput;
@@ -31,6 +30,7 @@ import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.Utils.CardUtils;
+import com.checkout.android_sdk.network.NetworkError;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class CardDetailsView extends LinearLayout {
         void onFormSubmit();
         void onTokeGenerated(CardTokenisationResponse reponse);
         void onError(CardTokenisationFail error);
-        void onNetworkError(VolleyError error);
+        void onNetworkError(NetworkError error);
         void onBackPressed();
     }
 
@@ -79,7 +79,7 @@ public class CardDetailsView extends LinearLayout {
      */
     private final CardInput.Listener mCardInputListener = new CardInput.Listener() {
         @Override
-        public void onCardInputFinish(String number) {
+        public void onCardInputFinish(@NonNull String number) {
             mDataStore.setValidCardNumber(true);
         }
 
@@ -105,7 +105,7 @@ public class CardDetailsView extends LinearLayout {
      */
     private final MonthInput.MonthListener mMonthInputListener = new MonthInput.MonthListener() {
         @Override
-        public void onMonthInputFinish(String month) {
+        public void onMonthInputFinish(@NonNull String month) {
             mDataStore.setCardMonth(month);
             mDataStore.setValidCardMonth(true);
         }
@@ -120,7 +120,7 @@ public class CardDetailsView extends LinearLayout {
      */
     private final YearInput.YearListener mYearInputListener = new YearInput.YearListener() {
         @Override
-        public void onYearInputFinish(String year) {
+        public void onYearInputFinish(@NonNull String year) {
             mDataStore.setCardYear(year);
             mDataStore.setValidCardYear(true);
             ((TextView) mYearInput.getSelectedView()).setError(null);
@@ -138,11 +138,7 @@ public class CardDetailsView extends LinearLayout {
         @Override
         public void onInputFinish(String value) {
             mDataStore.setCardCvv(value);
-            if (value.length() == mDataStore.getCvvLength()) {
-                mDataStore.setValidCardCvv(true);
-            } else {
-                mDataStore.setValidCardCvv(false);
-            }
+            mDataStore.setValidCardCvv(value.length() == mDataStore.getCvvLength());
         }
 
         @Override
@@ -165,7 +161,7 @@ public class CardDetailsView extends LinearLayout {
         }
 
         @Override
-        public void onNetworkError(VolleyError error) {
+        public void onNetworkError(NetworkError error) {
             mDetailsCompletedListener.onNetworkError(error);
         }
     };
@@ -245,12 +241,9 @@ public class CardDetailsView extends LinearLayout {
         mAcceptedCardsHelper = findViewById(R.id.accepted_card_helper);
         mDateHelper = findViewById(R.id.date_helper);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mDetailsCompletedListener != null) {
-                   mDetailsCompletedListener.onBackPressed();
-                }
+        mToolbar.setNavigationOnClickListener(v -> {
+            if (mDetailsCompletedListener != null) {
+               mDetailsCompletedListener.onBackPressed();
             }
         });
 
@@ -270,27 +263,28 @@ public class CardDetailsView extends LinearLayout {
             mPayButton.setLayoutParams(mDataStore.getPayButtonLayout());
         }
 
-        mPayButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // hide keyboard
-                try{
-                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    if(imm != null)
-                     imm.hideSoftInputFromWindow(getWindowToken(), 0);
+        mPayButton.setOnClickListener(v -> {
+            // hide keyboard
+            try{
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if(imm != null)
+                 imm.hideSoftInputFromWindow(getWindowToken(), 0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (mDetailsCompletedListener != null && isValidForm()) {
+                mDetailsCompletedListener.onFormSubmit();
+                mCheckoutAPIClient = new CheckoutAPIClient(
+                        getContext(), // context
+                        mDataStore.getKey(), // your public key
+                        mDataStore.getEnvironment()
+                );
+                mCheckoutAPIClient.setTokenListener(mTokenListener);
+                CardTokenisationRequest test = generateRequest();
+                try {
+                    mCheckoutAPIClient.generateToken(test);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
-                if (mDetailsCompletedListener != null && isValidForm()) {
-                    mDetailsCompletedListener.onFormSubmit();
-                    mCheckoutAPIClient = new CheckoutAPIClient(
-                            getContext(), // context
-                            mDataStore.getKey(), // your public key
-                            mDataStore.getEnvironment()
-                    );
-                    mCheckoutAPIClient.setTokenListener(mTokenListener);
-                    CardTokenisationRequest test = generateRequest();
-                    mCheckoutAPIClient.generateToken(test);
                 }
             }
         });
@@ -358,11 +352,7 @@ public class CardDetailsView extends LinearLayout {
             outcome = false;
         }
 
-        if (mCvvInput.getText().length() == mDataStore.getCvvLength()) {
-            mDataStore.setValidCardCvv(true);
-        } else {
-            mDataStore.setValidCardCvv(false);
-        }
+        mDataStore.setValidCardCvv(mCvvInput.getText() != null && mCvvInput.getText().length() == mDataStore.getCvvLength());
 
         if (!mDataStore.isValidCardCvv()) {
             mCvvLayout.setError(getResources().getString(R.string.error_cvv));

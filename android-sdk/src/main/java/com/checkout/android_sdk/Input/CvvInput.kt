@@ -50,7 +50,7 @@ class CvvInput @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.stop()
+        presenter.stop(this)
     }
 
     /**

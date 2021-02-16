@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * The response model object for the card tokenisation response
  */
-public class CardTokenisationResponse {
+public class CardTokenisationResponse implements TokenisationResponse {
 
     @SerializedName("type")
     private String type;
@@ -44,14 +44,17 @@ public class CardTokenisationResponse {
     @SerializedName("name")
     private String name;
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public String getToken() {
         return token;
     }
 
+    @Override
     public String getTokenExpiry() {
         return expires_on;
     }
@@ -64,6 +67,7 @@ public class CardTokenisationResponse {
         return expiry_year;
     }
 
+    @Override
     public String getScheme() {
         return scheme;
     }

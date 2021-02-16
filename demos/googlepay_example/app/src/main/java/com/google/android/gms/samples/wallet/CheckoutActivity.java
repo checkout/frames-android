@@ -18,22 +18,22 @@ package com.google.android.gms.samples.wallet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.checkout.android_sdk.CheckoutAPIClient;
 import com.checkout.android_sdk.Response.GooglePayTokenisationFail;
 import com.checkout.android_sdk.Response.GooglePayTokenisationResponse;
 import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.android_sdk.network.NetworkError;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
@@ -41,8 +41,6 @@ import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentMethodToken;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.TransactionInfo;
-
-import org.json.JSONException;
 
 public class CheckoutActivity extends Activity {
 
@@ -52,17 +50,17 @@ public class CheckoutActivity extends Activity {
             new CheckoutAPIClient.OnGooglePayTokenGenerated() {
                 @Override
                 public void onTokenGenerated(GooglePayTokenisationResponse response) {
-                    displayMessage("Success!", response.getToken());
+                    displayMessage("Success", response.getToken());
                 }
 
                 @Override
                 public void onError(GooglePayTokenisationFail error) {
-                    displayMessage("Success!", error.getRequestId());
+                    displayMessage("Error", error.getErrorType());
                 }
 
                 @Override
-                public void onNetworkError(VolleyError error) {
-                    // your network error
+                public void onNetworkError(NetworkError error) {
+                    displayMessage("NetworkError", Log.getStackTraceString(error));
                 }
             };
 
@@ -88,12 +86,7 @@ public class CheckoutActivity extends Activity {
         mGooglePayButton = findViewById(R.id.googlepay_button);
         mGooglePayStatusText = findViewById(R.id.googlepay_status);
 
-        mGooglePayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requestPayment(view);
-            }
-        });
+        mGooglePayButton.setOnClickListener(this::requestPayment);
 
         // It's recommended to create the PaymentsClient object inside of the onCreate method.
         mPaymentsClient = PaymentsUtil.createPaymentsClient(this);
@@ -104,15 +97,13 @@ public class CheckoutActivity extends Activity {
         // The call to isReadyToPay is asynchronous and returns a Task. We need to provide an
         // OnCompleteListener to be triggered when the result of the call is known.
         PaymentsUtil.isReadyToPay(mPaymentsClient).addOnCompleteListener(
-                new OnCompleteListener<Boolean>() {
-                    public void onComplete(Task<Boolean> task) {
-                        try {
-                            boolean result = task.getResult(ApiException.class);
-                            setGooglePayAvailable(result);
-                        } catch (ApiException exception) {
-                            // Process error
-                            Log.w("isReadyToPay failed", exception);
-                        }
+                task -> {
+                    try {
+                        boolean result = task.getResult(ApiException.class);
+                        setGooglePayAvailable(result);
+                    } catch (ApiException exception) {
+                        // Process error
+                        Log.w("isReadyToPay failed", exception);
                     }
                 });
     }
@@ -137,11 +128,7 @@ public class CheckoutActivity extends Activity {
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         PaymentData paymentData = PaymentData.getFromIntent(data);
-                        try {
-                            handlePaymentSuccess(paymentData);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        handlePaymentSuccess(paymentData);
                         break;
                     case Activity.RESULT_CANCELED:
                         // Nothing to here normally - the user simply cancelled without selecting a
@@ -159,16 +146,19 @@ public class CheckoutActivity extends Activity {
         }
     }
 
-    private void handlePaymentSuccess(PaymentData paymentData) throws JSONException {
+    private void handlePaymentSuccess(@Nullable PaymentData paymentData) {
         // PaymentMethodToken contains the payment information, as well as any additional
         // requested information, such as billing and shipping address.
         //
         // Refer to your processor's documentation on how to proceed from here.
-        PaymentMethodToken token = paymentData.getPaymentMethodToken();
 
         // getPaymentMethodToken will only return null if PaymentMethodTokenizationParameters was
         // not set in the PaymentRequest.
-        if (token != null) {
+        if (paymentData != null && paymentData.getPaymentMethodToken() != null) {
+            PaymentMethodToken token = paymentData.getPaymentMethodToken();
+            // Use token.getToken() to get the token string.
+            Log.d("PaymentData", "PaymentMethodToken received");
+
             // If the gateway is set to example, no payment information is returned - instead, the
             // token will only consist of "examplePaymentMethodToken".
             mCheckoutAPIClient = new CheckoutAPIClient(
@@ -178,10 +168,11 @@ public class CheckoutActivity extends Activity {
             );
             mCheckoutAPIClient.setGooglePayListener(mGooglePayListener); // pass the callback
 
-            mCheckoutAPIClient.generateGooglePayToken(token.getToken()); // the payload is the JSON string generated by GooglePay
-
-            // Use token.getToken() to get the token string.
-            Log.d("PaymentData", "PaymentMethodToken received");
+            try {
+                mCheckoutAPIClient.generateGooglePayToken(token.getToken()); // the payload is the JSON string generated by GooglePay
+            } catch (Exception e) {
+                displayMessage("Exception", Log.getStackTraceString(e));
+            }
         }
     }
 
@@ -223,16 +214,12 @@ public class CheckoutActivity extends Activity {
     }
 
     private void displayMessage(String title, String message) {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        android.support.v7.app.AlertDialog alert = builder.create();
+                .setPositiveButton("OK", (dialog, id) -> { /* Do things */});
+        AlertDialog alert = builder.create();
         alert.show();
     }
 }

@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class CardTokenisationRequest {
 
     @SerializedName("type")
-    private String type = "card";
+    private final String type = TokenType.CARD.getValue();
     @SerializedName("number")
     private String number;
     @SerializedName("name")

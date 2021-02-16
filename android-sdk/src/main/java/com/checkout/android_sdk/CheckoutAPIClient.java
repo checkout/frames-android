@@ -2,23 +2,28 @@ package com.checkout.android_sdk;
 
 import android.content.Context;
 
-import com.android.volley.VolleyError;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.checkout.android_sdk.Request.CardTokenisationRequest;
 import com.checkout.android_sdk.Request.GooglePayTokenisationRequest;
+import com.checkout.android_sdk.Request.TokenType;
 import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Response.GooglePayTokenisationFail;
 import com.checkout.android_sdk.Response.GooglePayTokenisationResponse;
 import com.checkout.android_sdk.Utils.Environment;
-import com.checkout.android_sdk.Utils.HttpUtils;
+import com.checkout.android_sdk.network.NetworkError;
+import com.checkout.android_sdk.network.utils.OkHttpTokenRequestor;
+import com.checkout.android_sdk.network.utils.TokenRequestor;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CheckoutAPIClient {
+import java.util.UUID;
 
-    private String key;
+public class CheckoutAPIClient {
 
     /**
      * This is interface used as a callback for when the card token is generated
@@ -28,7 +33,7 @@ public class CheckoutAPIClient {
 
         void onError(CardTokenisationFail error);
 
-        void onNetworkError(VolleyError error);
+        void onNetworkError(NetworkError error);
     }
 
     /**
@@ -39,24 +44,40 @@ public class CheckoutAPIClient {
 
         void onError(GooglePayTokenisationFail error);
 
-        void onNetworkError(VolleyError error);
+        void onNetworkError(NetworkError error);
     }
 
-    private Context mContext;
-    private Environment mEnvironment = Environment.SANDBOX;
+    @NonNull private final Context mContext;
+    @NonNull private final Environment mEnvironment;
+    @NonNull private final String mKey;
+    @NonNull private final FramesLogger mLogger;
     private CheckoutAPIClient.OnTokenGenerated mTokenListener;
     private CheckoutAPIClient.OnGooglePayTokenGenerated mGooglePayTokenListener;
 
-
-    public CheckoutAPIClient(Context context, String key, Environment environment) {
-        this.mContext = context;
-        this.key = key;
-        this.mEnvironment = environment;
+    /**
+     * @deprecated explicitly define the environment to avoid using default environment value.
+     * @see #CheckoutAPIClient(Context, String, Environment)
+     */
+    @Deprecated
+    public CheckoutAPIClient(@NonNull Context context, @NonNull String key) {
+        this(context, key, Environment.SANDBOX);
     }
 
-    public CheckoutAPIClient(Context context, String key) {
-        this.mContext = context;
-        this.key = key;
+    public CheckoutAPIClient(@NonNull Context context, @NonNull String key, @NonNull Environment environment) {
+        this(context, key, environment, null);
+    }
+
+    CheckoutAPIClient(@NonNull Context context, @NonNull String key, @NonNull Environment environment, @Nullable FramesLogger logger) {
+        this.mContext = context.getApplicationContext();
+        this.mKey = key;
+        this.mEnvironment = environment;
+
+        if (logger == null) {
+            mLogger = new FramesLogger();
+            mLogger.initialise(this.mContext, environment);
+        } else {
+            mLogger = logger;
+        }
     }
 
     /**
@@ -73,20 +94,24 @@ public class CheckoutAPIClient {
      * @param request Custom request body to be used in the HTTP call.
      */
     public void generateToken(CardTokenisationRequest request) {
-
-        // Initialise the HTTP utility class
-        HttpUtils http = new HttpUtils(mContext);
-
-        // Provide a callback for when the token request is completed
-        http.setTokenListener(mTokenListener);
-
-        // Using Gson to convert the custom request object into a JSON string for use in the HTTP call
-        Gson gson = new Gson();
-        String jsonBody = gson.toJson(request);
         try {
-            http.generateToken(key, mEnvironment.token, jsonBody);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            UUID correlationID = mLogger.initialiseForTransaction();
+            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.CARD));
+
+            Gson gson = new Gson();
+            TokenRequestor requester = new OkHttpTokenRequestor(mEnvironment, mKey, gson, mLogger);
+
+            requester.requestCardToken(
+                    correlationID.toString(),
+                    gson.toJson(request),
+                    mTokenListener
+            );
+        } catch (Exception e) {
+            mLogger.errorEvent(
+                    "Error occurred in Card tokenisation request",
+                    e
+            );
+            throw e;
         }
     }
 
@@ -98,32 +123,33 @@ public class CheckoutAPIClient {
      * @param payload Google Pay Payload
      */
     public void generateGooglePayToken(String payload) throws JSONException {
-
-        JSONObject googlePayToken = new JSONObject(payload);
-
-        // Initialise the HTTP utility class
-        HttpUtils http = new HttpUtils(mContext);
-
-        // Provide a callback for when the token request is completed
-        http.setGooglePayTokenListener(mGooglePayTokenListener);
-
-        GooglePayTokenisationRequest gPay = new GooglePayTokenisationRequest();
-
-        gPay
-                .setSignature(googlePayToken.getString("signature"))
-                .setProtocolVersion(googlePayToken.getString("protocolVersion"))
-                .setSignedMessage(googlePayToken.getString("signedMessage"));
-
-        // Using Gson to convert the custom request object into a JSON string for use in the HTTP call
-        Gson gson = new Gson();
-        String jsonBody = gson.toJson(gPay);
-
         try {
-            http.generateGooglePayToken(key, mEnvironment.googlePay, jsonBody);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            UUID correlationID = mLogger.initialiseForTransaction();
+            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.GOOGLEPAY));
 
+            JSONObject googlePayToken = new JSONObject(payload);
+
+            Gson gson = new Gson();
+            TokenRequestor requester = new OkHttpTokenRequestor(mEnvironment, mKey, gson, mLogger);
+
+            GooglePayTokenisationRequest gPay = new GooglePayTokenisationRequest();
+            gPay
+                    .setSignature(googlePayToken.getString("signature"))
+                    .setProtocolVersion(googlePayToken.getString("protocolVersion"))
+                    .setSignedMessage(googlePayToken.getString("signedMessage"));
+
+            requester.requestGooglePayToken(
+                    correlationID.toString(),
+                    gson.toJson(gPay),
+                    mGooglePayTokenListener
+            );
+        } catch (Exception e) {
+            mLogger.errorEvent(
+                    "Error occurred in GooglePay tokenisation request",
+                    e
+            );
+            throw e;
+        }
     }
 
     /**

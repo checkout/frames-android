@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * The response model object for the Google Pay tokenisation response
  */
-public class GooglePayTokenisationResponse {
+public class GooglePayTokenisationResponse implements TokenisationResponse{
 
     @SerializedName("type")
     private String type;
@@ -36,14 +36,17 @@ public class GooglePayTokenisationResponse {
     @SerializedName("product_type")
     private String product_type;
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public String getToken() {
         return token;
     }
 
+    @Override
     public String getTokenExpiry() {
         return expires_on;
     }
@@ -56,6 +59,7 @@ public class GooglePayTokenisationResponse {
         return expiry_year;
     }
 
+    @Override
     public String getScheme() {
         return scheme;
     }
