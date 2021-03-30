@@ -84,6 +84,10 @@ public class DemoActivity extends Activity {
                 .setEnvironment(Constants.ENVIRONMENT)
                 .setKey(Constants.PUBLIC_KEY)
                 .setDefaultBillingCountry(Locale.UK);
+
+        if (savedInstanceState == null) {
+            mPaymentForm.clearForm();
+        }
     }
 
     private void displayMessage(String title, String message, boolean exitScreen) {

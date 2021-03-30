@@ -59,10 +59,6 @@ public class PaymentForm extends FrameLayout {
         void onBackPressed();
     }
 
-    // Indexes for the pages
-    private static int CARD_DETAILS_PAGE_INDEX = 0;
-    private static int BILLING_DETAILS_PAGE_INDEX = 1;
-
     /**
      * This is a callback used to generate a payload with the user details and pass them to the
      * mSubmitFormListener so the user can act upon them. The next step will most likely include using
@@ -104,27 +100,27 @@ public class PaymentForm extends FrameLayout {
      * This is a callback used to go back to the card details view from the billing page
      * and based on the action used decide is the billing spinner will be updated
      */
-    private BillingDetailsView.Listener mBillingListener = new BillingDetailsView.Listener() {
+    private final BillingDetailsView.Listener mBillingListener = new BillingDetailsView.Listener() {
         @Override
         public void onBillingCompleted() {
             customAdapter.updateBillingSpinner();
-            mPager.setCurrentItem(CARD_DETAILS_PAGE_INDEX);
+            mPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
         }
 
         @Override
         public void onBillingCanceled() {
             customAdapter.clearBillingSpinner();
-            mPager.setCurrentItem(CARD_DETAILS_PAGE_INDEX);
+            mPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
         }
     };
 
     /**
      * This is a callback used to navigate to the billing details page
      */
-    private CardDetailsView.GoToBillingListener mCardListener = new CardDetailsView.GoToBillingListener() {
+    private final CardDetailsView.GoToBillingListener mCardListener = new CardDetailsView.GoToBillingListener() {
         @Override
         public void onGoToBillingPressed() {
-            mPager.setCurrentItem(BILLING_DETAILS_PAGE_INDEX);
+            mPager.setCurrentItem(CustomAdapter.BILLING_DETAILS_PAGE_INDEX);
         }
     };
 
@@ -162,7 +158,7 @@ public class PaymentForm extends FrameLayout {
 
         mPager = findViewById(R.id.view_pager);
         // Use a custom adapter for the viewpager
-        customAdapter = new CustomAdapter(mContext);
+        customAdapter = new CustomAdapter();
         // Set up the callbacks
         customAdapter.setCardDetailsListener(mCardListener);
         customAdapter.setBillingListener(mBillingListener);
