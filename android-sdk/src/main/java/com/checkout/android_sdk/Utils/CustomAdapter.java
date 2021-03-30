@@ -1,9 +1,7 @@
 package com.checkout.android_sdk.Utils;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +10,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The adapter of the viewpager used to have the 2 pages {@link CardDetailsView}
  * and {@link BillingDetailsView}
@@ -22,18 +17,16 @@ import java.util.List;
  * This class handles interaction initialisation and interaction between the to pages
  */
 public class CustomAdapter extends PagerAdapter {
+    // Indexes for the pages
+    public static final int CARD_DETAILS_PAGE_INDEX = 0;
+    public static final int BILLING_DETAILS_PAGE_INDEX = 1;
+    private static final int PAGE_COUNT = 2;
 
-    private Context mContext;
-    private CardDetailsView cardDetailsView;
-    private List<LinearLayout> mViews = new ArrayList<>();
-    private CardDetailsView.GoToBillingListener mCardDetailsListener;
-    private BillingDetailsView billingDetailsView;
-    private BillingDetailsView.Listener mBillingListener;
-    private CardDetailsView.DetailsCompleted mDetailsCompletedListener;
-
-    public CustomAdapter(Context context) {
-        mContext = context;
-    }
+    private @Nullable CardDetailsView mCardDetailsView;
+    private @Nullable CardDetailsView.GoToBillingListener mCardDetailsListener;
+    private @Nullable CardDetailsView.DetailsCompleted mDetailsCompletedListener;
+    private @Nullable BillingDetailsView mBillingDetailsView;
+    private @Nullable BillingDetailsView.Listener mBillingListener;
 
     /**
      * Pass the callback to go to the billing page
@@ -60,22 +53,30 @@ public class CustomAdapter extends PagerAdapter {
      * Indicate the {@link CardDetailsView} need to update the billing spinner
      */
     public void updateBillingSpinner() {
-        cardDetailsView.updateBillingSpinner();
+        if (mCardDetailsView != null) {
+            mCardDetailsView.updateBillingSpinner();
+        }
     }
 
     /**
      * Indicate the {@link CardDetailsView} need to clear the billing spinner
      */
     public void clearBillingSpinner() {
-        cardDetailsView.clearBillingSpinner();
+        if (mCardDetailsView != null) {
+            mCardDetailsView.clearBillingSpinner();
+        }
     }
 
     /**
      * Clean form data and state
      */
     public void clearFields() {
-        cardDetailsView.resetFields();
-        billingDetailsView.resetFields();
+        if (mCardDetailsView != null) {
+            mCardDetailsView.resetFields();
+        }
+        if (mBillingDetailsView != null) {
+            mBillingDetailsView.resetFields();
+        }
     }
 
     /**
@@ -83,9 +84,19 @@ public class CustomAdapter extends PagerAdapter {
      */
     @NonNull
     @Override
-    public LinearLayout instantiateItem(@NonNull ViewGroup container, int position) {
+    public View instantiateItem(@NonNull ViewGroup container, int position) {
         maybeInstantiateViews(container);
-        return mViews.get(position);
+        View childView = null;
+        switch (position) {
+            case CARD_DETAILS_PAGE_INDEX:
+                childView = mCardDetailsView;
+                break;
+            case BILLING_DETAILS_PAGE_INDEX:
+                childView = mBillingDetailsView;
+                break;
+        }
+        assert childView != null; // Child view should not be null.
+        return childView;
     }
 
     /**
@@ -102,7 +113,7 @@ public class CustomAdapter extends PagerAdapter {
      */
     @Override
     public int getCount() {
-        return 2;
+        return PAGE_COUNT;
     }
 
     @Override
@@ -115,19 +126,19 @@ public class CustomAdapter extends PagerAdapter {
      * and {@link BillingDetailsView}
      */
     private void maybeInstantiateViews(ViewGroup container) {
-        if (mViews.isEmpty()) {
-            cardDetailsView = new CardDetailsView(mContext);
-            cardDetailsView.setGoToBillingListener(mCardDetailsListener);
-            cardDetailsView.setDetailsCompletedListener(mDetailsCompletedListener);
 
-            billingDetailsView = new BillingDetailsView(mContext);
-            billingDetailsView.setGoToCardDetailsListener(mBillingListener);
+        if (mCardDetailsView == null) {
+            mCardDetailsView = new CardDetailsView(container.getContext());
+            mCardDetailsView.setGoToBillingListener(mCardDetailsListener);
+            mCardDetailsView.setDetailsCompletedListener(mDetailsCompletedListener);
 
-            mViews.add(cardDetailsView);
-            mViews.add(billingDetailsView);
+            container.addView(mCardDetailsView, CARD_DETAILS_PAGE_INDEX);
+        }
+        if (mBillingDetailsView == null) {
+            mBillingDetailsView = new BillingDetailsView(container.getContext());
+            mBillingDetailsView.setGoToCardDetailsListener(mBillingListener);
 
-            container.addView(cardDetailsView);
-            container.addView(billingDetailsView);
+            container.addView(mBillingDetailsView, BILLING_DETAILS_PAGE_INDEX);
         }
     }
 }
