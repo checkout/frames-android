@@ -89,7 +89,7 @@ public class PaymentForm extends FrameLayout {
         @Override
         public void onBackPressed() {
             mDataStore.cleanState();
-            mDataStore.setLastCustomerNameState(null);
+            mDataStore.setLastCustomerNameValidState(null);
             mDataStore.setLastBillingValidState(null);
             mDataStore.setLastPhoneValidState(null);
             mCustomAdapter.clearFields();
@@ -530,7 +530,7 @@ public class PaymentForm extends FrameLayout {
     public PaymentForm injectCardHolderName(@NonNull String name) {
         mDataStore.setCustomerName(name);
         mDataStore.setDefaultCustomerName(name);
-        mDataStore.setLastCustomerNameState(name);
+        mDataStore.setLastCustomerNameValidState(name);
         return this;
     }
 
@@ -540,33 +540,21 @@ public class PaymentForm extends FrameLayout {
     @SuppressWarnings("UnusedReturnValue")
     public void clearForm() {
         mDataStore.cleanState();
+        mDataStore.cleanLastValidState();
+        // Apply default country value first as this may be modified by BillingDetails
+        if (mDataStore.getDefaultCountry() != null) {
+            setDefaultBillingCountry(mDataStore.getDefaultCountry());
+        }
         if(mDataStore.getDefaultBillingDetails() != null) {
-            mDataStore.setBillingCompleted(true);
-            mDataStore.setLastBillingValidState(mDataStore.getDefaultBillingDetails());
-            mDataStore.setCustomerAddress1(mDataStore.getDefaultBillingDetails().getAddress_line1());
-            mDataStore.setCustomerAddress2(mDataStore.getDefaultBillingDetails().getAddress_line2());
-            mDataStore.setCustomerZipcode(mDataStore.getDefaultBillingDetails().getZip());
-            mDataStore.setCustomerCountry(mDataStore.getDefaultBillingDetails().getCountry());
-            mDataStore.setCustomerCity(mDataStore.getDefaultBillingDetails().getCity());
-            mDataStore.setCustomerState(mDataStore.getDefaultBillingDetails().getState());
-            mDataStore.setCustomerPhone(mDataStore.getDefaultPhoneDetails().getNumber());
-            mDataStore.setCustomerPhonePrefix(mDataStore.getDefaultPhoneDetails().getCountry_code());
+            injectBilling(mDataStore.getDefaultBillingDetails());
+            if(mDataStore.getDefaultPhoneDetails() != null) {
+                injectPhone(mDataStore.getDefaultPhoneDetails());
+            }
         }
         if(mDataStore.getDefaultCustomerName() != null) {
-            mDataStore.setCustomerName(mDataStore.getDefaultCustomerName());
-        } else {
-            mDataStore.setLastCustomerNameState(null);
-        }
-        if(mDataStore.getDefaultCountry() != null) {
-            mDataStore.setDefaultCountry(mDataStore.getDefaultCountry());
+            injectCardHolderName(mDataStore.getDefaultCustomerName());
         }
         mCustomAdapter.clearFields();
-        if(mDataStore.getDefaultBillingDetails() != null) {
-            mDataStore.setBillingCompleted(true);
-            mDataStore.setLastBillingValidState(mDataStore.getDefaultBillingDetails());
-        } else {
-            mDataStore.setLastBillingValidState(null);
-        }
     }
 
     /**
