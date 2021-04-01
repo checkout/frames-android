@@ -2,6 +2,8 @@ package com.checkout.android_sdk.Store;
 
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+
 import com.checkout.android_sdk.Models.BillingModel;
 import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.Utils.CardUtils;
@@ -19,11 +21,13 @@ import java.util.Locale;
 public class DataStore {
 
     private static DataStore INSTANCE = null;
-    private String mCardNumber = "";
+
+    private String mCardNumber;
     private String mCardMonth;
-    private String mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+    private String mCardYear;
     private String mCardCvv;
-    private int mCvvLength = 4;
+    private int mCvvLength;
+
     private Environment environment = Environment.SANDBOX;
     private String key = null;
 
@@ -38,9 +42,7 @@ public class DataStore {
     private boolean IsValidCardCvv = false;
 
     private String mCustomerName = "";
-    private String mDefaultCustomerName  = null;
     private String mCustomerCountry = "";
-    private Locale mDefaultCountry = null;
     private String mCustomerAddress1 = "";
     private String mCustomerAddress2 = "";
     private String mCustomerCity = "";
@@ -75,13 +77,18 @@ public class DataStore {
 
     private BillingModel mLastBillingValidState = null;
     private PhoneModel mLastPhoneValidState = null;
+    private String mLastCustomerNameValidState = null;
+
+    private String mDefaultCustomerName = null;
     private BillingModel mDefaultBillingDetails = null;
     private PhoneModel mDefaultPhoneDetails = null;
-    private String mLastCustomerNameState = null;
+    private Locale mDefaultCountry = null;
 
     protected DataStore() {
+        cleanState();
     }
 
+    @NonNull
     public static DataStore getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new DataStore();
@@ -425,12 +432,12 @@ public class DataStore {
         this.mLastPhoneValidState = mLastPhoneValidState;
     }
 
-    public String getLastCustomerNameState() {
-        return mLastCustomerNameState;
+    public String getLastCustomerNameValidState() {
+        return mLastCustomerNameValidState;
     }
 
-    public void setLastCustomerNameState(String mLastCustomerNameState) {
-        this.mLastCustomerNameState = mLastCustomerNameState;
+    public void setLastCustomerNameValidState(String mLastCustomerNameValidState) {
+        this.mLastCustomerNameValidState = mLastCustomerNameValidState;
     }
 
     public Environment getEnvironment() {
@@ -474,13 +481,17 @@ public class DataStore {
     }
 
     public void cleanBillingData() {
-        DataStore.getInstance().setCustomerCountry("");
-        DataStore.getInstance().setCustomerAddress1("");
-        DataStore.getInstance().setCustomerAddress2("");
-        DataStore.getInstance().setCustomerCity("");
-        DataStore.getInstance().setCustomerState("");
-        DataStore.getInstance().setCustomerZipcode("");
-        DataStore.getInstance().setCustomerPhone("");
+        this.mCustomerName = "";
+
+        this.mCustomerAddress1 = "";
+        this.mCustomerAddress2 = "";
+        this.mCustomerCity = "";
+        this.mCustomerState = "";
+        this.mCustomerZipcode = "";
+        this.mCustomerCountry = "";
+
+        this.mCustomerPhonePrefix = "";
+        this.mCustomerPhone = "";
     }
 
     public void cleanState() {
@@ -506,6 +517,12 @@ public class DataStore {
         this.mCustomerPhone = "";
 
         this.billingCompleted = false;
+    }
+
+    public void cleanLastValidState() {
+        mLastBillingValidState = null;
+        mLastPhoneValidState = null;
+        mLastCustomerNameValidState = null;
     }
 
     public CardUtils.Cards[] getAcceptedCards() {
