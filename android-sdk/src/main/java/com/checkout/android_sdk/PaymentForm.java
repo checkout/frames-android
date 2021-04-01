@@ -37,6 +37,7 @@ import java.util.Locale;
  * callbacks to communicate outcomes. Please make sure you set the key/environment
  * and appropriate  callbacks to a ensure successful interaction
  */
+@SuppressWarnings("unused")
 public class PaymentForm extends FrameLayout {
 
     /**
@@ -91,7 +92,7 @@ public class PaymentForm extends FrameLayout {
             mDataStore.setLastCustomerNameState(null);
             mDataStore.setLastBillingValidState(null);
             mDataStore.setLastPhoneValidState(null);
-            customAdapter.clearFields();
+            mCustomAdapter.clearFields();
             mSubmitFormListener.onBackPressed();
         }
     };
@@ -103,14 +104,14 @@ public class PaymentForm extends FrameLayout {
     private final BillingDetailsView.Listener mBillingListener = new BillingDetailsView.Listener() {
         @Override
         public void onBillingCompleted() {
-            customAdapter.updateBillingSpinner();
-            mPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
+            mCustomAdapter.updateBillingSpinner();
+            mViewPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
         }
 
         @Override
         public void onBillingCanceled() {
-            customAdapter.clearBillingSpinner();
-            mPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
+            mCustomAdapter.clearBillingSpinner();
+            mViewPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
         }
     };
 
@@ -120,7 +121,7 @@ public class PaymentForm extends FrameLayout {
     private final CardDetailsView.GoToBillingListener mCardListener = new CardDetailsView.GoToBillingListener() {
         @Override
         public void onGoToBillingPressed() {
-            mPager.setCurrentItem(CustomAdapter.BILLING_DETAILS_PAGE_INDEX);
+            mViewPager.setCurrentItem(CustomAdapter.BILLING_DETAILS_PAGE_INDEX);
         }
     };
 
@@ -129,8 +130,8 @@ public class PaymentForm extends FrameLayout {
     public On3DSFinished m3DSecureListener;
     public PaymentFormCallback mSubmitFormListener;
 
-    private CustomAdapter customAdapter;
-    private ViewPager mPager;
+    private CustomAdapter mCustomAdapter;
+    private ViewPager mViewPager;
     @NonNull
     private final DataStore mDataStore = DataStore.getInstance();
 
@@ -156,15 +157,15 @@ public class PaymentForm extends FrameLayout {
         // Set up the layout
         inflate(mContext, R.layout.payment_form, this);
 
-        mPager = findViewById(R.id.view_pager);
+        mViewPager = findViewById(R.id.view_pager);
         // Use a custom adapter for the viewpager
-        customAdapter = new CustomAdapter();
+        mCustomAdapter = new CustomAdapter();
         // Set up the callbacks
-        customAdapter.setCardDetailsListener(mCardListener);
-        customAdapter.setBillingListener(mBillingListener);
-        customAdapter.setTokenDetailsCompletedListener(mDetailsCompletedListener);
-        mPager.setAdapter(customAdapter);
-        mPager.setEnabled(false);
+        mCustomAdapter.setCardDetailsListener(mCardListener);
+        mCustomAdapter.setBillingListener(mBillingListener);
+        mCustomAdapter.setTokenDetailsCompletedListener(mDetailsCompletedListener);
+        mViewPager.setAdapter(mCustomAdapter);
+        mViewPager.setEnabled(false);
     }
 
     @Nullable
@@ -192,6 +193,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param cards array of accepted cards
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setAcceptedCard(CardUtils.Cards[] cards) {
         mDataStore.setAcceptedCards(cards);
         return this;
@@ -209,8 +211,8 @@ public class PaymentForm extends FrameLayout {
      */
     @SuppressLint("SetJavaScriptEnabled") // JavaScript required for 3DS1 challenge flow
     public void handle3DS(String url, final String successUrl, final String failsUrl) {
-        if (mPager != null) {
-            mPager.setVisibility(GONE); // dismiss the card form UI
+        if (mViewPager != null) {
+            mViewPager.setVisibility(GONE); // dismiss the card form UI
         }
         WebView web = new WebView(mContext);
         web.loadUrl(url);
@@ -248,8 +250,10 @@ public class PaymentForm extends FrameLayout {
      *
      * @param include boolean showing if the billing should be used
      */
-    public void includeBilling(Boolean include) {
+    @SuppressWarnings("UnusedReturnValue")
+    public PaymentForm includeBilling(Boolean include) {
         mDataStore.setShowBilling(include);
+        return this;
     }
 
     /**
@@ -257,7 +261,8 @@ public class PaymentForm extends FrameLayout {
      *
      * @param country Locale representing the default country for the Spinner
      */
-    public PaymentForm setDefaultBillingCountry(Locale country) {
+    @SuppressWarnings("UnusedReturnValue")
+    public PaymentForm setDefaultBillingCountry(@NonNull Locale country) {
         mDataStore.setCustomerCountry(country.getCountry());
         mDataStore.setDefaultCountry(country);
         mDataStore.setCustomerPhonePrefix(PhoneUtils.getPrefix(country.getCountry()));
@@ -269,6 +274,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param accepted String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setAcceptedCardsLabel(String accepted) {
         mDataStore.setAcceptedLabel(accepted);
         return this;
@@ -279,6 +285,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param card String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setCardLabel(String card) {
         mDataStore.setCardLabel(card);
         return this;
@@ -289,6 +296,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param date String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setDateLabel(String date) {
         mDataStore.setDateLabel(date);
         return this;
@@ -299,6 +307,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param cvv String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setCvvLabel(String cvv) {
         mDataStore.setCvvLabel(cvv);
         return this;
@@ -309,6 +318,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param label String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setCardHolderLabel(String label) {
         mDataStore.setCardHolderLabel(label);
         return this;
@@ -319,6 +329,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param label String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setAddress1Label(String label) {
         mDataStore.setAddressLine1Label(label);
         return this;
@@ -329,6 +340,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param label String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setAddress2Label(String label) {
         mDataStore.setAddressLine2Label(label);
         return this;
@@ -339,6 +351,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param label String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setTownLabel(String label) {
         mDataStore.setTownLabel(label);
         return this;
@@ -349,6 +362,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param label String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setStateLabel(String label) {
         mDataStore.setStateLabel(label);
         return this;
@@ -359,6 +373,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param label String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setPostcodeLabel(String label) {
         mDataStore.setPostCodeLabel(label);
         return this;
@@ -369,6 +384,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param label String representing the value for the Label
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setPhoneLabel(String label) {
         mDataStore.setPhoneLabel(label);
         return this;
@@ -379,6 +395,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param text String representing the text for the Button
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setPayButtonText(String text) {
         mDataStore.setPayButtonText(text);
         return this;
@@ -389,6 +406,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param text String representing the text for the Button
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setDoneButtonText(String text) {
         mDataStore.setDoneButtonText(text);
         return this;
@@ -399,6 +417,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param text String representing the text for the Button
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setClearButtonText(String text) {
         mDataStore.setClearButtonText(text);
         return this;
@@ -409,6 +428,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param layout LayoutParameters representing the style for the Button
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setPayButtonLayout(LinearLayout.LayoutParams layout) {
         mDataStore.setPayButtonLayout(layout);
         return this;
@@ -419,6 +439,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param layout LayoutParameters representing the style for the Button
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setDoneButtonLayout(LinearLayout.LayoutParams layout) {
         mDataStore.setDoneButtonLayout(layout);
         return this;
@@ -429,6 +450,7 @@ public class PaymentForm extends FrameLayout {
      *
      * @param layout LayoutParameters representing the style for the Button
      */
+    @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setClearButtonLayout(LinearLayout.LayoutParams layout) {
         mDataStore.setClearButtonLayout(layout);
         return this;
@@ -439,7 +461,8 @@ public class PaymentForm extends FrameLayout {
      *
      * @param billing BillingModel representing the value for the billing details
      */
-    public PaymentForm injectBilling(BillingModel billing) {
+    @SuppressWarnings("UnusedReturnValue")
+    public PaymentForm injectBilling(@NonNull BillingModel billing) {
         mDataStore.setBillingCompleted(true);
         mDataStore.setLastBillingValidState(billing);
         mDataStore.setDefaultBillingDetails(billing);
@@ -457,7 +480,8 @@ public class PaymentForm extends FrameLayout {
      *
      * @param phone PhoneModel representing the value for the phone details
      */
-    public PaymentForm injectPhone(PhoneModel phone) {
+    @SuppressWarnings("UnusedReturnValue")
+    public PaymentForm injectPhone(@NonNull PhoneModel phone) {
         mDataStore.setLastPhoneValidState(phone);
         mDataStore.setDefaultPhoneDetails(phone);
         mDataStore.setCustomerPhone(phone.getNumber());
@@ -465,7 +489,13 @@ public class PaymentForm extends FrameLayout {
         return this;
     }
 
-    public PaymentForm setEnvironment(Environment env) {
+    /**
+     * Set the target environment used to tokenise the card details.
+     *
+     * @param env - The tokenisation environment
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public PaymentForm setEnvironment(@NonNull Environment env) {
         mDataStore.setEnvironment(env);
         post(() -> {
             if (!mPaymentFormPresentedEventGenerated) {
@@ -480,7 +510,13 @@ public class PaymentForm extends FrameLayout {
         return this;
     }
 
-    public PaymentForm setKey(String key) {
+    /**
+     * The authentication key for the selected environment.
+     *
+     * @param key - The public key value use to authorise tokenisation requests.
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public PaymentForm setKey(@NonNull String key) {
         mDataStore.setKey(key);
         return this;
     }
@@ -490,7 +526,8 @@ public class PaymentForm extends FrameLayout {
      *
      * @param name String representing the value for the cardholder name
      */
-    public PaymentForm injectCardHolderName(String name) {
+    @SuppressWarnings("UnusedReturnValue")
+    public PaymentForm injectCardHolderName(@NonNull String name) {
         mDataStore.setCustomerName(name);
         mDataStore.setDefaultCustomerName(name);
         mDataStore.setLastCustomerNameState(name);
@@ -500,6 +537,7 @@ public class PaymentForm extends FrameLayout {
     /**
      * This method used to clear the state and fields of the Payment Form
      */
+    @SuppressWarnings("UnusedReturnValue")
     public void clearForm() {
         mDataStore.cleanState();
         if(mDataStore.getDefaultBillingDetails() != null) {
@@ -522,25 +560,13 @@ public class PaymentForm extends FrameLayout {
         if(mDataStore.getDefaultCountry() != null) {
             mDataStore.setDefaultCountry(mDataStore.getDefaultCountry());
         }
-        customAdapter.clearFields();
+        mCustomAdapter.clearFields();
         if(mDataStore.getDefaultBillingDetails() != null) {
             mDataStore.setBillingCompleted(true);
             mDataStore.setLastBillingValidState(mDataStore.getDefaultBillingDetails());
         } else {
             mDataStore.setLastBillingValidState(null);
         }
-    }
-
-    /**
-     * Returns a String without any spaces
-     * <p>
-     * This method used to take a card number input String and return a
-     * String that simply removed all whitespace, keeping only digits.
-     *
-     * @param entry the String value of a card number
-     */
-    private String sanitizeEntry(String entry) {
-        return entry.replaceAll("\\D", "");
     }
 
     /**
@@ -558,5 +584,4 @@ public class PaymentForm extends FrameLayout {
         this.mSubmitFormListener = listener;
         return this;
     }
-
 }

@@ -4,11 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
@@ -213,10 +213,11 @@ public class BillingDetailsView extends LinearLayout {
         }
     };
 
-    private @Nullable
-    BillingDetailsView.Listener mListener;
-    private @Nullable
-    Context mContext;
+    @Nullable
+    private BillingDetailsView.Listener mListener;
+    @NonNull
+    private final DataStore mDatastore = DataStore.getInstance();
+
     private Button mDone;
     private Button mClear;
     private Toolbar mToolbar;
@@ -229,7 +230,6 @@ public class BillingDetailsView extends LinearLayout {
     private DefaultInput mState;
     private DefaultInput mZip;
     private PhoneInput mPhone;
-    private DataStore mDatastore = DataStore.getInstance();
     private TextInputLayout mAddressOneLayout;
     private TextInputLayout mAddressTwoLayout;
     private TextInputLayout mCityLayout;
@@ -243,8 +243,10 @@ public class BillingDetailsView extends LinearLayout {
 
     public BillingDetailsView(@Nullable Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
-        init();
+        initialiseView(context);
+
+        // Used to restore state on orientation changes
+        repopulateFields();
     }
 
     /**
@@ -252,8 +254,8 @@ public class BillingDetailsView extends LinearLayout {
      * <p>
      * Used to initialise element and pass callbacks as well as setting up appropriate listeners
      */
-    private void init() {
-        inflate(mContext, R.layout.blling_details, this);
+    private void initialiseView(Context context) {
+        inflate(context, R.layout.blling_details, this);
         mToolbar = findViewById(R.id.my_toolbar);
 
         setFocusableInTouchMode(true);
@@ -270,26 +272,20 @@ public class BillingDetailsView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 boolean billingDataValid = false;
-                if (mDatastore != null) {
-                    if (mDatastore.getLastBillingValidState() != null) {
-                        mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
-                        mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
-                        mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
-                        mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getZip());
-                        mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
-                        mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
-                        mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
+                if (mDatastore.getLastBillingValidState() != null) {
+                    mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
+                    mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
+                    mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
+                    mDatastore.setCustomerZipcode(mDatastore.getLastBillingValidState().getZip());
+                    mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
+                    mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
+                    mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
 
-                        billingDataValid = true;
-                    }
                     if (mDatastore.getLastPhoneValidState() != null) {
                         mDatastore.setCustomerPhonePrefix(mDatastore.getLastPhoneValidState().getCountry_code());
                         mDatastore.setCustomerPhone(mDatastore.getLastPhoneValidState().getNumber());
                     }
-
-                    if (billingDataValid) {
-                        repopulateFields();
-                    }
+                    billingDataValid = true;
                 }
 
                 if (billingDataValid) {
@@ -327,23 +323,20 @@ public class BillingDetailsView extends LinearLayout {
         mPhone.setPhoneListener(mPhoneListener);
 
         mClear = findViewById(R.id.clear_button);
-        if (mDatastore != null && mDatastore.getClearButtonText() != null) {
+        if (mDatastore.getClearButtonText() != null) {
             mClear.setText(mDatastore.getClearButtonText());
         }
-        if (mDatastore != null && mDatastore.getClearButtonLayout() != null) {
+        if (mDatastore.getClearButtonLayout() != null) {
             mClear.setLayoutParams(mDatastore.getClearButtonLayout());
         }
 
         mDone = findViewById(R.id.done_button);
-        if (mDatastore != null && mDatastore.getDoneButtonText() != null) {
+        if (mDatastore.getDoneButtonText() != null) {
             mDone.setText(mDatastore.getDoneButtonText());
         }
-        if (mDatastore != null && mDatastore.getDoneButtonLayout() != null) {
+        if (mDatastore.getDoneButtonLayout() != null) {
             mDone.setLayoutParams(mDatastore.getDoneButtonLayout());
         }
-
-        // Used to restore state on orientation changes
-        repopulateFields();
 
         // Clear the state and the fields if the user chooses to press the clear button
         mClear.setOnClickListener(new OnClickListener() {
@@ -353,8 +346,8 @@ public class BillingDetailsView extends LinearLayout {
                 mNameLayout.setError(null);
                 mNameLayout.setErrorEnabled(false);
                 if (mDatastore.getDefaultCountry() != null) {
-                    mCountryInput.setSelection(((ArrayAdapter<String>) mCountryInput.getAdapter())
-                            .getPosition(mDatastore.getDefaultCountry().getDisplayCountry()));
+                    int countryPosition = getCountryPositionForLocale(mDatastore.getDefaultCountry());
+                    mCountryInput.setSelection(Math.max(countryPosition, 0));
                     mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
                     mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
                             .getCountry()));
@@ -456,16 +449,8 @@ public class BillingDetailsView extends LinearLayout {
         mName.setText(mDatastore.getCustomerName());
 
         // Repopulate country
-        Locale[] locale = Locale.getAvailableLocales();
-        String country;
-
-        for (Locale loc : locale) {
-            country = loc.getDisplayCountry();
-            if (loc.getCountry().equals(mDatastore.getCustomerCountry())) {
-                mCountryInput.setSelection(((ArrayAdapter<String>) mCountryInput.getAdapter())
-                        .getPosition(country));
-            }
-        }
+        int countryPosition = getCountryPositionForCountryIdentifier(mDatastore.getCustomerCountry());
+        mCountryInput.setSelection(Math.max(countryPosition, 0));
 
         // Repopulate address line 1
         mAddressOne.setText(mDatastore.getCustomerAddress1());
@@ -538,19 +523,18 @@ public class BillingDetailsView extends LinearLayout {
      * Used to clear the text and state of the fields
      */
     public void resetFields() {
-        if (mDatastore != null && mDatastore.getDefaultCustomerName() != null) {
+        resetAllErrorIndicators();
+
+        if (mDatastore.getDefaultCustomerName() != null) {
             mName.setText(mDatastore.getDefaultCustomerName());
-            mNameLayout.setError(null);
-            mNameLayout.setErrorEnabled(false);
         } else {
             mName.setText("");
-            mNameLayout.setError(null);
-            mNameLayout.setErrorEnabled(false);
         }
+
         // Repopulate country
         if (mDatastore.getDefaultCountry() != null) {
-            mCountryInput.setSelection(((ArrayAdapter<String>) mCountryInput.getAdapter())
-                    .getPosition(mDatastore.getDefaultCountry().getDisplayCountry()));
+            int countryPosition = getCountryPositionForLocale(mDatastore.getDefaultCountry());
+            mCountryInput.setSelection(Math.max(countryPosition, 0));
             mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
             mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
                     .getCountry()));
@@ -558,29 +542,17 @@ public class BillingDetailsView extends LinearLayout {
             mCountryInput.setSelection(0);
         }
 
-        if (mDatastore != null &&
-                mDatastore.getDefaultBillingDetails() != null &&
+        if (mDatastore.getDefaultBillingDetails() != null &&
                 mDatastore.getDefaultCountry() != null &&
                 mDatastore.getCustomerPhone() != null) {
             mPhone.setText(PhoneUtils.getPrefix(mDatastore.getDefaultCountry().getCountry()) +
                     " " + mDatastore.getCustomerPhone());
             mAddressOne.setText(mDatastore.getDefaultBillingDetails().getAddress_line1());
-            mAddressOneLayout.setError(null);
-            mAddressOneLayout.setErrorEnabled(false);
             mAddressTwo.setText(mDatastore.getDefaultBillingDetails().getAddress_line2());
-            mAddressTwoLayout.setError(null);
-            mAddressTwoLayout.setErrorEnabled(false);
             mCity.setText(mDatastore.getDefaultBillingDetails().getCity());
-            mCityLayout.setError(null);
-            mCityLayout.setErrorEnabled(false);
             mState.setText(mDatastore.getDefaultBillingDetails().getState());
             mStateLayout.setError(null);
-            mStateLayout.setErrorEnabled(false);
             mZip.setText(mDatastore.getDefaultBillingDetails().getZip());
-            mZipLayout.setError(null);
-            mZipLayout.setErrorEnabled(false);
-            mPhoneLayout.setError(null);
-            mPhoneLayout.setErrorEnabled(false);
         } else {
             // Reset phone prefix
             if (mDatastore.getDefaultCountry() != null) {
@@ -590,23 +562,30 @@ public class BillingDetailsView extends LinearLayout {
             }
             ((TextView) mCountryInput.getSelectedView()).setError(null);
             mAddressOne.setText("");
-            mAddressOneLayout.setError(null);
-            mAddressOneLayout.setErrorEnabled(false);
             mAddressTwo.setText("");
-            mAddressTwoLayout.setError(null);
-            mAddressTwoLayout.setErrorEnabled(false);
             mCity.setText("");
-            mCityLayout.setError(null);
-            mCityLayout.setErrorEnabled(false);
             mState.setText("");
-            mStateLayout.setError(null);
-            mStateLayout.setErrorEnabled(false);
             mZip.setText("");
-            mZipLayout.setError(null);
-            mZipLayout.setErrorEnabled(false);
-            mPhoneLayout.setError(null);
-            mPhoneLayout.setErrorEnabled(false);
         }
+    }
+
+    public void resetAllErrorIndicators() {
+        mNameLayout.setError(null);
+        mNameLayout.setErrorEnabled(false);
+
+        mAddressOneLayout.setError(null);
+        mAddressOneLayout.setErrorEnabled(false);
+        mAddressTwoLayout.setError(null);
+        mAddressTwoLayout.setErrorEnabled(false);
+        mCityLayout.setError(null);
+        mCityLayout.setErrorEnabled(false);
+        mStateLayout.setError(null);
+        mStateLayout.setErrorEnabled(false);
+        mZipLayout.setError(null);
+        mZipLayout.setErrorEnabled(false);
+
+        mPhoneLayout.setError(null);
+        mPhoneLayout.setErrorEnabled(false);
     }
 
     // Move to previous view on back button pressed
@@ -625,7 +604,7 @@ public class BillingDetailsView extends LinearLayout {
                     !mState.hasFocus() &&
                     !mZip.hasFocus() &&
                     !mPhone.hasFocus()) {
-                if (mDatastore != null && mDatastore.getLastBillingValidState() != null) {
+                if (mDatastore.getLastBillingValidState() != null) {
                     mDatastore.setCustomerName(mDatastore.getLastCustomerNameState());
                     mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
                     mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
@@ -658,4 +637,30 @@ public class BillingDetailsView extends LinearLayout {
         mListener = listener;
     }
 
+
+    private int getCountryPositionForLocale(@NonNull Locale locale) {
+        for (int position = 0; position < mCountryInput.getAdapter().getCount(); position++) {
+            if (locale.getDisplayCountry().equals(mCountryInput.getAdapter().getItem(position))) {
+                return position;
+            }
+        }
+
+        return -1;
+    }
+
+    private int getCountryPositionForCountryIdentifier(String countryIdentifier) {
+        if (countryIdentifier == null) return  -1;
+
+        Locale[] availableLocales = Locale.getAvailableLocales();
+        for (Locale loc : availableLocales) {
+            if (loc.getCountry().equals(countryIdentifier)) {
+                int countryPosition = getCountryPositionForLocale(loc);
+                if (countryPosition > 0) {
+                    return countryPosition;
+                }
+            }
+        }
+
+        return -1;
+    }
 }
