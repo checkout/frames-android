@@ -29,4 +29,5 @@
     <string name="error_phone" translatable="true">Value must be longer then 3 characters</string>
     <string name="button_clear" translatable="true">Clear</string>
     <string name="button_done" translatable="true">Done</string>
+    <string name="billing_details_edit" translatable="true">Edit</string>
 </resources>

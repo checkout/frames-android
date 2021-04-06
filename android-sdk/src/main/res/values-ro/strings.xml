@@ -30,4 +30,5 @@
     <string name="error_phone">Numarul de telefon trebuie sa contina cel putin 3 caractere</string>
     <string name="button_clear">Reseteaza</string>
     <string name="button_done">Gata</string>
+    <string name="billing_details_edit">Editează</string>
 </resources>
