@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
-    <string name="title_card_details" translatable="true">Détails de la carte</string>
-    <string name="label_accepted_cards" translatable="true">Cartes acceptées</string>
-    <string name="placeholder_card_number" translatable="true">Numéro de carte *</string>
-    <string name="error_card_number" translatable="true">Le numéro de la carte n\'est pas valide</string>
-    <string name="label_expiration_date" translatable="true">Date d\'expiration *</string>
-    <string name="error_expiration_date" translatable="true">Entrez une date valide</string>
-    <string name="placeholder_cvv" translatable="true">Cvv *</string>
-    <string name="error_cvv" translatable="true">Entrez un Cvv valide</string>
-    <string name="label_billing_details" translatable="true">Détails de facturation</string>
-    <string name="select_billing_details" translatable="true">SÉLECTIONNER</string>
-    <string name="billing_details_add" translatable="true"> + AJOUTER</string>
-    <string name="button_pay" translatable="true">Payer</string>
-    <string name="title_billing_details" translatable="true">Détails de facturation</string>
-    <string name="placeholder_name" translatable="true">Nom du titulaire de la carte *</string>
-    <string name="error_name" translatable="true">La valeur doit être plus longue que 3 caractères</string>
-    <string name="placeholder_country" translatable="true"> CHOISIR PAYS / RÉGION</string>
-    <string name="error_country" translatable="true">Veuillez sélectionner un pays / une région</string>
-    <string name="placeholder_address_one" translatable="true">Ligne d\'adresse 1 *</string>
-    <string name="error_address_one" translatable="true">La valeur doit être plus longue que 3 caractères</string>
-    <string name="placeholder_address_two" translatable="true">Ligne d\'adresse 2</string>
-    <string name="placeholder_city" translatable="true">Code postal *</string>
-    <string name="error_city" translatable="true">La valeur doit être plus longue que 2 caractères</string>
-    <string name="placeholder_state" translatable="true">État</string>
-    <string name="error_state" translatable="true">La valeur doit être plus longue que 3 caractères</string>
-    <string name="placeholder_postcode" translatable="true">Code postal *</string>
-    <string name="error_postcode" translatable="true">La valeur doit être plus longue que 3 caractères</string>
-    <string name="placeholder_phone" translatable="true">Téléphone *</string>
-    <string name="error_phone" translatable="true">La valeur doit être plus longue que 3 caractères</string>
-    <string name="button_clear" translatable="true">Effacer</string>
-    <string name="button_done" translatable="true">Confirmer</string>
+    <string name="title_card_details">Détails de la carte</string>
+    <string name="label_accepted_cards">Cartes acceptées</string>
+    <string name="placeholder_card_number">Numéro de carte *</string>
+    <string name="error_card_number">Le numéro de la carte n\'est pas valide</string>
+    <string name="label_expiration_date">Date d\'expiration *</string>
+    <string name="error_expiration_date">Entrez une date valide</string>
+    <string name="placeholder_cvv">Cvv *</string>
+    <string name="error_cvv">Entrez un Cvv valide</string>
+    <string name="label_billing_details">Détails de facturation</string>
+    <string name="select_billing_details">SÉLECTIONNER</string>
+    <string name="billing_details_add"> + AJOUTER</string>
+    <string name="button_pay">Payer</string>
+    <string name="title_billing_details">Détails de facturation</string>
+    <string name="placeholder_name">Nom du titulaire de la carte *</string>
+    <string name="error_name">La valeur doit être plus longue que 3 caractères</string>
+    <string name="placeholder_country"> CHOISIR PAYS / RÉGION</string>
+    <string name="error_country">Veuillez sélectionner un pays / une région</string>
+    <string name="placeholder_address_one">Ligne d\'adresse 1 *</string>
+    <string name="error_address_one">La valeur doit être plus longue que 3 caractères</string>
+    <string name="placeholder_address_two">Ligne d\'adresse 2</string>
+    <string name="placeholder_city">Code postal *</string>
+    <string name="error_city">La valeur doit être plus longue que 2 caractères</string>
+    <string name="placeholder_state">État</string>
+    <string name="error_state">La valeur doit être plus longue que 3 caractères</string>
+    <string name="placeholder_postcode">Code postal *</string>
+    <string name="error_postcode">La valeur doit être plus longue que 3 caractères</string>
+    <string name="placeholder_phone">Téléphone *</string>
+    <string name="error_phone">La valeur doit être plus longue que 3 caractères</string>
+    <string name="button_clear">Effacer</string>
+    <string name="button_done">Confirmer</string>
+    <string name="billing_details_edit">Modifier</string>
 </resources>

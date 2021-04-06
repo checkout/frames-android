@@ -34,7 +34,6 @@ import com.checkout.android_sdk.network.NetworkError;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -183,7 +182,6 @@ public class CardDetailsView extends LinearLayout {
     CardDetailsView.GoToBillingListener mGotoBillingListener;
     private @Nullable
     CardDetailsView.DetailsCompleted mDetailsCompletedListener;
-    private Context mContext;
     private CheckoutAPIClient mCheckoutAPIClient;
 
     private CardInput mCardInput;
@@ -199,7 +197,6 @@ public class CardDetailsView extends LinearLayout {
     private TextView mBillingHelper;
     private Toolbar mToolbar;
     private LinearLayout mAcceptedCardsView;
-    private AttributeSet attrs;
 
     public CardDetailsView(Context context) {
         this(context, null);
@@ -207,8 +204,7 @@ public class CardDetailsView extends LinearLayout {
 
     public CardDetailsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
-        init();
+        initialise(context);
     }
 
     /**
@@ -216,8 +212,8 @@ public class CardDetailsView extends LinearLayout {
      * <p>
      * Used to initialise element and pass callbacks as well as setting up appropriate listeners
      */
-    private void init() {
-        inflate(mContext, R.layout.card_details, this);
+    private void initialise(Context context) {
+        inflate(context, R.layout.card_details, this);
 
         mToolbar = findViewById(R.id.my_toolbar);
 
@@ -241,9 +237,9 @@ public class CardDetailsView extends LinearLayout {
         mAcceptedCardsHelper = findViewById(R.id.accepted_card_helper);
         mDateHelper = findViewById(R.id.date_helper);
 
-        mToolbar.setNavigationOnClickListener(v -> {
+        mToolbar.setNavigationOnClickListener(view -> {
             if (mDetailsCompletedListener != null) {
-               mDetailsCompletedListener.onBackPressed();
+                mDetailsCompletedListener.onBackPressed();
             }
         });
 
@@ -266,7 +262,7 @@ public class CardDetailsView extends LinearLayout {
         mPayButton.setOnClickListener(v -> {
             // hide keyboard
             try{
-                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 if(imm != null)
                  imm.hideSoftInputFromWindow(getWindowToken(), 0);
             } catch (Exception e) {
@@ -402,7 +398,7 @@ public class CardDetailsView extends LinearLayout {
         billingElement.add(getResources().getString(R.string.select_billing_details));
         billingElement.add(getResources().getString(R.string.billing_details_add));
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mContext,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, billingElement);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mGoToBilling.setAdapter(dataAdapter);
@@ -418,19 +414,31 @@ public class CardDetailsView extends LinearLayout {
      */
     public void updateBillingSpinner() {
 
-        String address = mDataStore.getCustomerAddress1() +
-                ", " + mDataStore.getCustomerAddress2() +
-                ", " + mDataStore.getCustomerCity() +
-                ", " + mDataStore.getCustomerState();
+        StringBuilder address = new StringBuilder();
+        boolean hasAddress = false;
+
+        String[] addressComponents = {
+                mDataStore.getCustomerAddress1(),
+                mDataStore.getCustomerAddress2(),
+                mDataStore.getCustomerCity(),
+                mDataStore.getCustomerState()
+        };
+        for (String component : addressComponents) {
+            if (component.isEmpty()) continue;
+            if (address.length() > 0) address.append(", ");
+
+            address.append(component);
+            hasAddress = true;
+        }
 
         // Avoid updates for there are no values set
-        if (address.length() > 6) {
+        if (hasAddress) {
             List<String> billingElement = new ArrayList<>();
 
-            billingElement.add(address);
-            billingElement.add("Edit");
+            billingElement.add(address.toString().trim());
+            billingElement.add(getResources().getString(R.string.billing_details_edit));
 
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mContext,
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                     android.R.layout.simple_spinner_item, billingElement);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mGoToBilling.setAdapter(dataAdapter);
@@ -463,15 +471,16 @@ public class CardDetailsView extends LinearLayout {
      */
     public void setAcceptedCards() {
 
-        CardUtils.Cards[] allCards = mDataStore.getAcceptedCards() != null
-                ? mDataStore.getAcceptedCards()
-                : (CardUtils.Cards[]) Arrays.asList(CardUtils.Cards.values()).toArray();
+        CardUtils.Cards[] acceptedCards = mDataStore.getAcceptedCards();
+        if (acceptedCards == null) {
+            acceptedCards = CardUtils.Cards.values();
+        }
 
         int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, getResources().getDisplayMetrics());
         int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
 
-        for (CardUtils.Cards card : allCards) {
-            ImageView image = new ImageView(mContext);
+        for (CardUtils.Cards card : acceptedCards) {
+            ImageView image = new ImageView(getContext());
             image.setLayoutParams(new android.view.ViewGroup.LayoutParams(size, size));
             image.setImageResource(card.resourceId);
             MarginLayoutParams marginParams = new MarginLayoutParams(image.getLayoutParams());
@@ -491,40 +500,33 @@ public class CardDetailsView extends LinearLayout {
      * @return CardTokenisationRequest
      */
     private CardTokenisationRequest generateRequest() {
-        CardTokenisationRequest request;
+        BillingModel billingModel = null;
+        PhoneModel phoneModel = null;
         if (mDataStore.isBillingCompleted()) {
-            request = new CardTokenisationRequest(
-                    sanitizeEntry(mDataStore.getCardNumber()),
-                    mDataStore.getCustomerName(),
-                    mDataStore.getCardMonth(),
-                    mDataStore.getCardYear(),
-                    mDataStore.getCardCvv(),
-                    new BillingModel(
-                            mDataStore.getCustomerAddress1(),
-                            mDataStore.getCustomerAddress2(),
-                            mDataStore.getCustomerZipcode(),
-                            mDataStore.getCustomerCountry(),
-                            mDataStore.getCustomerCity(),
-                            mDataStore.getCustomerState()
-                    ),
-                    new PhoneModel(
-                            mDataStore.getCustomerPhonePrefix(),
-                            mDataStore.getCustomerPhone()
-                    )
+            billingModel = new BillingModel(
+                    mDataStore.getCustomerAddress1(),
+                    mDataStore.getCustomerAddress2(),
+                    mDataStore.getCustomerZipcode(),
+                    mDataStore.getCustomerCountry(),
+                    mDataStore.getCustomerCity(),
+                    mDataStore.getCustomerState()
             );
-        } else {
-            request = new CardTokenisationRequest(
-                    sanitizeEntry(mDataStore.getCardNumber()),
-                    mDataStore.getCustomerName(),
-                    mDataStore.getCardMonth(),
-                    mDataStore.getCardYear(),
-                    mDataStore.getCardCvv(),
-                    null,
-                    null
+            phoneModel = new PhoneModel(
+                    mDataStore.getCustomerPhonePrefix(),
+                    mDataStore.getCustomerPhone()
             );
         }
 
-        return request;
+
+        return new CardTokenisationRequest(
+                sanitizeEntry(mDataStore.getCardNumber()),
+                mDataStore.getCustomerName(),
+                mDataStore.getCardMonth(),
+                mDataStore.getCardYear(),
+                mDataStore.getCardCvv(),
+                billingModel,
+                phoneModel
+        );
     }
 
     /**
