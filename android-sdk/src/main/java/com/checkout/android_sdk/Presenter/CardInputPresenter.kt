@@ -30,7 +30,7 @@ class CardInputPresenter(
     }
 
     fun focusChanged(hasFocus: Boolean) {
-        val cardError = CardFocusUseCase(hasFocus, dataStore.cardNumber).execute()
+        val cardError = CardFocusUseCase(hasFocus, uiState.cardNumber).execute()
         val newState = uiState.copy(
             showCardError = cardError
         )

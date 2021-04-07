@@ -2,11 +2,11 @@ package com.checkout.android_sdk.Input
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Rect
 import android.text.Editable
 import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
-import android.view.View.OnFocusChangeListener
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.checkout.android_sdk.Architecture.PresenterStore
@@ -25,17 +25,16 @@ import com.checkout.android_sdk.Utils.CardUtils
  * side based on  the users input. It will also span spaces following the [CardUtils] details.
  */
 class CardInput @JvmOverloads constructor(
-    internal var mContext: Context,
+    context: Context,
     attrs: AttributeSet? = null
-) : AppCompatEditText(mContext, attrs), CardInputPresenter.CardInputView {
-
+) : AppCompatEditText(context, attrs), CardInputPresenter.CardInputView {
 
     private var mCardInputListener: Listener? = null
-    private lateinit var presenter: CardInputPresenter
+    private lateinit var mPresenter: CardInputPresenter
+    private var mAfterTextChangedListener: AfterTextChangedListener? = null
 
     /**
      * The UI initialisation
-     *
      *
      * Used to initialise element as well as setting up appropriate listeners
      */
@@ -43,36 +42,46 @@ class CardInput @JvmOverloads constructor(
         super.onAttachedToWindow()
 
         // Create/get and start the presenter
-        presenter = PresenterStore.getOrCreate(CardInputPresenter::class.java) {
+        mPresenter = PresenterStore.getOrCreate(CardInputPresenter::class.java) {
             CardInputPresenter(DataStore.getInstance())
         }
 
-        presenter.start(this)
+        mPresenter.start(this)
 
         // Add listener for text input
-        addTextChangedListener(object : AfterTextChangedListener() {
+        val textChangedListener = object : AfterTextChangedListener() {
             override fun afterTextChanged(text: Editable) {
-                presenter.textChanged(text)
+                mPresenter.textChanged(text)
             }
-        })
-
-        // Add listener for focus
-
-        // When the CardInput loses focus check if the card number is not valid and trigger an error
-        onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            presenter.focusChanged(hasFocus)
         }
+        mAfterTextChangedListener = textChangedListener
+        addTextChangedListener(textChangedListener)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.stop(this)
+        mPresenter.stop(this)
+        mAfterTextChangedListener?.let {
+            removeTextChangedListener(it)
+        }
+        mAfterTextChangedListener = null
+    }
+
+    override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect)
+        // When the CardInput loses focus check if the card number is not valid and trigger an error
+        mPresenter.focusChanged(focused)
     }
 
     override fun onStateUpdated(uiState: CardInputPresenter.CardInputUiState) {
-        // Get Card type
-        filters =
-            arrayOf<InputFilter>(InputFilter.LengthFilter(uiState.cardType.maxCardLength))
+        // Set length filter based on card type
+        filters = filters
+            .filter {
+                it !is InputFilter.LengthFilter
+            }
+            .plus(InputFilter.LengthFilter(uiState.cardType.maxCardLength))
+            .toTypedArray()
+
         // Set the CardInput icon based on the type of card
         setCardTypeIcon(uiState.cardType)
 
@@ -104,11 +113,10 @@ class CardInput @JvmOverloads constructor(
     }
 
     private fun restoreCardNumberIfNecessary(cardInputResult: CardInputPresenter.CardInputUiState) {
-        val editableText = text
-        if (editableText != null && editableText.isEmpty() && cardInputResult.cardNumber.isNotEmpty()) {
-            setText(cardInputResult.cardNumber)
+        if (text?.isEmpty() == true && cardInputResult.cardNumber.isNotEmpty()) {
+            setText(cardInputResult.cardNumber, BufferType.EDITABLE)
             setSelection(cardInputResult.cardNumber.length)
-            presenter.textChanged(editableText)
+            mPresenter.textChanged(editableText)
         }
     }
 
