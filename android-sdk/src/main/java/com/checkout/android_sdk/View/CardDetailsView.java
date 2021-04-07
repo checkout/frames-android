@@ -314,8 +314,8 @@ public class CardDetailsView extends LinearLayout {
      * if the device orientation changes, and therefore avoiding the text inputs to be cleared.
      */
     private void repopulateField() {
-        //Repopulate card cvv
-        if (DataStore.getInstance().getCardCvv() != null) {
+        // Repopulate card cvv
+        if (mDataStore.getCardCvv() != null) {
             // Update the cvv field with the last input value
             mCvvInput.setText(mDataStore.getCardCvv());
         }

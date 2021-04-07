@@ -3,7 +3,7 @@ package com.checkout.android_sdk.UseCase
 import android.text.Editable
 import com.checkout.android_sdk.Store.DataStore
 import com.checkout.android_sdk.Utils.CardUtils
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
@@ -35,12 +35,11 @@ class CardInputUseCaseTest {
     @Test
     fun `given sufficient digits of visa card number will get visa as type and input finished`() {
         val spacedVisaNumber = "4242 4242 4242 4242"
-        val nonSpacedVisaNumber = "4242424242424242"
         given(editable.toString()).willReturn(spacedVisaNumber)
 
         val cardInputResult = CardInputUseCase(editable, dataStore).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(nonSpacedVisaNumber, CardUtils.Cards.VISA, true, false)
+        val expectedResult = CardInputUseCase.CardInputResult(spacedVisaNumber, CardUtils.Cards.VISA, true, false)
         assertEquals(expectedResult, cardInputResult)
         assertEquals(spacedVisaNumber, editable.toString())
     }
@@ -53,7 +52,7 @@ class CardInputUseCaseTest {
 
         val cardInputResult = CardInputUseCase(editable, dataStore).execute()
 
-        val expectedResult = CardInputUseCase.CardInputResult(visaNumberToBeSpaced, CardUtils.Cards.VISA, false, false)
+        val expectedResult = CardInputUseCase.CardInputResult(visaNumberSpaced, CardUtils.Cards.VISA, false, false)
         assertEquals(expectedResult, cardInputResult)
         then(editable).should().replace(0, visaNumberToBeSpaced.length, visaNumberSpaced)
     }
