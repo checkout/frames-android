@@ -1,10 +1,10 @@
 package com.checkout.android_sdk.View;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.inputmethod.InputMethodManager;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,7 +29,10 @@ import com.checkout.android_sdk.Request.CardTokenisationRequest;
 import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Store.DataStore;
+import com.checkout.android_sdk.Utils.BackNavigationHandler;
+import com.checkout.android_sdk.Utils.BackNavigationHandler.BackNavigationListener;
 import com.checkout.android_sdk.Utils.CardUtils;
+import com.checkout.android_sdk.Utils.KeyboardUtils;
 import com.checkout.android_sdk.network.NetworkError;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -177,11 +180,16 @@ public class CardDetailsView extends LinearLayout {
         }
     };
 
-    DataStore mDataStore = DataStore.getInstance();
-    private @Nullable
-    CardDetailsView.GoToBillingListener mGotoBillingListener;
-    private @Nullable
-    CardDetailsView.DetailsCompleted mDetailsCompletedListener;
+    private final BackNavigationListener mBackNavigationListener = (event, view) -> onBackPressed();
+
+    @NonNull
+    private final DataStore mDataStore = DataStore.getInstance();
+    @NonNull
+    private final BackNavigationHandler mBackNavigationHandler = new BackNavigationHandler(mBackNavigationListener);
+    @Nullable
+    private CardDetailsView.GoToBillingListener mGotoBillingListener;
+    @Nullable
+    private CardDetailsView.DetailsCompleted mDetailsCompletedListener;
     private CheckoutAPIClient mCheckoutAPIClient;
 
     private CardInput mCardInput;
@@ -252,22 +260,16 @@ public class CardDetailsView extends LinearLayout {
         }
 
         mPayButton = findViewById(R.id.pay_button);
-        if(mDataStore != null && mDataStore.getPayButtonText() != null) {
+        if(mDataStore.getPayButtonText() != null) {
             mPayButton.setText(mDataStore.getPayButtonText());
         }
-        if(mDataStore!= null && mDataStore.getPayButtonLayout() != null) {
+        if(mDataStore.getPayButtonLayout() != null) {
             mPayButton.setLayoutParams(mDataStore.getPayButtonLayout());
         }
 
         mPayButton.setOnClickListener(v -> {
             // hide keyboard
-            try{
-                InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                if(imm != null)
-                 imm.hideSoftInputFromWindow(getWindowToken(), 0);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            KeyboardUtils.hideSoftKeyboard(this);
             if (mDetailsCompletedListener != null && isValidForm()) {
                 mDetailsCompletedListener.onFormSubmit();
                 mCheckoutAPIClient = new CheckoutAPIClient(
@@ -338,7 +340,6 @@ public class CardDetailsView extends LinearLayout {
         boolean outcome = true;
 
         checkFullDate();
-
         if (!mDataStore.isValidCardMonth()) {
             outcome = false;
         }
@@ -349,7 +350,6 @@ public class CardDetailsView extends LinearLayout {
         }
 
         mDataStore.setValidCardCvv(mCvvInput.getText() != null && mCvvInput.getText().length() == mDataStore.getCvvLength());
-
         if (!mDataStore.isValidCardCvv()) {
             mCvvLayout.setError(getResources().getString(R.string.error_cvv));
             outcome = false;
@@ -366,10 +366,8 @@ public class CardDetailsView extends LinearLayout {
      * <p>
      * The method will check if the values from the {@link MonthInput} and {@link YearInput} are
      * not representing a date in the past.
-     *
-     * @return boolean abut form validity of the date
      */
-    private boolean checkFullDate() {
+    private void checkFullDate() {
 
         // Check is the state contain the date and if it is check if the current selected
         // values are valid. Display error if applicable.
@@ -379,10 +377,8 @@ public class CardDetailsView extends LinearLayout {
             mDataStore.setValidCardMonth(false);
             ((TextView) mMonthInput.getSelectedView()).setError(getResources()
                     .getString(R.string.error_expiration_date));
-            return false;
         }
         mDataStore.setValidCardMonth(true);
-        return true;
     }
 
     /**
@@ -451,7 +447,7 @@ public class CardDetailsView extends LinearLayout {
      * <p>
      */
     public void resetFields() {
-        if(mDataStore != null && mDataStore.getDefaultBillingDetails() != null) {
+        if(mDataStore.getDefaultBillingDetails() != null) {
             updateBillingSpinner();
         } else {
             clearBillingSpinner();
@@ -519,7 +515,7 @@ public class CardDetailsView extends LinearLayout {
 
 
         return new CardTokenisationRequest(
-                sanitizeEntry(mDataStore.getCardNumber()),
+                sanitizeNumericEntry(mDataStore.getCardNumber()),
                 mDataStore.getCustomerName(),
                 mDataStore.getCardMonth(),
                 mDataStore.getCardYear(),
@@ -530,14 +526,14 @@ public class CardDetailsView extends LinearLayout {
     }
 
     /**
-     * Returns a String without any spaces
+     * Returns a String that contains only digits (without any spaces).
      * <p>
      * This method used to take a card number input String and return a
      * String that simply removed all whitespace, keeping only digits.
      *
      * @param entry the String value of a card number
      */
-    private String sanitizeEntry(String entry) {
+    private String sanitizeNumericEntry(String entry) {
         return entry.replaceAll("\\D", "");
     }
 
@@ -554,5 +550,26 @@ public class CardDetailsView extends LinearLayout {
      */
     public void setGoToBillingListener(GoToBillingListener listener) {
         mGotoBillingListener = listener;
+    }
+
+    // Capture back key events so that onBackPressed can be invoked.
+    @Override
+    public boolean dispatchKeyEventPreIme(KeyEvent event) {
+        boolean consumed = super.dispatchKeyEventPreIme(event);
+
+        if (!consumed && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            consumed = mBackNavigationHandler.processKeyEvent(event, this);
+        }
+
+        return consumed;
+    }
+
+    private void onBackPressed() {
+        View focusedView = getFocusedChild();
+        if (focusedView == null || !KeyboardUtils.hideSoftKeyboard(focusedView)) {
+            if (mDetailsCompletedListener != null) {
+                mDetailsCompletedListener.onBackPressed();
+            }
+        }
     }
 }
