@@ -273,12 +273,7 @@ public class BillingDetailsView extends LinearLayout {
         mPhoneLayout = findViewById(R.id.phone_input_layout);
 
         // trigger focus change to the card details view on the toolbar back button press
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateBack();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> navigateBack());
 
         mName = findViewById(R.id.name_input);
         mNameLayout = findViewById(R.id.name_input_layout);
@@ -322,53 +317,47 @@ public class BillingDetailsView extends LinearLayout {
         }
 
         // Clear the state and the fields if the user chooses to press the clear button
-        mClear.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearFields();
-                mDatastore.cleanBillingData();
-                mDatastore.cleanLastValidBillingData();
-                mDatastore.setBillingCompleted(false);
+        mClear.setOnClickListener(v -> {
+            clearFields();
+            mDatastore.cleanBillingData();
+            mDatastore.cleanLastValidBillingData();
+            mDatastore.setBillingCompleted(false);
 
-                if (mDatastore.getDefaultCountry() != null) {
-                    int countryPosition = getCountryPositionForLocale(mDatastore.getDefaultCountry());
-                    mCountryInput.setSelection(Math.max(countryPosition, 0));
-                    mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
-                    mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
-                            .getCountry()));
+            if (mDatastore.getDefaultCountry() != null) {
+                int countryPosition = getCountryPositionForLocale(mDatastore.getDefaultCountry());
+                mCountryInput.setSelection(Math.max(countryPosition, 0));
+                mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
+                mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
+                        .getCountry()));
 
-                    mPhone.setText(buildPhoneText(mDatastore.getDefaultCountry().getCountry(), null));
-                }
+                mPhone.setText(buildPhoneText(mDatastore.getDefaultCountry().getCountry(), null));
+            }
 
-                if (mListener != null) {
-                    mListener.onBillingCanceled();
-                }
+            if (mListener != null) {
+                mListener.onBillingCanceled();
             }
         });
 
         // Is the form is valid indicate the billing was completed using the callback
         // so the billing spinner can be updated adn teh focus can be changes
-        mDone.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isValidForm()) {
-                    if (mListener != null) {
-                        mDatastore.setBillingCompleted(true);
-                        mDatastore.setLastCustomerNameValidState(mDatastore.getCustomerName());
-                        mDatastore.setLastBillingValidState(new BillingModel(
-                                mDatastore.getCustomerAddress1(),
-                                mDatastore.getCustomerAddress2(),
-                                mDatastore.getCustomerZipcode(),
-                                mDatastore.getCustomerCountry(),
-                                mDatastore.getCustomerCity(),
-                                mDatastore.getCustomerState()
-                        ));
-                        mDatastore.setLastPhoneValidState(new PhoneModel(
-                                mDatastore.getCustomerPhonePrefix(),
-                                mDatastore.getCustomerPhone()
-                        ));
-                        mListener.onBillingCompleted();
-                    }
+        mDone.setOnClickListener(v -> {
+            if (isValidForm()) {
+                if (mListener != null) {
+                    mDatastore.setBillingCompleted(true);
+                    mDatastore.setLastCustomerNameValidState(mDatastore.getCustomerName());
+                    mDatastore.setLastBillingValidState(new BillingModel(
+                            mDatastore.getCustomerAddress1(),
+                            mDatastore.getCustomerAddress2(),
+                            mDatastore.getCustomerZipcode(),
+                            mDatastore.getCustomerCountry(),
+                            mDatastore.getCustomerCity(),
+                            mDatastore.getCustomerState()
+                    ));
+                    mDatastore.setLastPhoneValidState(new PhoneModel(
+                            mDatastore.getCustomerPhonePrefix(),
+                            mDatastore.getCustomerPhone()
+                    ));
+                    mListener.onBillingCompleted();
                 }
             }
         });
@@ -484,45 +473,43 @@ public class BillingDetailsView extends LinearLayout {
      * Used to reset all input fields to default values and clear state of the fields
      */
     public void resetFields() {
-        resetAllErrorIndicators();
+        clearFields();
 
         if (mDatastore.getDefaultCustomerName() != null) {
             mName.setText(mDatastore.getDefaultCustomerName());
-        } else {
-            mName.setText("");
         }
+
+        String phoneNumber = null;
+        String phoneNumberPrefix = null;
 
         if (mDatastore.getDefaultCountry() != null) {
             int countryPosition = getCountryPositionForLocale(mDatastore.getDefaultCountry());
             mCountryInput.setSelection(Math.max(countryPosition, 0));
             mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
-            mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
-                    .getCountry()));
-        } else {
-            mCountryInput.setSelection(0);
+
+            phoneNumberPrefix = PhoneUtils.getPrefix(mDatastore.getDefaultCountry().getCountry());
+            mDatastore.setCustomerPhonePrefix(phoneNumberPrefix);
         }
 
-        if (mDatastore.getDefaultBillingDetails() != null &&
-                mDatastore.getDefaultCountry() != null &&
-                mDatastore.getCustomerPhone() != null) {
-            mPhone.setText(buildPhoneText(mDatastore.getDefaultCountry().getCountry(), mDatastore.getCustomerPhone()));
+        if (mDatastore.getDefaultPhoneDetails() != null) {
+            phoneNumberPrefix = mDatastore.getDefaultPhoneDetails().getCountry_code();
+            phoneNumber = mDatastore.getDefaultPhoneDetails().getNumber();
+        }
+
+        if (mDatastore.getDefaultBillingDetails() != null) {
             mAddressOne.setText(mDatastore.getDefaultBillingDetails().getAddress_line1());
             mAddressTwo.setText(mDatastore.getDefaultBillingDetails().getAddress_line2());
             mCity.setText(mDatastore.getDefaultBillingDetails().getCity());
             mState.setText(mDatastore.getDefaultBillingDetails().getState());
             mZip.setText(mDatastore.getDefaultBillingDetails().getZip());
-        } else {
-            // Reset phone prefix
-            if (mDatastore.getDefaultCountry() != null) {
-                mPhone.setText(buildPhoneText(mDatastore.getDefaultCountry().getCountry(), ""));
-            } else {
-                mPhone.setText("");
+        }
+
+        if (phoneNumberPrefix != null && !phoneNumberPrefix.isEmpty()) {
+            String phoneNumberText = phoneNumberPrefix + " ";
+            if (phoneNumber != null) {
+                phoneNumberText += phoneNumber;
             }
-            mAddressOne.setText("");
-            mAddressTwo.setText("");
-            mCity.setText("");
-            mState.setText("");
-            mZip.setText("");
+            mPhone.setText(phoneNumberText);
         }
     }
 
@@ -586,11 +573,12 @@ public class BillingDetailsView extends LinearLayout {
     private void navigateBack() {
         if (mListener == null) return;
 
-        if (resetToLastValidStateIfAvailable()) {
-            repopulateFields();
+        boolean billingDetailsValid = resetToLastValidStateIfAvailable();
+
+        repopulateFields();
+        if (billingDetailsValid) {
             mListener.onBillingCompleted();
         } else {
-            repopulateFields();
             mListener.onBillingCanceled();
         }
     }
@@ -616,6 +604,13 @@ public class BillingDetailsView extends LinearLayout {
                     .getCountry()));
         }
 
+        if (mDatastore.getLastCustomerNameValidState() != null) {
+            mDatastore.setCustomerName(mDatastore.getLastCustomerNameValidState());
+        }
+        if (mDatastore.getLastPhoneValidState() != null) {
+            mDatastore.setCustomerPhonePrefix(mDatastore.getLastPhoneValidState().getCountry_code());
+            mDatastore.setCustomerPhone(mDatastore.getLastPhoneValidState().getNumber());
+        }
         if (mDatastore.getLastBillingValidState() != null) {
             mDatastore.setCustomerAddress1(mDatastore.getLastBillingValidState().getAddress_line1());
             mDatastore.setCustomerAddress2(mDatastore.getLastBillingValidState().getAddress_line2());
@@ -623,15 +618,6 @@ public class BillingDetailsView extends LinearLayout {
             mDatastore.setCustomerCountry(mDatastore.getLastBillingValidState().getCountry());
             mDatastore.setCustomerCity(mDatastore.getLastBillingValidState().getCity());
             mDatastore.setCustomerState(mDatastore.getLastBillingValidState().getState());
-
-            if (mDatastore.getLastCustomerNameValidState() != null) {
-                mDatastore.setCustomerName(mDatastore.getLastCustomerNameValidState());
-            }
-
-            if (mDatastore.getLastPhoneValidState() != null) {
-                mDatastore.setCustomerPhonePrefix(mDatastore.getLastPhoneValidState().getCountry_code());
-                mDatastore.setCustomerPhone(mDatastore.getLastPhoneValidState().getNumber());
-            }
             billingDetailsValid = true;
         }
 

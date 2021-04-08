@@ -547,9 +547,9 @@ public class PaymentForm extends FrameLayout {
         }
         if(mDataStore.getDefaultBillingDetails() != null) {
             injectBilling(mDataStore.getDefaultBillingDetails());
-            if(mDataStore.getDefaultPhoneDetails() != null) {
-                injectPhone(mDataStore.getDefaultPhoneDetails());
-            }
+        }
+        if(mDataStore.getDefaultPhoneDetails() != null) {
+            injectPhone(mDataStore.getDefaultPhoneDetails());
         }
         if(mDataStore.getDefaultCustomerName() != null) {
             injectCardHolderName(mDataStore.getDefaultCustomerName());
