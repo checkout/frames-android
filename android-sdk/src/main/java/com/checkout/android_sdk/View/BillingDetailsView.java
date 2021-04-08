@@ -328,6 +328,7 @@ public class BillingDetailsView extends LinearLayout {
             public void onClick(View v) {
                 clearFields();
                 mDatastore.cleanBillingData();
+                mDatastore.cleanLastValidBillingData();
                 mDatastore.setBillingCompleted(false);
 
                 if (mDatastore.getDefaultCountry() != null) {
@@ -337,7 +338,7 @@ public class BillingDetailsView extends LinearLayout {
                     mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
                             .getCountry()));
 
-                    mPhone.setText(buildPhoneText(mDatastore.getDefaultCountry().getCountry(), ""));
+                    mPhone.setText(buildPhoneText(mDatastore.getDefaultCountry().getCountry(), null));
                 }
 
                 if (mListener != null) {
@@ -669,7 +670,12 @@ public class BillingDetailsView extends LinearLayout {
         return -1;
     }
 
-    private static String buildPhoneText(@NonNull String countryIdentifier, @NonNull String phoneNumber) {
-        return PhoneUtils.getPrefix(countryIdentifier) + " " + phoneNumber;
+    private static String buildPhoneText(@NonNull String countryIdentifier, @Nullable String phoneNumber) {
+        String result = PhoneUtils.getPrefix(countryIdentifier) + " ";
+        if (phoneNumber != null) {
+            result += phoneNumber;
+        }
+
+        return result;
     }
 }
