@@ -20,6 +20,8 @@ import com.checkout.android_sdk.Models.BillingModel;
 import com.checkout.android_sdk.Models.PhoneModel;
 import com.checkout.android_sdk.R;
 import com.checkout.android_sdk.Store.DataStore;
+import com.checkout.android_sdk.Utils.BackNavigationHandler;
+import com.checkout.android_sdk.Utils.KeyboardUtils;
 import com.checkout.android_sdk.Utils.PhoneUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -214,10 +216,14 @@ public class BillingDetailsView extends LinearLayout {
         }
     };
 
+    private final BackNavigationHandler.BackNavigationListener mBackNavigationListener = (event, view) -> onBackPressed();
+
     @Nullable
     private BillingDetailsView.Listener mListener;
     @NonNull
     private final DataStore mDatastore = DataStore.getInstance();
+    @NonNull
+    private final BackNavigationHandler mBackNavigationHandler = new BackNavigationHandler(mBackNavigationListener);
 
     private Button mDone;
     private Button mClear;
@@ -259,8 +265,6 @@ public class BillingDetailsView extends LinearLayout {
         inflate(context, R.layout.blling_details, this);
         mToolbar = findViewById(R.id.my_toolbar);
 
-        setFocusableInTouchMode(true);
-
         mAddressOneLayout = findViewById(R.id.address_one_input_layout);
         mAddressTwoLayout = findViewById(R.id.address_two_input_layout);
         mCityLayout = findViewById(R.id.city_input_layout);
@@ -272,12 +276,7 @@ public class BillingDetailsView extends LinearLayout {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (resetToLastValidStateIfAvailable()) {
-                    repopulateFields();
-                    if (mListener != null) mListener.onBillingCompleted();
-                } else {
-                    if (mListener != null) mListener.onBillingCanceled();
-                }
+                navigateBack();
             }
         });
 
@@ -565,37 +564,35 @@ public class BillingDetailsView extends LinearLayout {
         mPhoneLayout.setErrorEnabled(false);
     }
 
-    // Move to previous view on back button pressed
+    // Capture back key events so that onBackPressed can be invoked.
     @Override
     public boolean dispatchKeyEventPreIme(KeyEvent event) {
-        if (event.getAction() != KeyEvent.ACTION_DOWN) {
-            return false;
-        }
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            // Prevent back button to trigger the mListener is any is focused
-            if (mListener != null &&
-                    !mAddressOne.hasFocus() &&
-                    !mName.hasFocus() &&
-                    !mAddressTwo.hasFocus() &&
-                    !mCity.hasFocus() &&
-                    !mState.hasFocus() &&
-                    !mZip.hasFocus() &&
-                    !mPhone.hasFocus()) {
+        boolean consumed = super.dispatchKeyEventPreIme(event);
 
-                if (resetToLastValidStateIfAvailable()) {
-                    repopulateFields();
-                    mListener.onBillingCompleted();
-                } else {
-                    mListener.onBillingCanceled();
-                }
-                return true;
-            } else {
-                requestFocus();
-                return false;
-            }
+        if (!consumed && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            consumed = mBackNavigationHandler.processKeyEvent(event, this);
         }
 
-        return super.dispatchKeyEventPreIme(event);
+        return consumed;
+    }
+
+    private void onBackPressed() {
+        View focusedView = getFocusedChild();
+        if (focusedView == null || !KeyboardUtils.hideSoftKeyboard(focusedView)) {
+            navigateBack();
+        }
+    }
+
+    private void navigateBack() {
+        if (mListener == null) return;
+
+        if (resetToLastValidStateIfAvailable()) {
+            repopulateFields();
+            mListener.onBillingCompleted();
+        } else {
+            repopulateFields();
+            mListener.onBillingCanceled();
+        }
     }
 
     /**
