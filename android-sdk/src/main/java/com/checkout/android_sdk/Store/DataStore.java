@@ -480,6 +480,21 @@ public class DataStore {
         this.mDefaultCustomerName = mDefaulCustomerName;
     }
 
+    public void cleanCardData() {
+        this.mCardNumber = "";
+        this.mCardMonth = "01";
+        this.mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        this.mCardCvv = "";
+        this.mCvvLength = 4;
+    }
+
+    public void cleanCardValidState() {
+        this.IsValidCardNumber = false;
+        this.IsValidCardMonth = false;
+        this.IsValidCardYear = false;
+        this.IsValidCardCvv = false;
+    }
+
     public void cleanBillingData() {
         this.mCustomerName = "";
 
@@ -494,35 +509,21 @@ public class DataStore {
         this.mCustomerPhone = "";
     }
 
+    public void cleanLastValidBillingData() {
+        this.mLastCustomerNameValidState = null;
+        this.mLastBillingValidState = null;
+        this.mLastPhoneValidState = null;
+    }
+
     public void cleanState() {
-        this.mCardNumber = "";
-        this.mCardMonth = "01";
-        this.mCardYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        this.mCardCvv = "";
-        this.mCvvLength = 4;
-
-        this.IsValidCardNumber = false;
-        this.IsValidCardMonth = false;
-        this.IsValidCardYear = false;
-        this.IsValidCardCvv = false;
-
-        this.mCustomerName = "";
-        this.mCustomerCountry = "";
-        this.mCustomerAddress1 = "";
-        this.mCustomerAddress2 = "";
-        this.mCustomerCity = "";
-        this.mCustomerState = "";
-        this.mCustomerZipcode = "";
-        this.mCustomerPhonePrefix = "";
-        this.mCustomerPhone = "";
-
-        this.billingCompleted = false;
+        cleanCardData();
+        cleanBillingData();
+        setBillingCompleted(false);
     }
 
     public void cleanLastValidState() {
-        mLastBillingValidState = null;
-        mLastPhoneValidState = null;
-        mLastCustomerNameValidState = null;
+        cleanCardValidState();
+        cleanLastValidBillingData();
     }
 
     public CardUtils.Cards[] getAcceptedCards() {
