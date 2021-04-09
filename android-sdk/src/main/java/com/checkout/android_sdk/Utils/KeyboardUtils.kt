@@ -25,11 +25,11 @@ internal object KeyboardUtils {
      * Shows the soft keyboard using [InputMethodManager.showSoftInput]
      */
     @JvmStatic
-    fun showSoftKeyboard(view: View) : Boolean {
+    fun showSoftKeyboard(view: View, flags: Int = 0) : Boolean {
         return try {
             val inputMethodManager =
                 view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.showSoftInput(view, 0) ?: false
+            inputMethodManager?.showSoftInput(view, flags) ?: false
         } catch (e: Exception) {
             Log.d("KeyboardUtils", "Failed to show soft keyboard", e)
             false

@@ -2,13 +2,14 @@ package com.checkout.android_sdk.Input;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+
+import com.checkout.android_sdk.Utils.AfterTextChangedListener;
+import com.checkout.android_sdk.Utils.KeyboardUtils;
 
 /**
  * A custom EdiText with validation and handling of address input
@@ -17,13 +18,11 @@ public class AddressOneInput extends AppCompatEditText {
 
     public interface AddressOneListener {
         void onAddressOneInputFinish(String number);
-
         void clearAddressOneError();
     }
 
-    private @Nullable
-    AddressOneInput.AddressOneListener mAddressOneListener;
-    private Context mContext;
+    @Nullable
+    private AddressOneInput.AddressOneListener mAddressOneListener;
 
     public AddressOneInput(Context context) {
         this(context, null);
@@ -31,43 +30,29 @@ public class AddressOneInput extends AppCompatEditText {
 
     public AddressOneInput(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
-        init();
+        initialise();
     }
 
-    private void init() {
-        addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
+    private void initialise() {
+        addTextChangedListener(new AfterTextChangedListener() {
             @Override
             public void afterTextChanged(Editable s) {
                 // Save state
                 if (mAddressOneListener != null) {
                     mAddressOneListener.onAddressOneInputFinish(s.toString());
+                    mAddressOneListener.clearAddressOneError();
                 }
             }
         });
 
-        setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    performClick();
-                    // Clear error if the user starts typing
-                    if (mAddressOneListener != null) {
-                        mAddressOneListener.clearAddressOneError();
-                    }
-                    @Nullable InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
-                    }
+        setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                performClick();
+                // Clear error if the user starts typing
+                if (mAddressOneListener != null) {
+                    mAddressOneListener.clearAddressOneError();
                 }
+                KeyboardUtils.showSoftKeyboard(this, InputMethodManager.SHOW_IMPLICIT);
             }
         });
     }
