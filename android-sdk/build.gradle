@@ -3,7 +3,7 @@ plugins {
     id('kotlin-android')
     id('com.kezong.fat-aar')
 }
-ext.productVersion = "3.0.0"
+ext.productVersion = "3.0.1"
 
 android {
     compileSdkVersion 30

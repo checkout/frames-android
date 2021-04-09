@@ -41,7 +41,7 @@ Add Frames SDK dependency to the module gradble file:
 ```gradle
 // module gradle file
 dependencies {
- implementation 'com.github.checkout:frames-android:3.0.0'
+ implementation 'com.github.checkout:frames-android:3.0.1'
 }
 ```
 
