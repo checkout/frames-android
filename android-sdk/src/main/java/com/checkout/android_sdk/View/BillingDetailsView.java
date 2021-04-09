@@ -84,7 +84,7 @@ public class BillingDetailsView extends LinearLayout {
             if (!prefix.equals("")) {
                 mDatastore.setCustomerPhonePrefix(prefix);
             }
-            String phoneNumberText = prefix + " " + mDatastore.getCustomerPhone();
+            String phoneNumberText = buildPhoneText(prefix, mDatastore.getCustomerPhone());
             mPhone.setText(phoneNumberText);
             mPhone.requestFocus();
             mPhone.performClick();
@@ -327,10 +327,10 @@ public class BillingDetailsView extends LinearLayout {
                 int countryPosition = getCountryPositionForLocale(mDatastore.getDefaultCountry());
                 mCountryInput.setSelection(Math.max(countryPosition, 0));
                 mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
-                mDatastore.setCustomerPhonePrefix(PhoneUtils.getPrefix(mDatastore.getDefaultCountry()
-                        .getCountry()));
 
-                mPhone.setText(buildPhoneText(mDatastore.getDefaultCountry().getCountry(), null));
+                String phoneNumberPrefix = determinePhonePrefixFromDataStoreCountry();
+                mDatastore.setCustomerPhonePrefix(phoneNumberPrefix);
+                mPhone.setText(buildPhoneText(phoneNumberPrefix, null));
             }
 
             if (mListener != null) {
@@ -418,7 +418,31 @@ public class BillingDetailsView extends LinearLayout {
         mZip.setText(mDatastore.getCustomerZipcode());
 
         // Repopulate phone
-        mPhone.setText(mDatastore.getCustomerPhone());
+        String phonePrefix = mDatastore.getCustomerPhonePrefix();
+        if (phonePrefix.isEmpty()) {
+            phonePrefix = determinePhonePrefixFromDataStoreCountry();
+            mDatastore.setCustomerPhonePrefix(phonePrefix);
+        }
+        mPhone.setText(buildPhoneText(phonePrefix, mDatastore.getCustomerPhone()));
+    }
+
+    @NonNull
+    private String determinePhonePrefixFromDataStoreCountry() {
+        if (mDatastore.getDefaultPhoneDetails() != null &&
+                !mDatastore.getDefaultPhoneDetails().getCountry_code().isEmpty()) {
+            return PhoneUtils.getPrefix(mDatastore.getDefaultPhoneDetails().getCountry_code());
+        }
+
+        if (mDatastore.getLastBillingValidState() != null &&
+                !mDatastore.getLastBillingValidState().getCountry().isEmpty()) {
+            return PhoneUtils.getPrefix(mDatastore.getLastBillingValidState().getCountry());
+        }
+
+        if (mDatastore.getDefaultCountry() != null) {
+            return PhoneUtils.getPrefix(mDatastore.getDefaultCountry().getCountry());
+        }
+
+        return "";
     }
 
     /**
@@ -486,9 +510,6 @@ public class BillingDetailsView extends LinearLayout {
             int countryPosition = getCountryPositionForLocale(mDatastore.getDefaultCountry());
             mCountryInput.setSelection(Math.max(countryPosition, 0));
             mDatastore.setCustomerCountry(mDatastore.getDefaultCountry().getCountry());
-
-            phoneNumberPrefix = PhoneUtils.getPrefix(mDatastore.getDefaultCountry().getCountry());
-            mDatastore.setCustomerPhonePrefix(phoneNumberPrefix);
         }
 
         if (mDatastore.getDefaultPhoneDetails() != null) {
@@ -504,13 +525,11 @@ public class BillingDetailsView extends LinearLayout {
             mZip.setText(mDatastore.getDefaultBillingDetails().getZip());
         }
 
-        if (phoneNumberPrefix != null && !phoneNumberPrefix.isEmpty()) {
-            String phoneNumberText = phoneNumberPrefix + " ";
-            if (phoneNumber != null) {
-                phoneNumberText += phoneNumber;
-            }
-            mPhone.setText(phoneNumberText);
+        if (phoneNumberPrefix == null || phoneNumberPrefix.isEmpty()) {
+            phoneNumberPrefix = determinePhonePrefixFromDataStoreCountry();
+            mDatastore.setCustomerPhonePrefix(phoneNumberPrefix);
         }
+        mPhone.setText(buildPhoneText(phoneNumberPrefix, phoneNumber));
     }
 
     /**
@@ -653,12 +672,17 @@ public class BillingDetailsView extends LinearLayout {
         return -1;
     }
 
-    private static String buildPhoneText(@NonNull String countryIdentifier, @Nullable String phoneNumber) {
-        String result = PhoneUtils.getPrefix(countryIdentifier) + " ";
-        if (phoneNumber != null) {
-            result += phoneNumber;
+    private static String buildPhoneText(String phoneNumberPrefix, String phoneNumber) {
+        StringBuilder phoneTextBuilder = new StringBuilder();
+        if (phoneNumberPrefix != null) {
+            phoneTextBuilder.append(phoneNumberPrefix);
+        }
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            if (phoneTextBuilder.length() > 0) phoneTextBuilder.append(" ");
+
+            phoneTextBuilder.append(phoneNumber);
         }
 
-        return result;
+        return phoneTextBuilder.toString();
     }
 }
