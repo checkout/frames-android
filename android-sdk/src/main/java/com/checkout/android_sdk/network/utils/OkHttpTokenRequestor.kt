@@ -6,16 +6,18 @@ import android.util.Log
 import com.checkout.android_sdk.BuildConfig
 import com.checkout.android_sdk.CheckoutAPIClient
 import com.checkout.android_sdk.FramesLogger
+import com.checkout.android_sdk.Response.JWKSResponse
 import com.checkout.android_sdk.Response.TokenisationResponse
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.network.InternalCardTokenGeneratedListener
 import com.checkout.android_sdk.network.InternalGooglePayTokenGeneratedListener
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 internal class OkHttpTokenRequestor(
@@ -39,6 +41,7 @@ internal class OkHttpTokenRequestor(
     override fun requestCardToken(
         correlationID: String?,
         requestBody: String,
+        joseRequest: Boolean,
         listener: CheckoutAPIClient.OnTokenGenerated
     ) {
         val internalListener = InternalCardTokenGeneratedListener(
@@ -55,6 +58,7 @@ internal class OkHttpTokenRequestor(
             environment.token,
             key,
             requestBody,
+            joseRequest,
             callback
         )
     }
@@ -78,6 +82,7 @@ internal class OkHttpTokenRequestor(
             environment.googlePay,
             key,
             requestBody,
+            false,
             callback
         )
     }
@@ -86,6 +91,7 @@ internal class OkHttpTokenRequestor(
         url: String,
         correlationID: String,
         requestBody: String,
+        joseRequest: Boolean,
         callback: OkHttpTokenCallback<T>
     ) {
 
@@ -94,7 +100,11 @@ internal class OkHttpTokenRequestor(
             .addHeader(HEADER_AUTHORIZATION, key)
             .addHeader(HEADER_USER_AGENT_NAME, HEADER_USER_AGENT_VALUE)
             .addHeaderIfNotEmpty(HEADER_CKO_CORRELATION_ID, correlationID)
-            .post(requestBody.toRequestBody(jsonMediaType))
+            .post(
+                requestBody.toByteArray()
+                    .toRequestBody(if (joseRequest) joseMediaType else jsonMediaType)
+            )
+
             .build()
 
         okHttpClient
@@ -102,17 +112,55 @@ internal class OkHttpTokenRequestor(
             .enqueue(callback)
     }
 
+    override fun fetchJWKS(listener: CheckoutAPIClient.OnJWKSFetched) {
+        val jwksRequest = Request.Builder()
+            .url(environment.jwks)
+            .build()
+        okHttpClient
+            .newCall(jwksRequest)
+            .enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    responseHandler().post {
+                        listener.onError(e)
+                    }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    responseHandler().post {
+                        val responseBody = response.body
+                        if (response.isSuccessful && responseBody != null) {
+                            try {
+                                listener.onJWKSFetched(
+                                    gson.fromJson(
+                                        responseBody.string(),
+                                        JWKSResponse::class.java
+                                    )
+                                )
+                            } catch (e: JsonParseException) {
+                                listener.onError(e)
+                            }
+                        } else {
+                            listener.onError(null)
+                        }
+                    }
+                }
+            })
+
+    }
+
     companion object {
         private val LOGGING_ENABLED = BuildConfig.DEBUG
 
         private const val HEADER_AUTHORIZATION = "Authorization"
         private const val HEADER_USER_AGENT_NAME = "User-Agent"
-        private const val HEADER_USER_AGENT_VALUE = "checkout-sdk-frames-android/${BuildConfig.PRODUCT_VERSION}"
+        private const val HEADER_USER_AGENT_VALUE =
+            "checkout-sdk-frames-android/${BuildConfig.PRODUCT_VERSION}"
         private const val HEADER_CKO_CORRELATION_ID = "Cko-Correlation-Id"
 
         private const val CALL_TIMEOUT_MS = 10000L
 
         private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
+        private val joseMediaType = "application/jose".toMediaType()
 
         private fun newOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
