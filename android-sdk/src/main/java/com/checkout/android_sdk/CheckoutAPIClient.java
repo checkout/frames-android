@@ -1,6 +1,8 @@
 package com.checkout.android_sdk;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +14,10 @@ import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Response.GooglePayTokenisationFail;
 import com.checkout.android_sdk.Response.GooglePayTokenisationResponse;
+import com.checkout.android_sdk.Response.JWK;
+import com.checkout.android_sdk.Response.JWKSResponse;
 import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.android_sdk.Utils.JWEEncrypt;
 import com.checkout.android_sdk.network.NetworkError;
 import com.checkout.android_sdk.network.utils.OkHttpTokenRequestor;
 import com.checkout.android_sdk.network.utils.TokenRequestor;
@@ -21,6 +26,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.UUID;
 
 public class CheckoutAPIClient {
@@ -47,16 +53,26 @@ public class CheckoutAPIClient {
         void onNetworkError(NetworkError error);
     }
 
-    @NonNull private final Context mContext;
-    @NonNull private final Environment mEnvironment;
-    @NonNull private final String mKey;
-    @NonNull private final FramesLogger mLogger;
+    public interface OnJWKSFetched {
+        void onJWKSFetched(JWKSResponse response);
+
+        void onError(Throwable throwable);
+    }
+
+    @NonNull
+    private final Context mContext;
+    @NonNull
+    private final Environment mEnvironment;
+    @NonNull
+    private final String mKey;
+    @NonNull
+    private final FramesLogger mLogger;
     private CheckoutAPIClient.OnTokenGenerated mTokenListener;
     private CheckoutAPIClient.OnGooglePayTokenGenerated mGooglePayTokenListener;
 
     /**
-     * @deprecated explicitly define the environment to avoid using default environment value.
      * @see #CheckoutAPIClient(Context, String, Environment)
+     * @deprecated explicitly define the environment to avoid using default environment value.
      */
     @Deprecated
     public CheckoutAPIClient(@NonNull Context context, @NonNull String key) {
@@ -101,11 +117,47 @@ public class CheckoutAPIClient {
             Gson gson = new Gson();
             TokenRequestor requester = new OkHttpTokenRequestor(mEnvironment, mKey, gson, mLogger);
 
-            requester.requestCardToken(
-                    correlationID.toString(),
-                    gson.toJson(request),
-                    mTokenListener
-            );
+            requester.fetchJWKS(new OnJWKSFetched() {
+                @Override
+                public void onJWKSFetched(JWKSResponse response) {
+                    List<JWK> jwks = response.getKeys();
+                    if (jwks.isEmpty()) {
+                        mLogger.errorEvent(
+                                "No JWKS found. Key set is empty."
+                        );
+                        mTokenListener.onError(new CardTokenisationFail());
+                    } else {
+                        JWK jwk = jwks.get(0);
+                        String token = generateTokenUsingJOSE(gson, jwk, request);
+                        if (!TextUtils.isEmpty(token)) {
+                            mLogger.debugEvent("Processing  card tokenisation request using JWE " + jwk);
+                            requester.requestCardToken(
+                                    correlationID.toString(),
+                                    token,
+                                    true,
+                                    mTokenListener
+                            );
+                        } else {
+                            mLogger.debugEvent("Processing plain text card tokenisation request");
+                            requester.requestCardToken(
+                                    correlationID.toString(),
+                                    gson.toJson(request),
+                                    false,
+                                    mTokenListener
+                            );
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    mLogger.errorEvent(
+                            "Error occurred while fetching JWKS",
+                            throwable
+                    );
+                    mTokenListener.onError(new CardTokenisationFail());
+                }
+            });
         } catch (Exception e) {
             mLogger.errorEvent(
                     "Error occurred in Card tokenisation request",
@@ -150,6 +202,23 @@ public class CheckoutAPIClient {
             );
             throw e;
         }
+    }
+
+    private String generateTokenUsingJOSE(Gson gson, JWK jwk, CardTokenisationRequest request) {
+        String token = "";
+        try {
+            byte[] payloadBytes = gson.toJson(request).getBytes();
+            token = JWEEncrypt.encrypt(
+                    jwk.getN(),
+                    jwk.getE(),
+                    jwk.getKid(),
+                    payloadBytes
+            );
+            return token;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        return "";
     }
 
     /**
