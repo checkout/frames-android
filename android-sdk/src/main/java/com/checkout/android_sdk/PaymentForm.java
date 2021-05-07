@@ -45,7 +45,7 @@ public class PaymentForm extends FrameLayout {
      */
     public interface On3DSFinished {
         void onSuccess(String token);
-        void onError(String errorMessage);
+        void onError(String token);
     }
 
     /**
