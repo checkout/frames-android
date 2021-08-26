@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import checkout.checkout_android.utils.CustomTabManager;
+
 public class CheckoutActivity extends Activity {
 
     @Override
@@ -23,6 +25,7 @@ public class CheckoutActivity extends Activity {
         initItemUI("Simple Bike", Constants.PAYMENT_AMOUNT, R.drawable.bike);
 
         findViewById(R.id.button_buy).setOnClickListener(this::onBuyButtonClicked);
+        findViewById(R.id.button_open_url).setOnClickListener(this::onOpenUrlButtonClicked);
     }
 
     private void initItemUI(String name, long price, @DrawableRes int imageResource) {
@@ -38,5 +41,12 @@ public class CheckoutActivity extends Activity {
 
     private void onBuyButtonClicked(View view) {
         startActivity(new Intent(this, DemoActivity.class));
+    }
+
+    private void onOpenUrlButtonClicked(View view) {
+        String webUrlToOpen = "https://sandbox.checkout.com/api2/v2/3ds/acs/sid_vlkrfy325f4e7n6trglmhtezwa";
+
+        CustomTabManager customTabManager = new CustomTabManager(this);
+        customTabManager.navigateToUrl(webUrlToOpen, null);
     }
 }
