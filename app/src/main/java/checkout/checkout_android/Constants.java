@@ -40,7 +40,7 @@ public class Constants {
      *     Using specific amount values will trigger certain failure modes.
      * </p>
      */
-    public static final Long PAYMENT_AMOUNT = 10000L;
+    public static final Long PAYMENT_AMOUNT = 1L;
     /**
      * SANDBOX_PAYMENT_URL
      */
