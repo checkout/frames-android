@@ -3,6 +3,7 @@ package checkout.checkout_android;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -131,10 +132,31 @@ public class DemoActivity extends Activity {
     }
 
     private void start3DS(@NonNull String redirectUrl) {
-        mPaymentForm.handle3DS(
-                redirectUrl,
-                Constants.SUCCESS_URL,
-                Constants.FAILURE_URL
-        );
+//        mPaymentForm.handle3DS(
+//                redirectUrl,
+//                Constants.SUCCESS_URL,
+//                Constants.FAILURE_URL
+//        );
+
+//        CustomTabManager customTabManager = new CustomTabManager(this);
+//        customTabManager.navigateToUrl(redirectUrl, null);
+
+        Intent authenticationActivity = new Intent(this, AuthenticationActivity.class);
+        authenticationActivity.putExtra(AuthenticationActivity.EXTRA_AUTH_URL, redirectUrl);
+        startActivityForResult(authenticationActivity, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            String resultString;
+            switch (resultCode) {
+                case AuthenticationActivity.RESULT_AUTH_SUCCESS: resultString = "Success"; break;
+                case AuthenticationActivity.RESULT_AUTH_FAILED: resultString = "Failed"; break;
+                default: resultString = "Unknown"; break;
+            }
+            displayMessage("Result", "Custom Tab Authentication " + resultString, true);
+        }
     }
 }

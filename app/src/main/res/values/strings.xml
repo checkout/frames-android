@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Checkout Frames</string>
     <string name="button_buy">Buy</string>
+    <string name="no_authentication_feedback">No Authentication Feedback</string>
+    <string name="button_okay">Okay</string>
 </resources>
