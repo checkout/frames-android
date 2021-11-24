@@ -120,6 +120,7 @@ internal class FramesLogger {
         successResponse?.let {
             eventData[LoggingEventAttribute.tokenType] = successResponse.type
             eventData[LoggingEventAttribute.scheme] = successResponse.scheme
+            eventData[LoggingEventAttribute.tokenID] = successResponse.token
         }
         eventData[LoggingEventAttribute.httpStatusCode] = responseCode.toString()
         failedResponse?.let {

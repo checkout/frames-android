@@ -9,4 +9,5 @@ internal object LoggingEventAttribute {
     const val errorType = "errorType"
     const val errorCodes = "errorCodes"
     const val publicKey = "publicKey"
+    const val tokenID = "tokenID"
 }
