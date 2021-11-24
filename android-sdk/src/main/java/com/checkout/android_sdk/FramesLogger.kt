@@ -93,9 +93,13 @@ internal class FramesLogger {
         )
     }
 
-    fun sendTokenRequestedEvent(tokenType: TokenType) {
+    fun sendTokenRequestedEvent(tokenType: TokenType, publicKey: String) {
+        sdkLogger.addMetadata(
+            LoggingEventAttribute.publicKey,
+            publicKey
+        )
         val eventData = mapOf(
-            LoggingEventAttribute.tokenType to tokenType.value,
+            LoggingEventAttribute.tokenType to tokenType.value
         )
 
         internalAnalyticsEvent(

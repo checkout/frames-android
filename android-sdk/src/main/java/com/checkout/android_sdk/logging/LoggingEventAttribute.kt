@@ -8,4 +8,5 @@ internal object LoggingEventAttribute {
     const val requestID = "requestID"
     const val errorType = "errorType"
     const val errorCodes = "errorCodes"
+    const val publicKey = "publicKey"
 }

@@ -96,7 +96,7 @@ public class CheckoutAPIClient {
     public void generateToken(CardTokenisationRequest request) {
         try {
             UUID correlationID = mLogger.initialiseForTransaction();
-            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.CARD));
+            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.CARD, mKey));
 
             Gson gson = new Gson();
             TokenRequestor requester = new OkHttpTokenRequestor(mEnvironment, mKey, gson, mLogger);
@@ -125,7 +125,7 @@ public class CheckoutAPIClient {
     public void generateGooglePayToken(String payload) throws JSONException {
         try {
             UUID correlationID = mLogger.initialiseForTransaction();
-            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.GOOGLEPAY));
+            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.GOOGLEPAY, mKey));
 
             JSONObject googlePayToken = new JSONObject(payload);
 
