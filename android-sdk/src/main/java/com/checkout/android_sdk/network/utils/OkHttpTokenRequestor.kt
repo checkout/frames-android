@@ -52,10 +52,10 @@ internal class OkHttpTokenRequestor(
         )
 
         executeOkHttpRequest(
-            environment.token,
-            key,
-            requestBody,
-            callback
+            url = environment.token,
+            correlationID = correlationID,
+            requestBody = requestBody,
+            callback = callback
         )
     }
 
@@ -75,16 +75,16 @@ internal class OkHttpTokenRequestor(
         )
 
         executeOkHttpRequest(
-            environment.googlePay,
-            key,
-            requestBody,
-            callback
+            url = environment.googlePay,
+            correlationID = correlationID,
+            requestBody = requestBody,
+            callback = callback
         )
     }
 
     private inline fun <reified T : TokenisationResponse> executeOkHttpRequest(
         url: String,
-        correlationID: String,
+        correlationID: String?,
         requestBody: String,
         callback: OkHttpTokenCallback<T>
     ) {
