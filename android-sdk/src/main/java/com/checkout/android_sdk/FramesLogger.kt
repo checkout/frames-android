@@ -15,7 +15,6 @@ import com.checkout.eventlogger.domain.model.Event
 import com.checkout.eventlogger.domain.model.MessageEvent
 import com.checkout.eventlogger.domain.model.MonitoringLevel.*
 import com.checkout.eventlogger.domain.model.RemoteProcessorMetadata
-import java.util.*
 import com.checkout.eventlogger.Environment as LoggerEnvironment
 
 object CheckoutAPILogging {
@@ -66,7 +65,6 @@ internal class FramesLogger {
             loggingEnvironment,
             remoteProcessorMetadata
         )
-
     }
 
     private fun internalAnalyticsEvent(event: Event) {
@@ -77,11 +75,15 @@ internal class FramesLogger {
         sdkLogger.clearMetadata()
     }
 
-    fun initialiseForTransaction(): UUID {
+    private fun addMetadata(metadata: String, value: String) =
+        sdkLogger.addMetadata(metadata, value)
+
+    /**
+     * Resets all metadata and assigns the new [correlationID] to identify this logging session.
+     */
+    fun initialiseLoggingSession(correlationID: String) {
         clear()
-        return UUID.randomUUID().also {
-            sdkLogger.addMetadata(METADATA_CORRELATION_ID, it.toString())
-        }
+        addMetadata(METADATA_CORRELATION_ID, correlationID)
     }
 
     fun sendPaymentFormPresentedEvent() {
@@ -93,11 +95,18 @@ internal class FramesLogger {
         )
     }
 
-    fun sendTokenRequestedEvent(tokenType: TokenType, publicKey: String) {
-        sdkLogger.addMetadata(
-            LoggingEventAttribute.publicKey,
-            publicKey
+    fun sendBillingFormPresentedEvent() {
+        internalAnalyticsEvent(
+            FramesLoggingEvent(
+                INFO,
+                FramesLoggingEventType.BILLING_FORM_PRESENTED
+            )
         )
+    }
+
+    fun sendTokenRequestedEvent(tokenType: TokenType, publicKey: String) {
+        addMetadata(LoggingEventAttribute.publicKey, publicKey)
+
         val eventData = mapOf(
             LoggingEventAttribute.tokenType to tokenType.value
         )
