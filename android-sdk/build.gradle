@@ -3,13 +3,12 @@ plugins {
     id('kotlin-android')
     id('com.kezong.fat-aar')
 }
-ext.productVersion = "3.0.1"
+ext.productVersion = "3.1.0-SNAPSHOT"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "checkout-frames-proguard.pro"
 

@@ -18,7 +18,8 @@ Use the provided API to send sensitive data to the Checkout.com server and retri
  
 ## Requirements
 - Android minimum SDK 21
-- Target API level 30
+
+> Compatibility verified with `targetSdk` versions 21 to 31
 
 ## Demo
 
@@ -37,16 +38,16 @@ allprojects {
 }
 ```
 
-Add Frames SDK dependency to the module gradble file:
+Add Frames SDK dependency to the module gradle file:
 ```gradle
 // module gradle file
 dependencies {
- implementation 'com.github.checkout:frames-android:3.0.1'
+ implementation 'com.github.checkout:frames-android:<latest_version>'
 }
 ```
 
 
-> You can find more about the installation [here](https://jitpack.io/#checkout/frames-android)
+> You can find more about the installation and available versions [here](https://jitpack.io/#checkout/frames-android)
 
 > Please keep in mind that the Jitpack repository should to be added to the project gradle file while the dependency should be added in the module gradle file. [(see more about gradle files)](https://developer.android.com/studio/build)
 
