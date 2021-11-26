@@ -19,7 +19,7 @@ Use the provided API to send sensitive data to the Checkout.com server and retri
 ## Requirements
 - Android minimum SDK 21
 
-> Compatibility verified with `targetSdk` versions 21 to 30
+> Compatibility verified with `targetSdk` versions 21 to 31
 
 ## Demo
 
