@@ -4,4 +4,5 @@ internal enum class FramesLoggingEventType(val eventId: String) {
     PAYMENT_FORM_PRESENTED("payment_form_presented"),
     TOKEN_REQUESTED("token_requested"),
     TOKEN_RESPONSE("token_response"),
+    BILLING_FORM_PRESENTED("billing_form_presented"),
 }

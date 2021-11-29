@@ -1,6 +1,8 @@
 package com.checkout.android_sdk.View;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -33,6 +35,7 @@ import com.checkout.android_sdk.Utils.BackNavigationHandler;
 import com.checkout.android_sdk.Utils.BackNavigationHandler.BackNavigationListener;
 import com.checkout.android_sdk.Utils.CardUtils;
 import com.checkout.android_sdk.Utils.KeyboardUtils;
+import com.checkout.android_sdk.View.data.LoggingState;
 import com.checkout.android_sdk.network.NetworkError;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -190,7 +193,8 @@ public class CardDetailsView extends LinearLayout {
     private CardDetailsView.GoToBillingListener mGotoBillingListener;
     @Nullable
     private CardDetailsView.DetailsCompleted mDetailsCompletedListener;
-    private CheckoutAPIClient mCheckoutAPIClient;
+    @NonNull
+    private LoggingState mLoggingState;
 
     private CardInput mCardInput;
     private MonthInput mMonthInput;
@@ -199,19 +203,23 @@ public class CardDetailsView extends LinearLayout {
     private CvvInput mCvvInput;
     private TextInputLayout mCardLayout;
     private TextInputLayout mCvvLayout;
-    private Button mPayButton;
-    private TextView mAcceptedCardsHelper;
-    private TextView mDateHelper;
-    private TextView mBillingHelper;
-    private Toolbar mToolbar;
     private LinearLayout mAcceptedCardsView;
 
     public CardDetailsView(Context context) {
-        this(context, null);
+        this(context, null, new LoggingState());
     }
 
     public CardDetailsView(Context context, @Nullable AttributeSet attrs) {
+        this(context, null, new LoggingState());
+    }
+
+    public CardDetailsView(Context context, LoggingState loggingStat) {
+        this(context, null, loggingStat);
+    }
+
+    private CardDetailsView(Context context, @Nullable AttributeSet attrs, @NonNull LoggingState loggingState) {
         super(context, attrs);
+        this.mLoggingState = loggingState;
         initialise(context);
     }
 
@@ -223,7 +231,7 @@ public class CardDetailsView extends LinearLayout {
     private void initialise(Context context) {
         inflate(context, R.layout.card_details, this);
 
-        mToolbar = findViewById(R.id.my_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
 
         mCardInput = findViewById(R.id.card_input);
         mCardLayout = findViewById(R.id.card_input_layout);
@@ -239,13 +247,13 @@ public class CardDetailsView extends LinearLayout {
         mCvvLayout = findViewById(R.id.cvv_input_layout);
         mCvvInput.setListener(mCvvInputListener);
 
-        mBillingHelper = findViewById(R.id.billing_helper_text);
+        TextView billingHelper = findViewById(R.id.billing_helper_text);
         mGoToBilling = findViewById(R.id.go_to_billing);
 
-        mAcceptedCardsHelper = findViewById(R.id.accepted_card_helper);
-        mDateHelper = findViewById(R.id.date_helper);
+        TextView acceptedCardsHelper = findViewById(R.id.accepted_card_helper);
+        TextView dateHelper = findViewById(R.id.date_helper);
 
-        mToolbar.setNavigationOnClickListener(view -> {
+        toolbar.setNavigationOnClickListener(view -> {
             if (mDetailsCompletedListener != null) {
                 mDetailsCompletedListener.onBackPressed();
             }
@@ -253,34 +261,35 @@ public class CardDetailsView extends LinearLayout {
 
         // Hide billing details options based on the module initialisation option
         if (!mDataStore.getBillingVisibility()) {
-            mBillingHelper.setVisibility(GONE);
+            billingHelper.setVisibility(GONE);
             mGoToBilling.setVisibility(GONE);
         } else {
             mGoToBilling.setBillingListener(mBillingInputListener);
         }
 
-        mPayButton = findViewById(R.id.pay_button);
+        Button payButton = findViewById(R.id.pay_button);
         if(mDataStore.getPayButtonText() != null) {
-            mPayButton.setText(mDataStore.getPayButtonText());
+            payButton.setText(mDataStore.getPayButtonText());
         }
         if(mDataStore.getPayButtonLayout() != null) {
-            mPayButton.setLayoutParams(mDataStore.getPayButtonLayout());
+            payButton.setLayoutParams(mDataStore.getPayButtonLayout());
         }
 
-        mPayButton.setOnClickListener(v -> {
+        payButton.setOnClickListener(v -> {
             // hide keyboard
             KeyboardUtils.hideSoftKeyboard(this);
             if (mDetailsCompletedListener != null && isValidForm()) {
                 mDetailsCompletedListener.onFormSubmit();
-                mCheckoutAPIClient = new CheckoutAPIClient(
+                CheckoutAPIClient checkoutAPIClient = new CheckoutAPIClient(
                         getContext(), // context
                         mDataStore.getKey(), // your public key
                         mDataStore.getEnvironment()
                 );
-                mCheckoutAPIClient.setTokenListener(mTokenListener);
-                CardTokenisationRequest test = generateRequest();
+                checkoutAPIClient.setTokenListener(mTokenListener);
+                checkoutAPIClient.setCorrelationID(mLoggingState.getCorrelationId());
+                CardTokenisationRequest request = generateRequest();
                 try {
-                    mCheckoutAPIClient.generateToken(test);
+                    checkoutAPIClient.generateToken(request);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -296,17 +305,37 @@ public class CardDetailsView extends LinearLayout {
 
         // Set custom labels
         if(mDataStore.getAcceptedLabel() != null) {
-            mAcceptedCardsHelper.setText(mDataStore.getAcceptedLabel());
+            acceptedCardsHelper.setText(mDataStore.getAcceptedLabel());
         }
         if(mDataStore.getCardLabel() != null) {
             mCardLayout.setHint(mDataStore.getCardLabel());
         }
         if(mDataStore.getDateLabel() != null) {
-            mDateHelper.setText(mDataStore.getDateLabel());
+            dateHelper.setText(mDataStore.getDateLabel());
         }
         if(mDataStore.getCvvLabel() != null) {
             mCvvLayout.setHint(mDataStore.getCvvLabel());
         }
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle savedBundle = new Bundle();
+        savedBundle.putParcelable("CardDetailsView.rootState", super.onSaveInstanceState());
+        savedBundle.putParcelable("mLoggingState", mLoggingState);
+        return savedBundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        Parcelable rootViewState = state;
+        if (state instanceof Bundle) {
+            Bundle savedBundle = (Bundle) state;
+            rootViewState = savedBundle.getParcelable("CardDetailsView.rootState");
+            mLoggingState = savedBundle.getParcelable("mLoggingState");
+        }
+        super.onRestoreInstanceState(rootViewState);
     }
 
     /**
@@ -571,5 +600,9 @@ public class CardDetailsView extends LinearLayout {
                 mDetailsCompletedListener.onBackPressed();
             }
         }
+    }
+
+    public void setLoggingState(@NonNull LoggingState loggingState) {
+        mLoggingState = loggingState;
     }
 }
