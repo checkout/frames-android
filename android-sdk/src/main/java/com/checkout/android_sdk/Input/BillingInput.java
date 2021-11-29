@@ -71,8 +71,8 @@ public class BillingInput extends AppCompatSpinner {
     private void populateSpinner() {
         List<String> billingElement = new ArrayList<>();
 
-        billingElement.add(getResources().getString(R.string.select_billing_details));
-        billingElement.add(getResources().getString(R.string.billing_details_add));
+        billingElement.add(getResources().getString(R.string.cko_select_billing_details));
+        billingElement.add(getResources().getString(R.string.cko_billing_details_add));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mContext,
                 android.R.layout.simple_spinner_item, billingElement);

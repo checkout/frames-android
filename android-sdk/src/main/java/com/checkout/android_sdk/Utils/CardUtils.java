@@ -20,14 +20,14 @@ public class CardUtils {
      * LASER, DINERSCLUB, MASTERCARD, MAESTRO and a DEFAULT abstract card.
      */
     public enum Cards {
-        VISA("visa", R.drawable.visa, "^4\\d*$", "^4[0-9]{12}(?:[0-9]{3})?$", new int[]{13, 16}, 19, 3, new int[]{4, 9, 14}, true),
-        AMEX("amex", R.drawable.amex, "^3[47]\\d*$", "/(\\d{1,4})(\\d{1,6})?(\\d{1,5})?/", new int[]{15}, 18, 4, new int[]{4, 6}, true),
-        DISCOVER("discover", R.drawable.discover, "^(6011|65|64[4-9])\\d*$", "^6(?:011|5[0-9]{2})[0-9]{12}$", new int[]{16}, 23, 3, new int[]{4, 9, 14}, true),
-        UNIONPAY("unionpay", R.drawable.unionpay, "^(((620|(621(?!83|88|98|99))|622(?!06|018)|62[3-6]|627[02,06,07]|628(?!0|1)|629[1,2]))\\d*|622018\\d{12})$", "^6(?:011|5[0-9]{2})[0-9]{12}$", new int[]{16, 17, 18, 19}, 23, 3, new int[]{4, 6, 14}, false),
-        JCB("jcb", R.drawable.jcb, "^(2131|1800|35)\\d*$", "^(?:2131|1800|35[0-9]{3})[0-9]{11}$", new int[]{16}, 23, 3, new int[]{4, 9, 14}, true),
-        DINERSCLUB("dinersclub", R.drawable.dinersclub, "^3(0[0-5]|[689])\\d*$", "^3(?:0[0-5]|[68][0-9])?[0-9]{11}$", new int[]{14}, 23, 3, new int[]{4, 6}, true),
-        MASTERCARD("mastercard", R.drawable.mastercard, "^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[0-1]|2720)\\d*$", "^5[1-5][0-9]{14}$", new int[]{16, 17}, 19, 3, new int[]{4, 9, 14}, true),
-        MAESTRO("maestro", R.drawable.maestro, "^(?:5[06789]\\d\\d|(?!6011[0234])(?!60117[4789])(?!60118[6789])(?!60119)(?!64[456789])(?!65)6\\d{3})\\d{8,15}$", "^(5[06-9]|6[37])[0-9]{10,17}$", new int[]{12, 13, 14, 15, 16, 17, 18, 19}, 23, 3, new int[]{4, 9, 14}, true),
+        VISA("visa", R.drawable.cko_scheme_logo_visa, "^4\\d*$", "^4[0-9]{12}(?:[0-9]{3})?$", new int[]{13, 16}, 19, 3, new int[]{4, 9, 14}, true),
+        AMEX("amex", R.drawable.cko_scheme_logo_amex, "^3[47]\\d*$", "/(\\d{1,4})(\\d{1,6})?(\\d{1,5})?/", new int[]{15}, 18, 4, new int[]{4, 6}, true),
+        DISCOVER("discover", R.drawable.cko_scheme_logo_discover, "^(6011|65|64[4-9])\\d*$", "^6(?:011|5[0-9]{2})[0-9]{12}$", new int[]{16}, 23, 3, new int[]{4, 9, 14}, true),
+        UNIONPAY("unionpay", R.drawable.cko_scheme_logo_unionpay, "^(((620|(621(?!83|88|98|99))|622(?!06|018)|62[3-6]|627[02,06,07]|628(?!0|1)|629[1,2]))\\d*|622018\\d{12})$", "^6(?:011|5[0-9]{2})[0-9]{12}$", new int[]{16, 17, 18, 19}, 23, 3, new int[]{4, 6, 14}, false),
+        JCB("jcb", R.drawable.cko_scheme_logo_jcb, "^(2131|1800|35)\\d*$", "^(?:2131|1800|35[0-9]{3})[0-9]{11}$", new int[]{16}, 23, 3, new int[]{4, 9, 14}, true),
+        DINERSCLUB("dinersclub", R.drawable.cko_scheme_logo_dinersclub, "^3(0[0-5]|[689])\\d*$", "^3(?:0[0-5]|[68][0-9])?[0-9]{11}$", new int[]{14}, 23, 3, new int[]{4, 6}, true),
+        MASTERCARD("mastercard", R.drawable.cko_scheme_logo_mastercard, "^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[0-1]|2720)\\d*$", "^5[1-5][0-9]{14}$", new int[]{16, 17}, 19, 3, new int[]{4, 9, 14}, true),
+        MAESTRO("maestro", R.drawable.cko_scheme_logo_maestro, "^(?:5[06789]\\d\\d|(?!6011[0234])(?!60117[4789])(?!60118[6789])(?!60119)(?!64[456789])(?!65)6\\d{3})\\d{8,15}$", "^(5[06-9]|6[37])[0-9]{10,17}$", new int[]{12, 13, 14, 15, 16, 17, 18, 19}, 23, 3, new int[]{4, 9, 14}, true),
         DEFAULT("default", 0, "", "", new int[]{16}, 19, 3, new int[]{4, 9, 14}, false);
 
         public final String name;

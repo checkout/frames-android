@@ -12,7 +12,7 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/title_billing_details" />
+        app:title="@string/cko_title_billing_details" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,17 +21,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/accepted_cards_margin_top"
+            android:layout_marginTop="@dimen/cko_accepted_cards_margin_top"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/name_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:hint="@string/placeholder_name"
-                app:errorTextAppearance="@style/Error">
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                android:hint="@string/cko_placeholder_name"
+                app:errorTextAppearance="@style/CkoFrames.TextAppearance.Error">
 
                 <com.checkout.android_sdk.Input.DefaultInput
                     android:id="@+id/name_input"
@@ -44,7 +44,7 @@
                     android:maxLines="1"
                     android:nextFocusForward="@+id/address_one_input"
                     android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+                    android:textColor="@color/cko_card_view_details_text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,11 +53,11 @@
                 android:id="@+id/address_one_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
-                android:hint="@string/placeholder_address_one"
-                app:errorTextAppearance="@style/Error">
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                android:layout_marginTop="@dimen/cko_basic_field_margin_top"
+                android:hint="@string/cko_placeholder_address_one"
+                app:errorTextAppearance="@style/CkoFrames.TextAppearance.Error">
 
                 <com.checkout.android_sdk.Input.AddressOneInput
                     android:id="@+id/address_one_input"
@@ -70,7 +70,7 @@
                     android:maxLines="1"
                     android:nextFocusForward="@+id/address_two_input"
                     android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+                    android:textColor="@color/cko_card_view_details_text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,11 +78,11 @@
                 android:id="@+id/address_two_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
-                android:hint="@string/placeholder_address_two"
-                app:errorTextAppearance="@style/Error">
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                android:layout_marginTop="@dimen/cko_basic_field_margin_top"
+                android:hint="@string/cko_placeholder_address_two"
+                app:errorTextAppearance="@style/CkoFrames.TextAppearance.Error">
 
                 <com.checkout.android_sdk.Input.DefaultInput
                     android:id="@+id/address_two_input"
@@ -95,7 +95,7 @@
                     android:maxLines="1"
                     android:nextFocusForward="@+id/city_input"
                     android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+                    android:textColor="@color/cko_card_view_details_text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,11 +104,11 @@
                 android:id="@+id/city_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
-                android:hint="@string/placeholder_city"
-                app:errorTextAppearance="@style/Error">
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                android:layout_marginTop="@dimen/cko_basic_field_margin_top"
+                android:hint="@string/cko_placeholder_city"
+                app:errorTextAppearance="@style/CkoFrames.TextAppearance.Error">
 
                 <com.checkout.android_sdk.Input.DefaultInput
                     android:id="@+id/city_input"
@@ -121,7 +121,7 @@
                     android:maxLines="1"
                     android:nextFocusForward="@+id/state_input"
                     android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+                    android:textColor="@color/cko_card_view_details_text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,11 +129,11 @@
                 android:id="@+id/state_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
-                android:hint="@string/placeholder_state"
-                app:errorTextAppearance="@style/Error">
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                android:layout_marginTop="@dimen/cko_basic_field_margin_top"
+                android:hint="@string/cko_placeholder_state"
+                app:errorTextAppearance="@style/CkoFrames.TextAppearance.Error">
 
                 <com.checkout.android_sdk.Input.DefaultInput
                     android:id="@+id/state_input"
@@ -146,7 +146,7 @@
                     android:maxLines="1"
                     android:nextFocusForward="@+id/zipcode_input"
                     android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+                    android:textColor="@color/cko_card_view_details_text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -154,11 +154,11 @@
                 android:id="@+id/zipcode_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
-                android:hint="@string/placeholder_postcode"
-                app:errorTextAppearance="@style/Error">
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                android:layout_marginTop="@dimen/cko_basic_field_margin_top"
+                android:hint="@string/cko_placeholder_postcode"
+                app:errorTextAppearance="@style/CkoFrames.TextAppearance.Error">
 
                 <com.checkout.android_sdk.Input.DefaultInput
                     android:id="@+id/zipcode_input"
@@ -171,7 +171,7 @@
                     android:maxLines="1"
                     android:nextFocusForward="@+id/country_input"
                     android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+                    android:textColor="@color/cko_card_view_details_text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,24 +181,24 @@
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
                 android:descendantFocusability="beforeDescendants"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:nextFocusForward="@+id/address_one_input"
-                android:popupBackground="@color/spinner_background" />
+                android:popupBackground="@color/cko_spinner_background" />
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phone_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/basic_field_margin_side"
-                android:layout_marginRight="@dimen/basic_field_margin_side"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
-                android:hint="@string/placeholder_phone"
-                app:errorTextAppearance="@style/Error">
+                android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                android:layout_marginTop="@dimen/cko_basic_field_margin_top"
+                android:hint="@string/cko_placeholder_phone"
+                app:errorTextAppearance="@style/CkoFrames.TextAppearance.Error">
 
                 <com.checkout.android_sdk.Input.PhoneInput
                     android:id="@+id/phone_input"
@@ -211,45 +211,45 @@
                     android:inputType="phone"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/card_view_details_text" />
+                    android:textColor="@color/cko_card_view_details_text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_area"
-                android:layout_marginTop="@dimen/basic_field_margin_top"
+                android:layout_height="@dimen/cko_button_area"
+                android:layout_marginTop="@dimen/cko_basic_field_margin_top"
                 android:gravity="end"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/clear_button"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginLeft="@dimen/basic_field_margin_side"
-                    android:layout_marginRight="@dimen/basic_field_margin_side"
+                    android:layout_width="@dimen/cko_button_width"
+                    android:layout_height="@dimen/cko_button_height"
+                    android:layout_marginLeft="@dimen/cko_basic_field_margin_side"
+                    android:layout_marginRight="@dimen/cko_basic_field_margin_side"
                     android:background="@android:color/transparent"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-                    android:text="@string/button_clear"
+                    android:text="@string/cko_button_clear"
                     android:textAllCaps="false" />
 
 
                 <Button
                     android:id="@+id/done_button"
                     style="@style/ThemeOverlay.AppCompat.Dark"
-                    android:layout_width="@dimen/button_width"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginEnd="@dimen/basic_field_margin_side"
-                    android:layout_marginRight="@dimen/basic_field_margin_side"
-                    android:height="@dimen/button_height"
+                    android:layout_width="@dimen/cko_button_width"
+                    android:layout_height="@dimen/cko_button_height"
+                    android:layout_marginEnd="@dimen/cko_basic_field_margin_side"
+                    android:layout_marginRight="@dimen/cko_basic_field_margin_side"
+                    android:height="@dimen/cko_button_height"
                     android:background="?attr/colorButtonNormal"
-                    android:text="@string/button_done"
+                    android:text="@string/cko_button_done"
                     android:textAlignment="center"
                     android:gravity="center"
                     android:textAllCaps="false"
-                    android:textColor="@color/pay_button_text" />
+                    android:textColor="@color/cko_pay_button_text" />
 
 
             </LinearLayout>

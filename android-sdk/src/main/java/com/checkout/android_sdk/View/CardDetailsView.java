@@ -87,7 +87,7 @@ public class CardDetailsView extends LinearLayout {
 
         @Override
         public void onCardError() {
-            mCardLayout.setError(getResources().getString(R.string.error_card_number));
+            mCardLayout.setError(getResources().getString(R.string.cko_error_card_number));
             mDataStore.setValidCardNumber(false);
         }
 
@@ -221,7 +221,7 @@ public class CardDetailsView extends LinearLayout {
      * Used to initialise element and pass callbacks as well as setting up appropriate listeners
      */
     private void initialise(Context context) {
-        inflate(context, R.layout.card_details, this);
+        inflate(context, R.layout.cko_card_details, this);
 
         mToolbar = findViewById(R.id.my_toolbar);
 
@@ -345,13 +345,13 @@ public class CardDetailsView extends LinearLayout {
         }
 
         if (!mDataStore.isValidCardNumber()) {
-            mCardLayout.setError(getResources().getString(R.string.error_card_number));
+            mCardLayout.setError(getResources().getString(R.string.cko_error_card_number));
             outcome = false;
         }
 
         mDataStore.setValidCardCvv(mCvvInput.getText() != null && mCvvInput.getText().length() == mDataStore.getCvvLength());
         if (!mDataStore.isValidCardCvv()) {
-            mCvvLayout.setError(getResources().getString(R.string.error_cvv));
+            mCvvLayout.setError(getResources().getString(R.string.cko_error_cvv));
             outcome = false;
         } else {
             mCvvLayout.setError(null);
@@ -376,7 +376,7 @@ public class CardDetailsView extends LinearLayout {
                 !CardUtils.isValidDate(mDataStore.getCardMonth(), mDataStore.getCardYear())) {
             mDataStore.setValidCardMonth(false);
             ((TextView) mMonthInput.getSelectedView()).setError(getResources()
-                    .getString(R.string.error_expiration_date));
+                    .getString(R.string.cko_error_expiration_date));
         }
         mDataStore.setValidCardMonth(true);
     }
@@ -391,8 +391,8 @@ public class CardDetailsView extends LinearLayout {
         List<String> billingElement = new ArrayList<>();
 
         // Set the default value fo the spinner
-        billingElement.add(getResources().getString(R.string.select_billing_details));
-        billingElement.add(getResources().getString(R.string.billing_details_add));
+        billingElement.add(getResources().getString(R.string.cko_select_billing_details));
+        billingElement.add(getResources().getString(R.string.cko_billing_details_add));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, billingElement);
@@ -432,7 +432,7 @@ public class CardDetailsView extends LinearLayout {
             List<String> billingElement = new ArrayList<>();
 
             billingElement.add(address.toString().trim());
-            billingElement.add(getResources().getString(R.string.billing_details_edit));
+            billingElement.add(getResources().getString(R.string.cko_billing_details_edit));
 
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
                     android.R.layout.simple_spinner_item, billingElement);

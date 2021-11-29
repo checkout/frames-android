@@ -3,6 +3,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application android:theme="@style/AppTheme" />
+    <application />
 
 </manifest>

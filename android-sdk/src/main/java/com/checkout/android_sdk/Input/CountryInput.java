@@ -115,7 +115,7 @@ public class CountryInput extends AppCompatSpinner {
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
 
         // Add the helper label on the first position
-        countries.add(0, getResources().getString(R.string.placeholder_country));
+        countries.add(0, getResources().getString(R.string.cko_placeholder_country));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, countries);
         setAdapter(adapter);

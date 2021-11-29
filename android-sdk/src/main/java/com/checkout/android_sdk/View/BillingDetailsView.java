@@ -262,7 +262,7 @@ public class BillingDetailsView extends LinearLayout {
      * Used to initialise element and pass callbacks as well as setting up appropriate listeners
      */
     private void initialiseView(Context context) {
-        inflate(context, R.layout.blling_details, this);
+        inflate(context, R.layout.cko_blling_details, this);
         mToolbar = findViewById(R.id.my_toolbar);
 
         mAddressOneLayout = findViewById(R.id.address_one_input_layout);
@@ -457,36 +457,36 @@ public class BillingDetailsView extends LinearLayout {
         boolean result = true;
 
         if (mName.length() < 3) {
-            mNameLayout.setError(getResources().getString(R.string.error_name));
+            mNameLayout.setError(getResources().getString(R.string.cko_error_name));
             result = false;
         }
 
         if (mCountryInput.getSelectedItemPosition() == 0) {
-            ((TextView) mCountryInput.getSelectedView()).setError(getResources().getString(R.string.error_country));
+            ((TextView) mCountryInput.getSelectedView()).setError(getResources().getString(R.string.cko_error_country));
             result = false;
         }
         if (mAddressOne.length() < 3) {
-            mAddressOneLayout.setError(getResources().getString(R.string.error_address_one));
+            mAddressOneLayout.setError(getResources().getString(R.string.cko_error_address_one));
             result = false;
         }
 
         if (mCity.length() < 2) {
-            mCityLayout.setError(getResources().getString(R.string.error_city));
+            mCityLayout.setError(getResources().getString(R.string.cko_error_city));
             result = false;
         }
 
         if (mState.length() < 3) {
-            mStateLayout.setError(getResources().getString(R.string.error_state));
+            mStateLayout.setError(getResources().getString(R.string.cko_error_state));
             result = false;
         }
 
         if (mZip.length() < 3) {
-            mZipLayout.setError(getResources().getString(R.string.error_postcode));
+            mZipLayout.setError(getResources().getString(R.string.cko_error_postcode));
             result = false;
         }
 
         if (mPhone.length() < 3) {
-            mPhoneLayout.setError(getResources().getString(R.string.error_phone));
+            mPhoneLayout.setError(getResources().getString(R.string.cko_error_phone));
             result = false;
         }
 

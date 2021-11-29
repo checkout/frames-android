@@ -155,7 +155,7 @@ public class PaymentForm extends FrameLayout {
      */
     private void initView() {
         // Set up the layout
-        inflate(mContext, R.layout.payment_form, this);
+        inflate(mContext, R.layout.cko_payment_form, this);
 
         mViewPager = findViewById(R.id.view_pager);
         // Use a custom adapter for the viewpager
