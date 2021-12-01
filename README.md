@@ -8,8 +8,8 @@ Start accepting online payments in just a few minutes with our Android SDK. It's
 ## Features
 
 #### Two ways to integrate:
-- [Use our native UI](https://docs.checkout.com/integrate/sdks/android-sdk#AndroidSDK-Usage(withthemodule'sUI)with-UI) and embed the fully customisable form to accept card details, customer name and billing details and exchange them for a secure token.
-- [Build your own UI](https://docs.checkout.com/integrate/sdks/android-sdk#AndroidSDK-Usage(withoutthemodule'sUI)without-UI) and use the provided API to send sensitive data to the Checkout.com server and retrieve the secure token.
+- [Use our native UI](https://www.checkout.com/docs/integrate/sdks/android-sdk#Usage_(with_the_module's_UI)) and embed the fully customisable form to accept card details, customer name and billing details and exchange them for a secure token.
+- [Build your own UI](https://www.checkout.com/docs/integrate/sdks/android-sdk#Usage_(without_the_module's_UI)) and use the provided API to send sensitive data to the Checkout.com server and retrieve the secure token.
 
 **Accept cards and Google Pay** easily using our UI and tokenization module to stay away from PCI-compliance.
 
@@ -20,12 +20,12 @@ Start accepting online payments in just a few minutes with our Android SDK. It's
 
 ## Documentation
 
-Integration guides on using the Frames Android SDK are available [on our docs website](https://docs.checkout.com/integrate/sdks/android-sdk).
+Integration guides on using the Frames Android SDK are available [on our docs website](https://www.checkout.com/docs/integrate/sdks/android-sdk).
 
 - SDK API reference - [Java](https://checkout.github.io/frames-android/java/index.html) / [Kotlin](https://checkout.github.io/frames-android/kotlin/index.html)
-- [Customisation](https://docs.checkout.com/integrate/sdks/android-sdk/customization-guide)
-- [Handle 3D Secure](https://docs.checkout.com/integrate/sdks/android-sdk/android-sdk-reference#AndroidSDKreference-Handling3DSecure)
-- [Handling Google Pay](https://docs.checkout.com/integrate/sdks/android-sdk/android-sdk-reference#AndroidSDKreference-HandlingGooglePay)
+- [Customisation](https://www.checkout.com/docs/integrate/sdks/android-sdk/customization-guide)
+- [Handle 3D Secure](https://www.checkout.com/docs/integrate/sdks/android-sdk/reference#Handling_3D_Secure)
+- [Handling Google Pay](https://www.checkout.com/docs/integrate/sdks/android-sdk/reference#Handling_Google_Pay)
 - Example projects can be found [here](https://github.com/checkout/frames-android/tree/master/demos)
 
 ## Requirements
