@@ -7,7 +7,7 @@ plugins {
     id('com.kezong.fat-aar')
     id('org.jetbrains.dokka')
 }
-ext.productVersion = "3.1.0-SNAPSHOT"
+ext.productVersion = "3.1.0"
 ext.docsTitle = "Frames Android SDK"
 ext.docsDisplayName = "Frames Android SDK from Checkout.com"
 

@@ -467,8 +467,9 @@ public class CardDetailsView extends LinearLayout {
                     android.R.layout.simple_spinner_item, billingElement);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mGoToBilling.setAdapter(dataAdapter);
-            mGoToBilling.setSelection(0);
         }
+
+        mGoToBilling.setSelection(0);
     }
 
     /**
