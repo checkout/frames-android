@@ -1,10 +1,15 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     id('com.android.library')
     id('kotlin-android')
     id("kotlin-parcelize")
     id('com.kezong.fat-aar')
+    id('org.jetbrains.dokka')
 }
 ext.productVersion = "3.1.0-SNAPSHOT"
+ext.docsTitle = "Frames Android SDK"
+ext.docsDisplayName = "Frames Android SDK from Checkout.com"
 
 android {
     compileSdkVersion 31
@@ -51,4 +56,54 @@ dependencies {
     ext.okHttpVersion = '4.9.0'
     implementation 'com.squareup.okhttp3:okhttp:' + ext.okHttpVersion
     implementation 'com.squareup.okhttp3:logging-interceptor:' + ext.okHttpVersion
+}
+
+void configureDokkaTaskForDocsExport(DokkaTask dokkaTask, String targetDirName) {
+    def targetDocsDir = file("$rootDir/docs/$targetDirName")
+    dokkaTask.configure {
+        doFirst {
+            delete targetDocsDir
+        }
+        doLast {
+            copy {
+                from outputDirectory
+                into targetDocsDir
+            }
+        }
+    }
+}
+
+task dokkaBuildAndExportDocs(group: "documentation") {
+    dependsOn("dokkaHtml", "dokkaJavadoc")
+
+    tasks.dokkaHtml.finalizedBy {
+        println("Finalize: $name")
+    }
+    configureDokkaTaskForDocsExport(tasks.dokkaHtml, "kotlin")
+    configureDokkaTaskForDocsExport(tasks.dokkaJavadoc, "java")
+}
+
+tasks.withType(DokkaTask.class).configureEach {
+    moduleName.set(docsTitle)
+    moduleVersion.set(productVersion)
+    suppressInheritedMembers.set(true)
+    suppressObviousFunctions.set(true)
+
+    dokkaSourceSets {
+        configureEach {
+            suppress.set(true)
+        }
+
+        named("main") {
+            suppress.set(false)
+            noAndroidSdkLink.set(false)
+
+            displayName.set(docsDisplayName)
+            skipEmptyPackages.set(true)
+            suppress.set(false)
+            reportUndocumented.set(true)
+
+            includes.from("module.md")
+        }
+    }
 }
