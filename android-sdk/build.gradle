@@ -8,16 +8,6 @@ plugins {
     id('org.jetbrains.dokka')
     id('maven-publish')
 }
-ext.productVersion = "3.1.0"
-ext.checkoutGroupId = "com.github.checkout"
-ext.framesArtefactId = "frames-android"
-ext.docsTitle = "Frames Android SDK"
-ext.docsDisplayName = "Frames Android SDK from Checkout.com"
-
-ext.pomName = "Checkout.com Frames Android SDK"
-ext.pomDescription = "Card tokenisation library for Android by Checkout.com"
-ext.githubProjectName = "checkout/frames-android"
-ext.githubProjectUrl = "https://github.com/${githubProjectName}"
 
 android {
     compileSdkVersion 31
@@ -26,7 +16,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "checkout-frames-proguard.pro"
 
-        buildConfigField "String", "PRODUCT_VERSION", "\"$project.ext.productVersion\""
+        buildConfigField "String", "PRODUCT_VERSION", "\"$productVersion\""
     }
 
     compileOptions {
@@ -73,13 +63,11 @@ afterEvaluate {
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
-                // Applies the component for the release build variant.
                 from components.release
 
-                // You can then customize attributes of the publication as shown below.
-                groupId checkoutGroupId
-                artifactId framesArtefactId
+                artifactId productArtefactId
                 version productVersion
+                groupId productGroupId
 
                 pom {
                     name = pomName

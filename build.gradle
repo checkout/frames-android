@@ -1,3 +1,5 @@
+apply from: 'product-config.gradle'
+
 ext {
     githubEventLoggerPackageUrl = project.findProperty("githubEventLoggerPackageUrl") as String ?: System.getenv("githubEventLoggerPackageUrl")
     githubPackagesUser = project.findProperty("githubPackagesUser") as String ?: System.getenv("githubPackagesUser")
