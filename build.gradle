@@ -1,3 +1,5 @@
+apply from: 'product-config.gradle'
+
 ext {
     githubEventLoggerPackageUrl = project.findProperty("githubEventLoggerPackageUrl") as String ?: System.getenv("githubEventLoggerPackageUrl")
     githubPackagesUser = project.findProperty("githubPackagesUser") as String ?: System.getenv("githubPackagesUser")
@@ -12,7 +14,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
@@ -38,6 +39,7 @@ allprojects {
             }
         }
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 

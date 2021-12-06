@@ -6,10 +6,8 @@ plugins {
     id("kotlin-parcelize")
     id('com.kezong.fat-aar')
     id('org.jetbrains.dokka')
+    id('maven-publish')
 }
-ext.productVersion = "3.1.0"
-ext.docsTitle = "Frames Android SDK"
-ext.docsDisplayName = "Frames Android SDK from Checkout.com"
 
 android {
     compileSdkVersion 31
@@ -18,7 +16,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "checkout-frames-proguard.pro"
 
-        buildConfigField "String", "PRODUCT_VERSION", "\"$project.ext.productVersion\""
+        buildConfigField "String", "PRODUCT_VERSION", "\"$productVersion\""
     }
 
     compileOptions {
@@ -56,6 +54,42 @@ dependencies {
     ext.okHttpVersion = '4.9.0'
     implementation 'com.squareup.okhttp3:okhttp:' + ext.okHttpVersion
     implementation 'com.squareup.okhttp3:logging-interceptor:' + ext.okHttpVersion
+}
+
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method.
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+
+                artifactId productArtefactId
+                version productVersion
+                groupId productGroupId
+
+                pom {
+                    name = pomName
+                    description = pomDescription
+                    url = githubProjectUrl
+
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = "https://raw.githubusercontent.com/${githubProjectName}/master/LICENSE"
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "mobile-team-cko"
+                            name = "Checkout Mobile Team"
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void configureDokkaTaskForDocsExport(DokkaTask dokkaTask, String targetDirName) {
