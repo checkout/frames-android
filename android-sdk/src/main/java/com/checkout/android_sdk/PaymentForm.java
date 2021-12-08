@@ -47,7 +47,7 @@ public class PaymentForm extends FrameLayout {
      */
     public interface On3DSFinished {
         void onSuccess(String token);
-        void onError(String errorMessage);
+        void onError(String token);
     }
 
     /**
@@ -237,7 +237,7 @@ public class PaymentForm extends FrameLayout {
         web.setWebViewClient(new WebViewClient() {
             // Listen for when the URL changes and match it with either the success of fail url
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.contains(successUrl)) {
                     m3DSecureListener.onSuccess(getToken(url));
                 } else if (url.contains(failsUrl)) {
