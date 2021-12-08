@@ -2,7 +2,7 @@
  * Frames Product information
  */
 ext {
-    productVersion = "3.1.0"
+    productVersion = "3.1.1-SNAPSHOT"
     productArtefactId = "frames-android"
     productGroupId = "com.github.checkout"
 
