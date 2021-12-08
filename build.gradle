@@ -1,11 +1,5 @@
 apply from: 'product-config.gradle'
 
-ext {
-    githubEventLoggerPackageUrl = project.findProperty("githubEventLoggerPackageUrl") as String ?: System.getenv("githubEventLoggerPackageUrl")
-    githubPackagesUser = project.findProperty("githubPackagesUser") as String ?: System.getenv("githubPackagesUser")
-    githubPackagesToken = project.findProperty("githubPackagesToken") as String ?: System.getenv("githubPackagesToken")
-}
-
 buildscript {
 
     ext.kotlin_version = '1.4.30'
@@ -28,17 +22,15 @@ allprojects {
         mavenLocal()
         google()
         mavenCentral()
-        if(githubEventLoggerPackageUrl != null) {
-            maven {
-                name = "GitHubPackages"
-                url = uri(githubEventLoggerPackageUrl)
-                credentials {
-                    username = githubPackagesUser
-                    password = githubPackagesToken
-                }
-            }
-        }
         jcenter()
+        maven {
+            name "SonatypeStaging"
+            url uri("https://oss.sonatype.org/content/groups/staging")
+        }
+        maven {
+            name "SonatypeSnapshot"
+            url uri("https://oss.sonatype.org/content/repositories/snapshots")
+        }
         maven { url "https://jitpack.io" }
     }
 }
