@@ -1,0 +1,33 @@
+<resources>
+    <string name="title_card_details">Dettagli carta</string>
+    <string name="label_accepted_cards">Carte accettate</string>
+    <string name="placeholder_card_number">Numero della carta*</string>
+    <string name="error_card_number">Il numero della carta non è valido</string>
+    <string name="label_expiration_date">Data di scadenza*</string>
+    <string name="error_expiration_date">Inserisci una data valida</string>
+    <string name="placeholder_cvv">Cvv*</string>
+    <string name="error_cvv">Inserisci un Cvv valido</string>
+    <string name="label_billing_details">Dettagli di fatturazione</string>
+    <string name="select_billing_details">SELECT</string>
+    <string name="billing_details_add">+ AGGIUNGI</string>
+    <string name="button_pay">Paga</string>
+    <string name="title_billing_details">Dettagli di fatturazione</string>
+    <string name="placeholder_name">Nome del titolare della carta*</string>
+    <string name="error_name">Il valore deve essere più lungo di 3 caratteri</string>
+    <string name="placeholder_country">SELEZIONA PAESE/REGIONE</string>
+    <string name="error_country">Seleziona un paese/regione</string>
+    <string name="placeholder_address_one">Riga di indirizzo 1*</string>
+    <string name="error_address_one">Il valore deve essere più lungo di 3 caratteri</string>
+    <string name="placeholder_address_two">Riga di indirizzo 2</string>
+    <string name="placeholder_city">Città postale*</string>
+    <string name="error_city">Il valore deve essere più lungo di 2 caratteri</string>
+    <string name="placeholder_state">Stato</string>
+    <string name="error_state">Il valore deve essere più lungo di 3 caratteri</string>
+    <string name="placeholder_postcode">Codice postale*</string>
+    <string name="error_postcode">Il valore deve essere più lungo di 3 caratteri</string>
+    <string name="placeholder_phone">Telefono*</string>
+    <string name="error_phone">Il valore deve essere più lungo di 3 caratteri</string>
+    <string name="button_clear">Cancella</string>
+    <string name="button_done">Fatto</string>
+    <string name="billing_details_edit">Modifica</string>
+</resources>
