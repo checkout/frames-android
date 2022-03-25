@@ -404,8 +404,10 @@ public class CardDetailsView extends LinearLayout {
                 mDataStore.getCardYear() != null &&
                 !CardUtils.isValidDate(mDataStore.getCardMonth(), mDataStore.getCardYear())) {
             mDataStore.setValidCardMonth(false);
-            ((TextView) mMonthInput.getSelectedView()).setError(getResources()
-                    .getString(R.string.error_expiration_date));
+           if(mMonthInput.getSelectedView()!=null){
+               ((TextView) mMonthInput.getSelectedView()).setError(getResources()
+                       .getString(R.string.error_expiration_date));
+           }
         }
         mDataStore.setValidCardMonth(true);
     }
