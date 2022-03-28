@@ -5,7 +5,7 @@
     <string name="error_card_number">El número de tarjeta no es válido</string>
     <string name="label_expiration_date">Fecha de vencimiento*</string>
     <string name="error_expiration_date">Ingrese una fecha válida</string>
-    <string nombre="placeholder_cvv">Cvv*</string>
+    <string name="placeholder_cvv">Cvv*</string>
     <string name="error_cvv">Ingrese un Cvv válido</string>
     <string name="label_billing_details">Detalles de facturación</string>
     <string name="select_billing_details">SELECCIONAR</string>
@@ -16,9 +16,9 @@
     <string name="error_name">El valor debe tener más de 3 caracteres</string>
     <string name="placeholder_country">SELECCIONE PAÍS/REGIÓN</string>
     <string name="error_country">Seleccione un país/región</string>
-    <string name="placeholder_address_one">Línea de dirección 1*</string>
+    <string name="placeholder_address_one">Dirección línea 1*</string>
     <string name="error_address_one">El valor debe tener más de 3 caracteres</string>
-    <string name="placeholder_address_two">Línea de dirección 2</string>
+    <string name="placeholder_address_two">Dirección línea 2</string>
     <string name="placeholder_city">Ciudad postal*</string>
     <string name="error_city">El valor debe tener más de 2 caracteres</string>
     <string name="placeholder_state">Estado</string>

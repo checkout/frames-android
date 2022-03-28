@@ -19,7 +19,7 @@
     <string name="placeholder_address_one">Adresszeile 1*</string>
     <string name="error_address_one">Wert muss länger als 3 Zeichen sein</string>
     <string name="placeholder_address_two">Adresszeile 2</string>
-    <string name="placeholder_city">Poststadt*</string>
+    <string name="placeholder_city">Stadt*</string>
     <string name="error_city">Wert muss länger als 2 Zeichen sein</string>
     <string name="placeholder_state">Staat</string>
     <string name="error_state">Wert muss länger als 3 Zeichen sein</string>
