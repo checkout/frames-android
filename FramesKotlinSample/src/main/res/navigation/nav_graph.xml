@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ProceedOrderFragment">
+
+    <fragment
+        android:id="@+id/ProceedOrderFragment"
+        android:name="com.checkout.kotlinsample.presentation.ui.fragments.ProceedOrderFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_order_proceed">
+
+        <action
+            android:id="@+id/action_ProceedOrderFragment_to_CheckoutSDKUIFragment"
+            app:destination="@id/CheckOutSDKUIFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CheckOutSDKUIFragment"
+        android:name="com.checkout.kotlinsample.presentation.ui.fragments.CheckOutSDKUIFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_sdk_ui_demo">
+
+        <action
+            android:id="@+id/action_CheckOutSDKUIFragment_to_ProceedOrderFragment"
+            app:popUpTo="@id/ProceedOrderFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/ProceedOrderFragment" />
+    </fragment>
+</navigation>
