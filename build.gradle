@@ -8,8 +8,8 @@ ext {
 
 buildscript {
 
-    ext.kotlin_version = '1.4.30'
-    ext.dokka_version = '1.6.0'
+    ext.kotlin_version = '1.6.10'
+    ext.dokka_version = '1.6.10'
 
     repositories {
         google()
