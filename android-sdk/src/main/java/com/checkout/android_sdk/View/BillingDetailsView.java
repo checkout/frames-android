@@ -461,7 +461,7 @@ public class BillingDetailsView extends LinearLayout {
             result = false;
         }
 
-        if (mCountryInput!=null && mCountryInput.getSelectedItemPosition() == 0) {
+        if (mCountryInput != null && mCountryInput.getSelectedItemPosition() == 0) {
             ((TextView) mCountryInput.getSelectedView()).setError(getResources().getString(R.string.error_country));
             result = false;
         }
@@ -566,7 +566,8 @@ public class BillingDetailsView extends LinearLayout {
         mZipLayout.setErrorEnabled(false);
         mPhoneLayout.setError(null);
         mPhoneLayout.setErrorEnabled(false);
-        if(mCountryInput.getSelectedView()!=null) ((TextView) mCountryInput.getSelectedView()).setError(null);
+        if (mCountryInput.getSelectedView() != null)
+            ((TextView) mCountryInput.getSelectedView()).setError(null);
     }
 
     // Capture back key events so that onBackPressed can be invoked.
@@ -643,14 +644,14 @@ public class BillingDetailsView extends LinearLayout {
     }
 
     private int getCountryPositionForLocale(@Nullable Locale locale) {
-        if (locale != null&&mCountryInput!=null) {
-            for (int position = 0; position < mCountryInput.getAdapter().getCount(); position++) {
-                if (locale.getDisplayCountry().equals(mCountryInput.getAdapter().getItem(position))) {
-                    return position;
-                }
+        if (locale == null && mCountryInput == null) {
+            return -1;
+        }
+        for (int position = 0; position < mCountryInput.getAdapter().getCount(); position++) {
+            if (locale.getDisplayCountry().equals(mCountryInput.getAdapter().getItem(position))) {
+                return position;
             }
         }
-
         return -1;
     }
 
