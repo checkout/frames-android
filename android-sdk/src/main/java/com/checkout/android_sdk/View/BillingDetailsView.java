@@ -644,7 +644,7 @@ public class BillingDetailsView extends LinearLayout {
     }
 
     private int getCountryPositionForLocale(@Nullable Locale locale) {
-        if (locale == null && mCountryInput == null) {
+        if (locale == null || mCountryInput == null) {
             return -1;
         }
         for (int position = 0; position < mCountryInput.getAdapter().getCount(); position++) {
