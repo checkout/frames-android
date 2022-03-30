@@ -1,0 +1,33 @@
+<resources>
+    <string name="title_card_details">Kartendetails</string>
+    <string name="label_accepted_cards">Akzeptierte Karten</string>
+    <string name="placeholder_card_number">Kartennummer*</string>
+    <string name="error_card_number">Die Kartennummer ist ungültig</string>
+    <string name="label_expiration_date">Ablaufdatum*</string>
+    <string name="error_expiration_date">Gib ein gültiges Datum ein</string>
+    <string name="placeholder_cvv">Cvv*</string>
+    <string name="error_cvv">Gib einen gültigen Lebenslauf ein</string>
+    <string name="label_billing_details">Rechnungsdetails</string>
+    <string name="select_billing_details">WÄHLEN</string>
+    <string name="billing_details_add">+ HINZUFÜGEN</string>
+    <string name="button_pay">Bezahlen</string>
+    <string name="title_billing_details">Rechnungsdetails</string>
+    <string name="placeholder_name">Name des Karteninhabers*</string>
+    <string name="error_name">Wert muss länger als 3 Zeichen sein</string>
+    <string name="placeholder_country">LAND/REGION WÄHLEN</string>
+    <string name="error_country">Bitte wählen Sie ein Land/eine Region aus</string>
+    <string name="placeholder_address_one">Adresszeile 1*</string>
+    <string name="error_address_one">Wert muss länger als 3 Zeichen sein</string>
+    <string name="placeholder_address_two">Adresszeile 2</string>
+    <string name="placeholder_city">Stadt*</string>
+    <string name="error_city">Wert muss länger als 2 Zeichen sein</string>
+    <string name="placeholder_state">Staat</string>
+    <string name="error_state">Wert muss länger als 3 Zeichen sein</string>
+    <string name="placeholder_postcode">Postleitzahl*</string>
+    <string name="error_postcode">Wert muss länger als 3 Zeichen sein</string>
+    <string name="placeholder_phone">Telefon*</string>
+    <string name="error_phone">Wert muss länger als 3 Zeichen sein</string>
+    <string name="button_clear">Löschen</string>
+    <string name="button_done">Fertig</string>
+    <string name="billing_details_edit">Bearbeiten</string>
+</resources>
