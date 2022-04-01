@@ -397,15 +397,12 @@ public class CardDetailsView extends LinearLayout {
      * not representing a date in the past.
      */
     private void checkFullDate() {
-
         // Check is the state contain the date and if it is check if the current selected
         // values are valid. Display error if applicable.
-        if (mDataStore.getCardYear() != null &&
-                mDataStore.getCardYear() != null &&
-                !CardUtils.isValidDate(mDataStore.getCardMonth(), mDataStore.getCardYear())) {
+        if (mDataStore.getCardYear() != null && mDataStore.getCardYear() != null && !CardUtils.isValidDate(mDataStore.getCardMonth(), mDataStore.getCardYear()) && mMonthInput.getSelectedView() != null) {
             mDataStore.setValidCardMonth(false);
-            ((TextView) mMonthInput.getSelectedView()).setError(getResources()
-                    .getString(R.string.error_expiration_date));
+            mMonthInput.requestFocus();
+            ((TextView) mMonthInput.getSelectedView()).setError(getResources().getString(R.string.error_expiration_date));
         }
         mDataStore.setValidCardMonth(true);
     }
