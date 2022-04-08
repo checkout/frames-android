@@ -120,6 +120,15 @@ internal class FramesLogger {
         )
     }
 
+    fun sendCheckoutApiClientInitialisedEvent() {
+        internalAnalyticsEvent(
+            FramesLoggingEvent(
+                INFO,
+                FramesLoggingEventType.CHECKOUT_API_CLIENT_INITIALISED
+            )
+        )
+    }
+
     fun sendTokenResponseEvent(
         responseCode: Int,
         successResponse: TokenisationResponse?,

@@ -71,6 +71,7 @@ public class CheckoutAPIClient {
 
         this.mLogger = new FramesLogger();
         this.mLogger.initialise(this.mContext, environment);
+        this.mLogger.sendCheckoutApiClientInitialisedEvent();
     }
 
     /**
