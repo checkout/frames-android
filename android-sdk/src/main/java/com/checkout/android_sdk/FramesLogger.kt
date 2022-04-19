@@ -90,7 +90,7 @@ internal class FramesLogger {
 
     fun sendPaymentFormPresentedEvent() {
         val eventData = mapOf(
-            PaymentFormLanguageEventAttribute.paymentFormPresentedLanguage to Locale.getDefault().displayLanguage,
+            PaymentFormLanguageEventAttribute.locale to Locale.getDefault().toString(),
         )
         internalAnalyticsEvent(
             FramesLoggingEvent(

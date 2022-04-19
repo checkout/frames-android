@@ -13,7 +13,7 @@ android {
     compileSdkVersion 31
     defaultConfig {
         minSdkVersion 21
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "checkout-frames-proguard.pro"
 
         buildConfigField "String", "PRODUCT_VERSION", "\"$productVersion\""
