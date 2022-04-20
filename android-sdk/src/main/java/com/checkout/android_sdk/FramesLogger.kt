@@ -6,6 +6,7 @@ import com.checkout.android_sdk.Response.TokenisationFail
 import com.checkout.android_sdk.Response.TokenisationResponse
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.Utils.filterNotNullValues
+import com.checkout.android_sdk.logging.CheckoutApiClientInitEventAttribute
 import com.checkout.android_sdk.logging.FramesLoggingEvent
 import com.checkout.android_sdk.logging.FramesLoggingEventType
 import com.checkout.android_sdk.logging.LoggingEventAttribute
@@ -120,11 +121,15 @@ internal class FramesLogger {
         )
     }
 
-    fun sendCheckoutApiClientInitialisedEvent() {
+    fun sendCheckoutApiClientInitialisedEvent(mEnvironment: Environment) {
+        val eventData = mapOf(
+            CheckoutApiClientInitEventAttribute.environment to mEnvironment
+        )
         internalAnalyticsEvent(
             FramesLoggingEvent(
                 INFO,
-                FramesLoggingEventType.CHECKOUT_API_CLIENT_INITIALISED
+                FramesLoggingEventType.CHECKOUT_API_CLIENT_INITIALISED,
+                eventData
             )
         )
     }
@@ -132,7 +137,7 @@ internal class FramesLogger {
     fun sendTokenResponseEvent(
         responseCode: Int,
         successResponse: TokenisationResponse?,
-        failedResponse: TokenisationFail?
+        failedResponse: TokenisationFail?,
     ) {
         val eventData = mutableMapOf<String, Any?>()
         successResponse?.let {
