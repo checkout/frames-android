@@ -7,16 +7,15 @@ import com.checkout.android_sdk.Response.TokenisationResponse
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.Utils.filterNotNullValues
 import com.checkout.android_sdk.logging.FramesLoggingEvent
+import com.checkout.android_sdk.logging.FramesLoggingEventDataProvider
 import com.checkout.android_sdk.logging.FramesLoggingEventType
 import com.checkout.android_sdk.logging.LoggingEventAttribute
-import com.checkout.android_sdk.logging.PaymentFormLanguageEventAttribute
 import com.checkout.eventlogger.CheckoutEventLogger
 import com.checkout.eventlogger.METADATA_CORRELATION_ID
 import com.checkout.eventlogger.domain.model.Event
 import com.checkout.eventlogger.domain.model.MessageEvent
 import com.checkout.eventlogger.domain.model.MonitoringLevel.*
 import com.checkout.eventlogger.domain.model.RemoteProcessorMetadata
-import java.util.*
 import com.checkout.eventlogger.Environment as LoggerEnvironment
 
 object CheckoutAPILogging {
@@ -89,15 +88,8 @@ internal class FramesLogger {
     }
 
     fun sendPaymentFormPresentedEvent() {
-        val eventData = mapOf(
-            PaymentFormLanguageEventAttribute.locale to Locale.getDefault().toString(),
-        )
         internalAnalyticsEvent(
-            FramesLoggingEvent(
-                INFO,
-                FramesLoggingEventType.PAYMENT_FORM_PRESENTED,
-                eventData
-            )
+            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent()
         )
     }
 
