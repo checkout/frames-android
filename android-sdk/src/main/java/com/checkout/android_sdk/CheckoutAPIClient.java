@@ -183,6 +183,11 @@ public class CheckoutAPIClient {
     public String getCorrelationID() {
         return mCorrelationID;
     }
+
+    public Environment getEnvironment() {
+        return mEnvironment;
+    }
+
     public void setCorrelationID(String correlationID) {
         this.mCorrelationID = correlationID;
     }
