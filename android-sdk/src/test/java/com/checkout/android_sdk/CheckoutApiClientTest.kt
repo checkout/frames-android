@@ -1,43 +1,35 @@
 package com.checkout.android_sdk
 
-import com.checkout.android_sdk.logging.FramesLoggingEventsTest
-import junit.framework.TestCase.*
+import android.content.Context
+import com.checkout.android_sdk.Utils.Environment
+import com.checkout.eventlogger.CheckoutEventLogger
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito.*
+
 
 internal class CheckoutApiClientTest {
 
-    private lateinit var framesLoggingEventsTest: FramesLoggingEventsTest
 
+    private lateinit var mockFramesLogger: FramesLogger
+
+    private lateinit var sdkLoggerMock: CheckoutEventLogger
 
 
     @Before
     internal fun setUp() {
-        framesLoggingEventsTest = FramesLoggingEventsTest()
-        framesLoggingEventsTest.setUp()
+        sdkLoggerMock = mock(CheckoutEventLogger::class.java)
+        mockFramesLogger = mock(FramesLogger::class.java)
+        mockFramesLogger.initialise(mock(Context::class.java), Environment.SANDBOX, sdkLoggerMock)
     }
 
     @Test
-    fun `test CheckoutApiClientInitialisedEvent Success`() {
-
-        assertNotNull(framesLoggingEventsTest)
-
-        // Verify event when it is called by FramesLoggingEventsTest
-        val expectedEventCount = 1
-        assertEquals(expectedEventCount,
-            framesLoggingEventsTest.sendFakeCheckoutApiClientInitialisedEvent())
-
+    fun `test Success Logging of CheckoutApiClientInitialisedEvent`() {
+        mockFramesLogger.sendCheckoutApiClientInitialisedEvent(Environment.SANDBOX)
+        verify(mockFramesLogger,
+            times(1)).sendCheckoutApiClientInitialisedEvent(Environment.SANDBOX)
     }
 
-    @Test
-    fun `test CheckoutApiClientInitialisedEvent Failed`() {
 
-        assertNotNull(framesLoggingEventsTest)
-
-        // Verify event when it is called by FramesLoggingEventsTest
-        val expectedEventCount = 0
-        assertNotSame(expectedEventCount,
-            framesLoggingEventsTest.sendFakeCheckoutApiClientInitialisedEvent())
-    }
 
 }
