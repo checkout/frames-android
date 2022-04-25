@@ -7,6 +7,7 @@ import com.checkout.android_sdk.Response.TokenisationResponse
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.Utils.filterNotNullValues
 import com.checkout.android_sdk.logging.FramesLoggingEvent
+import com.checkout.android_sdk.logging.FramesLoggingEventDataProvider
 import com.checkout.android_sdk.logging.FramesLoggingEventType
 import com.checkout.android_sdk.logging.LoggingEventAttribute
 import com.checkout.eventlogger.CheckoutEventLogger
@@ -30,6 +31,8 @@ object CheckoutAPILogging {
 
 internal class FramesLogger {
 
+    private lateinit var sdkLogger: CheckoutEventLogger
+
     companion object {
         private const val PRODUCT_NAME = "frames-android-sdk"
         private const val PRODUCT_VERSION = BuildConfig.PRODUCT_VERSION
@@ -43,17 +46,17 @@ internal class FramesLogger {
                 // Suppress error
             }
         }
-    }
 
-    private var sdkLogger = CheckoutEventLogger(PRODUCT_NAME).also {
-        if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
-            it.enableLocalProcessor(DEBUG)
-        } else if (CheckoutAPILogging.errorLoggingEnabled) {
-            it.enableLocalProcessor(ERROR)
+        fun getProductName(): String {
+            return PRODUCT_NAME
         }
     }
 
-    fun initialise(context: Context, environment: Environment) {
+    fun initialise(
+        context: Context,
+        environment: Environment,
+        checkoutSdkLogger: CheckoutEventLogger,
+    ) {
         val loggingEnvironment = environment.toLoggingEnvironment()
         val remoteProcessorMetadata = RemoteProcessorMetadata.from(
             context,
@@ -61,6 +64,7 @@ internal class FramesLogger {
             PRODUCT_IDENTIFIER,
             PRODUCT_VERSION
         )
+        sdkLogger = checkoutSdkLogger
         sdkLogger.enableRemoteProcessor(
             loggingEnvironment,
             remoteProcessorMetadata
@@ -120,10 +124,15 @@ internal class FramesLogger {
         )
     }
 
+    fun sendCheckoutApiClientInitialisedEvent(environment: Environment) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(
+            environment))
+    }
+
     fun sendTokenResponseEvent(
         responseCode: Int,
         successResponse: TokenisationResponse?,
-        failedResponse: TokenisationFail?
+        failedResponse: TokenisationFail?,
     ) {
         val eventData = mutableMapOf<String, Any?>()
         successResponse?.let {

@@ -29,6 +29,8 @@ import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
 import com.checkout.android_sdk.View.data.LoggingState;
 import com.checkout.android_sdk.network.NetworkError;
+import com.checkout.eventlogger.CheckoutEventLogger;
+import com.checkout.eventlogger.domain.model.MonitoringLevel;
 
 import java.util.Locale;
 
@@ -586,7 +588,7 @@ public class PaymentForm extends FrameLayout {
             String correlationID = mLoggingState.getCorrelationId();
 
             mLogger = new FramesLogger();
-            mLogger.initialise(mContext.getApplicationContext(), environment);
+            mLogger.initialise(mContext.getApplicationContext(), environment, getSdkLogger());
             mLogger.initialiseLoggingSession(correlationID);
         }
 
@@ -619,5 +621,16 @@ public class PaymentForm extends FrameLayout {
                 });
             }
         });
+    }
+
+    // Passing sdkLogger in the initialization of FramesLogger to independently unit test events
+    private CheckoutEventLogger getSdkLogger() {
+        CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
+        if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.DEBUG);
+        } else if (CheckoutAPILogging.getErrorLoggingEnabled()) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.ERROR);
+        }
+        return sdkLogger;
     }
 }

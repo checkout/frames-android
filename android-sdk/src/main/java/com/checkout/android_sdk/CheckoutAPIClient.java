@@ -15,6 +15,8 @@ import com.checkout.android_sdk.Utils.Environment;
 import com.checkout.android_sdk.network.NetworkError;
 import com.checkout.android_sdk.network.utils.OkHttpTokenRequestor;
 import com.checkout.android_sdk.network.utils.TokenRequestor;
+import com.checkout.eventlogger.CheckoutEventLogger;
+import com.checkout.eventlogger.domain.model.MonitoringLevel;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -70,7 +72,29 @@ public class CheckoutAPIClient {
         this.mEnvironment = environment;
 
         this.mLogger = new FramesLogger();
-        this.mLogger.initialise(this.mContext, environment);
+        this.mLogger.initialise(this.mContext, environment, getSdkLogger());
+
+        //Send checkoutApiClientInitialisedEvent on initialization of CheckoutAPIClient
+        this.mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
+    }
+
+    CheckoutAPIClient(Context context, @NonNull String key, @NonNull Environment environment, FramesLogger framesLogger) {
+        this.mContext = context.getApplicationContext();
+        this.mKey = key;
+        this.mEnvironment = environment;
+        this.mLogger = framesLogger;
+        //Send checkoutApiClientInitialisedEvent on initialization of CheckoutAPIClient
+        mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
+    }
+
+    private CheckoutEventLogger getSdkLogger() {
+        CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
+        if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.DEBUG);
+        } else if (CheckoutAPILogging.getErrorLoggingEnabled()) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.ERROR);
+        }
+        return sdkLogger;
     }
 
     /**
@@ -168,6 +192,7 @@ public class CheckoutAPIClient {
     public String getCorrelationID() {
         return mCorrelationID;
     }
+
     public void setCorrelationID(String correlationID) {
         this.mCorrelationID = correlationID;
     }
