@@ -78,6 +78,15 @@ public class CheckoutAPIClient {
         this.mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
     }
 
+    CheckoutAPIClient(Context context, @NonNull String key, @NonNull Environment environment, FramesLogger framesLogger) {
+        this.mContext = context.getApplicationContext();
+        this.mKey = key;
+        this.mEnvironment = environment;
+        this.mLogger = framesLogger;
+        //Send checkoutApiClientInitialisedEvent on initialization of CheckoutAPIClient
+        mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
+    }
+
     public CheckoutEventLogger getSdkLogger() {
         CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
         if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {

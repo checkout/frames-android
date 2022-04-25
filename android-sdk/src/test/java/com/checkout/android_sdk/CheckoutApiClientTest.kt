@@ -21,49 +21,41 @@ internal class CheckoutApiClientTest {
     internal fun setUp() {
         sdkLoggerMock = mock(CheckoutEventLogger::class.java)
         mockFramesLogger = mock(FramesLogger::class.java)
+    }
+
+    @Test
+    fun `test success logging of checkoutApiClientInitialisedEvent for live environment`() {
+        mockFramesLogger.initialise(mock(Context::class.java), Environment.LIVE, sdkLoggerMock)
+
+        val checkoutAPIClientMock = CheckoutAPIClient(
+            mock(Context::class.java),
+            "test_key",
+            Environment.LIVE, mockFramesLogger
+        )
+
+        val expectedEnvironment = Environment.LIVE
+        assertEquals(expectedEnvironment, checkoutAPIClientMock.environment)
+
+        verify(mockFramesLogger,
+            times(1)).sendCheckoutApiClientInitialisedEvent(Environment.LIVE)
+    }
+
+    @Test
+    fun `test success logging of checkoutApiClientInitialisedEvent for sandbox environment`() {
         mockFramesLogger.initialise(mock(Context::class.java), Environment.SANDBOX, sdkLoggerMock)
-    }
 
-    @Test
-    fun `test constructor initialization for CheckoutAPIClient for Live Environment`() {
-        mockConstructionWithAnswer(CheckoutAPIClient::class.java,
-            // default answer for the first mock constructor
-            { Environment.LIVE }).use {
+        val checkoutAPIClientMock = CheckoutAPIClient(
+            mock(Context::class.java),
+            "test_key",
+            Environment.SANDBOX, mockFramesLogger
+        )
 
-            val checkoutAPIClientMock = CheckoutAPIClient(
-                mock(Context::class.java),
-                "test_key",
-                Environment.LIVE
-            )
+        val expectedEnvironment = Environment.SANDBOX
+        assertEquals(expectedEnvironment, checkoutAPIClientMock.environment)
 
-            assertEquals(Environment.LIVE, checkoutAPIClientMock.environment)
-            // assert the mock constructed size
-            assertEquals(1, it.constructed().size)
-        }
-    }
-
-    @Test
-    fun `test constructor initialization for CheckoutAPIClient for SandBox Environment`() {
-        mockConstructionWithAnswer(CheckoutAPIClient::class.java,
-            // default answer for the first mock constructor
-            { Environment.SANDBOX }).use {
-            val checkoutAPIClientMock = CheckoutAPIClient(
-                mock(Context::class.java),
-                "test_key",
-                Environment.SANDBOX
-            )
-            assertEquals(Environment.SANDBOX, checkoutAPIClientMock.environment)
-            assertEquals(1, it.constructed().size)
-        }
-    }
-
-    @Test
-    fun `test Success Logging of CheckoutApiClientInitialisedEvent`() {
-        mockFramesLogger.sendCheckoutApiClientInitialisedEvent(Environment.SANDBOX)
         verify(mockFramesLogger,
             times(1)).sendCheckoutApiClientInitialisedEvent(Environment.SANDBOX)
     }
-
 
 
 }
