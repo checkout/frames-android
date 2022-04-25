@@ -624,7 +624,7 @@ public class PaymentForm extends FrameLayout {
     }
 
     // Passing sdkLogger in the initialization of FramesLogger to independently unit test events
-    public CheckoutEventLogger getSdkLogger() {
+    private CheckoutEventLogger getSdkLogger() {
         CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
         if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
             sdkLogger.enableLocalProcessor(MonitoringLevel.DEBUG);

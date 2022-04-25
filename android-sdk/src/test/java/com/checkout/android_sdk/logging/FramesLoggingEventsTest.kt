@@ -18,14 +18,15 @@ class FramesLoggingEventsTest {
         assertEquals(getExpectedCheckoutApiClientInitialisedEvent(environment).monitoringLevel,
             FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(environment).monitoringLevel)
 
-        assertEquals(getExpectedCheckoutApiClientInitialisedEvent(environment).properties[CheckoutApiClientInitEventAttribute.environment],
-            FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(environment).properties[CheckoutApiClientInitEventAttribute.environment])
+        assertEquals(getExpectedCheckoutApiClientInitialisedEvent(environment).properties,
+            FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(environment).properties)
     }
 
-    private fun getExpectedCheckoutApiClientInitialisedEvent(mEnvironment: Environment): FramesLoggingEvent {
+    private fun getExpectedCheckoutApiClientInitialisedEvent(environment: Environment): FramesLoggingEvent {
         val eventData = mapOf(
-            CheckoutApiClientInitEventAttribute.environment to mEnvironment
+            CheckoutApiClientInitEventAttribute.environment to environment
         )
+
         return FramesLoggingEvent(
             MonitoringLevel.INFO,
             FramesLoggingEventType.CHECKOUT_API_CLIENT_INITIALISED,

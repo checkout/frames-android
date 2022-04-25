@@ -3,7 +3,6 @@ package com.checkout.android_sdk
 import android.content.Context
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.eventlogger.CheckoutEventLogger
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -27,14 +26,12 @@ internal class CheckoutApiClientTest {
     fun `test success logging of checkoutApiClientInitialisedEvent for live environment`() {
         mockFramesLogger.initialise(mock(Context::class.java), Environment.LIVE, sdkLoggerMock)
 
-        val checkoutAPIClientMock = CheckoutAPIClient(
+        CheckoutAPIClient(
             mock(Context::class.java),
             "test_key",
-            Environment.LIVE, mockFramesLogger
+            Environment.LIVE,
+            mockFramesLogger
         )
-
-        val expectedEnvironment = Environment.LIVE
-        assertEquals(expectedEnvironment, checkoutAPIClientMock.environment)
 
         verify(mockFramesLogger,
             times(1)).sendCheckoutApiClientInitialisedEvent(Environment.LIVE)
@@ -44,14 +41,12 @@ internal class CheckoutApiClientTest {
     fun `test success logging of checkoutApiClientInitialisedEvent for sandbox environment`() {
         mockFramesLogger.initialise(mock(Context::class.java), Environment.SANDBOX, sdkLoggerMock)
 
-        val checkoutAPIClientMock = CheckoutAPIClient(
+        CheckoutAPIClient(
             mock(Context::class.java),
             "test_key",
-            Environment.SANDBOX, mockFramesLogger
+            Environment.SANDBOX,
+            mockFramesLogger
         )
-
-        val expectedEnvironment = Environment.SANDBOX
-        assertEquals(expectedEnvironment, checkoutAPIClientMock.environment)
 
         verify(mockFramesLogger,
             times(1)).sendCheckoutApiClientInitialisedEvent(Environment.SANDBOX)

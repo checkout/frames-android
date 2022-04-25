@@ -87,7 +87,7 @@ public class CheckoutAPIClient {
         mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
     }
 
-    public CheckoutEventLogger getSdkLogger() {
+    private CheckoutEventLogger getSdkLogger() {
         CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
         if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
             sdkLogger.enableLocalProcessor(MonitoringLevel.DEBUG);
@@ -191,10 +191,6 @@ public class CheckoutAPIClient {
 
     public String getCorrelationID() {
         return mCorrelationID;
-    }
-
-    public Environment getEnvironment() {
-        return mEnvironment;
     }
 
     public void setCorrelationID(String correlationID) {

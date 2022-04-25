@@ -124,9 +124,9 @@ internal class FramesLogger {
         )
     }
 
-    fun sendCheckoutApiClientInitialisedEvent(mEnvironment: Environment) {
+    fun sendCheckoutApiClientInitialisedEvent(environment: Environment) {
         internalAnalyticsEvent(FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(
-            mEnvironment))
+            environment))
     }
 
     fun sendTokenResponseEvent(

@@ -5,9 +5,9 @@ import com.checkout.eventlogger.domain.model.MonitoringLevel
 
 object FramesLoggingEventDataProvider {
 
-    fun logCheckoutApiClientInitialisedEvent(mEnvironment: Environment): FramesLoggingEvent {
+    fun logCheckoutApiClientInitialisedEvent(environment: Environment): FramesLoggingEvent {
         val eventData = mapOf(
-            CheckoutApiClientInitEventAttribute.environment to mEnvironment
+            CheckoutApiClientInitEventAttribute.environment to environment
         )
         return FramesLoggingEvent(
             MonitoringLevel.INFO,
