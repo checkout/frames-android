@@ -29,6 +29,8 @@ import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
 import com.checkout.android_sdk.View.data.LoggingState;
 import com.checkout.android_sdk.network.NetworkError;
+import com.checkout.eventlogger.CheckoutEventLogger;
+import com.checkout.eventlogger.domain.model.MonitoringLevel;
 
 import java.util.Locale;
 
@@ -513,7 +515,15 @@ public class PaymentForm extends FrameLayout {
     @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setEnvironment(@NonNull Environment env) {
         mDataStore.setEnvironment(env);
-        sendPaymentFormPresentedEvent();
+        sendPaymentFormPresentedEvent(getFramesLogger());
+        return this;
+    }
+
+    // Created for Unit test logging of paymentFormPresentedEvent
+    @SuppressWarnings("UnusedReturnValue")
+    PaymentForm setEnvironment(@NonNull Environment environment, FramesLogger framesLogger) {
+        mDataStore.setEnvironment(environment);
+        logPaymentFormPresentedEvent(framesLogger);
         return this;
     }
 
@@ -586,7 +596,7 @@ public class PaymentForm extends FrameLayout {
             String correlationID = mLoggingState.getCorrelationId();
 
             mLogger = new FramesLogger();
-            mLogger.initialise(mContext.getApplicationContext(), environment);
+            mLogger.initialise(mContext.getApplicationContext(), environment, getSdkLogger());
             mLogger.initialiseLoggingSession(correlationID);
         }
 
@@ -596,15 +606,19 @@ public class PaymentForm extends FrameLayout {
     /**
      * Send the PaymentFormPresented Log Event if it hasn't already been sent.
      */
-    private void sendPaymentFormPresentedEvent() {
+    private void sendPaymentFormPresentedEvent(FramesLogger framesLogger) {
         post(() -> {
-            if (!mLoggingState.getPaymentFormPresented()) {
-                FramesLogger.log(() -> {
-                    getFramesLogger().sendPaymentFormPresentedEvent();
-                    mLoggingState.setPaymentFormPresented(true);
-                });
-            }
+            logPaymentFormPresentedEvent(framesLogger);
         });
+    }
+
+    private void logPaymentFormPresentedEvent(FramesLogger framesLogger) {
+        if (!mLoggingState.getPaymentFormPresented()) {
+            FramesLogger.log(() -> {
+                framesLogger.sendPaymentFormPresentedEvent();
+                mLoggingState.setPaymentFormPresented(true);
+            });
+        }
     }
 
     /**
@@ -619,5 +633,16 @@ public class PaymentForm extends FrameLayout {
                 });
             }
         });
+    }
+
+    // Passing sdkLogger in the initialization of FramesLogger to independently unit test events
+    private CheckoutEventLogger getSdkLogger() {
+        CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
+        if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.DEBUG);
+        } else if (CheckoutAPILogging.getErrorLoggingEnabled()) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.ERROR);
+        }
+        return sdkLogger;
     }
 }
