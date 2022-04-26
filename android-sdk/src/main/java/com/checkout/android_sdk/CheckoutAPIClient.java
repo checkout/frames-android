@@ -73,6 +73,19 @@ public class CheckoutAPIClient {
 
         this.mLogger = new FramesLogger();
         this.mLogger.initialise(this.mContext, environment, getSdkLogger());
+
+        //Send checkoutApiClientInitialisedEvent on initialization of CheckoutAPIClient
+        this.mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
+    }
+
+    CheckoutAPIClient(Context context, @NonNull String key, @NonNull Environment environment, FramesLogger framesLogger) {
+        this.mContext = context.getApplicationContext();
+        this.mKey = key;
+        this.mEnvironment = environment;
+        this.mLogger = framesLogger;
+       
+      //Send checkoutApiClientInitialisedEvent on initialization of CheckoutAPIClient
+        mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
     }
 
     private CheckoutEventLogger getSdkLogger() {
@@ -180,6 +193,7 @@ public class CheckoutAPIClient {
     public String getCorrelationID() {
         return mCorrelationID;
     }
+
     public void setCorrelationID(String correlationID) {
         this.mCorrelationID = correlationID;
     }

@@ -121,10 +121,15 @@ internal class FramesLogger {
         )
     }
 
+    fun sendCheckoutApiClientInitialisedEvent(environment: Environment) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(
+            environment))
+    }
+
     fun sendTokenResponseEvent(
         responseCode: Int,
         successResponse: TokenisationResponse?,
-        failedResponse: TokenisationFail?
+        failedResponse: TokenisationFail?,
     ) {
         val eventData = mutableMapOf<String, Any?>()
         successResponse?.let {
