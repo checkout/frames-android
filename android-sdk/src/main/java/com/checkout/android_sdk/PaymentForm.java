@@ -515,7 +515,15 @@ public class PaymentForm extends FrameLayout {
     @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setEnvironment(@NonNull Environment env) {
         mDataStore.setEnvironment(env);
-        sendPaymentFormPresentedEvent();
+        sendPaymentFormPresentedEvent(getFramesLogger());
+        return this;
+    }
+
+    // Created for Unit test logging of paymentFormPresentedEvent
+    @SuppressWarnings("UnusedReturnValue")
+    PaymentForm setEnvironment(@NonNull Environment environment, FramesLogger framesLogger) {
+        mDataStore.setEnvironment(environment);
+        logPaymentFormPresentedEvent(framesLogger);
         return this;
     }
 
@@ -598,15 +606,19 @@ public class PaymentForm extends FrameLayout {
     /**
      * Send the PaymentFormPresented Log Event if it hasn't already been sent.
      */
-    private void sendPaymentFormPresentedEvent() {
+    private void sendPaymentFormPresentedEvent(FramesLogger framesLogger) {
         post(() -> {
-            if (!mLoggingState.getPaymentFormPresented()) {
-                FramesLogger.log(() -> {
-                    getFramesLogger().sendPaymentFormPresentedEvent();
-                    mLoggingState.setPaymentFormPresented(true);
-                });
-            }
+            logPaymentFormPresentedEvent(framesLogger);
         });
+    }
+
+    private void logPaymentFormPresentedEvent(FramesLogger framesLogger) {
+        if (!mLoggingState.getPaymentFormPresented()) {
+            FramesLogger.log(() -> {
+                framesLogger.sendPaymentFormPresentedEvent();
+                mLoggingState.setPaymentFormPresented(true);
+            });
+        }
     }
 
     /**

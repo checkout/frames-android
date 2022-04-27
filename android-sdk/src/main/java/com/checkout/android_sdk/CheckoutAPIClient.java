@@ -83,7 +83,7 @@ public class CheckoutAPIClient {
         this.mKey = key;
         this.mEnvironment = environment;
         this.mLogger = framesLogger;
-        //Send checkoutApiClientInitialisedEvent on initialization of CheckoutAPIClient
+
         mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment);
     }
 

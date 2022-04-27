@@ -92,10 +92,7 @@ internal class FramesLogger {
 
     fun sendPaymentFormPresentedEvent() {
         internalAnalyticsEvent(
-            FramesLoggingEvent(
-                INFO,
-                FramesLoggingEventType.PAYMENT_FORM_PRESENTED
-            )
+            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent()
         )
     }
 
