@@ -1,7 +1,7 @@
 package com.checkout.android_sdk.logging
-import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.android_sdk.Utils.Environment
-import java.util.*
+import com.checkout.eventlogger.domain.model.MonitoringLevel
+import java.util.Locale
 
 object FramesLoggingEventDataProvider {
 

@@ -4,7 +4,7 @@ import com.checkout.android_sdk.Utils.Environment
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.util.*
+import java.util.Locale
 
 class FramesLoggingEventsTest {
 
