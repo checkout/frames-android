@@ -231,7 +231,7 @@ public class PaymentForm extends FrameLayout {
         if (mViewPager != null) {
             mViewPager.setVisibility(GONE); // dismiss the card form UI
         }
-        ThreedsWebView threedsWebView = new ThreedsWebView(mContext, url, mLoggingState, getFramesLogger());
+        ThreedsWebView threedsWebView = new ThreedsWebView(mContext, url);
 
         threedsWebView.setWebViewClient(new ThreedsWebViewClient(successUrl, failsUrl, mLoggingState, getFramesLogger(), m3DSecureListener));
         // Make WebView fill the layout

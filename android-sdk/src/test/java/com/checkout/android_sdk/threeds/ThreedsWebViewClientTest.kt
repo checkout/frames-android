@@ -113,6 +113,20 @@ internal class ThreedsWebViewClientTest {
         Mockito.verify(mockFramesLogger, Mockito.times(1)).sendThreedsWebviewLoadedEvent(false)
     }
 
+    @Test
+    fun `test success logging of threedsWebviewPresented`() {
+        val firstUrlToLoad = "https://www.example.com"
+        val secondUrlToLoad = "https://www.w3.org/Provider/Style/dummy.html"
+        val threedsWebViewClient =
+            getThreedsWebViewClient("https://www.successurl.com/", "https://www.failurl.com/")
+
+        threedsWebViewClient.onPageStarted(webView, firstUrlToLoad, null)
+
+        threedsWebViewClient.onPageStarted(webView, secondUrlToLoad, null)
+
+        Mockito.verify(mockFramesLogger, Mockito.times(1)).sendThreedsWebviewPresentedEvent()
+    }
+
     private fun getThreedsWebViewClient(
         expectedSuccessUrl: String,
         expectedFailedUrl: String,

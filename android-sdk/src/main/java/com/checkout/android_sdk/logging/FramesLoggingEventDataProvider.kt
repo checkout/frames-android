@@ -28,13 +28,13 @@ object FramesLoggingEventDataProvider {
     }
 
     fun logThreedsWebviewLoadedEvent(
-        isSuccessFullWebviewLoadingOrCompletionEvents: Boolean,
+        success: Boolean,
     ): FramesLoggingEvent {
         val eventData = mapOf(
-            WebviewEventAttribute.success to isSuccessFullWebviewLoadingOrCompletionEvents,
+            WebviewEventAttribute.success to success,
         )
         return FramesLoggingEvent(
-            if (isSuccessFullWebviewLoadingOrCompletionEvents) MonitoringLevel.INFO else MonitoringLevel.ERROR,
+            if (success) MonitoringLevel.INFO else MonitoringLevel.ERROR,
             FramesLoggingEventType.THREEDS_WEBVIEW_LOADED,
             eventData
         )
@@ -42,15 +42,15 @@ object FramesLoggingEventDataProvider {
 
     fun logThreedsWebviewCompleteEvent(
         tokenID: String?,
-        isSuccessFullWebviewLoadingOrCompletionEvents: Boolean,
+        success: Boolean,
     ): FramesLoggingEvent {
-        val tokenIDToPass = tokenID ?: ""
+        val tokenId = tokenID ?: ""
         val eventData = mapOf(
-            WebviewEventAttribute.tokenID to tokenIDToPass,
-            WebviewEventAttribute.success to isSuccessFullWebviewLoadingOrCompletionEvents,
+            WebviewEventAttribute.tokenID to tokenId,
+            WebviewEventAttribute.success to success,
         )
         return FramesLoggingEvent(
-            if (isSuccessFullWebviewLoadingOrCompletionEvents) MonitoringLevel.INFO else MonitoringLevel.ERROR,
+            if (success) MonitoringLevel.INFO else MonitoringLevel.ERROR,
             FramesLoggingEventType.THREEDS_WEBVIEW_COMPLETE,
             eventData
         )

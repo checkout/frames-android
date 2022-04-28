@@ -1,5 +1,6 @@
 package com.checkout.android_sdk.threeds
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.webkit.*
 import com.checkout.android_sdk.FramesLogger
@@ -16,6 +17,15 @@ internal class ThreedsWebViewClient(
 ) : WebViewClient() {
 
     private var webViewLoadedFirstTime = true
+    private var webViewPresentedFirstTime = true
+
+    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+        super.onPageStarted(view, url, favicon)
+        if (webViewPresentedFirstTime) {
+            sendThreedsWebViewPresentedEvent()
+            webViewPresentedFirstTime = false
+        }
+    }
 
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
@@ -57,7 +67,9 @@ internal class ThreedsWebViewClient(
     }
 
     private fun sendThreedsWebViewLoadedEvent(isSuccessFullWebviewLoadingEvent: Boolean) {
-        if (loggingState.threedsWebviewLoaded) return
+        if (loggingState.threedsWebviewLoaded) {
+            return
+        }
         log {
             framesLogger.sendThreedsWebviewLoadedEvent(isSuccessFullWebviewLoadingEvent)
             loggingState.threedsWebviewLoaded = true
@@ -68,7 +80,9 @@ internal class ThreedsWebViewClient(
         tokenID: String?,
         isSuccessFullWebviewCompleteEvent: Boolean,
     ) {
-        if (loggingState.threedsWebviewComplete) return
+        if (loggingState.threedsWebviewComplete) {
+            return
+        }
         log {
             framesLogger.sendThreedsWebviewCompleteEvent(tokenID, isSuccessFullWebviewCompleteEvent)
             loggingState.threedsWebviewComplete = true
@@ -92,6 +106,16 @@ internal class ThreedsWebViewClient(
             token = uri.getQueryParameter("cko-session-id")
         }
         return token
+    }
+
+    private fun sendThreedsWebViewPresentedEvent() {
+        if (loggingState.threedsWebviewLoaded) {
+            return
+        }
+        log {
+            framesLogger.sendThreedsWebviewPresentedEvent()
+            loggingState.threedsWebviewPresented = true
+        }
     }
 
 }
