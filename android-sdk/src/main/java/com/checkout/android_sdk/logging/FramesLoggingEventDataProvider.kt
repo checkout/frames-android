@@ -27,4 +27,41 @@ object FramesLoggingEventDataProvider {
         )
     }
 
+    fun logThreedsWebviewLoadedEvent(
+        isSuccessFullWebviewLoadingOrCompletionEvents: Boolean,
+    ): FramesLoggingEvent {
+        val eventData = mapOf(
+            WebviewEventAttribute.success to isSuccessFullWebviewLoadingOrCompletionEvents,
+        )
+        return FramesLoggingEvent(
+            if (isSuccessFullWebviewLoadingOrCompletionEvents) MonitoringLevel.INFO else MonitoringLevel.ERROR,
+            FramesLoggingEventType.THREEDS_WEBVIEW_LOADED,
+            eventData
+        )
+    }
+
+    fun logThreedsWebviewCompleteEvent(
+        tokenID: String?,
+        isSuccessFullWebviewLoadingOrCompletionEvents: Boolean,
+    ): FramesLoggingEvent {
+        val tokenIDToPass = tokenID ?: ""
+        val eventData = mapOf(
+            WebviewEventAttribute.tokenID to tokenIDToPass,
+            WebviewEventAttribute.success to isSuccessFullWebviewLoadingOrCompletionEvents,
+        )
+        return FramesLoggingEvent(
+            if (isSuccessFullWebviewLoadingOrCompletionEvents) MonitoringLevel.INFO else MonitoringLevel.ERROR,
+            FramesLoggingEventType.THREEDS_WEBVIEW_COMPLETE,
+            eventData
+        )
+    }
+
+    fun logThreedsWebviewPresentedEvent(
+    ): FramesLoggingEvent {
+        return FramesLoggingEvent(
+            MonitoringLevel.INFO,
+            FramesLoggingEventType.THREEDS_WEBVIEW_PRESENTED
+        )
+    }
+
 }

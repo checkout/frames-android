@@ -8,12 +8,18 @@ import java.util.*
 internal data class LoggingState(
     val correlationId: String,
     var paymentFormPresented: Boolean,
-    var billingFormPresented: Boolean
+    var billingFormPresented: Boolean,
+    var threedsWebviewPresented: Boolean,
+    var threedsWebviewLoaded: Boolean,
+    var threedsWebviewComplete: Boolean,
 ): Parcelable {
 
     constructor(): this(
         correlationId = UUID.randomUUID().toString(),
         paymentFormPresented = false,
-        billingFormPresented = false
+        billingFormPresented = false,
+        threedsWebviewPresented = false,
+        threedsWebviewLoaded = false,
+        threedsWebviewComplete = false,
     )
 }

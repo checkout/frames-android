@@ -2,13 +2,10 @@ package com.checkout.android_sdk;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -29,6 +26,8 @@ import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
 import com.checkout.android_sdk.View.data.LoggingState;
 import com.checkout.android_sdk.network.NetworkError;
+import com.checkout.android_sdk.threeds.ThreedsWebView;
+import com.checkout.android_sdk.threeds.ThreedsWebViewClient;
 import com.checkout.eventlogger.CheckoutEventLogger;
 import com.checkout.eventlogger.domain.model.MonitoringLevel;
 
@@ -232,34 +231,13 @@ public class PaymentForm extends FrameLayout {
         if (mViewPager != null) {
             mViewPager.setVisibility(GONE); // dismiss the card form UI
         }
-        WebView web = new WebView(mContext);
-        web.loadUrl(url);
-        web.getSettings().setJavaScriptEnabled(true);
-        web.getSettings().setDomStorageEnabled(true);
-        web.setWebViewClient(new WebViewClient() {
-            // Listen for when the URL changes and match it with either the success of fail url
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (url.contains(successUrl)) {
-                    m3DSecureListener.onSuccess(getToken(url));
-                } else if (url.contains(failsUrl)) {
-                    m3DSecureListener.onError(getToken(url));
-                }
-            }
+        ThreedsWebView threedsWebView = new ThreedsWebView(mContext, url, mLoggingState, getFramesLogger());
 
-            private String getToken(String redirectUrl) {
-                Uri uri = Uri.parse(redirectUrl);
-                String token = uri.getQueryParameter("cko-payment-token");
-                if (token == null) {
-                    token = uri.getQueryParameter("cko-session-id");
-                }
-                return token;
-            }
-        });
+        threedsWebView.setWebViewClient(new ThreedsWebViewClient(successUrl, failsUrl, mLoggingState, getFramesLogger(), m3DSecureListener));
         // Make WebView fill the layout
-        web.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+        threedsWebView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
-        addView(web);
+        addView(threedsWebView);
     }
 
     /**

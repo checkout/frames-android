@@ -96,6 +96,23 @@ internal class FramesLogger {
         )
     }
 
+    fun sendThreedsWebviewPresentedEvent() {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewPresentedEvent())
+    }
+
+    fun sendThreedsWebviewLoadedEvent(isSuccessFullWebviewLoadingOrCompletionEvents: Boolean) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewLoadedEvent(
+            isSuccessFullWebviewLoadingOrCompletionEvents))
+    }
+
+    fun sendThreedsWebviewCompleteEvent(
+        tokenID: String?,
+        isSuccessFullWebviewLoadingOrCompletionEvents: Boolean,
+    ) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewCompleteEvent(tokenID,
+            isSuccessFullWebviewLoadingOrCompletionEvents))
+    }
+
     fun sendBillingFormPresentedEvent() {
         internalAnalyticsEvent(
             FramesLoggingEvent(

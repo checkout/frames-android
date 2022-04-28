@@ -59,4 +59,65 @@ class FramesLoggingEventsTest {
             properties = eventData
         )
     }
+
+    @Test
+    fun `test threedsWebviewPresented event map to correct values`() {
+        val expectedThreedsWebViewPresentedLoggingEvent = FramesLoggingEvent(
+            MonitoringLevel.INFO,
+            FramesLoggingEventType.THREEDS_WEBVIEW_PRESENTED)
+
+        assertEquals(expectedThreedsWebViewPresentedLoggingEvent.typeIdentifier,
+            FramesLoggingEventDataProvider.logThreedsWebviewPresentedEvent().typeIdentifier)
+
+        assertEquals(expectedThreedsWebViewPresentedLoggingEvent.monitoringLevel,
+            FramesLoggingEventDataProvider.logThreedsWebviewPresentedEvent().monitoringLevel)
+
+        assertEquals(expectedThreedsWebViewPresentedLoggingEvent.properties,
+            FramesLoggingEventDataProvider.logThreedsWebviewPresentedEvent().properties)
+    }
+
+    @Test
+    fun `test threedsWebviewLoaded event map to correct values`() {
+        val eventData = mapOf(
+            WebviewEventAttribute.success to true,
+        )
+        val expectedThreedsWebViewLoadedLoggingEvent = FramesLoggingEvent(
+            MonitoringLevel.INFO,
+            FramesLoggingEventType.THREEDS_WEBVIEW_LOADED,
+            eventData)
+
+        assertEquals(expectedThreedsWebViewLoadedLoggingEvent.typeIdentifier,
+            FramesLoggingEventDataProvider.logThreedsWebviewLoadedEvent(true).typeIdentifier)
+
+        assertEquals(expectedThreedsWebViewLoadedLoggingEvent.monitoringLevel,
+            FramesLoggingEventDataProvider.logThreedsWebviewLoadedEvent(true).monitoringLevel)
+
+        assertEquals(expectedThreedsWebViewLoadedLoggingEvent.properties,
+            FramesLoggingEventDataProvider.logThreedsWebviewLoadedEvent(true).properties)
+    }
+
+    @Test
+    fun `test threedsWebviewComplete event map to correct values`() {
+        val eventData = mapOf(
+            WebviewEventAttribute.tokenID to "cko-session-ID",
+            WebviewEventAttribute.success to true,
+        )
+
+        val threedsWebViewCompleteLoggingEvent = FramesLoggingEvent(
+            MonitoringLevel.INFO,
+            FramesLoggingEventType.THREEDS_WEBVIEW_COMPLETE,
+            eventData)
+
+        assertEquals(threedsWebViewCompleteLoggingEvent.typeIdentifier,
+            FramesLoggingEventDataProvider.logThreedsWebviewCompleteEvent("cko-session-ID",
+                true).typeIdentifier)
+
+        assertEquals(threedsWebViewCompleteLoggingEvent.monitoringLevel,
+            FramesLoggingEventDataProvider.logThreedsWebviewCompleteEvent("cko-session-ID",
+                true).monitoringLevel)
+
+        assertEquals(threedsWebViewCompleteLoggingEvent.properties,
+            FramesLoggingEventDataProvider.logThreedsWebviewCompleteEvent("cko-session-ID",
+                true).properties)
+    }
 }
