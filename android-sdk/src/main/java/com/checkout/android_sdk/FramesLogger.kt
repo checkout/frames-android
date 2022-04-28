@@ -91,9 +91,22 @@ internal class FramesLogger {
     }
 
     fun sendPaymentFormPresentedEvent() {
-        internalAnalyticsEvent(
-            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent()
-        )
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent())
+    }
+
+    fun sendThreedsWebviewPresentedEvent() {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewPresentedEvent())
+    }
+
+    fun sendThreedsWebviewLoadedEvent(success: Boolean) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewLoadedEvent(success))
+    }
+
+    fun sendThreedsWebviewCompleteEvent(
+        tokenID: String?,
+        success: Boolean,
+    ) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewCompleteEvent(tokenID, success))
     }
 
     fun sendBillingFormPresentedEvent() {
@@ -122,8 +135,7 @@ internal class FramesLogger {
     }
 
     fun sendCheckoutApiClientInitialisedEvent(environment: Environment) {
-        internalAnalyticsEvent(FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(
-            environment))
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(environment))
     }
 
     fun sendTokenResponseEvent(
