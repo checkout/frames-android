@@ -593,7 +593,7 @@ public class PaymentForm extends FrameLayout {
     private void logPaymentFormPresentedEvent(FramesLogger framesLogger) {
         if (!mLoggingState.getPaymentFormPresented()) {
             FramesLogger.log(() -> {
-                framesLogger.sendPaymentFormPresentedEvent();
+                framesLogger.sendPaymentFormPresentedEvent(mContext);
                 mLoggingState.setPaymentFormPresented(true);
             });
         }

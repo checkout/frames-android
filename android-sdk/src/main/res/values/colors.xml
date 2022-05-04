@@ -8,5 +8,7 @@
     <color name="spinner_background">#eeeeee</color>
     <color name="error">#e73a3a</color>
     <color name="pay_button_text">#ffffff</color>
+    <color name="colorLightGreen">#09a771</color>
+    <color name="colorNormalStateController">#5a5e5d</color>
 
 </resources>

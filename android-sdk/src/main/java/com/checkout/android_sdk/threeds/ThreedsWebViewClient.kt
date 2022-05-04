@@ -66,25 +66,25 @@ internal class ThreedsWebViewClient(
         super.onReceivedError(view, request, error)
     }
 
-    private fun sendThreedsWebViewLoadedEvent(isSuccessFullWebviewLoadingEvent: Boolean) {
+    private fun sendThreedsWebViewLoadedEvent(success: Boolean) {
         if (loggingState.threedsWebviewLoaded) {
             return
         }
         log {
-            framesLogger.sendThreedsWebviewLoadedEvent(isSuccessFullWebviewLoadingEvent)
+            framesLogger.sendThreedsWebviewLoadedEvent(success)
             loggingState.threedsWebviewLoaded = true
         }
     }
 
     private fun sendThreedsWebViewCompleteEvent(
         tokenID: String?,
-        isSuccessFullWebviewCompleteEvent: Boolean,
+        success: Boolean,
     ) {
         if (loggingState.threedsWebviewComplete) {
             return
         }
         log {
-            framesLogger.sendThreedsWebviewCompleteEvent(tokenID, isSuccessFullWebviewCompleteEvent)
+            framesLogger.sendThreedsWebviewCompleteEvent(tokenID, success)
             loggingState.threedsWebviewComplete = true
         }
     }

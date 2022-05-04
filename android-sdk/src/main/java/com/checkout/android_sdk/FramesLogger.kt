@@ -90,8 +90,8 @@ internal class FramesLogger {
         addMetadata(METADATA_CORRELATION_ID, correlationID)
     }
 
-    fun sendPaymentFormPresentedEvent() {
-        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent())
+    fun sendPaymentFormPresentedEvent(context: Context) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(context))
     }
 
     fun sendThreedsWebviewPresentedEvent() {
