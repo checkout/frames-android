@@ -36,6 +36,7 @@ allprojects {
             }
         }
         jcenter()
+        // Placed jitpick support to allprojects for successful build
         maven { url "https://jitpack.io" }
     }
 }
