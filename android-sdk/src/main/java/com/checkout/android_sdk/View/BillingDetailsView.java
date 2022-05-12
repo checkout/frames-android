@@ -144,7 +144,7 @@ public class BillingDetailsView extends LinearLayout {
         @Override
         public void onInputFinish(String value) {
             mDatastore.setCustomerCity(value);
-      
+        }
 
         @Override
         public void clearInputError() {
@@ -341,8 +341,7 @@ public class BillingDetailsView extends LinearLayout {
         // Is the form is valid indicate the billing was completed using the callback
         // so the billing spinner can be updated adn teh focus can be changes
         mDone.setOnClickListener(v -> {
-            if (
-              Form()) {
+            if (isValidForm()) {
                 if (mListener != null) {
                     mDatastore.setBillingCompleted(true);
                     mDatastore.setLastCustomerNameValidState(mDatastore.getCustomerName());
