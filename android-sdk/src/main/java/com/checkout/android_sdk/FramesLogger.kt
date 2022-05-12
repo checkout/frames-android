@@ -7,6 +7,7 @@ import com.checkout.android_sdk.Response.TokenisationResponse
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.Utils.filterNotNullValues
 import com.checkout.android_sdk.logging.FramesLoggingEvent
+import com.checkout.android_sdk.logging.FramesLoggingEventDataProvider
 import com.checkout.android_sdk.logging.FramesLoggingEventType
 import com.checkout.android_sdk.logging.LoggingEventAttribute
 import com.checkout.eventlogger.CheckoutEventLogger
@@ -15,7 +16,6 @@ import com.checkout.eventlogger.domain.model.Event
 import com.checkout.eventlogger.domain.model.MessageEvent
 import com.checkout.eventlogger.domain.model.MonitoringLevel.*
 import com.checkout.eventlogger.domain.model.RemoteProcessorMetadata
-import java.util.*
 import com.checkout.eventlogger.Environment as LoggerEnvironment
 
 object CheckoutAPILogging {
@@ -31,6 +31,8 @@ object CheckoutAPILogging {
 
 internal class FramesLogger {
 
+    private lateinit var sdkLogger: CheckoutEventLogger
+
     companion object {
         private const val PRODUCT_NAME = "frames-android-sdk"
         private const val PRODUCT_VERSION = BuildConfig.PRODUCT_VERSION
@@ -44,17 +46,17 @@ internal class FramesLogger {
                 // Suppress error
             }
         }
-    }
 
-    private var sdkLogger = CheckoutEventLogger(PRODUCT_NAME).also {
-        if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
-            it.enableLocalProcessor(DEBUG)
-        } else if (CheckoutAPILogging.errorLoggingEnabled) {
-            it.enableLocalProcessor(ERROR)
+        fun getProductName(): String {
+            return PRODUCT_NAME
         }
     }
 
-    fun initialise(context: Context, environment: Environment) {
+    fun initialise(
+        context: Context,
+        environment: Environment,
+        checkoutSdkLogger: CheckoutEventLogger,
+    ) {
         val loggingEnvironment = environment.toLoggingEnvironment()
         val remoteProcessorMetadata = RemoteProcessorMetadata.from(
             context,
@@ -62,11 +64,11 @@ internal class FramesLogger {
             PRODUCT_IDENTIFIER,
             PRODUCT_VERSION
         )
+        sdkLogger = checkoutSdkLogger
         sdkLogger.enableRemoteProcessor(
             loggingEnvironment,
             remoteProcessorMetadata
         )
-
     }
 
     private fun internalAnalyticsEvent(event: Event) {
@@ -77,25 +79,50 @@ internal class FramesLogger {
         sdkLogger.clearMetadata()
     }
 
-    fun initialiseForTransaction(): UUID {
+    private fun addMetadata(metadata: String, value: String) =
+        sdkLogger.addMetadata(metadata, value)
+
+    /**
+     * Resets all metadata and assigns the new [correlationID] to identify this logging session.
+     */
+    fun initialiseLoggingSession(correlationID: String) {
         clear()
-        return UUID.randomUUID().also {
-            sdkLogger.addMetadata(METADATA_CORRELATION_ID, it.toString())
-        }
+        addMetadata(METADATA_CORRELATION_ID, correlationID)
     }
 
     fun sendPaymentFormPresentedEvent() {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent())
+    }
+
+    fun sendThreedsWebviewPresentedEvent() {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewPresentedEvent())
+    }
+
+    fun sendThreedsWebviewLoadedEvent(success: Boolean) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewLoadedEvent(success))
+    }
+
+    fun sendThreedsWebviewCompleteEvent(
+        tokenID: String?,
+        success: Boolean,
+    ) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logThreedsWebviewCompleteEvent(tokenID, success))
+    }
+
+    fun sendBillingFormPresentedEvent() {
         internalAnalyticsEvent(
             FramesLoggingEvent(
                 INFO,
-                FramesLoggingEventType.PAYMENT_FORM_PRESENTED
+                FramesLoggingEventType.BILLING_FORM_PRESENTED
             )
         )
     }
 
-    fun sendTokenRequestedEvent(tokenType: TokenType) {
+    fun sendTokenRequestedEvent(tokenType: TokenType, publicKey: String) {
+        addMetadata(LoggingEventAttribute.publicKey, publicKey)
+
         val eventData = mapOf(
-            LoggingEventAttribute.tokenType to tokenType.value,
+            LoggingEventAttribute.tokenType to tokenType.value
         )
 
         internalAnalyticsEvent(
@@ -107,15 +134,20 @@ internal class FramesLogger {
         )
     }
 
+    fun sendCheckoutApiClientInitialisedEvent(environment: Environment) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logCheckoutApiClientInitialisedEvent(environment))
+    }
+
     fun sendTokenResponseEvent(
         responseCode: Int,
         successResponse: TokenisationResponse?,
-        failedResponse: TokenisationFail?
+        failedResponse: TokenisationFail?,
     ) {
         val eventData = mutableMapOf<String, Any?>()
         successResponse?.let {
             eventData[LoggingEventAttribute.tokenType] = successResponse.type
             eventData[LoggingEventAttribute.scheme] = successResponse.scheme
+            eventData[LoggingEventAttribute.tokenID] = successResponse.token
         }
         eventData[LoggingEventAttribute.httpStatusCode] = responseCode.toString()
         failedResponse?.let {

@@ -3,7 +3,6 @@ package com.checkout.android_sdk;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.checkout.android_sdk.Request.CardTokenisationRequest;
 import com.checkout.android_sdk.Request.GooglePayTokenisationRequest;
@@ -16,6 +15,8 @@ import com.checkout.android_sdk.Utils.Environment;
 import com.checkout.android_sdk.network.NetworkError;
 import com.checkout.android_sdk.network.utils.OkHttpTokenRequestor;
 import com.checkout.android_sdk.network.utils.TokenRequestor;
+import com.checkout.eventlogger.CheckoutEventLogger;
+import com.checkout.eventlogger.domain.model.MonitoringLevel;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -54,6 +55,8 @@ public class CheckoutAPIClient {
     private CheckoutAPIClient.OnTokenGenerated mTokenListener;
     private CheckoutAPIClient.OnGooglePayTokenGenerated mGooglePayTokenListener;
 
+    private String mCorrelationID = null;
+
     /**
      * @deprecated explicitly define the environment to avoid using default environment value.
      * @see #CheckoutAPIClient(Context, String, Environment)
@@ -64,20 +67,34 @@ public class CheckoutAPIClient {
     }
 
     public CheckoutAPIClient(@NonNull Context context, @NonNull String key, @NonNull Environment environment) {
-        this(context, key, environment, null);
-    }
-
-    CheckoutAPIClient(@NonNull Context context, @NonNull String key, @NonNull Environment environment, @Nullable FramesLogger logger) {
         this.mContext = context.getApplicationContext();
         this.mKey = key;
         this.mEnvironment = environment;
 
-        if (logger == null) {
-            mLogger = new FramesLogger();
-            mLogger.initialise(this.mContext, environment);
-        } else {
-            mLogger = logger;
+        this.mLogger = new FramesLogger();
+        this.mLogger.initialise(this.mContext, environment, getSdkLogger());
+
+        //Send checkoutApiClientInitialisedEvent on initialization of CheckoutAPIClient
+        FramesLogger.log(() -> this.mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment));
+    }
+
+    CheckoutAPIClient(Context context, @NonNull String key, @NonNull Environment environment, FramesLogger framesLogger) {
+        this.mContext = context.getApplicationContext();
+        this.mKey = key;
+        this.mEnvironment = environment;
+        this.mLogger = framesLogger;
+
+        FramesLogger.log(() -> this.mLogger.sendCheckoutApiClientInitialisedEvent(mEnvironment));
+    }
+
+    private CheckoutEventLogger getSdkLogger() {
+        CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
+        if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.DEBUG);
+        } else if (CheckoutAPILogging.getErrorLoggingEnabled()) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.ERROR);
         }
+        return sdkLogger;
     }
 
     /**
@@ -95,14 +112,14 @@ public class CheckoutAPIClient {
      */
     public void generateToken(CardTokenisationRequest request) {
         try {
-            UUID correlationID = mLogger.initialiseForTransaction();
-            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.CARD));
+            String correlationID = initialiseLoggingSession();
+            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.CARD, mKey));
 
             Gson gson = new Gson();
             TokenRequestor requester = new OkHttpTokenRequestor(mEnvironment, mKey, gson, mLogger);
 
             requester.requestCardToken(
-                    correlationID.toString(),
+                    correlationID,
                     gson.toJson(request),
                     mTokenListener
             );
@@ -124,8 +141,8 @@ public class CheckoutAPIClient {
      */
     public void generateGooglePayToken(String payload) throws JSONException {
         try {
-            UUID correlationID = mLogger.initialiseForTransaction();
-            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.GOOGLEPAY));
+            String correlationID = initialiseLoggingSession();
+            FramesLogger.log(() -> mLogger.sendTokenRequestedEvent(TokenType.GOOGLEPAY, mKey));
 
             JSONObject googlePayToken = new JSONObject(payload);
 
@@ -139,7 +156,7 @@ public class CheckoutAPIClient {
                     .setSignedMessage(googlePayToken.getString("signedMessage"));
 
             requester.requestGooglePayToken(
-                    correlationID.toString(),
+                    correlationID,
                     gson.toJson(gPay),
                     mGooglePayTokenListener
             );
@@ -170,5 +187,23 @@ public class CheckoutAPIClient {
     public CheckoutAPIClient setGooglePayListener(OnGooglePayTokenGenerated listener) {
         this.mGooglePayTokenListener = listener;
         return this;
+    }
+
+    public String getCorrelationID() {
+        return mCorrelationID;
+    }
+
+    public void setCorrelationID(String correlationID) {
+        this.mCorrelationID = correlationID;
+    }
+
+    private String initialiseLoggingSession() {
+        String correlationID = getCorrelationID();
+        if (correlationID == null) {
+            correlationID = UUID.randomUUID().toString();
+        }
+        mLogger.initialiseLoggingSession(correlationID);
+
+        return correlationID;
     }
 }

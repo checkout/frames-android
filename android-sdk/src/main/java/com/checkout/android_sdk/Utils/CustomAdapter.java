@@ -9,6 +9,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
+import com.checkout.android_sdk.View.data.LoggingState;
 
 /**
  * The adapter of the viewpager used to have the 2 pages {@link CardDetailsView}
@@ -27,6 +28,17 @@ public class CustomAdapter extends PagerAdapter {
     private @Nullable CardDetailsView.DetailsCompleted mDetailsCompletedListener;
     private @Nullable BillingDetailsView mBillingDetailsView;
     private @Nullable BillingDetailsView.Listener mBillingListener;
+
+    @NonNull
+    private LoggingState mLoggingState;
+
+    public CustomAdapter() {
+        this(new LoggingState());
+    }
+
+    public CustomAdapter(@NonNull LoggingState loggingState) {
+        mLoggingState = loggingState;
+    }
 
     /**
      * Pass the callback to go to the billing page
@@ -128,7 +140,7 @@ public class CustomAdapter extends PagerAdapter {
     private void maybeInstantiateViews(ViewGroup container) {
 
         if (mCardDetailsView == null) {
-            mCardDetailsView = new CardDetailsView(container.getContext());
+            mCardDetailsView = new CardDetailsView(container.getContext(), mLoggingState);
             mCardDetailsView.setGoToBillingListener(mCardDetailsListener);
             mCardDetailsView.setDetailsCompletedListener(mDetailsCompletedListener);
 
@@ -139,6 +151,13 @@ public class CustomAdapter extends PagerAdapter {
             mBillingDetailsView.setGoToCardDetailsListener(mBillingListener);
 
             container.addView(mBillingDetailsView, BILLING_DETAILS_PAGE_INDEX);
+        }
+    }
+
+    public void setLoggingState(LoggingState loggingState) {
+        mLoggingState = loggingState;
+        if (mCardDetailsView != null) {
+            mCardDetailsView.setLoggingState(loggingState);
         }
     }
 }

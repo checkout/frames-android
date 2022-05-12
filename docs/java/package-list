@@ -1,0 +1,47 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:com.checkout.android_sdk.Input/AddressOneInput.AddressOneListener///PointingToDeclaration/com/checkout/android_sdk/Input/AddressOneInput.AddressOneListener.html
+$dokka.location:com.checkout.android_sdk.Input/BillingInput.BillingListener///PointingToDeclaration/com/checkout/android_sdk/Input/BillingInput.BillingListener.html
+$dokka.location:com.checkout.android_sdk.Input/CardInput.Listener///PointingToDeclaration/com/checkout/android_sdk/Input/CardInput.Listener.html
+$dokka.location:com.checkout.android_sdk.Input/CountryInput.CountryListener///PointingToDeclaration/com/checkout/android_sdk/Input/CountryInput.CountryListener.html
+$dokka.location:com.checkout.android_sdk.Input/DefaultInput.Listener///PointingToDeclaration/com/checkout/android_sdk/Input/DefaultInput.Listener.html
+$dokka.location:com.checkout.android_sdk.Input/MonthInput.MonthListener///PointingToDeclaration/com/checkout/android_sdk/Input/MonthInput.MonthListener.html
+$dokka.location:com.checkout.android_sdk.Input/PhoneInput.PhoneListener///PointingToDeclaration/com/checkout/android_sdk/Input/PhoneInput.PhoneListener.html
+$dokka.location:com.checkout.android_sdk.Input/YearInput.YearListener///PointingToDeclaration/com/checkout/android_sdk/Input/YearInput.YearListener.html
+$dokka.location:com.checkout.android_sdk.Presenter/CardInputPresenter.CardInputUiState///PointingToDeclaration/com/checkout/android_sdk/Presenter/CardInputPresenter.CardInputUiState.html
+$dokka.location:com.checkout.android_sdk.Presenter/CardInputPresenter.CardInputView///PointingToDeclaration/com/checkout/android_sdk/Presenter/CardInputPresenter.CardInputView.html
+$dokka.location:com.checkout.android_sdk.Presenter/CvvInputPresenter.CvvInputUiState///PointingToDeclaration/com/checkout/android_sdk/Presenter/CvvInputPresenter.CvvInputUiState.html
+$dokka.location:com.checkout.android_sdk.Presenter/CvvInputPresenter.CvvInputView///PointingToDeclaration/com/checkout/android_sdk/Presenter/CvvInputPresenter.CvvInputView.html
+$dokka.location:com.checkout.android_sdk.Presenter/MonthInputPresenter.MonthInputUiState.Companion///PointingToDeclaration/com/checkout/android_sdk/Presenter/MonthInputPresenter.MonthInputUiState.Companion.html
+$dokka.location:com.checkout.android_sdk.Presenter/MonthInputPresenter.MonthInputUiState///PointingToDeclaration/com/checkout/android_sdk/Presenter/MonthInputPresenter.MonthInputUiState.html
+$dokka.location:com.checkout.android_sdk.Presenter/MonthInputPresenter.MonthInputView///PointingToDeclaration/com/checkout/android_sdk/Presenter/MonthInputPresenter.MonthInputView.html
+$dokka.location:com.checkout.android_sdk.Presenter/YearInputPresenter.YearInputUiState.Companion///PointingToDeclaration/com/checkout/android_sdk/Presenter/YearInputPresenter.YearInputUiState.Companion.html
+$dokka.location:com.checkout.android_sdk.Presenter/YearInputPresenter.YearInputUiState///PointingToDeclaration/com/checkout/android_sdk/Presenter/YearInputPresenter.YearInputUiState.html
+$dokka.location:com.checkout.android_sdk.Presenter/YearInputPresenter.YearInputView///PointingToDeclaration/com/checkout/android_sdk/Presenter/YearInputPresenter.YearInputView.html
+$dokka.location:com.checkout.android_sdk.UseCase/CardInputUseCase.CardInputResult///PointingToDeclaration/com/checkout/android_sdk/UseCase/CardInputUseCase.CardInputResult.html
+$dokka.location:com.checkout.android_sdk.UseCase/MonthSelectedUseCase.MonthSelectedResult///PointingToDeclaration/com/checkout/android_sdk/UseCase/MonthSelectedUseCase.MonthSelectedResult.html
+$dokka.location:com.checkout.android_sdk.Utils/CardUtils.Cards///PointingToDeclaration/com/checkout/android_sdk/Utils/CardUtils.Cards.html
+$dokka.location:com.checkout.android_sdk.View/BillingDetailsView.Listener///PointingToDeclaration/com/checkout/android_sdk/View/BillingDetailsView.Listener.html
+$dokka.location:com.checkout.android_sdk.View/CardDetailsView.DetailsCompleted///PointingToDeclaration/com/checkout/android_sdk/View/CardDetailsView.DetailsCompleted.html
+$dokka.location:com.checkout.android_sdk.View/CardDetailsView.GoToBillingListener///PointingToDeclaration/com/checkout/android_sdk/View/CardDetailsView.GoToBillingListener.html
+$dokka.location:com.checkout.android_sdk.network/TokenisationResult.Error///PointingToDeclaration/com/checkout/android_sdk/network/TokenisationResult.Error.html
+$dokka.location:com.checkout.android_sdk.network/TokenisationResult.Fail///PointingToDeclaration/com/checkout/android_sdk/network/TokenisationResult.Fail.html
+$dokka.location:com.checkout.android_sdk.network/TokenisationResult.Success///PointingToDeclaration/com/checkout/android_sdk/network/TokenisationResult.Success.html
+$dokka.location:com.checkout.android_sdk/CheckoutAPIClient.OnGooglePayTokenGenerated///PointingToDeclaration/com/checkout/android_sdk/CheckoutAPIClient.OnGooglePayTokenGenerated.html
+$dokka.location:com.checkout.android_sdk/CheckoutAPIClient.OnTokenGenerated///PointingToDeclaration/com/checkout/android_sdk/CheckoutAPIClient.OnTokenGenerated.html
+$dokka.location:com.checkout.android_sdk/PaymentForm.On3DSFinished///PointingToDeclaration/com/checkout/android_sdk/PaymentForm.On3DSFinished.html
+$dokka.location:com.checkout.android_sdk/PaymentForm.PaymentFormCallback///PointingToDeclaration/com/checkout/android_sdk/PaymentForm.PaymentFormCallback.html
+com.checkout.android_sdk
+com.checkout.android_sdk.Architecture
+com.checkout.android_sdk.Input
+com.checkout.android_sdk.Models
+com.checkout.android_sdk.Presenter
+com.checkout.android_sdk.Request
+com.checkout.android_sdk.Response
+com.checkout.android_sdk.Store
+com.checkout.android_sdk.UseCase
+com.checkout.android_sdk.Utils
+com.checkout.android_sdk.View
+com.checkout.android_sdk.network
+com.checkout.android_sdk.network.utils
+

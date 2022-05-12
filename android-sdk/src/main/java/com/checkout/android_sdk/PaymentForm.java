@@ -2,12 +2,10 @@ package com.checkout.android_sdk;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -26,7 +24,12 @@ import com.checkout.android_sdk.Utils.Environment;
 import com.checkout.android_sdk.Utils.PhoneUtils;
 import com.checkout.android_sdk.View.BillingDetailsView;
 import com.checkout.android_sdk.View.CardDetailsView;
+import com.checkout.android_sdk.View.data.LoggingState;
 import com.checkout.android_sdk.network.NetworkError;
+import com.checkout.android_sdk.threeds.ThreedsWebView;
+import com.checkout.android_sdk.threeds.ThreedsWebViewClient;
+import com.checkout.eventlogger.CheckoutEventLogger;
+import com.checkout.eventlogger.domain.model.MonitoringLevel;
 
 import java.util.Locale;
 
@@ -72,8 +75,9 @@ public class PaymentForm extends FrameLayout {
         }
 
         @Override
-        public void onTokeGenerated(CardTokenisationResponse reponse) {
-            mSubmitFormListener.onTokenGenerated(reponse);
+        public void onTokeGenerated(CardTokenisationResponse response) {
+            updateLoggingState(new LoggingState());
+            mSubmitFormListener.onTokenGenerated(response);
         }
 
         @Override
@@ -88,6 +92,7 @@ public class PaymentForm extends FrameLayout {
 
         @Override
         public void onBackPressed() {
+            updateLoggingState(new LoggingState());
             mDataStore.cleanState();
             mDataStore.setLastCustomerNameValidState(null);
             mDataStore.setLastBillingValidState(null);
@@ -106,12 +111,14 @@ public class PaymentForm extends FrameLayout {
         public void onBillingCompleted() {
             mCustomAdapter.updateBillingSpinner();
             mViewPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
+            mLoggingState.setBillingFormPresented(false);
         }
 
         @Override
         public void onBillingCanceled() {
             mCustomAdapter.clearBillingSpinner();
             mViewPager.setCurrentItem(CustomAdapter.CARD_DETAILS_PAGE_INDEX);
+            mLoggingState.setBillingFormPresented(false);
         }
     };
 
@@ -122,6 +129,7 @@ public class PaymentForm extends FrameLayout {
         @Override
         public void onGoToBillingPressed() {
             mViewPager.setCurrentItem(CustomAdapter.BILLING_DETAILS_PAGE_INDEX);
+            sendBillingFormPresentedEvent();
         }
     };
 
@@ -135,7 +143,9 @@ public class PaymentForm extends FrameLayout {
     @NonNull
     private final DataStore mDataStore = DataStore.getInstance();
 
-    private boolean mPaymentFormPresentedEventGenerated = false;
+    private FramesLogger mLogger = null;
+    @NonNull
+    private LoggingState mLoggingState = new LoggingState();
 
     /**
      * This is the constructor used when the module is used without the UI.
@@ -159,7 +169,7 @@ public class PaymentForm extends FrameLayout {
 
         mViewPager = findViewById(R.id.view_pager);
         // Use a custom adapter for the viewpager
-        mCustomAdapter = new CustomAdapter();
+        mCustomAdapter = new CustomAdapter(mLoggingState);
         // Set up the callbacks
         mCustomAdapter.setCardDetailsListener(mCardListener);
         mCustomAdapter.setBillingListener(mBillingListener);
@@ -172,8 +182,8 @@ public class PaymentForm extends FrameLayout {
     @Override
     protected Parcelable onSaveInstanceState() {
         Bundle savedBundle = new Bundle();
-        savedBundle.putParcelable("RootViewState", super.onSaveInstanceState());
-        savedBundle.putBoolean("mPaymentFormPresentedEventGenerated", mPaymentFormPresentedEventGenerated);
+        savedBundle.putParcelable("PaymentForm.rootState", super.onSaveInstanceState());
+        savedBundle.putParcelable("mLoggingState", mLoggingState);
         return savedBundle;
     }
 
@@ -182,10 +192,17 @@ public class PaymentForm extends FrameLayout {
         Parcelable rootViewState = state;
         if (state instanceof Bundle) {
             Bundle savedBundle = (Bundle) state;
-            rootViewState = savedBundle.getParcelable("RootViewState");
-            mPaymentFormPresentedEventGenerated = savedBundle.getBoolean("mPaymentFormPresentedEventGenerated");
+            rootViewState = savedBundle.getParcelable("PaymentForm.rootState");
+            updateLoggingState(savedBundle.getParcelable("mLoggingState"));
         }
         super.onRestoreInstanceState(rootViewState);
+    }
+
+    private void updateLoggingState(@NonNull LoggingState loggingState) {
+        Log.d("DEVELOP", "updateLoggingState");
+        mLogger = null;
+        mLoggingState = loggingState;
+        mCustomAdapter.setLoggingState(loggingState);
     }
 
     /**
@@ -214,34 +231,13 @@ public class PaymentForm extends FrameLayout {
         if (mViewPager != null) {
             mViewPager.setVisibility(GONE); // dismiss the card form UI
         }
-        WebView web = new WebView(mContext);
-        web.loadUrl(url);
-        web.getSettings().setJavaScriptEnabled(true);
-        web.getSettings().setDomStorageEnabled(true);
-        web.setWebViewClient(new WebViewClient() {
-            // Listen for when the URL changes and match it with either the success of fail url
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (url.contains(successUrl)) {
-                    m3DSecureListener.onSuccess(getToken(url));
-                } else if (url.contains(failsUrl)) {
-                    m3DSecureListener.onError(getToken(url));
-                }
-            }
+        ThreedsWebView threedsWebView = new ThreedsWebView(mContext, url);
 
-            private String getToken(String redirectUrl) {
-                Uri uri = Uri.parse(redirectUrl);
-                String token = uri.getQueryParameter("cko-payment-token");
-                if (token == null) {
-                    token = uri.getQueryParameter("cko-session-id");
-                }
-                return token;
-            }
-        });
+        threedsWebView.setWebViewClient(new ThreedsWebViewClient(successUrl, failsUrl, mLoggingState, getFramesLogger(), m3DSecureListener));
         // Make WebView fill the layout
-        web.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+        threedsWebView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
-        addView(web);
+        addView(threedsWebView);
     }
 
     /**
@@ -497,16 +493,15 @@ public class PaymentForm extends FrameLayout {
     @SuppressWarnings("UnusedReturnValue")
     public PaymentForm setEnvironment(@NonNull Environment env) {
         mDataStore.setEnvironment(env);
-        post(() -> {
-            if (!mPaymentFormPresentedEventGenerated) {
-                FramesLogger.log(() -> {
-                    FramesLogger logger = new FramesLogger();
-                    logger.initialise(mContext.getApplicationContext(), env);
-                    logger.sendPaymentFormPresentedEvent();
-                    mPaymentFormPresentedEventGenerated = true;
-                });
-            }
-        });
+        sendPaymentFormPresentedEvent(getFramesLogger());
+        return this;
+    }
+
+    // Created for Unit test logging of paymentFormPresentedEvent
+    @SuppressWarnings("UnusedReturnValue")
+    PaymentForm setEnvironment(@NonNull Environment environment, FramesLogger framesLogger) {
+        mDataStore.setEnvironment(environment);
+        logPaymentFormPresentedEvent(framesLogger);
         return this;
     }
 
@@ -571,5 +566,61 @@ public class PaymentForm extends FrameLayout {
     public PaymentForm setFormListener(PaymentFormCallback listener) {
         this.mSubmitFormListener = listener;
         return this;
+    }
+
+    private synchronized FramesLogger getFramesLogger() {
+        Environment environment = mDataStore.getEnvironment();
+        if (mLogger == null) {
+            String correlationID = mLoggingState.getCorrelationId();
+
+            mLogger = new FramesLogger();
+            mLogger.initialise(mContext.getApplicationContext(), environment, getSdkLogger());
+            mLogger.initialiseLoggingSession(correlationID);
+        }
+
+        return mLogger;
+    }
+
+    /**
+     * Send the PaymentFormPresented Log Event if it hasn't already been sent.
+     */
+    private void sendPaymentFormPresentedEvent(FramesLogger framesLogger) {
+        post(() -> {
+            logPaymentFormPresentedEvent(framesLogger);
+        });
+    }
+
+    private void logPaymentFormPresentedEvent(FramesLogger framesLogger) {
+        if (!mLoggingState.getPaymentFormPresented()) {
+            FramesLogger.log(() -> {
+                framesLogger.sendPaymentFormPresentedEvent();
+                mLoggingState.setPaymentFormPresented(true);
+            });
+        }
+    }
+
+    /**
+     * Send the BillingFormPresented Log Event if it hasn't already been sent.
+     */
+    private void sendBillingFormPresentedEvent() {
+        post(() -> {
+            if (!mLoggingState.getBillingFormPresented()) {
+                FramesLogger.log(() -> {
+                    getFramesLogger().sendBillingFormPresentedEvent();
+                    mLoggingState.setBillingFormPresented(true);
+                });
+            }
+        });
+    }
+
+    // Passing sdkLogger in the initialization of FramesLogger to independently unit test events
+    private CheckoutEventLogger getSdkLogger() {
+        CheckoutEventLogger sdkLogger = new CheckoutEventLogger(FramesLogger.Companion.getProductName());
+        if (BuildConfig.DEFAULT_LOGCAT_MONITORING_ENABLED) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.DEBUG);
+        } else if (CheckoutAPILogging.getErrorLoggingEnabled()) {
+            sdkLogger.enableLocalProcessor(MonitoringLevel.ERROR);
+        }
+        return sdkLogger;
     }
 }
