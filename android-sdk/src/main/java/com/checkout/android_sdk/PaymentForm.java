@@ -19,6 +19,7 @@ import com.checkout.android_sdk.Response.CardTokenisationFail;
 import com.checkout.android_sdk.Response.CardTokenisationResponse;
 import com.checkout.android_sdk.Store.DataStore;
 import com.checkout.android_sdk.Utils.CardUtils;
+import com.checkout.android_sdk.Utils.CheckoutTheme;
 import com.checkout.android_sdk.Utils.CustomAdapter;
 import com.checkout.android_sdk.Utils.Environment;
 import com.checkout.android_sdk.Utils.PhoneUtils;
@@ -499,9 +500,9 @@ public class PaymentForm extends FrameLayout {
 
     // Created for Unit test logging of paymentFormPresentedEvent
     @SuppressWarnings("UnusedReturnValue")
-    PaymentForm setEnvironment(@NonNull Environment environment, FramesLogger framesLogger) {
+    PaymentForm setEnvironment(@NonNull Environment environment, FramesLogger framesLogger, CheckoutTheme checkoutTheme) {
         mDataStore.setEnvironment(environment);
-        logPaymentFormPresentedEvent(framesLogger);
+        logPaymentFormPresentedEvent(framesLogger, checkoutTheme);
         return this;
     }
 
@@ -586,14 +587,14 @@ public class PaymentForm extends FrameLayout {
      */
     private void sendPaymentFormPresentedEvent(FramesLogger framesLogger) {
         post(() -> {
-            logPaymentFormPresentedEvent(framesLogger);
+            logPaymentFormPresentedEvent(framesLogger, new CheckoutTheme(mContext));
         });
     }
 
-    private void logPaymentFormPresentedEvent(FramesLogger framesLogger) {
+    private void logPaymentFormPresentedEvent(FramesLogger framesLogger, CheckoutTheme checkoutTheme) {
         if (!mLoggingState.getPaymentFormPresented()) {
             FramesLogger.log(() -> {
-                framesLogger.sendPaymentFormPresentedEvent(mContext);
+                framesLogger.sendPaymentFormPresentedEvent(checkoutTheme);
                 mLoggingState.setPaymentFormPresented(true);
             });
         }

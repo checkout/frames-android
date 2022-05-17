@@ -4,36 +4,37 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.checkout.android_sdk.Utils.CheckoutTheme
 import com.checkout.android_sdk.Utils.Environment
-import com.checkout.android_sdk.Utils.filterNotNullValues
 import com.checkout.eventlogger.domain.model.MonitoringLevel
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import java.util.Locale
+import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 class FramesLoggingEventsTest {
     private lateinit var mockContext: Context
+    private lateinit var ckoTheme: CheckoutTheme
 
 
     @Before
     internal fun setUp() {
         mockContext = ApplicationProvider.getApplicationContext()
+        ckoTheme = CheckoutTheme(mockContext)
     }
 
     @Test
     fun `test PaymentFormPresentedEvent map to correct values`() {
 
         assertEquals(getExpectedPaymentFormPresentedLoggingEvent().typeIdentifier,
-            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(mockContext).typeIdentifier)
+            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(ckoTheme).typeIdentifier)
 
         assertEquals(getExpectedPaymentFormPresentedLoggingEvent().monitoringLevel,
-            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(mockContext).monitoringLevel)
+            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(ckoTheme).monitoringLevel)
 
         assertEquals(getExpectedPaymentFormPresentedLoggingEvent().properties,
-            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(mockContext).properties)
+            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(ckoTheme).properties)
 
     }
 
@@ -52,8 +53,32 @@ class FramesLoggingEventsTest {
         return FramesLoggingEvent(
             MonitoringLevel.INFO,
             FramesLoggingEventType.PAYMENT_FORM_PRESENTED,
-            properties = eventData.filterNotNullValues()
+            properties = eventData
         )
+    }
+
+    @Test
+    fun `test PaymentFormPresentedEvent property initialization`() {
+        val checkoutTheme = CheckoutTheme(mockContext)
+
+        val eventData = mapOf(
+            PaymentFormLanguageEventAttribute.locale to null,
+            PaymentFormLanguageEventAttribute.colorPrimary to null,
+            PaymentFormLanguageEventAttribute.colorAccent to checkoutTheme.getColorAccentProperty(),
+            PaymentFormLanguageEventAttribute.colorButtonNormal to checkoutTheme.getColorButtonNormalProperty(),
+            PaymentFormLanguageEventAttribute.colorControlNormal to checkoutTheme.getColorControlNormalProperty(),
+            PaymentFormLanguageEventAttribute.textColorPrimary to checkoutTheme.getTextColorPrimaryProperty(),
+            PaymentFormLanguageEventAttribute.colorControlActivated to checkoutTheme.getColorControlActivatedProperty(),
+        )
+        assertNull(eventData[PaymentFormLanguageEventAttribute.locale])
+
+        assertNull(eventData[PaymentFormLanguageEventAttribute.colorPrimary])
+
+        assertNotEquals(eventData[PaymentFormLanguageEventAttribute.locale].toString(),
+            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(ckoTheme).properties[PaymentFormLanguageEventAttribute.locale])
+
+        assertNotEquals(eventData[PaymentFormLanguageEventAttribute.colorPrimary].toString(),
+            FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(ckoTheme).properties[PaymentFormLanguageEventAttribute.colorPrimary])
     }
 
     @Test

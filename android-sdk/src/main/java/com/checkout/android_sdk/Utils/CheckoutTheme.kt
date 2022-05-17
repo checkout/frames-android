@@ -1,10 +1,8 @@
 package com.checkout.android_sdk.Utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
-import androidx.appcompat.widget.ThemeUtils.getThemeAttrColor
 import com.checkout.android_sdk.R
 
 internal class CheckoutTheme(val context: Context) : CheckoutThemeInterface {
@@ -24,16 +22,14 @@ internal class CheckoutTheme(val context: Context) : CheckoutThemeInterface {
         colorControlActivated = geThemeColorResource(R.attr.colorControlActivated)
     }
 
-    @SuppressLint("RestrictedApi")
-    internal fun geThemeColorResource(colorAttribute: Int): MutableMap<String, Any?> {
+    private fun geThemeColorResource(colorAttribute: Int): MutableMap<String, Any?> {
         val colorValues = mutableMapOf<String, Any?>()
-        val color = getThemeAttrColor(
-            context,
-            colorAttribute
-        )
+
         val typedValue = TypedValue()
         val theme: Resources.Theme = context.theme
         theme.resolveAttribute(colorAttribute, typedValue, true)
+        val color = typedValue.data
+
         color.let {
             colorValues["alpha"] = color shr 24 and 0xFF
             colorValues["red"] = color shr 16 and 0xFF

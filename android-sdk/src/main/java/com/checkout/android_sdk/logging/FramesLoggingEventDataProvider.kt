@@ -1,15 +1,13 @@
 package com.checkout.android_sdk.logging
-import android.content.Context
 import com.checkout.android_sdk.Utils.CheckoutTheme
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.Utils.filterNotNullValues
 import com.checkout.eventlogger.domain.model.MonitoringLevel
-import java.util.Locale
+import java.util.*
 
 object FramesLoggingEventDataProvider {
 
-    fun logPaymentFormPresentedEvent(context: Context): FramesLoggingEvent {
-        val checkoutTheme = CheckoutTheme(context)
+    internal fun logPaymentFormPresentedEvent(checkoutTheme: CheckoutTheme): FramesLoggingEvent {
         val eventData = mapOf(
             PaymentFormLanguageEventAttribute.locale to Locale.getDefault().toString(),
             PaymentFormLanguageEventAttribute.colorPrimary to checkoutTheme.getColorPrimaryProperty(),
