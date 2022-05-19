@@ -2,6 +2,7 @@ package com.checkout.android_sdk.logging
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import com.checkout.android_sdk.R
 import com.checkout.android_sdk.Utils.CheckoutTheme
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.eventlogger.domain.model.MonitoringLevel
@@ -10,7 +11,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 class FramesLoggingEventsTest {
@@ -26,7 +26,9 @@ class FramesLoggingEventsTest {
 
     @Test
     fun `test PaymentFormPresentedEvent map to correct values`() {
-
+        // setting up custom theme to unit test
+        mockContext.setTheme(R.style.AppTheme)
+        ckoTheme = CheckoutTheme(mockContext)
         assertEquals(getExpectedPaymentFormPresentedLoggingEvent().typeIdentifier,
             FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(ckoTheme).typeIdentifier)
 
@@ -40,20 +42,42 @@ class FramesLoggingEventsTest {
 
 
     private fun getExpectedPaymentFormPresentedLoggingEvent(): FramesLoggingEvent {
-        val checkoutTheme = CheckoutTheme(mockContext)
-        val eventData = mapOf(
-            PaymentFormLanguageEventAttribute.locale to Locale.getDefault().toString(),
-            PaymentFormLanguageEventAttribute.colorPrimary to checkoutTheme.getColorPrimaryProperty(),
-            PaymentFormLanguageEventAttribute.colorAccent to checkoutTheme.getColorAccentProperty(),
-            PaymentFormLanguageEventAttribute.colorButtonNormal to checkoutTheme.getColorButtonNormalProperty(),
-            PaymentFormLanguageEventAttribute.colorControlNormal to checkoutTheme.getColorButtonNormalProperty(),
-            PaymentFormLanguageEventAttribute.textColorPrimary to checkoutTheme.getTextColorPrimaryProperty(),
-            PaymentFormLanguageEventAttribute.colorControlActivated to checkoutTheme.getColorControlActivatedProperty(),
-        )
         return FramesLoggingEvent(
             MonitoringLevel.INFO,
             FramesLoggingEventType.PAYMENT_FORM_PRESENTED,
-            properties = eventData
+            properties = mapOf(
+                PaymentFormLanguageEventAttribute.locale to "en_US",
+                PaymentFormLanguageEventAttribute.colorPrimary to
+                        mutableMapOf("alpha" to 255,
+                            "red" to 63,
+                            "green" to 81,
+                            "blue" to 181),
+                PaymentFormLanguageEventAttribute.colorAccent to
+                        mutableMapOf("alpha" to 255,
+                            "red" to 255,
+                            "green" to 64,
+                            "blue" to 129),
+                PaymentFormLanguageEventAttribute.colorButtonNormal to
+                        mutableMapOf("alpha" to 255,
+                            "red" to 214,
+                            "green" to 215,
+                            "blue" to 215),
+                PaymentFormLanguageEventAttribute.colorControlNormal to
+                        mutableMapOf("alpha" to 0,
+                            "red" to 0,
+                            "green" to 9,
+                            "blue" to 141),
+                PaymentFormLanguageEventAttribute.textColorPrimary to
+                        mutableMapOf("alpha" to 0,
+                            "red" to 0,
+                            "green" to 9,
+                            "blue" to 140),
+                PaymentFormLanguageEventAttribute.colorControlActivated to
+                        mutableMapOf("alpha" to 255,
+                            "red" to 255,
+                            "green" to 64,
+                            "blue" to 129),
+            )
         )
     }
 

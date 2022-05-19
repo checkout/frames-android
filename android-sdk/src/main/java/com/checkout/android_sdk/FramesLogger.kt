@@ -92,8 +92,7 @@ internal class FramesLogger {
     }
 
     fun sendPaymentFormPresentedEvent(checkoutTheme: CheckoutTheme) {
-        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(
-            checkoutTheme))
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(checkoutTheme))
     }
 
     fun sendThreedsWebviewPresentedEvent() {

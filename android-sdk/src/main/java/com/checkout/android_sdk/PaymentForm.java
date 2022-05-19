@@ -587,7 +587,9 @@ public class PaymentForm extends FrameLayout {
      */
     private void sendPaymentFormPresentedEvent(FramesLogger framesLogger) {
         post(() -> {
-            logPaymentFormPresentedEvent(framesLogger, new CheckoutTheme(mContext));
+            if (mContext != null) {
+                logPaymentFormPresentedEvent(framesLogger, new CheckoutTheme(mContext));
+            }
         });
     }
 

@@ -3,7 +3,7 @@ import com.checkout.android_sdk.Utils.CheckoutTheme
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.Utils.filterNotNullValues
 import com.checkout.eventlogger.domain.model.MonitoringLevel
-import java.util.*
+import java.util.Locale
 
 object FramesLoggingEventDataProvider {
 

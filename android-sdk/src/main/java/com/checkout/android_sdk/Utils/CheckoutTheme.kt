@@ -1,11 +1,11 @@
 package com.checkout.android_sdk.Utils
 
 import android.content.Context
-import android.content.res.Resources
+import android.graphics.Color
 import android.util.TypedValue
 import com.checkout.android_sdk.R
 
-internal class CheckoutTheme(val context: Context) : CheckoutThemeInterface {
+internal class CheckoutTheme(private val context: Context) : CheckoutThemeInterface {
     private var colorPrimary: MutableMap<String, Any?>
     private var colorAccent: MutableMap<String, Any?>
     private var colorButtonNormal: MutableMap<String, Any?>
@@ -23,20 +23,16 @@ internal class CheckoutTheme(val context: Context) : CheckoutThemeInterface {
     }
 
     private fun geThemeColorResource(colorAttribute: Int): MutableMap<String, Any?> {
-        val colorValues = mutableMapOf<String, Any?>()
-
         val typedValue = TypedValue()
-        val theme: Resources.Theme = context.theme
-        theme.resolveAttribute(colorAttribute, typedValue, true)
+        context.theme.resolveAttribute(colorAttribute, typedValue, true)
         val color = typedValue.data
 
-        color.let {
-            colorValues["alpha"] = color shr 24 and 0xFF
-            colorValues["red"] = color shr 16 and 0xFF
-            colorValues["green"] = color shr 8 and 0xFF
-            colorValues["blue"] = color and 0xFF
-        }
-        return colorValues
+        return mutableMapOf(
+            "alpha" to Color.alpha(color),
+            "red" to Color.red(color),
+            "green" to Color.green(color),
+            "blue" to Color.blue(color)
+        )
     }
 
     override fun getColorPrimaryProperty(): MutableMap<String, Any?> {
