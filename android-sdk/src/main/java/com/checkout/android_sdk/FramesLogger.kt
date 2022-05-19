@@ -4,6 +4,7 @@ import android.content.Context
 import com.checkout.android_sdk.Request.TokenType
 import com.checkout.android_sdk.Response.TokenisationFail
 import com.checkout.android_sdk.Response.TokenisationResponse
+import com.checkout.android_sdk.Utils.CheckoutTheme
 import com.checkout.android_sdk.Utils.Environment
 import com.checkout.android_sdk.Utils.filterNotNullValues
 import com.checkout.android_sdk.logging.FramesLoggingEvent
@@ -90,8 +91,8 @@ internal class FramesLogger {
         addMetadata(METADATA_CORRELATION_ID, correlationID)
     }
 
-    fun sendPaymentFormPresentedEvent() {
-        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent())
+    fun sendPaymentFormPresentedEvent(checkoutTheme: CheckoutTheme) {
+        internalAnalyticsEvent(FramesLoggingEventDataProvider.logPaymentFormPresentedEvent(checkoutTheme))
     }
 
     fun sendThreedsWebviewPresentedEvent() {
