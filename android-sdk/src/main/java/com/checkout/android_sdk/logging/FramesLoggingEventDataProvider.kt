@@ -10,12 +10,13 @@ object FramesLoggingEventDataProvider {
     internal fun logPaymentFormPresentedEvent(checkoutTheme: CheckoutTheme): FramesLoggingEvent {
         val eventData = mapOf(
             PaymentFormLanguageEventAttribute.locale to Locale.getDefault().toString(),
-            PaymentFormLanguageEventAttribute.colorPrimary to checkoutTheme.getColorPrimaryProperty(),
-            PaymentFormLanguageEventAttribute.colorAccent to checkoutTheme.getColorAccentProperty(),
-            PaymentFormLanguageEventAttribute.colorButtonNormal to checkoutTheme.getColorButtonNormalProperty(),
-            PaymentFormLanguageEventAttribute.colorControlNormal to checkoutTheme.getColorControlNormalProperty(),
-            PaymentFormLanguageEventAttribute.textColorPrimary to checkoutTheme.getTextColorPrimaryProperty(),
-            PaymentFormLanguageEventAttribute.colorControlActivated to checkoutTheme.getColorControlActivatedProperty(),
+            PaymentFormLanguageEventAttribute.theme to mapOf(
+                PaymentFormLanguageEventAttribute.colorPrimary to checkoutTheme.getColorPrimaryProperty(),
+                PaymentFormLanguageEventAttribute.colorAccent to checkoutTheme.getColorAccentProperty(),
+                PaymentFormLanguageEventAttribute.colorButtonNormal to checkoutTheme.getColorButtonNormalProperty(),
+                PaymentFormLanguageEventAttribute.colorControlNormal to checkoutTheme.getColorControlNormalProperty(),
+                PaymentFormLanguageEventAttribute.textColorPrimary to checkoutTheme.getTextColorPrimaryProperty(),
+                PaymentFormLanguageEventAttribute.colorControlActivated to checkoutTheme.getColorControlActivatedProperty())
         )
         return FramesLoggingEvent(
             MonitoringLevel.INFO,

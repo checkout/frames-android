@@ -6,12 +6,12 @@ import android.util.TypedValue
 import com.checkout.android_sdk.R
 
 internal class CheckoutTheme(private val context: Context) : CheckoutThemeInterface {
-    private var colorPrimary: MutableMap<String, Any?>
-    private var colorAccent: MutableMap<String, Any?>
-    private var colorButtonNormal: MutableMap<String, Any?>
-    private var colorControlNormal: MutableMap<String, Any?>
-    private var textColorPrimary: MutableMap<String, Any?>
-    private var colorControlActivated: MutableMap<String, Any?>
+    private var colorPrimary: Map<String, Any?>
+    private var colorAccent: Map<String, Any?>
+    private var colorButtonNormal: Map<String, Any?>
+    private var colorControlNormal: Map<String, Any?>
+    private var textColorPrimary: Map<String, Any?>
+    private var colorControlActivated: Map<String, Any?>
 
     init {
         colorPrimary = geThemeColorResource(R.attr.colorPrimary)
@@ -35,27 +35,27 @@ internal class CheckoutTheme(private val context: Context) : CheckoutThemeInterf
         )
     }
 
-    override fun getColorPrimaryProperty(): MutableMap<String, Any?> {
+    override fun getColorPrimaryProperty(): Map<String, Any?> {
         return colorPrimary
     }
 
-    override fun getColorAccentProperty(): MutableMap<String, Any?> {
+    override fun getColorAccentProperty(): Map<String, Any?> {
         return colorAccent
     }
 
-    override fun getColorButtonNormalProperty(): MutableMap<String, Any?> {
+    override fun getColorButtonNormalProperty(): Map<String, Any?> {
         return colorButtonNormal
     }
 
-    override fun getTextColorPrimaryProperty(): MutableMap<String, Any?> {
+    override fun getTextColorPrimaryProperty(): Map<String, Any?> {
         return textColorPrimary
     }
 
-    override fun getColorControlActivatedProperty(): MutableMap<String, Any?> {
+    override fun getColorControlActivatedProperty(): Map<String, Any?> {
         return colorControlActivated
     }
 
-    override fun getColorControlNormalProperty(): MutableMap<String, Any?> {
+    override fun getColorControlNormalProperty(): Map<String, Any?> {
         return colorControlNormal
     }
 }
