@@ -47,36 +47,38 @@ class FramesLoggingEventsTest {
             FramesLoggingEventType.PAYMENT_FORM_PRESENTED,
             properties = mapOf(
                 PaymentFormLanguageEventAttribute.locale to "en_US",
-                PaymentFormLanguageEventAttribute.colorPrimary to
-                        mutableMapOf("alpha" to 255,
-                            "red" to 63,
-                            "green" to 81,
-                            "blue" to 181),
-                PaymentFormLanguageEventAttribute.colorAccent to
-                        mutableMapOf("alpha" to 255,
-                            "red" to 255,
-                            "green" to 64,
-                            "blue" to 129),
-                PaymentFormLanguageEventAttribute.colorButtonNormal to
-                        mutableMapOf("alpha" to 255,
-                            "red" to 214,
-                            "green" to 215,
-                            "blue" to 215),
-                PaymentFormLanguageEventAttribute.colorControlNormal to
-                        mutableMapOf("alpha" to 0,
-                            "red" to 0,
-                            "green" to 9,
-                            "blue" to 141),
-                PaymentFormLanguageEventAttribute.textColorPrimary to
-                        mutableMapOf("alpha" to 0,
-                            "red" to 0,
-                            "green" to 9,
-                            "blue" to 140),
-                PaymentFormLanguageEventAttribute.colorControlActivated to
-                        mutableMapOf("alpha" to 255,
-                            "red" to 255,
-                            "green" to 64,
-                            "blue" to 129),
+                PaymentFormLanguageEventAttribute.theme to mapOf(
+                    PaymentFormLanguageEventAttribute.colorPrimary to
+                            mutableMapOf("alpha" to 255,
+                                "red" to 63,
+                                "green" to 81,
+                                "blue" to 181),
+                    PaymentFormLanguageEventAttribute.colorAccent to
+                            mutableMapOf("alpha" to 255,
+                                "red" to 255,
+                                "green" to 64,
+                                "blue" to 129),
+                    PaymentFormLanguageEventAttribute.colorButtonNormal to
+                            mutableMapOf("alpha" to 255,
+                                "red" to 214,
+                                "green" to 215,
+                                "blue" to 215),
+                    PaymentFormLanguageEventAttribute.colorControlNormal to
+                            mutableMapOf("alpha" to 0,
+                                "red" to 0,
+                                "green" to 9,
+                                "blue" to 141),
+                    PaymentFormLanguageEventAttribute.textColorPrimary to
+                            mutableMapOf("alpha" to 0,
+                                "red" to 0,
+                                "green" to 9,
+                                "blue" to 140),
+                    PaymentFormLanguageEventAttribute.colorControlActivated to
+                            mutableMapOf("alpha" to 255,
+                                "red" to 255,
+                                "green" to 64,
+                                "blue" to 129),
+                )
             )
         )
     }
