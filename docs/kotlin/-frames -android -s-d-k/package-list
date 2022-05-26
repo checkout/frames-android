@@ -432,6 +432,17 @@ $dokka.location:com.checkout.android_sdk.View/CardDetailsView/setDetailsComplete
 $dokka.location:com.checkout.android_sdk.View/CardDetailsView/setGoToBillingListener/#com.checkout.android_sdk.View.CardDetailsView.GoToBillingListener/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.View/-card-details-view/set-go-to-billing-listener.html
 $dokka.location:com.checkout.android_sdk.View/CardDetailsView/setLoggingState/#com.checkout.android_sdk.View.data.LoggingState/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.View/-card-details-view/set-logging-state.html
 $dokka.location:com.checkout.android_sdk.View/CardDetailsView/updateBillingSpinner/#/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.View/-card-details-view/update-billing-spinner.html
+$dokka.location:com.checkout.android_sdk.logging////PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/index.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEvent///PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event/index.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEvent/monitoringLevel/#/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event/monitoring-level.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEvent/properties/#/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event/properties.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEvent/time/#/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event/time.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEvent/typeIdentifier/#/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event/type-identifier.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEventDataProvider///PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event-data-provider/index.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEventDataProvider/logCheckoutApiClientInitialisedEvent/#com.checkout.android_sdk.Utils.Environment/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event-data-provider/log-checkout-api-client-initialised-event.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEventDataProvider/logThreedsWebviewCompleteEvent/#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event-data-provider/log-threeds-webview-complete-event.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEventDataProvider/logThreedsWebviewLoadedEvent/#kotlin.Boolean/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event-data-provider/log-threeds-webview-loaded-event.html
+$dokka.location:com.checkout.android_sdk.logging/FramesLoggingEventDataProvider/logThreedsWebviewPresentedEvent/#/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.logging/-frames-logging-event-data-provider/log-threeds-webview-presented-event.html
 $dokka.location:com.checkout.android_sdk.network.utils////PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.network.utils/index.html
 $dokka.location:com.checkout.android_sdk.network.utils/Header///PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.network.utils/-header/index.html
 $dokka.location:com.checkout.android_sdk.network.utils/Header/Header/#kotlin.String#kotlin.String/PointingToDeclaration/-frames -android -s-d-k/com.checkout.android_sdk.network.utils/-header/-header.html
@@ -537,6 +548,7 @@ com.checkout.android_sdk.Store
 com.checkout.android_sdk.UseCase
 com.checkout.android_sdk.Utils
 com.checkout.android_sdk.View
+com.checkout.android_sdk.logging
 com.checkout.android_sdk.network
 com.checkout.android_sdk.network.utils
 
