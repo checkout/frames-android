@@ -42,6 +42,7 @@ com.checkout.android_sdk.Store
 com.checkout.android_sdk.UseCase
 com.checkout.android_sdk.Utils
 com.checkout.android_sdk.View
+com.checkout.android_sdk.logging
 com.checkout.android_sdk.network
 com.checkout.android_sdk.network.utils
 
