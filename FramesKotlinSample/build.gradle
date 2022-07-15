@@ -32,6 +32,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    // Create baseline for lint check to ignore old issues.
+    lintOptions {
+        baseline(project.file("lint-baseline.xml"))
+    }
 }
 
 dependencies {

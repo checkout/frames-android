@@ -19,9 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Demos.CustomFieldsDemo" />
-        <activity android:name=".Demos.CustomisationDemo" />
-        <activity android:name=".Demos.HeadlessDemo" />
+        <activity
+            android:name=".Demos.CustomFieldsDemo"
+            android:exported="false" />
+        <activity
+            android:name=".Demos.CustomisationDemo"
+            android:exported="false" />
+        <activity
+            android:name=".Demos.HeadlessDemo"
+            android:exported="false" />
     </application>
 
 </manifest>

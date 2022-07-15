@@ -20,6 +20,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // Create baseline for lint check to ignore old issues.
+    lintOptions {
+        baseline(project.file("lint-baseline.xml"))
+    }
 }
 
 dependencies {

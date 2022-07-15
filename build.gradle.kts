@@ -1,3 +1,5 @@
+import com.vanniktech.code.quality.tools.CodeQualityToolsPluginExtension
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -39,6 +41,43 @@ allprojects {
     }
 }
 
+apply(plugin = ProjectDependencies.codeQualityTools)
+
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+configure<CodeQualityToolsPluginExtension> {
+    failEarly = true
+    xmlReports = false
+    htmlReports = true
+    textReports = false
+    ignoreProjects = listOf("buildSrc", "app", "android-sdk", "FramesKotlinSample", "examples_app", "googlepay_examples_app")
+
+    checkstyle {
+        enabled = false
+    }
+    pmd {
+        enabled = false
+    }
+    lint {
+        enabled = true
+        baselineFileName = "lint-baseline.xml"
+    }
+    ktlint {
+        enabled = true
+        toolVersion = Versions.ktlint
+    }
+    detekt {
+        enabled = true
+        toolVersion = Versions.detect
+        config = "code_quality_tools/detekt.yml"
+        failFast = true
+    }
+    cpd {
+        enabled = false
+    }
+    kotlin {
+        allWarningsAsErrors = true
+    }
 }
