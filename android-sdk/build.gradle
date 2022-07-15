@@ -4,7 +4,6 @@ plugins {
     id('com.android.library')
     id('kotlin-android')
     id("kotlin-parcelize")
-    id('com.kezong.fat-aar')
     id('org.jetbrains.dokka')
     id('maven-publish')
 }
@@ -16,7 +15,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "checkout-frames-proguard.pro"
 
-        buildConfigField "String", "PRODUCT_VERSION", "\"$productVersion\""
+        buildConfigField "String", "PRODUCT_VERSION", "\"${FramesConfig.productVersion}\""
     }
     testOptions {
         unitTests {
@@ -39,11 +38,16 @@ android {
             buildConfigField "Boolean", "DEFAULT_LOGCAT_MONITORING_ENABLED", "true"
         }
     }
+
+    // Create baseline for lint check to ignore old issues.
+    lintOptions {
+        baseline(project.file("lint-baseline.xml"))
+    }
 }
 
 dependencies {
-    embed('com.checkout:checkout-sdk-event-logger-android:1.0.1')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    api 'com.checkout:checkout-sdk-event-logger-android:1.0.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -73,19 +77,19 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
 
-                artifactId productArtefactId
-                version productVersion
-                groupId productGroupId
+                artifactId FramesConfig.productArtefactId
+                version FramesConfig.productVersion
+                groupId FramesConfig.productGroupId
 
                 pom {
-                    name = pomName
-                    description = pomDescription
-                    url = githubProjectUrl
+                    name = FramesConfig.pomName
+                    description = FramesConfig.pomDescription
+                    url = FramesConfig.githubProjectUrl
 
                     licenses {
                         license {
                             name = 'MIT License'
-                            url = "https://raw.githubusercontent.com/${githubProjectName}/master/LICENSE"
+                            url = "https://raw.githubusercontent.com/${FramesConfig.githubProjectName}/master/LICENSE"
                         }
                     }
                     developers {
@@ -126,8 +130,8 @@ task dokkaBuildAndExportDocs(group: "documentation") {
 }
 
 tasks.withType(DokkaTask.class).configureEach {
-    moduleName.set(docsTitle)
-    moduleVersion.set(productVersion)
+    moduleName.set(FramesConfig.docsTitle)
+    moduleVersion.set(FramesConfig.productVersion)
     suppressInheritedMembers.set(true)
     suppressObviousFunctions.set(true)
 
@@ -140,7 +144,7 @@ tasks.withType(DokkaTask.class).configureEach {
             suppress.set(false)
             noAndroidSdkLink.set(false)
 
-            displayName.set(docsDisplayName)
+            displayName.set(FramesConfig.docsDisplayName)
             skipEmptyPackages.set(true)
             suppress.set(false)
             reportUndocumented.set(true)

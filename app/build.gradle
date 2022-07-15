@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     defaultConfig {
         applicationId "checkout.checkout_android"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,11 +34,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Create baseline for lint check to ignore old issues.
+    lintOptions {
+        baseline(project.file("lint-baseline.xml"))
+    }
 }
 
 dependencies {
     // Frames module dependency
-    implementation framesAndroidDependency
+    implementation FramesConfig.framesAndroidDependency
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     testImplementation 'junit:junit:4.13.2'
@@ -56,9 +61,9 @@ dependencies {
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
-        if (useLocalModuleDependencies) {
+        if (FramesConfig.useLocalModuleDependencies) {
 
-            substitute(module("${productGroupId}:${productArtefactId}"))
+            substitute(module("${FramesConfig.productGroupId}:${FramesConfig.productArtefactId}"))
                     .using(project(":android-sdk"))
                     .because("Development and QA validation is performed using the local project module")
         }
