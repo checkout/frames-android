@@ -1,248 +1,155 @@
 package checkout.checkout_android;
 
-import android.support.test.espresso.DataInteraction;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.filters.LargeTest;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class CardDetails_Test {
 
     @Rule
-    public ActivityTestRule<DemoActivity> mActivityTestRule = new ActivityTestRule<>(DemoActivity.class);
+    public ActivityScenarioRule<DemoActivity> rule = new ActivityScenarioRule<>(DemoActivity.class);
+
+    @Before
+    public void setUp() {
+        ActivityScenario<DemoActivity> scenario = rule.getScenario();
+    }
 
     @Test
     public void All_Inputs_Empty() {
-        ViewInteraction button = onView(
-                allOf(withId(R.id.pay_button), withText("Pay"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        8),
-                                0)));
+        ViewInteraction button = onView(allOf(withId(R.id.pay_button), withText("Pay")));
         button.perform(scrollTo(), click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.textinput_error), withText("The card number is invalid"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        1),
-                                0),
-                        isDisplayed()));
+                allOf(
+                        withId(R.id.textinput_error),
+                        withText("The card number is invalid"),
+                        isDisplayed()
+                )
+        );
         textView.check(matches(withText("The card number is invalid")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        1),
-                                0),
-                        isDisplayed()));
+                allOf(
+                        withId(R.id.textinput_error),
+                        withText("Enter a valid Cvv"),
+                        isDisplayed()
+                )
+        );
         textView2.check(matches(withText("Enter a valid Cvv")));
-
     }
 
     @Test
     public void Card_Input_Empty() {
-        ViewInteraction defaultInput = onView(
-                allOf(withId(R.id.cvv_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput = onView(withId(R.id.cvv_input));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.pay_button), withText("Pay"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        8),
-                                0)));
+        ViewInteraction button = onView(allOf(withId(R.id.pay_button), withText("Pay")));
         button.perform(scrollTo(), click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.textinput_error), withText("The card number is invalid"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        1),
-                                0),
-                        isDisplayed()));
+                allOf(
+                        withId(R.id.textinput_error),
+                        withText("The card number is invalid"),
+                        isDisplayed()
+                )
+        );
         textView.check(matches(withText("The card number is invalid")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        1),
-                                0),
-                        isDisplayed()));
+                allOf(
+                        withId(R.id.textinput_error),
+                        withText("Enter a valid Cvv"),
+                        isDisplayed()
+                )
+        );
         textView2.check(matches(withText("Enter a valid Cvv")));
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        1),
-                                0),
-                        isDisplayed()));
+                allOf(
+                        withId(R.id.textinput_error),
+                        withText("Enter a valid Cvv"),
+                        isDisplayed()
+                )
+        );
         textView3.check(matches(withText("Enter a valid Cvv")));
 
     }
 
     @Test
     public void Cvv_Input_Empty() {
-        ViewInteraction cardInput = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction cardInput = onView(withId(R.id.card_input));
         cardInput.perform(scrollTo(), replaceText("4242 4242 4242 4242"), closeSoftKeyboard());
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.pay_button), withText("Pay"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        8),
-                                0)));
+        ViewInteraction button = onView(allOf(withId(R.id.pay_button), withText("Pay")));
         button.perform(scrollTo(), click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        1),
-                                0),
-                        isDisplayed()));
+                allOf(
+                        withId(R.id.textinput_error),
+                        withText("Enter a valid Cvv"),
+                        isDisplayed()
+                )
+        );
         textView.check(matches(withText("Enter a valid Cvv")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textinput_error), withText("Enter a valid Cvv"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        1),
-                                0),
-                        isDisplayed()));
+                allOf(
+                        withId(R.id.textinput_error),
+                        withText("Enter a valid Cvv"),
+                        isDisplayed()
+                )
+        );
         textView2.check(matches(withText("Enter a valid Cvv")));
 
     }
 
     @Test
     public void All_Inputs_Correct() throws InterruptedException {
-        ViewInteraction cardInput = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction cardInput = onView(withId(R.id.card_input));
         cardInput.perform(scrollTo(), click());
 
-        ViewInteraction cardInput2 = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction cardInput2 = onView(withId(R.id.card_input));
         cardInput2.perform(scrollTo(), replaceText("4242 4242 4242 4242"), closeSoftKeyboard());
 
-        ViewInteraction monthInput = onView(
-                allOf(withId(R.id.month_input),
-                        childAtPosition(
-                                allOf(withId(R.id.date_input_layout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                4)),
-                                0)));
-        monthInput.perform(scrollTo(), click());
+        onView(withId(R.id.month_input)).perform(click());
+        onData(allOf(is(instanceOf(String.class)))).atPosition(3).perform(click());
 
-        DataInteraction checkedTextView = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(5);
-        checkedTextView.perform(click());
+        onView(withId(R.id.year_input)).perform(click());
+        onData(allOf(is(instanceOf(String.class)))).atPosition(3).perform(click());
 
-        ViewInteraction defaultInput = onView(
-                allOf(withId(R.id.cvv_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput = onView(withId(R.id.cvv_input));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.pay_button), withText("Pay"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        8),
-                                0)));
+
+        ViewInteraction button = onView(allOf(withId(R.id.pay_button), withText("Pay")));
         button.perform(scrollTo(), click());
 
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
-        onView(withText("Success!")).check(matches(isDisplayed()));
-
-    }
-
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+        onView(withText("Token Created")).check(matches(isDisplayed()));
     }
 }

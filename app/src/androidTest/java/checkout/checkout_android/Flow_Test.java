@@ -1,11 +1,22 @@
 package checkout.checkout_android;
 
 
-import android.support.test.espresso.DataInteraction;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.filters.LargeTest;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.action.ViewActions.swipeRight;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -13,64 +24,44 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.action.ViewActions.swipeRight;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class Flow_Test {
 
     @Rule
-    public ActivityTestRule<DemoActivity> mActivityTestRule = new ActivityTestRule<>(DemoActivity.class);
+    public ActivityScenarioRule<DemoActivity> rule = new ActivityScenarioRule<>(DemoActivity.class);
+
+    @Before
+    public void setUp() {
+        ActivityScenario<DemoActivity> scenario = rule.getScenario();
+    }
 
     @Test
-    public void Card_And_Billing() throws InterruptedException {
-        ViewInteraction cardInput = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+    public void Card_And_Billing() {
+        ViewInteraction cardInput = onView(withId(R.id.card_input));
         cardInput.perform(scrollTo(), click());
 
-        ViewInteraction cardInput2 = onView(
-                allOf(withId(R.id.card_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction cardInput2 = onView(withId(R.id.card_input));
         cardInput2.perform(scrollTo(), replaceText("4242 4242 4242 4242"), closeSoftKeyboard());
 
-        ViewInteraction monthInput = onView(
-                allOf(withId(R.id.month_input),
-                        childAtPosition(
-                                allOf(withId(R.id.date_input_layout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                4)),
-                                0)));
+        ViewInteraction monthInput = onView(withId(R.id.month_input));
         monthInput.perform(scrollTo(), click());
 
         DataInteraction checkedTextView = onData(anything())
@@ -80,74 +71,22 @@ public class Flow_Test {
                 .atPosition(5);
         checkedTextView.perform(click());
 
-        ViewInteraction yearInput = onView(
-                allOf(withId(R.id.year_input),
-                        childAtPosition(
-                                allOf(withId(R.id.date_input_layout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                4)),
-                                1)));
-        yearInput.perform(scrollTo(), click());
+        onView(withId(R.id.year_input)).perform(scrollTo(), click());
+        onData(allOf(is(instanceOf(String.class)))).atPosition(3).perform(click());
 
-        DataInteraction checkedTextView2 = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(0);
-        checkedTextView2.perform(click());
-
-        ViewInteraction defaultInput = onView(
-                allOf(withId(R.id.cvv_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cvv_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput = onView(withId(R.id.cvv_input));
         defaultInput.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
 
-        ViewInteraction billingInput = onView(
-                allOf(withId(R.id.go_to_billing),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                7)));
-        billingInput.perform(scrollTo(), click());
+        onView(withId(R.id.go_to_billing)).perform(scrollTo(), click());
+        onData(allOf(is(instanceOf(String.class)))).atPosition(1).perform(click());
 
-        DataInteraction checkedTextView3 = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(1);
-        checkedTextView3.perform(click());
-
-        ViewInteraction touchlessViewPager = onView(
-                allOf(withId(R.id.view_pager),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.checkout_card_form),
-                                        0),
-                                0),
-                        isDisplayed()));
+        ViewInteraction touchlessViewPager = onView(allOf(withId(R.id.view_pager), isDisplayed()));
         touchlessViewPager.perform(swipeLeft());
 
-        ViewInteraction defaultInput2 = onView(
-                allOf(withId(R.id.name_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.name_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput2 = onView(withId(R.id.name_input));
         defaultInput2.perform(scrollTo(), replaceText("john smith"), closeSoftKeyboard());
 
-        ViewInteraction countryInput = onView(
-                allOf(withId(R.id.country_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                1)));
+        ViewInteraction countryInput = onView(withId(R.id.country_input));
         countryInput.perform(scrollTo(), click());
 
         DataInteraction checkedTextView4 = onData(anything())
@@ -157,31 +96,13 @@ public class Flow_Test {
                 .atPosition(234);
         checkedTextView4.perform(click());
 
-        ViewInteraction addressOneInput = onView(
-                allOf(withId(R.id.address_one_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.address_one_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction addressOneInput = onView(withId(R.id.address_one_input));
         addressOneInput.perform(scrollTo(), replaceText("address1"), closeSoftKeyboard());
 
-        ViewInteraction defaultInput3 = onView(
-                allOf(withId(R.id.address_two_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.address_two_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput3 = onView(withId(R.id.address_two_input));
         defaultInput3.perform(scrollTo(), replaceText("address2"), closeSoftKeyboard());
 
-        ViewInteraction defaultInput4 = onView(
-                allOf(withId(R.id.city_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.city_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput4 = onView(withId(R.id.city_input));
         defaultInput4.perform(scrollTo(), longClick());
 
         // Added a sleep statement to match the app's execution delay.
@@ -193,95 +114,45 @@ public class Flow_Test {
             e.printStackTrace();
         }
 
-        ViewInteraction defaultInput5 = onView(
-                allOf(withId(R.id.city_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.city_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput5 = onView(withId(R.id.city_input));
         defaultInput5.perform(scrollTo(), replaceText("town"), closeSoftKeyboard());
 
-        ViewInteraction defaultInput6 = onView(
-                allOf(withId(R.id.state_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.state_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput6 = onView(withId(R.id.state_input));
         defaultInput6.perform(scrollTo(), replaceText("state"), closeSoftKeyboard());
 
-        ViewInteraction defaultInput7 = onView(
-                allOf(withId(R.id.zipcode_input),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.zipcode_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction defaultInput7 = onView(withId(R.id.zipcode_input));
         defaultInput7.perform(scrollTo(), replaceText("w1w w1w"), closeSoftKeyboard());
 
-        ViewInteraction phoneInput = onView(
-                allOf(withId(R.id.phone_input), withText("+44 "),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.phone_input_layout),
-                                        0),
-                                0)));
+        ViewInteraction phoneInput = onView(withId(R.id.phone_input));
         phoneInput.perform(scrollTo(), replaceText("+44 7123456789"));
 
         ViewInteraction phoneInput2 = onView(
-                allOf(withId(R.id.phone_input), withText("+44 7123456789"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.phone_input_layout),
-                                        0),
-                                0),
-                        isDisplayed()));
+                allOf(withId(R.id.phone_input), withText("+44 7123456789"), isDisplayed()));
         phoneInput2.perform(closeSoftKeyboard());
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.done_button), withText("Done"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        8),
-                                1)));
+        ViewInteraction button = onView(allOf(withId(R.id.done_button), withText("Done")));
         button.perform(scrollTo(), click());
 
-        ViewInteraction touchlessViewPager2 = onView(
-                allOf(withId(R.id.view_pager),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.checkout_card_form),
-                                        0),
-                                0),
-                        isDisplayed()));
+        ViewInteraction touchlessViewPager2 = onView(allOf(withId(R.id.view_pager), isDisplayed()));
         touchlessViewPager2.perform(swipeRight());
 
         ViewInteraction textView = onView(
-                allOf(withId(android.R.id.text1), withText("address1, address2, town, state"),
-                        childAtPosition(
-                                allOf(withId(R.id.go_to_billing),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                7)),
-                                0),
-                        isDisplayed()));
+                allOf(withId(android.R.id.text1), withText("address1, address2, town, state"), isDisplayed()));
         textView.check(matches(withText("address1, address2, town, state")));
 
+        pressBack();
+
         ViewInteraction button2 = onView(
-                allOf(withId(R.id.pay_button), withText("Pay"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        8),
-                                0)));
+                allOf(withId(R.id.pay_button), withText("Pay")));
         button2.perform(scrollTo(), click());
 
-        Thread.sleep(5000);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        onView(withText("Success!")).check(matches(isDisplayed()));
-
+        onView(withText("Token Created")).check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(

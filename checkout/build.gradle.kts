@@ -57,7 +57,7 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             buildConfigField(
                 "Boolean",
                 BuildConfigFieldName.defaultLogcatMonitoring,
@@ -65,7 +65,7 @@ android {
             )
         }
 
-        getByName("debug") {
+        debug {
             buildConfigField(
                 "Boolean",
                 BuildConfigFieldName.defaultLogcatMonitoring,
