@@ -8,10 +8,11 @@ android {
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     testOptions {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled = true
     }
     signingConfigs {
         release {
@@ -34,20 +35,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Create baseline for lint check to ignore old issues.
+    lintOptions {
+        baseline(project.file("lint-baseline.xml"))
+    }
 }
 
 dependencies {
     // Frames module dependency
-    implementation framesAndroidDependency
+    implementation FramesConfig.framesAndroidDependency
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestUtil 'androidx.test:orchestrator:1.4.1'
 
     ext.okHttpVersion = '4.9.0'
     implementation 'com.squareup.okhttp3:okhttp:' + ext.okHttpVersion
@@ -56,9 +63,9 @@ dependencies {
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
-        if (useLocalModuleDependencies) {
+        if (FramesConfig.useLocalModuleDependencies) {
 
-            substitute(module("${productGroupId}:${productArtefactId}"))
+            substitute(module("${FramesConfig.productGroupId}:${FramesConfig.productArtefactId}"))
                     .using(project(":android-sdk"))
                     .because("Development and QA validation is performed using the local project module")
         }

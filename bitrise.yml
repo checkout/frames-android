@@ -73,7 +73,7 @@ workflows:
         is_always_run: true
     - gradle-runner@1:
         inputs:
-        - gradle_task: assembleDebugAndroidTest
+        - gradle_task: assembleAndroidTest
         is_always_run: true
         title: Gradle Runner - Build Android Test
     - virtual-device-testing-for-android@1:
@@ -81,6 +81,7 @@ workflows:
         - test_type: instrumentation
         - inst_use_orchestrator: 'true'
         - test_devices: 'Pixel2,28,en,portrait'
+        - environment_variables: clearPackageData=true
         is_always_run: true
     after_run:
     - steps-finish

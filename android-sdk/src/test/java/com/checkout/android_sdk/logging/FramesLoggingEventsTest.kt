@@ -11,8 +11,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
 class FramesLoggingEventsTest {
     private lateinit var mockContext: Context
     private lateinit var ckoTheme: CheckoutTheme
@@ -66,13 +68,13 @@ class FramesLoggingEventsTest {
                     PaymentFormLanguageEventAttribute.colorControlNormal to
                             mutableMapOf("alpha" to 0,
                                 "red" to 0,
-                                "green" to 9,
-                                "blue" to 141),
+                                "green" to 6,
+                                "blue" to 88),
                     PaymentFormLanguageEventAttribute.textColorPrimary to
                             mutableMapOf("alpha" to 0,
                                 "red" to 0,
-                                "green" to 9,
-                                "blue" to 140),
+                                "green" to 6,
+                                "blue" to 87),
                     PaymentFormLanguageEventAttribute.colorControlActivated to
                             mutableMapOf("alpha" to 255,
                                 "red" to 255,
