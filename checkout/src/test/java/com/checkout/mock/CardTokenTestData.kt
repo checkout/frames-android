@@ -1,6 +1,7 @@
 package com.checkout.mock
 
 import com.checkout.base.model.Country
+import com.checkout.network.response.ErrorResponse
 import com.checkout.tokenization.entity.AddressEntity
 import com.checkout.tokenization.entity.PhoneEntity
 import com.checkout.tokenization.model.Address
@@ -55,6 +56,12 @@ internal object CardTokenTestData {
         "123",
         address,
         phone
+    )
+
+    fun errorResponse() = ErrorResponse(
+        "testID",
+        "testErrorType",
+        listOf("testErrorCodes")
     )
 
     fun tokenDetailsResponse() = TokenDetailsResponse(

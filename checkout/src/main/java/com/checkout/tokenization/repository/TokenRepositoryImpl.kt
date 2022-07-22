@@ -8,6 +8,7 @@ import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.NetworkApiClient
 import com.checkout.tokenization.entity.GooglePayEntity
 import com.checkout.tokenization.error.TokenizationError
+import com.checkout.tokenization.logging.TokenizationLogger
 import com.checkout.tokenization.mapper.TokenizationNetworkDataMapper
 import com.checkout.tokenization.model.GooglePayTokenRequest
 import com.checkout.tokenization.model.CardTokenRequest
@@ -31,7 +32,9 @@ internal class TokenRepositoryImpl(
     private val networkApiClient: NetworkApiClient,
     private val cardToTokenRequestMapper: Mapper<Card, TokenRequest>,
     private val cardTokenizationNetworkDataMapper: TokenizationNetworkDataMapper<TokenDetails>,
-    private val validateTokenizationDataUseCase: UseCase<Card, ValidationResult<Unit>>
+    private val validateTokenizationDataUseCase: UseCase<Card, ValidationResult<Unit>>,
+    private val logger: TokenizationLogger,
+    private val publicKey: String
 ) : TokenRepository {
 
     @VisibleForTesting
@@ -41,16 +44,28 @@ internal class TokenRepositoryImpl(
                 NonCancellable
     )
 
+    @Suppress("TooGenericExceptionCaught")
     override fun sendCardTokenRequest(cardTokenRequest: CardTokenRequest) {
+        var response: NetworkApiResponse<TokenDetailsResponse>
+
         networkCoroutineScope.launch {
             val validationTokenizationDataResult = validateTokenizationDataUseCase.execute(cardTokenRequest.card)
 
-            val response = when (validationTokenizationDataResult) {
-                is ValidationResult.Failure -> NetworkApiResponse.InternalError(validationTokenizationDataResult.error)
+            when (validationTokenizationDataResult) {
+                is ValidationResult.Failure -> {
+                    response = NetworkApiResponse.InternalError(validationTokenizationDataResult.error)
+                }
 
-                is ValidationResult.Success -> networkApiClient.sendCardTokenRequest(
-                    cardToTokenRequestMapper.map(cardTokenRequest.card)
-                )
+                is ValidationResult.Success -> {
+                    logger.logTokenRequestEvent(TokenizationConstants.CARD, publicKey)
+
+                    response = networkApiClient.sendCardTokenRequest(
+                        cardToTokenRequestMapper.map(cardTokenRequest.card)
+                    )
+
+                    logResponse(response, TokenizationConstants.CARD)
+                    logger.resetSession()
+                }
             }
 
             val tokenResult = cardTokenizationNetworkDataMapper.toTokenResult(response)
@@ -72,15 +87,20 @@ internal class TokenRepositoryImpl(
                     creatingTokenData(googlePayTokenRequest.tokenJsonPayload)
                 )
 
+                logger.logTokenRequestEvent(TokenizationConstants.GOOGLE_PAY, publicKey)
+
                 response = networkApiClient.sendGooglePayTokenRequest(request)
+
+                logResponse(response, TokenizationConstants.GOOGLE_PAY)
+                logger.resetSession()
             } catch (exception: Exception) {
                 val error = TokenizationError(
                     TokenizationError.GOOGLE_PAY_REQUEST_PARSING_ERROR,
                     exception.message,
                     exception.cause
                 )
-
                 response = NetworkApiResponse.InternalError(error)
+                logger.logErrorOnTokenRequestedEvent(TokenizationConstants.GOOGLE_PAY, publicKey, error)
             }
 
             val tokenResult = cardTokenizationNetworkDataMapper.toTokenResult(
@@ -117,6 +137,22 @@ internal class TokenRepositoryImpl(
             is TokenResult.Failure -> {
                 tokenResult.error.message?.let { failure(it) }
             }
+        }
+    }
+
+    private fun logResponse(response: NetworkApiResponse<TokenDetailsResponse>, tokenType: String) {
+        when (response) {
+            is NetworkApiResponse.ServerError -> logger.logTokenResponseEvent(
+                tokenType,
+                publicKey,
+                null,
+                response.code,
+                response.body
+            )
+
+            is NetworkApiResponse.Success -> logger.logTokenResponseEvent(tokenType, publicKey, response.body)
+
+            else -> {}
         }
     }
 }

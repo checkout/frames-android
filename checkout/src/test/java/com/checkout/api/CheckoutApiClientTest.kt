@@ -18,7 +18,6 @@ import io.mockk.mockk
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
 import org.amshove.kluent.internal.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -42,7 +41,10 @@ internal class CheckoutApiClientTest {
         mockkObject(EventLoggerProvider)
         every { EventLoggerProvider.provide() } returns mockLogger
 
-        checkoutApiService = CheckoutApiClient(mockTokenRepository, mockThreeDSExecutor)
+        checkoutApiService = CheckoutApiClient(
+            mockTokenRepository,
+            mockThreeDSExecutor
+        )
     }
 
     @Test
