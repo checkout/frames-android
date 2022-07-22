@@ -14,6 +14,7 @@ import com.checkout.threedsecure.logging.ThreeDSEventLogger
 import com.checkout.threedsecure.model.ThreeDSRequest
 import com.checkout.threedsecure.usecase.ProcessThreeDSUseCase
 import com.checkout.tokenization.TokenNetworkApiClient
+import com.checkout.tokenization.logging.TokenizationEventLogger
 import com.checkout.tokenization.mapper.request.AddressToAddressValidationRequestDataMapper
 import com.checkout.tokenization.mapper.request.CardToTokenRequestMapper
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
@@ -54,7 +55,9 @@ public object CheckoutApiServiceFactory {
             AddressValidator(),
             PhoneValidator(),
             AddressToAddressValidationRequestDataMapper()
-        )
+        ),
+        TokenizationEventLogger(EventLoggerProvider.provide()),
+        publicKey
     )
 
     private fun provideNetworkApiClient(

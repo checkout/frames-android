@@ -95,7 +95,7 @@ internal class ThreeDSEventLoggerTest {
             MonitoringLevel.ERROR,
             mapOf(
                 "success" to false,
-                "errorCode" to "123",
+                "errorCodes" to "123",
                 "message" to "testMessage",
                 "exception" to (mockError).stackTraceToString()
             )

@@ -1,7 +1,6 @@
 package com.checkout.tokenization.mapper
 
 import com.checkout.mock.CardTokenTestData
-import com.checkout.network.response.ErrorResponse
 import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.mapper.request.AddressToAddressEntityDataMapper
 import com.checkout.tokenization.mapper.request.PhoneToPhoneEntityDataMapper
@@ -142,18 +141,15 @@ internal class CardTokenizationNetworkDataMapperTest {
         fun `map ServerError response to TokenResult`() {
             // Given
             every { mockServerErrorResponse.code } returns 400
-            every { mockServerErrorResponse.body } returns ErrorResponse(
-                "request_id",
-                "error_type_1",
-                listOf("test_error")
-            )
+            every { mockServerErrorResponse.body } returns CardTokenTestData.errorResponse()
 
             // When
             val mappedResult = cardTokenizationNetworkDataMapper.toTokenResult(mockServerErrorResponse)
 
             // Then
             mappedResult `should be instance of` TokenResult.Failure::class
-            (mappedResult as TokenResult.Failure).error.message `should be equal to` "Token request failed - error_type_1 (HttpStatus: 400)"
+            (mappedResult as TokenResult.Failure).error.message `should be equal to`
+                    "Token request failed - testErrorType (HttpStatus: 400)"
         }
 
         @Test
