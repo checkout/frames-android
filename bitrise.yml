@@ -1,91 +1,68 @@
 ---
 format_version: '8'
-default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 trigger_map:
-- push_branch: '*'
+- push_branch: release/4.0.0
+  workflow: verification-full-extra-lint
+- push_branch: master
+  workflow: verification-full
+- push_branch: "*"
   workflow: verification-quick
-- push_branch: '*/*'
-  workflow: verification-quick
-- pull_request_source_branch: '*'
-  workflow: verification-quick
+- pull_request_source_branch: "*"
+  pull_request_target_branch: release/4.0.0
+  workflow: verification-full-extra-lint
+- pull_request_source_branch: "*"
+  workflow: verification-full
 workflows:
   steps-finish:
     steps:
-    - deploy-to-bitrise-io@1: {}
+    - deploy-to-bitrise-io@2: {}
     - cache-push@2: {}
     - slack@3:
         inputs:
-        - text: $ANDROID_BUILDS_SLACK_TEXT
-        - channel_on_error: $ANDROID_BUILDS_SLACK_CHANNEL
-        - text_on_error: $ANDROID_BUILDS_SLACK_TEXT_ERROR
-        - channel: $ANDROID_BUILDS_SLACK_CHANNEL
-        - webhook_url: $ANDROID_BUILDS_SLACK_WEBHOOK_URL
+        - channel: "$ANDROID_BUILDS_SLACK_CHANNEL"
+        - text: "$BITRISE_APP_TITLE build Success"
+        - channel_on_error: "$ANDROID_BUILDS_SLACK_CHANNEL"
+        - text_on_error: "$BITRISE_APP_TITLE build Failed"
+        - webhook_url: "$ANDROID_BUILDS_SLACK_WEBHOOK_URL"
     after_run: []
-    description: >-
-      Final steps for all workflows which completes Bitrise.io uploads and sends
-      a Slack notification
+    description: Final steps for all workflows which completes Bitrise.io uploads
+      and sends a Slack notification
   steps-start:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@4: {}
+    - git-clone@6: {}
     - cache-pull@2: {}
-    - install-missing-android-tools@2:
+    - install-missing-android-tools@3:
         inputs:
-        - gradlew_path: $PROJECT_LOCATION/gradlew
-    - android-build@0:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - android-build@1:
         inputs:
-        - module: $MODULE
-        - variant: $VARIANT
+        - module: "$MODULE"
+        - variant: "$VARIANT"
     after_run: []
     description: First steps to initialise the workflow
-  verification-quick:
-    steps:
-    - android-unit-test@1:
-        inputs:
-        - project_location: $PROJECT_LOCATION
-        - variant: $VARIANT
-        is_always_run: true
-    after_run:
-    - steps-finish
-    description: >-
-
-      ## Performs validation checks to match the current implementation on
-      CircelCi
-
-
-      The following checks are performed
-       - Build
-       - Unit Tests
-    before_run:
-    - steps-start
   verification-full:
     steps:
     - android-lint@0:
         inputs:
-        - variant: $VARIANT
+        - variant: "$VARIANT"
         is_always_run: true
     - android-unit-test@1:
         inputs:
-        - project_location: $PROJECT_LOCATION
-        - variant: $VARIANT
+        - project_location: "$PROJECT_LOCATION"
+        - variant: "$VARIANT"
         is_always_run: true
-    - gradle-runner@1:
+    - gradle-runner@2:
         inputs:
         - gradle_task: assembleAndroidTest
         is_always_run: true
         title: Gradle Runner - Build Android Test
-    - virtual-device-testing-for-android@1:
-        inputs:
-        - test_type: instrumentation
-        - inst_use_orchestrator: 'true'
-        - test_devices: 'Pixel2,28,en,portrait'
-        - environment_variables: clearPackageData=true
-        is_always_run: true
     after_run:
     - steps-finish
-    description: |-
+    description: |2-
 
       ## Performs all validation checks
 
@@ -96,11 +73,115 @@ workflows:
        - Instrumentation Tests
     before_run:
     - steps-start
+  verification-full-extra-lint:
+    steps:
+    - android-lint@0:
+        inputs:
+        - variant: "$VARIANT"
+        is_always_run: true
+    - android-unit-test@1:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - variant: "$VARIANT"
+        is_always_run: true
+    - gradle-runner@2:
+        inputs:
+        - gradle_task: assembleAndroidTest
+        is_always_run: true
+        title: Gradle Runner - Build Android Test
+    - script@1:
+        title: Lint
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            # write your script here
+            ./gradlew clean lint
+
+            # or run a script from your repository, like:
+            # bash ./path/to/script.sh
+            # not just bash, e.g.:
+            # ruby ./path/to/script.rb
+    - script@1:
+        title: Detekt
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            # write your script here
+            ./gradlew detekt
+
+            # or run a script from your repository, like:
+            # bash ./path/to/script.sh
+            # not just bash, e.g.:
+            # ruby ./path/to/script.rb
+    - script@1:
+        title: Ktlint
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            # write your script here
+            ./gradlew ktlint
+
+            # or run a script from your repository, like:
+            # bash ./path/to/script.sh
+            # not just bash, e.g.:
+            # ruby ./path/to/script.rb
+    after_run:
+    - steps-finish
+    description: |2-
+
+      ## Performs all validation checks
+
+      The following checks are performed
+       - Build
+       - Lint Checks
+       - Unit Tests
+       - Instrumentation Tests
+    before_run:
+    - steps-start
+  verification-quick:
+    steps:
+    - android-unit-test@1:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - variant: "$VARIANT"
+        is_always_run: true
+    after_run:
+    - steps-finish
+    description: |2-
+
+      ## Performs validation checks to match the current implementation on CircelCi
+
+      The following checks are performed
+       - Build
+       - Unit Tests
+    before_run:
+    - steps-start
 app:
   envs:
   - opts:
       is_expand: false
-    PROJECT_LOCATION: .
+    PROJECT_LOCATION: "."
   - opts:
       is_expand: false
     MODULE: app
@@ -109,4 +190,4 @@ app:
     VARIANT: debug
   - opts:
       is_expand: false
-    GRADLEW_PATH: ./gradlew
+    GRADLEW_PATH: "./gradlew"
