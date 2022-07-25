@@ -25,6 +25,7 @@ internal class ValidationError(
         const val CVV_CONTAINS_NON_DIGITS = "ValidationError:1002"
         const val CVV_INVALID_LENGTH = "ValidationError:1003"
         const val CVV_INVALID_CARD_SCHEME = "ValidationError:1022"
+        const val CVV_INCOMPLETE_LENGTH = "ValidationError:1023"
 
         /**
          * Error codes for expiry date validation.

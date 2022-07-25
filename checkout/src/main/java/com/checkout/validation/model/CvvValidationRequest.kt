@@ -13,5 +13,9 @@ internal data class CvvValidationRequest(
     /**
      * The card scheme representing as an [CardScheme]
      */
-    val cardScheme: CardScheme
+    val cardScheme: CardScheme,
+    /**
+     * The eager validation flag representing as an [Boolean], false by default
+     */
+    val isEagerValidation: Boolean = false
 )
