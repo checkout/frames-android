@@ -28,7 +28,7 @@ public object CardValidatorFactory {
 
     /**
      * Creates internal card validator.
-     * @return [CardValidator] for individual card details components validation.
+     * @return [CardValidator]  for individual card details components validation.
      */
     internal fun createInternal(): CardValidator {
         return CardDetailsValidator(
