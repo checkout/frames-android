@@ -43,11 +43,27 @@ fun Project.applyCommonConfigurations() {
         commonDependencies()
         genericTestDependencies()
         genericAndroidTestDependencies()
-        networkingDependencies()
         logging()
 
         mockk()
         kluent()
+    }
+}
+
+fun Project.applyNetworkConfigurations() {
+    android {
+        dependencies.apply {
+            networkingDependencies()
+        }
+    }
+}
+
+fun Project.applyDeclarativeUIConfigurations() {
+    android {
+        dependencies.apply {
+            androidDeclarativeUI()
+            declarativeUITestDependencies()
+        }
     }
 }
 
@@ -87,10 +103,10 @@ fun Project.applyCommonLibConfigurations() {
         applyCommonConfigurations()
 
         buildTypes {
-            getByName("release") {
+            release {
                 isMinifyEnabled = false
             }
-            getByName("debug") {
+            debug {
                 isMinifyEnabled = false
             }
         }

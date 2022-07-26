@@ -1,6 +1,7 @@
 package com.checkout.buildsrc
 
 import Dependencies
+import com.checkout.buildsrc.utils.debugImplementation
 import com.checkout.buildsrc.utils.androidTestImplementation
 import com.checkout.buildsrc.utils.implementation
 import com.checkout.buildsrc.utils.testImplementation
@@ -18,10 +19,20 @@ fun DependencyHandler.commonDependencies() {
 }
 
 /**
- * Dependencies usually required for modules with a ui
+ * Dependencies usually required for modules with a Imperative UI
  */
-fun DependencyHandler.androidUi() {
+fun DependencyHandler.androidImperativeUI() {
     implementation(Dependencies.constraintLayout)
+    implementation(Dependencies.materialDesign)
+}
+
+/**
+ * Dependencies usually required for modules with a Declarative UI
+ */
+fun DependencyHandler.androidDeclarativeUI() {
+    implementation(Dependencies.compose_ui)
+    implementation(Dependencies.compose_ui_tooling_preview)
+    implementation(Dependencies.compose_material3)
 }
 
 /**
@@ -38,13 +49,6 @@ fun DependencyHandler.networkingDependencies() {
  */
 fun DependencyHandler.logging() {
     implementation(Dependencies.eventLogger)
-}
-
-/**
- * Material design dependencies
- */
-fun DependencyHandler.materialDesign() {
-    implementation(Dependencies.materialDesign)
 }
 
 /**
@@ -68,6 +72,12 @@ fun DependencyHandler.genericAndroidTestDependencies() {
     androidTestImplementation(Dependencies.androidxTestRules)
     androidTestImplementation(Dependencies.espressoCore)
     androidTestImplementation(Dependencies.eventLogger)
+}
+
+fun DependencyHandler.declarativeUITestDependencies() {
+    androidTestImplementation(Dependencies.compose_ui_test)
+    debugImplementation(Dependencies.compose_ui_tooling)
+    debugImplementation(Dependencies.compose_ui_test_manifest)
 }
 
 fun DependencyHandler.mockk() {
