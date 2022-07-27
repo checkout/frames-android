@@ -33,17 +33,21 @@ internal class CvvValidator : Validator<CvvValidationRequest, Unit> {
     @Throws(ValidationError::class)
     private fun validateCvv(cvv: String, cvvLength: Set<Int>) {
         when {
-            cvvLength.isEmpty() -> throw ValidationError(
-                ValidationError.CVV_INVALID_CARD_SCHEME,
-                "Card scheme is invalid"
-            )
             cvv.any { !it.isDigit() } -> throw ValidationError(
                 ValidationError.CVV_CONTAINS_NON_DIGITS,
                 "CVV should contain only digits"
             )
-            !cvvLength.contains(cvv.length) -> throw ValidationError(
+
+            cvvLength.any { it == cvv.length } -> return
+
+            cvv.length < cvvLength.min() || cvv.length < cvvLength.max() -> throw ValidationError(
+                ValidationError.CVV_INCOMPLETE_LENGTH,
+                "Incomplete CVV length, it should be $cvvLength"
+            )
+
+            else -> throw ValidationError(
                 ValidationError.CVV_INVALID_LENGTH,
-                "CVV length should be $cvvLength"
+                "Invalid CVV length, it should be $cvvLength"
             )
         }
     }

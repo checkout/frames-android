@@ -53,50 +53,50 @@ internal class CvvValidatorTest {
     companion object {
         @JvmStatic
         fun invalidCvvArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of("", CardScheme.AMERICAN_EXPRESS, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("123", CardScheme.AMERICAN_EXPRESS, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("", CardScheme.AMERICAN_EXPRESS, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
+            Arguments.of("123", CardScheme.AMERICAN_EXPRESS, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12345", CardScheme.AMERICAN_EXPRESS, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
             Arguments.of("12 ", CardScheme.AMERICAN_EXPRESS, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.AMERICAN_EXPRESS, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
-            Arguments.of("", CardScheme.VISA, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("", CardScheme.VISA, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("1234", CardScheme.VISA, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("12", CardScheme.VISA, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("12", CardScheme.VISA, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.VISA, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.VISA, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
-            Arguments.of("", CardScheme.JCB, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("", CardScheme.JCB, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("1234", CardScheme.JCB, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("12", CardScheme.JCB, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("12", CardScheme.JCB, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.JCB, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.JCB, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
-            Arguments.of("", CardScheme.MADA, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("", CardScheme.MADA, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("1234", CardScheme.MADA, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("12", CardScheme.MADA, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("12", CardScheme.MADA, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.MADA, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.MADA, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
             Arguments.of("1234", CardScheme.MAESTRO, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("12", CardScheme.MAESTRO, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("12", CardScheme.MAESTRO, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.MAESTRO, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.MAESTRO, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
-            Arguments.of("", CardScheme.DINERS_CLUB, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("", CardScheme.DINERS_CLUB, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("1234", CardScheme.DINERS_CLUB, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("12", CardScheme.DINERS_CLUB, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("12", CardScheme.DINERS_CLUB, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.DINERS_CLUB, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.DINERS_CLUB, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
-            Arguments.of("", CardScheme.DISCOVER, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("", CardScheme.DISCOVER, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("1234", CardScheme.DISCOVER, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("12", CardScheme.DISCOVER, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("12", CardScheme.DISCOVER, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.DISCOVER, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.DISCOVER, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
-            Arguments.of("", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("1234", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
-            Arguments.of("12", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
+            Arguments.of("12", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS))
 
@@ -112,15 +112,17 @@ internal class CvvValidatorTest {
             Arguments.of("", CardScheme.MAESTRO, provideSuccess()),
             Arguments.of("444", CardScheme.MAESTRO, provideSuccess()),
             Arguments.of("435", CardScheme.MASTERCARD, provideSuccess()),
-            Arguments.of("567", CardScheme.VISA, provideSuccess())
+            Arguments.of("567", CardScheme.VISA, provideSuccess()),
+            Arguments.of("", CardScheme.UNKNOWN, provideSuccess()),
+            Arguments.of("123", CardScheme.UNKNOWN, provideSuccess()),
+            Arguments.of("1234", CardScheme.UNKNOWN, provideSuccess())
         )
 
         @JvmStatic
         fun invalidCardSchemeArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of("", CardScheme.UNKNOWN, provideFailure(ValidationError.CVV_INVALID_CARD_SCHEME)),
-            Arguments.of("12", CardScheme.UNKNOWN, provideFailure(ValidationError.CVV_INVALID_CARD_SCHEME)),
-            Arguments.of("123", CardScheme.UNKNOWN, provideFailure(ValidationError.CVV_INVALID_CARD_SCHEME)),
-            Arguments.of("1234", CardScheme.UNKNOWN, provideFailure(ValidationError.CVV_INVALID_CARD_SCHEME)),
+            Arguments.of("12", CardScheme.UNKNOWN, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
+            Arguments.of("1", CardScheme.UNKNOWN, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
+            Arguments.of("12345", CardScheme.UNKNOWN, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
         )
 
         private fun provideFailure(errorCode: String) = ValidationResult.Failure(ValidationError(errorCode))

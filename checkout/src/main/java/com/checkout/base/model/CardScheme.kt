@@ -87,7 +87,7 @@ public enum class CardScheme(
         eagerRegex = Regex("^4\\d*$")
     ),
     UNKNOWN(
-        cvvLength = setOf(),
+        cvvLength = setOf(0, 3, 4),
         regex = Regex(""),
         eagerRegex = Regex("")
     )
