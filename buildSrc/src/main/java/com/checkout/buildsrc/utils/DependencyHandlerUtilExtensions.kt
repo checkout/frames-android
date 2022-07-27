@@ -26,3 +26,7 @@ fun DependencyHandler.testImplementation(dependency: String) {
 fun DependencyHandler.testRuntimeOnly(dependency: String) {
     add("testRuntimeOnly", dependency)
 }
+
+fun DependencyHandler.debugImplementation(dependency: String) {
+    add("debugImplementation", dependency)
+}

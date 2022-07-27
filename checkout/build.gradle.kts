@@ -1,6 +1,7 @@
 import com.checkout.buildsrc.applyAndroidJUnit5Configuration
 import com.checkout.buildsrc.applyCommonLibConfigurations
 import com.checkout.buildsrc.applyAndroidJUnit4Configuration
+import com.checkout.buildsrc.applyNetworkConfigurations
 import com.checkout.buildsrc.BuildConfigFieldName
 import com.checkout.buildsrc.publishing.configureMavenPublication
 import com.checkout.buildsrc.publishing.PublishComponentInformation
@@ -30,6 +31,7 @@ configureMavenPublication("CheckoutAndroid") {
 applyAndroidJUnit5Configuration()
 applyAndroidJUnit4Configuration()
 applyCommonLibConfigurations()
+applyNetworkConfigurations()
 
 android {
     resourcePrefix = "cko-"
