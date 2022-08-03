@@ -23,3 +23,7 @@ android {
         kotlinCompilerExtensionVersion = Versions.compose_compiler_ext
     }
 }
+
+dependencies {
+    implementation(project(":checkout"))
+}
