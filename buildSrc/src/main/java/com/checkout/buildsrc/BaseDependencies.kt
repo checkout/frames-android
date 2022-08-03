@@ -33,6 +33,10 @@ fun DependencyHandler.androidDeclarativeUI() {
     implementation(Dependencies.compose_ui)
     implementation(Dependencies.compose_ui_tooling_preview)
     implementation(Dependencies.compose_material3)
+    implementation(Dependencies.compose_viewmodel)
+    debugImplementation(Dependencies.compose_ui_tooling)
+    debugImplementation(Dependencies.compose_ui_test_manifest)
+    debugImplementation(Dependencies.compose_customview_poolingcontainer)
 }
 
 /**
@@ -76,8 +80,6 @@ fun DependencyHandler.genericAndroidTestDependencies() {
 
 fun DependencyHandler.declarativeUITestDependencies() {
     androidTestImplementation(Dependencies.compose_ui_test)
-    debugImplementation(Dependencies.compose_ui_tooling)
-    debugImplementation(Dependencies.compose_ui_test_manifest)
 }
 
 fun DependencyHandler.mockk() {

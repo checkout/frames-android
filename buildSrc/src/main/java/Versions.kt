@@ -23,6 +23,8 @@ object Versions {
     const val compose_compiler_ext = "1.2.0"
     const val compose_material3 = "1.0.0-alpha14"
     const val compose_version = "1.2.0-rc03"
+    const val compose_customview_poolingcontainer = "1.0.0"
+    const val compose_viewmodel = "2.5.0"
 
     // Networking Dependencies
     const val okhttp = "4.10.0"
