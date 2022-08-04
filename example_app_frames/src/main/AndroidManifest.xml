@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.checkout.example_app_frames">
+    package="com.checkout.frames">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Frames">
         <activity
-            android:name=".ui.screens.CheckOutScreen"
+            android:name="com.checkout.example.frames.ui.screens.CheckOutScreen"
             android:exported="true"
             android:theme="@style/Theme.Frames">
             <intent-filter>

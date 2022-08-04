@@ -1,4 +1,4 @@
-package com.checkout.example_app_frames.ui.theme
+package com.checkout.example.frames.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

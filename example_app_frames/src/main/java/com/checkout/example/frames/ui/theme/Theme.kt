@@ -1,4 +1,4 @@
-package com.checkout.example_app_frames.ui.theme
+package com.checkout.example.frames.ui.theme
 
 import android.app.Activity
 import android.os.Build

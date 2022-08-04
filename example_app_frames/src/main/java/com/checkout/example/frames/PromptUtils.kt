@@ -1,4 +1,4 @@
-package com.checkout.example_app_frames
+package com.checkout.example.frames
 
 import android.app.AlertDialog
 import android.app.Dialog
