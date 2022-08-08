@@ -4,9 +4,9 @@ plugins {
 
 android {
     defaultConfig {
-        applicationId = AppConfig.ExampleAppFrames.id
-        versionCode = AppConfig.ExampleAppFrames.versionCode
-        versionName = AppConfig.ExampleAppFrames.versionName
+        applicationId = ExampleAppFramesConfig.id
+        versionCode = ExampleAppFramesConfig.versionCode
+        versionName = ExampleAppFramesConfig.versionName
     }
 
     buildTypes {

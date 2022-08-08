@@ -113,9 +113,6 @@ fun CheckoutOptions() {
     }
 }
 
-/**
- * Method for creating token for Googlepay using Checkout SDK
- */
 fun invokeCheckoutSDKToGenerateTokenForGooglePay(context: Context) {
     /**
      * Creating instance of CheckoutApiClient

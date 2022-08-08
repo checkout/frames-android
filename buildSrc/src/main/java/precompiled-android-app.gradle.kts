@@ -44,6 +44,6 @@ dependencies {
     commonDependencies()
     genericTestDependencies()
     genericAndroidTestDependencies()
-    implementation("androidx.activity:activity-compose:1.2.0-rc03")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}")
+    implementation(Dependencies.compose_activity)
+    implementation(Dependencies.lifeCycleRunTime)
 }
