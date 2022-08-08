@@ -21,11 +21,13 @@ object Dependencies {
     // Compose
     const val compose_material3 =  "androidx.compose.material3:material3:${Versions.compose_material3}"
     const val compose_ui = "androidx.compose.ui:ui:${Versions.compose_version}"
+    const val compose_ui_tooling = "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
+    const val compose_customview_poolingcontainer = "androidx.customview:customview-poolingcontainer:${Versions.compose_customview_poolingcontainer}"
     const val compose_ui_tooling_preview = "androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
+    const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.compose_viewmodel}"
 
     // Compose Test
     const val compose_ui_test = "androidx.compose.ui:ui-test-junit4:${Versions.compose_version}"
-    const val compose_ui_tooling = "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
     const val compose_ui_test_manifest = "androidx.compose.ui:ui-test-manifest:${Versions.compose_version}"
 
     // Networking Dependencies
