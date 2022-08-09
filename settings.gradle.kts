@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":app", ":android-sdk", ":checkout", ":frames", ":FramesKotlinSample", ":examples_app", ":googlepay_examples_app")
+include(":app", ":android-sdk", ":checkout", ":frames", ":FramesKotlinSample", ":examples_app", ":googlepay_examples_app",":example_app_frames")
 project(":examples_app").projectDir = file("demos/examples/app")
 project(":googlepay_examples_app").projectDir = file("demos/googlepay_example/app")
 

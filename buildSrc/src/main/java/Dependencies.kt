@@ -15,6 +15,7 @@ object Dependencies {
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
     const val lifeCycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
+    const val lifeCycleRunTime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}"
     const val lifeCycleViewModel =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
 
@@ -24,6 +25,7 @@ object Dependencies {
     const val compose_ui_tooling = "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
     const val compose_customview_poolingcontainer = "androidx.customview:customview-poolingcontainer:${Versions.compose_customview_poolingcontainer}"
     const val compose_ui_tooling_preview = "androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
+    const val compose_activity = "androidx.activity:activity-compose:${Versions.compose_activity_version}"
     const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.compose_viewmodel}"
 
     // Compose Test
