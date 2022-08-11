@@ -11,6 +11,10 @@ fun DependencyHandler.kapt(dependency: String) {
     add("kapt", dependency)
 }
 
+fun DependencyHandler.annotationProcessor(dependency: String) {
+    add("annotationProcessor", dependency)
+}
+
 fun DependencyHandler.androidTestImplementation(dependency: String) {
     add("androidTestImplementation", dependency)
 }

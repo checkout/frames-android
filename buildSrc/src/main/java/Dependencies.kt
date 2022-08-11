@@ -37,6 +37,15 @@ object Dependencies {
     const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptor}"
     const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
 
+    // Logging
+    const val eventLogger = "com.checkout:checkout-sdk-event-logger-android:${Versions.eventLogger}"
+
+    // Dependency injection
+    const val dagger = "com.google.dagger:dagger-android:${Versions.dagger}"
+    const val dagger_support = "com.google.dagger:dagger-android-support:${Versions.dagger}"
+    const val dagger_processor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
+    const val dagger_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+
     // Instrumented Test
     const val androidxJunit = "androidx.test.ext:junit:${Versions.androidxJunit}"
     const val androidxJunitKtx = "androidx.test.ext:junit-ktx:${Versions.androidxJunit}"
@@ -72,7 +81,4 @@ object Dependencies {
     const val okhttpMockServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
     const val jsonTest = "org.json:json:${Versions.jsonTest}"
-
-    // Logging
-    const val eventLogger = "com.checkout:checkout-sdk-event-logger-android:${Versions.eventLogger}"
 }

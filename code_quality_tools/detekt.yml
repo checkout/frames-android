@@ -620,6 +620,7 @@ style:
     allowNonStandardGrouping: false
   UnnecessaryAbstractClass:
     active: true
+    ignoreAnnotated: ['Module', 'Component', 'Subcomponent']
   UnnecessaryAnnotationUseSiteTarget:
     active: false
   UnnecessaryApply:
@@ -673,6 +674,7 @@ style:
     active: true
   UtilityClassWithPublicConstructor:
     active: true
+    ignoreAnnotated: ['Module', 'Component', 'Subcomponent']
   VarCouldBeVal:
     active: true
   WildcardImport:
