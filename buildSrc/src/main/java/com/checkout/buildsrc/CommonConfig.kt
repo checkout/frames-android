@@ -67,6 +67,14 @@ fun Project.applyDeclarativeUIConfigurations() {
     }
 }
 
+fun Project.applyDIConfigurations() {
+    android {
+        dependencies.apply {
+            dependencyInjection()
+        }
+    }
+}
+
 fun Project.applyCommonAppConfigurations() {
     android {
         require(this is AppExtension) {

@@ -19,13 +19,13 @@ object Versions {
     const val appcompat = "1.3.1"
     const val constraintLayout = "2.1.1"
     const val materialDesign = "1.4.0"
-    const val lifeCycle = "2.4.0"
+    const val lifeCycle = "2.5.1"
     const val compose_compiler_ext = "1.2.0"
     const val compose_material3 = "1.0.0-alpha14"
     const val compose_version = "1.2.0-rc03"
     const val compose_activity_version = "1.6.0-alpha05"
     const val compose_customview_poolingcontainer = "1.0.0"
-    const val compose_viewmodel = "2.5.0"
+    const val compose_viewmodel = "2.5.1"
 
     // Networking Dependencies
     const val okhttp = "4.10.0"
@@ -52,6 +52,9 @@ object Versions {
 
     // Logger
     const val eventLogger = "1.0.1"
+
+    // Dependency injection
+    const val dagger = "2.43.2"
 }
 
 fun loadVersionProperty(): Properties {

@@ -4,6 +4,7 @@ import Dependencies
 import com.checkout.buildsrc.utils.debugImplementation
 import com.checkout.buildsrc.utils.androidTestImplementation
 import com.checkout.buildsrc.utils.implementation
+import com.checkout.buildsrc.utils.kapt
 import com.checkout.buildsrc.utils.testImplementation
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
@@ -33,6 +34,7 @@ fun DependencyHandler.androidDeclarativeUI() {
     implementation(Dependencies.compose_ui)
     implementation(Dependencies.compose_ui_tooling_preview)
     implementation(Dependencies.compose_material3)
+    implementation(Dependencies.lifeCycleViewModel)
     implementation(Dependencies.compose_viewmodel)
     debugImplementation(Dependencies.compose_ui_tooling)
     debugImplementation(Dependencies.compose_ui_test_manifest)
@@ -53,6 +55,16 @@ fun DependencyHandler.networkingDependencies() {
  */
 fun DependencyHandler.logging() {
     implementation(Dependencies.eventLogger)
+}
+
+/**
+ * Dependency injection
+ */
+fun DependencyHandler.dependencyInjection() {
+    implementation(Dependencies.dagger)
+    implementation(Dependencies.dagger_support)
+    kapt(Dependencies.dagger_processor)
+    kapt(Dependencies.dagger_compiler)
 }
 
 /**
