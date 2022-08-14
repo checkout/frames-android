@@ -14,11 +14,11 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.model.InputFieldColors
-import com.checkout.frames.style.component.TextLabelStyle
-import com.checkout.frames.style.component.InputFieldStyle
-import com.checkout.frames.style.component.ContainerStyle
-import com.checkout.frames.style.component.TextStyle
-import com.checkout.frames.style.component.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.TextStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.utils.extensions.errorIndicatorColor

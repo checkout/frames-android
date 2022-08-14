@@ -3,11 +3,11 @@ package com.checkout.frames.component.cardnumber
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.di.base.Injector
-import com.checkout.frames.style.component.InputComponentStyle
+import com.checkout.frames.style.component.CardNumberComponentStyle
 
 @Composable
 internal fun CardNumberComponent(
-    style: InputComponentStyle,
+    style: CardNumberComponentStyle,
     injector: Injector
 ) {
     val viewModel: CardNumberViewModel = viewModel(

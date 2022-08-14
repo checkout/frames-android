@@ -11,10 +11,10 @@ import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.style.component.ContainerStyle
-import com.checkout.frames.style.component.TextLabelStyle
-import com.checkout.frames.style.component.InputComponentStyle
-import com.checkout.frames.style.component.InputFieldStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle

@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
-import com.checkout.frames.style.component.ContainerStyle
+import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.utils.extensions.toComposeShape
 
 internal class ContainerStyleToModifierMapper : Mapper<ContainerStyle, Modifier> {

@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
-import com.checkout.frames.style.component.ImageStyle
-import com.checkout.frames.style.component.InputComponentStyle
-import com.checkout.frames.style.component.TextLabelStyle
+import com.checkout.frames.style.component.base.ImageStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.view.InputFieldState
 import com.checkout.frames.view.TextLabelState
 

@@ -49,7 +49,7 @@ internal fun InputField(
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val textStyle = textStyle ?: LocalTextStyle.current
     val colors = provideInputFieldColors(borderShape != null, colors)
-    // If color is not provided via the text style, use content color as a default
+    // If color is not provided via the text inputStyle, use content color as a default
     val textColor = textStyle.color.takeOrElse { colors.textColor(enabled).value }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
     var modifier = modifier

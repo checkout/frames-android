@@ -1,4 +1,4 @@
-package com.checkout.frames.style.component
+package com.checkout.frames.style.component.base
 
 import androidx.annotation.ColorLong
 import com.checkout.frames.model.CornerRadius

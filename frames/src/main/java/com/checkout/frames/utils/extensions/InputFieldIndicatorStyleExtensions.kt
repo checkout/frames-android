@@ -1,6 +1,6 @@
 package com.checkout.frames.utils.extensions
 
-import com.checkout.frames.style.component.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 
 internal fun InputFieldIndicatorStyle.focusedIndicatorColor() = when (this) {
     is InputFieldIndicatorStyle.Underline -> this.focusedUnderlineColor
