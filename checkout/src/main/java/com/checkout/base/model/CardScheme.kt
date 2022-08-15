@@ -16,37 +16,54 @@ package com.checkout.base.model
 @Suppress("MagicNumber")
 public enum class CardScheme(
     /**
-     * Supported CVV length
+     * Supported CVV length.
      */
     internal val cvvLength: Set<Int>,
     /**
-     * Regex for card scheme determination according to a full card number
+     * Regex for card scheme determination according to a full card number.
      */
     internal val regex: Regex,
     /**
-     * Regex for card scheme determination according to a partial card number
+     * Regex for card scheme determination according to a partial card number.
      */
-    internal val eagerRegex: Regex
+    internal val eagerRegex: Regex,
+    /**
+     * Supported maximum card number length.
+     */
+    public val maxNumberLength: Int = 16,
+    /**
+     * Card number separator pattern.
+     * Contains indexes for separator in transformed card number.
+     */
+    public val numberSeparatorPattern: List<Int> = listOf(4, 9, 14)
 ) {
     AMERICAN_EXPRESS(
         cvvLength = setOf(4),
         regex = Regex("^3[47]\\d{13}$"),
-        eagerRegex = Regex("^3[47]\\d*$")
+        eagerRegex = Regex("^3[47]\\d*$"),
+        maxNumberLength = 15,
+        numberSeparatorPattern = listOf(4, 11)
     ),
     DINERS_CLUB(
         cvvLength = setOf(3),
         regex = Regex("^3(0[0-5]|[68]\\d)\\d{11,16}$"),
-        eagerRegex = Regex("^3(0|[68])\\d*$")
+        eagerRegex = Regex("^3(0|[68])\\d*$"),
+        maxNumberLength = 19,
+        numberSeparatorPattern = listOf(4, 9, 14, 19)
     ),
     DISCOVER(
         cvvLength = setOf(3),
         regex = Regex("^6(?:011(0[0-9]|[2-4]\\d|74|7[7-9]|8[6-9]|9[0-9])|4[4-9]\\d{3}|5\\d{4})\\d{10}$"),
-        eagerRegex = Regex("^6(011(0[0-9]|[1-4]|74|7[7-9]|8[6-9]|9[0-9])|4[4-9]|5)\\d*$")
+        eagerRegex = Regex("^6(011(0[0-9]|[1-4]|74|7[7-9]|8[6-9]|9[0-9])|4[4-9]|5)\\d*$"),
+        maxNumberLength = 19,
+        numberSeparatorPattern = listOf(4, 9, 14, 19)
     ),
     JCB(
         cvvLength = setOf(3),
         regex = Regex("^35\\d{14}$"),
-        eagerRegex = Regex("^35\\d*$")
+        eagerRegex = Regex("^35\\d*$"),
+        maxNumberLength = 19,
+        numberSeparatorPattern = listOf(4, 9, 14, 19)
     ),
     MADA(
         cvvLength = setOf(3),
@@ -74,7 +91,9 @@ public enum class CardScheme(
             "^(?:5[06789]\\d\\d|(?!6011[0234])(?!60117[4789])(?!60118[6789])(?!60119)" +
                     "(?!64[456789])(?!65)6\\d{3})\\d{8,15}$"
         ),
-        eagerRegex = Regex("^(5(018|0[23]|[68])|6[37]|60111|60115|60117([56]|7[56])|60118[0-5]|64[0-3]|66)\\d*\$")
+        eagerRegex = Regex("^(5(018|0[23]|[68])|6[37]|60111|60115|60117([56]|7[56])|60118[0-5]|64[0-3]|66)\\d*\$"),
+        maxNumberLength = 19,
+        numberSeparatorPattern = listOf(4, 9, 14, 19)
     ),
     MASTERCARD(
         cvvLength = setOf(3),
@@ -89,6 +108,8 @@ public enum class CardScheme(
     UNKNOWN(
         cvvLength = setOf(0, 3, 4),
         regex = Regex(""),
-        eagerRegex = Regex("")
+        eagerRegex = Regex(""),
+        maxNumberLength = 19,
+        numberSeparatorPattern = listOf(4, 9, 14, 19)
     )
 }

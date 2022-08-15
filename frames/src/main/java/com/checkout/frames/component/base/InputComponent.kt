@@ -34,6 +34,7 @@ import com.checkout.frames.view.TextLabel
 internal fun InputComponent(
     style: InputComponentViewStyle,
     state: InputComponentState,
+    onFocusChanged: ((Boolean) -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) = with(state) {
     Column(modifier = style.containerModifier.wrapContentHeight()) {
@@ -58,7 +59,7 @@ internal fun InputComponent(
             }
         }
         // Input field
-        InputField(style.inputFieldStyle, inputFieldState, onValueChange)
+        InputField(style.inputFieldStyle, inputFieldState, onFocusChanged, onValueChange)
         // Error message
         if (errorState.isVisible.value)
             TextLabel(style.errorMessageStyle, errorState)
