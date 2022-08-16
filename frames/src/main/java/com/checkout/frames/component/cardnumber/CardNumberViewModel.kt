@@ -16,7 +16,6 @@ import com.checkout.frames.model.request.ImageStyleToDynamicImageRequest
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
-import com.checkout.frames.utils.CardNumberTransformation
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.model.ValidationResult
 import kotlinx.coroutines.flow.map

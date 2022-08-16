@@ -1,4 +1,4 @@
-package com.checkout.frames.utils
+package com.checkout.frames.utils.constants
 
 internal object UnderlineConstants {
     const val focusedUnderlineThickness = BorderConstants.focusedBorderThickness

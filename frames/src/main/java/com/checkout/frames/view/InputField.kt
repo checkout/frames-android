@@ -40,7 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.InputFieldColors
-import com.checkout.frames.utils.BorderConstants
+import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.style.view.InputFieldViewStyle
 
 @Composable

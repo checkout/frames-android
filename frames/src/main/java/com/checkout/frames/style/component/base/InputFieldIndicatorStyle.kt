@@ -3,8 +3,8 @@ package com.checkout.frames.style.component.base
 import androidx.annotation.ColorLong
 import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Shape
-import com.checkout.frames.utils.BorderConstants
-import com.checkout.frames.utils.UnderlineConstants
+import com.checkout.frames.utils.constants.BorderConstants
+import com.checkout.frames.utils.constants.UnderlineConstants
 
 public sealed class InputFieldIndicatorStyle {
 

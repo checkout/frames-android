@@ -1,4 +1,4 @@
-package com.checkout.frames.utils
+package com.checkout.frames.component.cardnumber
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.text.AnnotatedString

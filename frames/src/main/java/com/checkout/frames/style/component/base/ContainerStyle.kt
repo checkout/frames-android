@@ -5,7 +5,7 @@ import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Shape
-import com.checkout.frames.utils.ContainerConstants
+import com.checkout.frames.utils.constants.ContainerConstants
 
 public data class ContainerStyle(
     /**
