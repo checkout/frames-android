@@ -18,6 +18,8 @@ applyDeclarativeUIConfigurations()
 applyDIConfigurations()
 
 android {
+    resourcePrefix = "cko_"
+
     buildFeatures {
         compose = true
     }

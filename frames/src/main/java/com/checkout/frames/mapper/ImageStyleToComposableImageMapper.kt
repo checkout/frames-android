@@ -20,8 +20,8 @@ internal class ImageStyleToComposableImageMapper : Mapper<ImageStyle?, @Composab
     override fun map(from: ImageStyle?): @Composable (() -> Unit)? = from?.let { @Composable { LabelImage(it) } }
 
     @Composable
-    private fun LabelImage(style: ImageStyle) {
-        val image = painterResource(id = style.image)
+    private fun LabelImage(style: ImageStyle) = style.image?.let { imageId ->
+        val image = painterResource(imageId)
         var modifier = Modifier.wrapContentHeight().wrapContentWidth()
 
         style.padding?.let { modifier = modifier.padding(it.start.dp, it.top.dp, it.end.dp, it.bottom.dp) }

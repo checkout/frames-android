@@ -4,13 +4,14 @@ import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
@@ -33,6 +34,10 @@ internal abstract class StylesModule {
         @Provides
         fun provideImageStyleToComposableImageMapper(): ImageStyleToComposableImageMapper =
             ImageStyleToComposableImageMapper()
+
+        @Provides
+        fun provideImageStyleToDynamicComposableImageMapper(): ImageStyleToDynamicComposableImageMapper =
+            ImageStyleToDynamicComposableImageMapper()
 
         @Provides
         fun provideTextLabelStyleToStateMapper(
