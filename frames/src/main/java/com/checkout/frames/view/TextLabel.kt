@@ -1,6 +1,5 @@
 package com.checkout.frames.view
 
-import android.R
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.LocalTextStyle
@@ -59,7 +58,7 @@ internal fun TextLabel(
 private fun TextLabelPreview() {
     val imageMapper = ImageStyleToComposableImageMapper()
     val imageStyle = ImageStyle(
-        image = R.drawable.ic_dialog_map,
+        image = android.R.drawable.ic_dialog_map,
         tinColor = 0xFFFF00FF,
         height = 48,
         width = 48,
