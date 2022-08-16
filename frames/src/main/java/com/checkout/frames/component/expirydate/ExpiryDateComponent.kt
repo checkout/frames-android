@@ -19,8 +19,6 @@ internal fun ExpiryDateComponent(
         factory = ExpiryDateViewModel.Factory(injector, style)
     )
 
-    println(viewModel.javaClass.name)
-
     InputComponent(
         style = viewModel.componentStyle,
         state = viewModel.componentState.inputState,

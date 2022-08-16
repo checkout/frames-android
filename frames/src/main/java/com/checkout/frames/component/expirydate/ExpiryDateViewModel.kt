@@ -13,6 +13,7 @@ import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
+import com.checkout.frames.utils.constants.InputFieldConstants
 import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.model.ValidationResult
@@ -48,7 +49,7 @@ internal class ExpiryDateViewModel @Inject constructor(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 keyboardOptions = keyboardOptions,
                 visualTransformation = ExpiryDateVisualTransformation(),
-                maxLength = 4
+                maxLength = InputFieldConstants.EXPIRY_DATE_MAX_LENGTH
             )
         )
 
