@@ -1,4 +1,4 @@
-package com.checkout.frames.utils
+package com.checkout.frames.utils.constants
 
 import com.checkout.frames.model.Shape
 
