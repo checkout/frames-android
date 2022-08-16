@@ -5,14 +5,15 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
+import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
@@ -24,7 +25,7 @@ import com.checkout.frames.view.TextLabelState
 import dagger.Module
 import dagger.Provides
 
-@Module(subcomponents = [CardNumberViewModelSubComponent::class, PaymentDetailsViewModelSubComponent::class])
+@Module(subcomponents = [CardNumberViewModelSubComponent::class, ExpiryDateViewModelSubComponent::class], PaymentDetailsViewModelSubComponent::class])
 internal abstract class StylesModule {
 
     companion object {
