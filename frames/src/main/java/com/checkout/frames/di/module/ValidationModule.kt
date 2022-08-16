@@ -11,6 +11,6 @@ internal abstract class ValidationModule {
 
     companion object {
         @Provides
-        fun provideCardValidator(): CardValidator = CardValidatorFactory.createInternal()
+        fun provideCardValidator(): CardValidator = CardValidatorFactory.create()
     }
 }

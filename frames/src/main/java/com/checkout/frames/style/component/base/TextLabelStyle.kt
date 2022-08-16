@@ -1,4 +1,4 @@
-package com.checkout.frames.style.component
+package com.checkout.frames.style.component.base
 
 public data class TextLabelStyle(
     val text: String,

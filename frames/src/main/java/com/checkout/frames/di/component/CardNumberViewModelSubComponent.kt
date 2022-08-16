@@ -1,7 +1,7 @@
 package com.checkout.frames.di.component
 
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
-import com.checkout.frames.style.component.InputComponentStyle
+import com.checkout.frames.style.component.CardNumberComponentStyle
 import dagger.BindsInstance
 import dagger.Subcomponent
 
@@ -12,7 +12,7 @@ internal interface CardNumberViewModelSubComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun style(style: InputComponentStyle): Builder
+        fun style(style: CardNumberComponentStyle): Builder
 
         fun build(): CardNumberViewModelSubComponent
     }

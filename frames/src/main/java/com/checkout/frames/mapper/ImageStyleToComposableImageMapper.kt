@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
-import com.checkout.frames.style.component.ImageStyle
+import com.checkout.frames.style.component.base.ImageStyle
 
 internal class ImageStyleToComposableImageMapper : Mapper<ImageStyle?, @Composable (() -> Unit)?> {
 

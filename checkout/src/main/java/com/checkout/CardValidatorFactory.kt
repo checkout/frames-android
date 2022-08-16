@@ -1,6 +1,5 @@
 package com.checkout
 
-import androidx.annotation.RestrictTo
 import com.checkout.logging.EventLoggerProvider
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.validator.CardDetailsValidator
@@ -31,8 +30,7 @@ public object CardValidatorFactory {
      * Creates internal card validator.
      * @return [CardValidator] for individual card details components validation.
      */
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public fun createInternal(): CardValidator {
+    internal fun createInternal(): CardValidator {
         return CardDetailsValidator(
             ExpiryDateValidator(),
             CvvValidator(),

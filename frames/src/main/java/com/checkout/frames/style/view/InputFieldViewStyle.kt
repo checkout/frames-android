@@ -31,9 +31,9 @@ import com.checkout.frames.model.InputFieldColors
  * @param readOnly controls the editable state of the text field. When `true`, the text field cannot
  * be modified. However, a user can focus it and copy text from it. Read-only text fields are
  * usually used to display pre-filled forms that a user cannot edit.
- * @param textStyle the style to be applied to the input text. Defaults to [LocalTextStyle].
+ * @param textStyle the inputStyle to be applied to the input text. Defaults to [LocalTextStyle].
  * @param placeholder the optional placeholder to be displayed when the text field is in focus and
- * the input text is empty. The default text style for internal [Text] is [Typography.bodyLarge]
+ * the input text is empty. The default text inputStyle for internal [Text] is [Typography.bodyLarge]
  * @param isError indicates if the text field's current value is in error. If set to true, the
  * label, bottom indicator and trailing icon by default will be displayed in error color
  * @param visualTransformation transforms the visual representation of the input [value]

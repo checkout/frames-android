@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Color
@@ -44,16 +45,18 @@ import com.checkout.frames.style.view.InputFieldViewStyle
 internal fun InputField(
     style: InputFieldViewStyle,
     state: InputFieldState,
+    onFocusChanged: ((Boolean) -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) = with(style) {
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val textStyle = textStyle ?: LocalTextStyle.current
     val colors = provideInputFieldColors(borderShape != null, colors)
-    // If color is not provided via the text style, use content color as a default
+    // If color is not provided via the text inputStyle, use content color as a default
     val textColor = textStyle.color.takeOrElse { colors.textColor(enabled).value }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
     var modifier = modifier
         .background(colors.containerColor(enabled).value, containerShape)
+        .onFocusChanged { onFocusChanged?.let { onFocusChanged -> onFocusChanged(it.isFocused) } }
         .defaultMinSize(
             minWidth = TextFieldDefaults.MinWidth,
             minHeight = TextFieldDefaults.MinHeight
