@@ -1,6 +1,7 @@
 package com.checkout.frames.di.component
 
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
+import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
 import dagger.Component
@@ -9,6 +10,8 @@ import dagger.Component
 internal abstract class FramesDIComponent {
 
     abstract fun inject(factory: CardNumberViewModel.Factory)
+
+    abstract fun inject(factory: ExpiryDateViewModel.Factory)
 
     @Component.Builder
     interface Builder {

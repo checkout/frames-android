@@ -1,5 +1,6 @@
 package com.checkout.frames.component.base
 
+import android.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -88,14 +89,14 @@ private fun RoundCornerInputComponentPreview() {
             "Title",
             textStyle = TextStyle(size = 15, color = 0xFF141414, font = Font.SansSerif, maxLines = 1),
             leadingIconStyle = ImageStyle(
-                android.R.drawable.ic_menu_report_image,
+                R.drawable.ic_menu_report_image,
                 0xFF00FF00,
                 24,
                 24,
                 Padding(end = 8)
             ),
             trailingIconStyle = ImageStyle(
-                android.R.drawable.ic_dialog_map,
+                R.drawable.ic_dialog_map,
                 0xFFFF00FF,
                 32, 32,
                 Padding(start = 8)
@@ -105,25 +106,25 @@ private fun RoundCornerInputComponentPreview() {
             "Subtitle",
             textStyle = TextStyle(size = 13, color = 0xFF636363, font = Font.SansSerif, maxLines = 1),
             leadingIconStyle = ImageStyle(
-                android.R.drawable.ic_menu_report_image,
+                R.drawable.ic_menu_report_image,
                 0xFF00FF00,
                 13,
                 13,
                 Padding(end = 8)
             ),
-            trailingIconStyle = ImageStyle(android.R.drawable.ic_dialog_map, 0xFFFF00FF, 13, 13, Padding(start = 8)),
+            trailingIconStyle = ImageStyle(R.drawable.ic_dialog_map, 0xFFFF00FF, 13, 13, Padding(start = 8)),
         ),
         infoStyle = TextLabelStyle(
             "Optional",
             textStyle = TextStyle(size = 13, color = 0xFF636363, font = Font.SansSerif, maxLines = 1),
             leadingIconStyle = ImageStyle(
-                android.R.drawable.ic_menu_report_image,
+                R.drawable.ic_menu_report_image,
                 0xFF00FF00,
                 13,
                 13,
                 Padding(end = 8)
             ),
-            trailingIconStyle = ImageStyle(android.R.drawable.ic_dialog_map, 0xFFFF00FF, 13, 13, Padding(start = 8)),
+            trailingIconStyle = ImageStyle(R.drawable.ic_dialog_map, 0xFFFF00FF, 13, 13, Padding(start = 8)),
         ),
         inputFieldStyle = InputFieldStyle(
             textStyle = TextStyle(size = 16, color = 0xFF141414, font = Font.SansSerif, maxLines = 1),
@@ -135,9 +136,9 @@ private fun RoundCornerInputComponentPreview() {
                 focusedBorderColor = 0xFF0B5FF0,
                 errorBorderColor = 0xFFAD283E
             ),
-            leadingIconStyle = ImageStyle(android.R.drawable.ic_input_get, 0xFF000000, 16, 16, Padding(end = 8)),
+            leadingIconStyle = ImageStyle(R.drawable.ic_input_get, 0xFF000000, 16, 16, Padding(end = 8)),
             trailingIconStyle = ImageStyle(
-                android.R.drawable.ic_input_get,
+                R.drawable.ic_input_get,
                 0xFF000000,
                 width = 13,
                 height = 13,
@@ -147,8 +148,8 @@ private fun RoundCornerInputComponentPreview() {
         errorMessageStyle = TextLabelStyle(
             "",
             textStyle = TextStyle(size = 13, color = 0xFFAD283E, font = Font.SansSerif),
-            leadingIconStyle = ImageStyle(android.R.drawable.ic_dialog_info, 0xFFFF0000, 13, 13, Padding(end = 8)),
-            trailingIconStyle = ImageStyle(android.R.drawable.ic_dialog_info, 0xFFFF0000, 13, 13, Padding(start = 8)),
+            leadingIconStyle = ImageStyle(R.drawable.ic_dialog_info, 0xFFFF0000, 13, 13, Padding(end = 8)),
+            trailingIconStyle = ImageStyle(R.drawable.ic_dialog_info, 0xFFFF0000, 13, 13, Padding(start = 8)),
         ),
         containerStyle = ContainerStyle(margin = Margin(16, 16, 16, 16))
     )
