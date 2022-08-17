@@ -37,7 +37,6 @@ internal class InputFieldStyleToViewStyleMapper(
         modifier = provideModifier(from.containerStyle),
         textStyle = from.textStyle.toComposeTextStyle(),
         maxLines = from.textStyle.maxLines,
-        maxLength = from.textStyle.maxLength,
         placeholder = providePlaceholder(from.placeholderText, from.placeholderStyle),
         containerShape = from.containerStyle.shape.toComposeShape(from.containerStyle.cornerRadius),
         borderShape = provideBorderShape(from.indicatorStyle),
@@ -75,6 +74,10 @@ internal class InputFieldStyleToViewStyleMapper(
         focusedIndicatorColor = Color(style.indicatorStyle.focusedIndicatorColor()),
         unfocusedIndicatorColor = Color(style.indicatorStyle.unfocusedIndicatorColor()),
         errorIndicatorColor = Color(style.indicatorStyle.errorIndicatorColor()),
-        containerColor = Color(style.containerStyle.color)
+        containerColor = Color(style.containerStyle.color),
+        cursorColor = style.cursorStyle?.cursorColor?.let { Color(it) },
+        errorCursorColor = style.cursorStyle?.errorCursorColor?.let { Color(it) },
+        cursorHandleColor = style.cursorStyle?.cursorHandleColor?.let { Color(it) },
+        cursorHighlightColor = style.cursorStyle?.cursorHighlightColor?.let { Color(it) }
     )
 }

@@ -8,4 +8,5 @@ public data class InputFieldStyle(
     val indicatorStyle: InputFieldIndicatorStyle = InputFieldIndicatorStyle.Border(),
     val leadingIconStyle: ImageStyle? = null,
     val trailingIconStyle: ImageStyle? = null,
+    val cursorStyle: CursorStyle? = null
 )

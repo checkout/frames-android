@@ -10,4 +10,5 @@ internal data class CardNumberComponentState(
     val cardScheme: MutableState<CardScheme> = mutableStateOf(CardScheme.UNKNOWN)
 ) {
     val cardNumber = inputState.inputFieldState.text
+    val cardNumberLength = inputState.inputFieldState.maxLength
 }

@@ -7,7 +7,7 @@ import com.checkout.frames.model.Padding
 public data class ImageStyle(
     /** Image resource. */
     @DrawableRes
-    val image: Int,
+    val image: Int? = null,
     /** The 32-bit ARGB container background color. */
     @ColorLong
     val tinColor: Long? = null,

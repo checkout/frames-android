@@ -34,7 +34,7 @@ applyCommonLibConfigurations()
 applyNetworkConfigurations()
 
 android {
-    resourcePrefix = "cko-"
+    resourcePrefix = "cko_"
 
     defaultConfig {
         buildConfigField(

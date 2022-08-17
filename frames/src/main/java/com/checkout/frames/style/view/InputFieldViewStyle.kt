@@ -52,7 +52,6 @@ import com.checkout.frames.model.InputFieldColors
  * @param maxLines the maximum height in terms of maximum number of visible lines. Should be
  * equal or greater than 1. Note that this parameter will be ignored and instead maxLines will be
  * set to 1 if [singleLine] is set to true.
- * @param maxLength the maximum symbols limit for this text field.
  * @param interactionSource the [MutableInteractionSource] representing the stream of [Interaction]s
  * for this text field. You can create and pass in your own `remember`ed instance to observe
  * [Interaction]s and customize the appearance / behavior of this text field in different states.
@@ -76,7 +75,6 @@ internal data class InputFieldViewStyle(
     val keyboardActions: KeyboardActions = KeyboardActions.Default,
     val singleLine: Boolean = true,
     val maxLines: Int = Int.MAX_VALUE,
-    val maxLength: Int? = null,
     val interactionSource: MutableInteractionSource? = null,
     val containerShape: Shape = RectangleShape,
     val borderShape: Shape? = null,
