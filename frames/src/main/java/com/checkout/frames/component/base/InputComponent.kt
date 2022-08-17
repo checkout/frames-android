@@ -61,8 +61,7 @@ internal fun InputComponent(
         // Input field
         InputField(style.inputFieldStyle, inputFieldState, onFocusChanged, onValueChange)
         // Error message
-        if (errorState.isVisible.value)
-            TextLabel(style.errorMessageStyle, errorState)
+        if (errorState.isVisible.value) TextLabel(style.errorMessageStyle, errorState)
     }
 }
 

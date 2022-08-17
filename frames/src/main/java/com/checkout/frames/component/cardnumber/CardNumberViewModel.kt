@@ -2,11 +2,13 @@ package com.checkout.frames.component.cardnumber
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.CardScheme
+import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
@@ -30,14 +32,20 @@ internal class CardNumberViewModel @Inject constructor(
     private val style: CardNumberComponentStyle
 ) : ViewModel() {
 
-    val componentState = provideViewState(style.inputStyle)
+    val componentState = provideViewState(style)
     val componentStyle = provideViewStyle(style.inputStyle)
+
+    // Flag to determine that component has been already focused before
+    // Needed to prevent validation on focus switch for initial component state
+    private var wasFocused = false
 
     /**
      * Make full card number validation, when focus switched to another view.
      */
     fun onFocusChanged(isFocused: Boolean) {
-        if (!isFocused) {
+        if (isFocused) wasFocused = isFocused
+
+        if (!isFocused && wasFocused) {
             val cardNumber = componentState.cardNumber.value
             handleValidationResult(cardValidator.validateCardNumber(cardNumber), false)
         }
@@ -47,9 +55,9 @@ internal class CardNumberViewModel @Inject constructor(
      * Update mutable state of input field value.
      * Make eager validation.
      */
-    fun onCardNumberChange(text: String) {
-        componentState.cardNumber.value = text
-        handleValidationResult(cardValidator.eagerValidateCardNumber(text), true)
+    fun onCardNumberChange(text: String) = with(text.replace("[^\\d]".toRegex(), "")) {
+        componentState.cardNumber.value = this
+        handleValidationResult(cardValidator.eagerValidateCardNumber(this), true)
     }
 
     private fun handleValidationResult(result: ValidationResult<CardScheme>, isEagerCheck: Boolean) = when (result) {
@@ -58,19 +66,19 @@ internal class CardNumberViewModel @Inject constructor(
                 componentState.cardScheme.value = this
                 componentState.cardNumberLength.value = this.maxNumberLength
             }
-            // TODO: PIMOB-1349 - Hide error for both eager and full check
+            componentState.hideError()
         }
         is ValidationResult.Failure -> {
-            // TODO: PIMOB-1349 - Implement error handling.
+            componentState.showError(R.string.cko_base_invalid_card_number_error)
         }
     }
 
-    private fun provideViewState(inputStyle: InputComponentStyle): CardNumberComponentState {
-        val viewState = CardNumberComponentState(inputComponentStateMapper.map(inputStyle))
+    private fun provideViewState(style: CardNumberComponentStyle): CardNumberComponentState {
+        val viewState = CardNumberComponentState(inputComponentStateMapper.map(style.inputStyle))
 
         viewState.inputState.inputFieldState.leadingIcon.value = imageMapper.map(
             ImageStyleToDynamicImageRequest(
-                inputStyle.inputFieldStyle.leadingIconStyle,
+                style.inputStyle.inputFieldStyle.leadingIconStyle,
                 snapshotFlow { viewState.cardScheme.value }.map { it.imageId }
             )
         )
@@ -80,7 +88,7 @@ internal class CardNumberViewModel @Inject constructor(
 
     private fun provideViewStyle(inputStyle: InputComponentStyle): InputComponentViewStyle {
         var viewStyle = inputComponentStyleMapper.map(inputStyle)
-        val keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        val keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next)
 
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(

@@ -37,16 +37,16 @@ internal class CardNumberValidatorTest {
     }
 
     @Test
-    fun `Validation of card number with unknown card scheme returns unknown card scheme`() {
+    fun `Validation of card number with unknown card scheme returns correct error`() {
         // Given
         val request = CardNumberValidationRequest("11111111111111111")
-        val expected = CardScheme.UNKNOWN
+        val expected = ValidationError.CARD_NUMBER_SCHEME_UNRECOGNIZED
 
         // When
-        val result = cardNumberValidator.validate(request) as? ValidationResult.Success<CardScheme>
+        val result = cardNumberValidator.validate(request) as? ValidationResult.Failure
 
         // Then
-        assertEquals(expected, result?.value)
+        assertEquals(expected, result?.error?.errorCode)
     }
 
     @Test
@@ -65,17 +65,17 @@ internal class CardNumberValidatorTest {
     }
 
     @Test
-    fun `Validation of card number with failed Luhn check returns unknown card scheme`() {
+    fun `Validation of card number with failed Luhn check returns correct error`() {
         // Given
         val request = CardNumberValidationRequest("4917610000000000003") // valid VISA card number
-        val expected = CardScheme.UNKNOWN
+        val expected = ValidationError.CARD_NUMBER_LUHN_CHECK_ERROR
         every { mockLuhnChecker.check(any()) } returns false
 
         // When
-        val result = cardNumberValidator.validate(request) as? ValidationResult.Success<CardScheme>
+        val result = cardNumberValidator.validate(request) as? ValidationResult.Failure
 
         // Then
-        assertEquals(expected, result?.value)
+        assertEquals(expected, result?.error?.errorCode)
     }
 
     @ParameterizedTest(

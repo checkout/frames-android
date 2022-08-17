@@ -2,12 +2,18 @@ package com.checkout.frames.component.cardnumber
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.component.base.InputComponent
 import com.checkout.frames.di.base.Injector
@@ -26,6 +32,7 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.CursorStyle
+import com.checkout.frames.style.component.default.DefaultTextLabelStyle
 
 @Composable
 internal fun CardNumberComponent(
@@ -44,6 +51,8 @@ internal fun CardNumberComponent(
     )
 }
 
+/* ------------------------------ Preview ------------------------------ */
+
 @SuppressWarnings("LongMethod", "MagicNumber")
 @Preview(showBackground = true, backgroundColor = 0xFF17201E, name = "DarkBorderlessCardNumberComponentPreview")
 @Composable
@@ -51,7 +60,7 @@ private fun DarkBorderlessCardNumberComponentPreview() {
     val style = InputComponentStyle(
         titleStyle = TextLabelStyle(
             "Card number",
-            textStyle = TextStyle(size = 15, color = 0xFF00CC2D, font = Font.SansSerif, maxLines = 1)
+            textStyle = TextStyle(size = 16, color = 0xFF00CC2D, font = Font.SansSerif, maxLines = 1)
         ),
         inputFieldStyle = InputFieldStyle(
             textStyle = TextStyle(size = 16, color = 0xFFFFFFFF, font = Font.SansSerif, maxLines = 1),
@@ -63,29 +72,39 @@ private fun DarkBorderlessCardNumberComponentPreview() {
                 cornerRadius = CornerRadius(8),
                 margin = Margin(top = 8, bottom = 8),
             ),
-            indicatorStyle = InputFieldIndicatorStyle.Underline(
-                unfocusedUnderlineColor = 0x00000000,
-                focusedUnderlineColor = 0x00000000,
-                errorUnderlineColor = 0x00000000
+            indicatorStyle = InputFieldIndicatorStyle.Border(
+                unfocusedBorderColor = 0x00000000,
+                focusedBorderColor = 0x00000000,
+                errorBorderColor = 0xFFFF6839
             ),
             leadingIconStyle = ImageStyle(padding = Padding(start = 20, end = 10)),
             cursorStyle = CursorStyle(0xFF00CC2D, 0xFF00CC2D, 0xFF00CC2D, 0x4000CC2D)
         ),
-        errorMessageStyle = TextLabelStyle(
-            "",
-            textStyle = TextStyle(size = 13, color = 0xFFAD283E, font = Font.SansSerif)
-        )
+        errorMessageStyle = DefaultTextLabelStyle.error(color = 0xFFFF6839)
     )
 
     Column(
         modifier = Modifier
             .background(Color(0xFF17201E))
             .padding(20.dp)
+            .fillMaxHeight()
     ) {
+
+        Text(
+            text = "Payment details",
+            fontSize = 24.sp,
+            modifier = Modifier.padding(bottom = 20.dp),
+            color = Color(0xFFFFFFFF),
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif
+        )
+
         CardNumberComponent(
-            CardNumberComponentStyle(style, ' '),
+            CardNumberComponentStyle(style, cardNumberSeparator = ' '),
             FramesInjector.create()
         )
+
+        OutlinedTextField(value = "", onValueChange = {}, modifier = Modifier.padding(top = 20.dp))
     }
 }
 
@@ -96,7 +115,7 @@ private fun LightWithBorderCardNumberComponentPreview() {
     val style = InputComponentStyle(
         titleStyle = TextLabelStyle(
             "Card number",
-            textStyle = TextStyle(size = 15, color = 0xFF141414, font = Font.SansSerif, maxLines = 1),
+            textStyle = TextStyle(size = 16, color = 0xFF141414, font = Font.SansSerif, maxLines = 1),
         ),
         subtitleStyle = TextLabelStyle(
             "Amex, Diner's Club, Discover, JCB, Mada, Maestro, Mastercard and Visa accepted.",
@@ -104,7 +123,7 @@ private fun LightWithBorderCardNumberComponentPreview() {
         ),
         inputFieldStyle = InputFieldStyle(
             textStyle = TextStyle(size = 16, color = 0xFF141414, font = Font.SansSerif, maxLines = 1),
-            placeholderText = "XXXX XXXX XXXX XXXX",
+            placeholderText = "XXXX-XXXX-XXXX-XXXX",
             placeholderStyle = TextStyle(size = 16, color = 0x80636363, font = Font.SansSerif, maxLines = 1),
             containerStyle = ContainerStyle(margin = Margin(top = 8, bottom = 8)),
             indicatorStyle = InputFieldIndicatorStyle.Border(
@@ -117,14 +136,20 @@ private fun LightWithBorderCardNumberComponentPreview() {
     )
 
     Column(modifier = Modifier.padding(20.dp)) {
-        CardNumberComponent(
-            CardNumberComponentStyle(style, ' '),
-            FramesInjector.create()
+        Text(
+            text = "Payment details",
+            fontSize = 24.sp,
+            modifier = Modifier.padding(bottom = 20.dp),
+            color = Color(0xFF000000),
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif
         )
 
         CardNumberComponent(
             CardNumberComponentStyle(style, ' '),
             FramesInjector.create()
         )
+
+        OutlinedTextField(value = "", onValueChange = {}, modifier = Modifier.padding(top = 20.dp))
     }
 }

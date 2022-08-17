@@ -18,6 +18,8 @@ internal class ValidationError(
          */
         const val UNEXPECTED_VALIDATION_ERROR = "ValidationError:1000"
         const val CARD_NUMBER_INVALID_CHARACTERS = "ValidationError:1001"
+        const val CARD_NUMBER_LUHN_CHECK_ERROR = "ValidationError:1023"
+        const val CARD_NUMBER_SCHEME_UNRECOGNIZED = "ValidationError:1024"
 
         /**
          * Error codes for CVV validation.
