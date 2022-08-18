@@ -63,6 +63,7 @@ import com.checkout.frames.model.InputFieldColors
  * focused state.
  * @param unfocusedBorderThickness thickness of the text field's border when it is not
  * in focused state.
+ * @param forceLTR force LTR usage even for RTL layout direction.
  */
 internal data class InputFieldViewStyle(
     val modifier: Modifier = Modifier.fillMaxWidth(),
@@ -80,5 +81,6 @@ internal data class InputFieldViewStyle(
     val borderShape: Shape? = null,
     val colors: InputFieldColors? = null,
     val focusedBorderThickness: Dp = TextFieldDefaults.FocusedBorderThickness,
-    val unfocusedBorderThickness: Dp = TextFieldDefaults.UnfocusedBorderThickness
+    val unfocusedBorderThickness: Dp = TextFieldDefaults.UnfocusedBorderThickness,
+    var forceLTR: Boolean = false
 )
