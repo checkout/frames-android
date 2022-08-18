@@ -33,7 +33,7 @@ internal class CardNumberValidator(
 
     /**
      * Checks whether a given card number is valid and matches any of the supported schemes,
-     * pass luhn and length checks.
+     * and pass Luhn and length checks.
      *
      * @param cardNumber - The card number provided for validation of type [String].
      * @return [CardScheme].
@@ -41,7 +41,18 @@ internal class CardNumberValidator(
     @Throws(ValidationError::class)
     private fun validate(cardNumber: String): CardScheme {
         val cardScheme = provideCardScheme(cardNumber, false)
-        return if (checker.check(cardNumber)) cardScheme else CardScheme.UNKNOWN
+
+        if (cardScheme == CardScheme.UNKNOWN) throw ValidationError(
+            ValidationError.CARD_NUMBER_SCHEME_UNRECOGNIZED,
+            "Card scheme not recognized"
+        )
+
+        if (!checker.check(cardNumber)) throw ValidationError(
+            ValidationError.CARD_NUMBER_LUHN_CHECK_ERROR,
+            "Card number Luhn check error"
+        )
+
+        return cardScheme
     }
 
     /**
