@@ -55,7 +55,7 @@ internal class CardNumberViewModel @Inject constructor(
      * Update mutable state of input field value.
      * Make eager validation.
      */
-    fun onCardNumberChange(text: String) = with(text.replace("[^\\d]".toRegex(), "")) {
+    fun onCardNumberChange(text: String) = with(text.replace("[^0-9]".toRegex(), "")) {
         componentState.cardNumber.value = this
         handleValidationResult(cardValidator.eagerValidateCardNumber(this), true)
     }
@@ -93,7 +93,8 @@ internal class CardNumberViewModel @Inject constructor(
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 keyboardOptions = keyboardOptions,
-                visualTransformation = CardNumberTransformation(style.cardNumberSeparator, componentState.cardScheme)
+                visualTransformation = CardNumberTransformation(style.cardNumberSeparator, componentState.cardScheme),
+                forceLTR = true
             )
         )
 

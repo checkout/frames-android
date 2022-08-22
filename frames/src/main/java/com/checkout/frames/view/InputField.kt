@@ -34,10 +34,14 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.InputFieldColors
 import com.checkout.frames.utils.constants.BorderConstants
@@ -52,7 +56,7 @@ internal fun InputField(
     onValueChange: (String) -> Unit
 ) = with(style) {
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
-    val textStyle = textStyle ?: LocalTextStyle.current
+    val textStyle = provideTextStyle(this)
     val colors = provideInputFieldColors(borderShape != null, colors)
     // If color is not provided via the text inputStyle, use content color as a default
     val textColor = textStyle.color.takeOrElse { colors.textColor(enabled).value }
@@ -66,14 +70,14 @@ internal fun InputField(
             minHeight = TextFieldDefaults.MinHeight
         )
 
-    modifier = if (borderShape == null) modifier.indicatorLine(
+    if (borderShape == null) modifier = modifier.indicatorLine(
         enabled,
         state.isError.value,
         interactionSource,
         colors,
         focusedIndicatorLineThickness = focusedBorderThickness,
         unfocusedIndicatorLineThickness = unfocusedBorderThickness
-    ) else modifier
+    )
 
     CompositionLocalProvider(LocalTextSelectionColors provides textSelectionColors) {
         BasicTextField(
@@ -212,6 +216,16 @@ private fun provideTextSelectionColors(inputColors: InputFieldColors?, cursorCol
         handleColor = inputColors?.cursorHandleColor ?: cursorColor,
         backgroundColor = inputColors?.cursorHighlightColor ?: cursorColor.copy(alpha = 0.4f)
     )
+}
+
+@Composable
+private fun provideTextStyle(style: InputFieldViewStyle): TextStyle {
+    var textStyle = style.textStyle ?: LocalTextStyle.current
+
+    if (style.forceLTR && LocalLayoutDirection.current == LayoutDirection.Rtl)
+        textStyle = textStyle.copy(textDirection = TextDirection.Ltr, textAlign = TextAlign.End)
+
+    return textStyle
 }
 
 private fun ((String) -> Unit).withMaxLength(maxLength: Int?): (String) -> Unit = {
