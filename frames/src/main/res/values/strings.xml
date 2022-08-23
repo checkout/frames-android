@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="cko_base_invalid_expiry_date_error" translatable="true">Please enter a valid expiry date.</string>
+    <string name="cko_base_invalid_past_expiry_date_error" translatable="true">Expiry date is in the past.</string>
     <!--Card number component-->
     <string name="cko_card_number_title" translatable="true">Card number</string>
     <string name="cko_base_invalid_card_number_error" translatable="true">Please enter a valid card number.</string>
