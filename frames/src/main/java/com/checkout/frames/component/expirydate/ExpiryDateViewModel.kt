@@ -49,7 +49,6 @@ internal class ExpiryDateViewModel @Inject constructor(
             validateExpiryDate(expiryDate, isFocused)
         }
     }
-
     fun onExpiryDateInputChange(inputExpiryDate: String) = with(inputExpiryDate.replace(onlyDigitsRegex, "")) {
         validateExpiryDate(this, true)
     }
@@ -75,7 +74,7 @@ internal class ExpiryDateViewModel @Inject constructor(
         }
 
         is ValidationResult.Failure -> {
-            // TODO: PIMOB-1401 - Implement error handling for expiry date.
+            result.error.message?.let { componentState.showError(it) }
         }
     }
 
