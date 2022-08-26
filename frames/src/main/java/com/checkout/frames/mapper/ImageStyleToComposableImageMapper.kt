@@ -13,15 +13,15 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
-import com.checkout.frames.style.component.ImageStyle
+import com.checkout.frames.style.component.base.ImageStyle
 
 internal class ImageStyleToComposableImageMapper : Mapper<ImageStyle?, @Composable (() -> Unit)?> {
 
     override fun map(from: ImageStyle?): @Composable (() -> Unit)? = from?.let { @Composable { LabelImage(it) } }
 
     @Composable
-    private fun LabelImage(style: ImageStyle) {
-        val image = painterResource(id = style.image)
+    private fun LabelImage(style: ImageStyle) = style.image?.let { imageId ->
+        val image = painterResource(imageId)
         var modifier = Modifier.wrapContentHeight().wrapContentWidth()
 
         style.padding?.let { modifier = modifier.padding(it.start.dp, it.top.dp, it.end.dp, it.bottom.dp) }

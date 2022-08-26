@@ -14,11 +14,11 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.model.InputFieldColors
-import com.checkout.frames.style.component.TextLabelStyle
-import com.checkout.frames.style.component.InputFieldStyle
-import com.checkout.frames.style.component.ContainerStyle
-import com.checkout.frames.style.component.TextStyle
-import com.checkout.frames.style.component.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.TextStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.utils.extensions.errorIndicatorColor
@@ -37,7 +37,6 @@ internal class InputFieldStyleToViewStyleMapper(
         modifier = provideModifier(from.containerStyle),
         textStyle = from.textStyle.toComposeTextStyle(),
         maxLines = from.textStyle.maxLines,
-        maxLength = from.textStyle.maxLength,
         placeholder = providePlaceholder(from.placeholderText, from.placeholderStyle),
         containerShape = from.containerStyle.shape.toComposeShape(from.containerStyle.cornerRadius),
         borderShape = provideBorderShape(from.indicatorStyle),
@@ -75,6 +74,10 @@ internal class InputFieldStyleToViewStyleMapper(
         focusedIndicatorColor = Color(style.indicatorStyle.focusedIndicatorColor()),
         unfocusedIndicatorColor = Color(style.indicatorStyle.unfocusedIndicatorColor()),
         errorIndicatorColor = Color(style.indicatorStyle.errorIndicatorColor()),
-        containerColor = Color(style.containerStyle.color)
+        containerColor = Color(style.containerStyle.color),
+        cursorColor = style.cursorStyle?.cursorColor?.let { Color(it) },
+        errorCursorColor = style.cursorStyle?.errorCursorColor?.let { Color(it) },
+        cursorHandleColor = style.cursorStyle?.cursorHandleColor?.let { Color(it) },
+        cursorHighlightColor = style.cursorStyle?.cursorHighlightColor?.let { Color(it) }
     )
 }

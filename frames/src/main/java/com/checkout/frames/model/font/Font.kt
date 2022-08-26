@@ -9,7 +9,7 @@ public sealed class Font {
     public object Default : Font()
 
     /**
-     * The formal text style for scripts.
+     * The formal text inputStyle for scripts.
      *
      * @sample androidx.compose.ui.text.samples.FontFamilySerifSample
      *

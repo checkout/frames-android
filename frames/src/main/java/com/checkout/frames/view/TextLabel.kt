@@ -8,11 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.model.Padding
-import com.checkout.frames.style.component.ImageStyle
+import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 
 @Composable
@@ -23,10 +24,11 @@ internal fun TextLabel(
     modifier = style.modifier,
     verticalAlignment = Alignment.CenterVertically
 ) {
+    val text = state.textId.value?.let { stringResource(id = it) } ?: state.text.value
     with(style) {
         state.leadingIcon.value?.let { it() }
         Text(
-            state.text.value,
+            text,
             modifier,
             color,
             fontSize,

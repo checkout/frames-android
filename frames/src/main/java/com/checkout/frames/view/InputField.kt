@@ -11,6 +11,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.TextFieldDefaults
@@ -22,21 +24,27 @@ import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors
 import androidx.compose.material3.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.InputFieldColors
-import com.checkout.frames.utils.BorderConstants
+import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.style.view.InputFieldViewStyle
 
 @Composable
@@ -44,63 +52,68 @@ import com.checkout.frames.style.view.InputFieldViewStyle
 internal fun InputField(
     style: InputFieldViewStyle,
     state: InputFieldState,
+    onFocusChanged: ((Boolean) -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) = with(style) {
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
-    val textStyle = textStyle ?: LocalTextStyle.current
+    val textStyle = provideTextStyle(this)
     val colors = provideInputFieldColors(borderShape != null, colors)
-    // If color is not provided via the text style, use content color as a default
+    // If color is not provided via the text inputStyle, use content color as a default
     val textColor = textStyle.color.takeOrElse { colors.textColor(enabled).value }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
+    val textSelectionColors = provideTextSelectionColors(style.colors, colors.cursorColor(isError = false).value)
     var modifier = modifier
         .background(colors.containerColor(enabled).value, containerShape)
+        .onFocusChanged { onFocusChanged?.let { onFocusChanged -> onFocusChanged(it.isFocused) } }
         .defaultMinSize(
             minWidth = TextFieldDefaults.MinWidth,
             minHeight = TextFieldDefaults.MinHeight
         )
 
-    modifier = if (borderShape == null) modifier.indicatorLine(
+    if (borderShape == null) modifier = modifier.indicatorLine(
         enabled,
         state.isError.value,
         interactionSource,
         colors,
         focusedIndicatorLineThickness = focusedBorderThickness,
         unfocusedIndicatorLineThickness = unfocusedBorderThickness
-    ) else modifier
-
-    BasicTextField(
-        value = state.text.value,
-        modifier = modifier,
-        onValueChange = onValueChange.withMaxLength(maxLength),
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = mergedTextStyle,
-        cursorBrush = SolidColor(colors.cursorColor(state.isError.value).value),
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        interactionSource = interactionSource,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        decorationBox = @Composable { innerTextField ->
-            DecorationBox(
-                value = state.text.value,
-                visualTransformation = visualTransformation,
-                innerTextField = innerTextField,
-                placeholder = placeholder,
-                leadingIcon = state.leadingIcon.value,
-                trailingIcon = state.trailingIcon.value,
-                singleLine = singleLine,
-                enabled = enabled,
-                isError = state.isError.value,
-                interactionSource = interactionSource,
-                colors = colors,
-                borderShape = borderShape,
-                focusedBorderThickness = focusedBorderThickness,
-                unfocusedBorderThickness = unfocusedBorderThickness
-            )
-        }
     )
+
+    CompositionLocalProvider(LocalTextSelectionColors provides textSelectionColors) {
+        BasicTextField(
+            value = state.text.value,
+            modifier = modifier,
+            onValueChange = onValueChange.withMaxLength(state.maxLength.value),
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = mergedTextStyle,
+            cursorBrush = SolidColor(colors.cursorColor(state.isError.value).value),
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            interactionSource = interactionSource,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            decorationBox = @Composable { innerTextField ->
+                DecorationBox(
+                    value = state.text.value,
+                    visualTransformation = visualTransformation,
+                    innerTextField = innerTextField,
+                    placeholder = placeholder,
+                    leadingIcon = state.leadingIcon.value,
+                    trailingIcon = state.trailingIcon.value,
+                    singleLine = singleLine,
+                    enabled = enabled,
+                    isError = state.isError.value,
+                    interactionSource = interactionSource,
+                    colors = colors,
+                    borderShape = borderShape,
+                    focusedBorderThickness = focusedBorderThickness,
+                    unfocusedBorderThickness = unfocusedBorderThickness
+                )
+            }
+        )
+    }
 }
 
 @Composable
@@ -166,25 +179,53 @@ private fun DecorationBox(
 @Composable
 @SuppressWarnings("NestedBlockDepth")
 private fun provideInputFieldColors(withBorder: Boolean, colors: InputFieldColors?): TextFieldColors {
+    val textColor = colors?.textColor ?: Color.Black
+    val placeholderColor = colors?.placeholderColor ?: Color.Gray
+    val focusedIndicatorColor = colors?.focusedIndicatorColor ?: Color(BorderConstants.focusedBorderColor)
+    val unfocusedIndicatorColor = colors?.unfocusedIndicatorColor ?: Color(BorderConstants.unfocusedBorderColor)
+    val errorIndicatorColor = colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor)
+    val containerColor = colors?.containerColor ?: Color.Transparent
+    val cursorColor = colors?.cursorColor ?: colors?.focusedIndicatorColor ?: Color.Black
+    val errorCursorColor =
+        colors?.errorCursorColor ?: colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor)
+
     return if (withBorder) outlinedTextFieldColors(
-        textColor = colors?.textColor ?: Color.Black,
-        placeholderColor = colors?.placeholderColor ?: Color.Gray,
-        focusedBorderColor = colors?.focusedIndicatorColor ?: Color(BorderConstants.focusedBorderColor),
-        unfocusedBorderColor = colors?.unfocusedIndicatorColor ?: Color(BorderConstants.unfocusedBorderColor),
-        errorBorderColor = colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor),
-        containerColor = colors?.containerColor ?: Color.Transparent
-    ).apply {
-        colors?.let { colors ->
-            colors.textColor?.let { }
-        }
-    } else textFieldColors(
-        textColor = colors?.textColor ?: Color.Black,
-        placeholderColor = colors?.placeholderColor ?: Color.Gray,
-        focusedIndicatorColor = colors?.focusedIndicatorColor ?: Color(BorderConstants.focusedBorderColor),
-        unfocusedIndicatorColor = colors?.unfocusedIndicatorColor ?: Color(BorderConstants.unfocusedBorderColor),
-        errorIndicatorColor = colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor),
-        containerColor = colors?.containerColor ?: Color.Transparent
+        textColor = textColor,
+        placeholderColor = placeholderColor,
+        focusedBorderColor = focusedIndicatorColor,
+        unfocusedBorderColor = unfocusedIndicatorColor,
+        errorBorderColor = errorIndicatorColor,
+        containerColor = containerColor,
+        cursorColor = cursorColor,
+        errorCursorColor = errorCursorColor
+    ) else textFieldColors(
+        textColor = textColor,
+        placeholderColor = placeholderColor,
+        focusedIndicatorColor = focusedIndicatorColor,
+        unfocusedIndicatorColor = unfocusedIndicatorColor,
+        errorIndicatorColor = errorIndicatorColor,
+        containerColor = containerColor,
+        cursorColor = cursorColor,
+        errorCursorColor = errorCursorColor
     )
+}
+
+@Composable
+private fun provideTextSelectionColors(inputColors: InputFieldColors?, cursorColor: Color): TextSelectionColors {
+    return TextSelectionColors(
+        handleColor = inputColors?.cursorHandleColor ?: cursorColor,
+        backgroundColor = inputColors?.cursorHighlightColor ?: cursorColor.copy(alpha = 0.4f)
+    )
+}
+
+@Composable
+private fun provideTextStyle(style: InputFieldViewStyle): TextStyle {
+    var textStyle = style.textStyle ?: LocalTextStyle.current
+
+    if (style.forceLTR && LocalLayoutDirection.current == LayoutDirection.Rtl)
+        textStyle = textStyle.copy(textDirection = TextDirection.Ltr, textAlign = TextAlign.End)
+
+    return textStyle
 }
 
 private fun ((String) -> Unit).withMaxLength(maxLength: Int?): (String) -> Unit = {
@@ -213,8 +254,7 @@ private fun InputFieldPreview() {
                     .fillMaxWidth()
                     .height(56.dp),
                 colors = InputFieldColors(containerColor = Color.Transparent),
-                placeholder = { Text(text = "Test placeholder") },
-                maxLength = 8
+                placeholder = { Text(text = "Test placeholder") }
             ),
             InputFieldState(text)
         ) { text.value = it }
@@ -244,34 +284,7 @@ private fun RoundInputFieldPreview() {
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 placeholder = { Text(text = "Test placeholder") },
-                containerShape = RoundedCornerShape(12.dp),
-                maxLength = 8
-            ),
-            InputFieldState(text)
-        ) { text.value = it }
-    }
-}
-
-@SuppressLint("UnrememberedMutableState")
-@Preview(showBackground = true, name = "Default OutlineInputField")
-@Composable
-private fun OutlineInputFieldPreview() {
-    val text = mutableStateOf("")
-
-    Surface(
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        InputField(
-            InputFieldViewStyle(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                placeholder = { Text(text = "Test placeholder Outline") },
-                maxLength = 8,
-                borderShape = RoundedCornerShape(8.dp)
+                containerShape = RoundedCornerShape(12.dp)
             ),
             InputFieldState(text)
         ) { text.value = it }
@@ -296,7 +309,6 @@ private fun CustomOutlineInputFieldPreview() {
                     .fillMaxWidth()
                     .height(56.dp),
                 placeholder = { Text(text = "Test placeholder Outline") },
-                maxLength = 8,
                 borderShape = RectangleShape
             ),
             InputFieldState(text)
@@ -322,7 +334,6 @@ private fun CutCornerOutlineInputFieldPreview() {
                     .fillMaxWidth()
                     .height(56.dp),
                 placeholder = { Text(text = "Test placeholder Outline") },
-                maxLength = 8,
                 colors = InputFieldColors(unfocusedIndicatorColor = Color.Blue),
                 borderShape = CutCornerShape(16.dp),
                 unfocusedBorderThickness = 4.dp
@@ -350,7 +361,6 @@ private fun CircleOutlineInputFieldPreview() {
                     .fillMaxWidth()
                     .height(56.dp),
                 placeholder = { Text(text = "Test placeholder Outline") },
-                maxLength = 8,
                 colors = InputFieldColors(unfocusedIndicatorColor = Color.Magenta),
                 borderShape = CircleShape,
                 unfocusedBorderThickness = 2.dp

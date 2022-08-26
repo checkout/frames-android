@@ -19,13 +19,13 @@ import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Shape
 import com.checkout.frames.model.font.Font
-import com.checkout.frames.style.component.InputComponentStyle
-import com.checkout.frames.style.component.TextLabelStyle
-import com.checkout.frames.style.component.TextStyle
-import com.checkout.frames.style.component.ImageStyle
-import com.checkout.frames.style.component.InputFieldStyle
-import com.checkout.frames.style.component.ContainerStyle
-import com.checkout.frames.style.component.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
+import com.checkout.frames.style.component.base.TextStyle
+import com.checkout.frames.style.component.base.ImageStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
 import com.checkout.frames.view.InputField
 import com.checkout.frames.view.TextLabel
@@ -34,6 +34,7 @@ import com.checkout.frames.view.TextLabel
 internal fun InputComponent(
     style: InputComponentViewStyle,
     state: InputComponentState,
+    onFocusChanged: ((Boolean) -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) = with(state) {
     Column(modifier = style.containerModifier.wrapContentHeight()) {
@@ -58,10 +59,9 @@ internal fun InputComponent(
             }
         }
         // Input field
-        InputField(style.inputFieldStyle, inputFieldState, onValueChange)
+        InputField(style.inputFieldStyle, inputFieldState, onFocusChanged, onValueChange)
         // Error message
-        if (errorState.isVisible.value)
-            TextLabel(style.errorMessageStyle, errorState)
+        if (errorState.isVisible.value) TextLabel(style.errorMessageStyle, errorState)
     }
 }
 

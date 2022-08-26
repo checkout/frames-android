@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 
-internal fun com.checkout.frames.style.component.TextStyle.toComposeTextStyle(): TextStyle = TextStyle(
+internal fun com.checkout.frames.style.component.base.TextStyle.toComposeTextStyle(): TextStyle = TextStyle(
     fontSize = this.size.sp,
     color = Color(this.color),
     textAlign = this.textAlign.toComposeTextAlign(),
