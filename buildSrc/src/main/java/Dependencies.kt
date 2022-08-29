@@ -16,7 +16,7 @@ object Dependencies {
     const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
     const val lifeCycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
     const val lifeCycleRunTime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}"
-    const val lifeCycleViewModel =
+    const val lifecycle_viewmodel =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
 
     // Compose
@@ -27,6 +27,7 @@ object Dependencies {
     const val compose_ui_tooling_preview = "androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
     const val compose_activity = "androidx.activity:activity-compose:${Versions.compose_activity_version}"
     const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.compose_viewmodel}"
+    const val compose_navigation = "androidx.navigation:navigation-compose:${Versions.compose_navigation}"
 
     // Compose Test
     const val compose_ui_test = "androidx.compose.ui:ui-test-junit4:${Versions.compose_version}"

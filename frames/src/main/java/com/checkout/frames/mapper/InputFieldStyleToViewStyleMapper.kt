@@ -58,7 +58,7 @@ internal class InputFieldStyleToViewStyleMapper(
     private fun providePlaceholder(placeholderText: String, placeholderStyle: TextStyle): @Composable (() -> Unit) =
         @Composable {
             TextLabel(
-                textLabelStyleMapper.map(TextLabelStyle(placeholderText, placeholderStyle)),
+                textLabelStyleMapper.map(TextLabelStyle(placeholderText, textStyle = placeholderStyle)),
                 TextLabelState(mutableStateOf(placeholderText), isVisible = mutableStateOf(true))
             )
         }

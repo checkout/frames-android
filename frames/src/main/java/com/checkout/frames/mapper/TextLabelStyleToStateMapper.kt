@@ -12,9 +12,10 @@ internal class TextLabelStyleToStateMapper(
 ) : Mapper<TextLabelStyle?, TextLabelState> {
 
     override fun map(from: TextLabelStyle?): TextLabelState = TextLabelState(
-        mutableStateOf(from?.text ?: ""),
+        text = mutableStateOf(from?.text ?: ""),
+        textId = mutableStateOf(from?.textId),
         leadingIcon = mutableStateOf(imageMapper.map(from?.leadingIconStyle)),
         trailingIcon = mutableStateOf(imageMapper.map(from?.trailingIconStyle)),
-        isVisible = mutableStateOf(from?.text?.isNotBlank() == true)
+        isVisible = mutableStateOf(from?.text?.isNotBlank() == true || from?.textId != null)
     )
 }
