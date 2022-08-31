@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.Environment
-import com.checkout.example.frames.PromptUtils
-import com.checkout.example.frames.PromptUtils.neutralButton
+import com.checkout.example.frames.ui.utils.PromptUtils
+import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme

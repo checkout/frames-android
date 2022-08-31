@@ -8,8 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.checkout.base.model.Environment
 import com.checkout.example.frames.navigation.Screen
+import com.checkout.example.frames.ui.utils.ENVIRONMENT
+import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.screen.paymentform.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.PaymentFormScreen
 import com.checkout.frames.style.screen.PaymentFormStyle
@@ -25,9 +26,9 @@ class MainActivity : ComponentActivity() {
 fun Navigator(context: Context) {
     val navController = rememberNavController()
     val defaultPaymentFormConfig = PaymentFormConfig(
-        publicKey = "",
+        publicKey = PUBLIC_KEY,
         context = context,
-        environment = Environment.SANDBOX,
+        environment = ENVIRONMENT,
         style = PaymentFormStyle()
     )
 
