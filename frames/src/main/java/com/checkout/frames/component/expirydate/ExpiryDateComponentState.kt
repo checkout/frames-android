@@ -6,4 +6,5 @@ internal data class ExpiryDateComponentState(
     val inputState: InputComponentState
 ) {
     val expiryDate = inputState.inputFieldState.text
+    val expiryDateMaxLength = inputState.inputFieldState.maxLength
 }
