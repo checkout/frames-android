@@ -10,6 +10,7 @@ import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.utils.constants.ErrorConstants
+import com.checkout.frames.utils.constants.SubtitleConstants
 import com.checkout.frames.utils.constants.TitleConstants
 
 public object DefaultTextLabelStyle {
@@ -44,8 +45,20 @@ public object DefaultTextLabelStyle {
         font: Font = TitleConstants.font,
         @ColorLong
         color: Long = TitleConstants.color,
-        padding: Padding = Padding(bottom = TitleConstants.paddingBottom),
+        padding: Padding = Padding(),
         maxLines: Int = TitleConstants.maxLines
+    ): TextLabelStyle = TextLabelStyle(
+        textStyle = TextStyle(size = fontSize, color = color, font = font, maxLines = maxLines),
+        containerStyle = ContainerStyle(padding = padding)
+    )
+
+    public fun subtitle(
+        fontSize: Int = SubtitleConstants.fontSize,
+        font: Font = SubtitleConstants.font,
+        @ColorLong
+        color: Long = SubtitleConstants.color,
+        padding: Padding = Padding(),
+        maxLines: Int = SubtitleConstants.maxLines
     ): TextLabelStyle = TextLabelStyle(
         textStyle = TextStyle(size = fontSize, color = color, font = font, maxLines = maxLines),
         containerStyle = ContainerStyle(padding = padding)

@@ -15,16 +15,20 @@ import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.model.request.ImageStyleToDynamicImageRequest
+import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
+import com.checkout.frames.utils.extensions.isValid
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.model.ValidationResult
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class CardNumberViewModel @Inject constructor(
+    private val paymentStateManager: PaymentStateManager,
     private val cardValidator: CardValidator,
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
@@ -38,6 +42,10 @@ internal class CardNumberViewModel @Inject constructor(
     // Flag to determine that component has been already focused before
     // Needed to prevent validation on focus switch for initial component state
     private var wasFocused = false
+
+    internal companion object {
+        val onlyDigitsRegex = "[^0-9]".toRegex()
+    }
 
     /**
      * Make full card number validation, when focus switched to another view.
@@ -55,9 +63,12 @@ internal class CardNumberViewModel @Inject constructor(
      * Update mutable state of input field value.
      * Make eager validation.
      */
-    fun onCardNumberChange(text: String) = with(text.replace("[^0-9]".toRegex(), "")) {
+    fun onCardNumberChange(text: String) = with(text.replace(onlyDigitsRegex, "")) {
+        val validationResult = cardValidator.eagerValidateCardNumber(this)
         componentState.cardNumber.value = this
-        handleValidationResult(cardValidator.eagerValidateCardNumber(this), true)
+        paymentStateManager.cardNumber.update { this }
+        paymentStateManager.isCardNumberValid.update { validationResult.isValid() }
+        handleValidationResult(validationResult, true)
     }
 
     private fun handleValidationResult(result: ValidationResult<CardScheme>, isEagerCheck: Boolean) = when (result) {
@@ -65,11 +76,14 @@ internal class CardNumberViewModel @Inject constructor(
             if (isEagerCheck) {
                 componentState.cardScheme.value = this
                 componentState.cardNumberLength.value = this.maxNumberLength
+                paymentStateManager.cardScheme.update { this }
             }
             componentState.hideError()
+            paymentStateManager.isCardNumberValid.update { true }
         }
         is ValidationResult.Failure -> {
             componentState.showError(R.string.cko_base_invalid_card_number_error)
+            paymentStateManager.isCardNumberValid.update { false }
         }
     }
 
