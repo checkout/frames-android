@@ -4,6 +4,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import com.checkout.frames.utils.constants.EXPIRY_DATE_ZERO_POSITION_CHECK
+import com.checkout.frames.utils.constants.EXPIRY_DATE_PREFIX_ZERO
 
 internal class ExpiryDateVisualTransformation : VisualTransformation {
 
@@ -13,20 +15,46 @@ internal class ExpiryDateVisualTransformation : VisualTransformation {
 
     private fun performExpiryDateFilter(text: AnnotatedString): TransformedText {
         // format: XX/XX
-        val strBuilder = StringBuilder()
-        for (i in text.text.indices) {
-            strBuilder.append(text.text[i])
-            if (i == 1) strBuilder.append(separator)
+
+        val stringBuilder = StringBuilder()
+        for (i in text.indices) {
+            when {
+                i == 0 && text[i] > EXPIRY_DATE_ZERO_POSITION_CHECK -> {
+                    stringBuilder.append(EXPIRY_DATE_PREFIX_ZERO + text[i] + separator)
+                }
+                i == 1 && !stringBuilder.contains(separator) -> {
+                    stringBuilder.append(text[i] + separator)
+                }
+                else -> {
+                    stringBuilder.append(text[i])
+                }
+            }
         }
 
-        val offsetMapping = object : OffsetMapping {
-            override fun originalToTransformed(offset: Int) =
-                if (offset <= 1) offset else offset + separator.length
+        val expiryDateOffsetTranslator = object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int {
+                val withZero = text.isNotEmpty() && text[0] > EXPIRY_DATE_ZERO_POSITION_CHECK
+                val zeroPrefix = if (withZero) 1 else 0
 
-            override fun transformedToOriginal(offset: Int) =
-                if (offset <= 2) offset else offset - separator.length
+                return when {
+                    offset == 0 -> offset
+                    !withZero && offset < 2 -> offset
+                    else -> offset + separator.length + zeroPrefix
+                }
+            }
+
+            override fun transformedToOriginal(offset: Int): Int {
+                val withZero = text.isNotEmpty() && text[0] > EXPIRY_DATE_ZERO_POSITION_CHECK
+                val zeroPrefix = if (withZero) 1 else 0
+
+                return when {
+                    offset == 0 -> offset
+                    !withZero && offset < 2 -> offset
+                    else -> offset - separator.length - zeroPrefix
+                }
+            }
         }
 
-        return TransformedText(AnnotatedString(strBuilder.toString()), offsetMapping)
+        return TransformedText(AnnotatedString(stringBuilder.toString()), expiryDateOffsetTranslator)
     }
 }
