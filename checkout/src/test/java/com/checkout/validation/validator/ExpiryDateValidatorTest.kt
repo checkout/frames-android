@@ -128,12 +128,12 @@ internal class ExpiryDateValidatorTest {
             Arguments.of("13", "2021", ValidationError.INVALID_MONTH),
             Arguments.of("-5", "2021", ValidationError.INVALID_MONTH),
 
-            Arguments.of("11", "0", ValidationError.INVALID_YEAR),
             Arguments.of("11", "-19", ValidationError.INVALID_YEAR),
             Arguments.of("11", "-2000", ValidationError.INVALID_YEAR),
             Arguments.of("11", "2", ValidationError.INVALID_YEAR),
             Arguments.of("11", "202", ValidationError.INVALID_YEAR),
 
+            Arguments.of("11", "0", ValidationError.EXPIRY_DATE_IN_PAST),
             Arguments.of("10", "20", ValidationError.EXPIRY_DATE_IN_PAST),
             Arguments.of("10", "2021", ValidationError.EXPIRY_DATE_IN_PAST),
         )

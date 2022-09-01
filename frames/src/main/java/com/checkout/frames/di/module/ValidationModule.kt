@@ -2,8 +2,8 @@ package com.checkout.frames.di.module
 
 import com.checkout.CardValidatorFactory
 import com.checkout.base.usecase.UseCase
-import com.checkout.frames.component.expirydate.model.SmartLogicExpiryDateRequest
-import com.checkout.frames.component.expirydate.usecase.SmartLogicExpiryDateUseCase
+import com.checkout.frames.component.expirydate.model.SmartExpiryDateValidationRequest
+import com.checkout.frames.component.expirydate.usecase.SmartExpiryDateValidationUseCase
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.validation.api.CardValidator
@@ -20,7 +20,7 @@ internal abstract class ValidationModule {
 
         @Provides
         fun provideValidateExpiryDateUseCase(cardValidator: CardValidator):
-                UseCase<SmartLogicExpiryDateRequest, ValidationResult<String>> =
-            SmartLogicExpiryDateUseCase(cardValidator)
+                UseCase<SmartExpiryDateValidationRequest, ValidationResult<String>> =
+            SmartExpiryDateValidationUseCase(cardValidator)
     }
 }
