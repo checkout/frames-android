@@ -23,4 +23,7 @@ public object ErrorConstants {
 
     /** Leading error icon end padding in dp. */
     public const val leadingIconEndPadding: Int = 8
+
+    /** Error message top padding in dp. */
+    public const val errorMessageTopPadding: Int = 8
 }

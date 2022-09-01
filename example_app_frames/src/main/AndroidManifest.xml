@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Frames">
         <activity
-            android:name="com.checkout.example.frames.ui.screens.CheckOutScreen"
+            android:name="com.checkout.example.frames.ui.screen.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Frames">
             <intent-filter>

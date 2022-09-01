@@ -4,6 +4,7 @@ import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
+import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
@@ -23,7 +24,7 @@ import com.checkout.frames.view.TextLabelState
 import dagger.Module
 import dagger.Provides
 
-@Module(subcomponents = [CardNumberViewModelSubComponent::class])
+@Module(subcomponents = [CardNumberViewModelSubComponent::class, PaymentDetailsViewModelSubComponent::class])
 internal abstract class StylesModule {
 
     companion object {
