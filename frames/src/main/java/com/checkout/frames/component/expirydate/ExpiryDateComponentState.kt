@@ -6,6 +6,7 @@ internal data class ExpiryDateComponentState(
     val inputState: InputComponentState
 ) {
     val expiryDate = inputState.inputFieldState.text
+    val expiryDateMaxLength = inputState.inputFieldState.maxLength
 
     fun hideError() = switchErrorVisibility(false)
 
@@ -14,15 +15,8 @@ internal data class ExpiryDateComponentState(
         switchErrorVisibility(true)
     }
 
-    fun showError(errorMessage: String) = with(inputState.errorState) {
-        text.value = errorMessage
-        textId.value = null
-        switchErrorVisibility(true)
-    }
-
     private fun switchErrorVisibility(isVisible: Boolean) {
         inputState.inputFieldState.isError.value = isVisible
         inputState.errorState.isVisible.value = isVisible
     }
-    val expiryDateMaxLength = inputState.inputFieldState.maxLength
 }
