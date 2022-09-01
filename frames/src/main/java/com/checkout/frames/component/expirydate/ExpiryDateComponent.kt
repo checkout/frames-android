@@ -38,7 +38,7 @@ internal fun ExpiryDateComponent(
     InputComponent(
         style = viewModel.componentStyle,
         state = viewModel.componentState.inputState,
-         onFocusChanged = viewModel::onFocusChanged,
+        onFocusChanged = viewModel::onFocusChanged,
         onValueChange = viewModel::onExpiryDateInputChange
     )
 }

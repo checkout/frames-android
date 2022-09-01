@@ -1,36 +1,38 @@
 package com.checkout.frames.component.expirydate
 
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.checkout.base.mapper.Mapper
-import com.checkout.frames.base.validation.ValidateResult
+import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.base.InputComponentState
-import com.checkout.frames.component.expirydate.usecase.ValidateExpiryDateUseCase
+import com.checkout.frames.component.expirydate.model.SmartLogicExpiryDateRequest
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
-import com.checkout.frames.utils.constants.InputFieldConstants.EXPIRY_DATE_MAXIMUM_LENGTH
-import com.checkout.frames.view.InputFieldState
-import com.checkout.tokenization.model.ExpiryDate
-import com.checkout.validation.api.CardValidator
+import com.checkout.frames.utils.constants.EXPIRY_DATE_MAXIMUM_LENGTH_FOUR
+import com.checkout.frames.utils.constants.EXPIRY_DATE_MAXIMUM_LENGTH_THREE
+import com.checkout.frames.utils.constants.EXPIRY_DATE_ZERO_POSITION_CHECK
 import com.checkout.validation.model.ValidationResult
 import javax.inject.Inject
 import javax.inject.Provider
 
 @SuppressWarnings("UnusedPrivateMember")
 internal class ExpiryDateViewModel @Inject constructor(
-    private val cardValidator: CardValidator,
+    private val smartLogicExpiryDateUseCase: UseCase<SmartLogicExpiryDateRequest, ValidationResult<String>>,
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
     private val style: ExpiryDateComponentStyle,
 ) : ViewModel() {
+
+    internal companion object {
+        val onlyDigitsRegex = "[^0-9]".toRegex()
+    }
 
     val componentState = provideViewState(style.inputStyle)
     val componentStyle = provideViewStyle(style.inputStyle)
@@ -48,46 +50,45 @@ internal class ExpiryDateViewModel @Inject constructor(
         }
     }
 
-    private fun validateExpiryDateOnFocusChanged(expiryDate: String) {
-        if (expiryDate.length >= EXPIRY_DATE_MAXIMUM_LENGTH) {
-            handleValidationResult(cardValidator.validateExpiryDate(expiryDate.take(2), expiryDate.takeLast(2)))
-        } else {
-            // TODO: PIMOB-1401 - Implement error handling for expiry date.
-        }
-    }
+    fun onExpiryDateInputChange(inputExpiryDate: String) = with(inputExpiryDate.replace(onlyDigitsRegex, "")) {
+        val smartLogicExpiryDateRequest = SmartLogicExpiryDateRequest(false, this)
 
-    fun onExpiryDateInputChange(text: String) {
-        val strBuilder = StringBuilder()
-        strBuilder.append(text)
-
-        when (val validateExpiryDateUseCase = ValidateExpiryDateUseCase().execute(strBuilder)) {
-            is ValidateResult.Success -> {
-                componentState.inputState.inputFieldState.text.value = validateExpiryDateUseCase.value
+        when (val smartLogicExpiryDateUseCase = smartLogicExpiryDateUseCase.execute(smartLogicExpiryDateRequest)) {
+            is ValidationResult.Success -> {
+                updateExpiryDateMaxLength(smartLogicExpiryDateUseCase)
+                componentState.inputState.inputFieldState.text.value = smartLogicExpiryDateUseCase.value
             }
-            is ValidateResult.Failure -> {
-                componentState.inputState.inputFieldState.text.value = validateExpiryDateUseCase.data
+
+            is ValidationResult.Failure -> {
                 // TODO: PIMOB-1401 - Implement error handling for expiry date.
             }
         }
     }
 
-    private fun handleValidationResult(result: ValidationResult<ExpiryDate>) = when (result) {
-        is ValidationResult.Success -> with(result.value) { }
-        is ValidationResult.Failure -> {
-            // TODO: PIMOB-1401 - Implement error handling for expiry date.
+    private fun updateExpiryDateMaxLength(smartLogicExpiryDateUseCase: ValidationResult.Success<String>) {
+        if (
+            smartLogicExpiryDateUseCase.value.isNotEmpty() &&
+            smartLogicExpiryDateUseCase.value[0] > EXPIRY_DATE_ZERO_POSITION_CHECK
+        ) componentState.expiryDateMaxLength.value = EXPIRY_DATE_MAXIMUM_LENGTH_THREE
+        else componentState.expiryDateMaxLength.value = EXPIRY_DATE_MAXIMUM_LENGTH_FOUR
+    }
+
+    private fun validateExpiryDateOnFocusChanged(expiryDate: String) {
+        val smartLogicExpiryDateRequest = SmartLogicExpiryDateRequest(true, expiryDate)
+        when (val smartLogicExpiryDateUseCase = smartLogicExpiryDateUseCase.execute(smartLogicExpiryDateRequest)) {
+            is ValidationResult.Success -> {
+                componentState.inputState.inputFieldState.text.value = smartLogicExpiryDateUseCase.value
+            }
+
+            is ValidationResult.Failure -> {
+                // TODO: PIMOB-1401 - Implement error handling for expiry date.
+            }
         }
     }
 
     private fun provideViewState(inputStyle: InputComponentStyle): ExpiryDateComponentState {
-        var viewState = ExpiryDateComponentState(inputComponentStateMapper.map(inputStyle))
-        val inputFieldState = InputFieldState(maxLength = mutableStateOf(EXPIRY_DATE_MAXIMUM_LENGTH))
-
-        viewState = viewState.copy(
-            inputState = viewState.inputState.copy(
-                inputFieldState = inputFieldState
-            )
-        )
-
+        val viewState = ExpiryDateComponentState(inputComponentStateMapper.map(inputStyle))
+        viewState.expiryDateMaxLength.value = EXPIRY_DATE_MAXIMUM_LENGTH_FOUR
         return viewState
     }
 
