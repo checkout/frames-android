@@ -7,12 +7,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.checkout.base.model.Environment
 import com.checkout.frames.component.base.InputComponent
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.injector.FramesInjector
@@ -82,7 +84,7 @@ private fun ExpiryDateComponentPreview() {
             ExpiryDateComponentStyle(
                 style
             ),
-            FramesInjector.create()
+            FramesInjector.create("", LocalContext.current, Environment.SANDBOX)
         )
         OutlinedTextField(value = "", onValueChange = {}, modifier = Modifier.padding(top = 20.dp))
     }

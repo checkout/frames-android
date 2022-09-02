@@ -25,7 +25,12 @@ import com.checkout.frames.view.TextLabelState
 import dagger.Module
 import dagger.Provides
 
-@Module(subcomponents = [CardNumberViewModelSubComponent::class, ExpiryDateViewModelSubComponent::class], PaymentDetailsViewModelSubComponent::class])
+@Module(
+    subcomponents = [
+        CardNumberViewModelSubComponent::class, ExpiryDateViewModelSubComponent::class,
+        PaymentDetailsViewModelSubComponent::class
+    ]
+)
 internal abstract class StylesModule {
 
     companion object {

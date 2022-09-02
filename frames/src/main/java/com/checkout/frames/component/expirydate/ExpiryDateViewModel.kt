@@ -71,7 +71,7 @@ internal class ExpiryDateViewModel @Inject constructor(
     private fun handleValidationResult(result: ValidationResult<String>, isFocused: Boolean) = when (result) {
         is ValidationResult.Success -> {
             updateExpiryDateMaxLength(result)
-            componentState.inputState.inputFieldState.text.value = result.value
+            componentState.expiryDate.value = result.value
             componentState.hideError()
         }
 
@@ -97,7 +97,8 @@ internal class ExpiryDateViewModel @Inject constructor(
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 keyboardOptions = keyboardOptions,
-                visualTransformation = ExpiryDateVisualTransformation()
+                visualTransformation = ExpiryDateVisualTransformation(),
+                forceLTR = true
             )
         )
 
