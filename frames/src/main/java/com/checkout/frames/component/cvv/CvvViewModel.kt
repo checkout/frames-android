@@ -43,7 +43,7 @@ internal class CvvViewModel @Inject constructor(
         val onlyDigitsRegex = "[^0-9]".toRegex()
     }
 
-    init {
+    fun prepare() {
         viewModelScope.launch {
             paymentStateManager.cardScheme.collect {
                 validateCvv()

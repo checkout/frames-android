@@ -15,6 +15,8 @@ internal fun CvvComponent(
         factory = CvvViewModel.Factory(injector, style)
     )
 
+    viewModel.prepare()
+
     InputComponent(
         style = viewModel.componentStyle,
         state = viewModel.componentState.inputState,

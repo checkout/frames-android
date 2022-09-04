@@ -19,7 +19,6 @@ import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
-import com.checkout.frames.utils.extensions.isValid
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.model.ValidationResult
 import kotlinx.coroutines.flow.map
@@ -67,7 +66,6 @@ internal class CardNumberViewModel @Inject constructor(
         val validationResult = cardValidator.eagerValidateCardNumber(this)
         componentState.cardNumber.value = this
         paymentStateManager.cardNumber.update { this }
-        paymentStateManager.isCardNumberValid.update { validationResult.isValid() }
         handleValidationResult(validationResult, true)
     }
 

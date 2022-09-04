@@ -15,6 +15,8 @@ import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.screen.manager.PaymentFormStateManager
+import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
@@ -53,7 +55,10 @@ internal class CardNumberViewModelTest {
     @SpyK
     lateinit var spyDynamicImageMapper: ImageStyleToDynamicComposableImageMapper
 
-    private var style: CardNumberComponentStyle = CardNumberComponentStyle(InputComponentStyle())
+    @SpyK
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager()
+
+    private var style: CardNumberComponentStyle = CardNumberComponentStyle()
 
     private lateinit var viewModel: CardNumberViewModel
 
@@ -64,6 +69,7 @@ internal class CardNumberViewModelTest {
     @BeforeEach
     fun setUp() {
         viewModel = CardNumberViewModel(
+            spyPaymentStateManager,
             mockCardValidator,
             spyInputComponentStyleMapper,
             spyInputComponentStateMapper,
@@ -110,6 +116,57 @@ internal class CardNumberViewModelTest {
         assertEquals(viewModel.componentStyle.inputFieldStyle.keyboardOptions.keyboardType, KeyboardType.Number)
     }
 
+    /** Payment state related tests **/
+
+    @Test
+    fun `when card number updated then card number state in payment state manager is updated`() {
+        // Given
+        val testCardNumber = "123123123123123"
+        val expectedCardScheme = CardScheme.AMERICAN_EXPRESS
+        every {
+            mockCardValidator.eagerValidateCardNumber(eq(testCardNumber))
+        } returns ValidationResult.Success(expectedCardScheme)
+
+        // When
+        viewModel.onCardNumberChange(testCardNumber)
+
+        // Then
+        assertEquals(spyPaymentStateManager.cardNumber.value, testCardNumber)
+        assertEquals(spyPaymentStateManager.cardScheme.value, expectedCardScheme)
+    }
+
+    @Test
+    fun `when focus change triggered more than once then card number state in payment state manager is updated`() {
+        // Given
+        val testCardNumber = "123123123123123"
+        viewModel.componentState.cardNumber.value = testCardNumber
+        every {
+            mockCardValidator.validateCardNumber(eq(testCardNumber))
+        } returns ValidationResult.Success(CardScheme.MADA)
+
+        // When
+        viewModel.onFocusChanged(true)
+        viewModel.onFocusChanged(false)
+
+        // Then
+        assertTrue(spyPaymentStateManager.isCardNumberValid.value)
+    }
+
+    /** Input data filtering **/
+
+    @Test
+    fun `when card number with non digits entered then non digit symbols are removed`() {
+        // Given
+        val sourceInput = "234234_234.234wer1"
+        val filteredInput = "2342342342341"
+
+        // When
+        viewModel.onCardNumberChange(sourceInput)
+
+        // Then
+        assertEquals(viewModel.componentState.cardNumber.value, filteredInput)
+    }
+
     /** Validation related tests **/
 
     @Test
@@ -122,7 +179,7 @@ internal class CardNumberViewModelTest {
     }
 
     @Test
-    fun `when focus change triggered more then once then full card validation is invoked`() {
+    fun `when focus change triggered more than once then full card validation is invoked`() {
         // Given
         val testCardNumber = "123123123123123"
         viewModel.componentState.cardNumber.value = testCardNumber
@@ -139,16 +196,16 @@ internal class CardNumberViewModelTest {
     fun `when eager validation returns card scheme then card scheme state updated correctly`() {
         // Given
         val expectedCardScheme = CardScheme.MASTERCARD
-        val fakeCardNumber = "123123123123123"
+        val testCardNumber = "123123123123123"
         every {
-            mockCardValidator.eagerValidateCardNumber(eq(fakeCardNumber))
+            mockCardValidator.eagerValidateCardNumber(eq(testCardNumber))
         } returns ValidationResult.Success(expectedCardScheme)
 
         // When
-        viewModel.onCardNumberChange(fakeCardNumber)
+        viewModel.onCardNumberChange(testCardNumber)
 
         // Then
-        verify(exactly = 1) { mockCardValidator.eagerValidateCardNumber(eq(fakeCardNumber)) }
+        verify(exactly = 1) { mockCardValidator.eagerValidateCardNumber(eq(testCardNumber)) }
         assertEquals(viewModel.componentState.cardScheme.value, expectedCardScheme)
     }
 
