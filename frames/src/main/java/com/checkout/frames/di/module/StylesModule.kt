@@ -27,7 +27,8 @@ import dagger.Provides
 
 @Module(
     subcomponents = [
-        CardNumberViewModelSubComponent::class, ExpiryDateViewModelSubComponent::class,
+        CardNumberViewModelSubComponent::class,
+        ExpiryDateViewModelSubComponent::class,
         PaymentDetailsViewModelSubComponent::class
     ]
 )
