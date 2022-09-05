@@ -35,9 +35,6 @@ internal class ExpiryDateVisualTransformationTest {
         enteredExpiryDate: String,
         transformedExpiryDate: String,
     ) {
-        // Given
-        setUpVisualTransformation()
-
         // When
         val result = expiryDateVisualTransformation.filter(AnnotatedString(enteredExpiryDate)).text.text
 

@@ -117,7 +117,7 @@ internal class ExpiryDateViewModelTest {
     }
 
     @Test
-    fun `when focus change triggered more then once then SmartExpiryDateValidationUseCase is invoked`() {
+    fun `when focus change triggered more than once then SmartExpiryDateValidationUseCase is invoked`() {
         // Given
         viewModel.componentState.expiryDate.value = "1234"
         val testExpiryDate = viewModel.componentState.expiryDate.value
@@ -237,35 +237,32 @@ internal class ExpiryDateViewModelTest {
     fun `When expiryDate change called with valid input then expected text & maxLength should be set to componentState`(
         enteredText: String,
         expectedText: String,
-        maxLength: Int
+        expectedMaxLength: Int
     ) {
         // Given
-        val smartExpiryDateValidationRequest = SmartExpiryDateValidationRequest(true, enteredText)
+        val expectedExpiryDateValidationRequest = SmartExpiryDateValidationRequest(true, expectedText)
         every {
-            mockSmartExpiryDateValidationUseCase.execute(eq(smartExpiryDateValidationRequest))
-        } returns ValidationResult.Success(enteredText)
+            mockSmartExpiryDateValidationUseCase.execute(eq(expectedExpiryDateValidationRequest))
+        } returns ValidationResult.Success(expectedText)
 
         // When
         viewModel.onExpiryDateInputChange(enteredText)
 
         // Then
-        Assertions.assertEquals(viewModel.componentState.expiryDateMaxLength.value, maxLength)
+        Assertions.assertEquals(viewModel.componentState.expiryDateMaxLength.value, expectedMaxLength)
         Assertions.assertEquals(viewModel.componentState.expiryDate.value, expectedText)
     }
 
     companion object {
         @JvmStatic
         fun onTextChangedArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of("123", "123", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
-            Arguments.of("234", "234", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
-            Arguments.of("1254", "1254", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
-            Arguments.of("1234", "1234", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
-            Arguments.of("116", "116", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
-            Arguments.of("223", "223", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
-            Arguments.of("223", "223", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
-            Arguments.of("445", "445", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
-            Arguments.of("333", "333", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
-            Arguments.of("1187", "1187", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR)
+            Arguments.of("123_*", "123", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
+            Arguments.of("234%%", "234", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
+            Arguments.of("1254££", "1254", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
+            Arguments.of("1234..", "1234", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
+            Arguments.of("11.^", "11", EXPIRY_DATE_MAXIMUM_LENGTH_FOUR),
+            Arguments.of("444%^", "444", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
+            Arguments.of("235.,", "235", EXPIRY_DATE_MAXIMUM_LENGTH_THREE),
         )
     }
 
