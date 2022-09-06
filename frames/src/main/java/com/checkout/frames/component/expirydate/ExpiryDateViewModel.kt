@@ -13,6 +13,7 @@ import com.checkout.frames.component.expirydate.model.SmartExpiryDateValidationR
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
+import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
@@ -22,10 +23,12 @@ import com.checkout.frames.utils.constants.EXPIRY_DATE_MAXIMUM_LENGTH_THREE
 import com.checkout.frames.utils.constants.EXPIRY_DATE_ZERO_POSITION_CHECK
 import com.checkout.validation.error.ValidationError.Companion.EXPIRY_DATE_IN_PAST
 import com.checkout.validation.model.ValidationResult
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class ExpiryDateViewModel @Inject constructor(
+    private val paymentStateManager: PaymentStateManager,
     private val smartExpiryDateValidationUseCase: UseCase<SmartExpiryDateValidationRequest, ValidationResult<String>>,
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
@@ -74,9 +77,12 @@ internal class ExpiryDateViewModel @Inject constructor(
             updateExpiryDateMaxLength(result)
             componentState.expiryDate.value = result.value
             componentState.hideError()
+            paymentStateManager.expiryDate.value = result.value
+            paymentStateManager.isExpiryDateValid.update { true }
         }
 
         is ValidationResult.Failure -> {
+            paymentStateManager.isExpiryDateValid.update { false }
             if (isFocused && result.error.errorCode == EXPIRY_DATE_IN_PAST)
                 componentState.showError(R.string.cko_base_invalid_past_expiry_date_error)
             else
