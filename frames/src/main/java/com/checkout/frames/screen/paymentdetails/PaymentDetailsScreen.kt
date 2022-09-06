@@ -1,6 +1,7 @@
 package com.checkout.frames.screen.paymentdetails
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,5 +39,9 @@ internal fun PaymentDetailsScreen(
         )
 
         viewModel.componentProvider.CardNumber(style = style.cardNumberStyle)
+
+        Spacer(modifier = Modifier.padding(top = 24.dp))
+
+        viewModel.componentProvider.Cvv(style = style.cvvComponentStyle)
     }
 }
