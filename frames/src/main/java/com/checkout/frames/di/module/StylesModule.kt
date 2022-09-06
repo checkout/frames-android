@@ -4,6 +4,7 @@ import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
+import com.checkout.frames.di.component.CvvViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
@@ -28,6 +29,7 @@ import dagger.Provides
 @Module(
     subcomponents = [
         CardNumberViewModelSubComponent::class,
+        CvvViewModelSubComponent::class,
         ExpiryDateViewModelSubComponent::class,
         PaymentDetailsViewModelSubComponent::class
     ]

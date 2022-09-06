@@ -4,6 +4,8 @@ import android.content.Context
 import com.checkout.base.model.Environment
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
 import com.checkout.frames.component.expirydate.ExpiryDateViewModel
+import com.checkout.frames.component.cvv.CvvViewModel
+import com.checkout.frames.di.module.PaymentModule
 import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
@@ -12,8 +14,10 @@ import com.checkout.frames.utils.constants.PUBLIC_KEY
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Named
+import javax.inject.Singleton
 
-@Component(modules = [ValidationModule::class, StylesModule::class])
+@Singleton
+@Component(modules = [ValidationModule::class, StylesModule::class, PaymentModule::class])
 internal abstract class FramesDIComponent {
 
     /** Screen **/
@@ -22,6 +26,7 @@ internal abstract class FramesDIComponent {
 
     /** Component **/
     abstract fun inject(factory: CardNumberViewModel.Factory)
+    abstract fun inject(factory: CvvViewModel.Factory)
 
     abstract fun inject(factory: ExpiryDateViewModel.Factory)
 

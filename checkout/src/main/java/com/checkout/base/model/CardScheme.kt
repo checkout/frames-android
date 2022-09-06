@@ -21,7 +21,7 @@ public enum class CardScheme(
     /**
      * Supported CVV length.
      */
-    internal val cvvLength: Set<Int>,
+    public val cvvLength: Set<Int>,
     /**
      * Regex for card scheme determination according to a full card number.
      */
