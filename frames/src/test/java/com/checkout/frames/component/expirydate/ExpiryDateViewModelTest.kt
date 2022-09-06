@@ -15,6 +15,8 @@ import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.screen.manager.PaymentFormStateManager
+import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
@@ -49,6 +51,9 @@ internal class ExpiryDateViewModelTest {
     @SpyK
     lateinit var spyInputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
 
+    @SpyK
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager()
+
     private var style: ExpiryDateComponentStyle = ExpiryDateComponentStyle(InputComponentStyle())
 
     private lateinit var viewModel: ExpiryDateViewModel
@@ -60,12 +65,12 @@ internal class ExpiryDateViewModelTest {
     @BeforeEach
     fun setUp() {
         viewModel = ExpiryDateViewModel(
+            spyPaymentStateManager,
             mockSmartExpiryDateValidationUseCase,
             spyInputComponentStyleMapper,
             spyInputComponentStateMapper,
             style
         )
-        every { mockSmartExpiryDateValidationUseCase.execute(any()) } returns ValidationResult.Success("")
     }
 
     /** Initial state tests **/
@@ -105,6 +110,38 @@ internal class ExpiryDateViewModelTest {
         )
     }
 
+    /** Payment state related tests **/
+
+    @Test
+    fun `when valid expiry date updated then expiry date state in payment state manager is updated`() {
+        // Given
+        val testExpiryDate = "231"
+        every {
+            mockSmartExpiryDateValidationUseCase.execute(any())
+        } returns ValidationResult.Success(testExpiryDate)
+
+        // When
+        viewModel.onExpiryDateInputChange(testExpiryDate)
+
+        // Then
+        Assertions.assertEquals(spyPaymentStateManager.expiryDate.value, testExpiryDate)
+    }
+
+    @Test
+    fun `when focus change triggered more than once then expiry date state in payment state manager is updated`() {
+        // Given
+        every {
+            mockSmartExpiryDateValidationUseCase.execute(any())
+        } returns ValidationResult.Success("")
+
+        // When
+        viewModel.onFocusChanged(true)
+        viewModel.onFocusChanged(false)
+
+        // Then
+        Assertions.assertTrue(spyPaymentStateManager.isExpiryDateValid.value)
+    }
+
     /** Validation related tests **/
 
     @Test
@@ -123,6 +160,9 @@ internal class ExpiryDateViewModelTest {
         val testExpiryDate = viewModel.componentState.expiryDate.value
 
         val smartExpiryDateValidationRequest = SmartExpiryDateValidationRequest(false, testExpiryDate)
+        every {
+            mockSmartExpiryDateValidationUseCase.execute(eq(smartExpiryDateValidationRequest))
+        } returns ValidationResult.Success(testExpiryDate)
 
         // When
         viewModel.onFocusChanged(true)
@@ -142,6 +182,7 @@ internal class ExpiryDateViewModelTest {
         every {
             mockSmartExpiryDateValidationUseCase.execute(eq(smartExpiryDateValidationRequest))
         } returns ValidationResult.Success(testExpiryDate)
+
         // Show error from the start to check that it will be hidden.
         viewModel.componentState.showError(R.string.cko_base_invalid_expiry_date_error)
 

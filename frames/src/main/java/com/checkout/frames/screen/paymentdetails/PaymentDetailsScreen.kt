@@ -42,6 +42,10 @@ internal fun PaymentDetailsScreen(
 
         Spacer(modifier = Modifier.padding(top = 24.dp))
 
+        viewModel.componentProvider.ExpiryDate(style = style.expiryDateComponentStyle)
+
+        Spacer(modifier = Modifier.padding(top = 24.dp))
+
         viewModel.componentProvider.Cvv(style = style.cvvComponentStyle)
     }
 }
