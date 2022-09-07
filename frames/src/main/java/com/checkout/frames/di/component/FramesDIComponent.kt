@@ -3,6 +3,7 @@ package com.checkout.frames.di.component
 import android.content.Context
 import com.checkout.base.model.Environment
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
+import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
 import com.checkout.frames.di.module.PaymentModule
 import com.checkout.frames.di.module.ValidationModule
@@ -26,6 +27,7 @@ internal abstract class FramesDIComponent {
     /** Component **/
     abstract fun inject(factory: CardNumberViewModel.Factory)
     abstract fun inject(factory: CvvViewModel.Factory)
+    abstract fun inject(factory: ExpiryDateViewModel.Factory)
 
     @Component.Builder
     interface Builder {

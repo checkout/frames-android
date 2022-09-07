@@ -18,6 +18,8 @@ public object DefaultLightStyle {
 
     public fun subtitleTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.subtitle()
 
+    public fun placeHolderTextStyle(): TextStyle = DefaultTextStyle.placeHolder()
+
     public fun leadingIconStyle(): ImageStyle = ImageStyle(
         padding = Padding(
             start = LightStyleConstants.leadingIconStartPadding,
@@ -45,6 +47,7 @@ public object DefaultLightStyle {
     public fun inputFieldStyle(withLeadingIcon: Boolean = false): InputFieldStyle = InputFieldStyle(
         textStyle = inputFieldTextStyle(),
         indicatorStyle = indicatorStyle(),
+        placeholderStyle = placeHolderTextStyle(),
         leadingIconStyle = if (withLeadingIcon) leadingIconStyle() else null,
         containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
     )
@@ -56,7 +59,10 @@ public object DefaultLightStyle {
         subtitleText: String = "",
         @StringRes
         subtitleTextId: Int? = null,
-        withLeadingIcon: Boolean = false
+        placeholderResourceText: String = "",
+        @StringRes
+        placeholderResourceTextId: Int? = null,
+        withLeadingIcon: Boolean = false,
     ): InputComponentStyle = InputComponentStyle(
         titleStyle = titleTextLabelStyle().apply {
             text = titleText
@@ -66,7 +72,10 @@ public object DefaultLightStyle {
             text = subtitleText
             textId = subtitleTextId
         },
-        inputFieldStyle = inputFieldStyle(withLeadingIcon),
+        inputFieldStyle = inputFieldStyle(withLeadingIcon).apply {
+            placeholderText = placeholderResourceText
+            placeholderTextId = placeholderResourceTextId
+        },
         errorMessageStyle = errorTextLabelStyle()
     )
 }

@@ -37,7 +37,7 @@ internal class InputFieldStyleToViewStyleMapper(
         modifier = provideModifier(from.containerStyle),
         textStyle = from.textStyle.toComposeTextStyle(),
         maxLines = from.textStyle.maxLines,
-        placeholder = providePlaceholder(from.placeholderText, from.placeholderStyle),
+        placeholder = providePlaceholder(from.placeholderText, from.placeholderTextId, from.placeholderStyle),
         containerShape = from.containerStyle.shape.toComposeShape(from.containerStyle.cornerRadius),
         borderShape = provideBorderShape(from.indicatorStyle),
         colors = provideColors(from)
@@ -55,11 +55,25 @@ internal class InputFieldStyleToViewStyleMapper(
         return modifier
     }
 
-    private fun providePlaceholder(placeholderText: String, placeholderStyle: TextStyle): @Composable (() -> Unit) =
+    private fun providePlaceholder(
+        placeholderText: String,
+        placeholderTextId: Int?,
+        placeholderStyle: TextStyle
+    ): @Composable (() -> Unit) =
         @Composable {
             TextLabel(
-                textLabelStyleMapper.map(TextLabelStyle(placeholderText, textStyle = placeholderStyle)),
-                TextLabelState(mutableStateOf(placeholderText), isVisible = mutableStateOf(true))
+                textLabelStyleMapper.map(
+                    TextLabelStyle(
+                        placeholderText,
+                        placeholderTextId,
+                        textStyle = placeholderStyle
+                    )
+                ),
+                TextLabelState(
+                    mutableStateOf(placeholderText),
+                    mutableStateOf(placeholderTextId),
+                    isVisible = mutableStateOf(true)
+                )
             )
         }
 

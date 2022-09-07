@@ -59,8 +59,11 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
      * @throws [ValidationError] if the input is not valid.
      */
     @Throws(ValidationError::class)
-    private fun provideValidated4DigitYear(value: String): Int {
+    private fun provideValidated4DigitYear(value: String, date: Date = Date()): Int {
+        val utcCalendar = Calendar.getInstance().apply { time = date }
+        val referenceYear = utcCalendar.get(Calendar.YEAR).toString().takeLast(2)
         val year = value.toIntOrNull()
+
         return when {
             year == null -> throw ValidationError(
                 ValidationError.INVALID_YEAR_STRING,
@@ -70,7 +73,8 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
                 ValidationError.INVALID_YEAR,
                 "Year cannot be a negative value: $value"
             )
-            value.length == YEAR_SHORT_FORMAT -> year + YEAR_LONG_DELTA // Convert 2 digit year to 4 digit year
+            (value.length == 1 && value.first() < referenceYear.first()) || value.length == YEAR_SHORT_FORMAT ->
+                year + YEAR_LONG_DELTA // Convert 2 digit year to 4 digit year
             value.length == YEAR_LONG_FORMAT -> year
             else -> throw ValidationError(
                 ValidationError.INVALID_YEAR,
