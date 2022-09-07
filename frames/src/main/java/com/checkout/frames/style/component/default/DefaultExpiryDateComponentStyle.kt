@@ -7,7 +7,8 @@ public object DefaultExpiryDateComponentStyle {
     public fun light(): ExpiryDateComponentStyle = ExpiryDateComponentStyle(
         DefaultLightStyle.inputComponentStyle(
             titleTextId = R.string.cko_expiry_date_component_title,
-            subtitleTextId = R.string.cko_expiry_date_component_subtitle
+            subtitleTextId = R.string.cko_expiry_date_component_subtitle,
+            placeholderResourceTextId = R.string.cko_expiry_date_component_placeholder
         )
     )
 }

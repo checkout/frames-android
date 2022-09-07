@@ -1,8 +1,12 @@
 package com.checkout.frames.style.component.base
 
+import androidx.annotation.StringRes
+
 public data class InputFieldStyle(
     val textStyle: TextStyle = TextStyle(),
-    val placeholderText: String = "",
+    var placeholderText: String = "",
+    @StringRes
+    var placeholderTextId: Int? = null,
     val placeholderStyle: TextStyle = TextStyle(),
     val containerStyle: ContainerStyle = ContainerStyle(),
     val indicatorStyle: InputFieldIndicatorStyle = InputFieldIndicatorStyle.Border(),

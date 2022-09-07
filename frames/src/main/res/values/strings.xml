@@ -5,6 +5,7 @@
     <string name="cko_base_invalid_past_expiry_date_error" translatable="true">Expiry date is in the past.</string>
     <string name="cko_expiry_date_component_title" translatable="true">Expiry date</string>
     <string name="cko_expiry_date_component_subtitle" translatable="true">Format is MM/YY</string>
+    <string name="cko_expiry_date_component_placeholder" translatable="true">_ _  / _ _</string>
 
     <!--Card number component-->
     <string name="cko_card_number_title" translatable="true">Card number</string>
