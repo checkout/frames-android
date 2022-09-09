@@ -14,6 +14,10 @@ import com.checkout.frames.utils.constants.LightStyleConstants
 
 public object DefaultLightStyle {
 
+    public fun screenTitleTextLabelStyle(
+        padding: Padding = Padding()
+    ): TextLabelStyle = DefaultTextLabelStyle.headerTitle(padding = padding)
+
     public fun titleTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.title()
 
     public fun subtitleTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.subtitle()

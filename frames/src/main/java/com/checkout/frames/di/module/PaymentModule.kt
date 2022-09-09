@@ -1,6 +1,7 @@
 package com.checkout.frames.di.module
 
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
+import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
 import com.checkout.frames.di.component.CvvViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
@@ -15,7 +16,8 @@ import javax.inject.Singleton
         CardNumberViewModelSubComponent::class,
         CvvViewModelSubComponent::class,
         ExpiryDateViewModelSubComponent::class,
-        PaymentDetailsViewModelSubComponent::class
+        PaymentDetailsViewModelSubComponent::class,
+        CountryPickerViewModelSubComponent::class
     ]
 )
 internal class PaymentModule {

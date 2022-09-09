@@ -1,6 +1,7 @@
 package com.checkout.frames.screen.manager
 
 import com.checkout.base.model.CardScheme
+import com.checkout.base.model.Country
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -17,4 +18,6 @@ internal interface PaymentStateManager {
 
     val cvv: MutableStateFlow<String>
     val isCvvValid: MutableStateFlow<Boolean>
+
+    val country: MutableStateFlow<Country>
 }
