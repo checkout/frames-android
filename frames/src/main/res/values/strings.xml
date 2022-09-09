@@ -16,4 +16,8 @@
     <string name="cko_cvv_component_subtitle" translatable="true">3 – 4 digit code on your card</string>
     <string name="cko_cvv_component_error" translatable="true">Please enter a valid security code</string>
 
+    <!--Country picker-->
+    <string name="cko_country_picker_screen_title" translatable="true">Country</string>
+    <string name="cko_search_county_placeholder" translatable="true">Please select a country</string>
+
 </resources>

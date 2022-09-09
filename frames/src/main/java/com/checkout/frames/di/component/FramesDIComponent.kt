@@ -8,6 +8,7 @@ import com.checkout.frames.component.cvv.CvvViewModel
 import com.checkout.frames.di.module.PaymentModule
 import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
+import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
 import com.checkout.frames.utils.constants.PUBLIC_KEY
@@ -23,6 +24,7 @@ internal abstract class FramesDIComponent {
     /** Screen **/
     abstract fun inject(factory: PaymentFormViewModel.Factory)
     abstract fun inject(factory: PaymentDetailsViewModel.Factory)
+    abstract fun inject(factory: CountryPickerViewModel.Factory)
 
     /** Component **/
     abstract fun inject(factory: CardNumberViewModel.Factory)

@@ -27,6 +27,7 @@ object Versions {
     const val compose_customview_poolingcontainer = "1.0.0"
     const val compose_viewmodel = "2.5.1"
     const val compose_navigation = "2.5.1"
+    const val compose_navigation_accompanist = "0.25.1"
 
     // Networking Dependencies
     const val okhttp = "4.10.0"
