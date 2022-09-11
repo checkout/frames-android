@@ -22,6 +22,7 @@ import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
+import com.checkout.frames.utils.extensions.disabledIndicatorColor
 import com.checkout.frames.utils.extensions.errorIndicatorColor
 import com.checkout.frames.utils.extensions.focusedIndicatorColor
 import com.checkout.frames.utils.extensions.toComposeShape
@@ -100,6 +101,7 @@ internal class InputFieldStyleToViewStyleMapper(
         placeholderColor = Color(style.placeholderStyle.color),
         focusedIndicatorColor = Color(style.indicatorStyle.focusedIndicatorColor()),
         unfocusedIndicatorColor = Color(style.indicatorStyle.unfocusedIndicatorColor()),
+        disabledIndicatorColor = Color(style.indicatorStyle.disabledIndicatorColor()),
         errorIndicatorColor = Color(style.indicatorStyle.errorIndicatorColor()),
         containerColor = Color(style.containerStyle.color),
         cursorColor = style.cursorStyle?.cursorColor?.let { Color(it) },

@@ -14,6 +14,6 @@ internal class InputFieldStyleToInputFieldStateMapper(
     override fun map(from: InputFieldStyle): InputFieldState = InputFieldState(
         maxLength = mutableStateOf(from.textStyle.maxLength),
         leadingIcon = mutableStateOf(imageMapper.map(from.leadingIconStyle)),
-        trailingIcon = mutableStateOf(imageMapper.map(from.leadingIconStyle))
+        trailingIcon = mutableStateOf(imageMapper.map(from.trailingIconStyle))
     )
 }

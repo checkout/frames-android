@@ -12,6 +12,11 @@ internal fun InputFieldIndicatorStyle.unfocusedIndicatorColor() = when (this) {
     is InputFieldIndicatorStyle.Border -> this.unfocusedBorderColor
 }
 
+internal fun InputFieldIndicatorStyle.disabledIndicatorColor() = when (this) {
+    is InputFieldIndicatorStyle.Underline -> this.disabledUnderlineColor
+    is InputFieldIndicatorStyle.Border -> this.disabledBorderColor
+}
+
 internal fun InputFieldIndicatorStyle.errorIndicatorColor() = when (this) {
     is InputFieldIndicatorStyle.Underline -> this.errorUnderlineColor
     is InputFieldIndicatorStyle.Border -> this.errorBorderColor

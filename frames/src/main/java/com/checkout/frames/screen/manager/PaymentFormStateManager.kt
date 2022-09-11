@@ -23,7 +23,7 @@ internal class PaymentFormStateManager : PaymentStateManager {
     override val cvv: MutableStateFlow<String> = MutableStateFlow("")
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    override val country: MutableStateFlow<Country> = MutableStateFlow(Country.from(Locale.getDefault().isO3Country))
+    override val country: MutableStateFlow<Country> = MutableStateFlow(Country.from(Locale.getDefault().country))
 
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
         isCardNumberValid,
