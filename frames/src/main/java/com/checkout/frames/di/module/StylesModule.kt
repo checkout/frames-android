@@ -4,10 +4,11 @@ import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
-import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
+import com.checkout.frames.di.component.CountryViewModelSubComponent
 import com.checkout.frames.di.component.CvvViewModelSubComponent
-import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
+import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
+import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
@@ -35,6 +36,7 @@ import dagger.Provides
         ExpiryDateViewModelSubComponent::class,
         CvvViewModelSubComponent::class,
         PaymentDetailsViewModelSubComponent::class,
+        CountryViewModelSubComponent::class,
         CountryPickerViewModelSubComponent::class
     ]
 )
