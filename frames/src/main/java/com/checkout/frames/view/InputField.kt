@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.InputFieldColors
 import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.style.view.InputFieldViewStyle
+import com.checkout.frames.utils.extensions.clearFocusOnKeyboardDismiss
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,6 +64,7 @@ internal fun InputField(
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
     val textSelectionColors = provideTextSelectionColors(style.colors, colors.cursorColor(isError = false).value)
     var modifier = modifier
+        .clearFocusOnKeyboardDismiss()
         .background(colors.containerColor(enabled).value, containerShape)
         .onFocusChanged { onFocusChanged?.let { onFocusChanged -> onFocusChanged(it.isFocused) } }
         .defaultMinSize(

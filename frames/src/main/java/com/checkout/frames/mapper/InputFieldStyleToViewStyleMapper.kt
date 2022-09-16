@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.model.InputFieldColors
@@ -40,7 +41,9 @@ internal class InputFieldStyleToViewStyleMapper(
         placeholder = providePlaceholder(from.placeholderText, from.placeholderTextId, from.placeholderStyle),
         containerShape = from.containerStyle.shape.toComposeShape(from.containerStyle.cornerRadius),
         borderShape = provideBorderShape(from.indicatorStyle),
-        colors = provideColors(from)
+        colors = provideColors(from),
+        focusedBorderThickness = provideFocusedBorderThickness(from.indicatorStyle),
+        unfocusedBorderThickness = provideUnfocusedBorderThickness(from.indicatorStyle)
     )
 
     @SuppressLint("ModifierFactoryExtensionFunction")
@@ -80,6 +83,16 @@ internal class InputFieldStyleToViewStyleMapper(
     private fun provideBorderShape(indicatorStyle: InputFieldIndicatorStyle): Shape? = when (indicatorStyle) {
         is InputFieldIndicatorStyle.Underline -> null
         is InputFieldIndicatorStyle.Border -> indicatorStyle.shape.toComposeShape(indicatorStyle.cornerRadius)
+    }
+
+    private fun provideFocusedBorderThickness(indicatorStyle: InputFieldIndicatorStyle): Dp = when (indicatorStyle) {
+        is InputFieldIndicatorStyle.Underline -> indicatorStyle.focusedUnderlineThickness.dp
+        is InputFieldIndicatorStyle.Border -> indicatorStyle.focusedBorderThickness.dp
+    }
+
+    private fun provideUnfocusedBorderThickness(indicatorStyle: InputFieldIndicatorStyle): Dp = when (indicatorStyle) {
+        is InputFieldIndicatorStyle.Underline -> indicatorStyle.unfocusedUnderlineThickness.dp
+        is InputFieldIndicatorStyle.Border -> indicatorStyle.unfocusedBorderThickness.dp
     }
 
     private fun provideColors(style: InputFieldStyle): InputFieldColors = InputFieldColors(

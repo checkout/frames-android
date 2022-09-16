@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.TextUnit
  * @param style inputStyle configuration for the text such as color, font, line height etc.
  */
 internal data class TextLabelViewStyle(
-    val modifier: Modifier = Modifier,
+    var modifier: Modifier = Modifier,
     val color: Color = Color.Unspecified,
     val fontSize: TextUnit = TextUnit.Unspecified,
     val fontStyle: FontStyle? = null,

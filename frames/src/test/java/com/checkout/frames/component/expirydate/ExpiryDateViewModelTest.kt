@@ -11,6 +11,7 @@ import com.checkout.frames.component.expirydate.usecase.SmartExpiryDateValidatio
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
@@ -318,8 +319,8 @@ internal class ExpiryDateViewModelTest {
             containerMapper
         )
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
-            imageMapper,
-            TextLabelStyleToStateMapper(imageMapper)
+            TextLabelStyleToStateMapper(imageMapper),
+            InputFieldStyleToInputFieldStateMapper(imageMapper)
         )
     }
 }

@@ -3,6 +3,9 @@ package com.checkout.frames.screen.paymentdetails
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.checkout.frames.di.base.Injector
+import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 
@@ -20,13 +25,19 @@ import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 @Composable
 internal fun PaymentDetailsScreen(
     style: PaymentDetailsStyle,
-    injector: Injector
+    injector: Injector,
+    navController: NavController
 ) {
     val viewModel: PaymentDetailsViewModel = viewModel(
         factory = PaymentDetailsViewModel.Factory(injector, style)
     )
 
-    Column(modifier = Modifier.padding(PaymentDetailsScreenConstants.padding.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(PaymentDetailsScreenConstants.padding.dp)
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
 
         // TODO: Replace with header component
         Text(
@@ -47,5 +58,12 @@ internal fun PaymentDetailsScreen(
         Spacer(modifier = Modifier.padding(top = 24.dp))
 
         viewModel.componentProvider.Cvv(style = style.cvvComponentStyle)
+
+        Spacer(modifier = Modifier.padding(top = 24.dp))
+
+        // TODO: Remove. Needed for test purposes.
+        Button(onClick = { navController.navigate(Screen.CountryPicker.route) }) {
+            Text(text = "Country Picker")
+        }
     }
 }
