@@ -37,7 +37,6 @@ import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.internal.assertEquals
 import org.amshove.kluent.internal.assertFalse
 import org.junit.After
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertTrue
 
 import org.junit.jupiter.api.BeforeEach
@@ -104,7 +103,7 @@ internal class CvvViewModelTest {
     @Test
     fun `when view model is initialised then initial state has empty card number and unknown card scheme`() {
         // Then
-        Assertions.assertTrue(viewModel.componentState.cvv.value.isEmpty())
+        assertTrue(viewModel.componentState.cvv.value.isEmpty())
     }
 
     /** Initial style tests **/

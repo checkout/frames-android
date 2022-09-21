@@ -1,5 +1,6 @@
 package com.checkout.frames.screen.countrypicker
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -34,7 +35,7 @@ internal class CountryPickerViewModel @Inject constructor(
     private val inputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>,
     private val inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>,
     private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
-    private val textLabelStateMapper: Mapper<TextLabelStyle, TextLabelState>,
+    private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
     private val containerMapper: Mapper<ContainerStyle, Modifier>,
     private val imageMapper: ImageStyleToDynamicComposableImageMapper,
     private val style: CountryPickerStyle
@@ -71,12 +72,14 @@ internal class CountryPickerViewModel @Inject constructor(
         goBack.value = true
     }
 
-    private fun onReset() {
+    @VisibleForTesting
+    fun onReset() {
         isSearchActive.value = false
         onSearchChange("")
     }
 
-    private fun onClear() {
+    @VisibleForTesting
+    fun onClear() {
         if (isInputFocused) onSearchChange("")
         else onReset()
     }
