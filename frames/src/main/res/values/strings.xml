@@ -20,4 +20,9 @@
     <string name="cko_country_picker_screen_title" translatable="true">Country</string>
     <string name="cko_search_county_placeholder" translatable="true">Please select a country</string>
 
+    <!--Content description-->
+    <string name="cko_content_description_image" translatable="true">Image</string>
+    <string name="cko_content_description_dynamic_image" translatable="true">Dynamic image</string>
+
+
 </resources>
