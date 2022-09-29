@@ -14,6 +14,7 @@ import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
@@ -326,8 +327,8 @@ internal class CardNumberViewModelTest {
             containerMapper
         )
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
-            imageMapper,
-            TextLabelStyleToStateMapper(imageMapper)
+            TextLabelStyleToStateMapper(imageMapper),
+            InputFieldStyleToInputFieldStateMapper(imageMapper)
         )
     }
 

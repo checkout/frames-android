@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.model.InputFieldColors
@@ -21,6 +22,7 @@ import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
+import com.checkout.frames.utils.extensions.disabledIndicatorColor
 import com.checkout.frames.utils.extensions.errorIndicatorColor
 import com.checkout.frames.utils.extensions.focusedIndicatorColor
 import com.checkout.frames.utils.extensions.toComposeShape
@@ -40,7 +42,9 @@ internal class InputFieldStyleToViewStyleMapper(
         placeholder = providePlaceholder(from.placeholderText, from.placeholderTextId, from.placeholderStyle),
         containerShape = from.containerStyle.shape.toComposeShape(from.containerStyle.cornerRadius),
         borderShape = provideBorderShape(from.indicatorStyle),
-        colors = provideColors(from)
+        colors = provideColors(from),
+        focusedBorderThickness = provideFocusedBorderThickness(from.indicatorStyle),
+        unfocusedBorderThickness = provideUnfocusedBorderThickness(from.indicatorStyle)
     )
 
     @SuppressLint("ModifierFactoryExtensionFunction")
@@ -82,11 +86,22 @@ internal class InputFieldStyleToViewStyleMapper(
         is InputFieldIndicatorStyle.Border -> indicatorStyle.shape.toComposeShape(indicatorStyle.cornerRadius)
     }
 
+    private fun provideFocusedBorderThickness(indicatorStyle: InputFieldIndicatorStyle): Dp = when (indicatorStyle) {
+        is InputFieldIndicatorStyle.Underline -> indicatorStyle.focusedUnderlineThickness.dp
+        is InputFieldIndicatorStyle.Border -> indicatorStyle.focusedBorderThickness.dp
+    }
+
+    private fun provideUnfocusedBorderThickness(indicatorStyle: InputFieldIndicatorStyle): Dp = when (indicatorStyle) {
+        is InputFieldIndicatorStyle.Underline -> indicatorStyle.unfocusedUnderlineThickness.dp
+        is InputFieldIndicatorStyle.Border -> indicatorStyle.unfocusedBorderThickness.dp
+    }
+
     private fun provideColors(style: InputFieldStyle): InputFieldColors = InputFieldColors(
         textColor = Color(style.textStyle.color),
         placeholderColor = Color(style.placeholderStyle.color),
         focusedIndicatorColor = Color(style.indicatorStyle.focusedIndicatorColor()),
         unfocusedIndicatorColor = Color(style.indicatorStyle.unfocusedIndicatorColor()),
+        disabledIndicatorColor = Color(style.indicatorStyle.disabledIndicatorColor()),
         errorIndicatorColor = Color(style.indicatorStyle.errorIndicatorColor()),
         containerColor = Color(style.containerStyle.color),
         cursorColor = style.cursorStyle?.cursorColor?.let { Color(it) },

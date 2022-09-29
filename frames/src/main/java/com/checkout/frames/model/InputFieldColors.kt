@@ -7,6 +7,7 @@ internal data class InputFieldColors(
     val placeholderColor: Color? = null,
     val focusedIndicatorColor: Color? = null,
     val unfocusedIndicatorColor: Color? = null,
+    val disabledIndicatorColor: Color? = null,
     val errorIndicatorColor: Color? = null,
     val containerColor: Color = Color.Transparent,
     val cursorColor: Color? = null,

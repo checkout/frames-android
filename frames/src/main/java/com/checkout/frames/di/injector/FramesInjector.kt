@@ -3,12 +3,14 @@ package com.checkout.frames.di.injector
 import android.content.Context
 import com.checkout.base.model.Environment
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
+import com.checkout.frames.component.country.CountryViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
 import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.DaggerFramesDIComponent
 import com.checkout.frames.di.component.FramesDIComponent
+import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
 import java.lang.ref.WeakReference
@@ -22,6 +24,8 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             is CvvViewModel.Factory -> component.inject(client)
             is PaymentDetailsViewModel.Factory -> component.inject(client)
             is PaymentFormViewModel.Factory -> component.inject(client)
+            is CountryViewModel.Factory -> component.inject(client)
+            is CountryPickerViewModel.Factory -> component.inject(client)
             else -> throw IllegalArgumentException("Invalid injection request for ${client.javaClass.name}.")
         }
     }

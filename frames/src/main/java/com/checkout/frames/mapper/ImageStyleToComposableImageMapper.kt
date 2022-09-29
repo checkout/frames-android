@@ -11,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
+import com.checkout.frames.R
 import com.checkout.frames.style.component.base.ImageStyle
 
 internal class ImageStyleToComposableImageMapper : Mapper<ImageStyle?, @Composable (() -> Unit)?> {
@@ -22,7 +24,9 @@ internal class ImageStyleToComposableImageMapper : Mapper<ImageStyle?, @Composab
     @Composable
     private fun LabelImage(style: ImageStyle) = style.image?.let { imageId ->
         val image = painterResource(imageId)
-        var modifier = Modifier.wrapContentHeight().wrapContentWidth()
+        var modifier = Modifier
+            .wrapContentHeight()
+            .wrapContentWidth()
 
         style.padding?.let { modifier = modifier.padding(it.start.dp, it.top.dp, it.end.dp, it.bottom.dp) }
         style.height?.let { modifier = modifier.height(it.dp) }
@@ -31,7 +35,7 @@ internal class ImageStyleToComposableImageMapper : Mapper<ImageStyle?, @Composab
         Image(
             modifier = modifier,
             painter = image,
-            contentDescription = "Label image",
+            contentDescription = stringResource(R.string.cko_content_description_image),
             colorFilter = style.tinColor?.let { ColorFilter.tint(Color(it)) }
         )
     }

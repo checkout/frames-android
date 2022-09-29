@@ -1,12 +1,14 @@
 package com.checkout.frames.screen.manager
 
 import com.checkout.base.model.CardScheme
+import com.checkout.base.model.Country
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import java.util.Locale
 
 internal class PaymentFormStateManager : PaymentStateManager {
     override val isReadyTokenize: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
@@ -20,6 +22,8 @@ internal class PaymentFormStateManager : PaymentStateManager {
 
     override val cvv: MutableStateFlow<String> = MutableStateFlow("")
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+    override val country: MutableStateFlow<Country> = MutableStateFlow(Country.from(Locale.getDefault().country))
 
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
         isCardNumberValid,

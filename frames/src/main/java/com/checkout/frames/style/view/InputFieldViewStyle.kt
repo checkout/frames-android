@@ -66,7 +66,7 @@ import com.checkout.frames.model.InputFieldColors
  * @param forceLTR force LTR usage even for RTL layout direction.
  */
 internal data class InputFieldViewStyle(
-    val modifier: Modifier = Modifier.fillMaxWidth(),
+    var modifier: Modifier = Modifier.fillMaxWidth(),
     val enabled: Boolean = true,
     val readOnly: Boolean = false,
     val textStyle: TextStyle? = null,

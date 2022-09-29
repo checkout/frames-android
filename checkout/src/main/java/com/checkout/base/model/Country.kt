@@ -1,6 +1,9 @@
 package com.checkout.base.model
 
-public enum class Country(internal val iso3166Alpha2: String, internal val dialingCode: String) {
+public enum class Country(
+    public val iso3166Alpha2: String,
+    public val dialingCode: String
+) {
     AFGHANISTAN("AF", "93"),
     ALAND_ISLANDS("AX", "358"),
     ALBANIA("AL", "355"),

@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.InputFieldColors
 import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.style.view.InputFieldViewStyle
+import com.checkout.frames.utils.extensions.clearFocusOnKeyboardDismiss
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,6 +64,7 @@ internal fun InputField(
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
     val textSelectionColors = provideTextSelectionColors(style.colors, colors.cursorColor(isError = false).value)
     var modifier = modifier
+        .clearFocusOnKeyboardDismiss()
         .background(colors.containerColor(enabled).value, containerShape)
         .onFocusChanged { onFocusChanged?.let { onFocusChanged -> onFocusChanged(it.isFocused) } }
         .defaultMinSize(
@@ -183,6 +185,7 @@ private fun provideInputFieldColors(withBorder: Boolean, colors: InputFieldColor
     val placeholderColor = colors?.placeholderColor ?: Color.Gray
     val focusedIndicatorColor = colors?.focusedIndicatorColor ?: Color(BorderConstants.focusedBorderColor)
     val unfocusedIndicatorColor = colors?.unfocusedIndicatorColor ?: Color(BorderConstants.unfocusedBorderColor)
+    val disabledIndicatorColor = colors?.disabledIndicatorColor ?: Color(BorderConstants.disabledBorderColor)
     val errorIndicatorColor = colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor)
     val containerColor = colors?.containerColor ?: Color.Transparent
     val cursorColor = colors?.cursorColor ?: colors?.focusedIndicatorColor ?: Color.Black
@@ -194,6 +197,7 @@ private fun provideInputFieldColors(withBorder: Boolean, colors: InputFieldColor
         placeholderColor = placeholderColor,
         focusedBorderColor = focusedIndicatorColor,
         unfocusedBorderColor = unfocusedIndicatorColor,
+        disabledBorderColor = disabledIndicatorColor,
         errorBorderColor = errorIndicatorColor,
         containerColor = containerColor,
         cursorColor = cursorColor,
@@ -203,6 +207,7 @@ private fun provideInputFieldColors(withBorder: Boolean, colors: InputFieldColor
         placeholderColor = placeholderColor,
         focusedIndicatorColor = focusedIndicatorColor,
         unfocusedIndicatorColor = unfocusedIndicatorColor,
+        disabledIndicatorColor = disabledIndicatorColor,
         errorIndicatorColor = errorIndicatorColor,
         containerColor = containerColor,
         cursorColor = cursorColor,

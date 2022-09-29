@@ -4,17 +4,20 @@ import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
+import com.checkout.frames.di.component.CountryViewModelSubComponent
 import com.checkout.frames.di.component.CvvViewModelSubComponent
-import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
+import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
+import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
@@ -22,6 +25,7 @@ import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
+import com.checkout.frames.view.InputFieldState
 import com.checkout.frames.view.TextLabelState
 import dagger.Module
 import dagger.Provides
@@ -31,7 +35,9 @@ import dagger.Provides
         CardNumberViewModelSubComponent::class,
         ExpiryDateViewModelSubComponent::class,
         CvvViewModelSubComponent::class,
-        PaymentDetailsViewModelSubComponent::class
+        PaymentDetailsViewModelSubComponent::class,
+        CountryViewModelSubComponent::class,
+        CountryPickerViewModelSubComponent::class
     ]
 )
 internal abstract class StylesModule {
@@ -55,11 +61,16 @@ internal abstract class StylesModule {
         ): Mapper<TextLabelStyle?, TextLabelState> = TextLabelStyleToStateMapper(imageMapper)
 
         @Provides
+        fun provideInputFieldStyleToStateMapper(
+            imageMapper: ImageStyleToComposableImageMapper
+        ): Mapper<InputFieldStyle, InputFieldState> = InputFieldStyleToInputFieldStateMapper(imageMapper)
+
+        @Provides
         fun provideInputComponentStyleToStateMapper(
-            imageMapper: ImageStyleToComposableImageMapper,
-            textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>
+            textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>,
+            inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>
         ): Mapper<InputComponentStyle, InputComponentState> =
-            InputComponentStyleToStateMapper(imageMapper, textLabelMapper)
+            InputComponentStyleToStateMapper(textLabelMapper, inputFieldStateMapper)
 
         @Provides
         fun provideInputFieldStyleToViewStyleMapper(
