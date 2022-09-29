@@ -62,7 +62,7 @@ internal class CvvViewModelTest {
     lateinit var spyInputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager()
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(listOf())
 
     private var style: CvvComponentStyle = CvvComponentStyle()
 

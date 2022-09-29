@@ -28,6 +28,7 @@ object Versions {
     const val compose_viewmodel = "2.5.1"
     const val compose_navigation = "2.5.1"
     const val compose_navigation_accompanist = "0.25.1"
+    const val flow_layout = "0.26.4-beta"
 
     // Networking Dependencies
     const val okhttp = "4.10.0"

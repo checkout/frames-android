@@ -19,5 +19,7 @@ internal interface PaymentStateManager {
     val cvv: MutableStateFlow<String>
     val isCvvValid: MutableStateFlow<Boolean>
 
+    val supportedCardSchemeList: List<CardScheme?>
+
     val country: MutableStateFlow<Country>
 }

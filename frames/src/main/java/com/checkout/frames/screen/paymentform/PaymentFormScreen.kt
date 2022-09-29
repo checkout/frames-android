@@ -22,7 +22,8 @@ public fun PaymentFormScreen(config: PaymentFormConfig) {
         factory = PaymentFormViewModel.Factory(
             config.publicKey,
             config.context,
-            config.environment
+            config.environment,
+            config.supportedCardSchemeList
         )
     )
 

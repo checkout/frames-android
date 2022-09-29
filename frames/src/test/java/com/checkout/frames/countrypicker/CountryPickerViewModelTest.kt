@@ -57,7 +57,7 @@ internal class CountryPickerViewModelTest {
     lateinit var spyDynamicImageMapper: ImageStyleToDynamicComposableImageMapper
 
     @SpyK
-    var paymentStateManager: PaymentStateManager = PaymentFormStateManager()
+    var paymentStateManager: PaymentStateManager = PaymentFormStateManager(listOf())
 
     private val style: CountryPickerStyle = CountryPickerStyle()
     private lateinit var viewModel: CountryPickerViewModel

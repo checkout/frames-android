@@ -39,6 +39,9 @@ public object LightStyleConstants {
     /** Leading icon start padding in dp. */
     public const val leadingIconStartPadding: Int = 20
 
+    /** SupportedCardSchemes icon end padding in dp. */
+    public const val supportedCardSchemeIconEndPadding: Int = 4
+
     /** Leading icon end padding in dp. */
     public const val leadingIconEndPadding: Int = 10
 }

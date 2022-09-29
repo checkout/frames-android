@@ -29,6 +29,7 @@ object Dependencies {
     const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.compose_viewmodel}"
     const val compose_navigation = "androidx.navigation:navigation-compose:${Versions.compose_navigation}"
     const val compose_navigation_accompanist = "com.google.accompanist:accompanist-navigation-animation:${Versions.compose_navigation_accompanist}"
+    const val flow_layout = "com.google.accompanist:accompanist-flowlayout:${Versions.flow_layout}"
 
     // Compose Test
     const val compose_ui_test = "androidx.compose.ui:ui-test-junit4:${Versions.compose_version}"

@@ -1,7 +1,9 @@
 package com.checkout.frames.di.module
 
+import com.checkout.base.model.CardScheme
 import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
+import com.checkout.frames.di.component.CardSchemeViewModelSubComponent
 import com.checkout.frames.di.component.CountryViewModelSubComponent
 import com.checkout.frames.di.component.CvvViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
@@ -19,13 +21,15 @@ import javax.inject.Singleton
         ExpiryDateViewModelSubComponent::class,
         PaymentDetailsViewModelSubComponent::class,
         CountryViewModelSubComponent::class,
-        CountryPickerViewModelSubComponent::class
+        CountryPickerViewModelSubComponent::class,
+        CardSchemeViewModelSubComponent::class
     ]
 )
 internal class PaymentModule {
     companion object {
         @Provides
         @Singleton
-        fun paymentStateManager(): PaymentStateManager = PaymentFormStateManager()
+        fun paymentStateManager(supportedCardSchemeList: List<CardScheme>?): PaymentStateManager =
+            PaymentFormStateManager(supportedCardSchemeList)
     }
 }

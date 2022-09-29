@@ -1,5 +1,6 @@
 package com.checkout.frames.screen.manager
 
+import androidx.annotation.VisibleForTesting
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Country
 import kotlinx.coroutines.MainScope
@@ -10,7 +11,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import java.util.Locale
 
-internal class PaymentFormStateManager : PaymentStateManager {
+internal class PaymentFormStateManager(
+    private val providedSupportedCardSchemeList: List<CardScheme>?
+    ) : PaymentStateManager {
+
     override val isReadyTokenize: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
 
     override val cardNumber: MutableStateFlow<String> = MutableStateFlow("")
@@ -24,6 +28,21 @@ internal class PaymentFormStateManager : PaymentStateManager {
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override val country: MutableStateFlow<Country> = MutableStateFlow(Country.from(Locale.getDefault().country))
+
+    override val supportedCardSchemeList = provideCardSchemeList()
+
+    @VisibleForTesting
+    fun provideCardSchemeList(): List<CardScheme> =
+        providedSupportedCardSchemeList ?: listOf(
+            CardScheme.VISA,
+            CardScheme.MASTERCARD,
+            CardScheme.MAESTRO,
+            CardScheme.AMERICAN_EXPRESS,
+            CardScheme.DISCOVER,
+            CardScheme.DINERS_CLUB,
+            CardScheme.JCB,
+            CardScheme.MADA
+        )
 
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
         isCardNumberValid,

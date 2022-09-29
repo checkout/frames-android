@@ -46,11 +46,15 @@ internal fun PaymentDetailsScreen(
         Text(
             text = "Payment details",
             fontSize = 24.sp,
-            modifier = Modifier.padding(bottom = 20.dp, top = 20.dp),
+            modifier = Modifier.padding(bottom = 8.dp, top = 20.dp),
             color = Color(0xFF1C1B1F),
             fontWeight = FontWeight.Medium,
             fontFamily = FontFamily.SansSerif
         )
+
+        viewModel.componentProvider.CardScheme(style = style.cardSchemeStyle)
+
+        Spacer(modifier = Modifier.padding(top = 24.dp))
 
         viewModel.componentProvider.CardNumber(style = style.cardNumberStyle)
 
