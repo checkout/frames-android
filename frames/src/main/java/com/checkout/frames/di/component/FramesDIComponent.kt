@@ -1,8 +1,10 @@
 package com.checkout.frames.di.component
 
 import android.content.Context
+import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
+import com.checkout.frames.component.cardscheme.CardSchemeViewModel
 import com.checkout.frames.component.country.CountryViewModel
 import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
@@ -31,6 +33,7 @@ internal abstract class FramesDIComponent {
     abstract fun inject(factory: CardNumberViewModel.Factory)
     abstract fun inject(factory: CvvViewModel.Factory)
     abstract fun inject(factory: ExpiryDateViewModel.Factory)
+    abstract fun inject(factory: CardSchemeViewModel.Factory)
     abstract fun inject(factory: CountryViewModel.Factory)
 
     @Component.Builder
@@ -44,6 +47,9 @@ internal abstract class FramesDIComponent {
 
         @BindsInstance
         fun environment(environment: Environment): Builder
+
+        @BindsInstance
+        fun supportedCardSchemes(supportedCardSchemeList: List<CardScheme>): Builder
 
         fun build(): FramesDIComponent
     }

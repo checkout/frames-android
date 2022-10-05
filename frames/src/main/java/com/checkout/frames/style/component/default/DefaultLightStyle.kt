@@ -3,6 +3,7 @@ package com.checkout.frames.style.component.default
 import androidx.annotation.StringRes
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
+import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextStyle
@@ -12,6 +13,7 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.utils.constants.LightStyleConstants
 
+@Suppress("TooManyFunctions")
 public object DefaultLightStyle {
 
     public fun screenTitleTextLabelStyle(
@@ -28,6 +30,14 @@ public object DefaultLightStyle {
         padding = Padding(
             start = LightStyleConstants.leadingIconStartPadding,
             end = LightStyleConstants.leadingIconEndPadding
+        ),
+        height = LightStyleConstants.leadingIconHeight,
+        width = LightStyleConstants.leadingIconWidth
+    )
+
+    public fun supportedCardSchemeIconStyle(): ImageStyle = ImageStyle(
+        padding = Padding(
+            end = LightStyleConstants.supportedCardSchemeIconEndPadding
         ),
         height = LightStyleConstants.leadingIconHeight,
         width = LightStyleConstants.leadingIconWidth
@@ -81,5 +91,18 @@ public object DefaultLightStyle {
             placeholderTextId = placeholderResourceTextId
         },
         errorMessageStyle = errorTextLabelStyle()
+    )
+
+    public fun cardSchemeComponentStyle(
+        titleText: String = "",
+        @StringRes
+        titleTextId: Int? = null
+    ): CardSchemeComponentStyle = CardSchemeComponentStyle(
+        titleStyle = subtitleTextLabelStyle().apply {
+            text = titleText
+            textId = titleTextId
+        },
+        imageStyle = supportedCardSchemeIconStyle(),
+        imagesContainerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
     )
 }

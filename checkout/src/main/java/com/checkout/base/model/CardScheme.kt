@@ -127,5 +127,12 @@ public enum class CardScheme(
         eagerRegex = Regex(""),
         maxNumberLength = 19,
         numberSeparatorPattern = listOf(4, 9, 14, 19)
-    )
+    );
+
+    public companion object {
+        public fun fetchAllSupportedCardSchemes(): List<CardScheme> = mutableListOf<CardScheme>().apply {
+            addAll(values())
+            remove(UNKNOWN)
+        }
+    }
 }

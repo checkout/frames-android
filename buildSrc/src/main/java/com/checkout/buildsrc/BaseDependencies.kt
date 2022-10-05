@@ -38,6 +38,7 @@ fun DependencyHandler.androidDeclarativeUI() {
     implementation(Dependencies.compose_viewmodel)
     implementation(Dependencies.compose_navigation)
     implementation(Dependencies.compose_navigation_accompanist)
+    implementation(Dependencies.flow_layout)
     debugImplementation(Dependencies.compose_ui_tooling)
     debugImplementation(Dependencies.compose_ui_test_manifest)
     debugImplementation(Dependencies.compose_customview_poolingcontainer)
