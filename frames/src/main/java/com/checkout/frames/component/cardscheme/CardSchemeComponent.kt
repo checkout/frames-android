@@ -2,11 +2,7 @@ package com.checkout.frames.component.cardscheme
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.style.component.CardSchemeComponentStyle
@@ -31,7 +27,7 @@ internal fun CardSchemeComponent(
 }
 
 @Composable
-internal fun BasicCardSchemeComponent(
+private fun BasicCardSchemeComponent(
     style: CardSchemeComponentViewStyle,
     state: CardSchemeComponentState,
     supportedCardSchemeIconList: List<@Composable (() -> Unit)?>
@@ -40,9 +36,7 @@ internal fun BasicCardSchemeComponent(
         // Title label
         if (textLabelState?.isVisible?.value == true) TextLabel(style.titleStyle, textLabelState)
 
-        Spacer(modifier = Modifier.padding(top = 8.dp))
-
-        FlowRow {
+        FlowRow(style.containerModifier) {
             supportedCardSchemeIconList.forEach { it?.invoke() }
         }
     }

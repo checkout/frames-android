@@ -9,6 +9,6 @@ public object DefaultCardSchemeComponentStyle {
         val style = DefaultLightStyle.cardSchemeComponentStyle(
             titleTextId = R.string.cko_accepted_cards_title
         )
-        return CardSchemeComponentStyle(style.titleStyle, style.imageStyle)
+        return CardSchemeComponentStyle(style.titleStyle, style.imageStyle, style.imagesContainerStyle)
     }
 }

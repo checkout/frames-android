@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.stateIn
 import java.util.Locale
 
 internal class PaymentFormStateManager(
-    private val providedSupportedCardSchemeList: List<CardScheme>?
-    ) : PaymentStateManager {
+    private val supportedCardSchemes: List<CardScheme>
+) : PaymentStateManager {
 
     override val isReadyTokenize: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
 
@@ -32,17 +32,9 @@ internal class PaymentFormStateManager(
     override val supportedCardSchemeList = provideCardSchemeList()
 
     @VisibleForTesting
-    fun provideCardSchemeList(): List<CardScheme> =
-        providedSupportedCardSchemeList ?: listOf(
-            CardScheme.VISA,
-            CardScheme.MASTERCARD,
-            CardScheme.MAESTRO,
-            CardScheme.AMERICAN_EXPRESS,
-            CardScheme.DISCOVER,
-            CardScheme.DINERS_CLUB,
-            CardScheme.JCB,
-            CardScheme.MADA
-        )
+    fun provideCardSchemeList(): List<CardScheme> = supportedCardSchemes.ifEmpty {
+        CardScheme.fetchAllSupportedCardSchemes()
+    }
 
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
         isCardNumberValid,

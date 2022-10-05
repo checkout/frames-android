@@ -40,7 +40,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             publicKey: String,
             context: Context,
             environment: Environment,
-            supportedCardSchemeList: List<CardScheme>? = null
+            supportedCardSchemeList: List<CardScheme> = emptyList()
         ): Injector = weakInjector?.get() ?: run {
             val injector = FramesInjector(
                 DaggerFramesDIComponent.builder()

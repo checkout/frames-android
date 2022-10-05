@@ -49,7 +49,7 @@ internal abstract class FramesDIComponent {
         fun environment(environment: Environment): Builder
 
         @BindsInstance
-        fun supportedCardSchemes(supportedCardSchemeList: List<CardScheme>?): Builder
+        fun supportedCardSchemes(supportedCardSchemeList: List<CardScheme>): Builder
 
         fun build(): FramesDIComponent
     }

@@ -3,15 +3,15 @@ package com.checkout.frames.component.cardscheme
 import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.CardSchemeComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.CardSchemeComponentStyleToStateMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardSchemeComponentStyle
-import com.checkout.frames.style.component.base.TextLabelStyle
-import com.checkout.frames.style.view.TextLabelViewStyle
-import com.checkout.frames.view.TextLabelState
+import com.checkout.frames.style.view.CardSchemeComponentViewStyle
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
@@ -27,16 +27,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class CardSchemeViewModelTest {
 
     @SpyK
-    lateinit var spyTextLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>
+    lateinit var spyCardSchemeComponentStyleMapper: Mapper<CardSchemeComponentStyle, CardSchemeComponentViewStyle>
 
     @SpyK
-    lateinit var spyTextLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>
+    lateinit var spyCardSchemeComponentStateMapper: Mapper<CardSchemeComponentStyle, CardSchemeComponentState>
 
     @SpyK
     lateinit var spyImageStyleToComposableImageMapper: ImageStyleToComposableImageMapper
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(listOf())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
 
     private var style: CardSchemeComponentStyle = CardSchemeComponentStyle()
 
@@ -50,8 +50,8 @@ internal class CardSchemeViewModelTest {
     fun setUp() {
         viewModel = CardSchemeViewModel(
             spyPaymentStateManager,
-            spyTextLabelStyleMapper,
-            spyTextLabelStateMapper,
+            spyCardSchemeComponentStyleMapper,
+            spyCardSchemeComponentStateMapper,
             spyImageStyleToComposableImageMapper,
             style
         )
@@ -62,7 +62,7 @@ internal class CardSchemeViewModelTest {
     @Test
     fun `when view model is initialised then component style is mapped to initial component state`() {
         // Then
-        verify { spyTextLabelStateMapper.map(style.titleStyle) }
+        verify { spyCardSchemeComponentStateMapper.map(style) }
     }
 
     @Test
@@ -76,7 +76,7 @@ internal class CardSchemeViewModelTest {
     @Test
     fun `when view model is initialised then component style is mapped to initial component view style`() {
         // Then
-        verify { spyTextLabelStyleMapper.map(style.titleStyle) }
+        verify { spyCardSchemeComponentStyleMapper.map(style) }
     }
 
     @Test
@@ -90,9 +90,15 @@ internal class CardSchemeViewModelTest {
 
     private fun initMappers() {
         val containerMapper = ContainerStyleToModifierMapper()
+        val textLabelStyleMapper = TextLabelStyleToViewStyleMapper(containerMapper)
+        val imageMapper = ImageStyleToComposableImageMapper()
+        val textLabelStateMapper = TextLabelStyleToStateMapper(imageMapper)
 
         spyImageStyleToComposableImageMapper = ImageStyleToComposableImageMapper()
-        spyTextLabelStyleMapper = TextLabelStyleToViewStyleMapper(containerMapper)
-        spyTextLabelStateMapper = TextLabelStyleToStateMapper(spyImageStyleToComposableImageMapper)
+        spyCardSchemeComponentStyleMapper = CardSchemeComponentStyleToViewStyleMapper(
+            textLabelStyleMapper,
+            containerMapper
+        )
+        spyCardSchemeComponentStateMapper = CardSchemeComponentStyleToStateMapper(textLabelStateMapper)
     }
 }

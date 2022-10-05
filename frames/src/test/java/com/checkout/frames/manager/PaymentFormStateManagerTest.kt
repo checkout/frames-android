@@ -22,18 +22,8 @@ internal class PaymentFormStateManagerTest {
     @Test
     fun `when custom supported card schemes isn't provided then checkout's all supportedCardSchemes should updated`() {
         // Given
-        paymentFormStateManager = PaymentFormStateManager(null)
-        val expectedSupportedSchemes = listOf(
-            CardScheme.VISA,
-            CardScheme.MASTERCARD,
-            CardScheme.MAESTRO,
-            CardScheme.AMERICAN_EXPRESS,
-            CardScheme.DISCOVER,
-            CardScheme.DINERS_CLUB,
-            CardScheme.JCB,
-            CardScheme.MADA
-        )
-
+        paymentFormStateManager = PaymentFormStateManager(emptyList())
+        val expectedSupportedSchemes = CardScheme.fetchAllSupportedCardSchemes()
         // Then
         Assertions.assertEquals(paymentFormStateManager.supportedCardSchemeList, expectedSupportedSchemes)
     }

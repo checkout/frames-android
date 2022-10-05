@@ -29,7 +29,7 @@ internal class PaymentModule {
     companion object {
         @Provides
         @Singleton
-        fun paymentStateManager(supportedCardSchemeList: List<CardScheme>?): PaymentStateManager =
-            PaymentFormStateManager(supportedCardSchemeList)
+        fun paymentStateManager(supportedCardSchemes: List<CardScheme>): PaymentStateManager =
+            PaymentFormStateManager(supportedCardSchemes)
     }
 }

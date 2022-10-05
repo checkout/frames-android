@@ -11,17 +11,14 @@ import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.base.ImageStyle
-import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.view.CardSchemeComponentViewStyle
-import com.checkout.frames.style.view.TextLabelViewStyle
-import com.checkout.frames.view.TextLabelState
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class CardSchemeViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
-    private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
-    private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
+    private val cardSchemeComponentStyleMapper: Mapper<CardSchemeComponentStyle, CardSchemeComponentViewStyle>,
+    private val cardSchemeComponentStateMapper: Mapper<CardSchemeComponentStyle, CardSchemeComponentState>,
     private val imageMapper: ImageStyleToComposableImageMapper,
     private val style: CardSchemeComponentStyle
 ) : ViewModel() {
@@ -37,16 +34,14 @@ internal class CardSchemeViewModel @Inject constructor(
     private fun provideComposableCardSchemeImages(imageStyle: ImageStyle?): List<@Composable (() -> Unit)?> {
         val composableImagesList = ArrayList<@Composable (() -> Unit)?>()
         paymentStateManager.supportedCardSchemeList.forEach { cardScheme ->
-            composableImagesList.add(imageMapper.map(imageStyle?.copy(image = cardScheme?.imageId)))
+            composableImagesList.add(imageMapper.map(imageStyle?.copy(image = cardScheme.imageId)))
         }
         return composableImagesList
     }
 
-    private fun provideViewState(style: CardSchemeComponentStyle) =
-        CardSchemeComponentState(textLabelStateMapper.map(style.titleStyle))
+    private fun provideViewState(style: CardSchemeComponentStyle) = cardSchemeComponentStateMapper.map(style)
 
-    private fun provideViewStyle(inputStyle: CardSchemeComponentStyle) =
-        CardSchemeComponentViewStyle(textLabelStyleMapper.map(inputStyle.titleStyle))
+    private fun provideViewStyle(inputStyle: CardSchemeComponentStyle) = cardSchemeComponentStyleMapper.map(inputStyle)
 
     internal class Factory(
         private val injector: Injector,

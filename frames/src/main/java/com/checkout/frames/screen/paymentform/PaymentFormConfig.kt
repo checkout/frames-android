@@ -10,5 +10,5 @@ public data class PaymentFormConfig(
     public var context: Context,
     public var environment: Environment,
     public var style: PaymentFormStyle,
-    public var supportedCardSchemeList: List<CardScheme>? = null
+    public var supportedCardSchemeList: List<CardScheme> = emptyList()
 )

@@ -18,7 +18,7 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         private val publicKey: String,
         private val context: Context,
         private val environment: Environment,
-        private val supportedCardSchemes: List<CardScheme>? = null
+        private val supportedCardSchemes: List<CardScheme> = emptyList()
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

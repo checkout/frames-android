@@ -102,6 +102,7 @@ public object DefaultLightStyle {
             text = titleText
             textId = titleTextId
         },
-        imageStyle = supportedCardSchemeIconStyle()
+        imageStyle = supportedCardSchemeIconStyle(),
+        imagesContainerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
     )
 }
