@@ -1,7 +1,7 @@
 package com.checkout.frames.screen.manager
 
 import com.checkout.base.model.CardScheme
-import com.checkout.base.model.Country
+import com.checkout.frames.screen.billingformdetails.models.BillingForm
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -21,5 +21,5 @@ internal interface PaymentStateManager {
 
     val supportedCardSchemeList: List<CardScheme>
 
-    val country: MutableStateFlow<Country>
+    val billingForm: MutableStateFlow<BillingForm>
 }

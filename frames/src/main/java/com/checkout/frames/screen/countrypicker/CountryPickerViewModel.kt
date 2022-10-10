@@ -26,6 +26,7 @@ import com.checkout.frames.view.InputFieldState
 import com.checkout.frames.view.TextLabelState
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Provider
@@ -68,7 +69,7 @@ internal class CountryPickerViewModel @Inject constructor(
     }
 
     fun onCountryChosen(iso2: String) {
-        paymentStateManager.country.value = Country.from(iso2)
+        paymentStateManager.billingForm.value.country.update { Country.from(iso2) }
         goBack.value = true
     }
 

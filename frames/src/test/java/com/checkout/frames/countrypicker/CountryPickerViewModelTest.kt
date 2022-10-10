@@ -178,7 +178,8 @@ internal class CountryPickerViewModelTest {
         viewModel.onCountryChosen("UA")
 
         // Then
-        assertEquals(expectedCountry, paymentStateManager.country.value)
+        val actualBillingForm = paymentStateManager.billingForm.value
+        assertEquals(expectedCountry, actualBillingForm.country.value)
     }
 
     @Test
