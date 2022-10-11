@@ -15,7 +15,10 @@ internal class CardSchemeComponentStyleToViewStyleMapper(
 ) : Mapper<CardSchemeComponentStyle, CardSchemeComponentViewStyle> {
 
     override fun map(from: CardSchemeComponentStyle) = CardSchemeComponentViewStyle(
+        mainAxisSpacing = from.imageContainerStyle.mainAxisSpacing,
+        crossAxisSpacing = from.imageContainerStyle.crossAxisSpacing,
         titleStyle = from.titleStyle.let { textLabelStyleMapper.map(it) },
-        containerModifier = containerMapper.map(from.imagesContainerStyle).fillMaxWidth()
+        containerModifier = containerMapper.map(from.containerStyle).fillMaxWidth(),
+        imagesContainerModifier = containerMapper.map(from.imageContainerStyle.containerStyle).fillMaxWidth()
     )
 }

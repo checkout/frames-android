@@ -3,6 +3,7 @@ package com.checkout.frames.component.cardscheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.style.component.CardSchemeComponentStyle
@@ -36,7 +37,11 @@ private fun BasicCardSchemeComponent(
         // Title label
         if (textLabelState?.isVisible?.value == true) TextLabel(style.titleStyle, textLabelState)
 
-        FlowRow(style.containerModifier) {
+        FlowRow(
+            modifier = style.imagesContainerModifier,
+            mainAxisSpacing = style.mainAxisSpacing.dp,
+            crossAxisSpacing = style.crossAxisSpacing.dp
+            ) {
             supportedCardSchemeIconList.forEach { it?.invoke() }
         }
     }
