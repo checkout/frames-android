@@ -30,9 +30,13 @@ internal class CountryViewModel @Inject constructor(
 
     fun prepare() {
         viewModelScope.launch {
-            paymentStateManager.billingForm.collect { billingForm ->
-                val name = Locale(Locale.getDefault().language, billingForm.country.value.iso3166Alpha2).displayCountry
-                val emojiFlag = billingForm.country.value.emojiFlag()
+            paymentStateManager.billingAddress.collect { billingAddress ->
+                val country = billingAddress.address?.country
+                val name = country?.iso3166Alpha2?.let {
+                    Locale(Locale.getDefault().language, it).displayCountry
+                }
+                val emojiFlag = country?.emojiFlag()
+
                 componentState.inputFieldState.text.value = "$emojiFlag    $name"
             }
         }

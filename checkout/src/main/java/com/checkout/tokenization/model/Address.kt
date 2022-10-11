@@ -35,5 +35,5 @@ public data class Address constructor(
     /**
      * Billing address country [Country]
      */
-    val country: Country
+    var country: Country
 )

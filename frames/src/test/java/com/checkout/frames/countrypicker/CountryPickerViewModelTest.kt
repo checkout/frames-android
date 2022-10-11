@@ -1,4 +1,4 @@
-package com.checkout.frames.screen.countrypicker
+package com.checkout.frames.countrypicker
 
 import android.annotation.SuppressLint
 import androidx.compose.ui.Modifier
@@ -11,6 +11,7 @@ import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
+import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ContainerStyle
@@ -178,8 +179,8 @@ internal class CountryPickerViewModelTest {
         viewModel.onCountryChosen("UA")
 
         // Then
-        val actualBillingForm = paymentStateManager.billingForm.value
-        assertEquals(expectedCountry, actualBillingForm.country.value)
+        val actualBillingForm = paymentStateManager.billingAddress.value
+        assertEquals(expectedCountry, actualBillingForm.address?.country)
     }
 
     @Test

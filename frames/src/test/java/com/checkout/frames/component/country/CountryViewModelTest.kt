@@ -22,7 +22,6 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -105,11 +104,11 @@ internal class CountryViewModelTest {
         val testCountry = Country.UNITED_STATES_OF_AMERICA
         val expectedCountryFieldText = "\uD83C\uDDFA\uD83C\uDDF8    United States"
 
-        spyPaymentStateManager.billingForm.value.country.update { Country.UNITED_KINGDOM }
+        spyPaymentStateManager.billingAddress.value.address?.country = Country.UNITED_KINGDOM
         viewModel.prepare()
 
         // When
-        spyPaymentStateManager.billingForm.value.country.update { testCountry }
+        spyPaymentStateManager.billingAddress.value.address?.country = testCountry
         testScheduler.advanceUntilIdle()
 
         // Then
