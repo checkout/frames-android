@@ -9,4 +9,6 @@ public data class Padding(
     val start: Int = 0,
     /** End padding in dp. */
     val end: Int = 0
-)
+) {
+    public constructor(padding: Int) : this(padding, padding, padding, padding)
+}

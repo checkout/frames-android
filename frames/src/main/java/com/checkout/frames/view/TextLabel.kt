@@ -30,7 +30,7 @@ internal fun TextLabel(
         state.leadingIcon.value?.let { it() }
         Text(
             text,
-            Modifier,
+            if (textMaxWidth) Modifier.weight(1F) else Modifier,
             color,
             fontSize,
             fontStyle,

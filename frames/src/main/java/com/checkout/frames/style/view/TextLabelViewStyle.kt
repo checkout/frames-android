@@ -45,10 +45,11 @@ import androidx.compose.ui.unit.TextUnit
  * text, baselines and other details. The callback can be used to add additional decoration or
  * functionality to the text. For example, to draw selection around the text.
  * @param style inputStyle configuration for the text such as color, font, line height etc.
+ * @param textMaxWidth indicates text occupy all available width or not
  */
 internal data class TextLabelViewStyle(
     var modifier: Modifier = Modifier,
-    val color: Color = Color.Unspecified,
+    var color: Color = Color.Unspecified,
     val fontSize: TextUnit = TextUnit.Unspecified,
     val fontStyle: FontStyle? = null,
     val fontWeight: FontWeight? = null,
@@ -61,5 +62,6 @@ internal data class TextLabelViewStyle(
     val softWrap: Boolean = true,
     val maxLines: Int = Int.MAX_VALUE,
     val onTextLayout: (TextLayoutResult) -> Unit = {},
-    val style: TextStyle? = null
+    val style: TextStyle? = null,
+    var textMaxWidth: Boolean = false
 )

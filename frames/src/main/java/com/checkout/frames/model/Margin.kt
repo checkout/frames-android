@@ -9,4 +9,6 @@ public data class Margin(
     val start: Int = 0,
     /** End margin in dp. */
     val end: Int = 0
-)
+) {
+    public constructor(margin: Int) : this(margin, margin, margin, margin)
+}
