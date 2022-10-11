@@ -104,11 +104,11 @@ internal class CountryViewModelTest {
         val testCountry = Country.UNITED_STATES_OF_AMERICA
         val expectedCountryFieldText = "\uD83C\uDDFA\uD83C\uDDF8    United States"
 
-        spyPaymentStateManager.country.value = Country.UNITED_KINGDOM
+        spyPaymentStateManager.billingAddress.value.address?.country = Country.UNITED_KINGDOM
         viewModel.prepare()
 
         // When
-        spyPaymentStateManager.country.value = testCountry
+        spyPaymentStateManager.billingAddress.value.address?.country = testCountry
         testScheduler.advanceUntilIdle()
 
         // Then

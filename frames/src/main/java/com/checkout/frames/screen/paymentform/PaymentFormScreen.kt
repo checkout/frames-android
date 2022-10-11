@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.checkout.frames.screen.billingformdetails.BillingDetailsScreen
 import com.checkout.frames.screen.countrypicker.CountryPickerScreen
 import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsScreen
@@ -50,6 +51,18 @@ public fun PaymentFormScreen(config: PaymentFormConfig) {
             ) {
                 navController.navigateUp()
             }
+        }
+
+        composable(
+            Screen.BillingFormDetails.route,
+            enterTransition = {
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Up, tween(animationDuration))
+            },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, tween(animationDuration))
+            }
+        ) {
+            BillingDetailsScreen()
         }
     }
 }

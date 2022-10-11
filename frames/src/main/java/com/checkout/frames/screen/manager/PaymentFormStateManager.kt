@@ -2,14 +2,13 @@ package com.checkout.frames.screen.manager
 
 import androidx.annotation.VisibleForTesting
 import com.checkout.base.model.CardScheme
-import com.checkout.base.model.Country
+import com.checkout.frames.screen.billingformdetails.models.BillingAddress
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import java.util.Locale
 
 internal class PaymentFormStateManager(
     private val supportedCardSchemes: List<CardScheme>
@@ -27,7 +26,7 @@ internal class PaymentFormStateManager(
     override val cvv: MutableStateFlow<String> = MutableStateFlow("")
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    override val country: MutableStateFlow<Country> = MutableStateFlow(Country.from(Locale.getDefault().country))
+    override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())
 
     override val supportedCardSchemeList = provideCardSchemeList()
 

@@ -68,7 +68,7 @@ internal class CountryPickerViewModel @Inject constructor(
     }
 
     fun onCountryChosen(iso2: String) {
-        paymentStateManager.country.value = Country.from(iso2)
+        paymentStateManager.billingAddress.value.address?.country = Country.from(iso2)
         goBack.value = true
     }
 
