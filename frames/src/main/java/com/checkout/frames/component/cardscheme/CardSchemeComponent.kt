@@ -32,16 +32,18 @@ private fun BasicCardSchemeComponent(
     style: CardSchemeComponentViewStyle,
     state: CardSchemeComponentState,
     supportedCardSchemeIconList: List<@Composable (() -> Unit)?>
-) = with(state) {
+) = with(style) {
     Column(modifier = style.containerModifier.wrapContentHeight()) {
         // Title label
-        if (textLabelState?.isVisible?.value == true) TextLabel(style.titleStyle, textLabelState)
+        state.textLabelState?.let { state ->
+            if (state.isVisible.value) TextLabel(titleStyle, state)
+        }
 
         FlowRow(
-            modifier = style.imagesContainerModifier,
-            mainAxisSpacing = style.mainAxisSpacing.dp,
-            crossAxisSpacing = style.crossAxisSpacing.dp
-            ) {
+            modifier = flowRowViewStyle.imagesContainerModifier,
+            mainAxisSpacing = flowRowViewStyle.mainAxisSpacing.dp,
+            crossAxisSpacing = flowRowViewStyle.crossAxisSpacing.dp
+        ) {
             supportedCardSchemeIconList.forEach { it?.invoke() }
         }
     }
