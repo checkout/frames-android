@@ -54,8 +54,6 @@ internal fun PaymentDetailsScreen(
 
         viewModel.componentProvider.CardScheme(style = style.cardSchemeStyle)
 
-        Spacer(modifier = Modifier.padding(top = 24.dp))
-
         viewModel.componentProvider.CardNumber(style = style.cardNumberStyle)
 
         Spacer(modifier = Modifier.padding(top = 24.dp))

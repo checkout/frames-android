@@ -11,7 +11,9 @@ import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.ImageContainerStyle
 import com.checkout.frames.utils.constants.LightStyleConstants
+import com.checkout.frames.utils.constants.CardSchemeConstants
 
 @Suppress("TooManyFunctions")
 public object DefaultLightStyle {
@@ -36,11 +38,14 @@ public object DefaultLightStyle {
     )
 
     public fun supportedCardSchemeIconStyle(): ImageStyle = ImageStyle(
-        padding = Padding(
-            end = LightStyleConstants.supportedCardSchemeIconEndPadding
-        ),
         height = LightStyleConstants.leadingIconHeight,
         width = LightStyleConstants.leadingIconWidth
+    )
+
+    public fun supportedCardSchemeImageContainerStyle(): ImageContainerStyle = ImageContainerStyle(
+        crossAxisSpacing = CardSchemeConstants.crossAxisSpacingPadding,
+        mainAxisSpacing = CardSchemeConstants.mainAxisSpacingPadding,
+        containerStyle = ContainerStyle(margin = Margin(top = CardSchemeConstants.marginTop))
     )
 
     public fun inputFieldTextStyle(): TextStyle = TextStyle(
@@ -103,6 +108,12 @@ public object DefaultLightStyle {
             textId = titleTextId
         },
         imageStyle = supportedCardSchemeIconStyle(),
-        imagesContainerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
+        containerStyle = ContainerStyle(
+            margin = Margin(
+            top = CardSchemeConstants.marginTop,
+            bottom = CardSchemeConstants.marginBottom
+        )
+        ),
+        imageContainerStyle = supportedCardSchemeImageContainerStyle()
     )
 }
