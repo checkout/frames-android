@@ -69,5 +69,11 @@ internal fun PaymentDetailsScreen(
         CountryComponent(style.countryComponentStyle, injector) {
             navController.navigate(Screen.CountryPicker.route)
         }
+
+        Spacer(modifier = Modifier.padding(top = 24.dp))
+
+        viewModel.componentProvider.AddressSummary(style.addressSummaryComponentStyle) {
+            navController.navigate(Screen.BillingFormDetails.route)
+        }
     }
 }

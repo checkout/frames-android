@@ -2,6 +2,7 @@ package com.checkout.frames.style.component.default
 
 import androidx.annotation.ColorLong
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.checkout.frames.R
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.font.Font
@@ -14,6 +15,7 @@ import com.checkout.frames.utils.constants.ErrorConstants
 import com.checkout.frames.utils.constants.HeaderTitleConstants
 import com.checkout.frames.utils.constants.SubtitleConstants
 import com.checkout.frames.utils.constants.TitleConstants
+import com.checkout.frames.utils.constants.TextConstants
 
 public object DefaultTextLabelStyle {
 
@@ -43,26 +45,48 @@ public object DefaultTextLabelStyle {
     )
 
     public fun title(
+        text: String = "",
+        @StringRes
+        textId: Int? = null,
         fontSize: Int = TitleConstants.fontSize,
         font: Font = TitleConstants.font,
         @ColorLong
         color: Long = TitleConstants.color,
         padding: Padding = Padding(),
-        maxLines: Int = TitleConstants.maxLines
+        maxLines: Int = TitleConstants.maxLines,
+        lineHeight: Int? = null,
+        leadingIconStyle: ImageStyle? = null,
+        trailingIconStyle: ImageStyle? = null
     ): TextLabelStyle = TextLabelStyle(
-        textStyle = TextStyle(size = fontSize, color = color, font = font, maxLines = maxLines),
+        text = text,
+        textId = textId,
+        textStyle = TextStyle(
+            size = fontSize, color = color, font = font, maxLines = maxLines,
+            lineHeight = lineHeight
+        ),
+        leadingIconStyle = leadingIconStyle,
+        trailingIconStyle = trailingIconStyle,
         containerStyle = ContainerStyle(padding = padding)
     )
 
     public fun subtitle(
+        text: String = "",
+        @StringRes
+        textId: Int? = null,
         fontSize: Int = SubtitleConstants.fontSize,
         font: Font = SubtitleConstants.font,
         @ColorLong
         color: Long = SubtitleConstants.color,
         padding: Padding = Padding(),
-        maxLines: Int = SubtitleConstants.maxLines
+        maxLines: Int = Int.MAX_VALUE,
+        lineHeight: Int? = null
     ): TextLabelStyle = TextLabelStyle(
-        textStyle = TextStyle(size = fontSize, color = color, font = font, maxLines = maxLines),
+        text = text,
+        textId = textId,
+        textStyle = TextStyle(
+            size = fontSize, color = color, font = font, maxLines = maxLines,
+            lineHeight = lineHeight
+        ),
         containerStyle = ContainerStyle(padding = padding)
     )
 
@@ -89,6 +113,30 @@ public object DefaultTextLabelStyle {
             height = leadingIconSize,
             width = leadingIconSize,
             padding = leadingIconPadding
+        ),
+        containerStyle = ContainerStyle(padding = padding)
+    )
+
+    public fun text(
+        text: String = "",
+        @StringRes
+        textId: Int? = null,
+        fontSize: Int = TextConstants.fontSize,
+        font: Font = TextConstants.font,
+        @ColorLong
+        color: Long = TextConstants.color,
+        padding: Padding = Padding(),
+        maxLines: Int = Int.MAX_VALUE,
+        lineHeight: Int? = null
+    ): TextLabelStyle = TextLabelStyle(
+        text = text,
+        textId = textId,
+        textStyle = TextStyle(
+            size = fontSize,
+            color = color,
+            font = font,
+            maxLines = maxLines,
+            lineHeight = lineHeight
         ),
         containerStyle = ContainerStyle(padding = padding)
     )

@@ -26,5 +26,7 @@ public data class TextStyle(
      */
     val maxLines: Int = Int.MAX_VALUE,
     /** Optional maximum symbols limit. Applicable for editable text fields. */
-    val maxLength: Int? = null
+    val maxLength: Int? = null,
+    /** Line height in sp. **/
+    var lineHeight: Int? = null
 )

@@ -27,5 +27,9 @@
     <string name="cko_content_description_image" translatable="true">Image</string>
     <string name="cko_content_description_dynamic_image" translatable="true">Dynamic image</string>
 
-
+    <!--Billing address summary-->
+    <string name="cko_billing_address" translatable="true">Billing address</string>
+    <string name="cko_billing_address_info" translatable="true">We need this information as an additional security measure to verify this card.</string>
+    <string name="cko_add_billing_address" translatable="true">Add billing address</string>
+    <string name="cko_edit_billing_address" translatable="true">Edit billing address</string>
 </resources>
