@@ -3,7 +3,6 @@ package com.checkout.frames.component.cardscheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.style.component.CardSchemeComponentStyle
@@ -41,8 +40,8 @@ private fun BasicCardSchemeComponent(
 
         FlowRow(
             modifier = flowRowViewStyle.imagesContainerModifier,
-            mainAxisSpacing = flowRowViewStyle.mainAxisSpacing.dp,
-            crossAxisSpacing = flowRowViewStyle.crossAxisSpacing.dp
+            mainAxisSpacing = flowRowViewStyle.mainAxisSpacing,
+            crossAxisSpacing = flowRowViewStyle.crossAxisSpacing
         ) {
             supportedCardSchemeIconList.forEach { it?.invoke() }
         }

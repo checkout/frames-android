@@ -2,6 +2,7 @@ package com.checkout.frames.mapper
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.base.ContainerStyle
@@ -27,8 +28,8 @@ internal class CardSchemeComponentStyleToViewStyleMapper(
     private fun provideFlowRowViewStyle(imageContainerStyle: ImageContainerStyle): FlowRowViewStyle =
         with(imageContainerStyle) {
             FlowRowViewStyle(
-                mainAxisSpacing,
-                crossAxisSpacing,
+                mainAxisSpacing.dp,
+                crossAxisSpacing.dp,
                 containerMapper.map(containerStyle).fillMaxWidth()
             )
         }
