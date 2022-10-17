@@ -10,4 +10,14 @@ public data class AddressSummaryComponentStyle(
     val addAddressButtonStyle: ButtonStyle,
     val summarySectionStyle: AddressSummarySectionStyle,
     val containerStyle: ContainerStyle = ContainerStyle()
-)
+) {
+    public constructor() : this(
+        summarySectionStyle = AddressSummarySectionStyle(
+            TextLabelStyle(),
+            null,
+            ButtonStyle(),
+            ContainerStyle()
+        ),
+        addAddressButtonStyle = ButtonStyle()
+    )
+}
