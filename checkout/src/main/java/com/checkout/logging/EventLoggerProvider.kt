@@ -1,5 +1,6 @@
 package com.checkout.logging
 
+import androidx.annotation.RestrictTo
 import com.checkout.BuildConfig
 import com.checkout.eventlogger.CheckoutEventLogger
 import com.checkout.eventlogger.domain.model.MonitoringLevel
@@ -8,7 +9,8 @@ import com.checkout.logging.model.LoggingEvent
 /**
  * Provides the same event logger's state for the whole library.
  */
-internal object EventLoggerProvider {
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public object EventLoggerProvider {
 
     private val eventLogger: Logger<LoggingEvent> by lazy {
         val logger = CheckoutEventLogger(BuildConfig.PRODUCT_NAME).apply {
@@ -18,5 +20,5 @@ internal object EventLoggerProvider {
         EventLogger(logger)
     }
 
-    internal fun provide(): Logger<LoggingEvent> = eventLogger
+    public fun provide(): Logger<LoggingEvent> = eventLogger
 }
