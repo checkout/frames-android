@@ -1,6 +1,5 @@
 package com.checkout.frames.mapper
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -11,6 +10,7 @@ import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.utils.extensions.toComposeShape
+import com.checkout.frames.utils.extensions.toComposeStroke
 import com.checkout.frames.utils.extensions.toPaddingValues
 
 internal class ButtonStyleToInternalViewStyleMapper(
@@ -30,12 +30,8 @@ internal class ButtonStyleToInternalViewStyleMapper(
         disabledContentColor = Color(from.disabledContentColor),
         modifier = containerMapper.map(from.containerStyle),
         shape = from.shape.toComposeShape(from.cornerRadius),
-        border = provideBorderStroke(from),
+        border = from.borderStroke?.toComposeStroke(),
         contentPadding = from.contentPadding.toPaddingValues(),
         textStyle = textLabelMapper.map(from.textStyle)
     )
-
-    private fun provideBorderStroke(style: ButtonStyle): BorderStroke? = style.borderStroke?.let {
-        BorderStroke(it.width.dp, Color(it.color))
-    }
 }

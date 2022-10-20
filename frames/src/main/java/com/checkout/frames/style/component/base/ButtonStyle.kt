@@ -10,16 +10,16 @@ import com.checkout.frames.model.Padding
 public data class ButtonStyle(
     /** The 32-bit ARGB container color of this Button when enabled. */
     @ColorLong
-    val containerColor: Long,
+    val containerColor: Long = 0x00000000,
     /** The 32-bit ARGB container color of this Button when not enabled. */
     @ColorLong
-    val disabledContainerColor: Long,
+    val disabledContainerColor: Long = 0x00000000,
     /** The 32-bit ARGB content color of this Button when enabled. */
     @ColorLong
-    val contentColor: Long,
+    val contentColor: Long = 0xFF000000,
     /** The 32-bit ARGB content color of this Button when not enabled. */
     @ColorLong
-    val disabledContentColor: Long,
+    val disabledContentColor: Long = 0xFF000000,
     /** Button shape. */
     val shape: Shape = Shape.Rectangle,
     /** Corner radius of the button shape or border stroke. */

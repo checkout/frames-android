@@ -2,6 +2,7 @@ package com.checkout.frames.mapper
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.style.component.base.ContainerStyle
@@ -24,6 +25,7 @@ internal class TextLabelStyleToViewStyleMapper(
         fontFamily = from.textStyle.font.toFontFamily(),
         fontStyle = from.textStyle.fontStyle.toComposeFontStyle(),
         fontWeight = from.textStyle.fontWeight.toComposeFontWeight(),
-        maxLines = from.textStyle.maxLines
+        maxLines = from.textStyle.maxLines,
+        lineHeight = from.textStyle.lineHeight?.sp ?: TextUnit.Unspecified
     )
 }

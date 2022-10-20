@@ -1,6 +1,7 @@
 package com.checkout.frames.style.component.default
 
 import androidx.annotation.StringRes
+import com.checkout.frames.R
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
 import com.checkout.frames.style.component.CardSchemeComponentStyle
@@ -101,7 +102,7 @@ public object DefaultLightStyle {
     public fun cardSchemeComponentStyle(
         titleText: String = "",
         @StringRes
-        titleTextId: Int? = null
+        titleTextId: Int? = R.string.cko_accepted_cards_title
     ): CardSchemeComponentStyle = CardSchemeComponentStyle(
         titleStyle = subtitleTextLabelStyle().apply {
             text = titleText
@@ -110,9 +111,9 @@ public object DefaultLightStyle {
         imageStyle = supportedCardSchemeIconStyle(),
         containerStyle = ContainerStyle(
             margin = Margin(
-            top = CardSchemeConstants.marginTop,
-            bottom = CardSchemeConstants.marginBottom
-        )
+                top = CardSchemeConstants.marginTop,
+                bottom = CardSchemeConstants.marginBottom
+            )
         ),
         imageContainerStyle = supportedCardSchemeImageContainerStyle()
     )
