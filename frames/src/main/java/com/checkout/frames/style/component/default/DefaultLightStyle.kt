@@ -170,8 +170,4 @@ public object DefaultLightStyle {
         ),
         imageContainerStyle = supportedCardSchemeImageContainerStyle()
     )
-
-    public fun screenTitleTextLabelStyle(
-        padding: Padding = Padding()
-    ): TextLabelStyle = DefaultTextLabelStyle.headerTitle(padding = padding)
 }
