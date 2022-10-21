@@ -1,6 +1,7 @@
 package com.checkout.frames.style.component.default
 
 import com.checkout.frames.R
+import com.checkout.frames.model.Padding
 import com.checkout.frames.style.component.CountryComponentStyle
 import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
@@ -19,7 +20,14 @@ public object DefaultCountryComponentStyle {
             )
 
         return CountryComponentStyle(
-            DefaultLightStyle.inputComponentStyle(titleTextId = R.string.cko_country_picker_screen_title)
+            DefaultLightStyle.inputComponentStyle(
+                titleTextId = R.string.cko_country_picker_screen_title,
+                padding = Padding(
+                    start = LightStyleConstants.inputComponentLeftPadding,
+                    end = LightStyleConstants.inputComponentRightPadding,
+                    bottom = LightStyleConstants.inputComponentBottomPadding
+                )
+            )
                 .copy(inputFieldStyle = inputFieldStyle)
         )
     }

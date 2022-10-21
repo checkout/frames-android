@@ -1,7 +1,8 @@
 package com.checkout.frames.screen.manager
 
 import com.checkout.base.model.CardScheme
-import com.checkout.frames.screen.billingformdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.AddressField
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -18,6 +19,10 @@ internal interface PaymentStateManager {
     val isCvvValid: MutableStateFlow<Boolean>
 
     val supportedCardSchemeList: List<CardScheme>
+
+    val billingAddressFields: List<AddressField>
+
+    val mandatoryBillingAddressFields: List<AddressField>
 
     val billingAddress: MutableStateFlow<BillingAddress>
 
