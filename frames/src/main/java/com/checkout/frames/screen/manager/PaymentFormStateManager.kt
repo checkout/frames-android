@@ -2,7 +2,9 @@ package com.checkout.frames.screen.manager
 
 import androidx.annotation.VisibleForTesting
 import com.checkout.base.model.CardScheme
-import com.checkout.frames.screen.billingformdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.AddressField
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +13,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 internal class PaymentFormStateManager(
-    private val supportedCardSchemes: List<CardScheme>
+    private val supportedCardSchemes: List<CardScheme>,
+    private val billingFormFieldList: List<AddressField>
 ) : PaymentStateManager {
 
     override val isReadyTokenize: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
@@ -29,6 +32,17 @@ internal class PaymentFormStateManager(
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())
 
     override val supportedCardSchemeList = provideCardSchemeList()
+
+    override val billingAddressFields = provideBillingFormAddressFields()
+
+    override val mandatoryBillingAddressFields = provideMandatoryBillingAddressFields()
+
+    private fun provideBillingFormAddressFields(): List<AddressField> = billingFormFieldList.ifEmpty {
+        BillingFormFields.fetchAllDefaultBillingFormFields()
+    }
+
+    private fun provideMandatoryBillingAddressFields(): List<AddressField> =
+        BillingFormFields.fetchAllMandatoryBillingFormFields()
 
     @VisibleForTesting
     fun provideCardSchemeList(): List<CardScheme> = supportedCardSchemes.ifEmpty {

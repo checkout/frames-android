@@ -1,4 +1,4 @@
-package com.checkout.frames.screen.billingformdetails.models
+package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 
 import com.checkout.base.model.Country
 import com.checkout.tokenization.model.Address

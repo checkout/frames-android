@@ -5,8 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.checkout.frames.screen.billingformdetails.BillingDetailsScreen
-import com.checkout.frames.screen.countrypicker.CountryPickerScreen
+import com.checkout.frames.screen.billingaddress.billingaddressform.BillingAddressFormScreen
 import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -24,7 +23,8 @@ public fun PaymentFormScreen(config: PaymentFormConfig) {
             config.publicKey,
             config.context,
             config.environment,
-            config.supportedCardSchemeList
+            config.supportedCardSchemeList,
+            config.billingFormFieldList
         )
     )
 
@@ -36,33 +36,22 @@ public fun PaymentFormScreen(config: PaymentFormConfig) {
                 navController
             )
         }
+
         composable(
-            Screen.CountryPicker.route,
+            Screen.BillingFormScreen.route,
             enterTransition = {
-                slideIntoContainer(AnimatedContentScope.SlideDirection.Up, tween(animationDuration))
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Left, tween(animationDuration))
             },
             exitTransition = {
-                slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, tween(animationDuration))
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, tween(animationDuration))
             }
         ) {
-            CountryPickerScreen(
-                config.style.countryPickerStyle,
+            BillingAddressFormScreen(
+                config.style.billingFormStyle,
                 viewModel.injector
             ) {
                 navController.navigateUp()
             }
-        }
-
-        composable(
-            Screen.BillingFormDetails.route,
-            enterTransition = {
-                slideIntoContainer(AnimatedContentScope.SlideDirection.Up, tween(animationDuration))
-            },
-            exitTransition = {
-                slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, tween(animationDuration))
-            }
-        ) {
-            BillingDetailsScreen()
         }
     }
 }

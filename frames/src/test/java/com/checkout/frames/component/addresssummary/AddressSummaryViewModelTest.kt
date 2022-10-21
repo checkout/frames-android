@@ -13,7 +13,7 @@ import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToStateMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummarySectionStyleToViewStyleMapper
-import com.checkout.frames.screen.billingformdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
@@ -43,7 +43,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class AddressSummaryViewModelTest {
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList(), emptyList())
 
     @SpyK
     lateinit var spyComponentStateMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState>

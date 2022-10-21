@@ -14,9 +14,8 @@ import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.utils.constants.ButtonStyleConstants
 import com.checkout.frames.utils.constants.LightStyleConstants
 
-@SuppressWarnings("LongParameterList")
 public object DefaultButtonStyle {
-
+    @Suppress("LongParameterList")
     public fun lightOutline(
         text: String = "",
         @StringRes
@@ -57,6 +56,7 @@ public object DefaultButtonStyle {
         containerStyle = ContainerStyle(margin = margin)
     )
 
+    @Suppress("LongParameterList")
     public fun lightSolid(
         text: String = "",
         @StringRes

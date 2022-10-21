@@ -13,6 +13,9 @@ import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.DaggerFramesDIComponent
 import com.checkout.frames.di.component.FramesDIComponent
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAddressDetailsViewModel
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.AddressField
+import com.checkout.frames.screen.billingaddress.billingaddressform.BillingAddressFormViewModel
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
@@ -31,6 +34,8 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             is CountryPickerViewModel.Factory -> component.inject(client)
             is CardSchemeViewModel.Factory -> component.inject(client)
             is AddressSummaryViewModel.Factory -> component.inject(client)
+            is BillingAddressDetailsViewModel.Factory -> component.inject(client)
+            is BillingAddressFormViewModel.Factory -> component.inject(client)
             else -> throw IllegalArgumentException("Invalid injection request for ${client.javaClass.name}.")
         }
     }
@@ -42,7 +47,8 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             publicKey: String,
             context: Context,
             environment: Environment,
-            supportedCardSchemeList: List<CardScheme> = emptyList()
+            supportedCardSchemeList: List<CardScheme> = emptyList(),
+            billingFormFieldList: List<AddressField> = emptyList()
         ): Injector = weakInjector?.get() ?: run {
             val injector = FramesInjector(
                 DaggerFramesDIComponent.builder()
@@ -50,6 +56,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
                     .context(context)
                     .environment(environment)
                     .supportedCardSchemes(supportedCardSchemeList)
+                    .billingFormFields(billingFormFieldList)
                     .build()
             )
             weakInjector = WeakReference(injector)
