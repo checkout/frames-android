@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.checkout.frames.component.country.CountryComponent
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.style.screen.PaymentDetailsStyle
@@ -71,19 +70,13 @@ internal fun PaymentDetailsScreen(
 
             Spacer(modifier = Modifier.padding(top = 24.dp))
 
-            CountryComponent(style.countryComponentStyle, injector) {
-                navController.navigate(Screen.CountryPicker.route)
-            }
-
-            Spacer(modifier = Modifier.padding(top = 24.dp))
-
             viewModel.componentProvider.AddressSummary(style.addressSummaryComponentStyle) {
-                navController.navigate(Screen.BillingFormDetails.route)
+                navController.navigate(Screen.BillingFormScreen.route)
             }
-
             Spacer(modifier = Modifier.padding(top = 32.dp))
 
             viewModel.componentProvider.PayButton(style = style.payButtonComponentStyle)
+
         }
     }
 

@@ -11,13 +11,13 @@ import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.ScreenHeaderStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
-import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextStyle
-import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
-import com.checkout.frames.style.component.base.InputFieldStyle
-import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.ImageContainerStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.utils.constants.LightStyleConstants
 import com.checkout.frames.utils.constants.CardSchemeConstants
 import com.checkout.frames.utils.constants.HeaderTitleConstants
@@ -121,10 +121,14 @@ public object DefaultLightStyle {
         subtitleText: String = "",
         @StringRes
         subtitleTextId: Int? = null,
+        infoText: String = "",
+        @StringRes
+        infoTextId: Int? = null,
         placeholderResourceText: String = "",
         @StringRes
         placeholderResourceTextId: Int? = null,
         withLeadingIcon: Boolean = false,
+        padding: Padding = Padding()
     ): InputComponentStyle = InputComponentStyle(
         titleStyle = titleTextLabelStyle().apply {
             text = titleText
@@ -138,7 +142,12 @@ public object DefaultLightStyle {
             placeholderText = placeholderResourceText
             placeholderTextId = placeholderResourceTextId
         },
-        errorMessageStyle = errorTextLabelStyle()
+        infoStyle = subtitleTextLabelStyle().apply {
+            text = infoText
+            textId = infoTextId
+        },
+        errorMessageStyle = errorTextLabelStyle(),
+        containerStyle = ContainerStyle(padding = padding)
     )
 
     public fun cardSchemeComponentStyle(
@@ -159,4 +168,8 @@ public object DefaultLightStyle {
         ),
         imageContainerStyle = supportedCardSchemeImageContainerStyle()
     )
+
+    public fun screenTitleTextLabelStyle(
+        padding: Padding = Padding()
+    ): TextLabelStyle = DefaultTextLabelStyle.headerTitle(padding = padding)
 }

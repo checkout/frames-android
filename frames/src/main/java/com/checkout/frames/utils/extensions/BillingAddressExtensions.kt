@@ -1,6 +1,6 @@
 package com.checkout.frames.utils.extensions
 
-import com.checkout.frames.screen.billingformdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import java.util.Locale
 
 internal fun BillingAddress.summary(): String = if (this.isValid()) {

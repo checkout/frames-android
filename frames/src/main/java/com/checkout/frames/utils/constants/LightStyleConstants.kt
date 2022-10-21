@@ -33,6 +33,18 @@ public object LightStyleConstants {
     /** Leading icon height in dp. */
     public const val leadingIconHeight: Int = 16
 
+    /** inputComponent left padding. */
+    public const val inputComponentLeftPadding: Int = 16
+
+    /** inputComponent top padding. */
+    public const val inputComponentTopPadding: Int = 16
+
+    /** inputComponent left padding. */
+    public const val inputComponentRightPadding: Int = 16
+
+    /** inputComponent left padding. */
+    public const val inputComponentBottomPadding: Int = 20
+
     /** Leading icon width in dp. */
     public const val leadingIconWidth: Int = 26
 
