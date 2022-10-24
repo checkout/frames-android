@@ -7,6 +7,7 @@ import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Margin
+import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.ImageStyle
@@ -38,7 +39,8 @@ public object DefaultButtonStyle {
         contentPadding: Padding = ButtonStyleConstants.outlineContentPadding,
         leadingIconStyle: ImageStyle? = null,
         trailingIconStyle: ImageStyle? = null,
-        margin: Margin? = null
+        margin: Margin? = null,
+        fontWeight: FontWeight = FontWeight.Normal
     ): ButtonStyle = ButtonStyle(
         contentColor = contentColor,
         containerColor = containerColor,
@@ -52,7 +54,8 @@ public object DefaultButtonStyle {
             text = text,
             textId = textId,
             leadingIconStyle = leadingIconStyle,
-            trailingIconStyle = trailingIconStyle
+            trailingIconStyle = trailingIconStyle,
+            fontWeight = fontWeight
         ),
         containerStyle = ContainerStyle(margin = margin)
     )
@@ -74,7 +77,8 @@ public object DefaultButtonStyle {
         contentPadding: Padding = ButtonStyleConstants.solidContentPadding,
         leadingIconStyle: ImageStyle? = null,
         trailingIconStyle: ImageStyle? = null,
-        margin: Margin? = null
+        margin: Margin? = null,
+        fontWeight: FontWeight = FontWeight.Normal
     ): ButtonStyle = lightOutline(
         text = text,
         textId = textId,
@@ -88,6 +92,7 @@ public object DefaultButtonStyle {
         contentPadding = contentPadding,
         leadingIconStyle = leadingIconStyle,
         trailingIconStyle = trailingIconStyle,
-        margin = margin
+        margin = margin,
+        fontWeight = fontWeight
     )
 }
