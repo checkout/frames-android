@@ -1,9 +1,8 @@
 package com.checkout.frames.di.component
 
-import android.content.Context
 import com.checkout.base.model.CardScheme
-import com.checkout.base.model.Environment
 import com.checkout.frames.component.addresssummary.AddressSummaryViewModel
+import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
 import com.checkout.frames.component.cardscheme.CardSchemeViewModel
 import com.checkout.frames.component.country.CountryViewModel
@@ -15,10 +14,11 @@ import com.checkout.frames.di.module.StylesModule
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
-import com.checkout.frames.utils.constants.PUBLIC_KEY
+import com.checkout.logging.Logger
+import com.checkout.logging.model.LoggingEvent
+import com.checkout.tokenization.model.Card
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
@@ -40,15 +40,11 @@ internal abstract class FramesDIComponent {
 
     @Component.Builder
     interface Builder {
-        @Named(PUBLIC_KEY)
         @BindsInstance
-        fun publicKey(publicKey: String): Builder
+        fun cardTokenizationUseCase(cardTokenizationUseCase: UseCase<Card, Unit>): Builder
 
         @BindsInstance
-        fun context(context: Context): Builder
-
-        @BindsInstance
-        fun environment(environment: Environment): Builder
+        fun logger(logger: Logger<LoggingEvent>): Builder
 
         @BindsInstance
         fun supportedCardSchemes(supportedCardSchemeList: List<CardScheme>): Builder

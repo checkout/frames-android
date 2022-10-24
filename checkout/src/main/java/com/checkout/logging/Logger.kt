@@ -1,12 +1,14 @@
 package com.checkout.logging
 
 import android.content.Context
+import androidx.annotation.RestrictTo
 import com.checkout.base.model.Environment
 
 /**
  * Covers all main logging functionality among the library.
  */
-internal interface Logger<T> {
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public interface Logger<T> {
 
     /**
      * Prepares logger for the further usage.
@@ -14,20 +16,20 @@ internal interface Logger<T> {
      * @param context - [Context] of the application.
      * @param environment - [Environment] type.
      */
-    fun setup(context: Context, environment: Environment)
+    public fun setup(context: Context, environment: Environment)
 
     /**
      * Resets logger session.
      */
-    fun resetSession()
+    public fun resetSession()
 
     /**
      * Logs event.
      */
-    fun log(event: T)
+    public fun log(event: T)
 
     /**
      * Log event only one time.
      */
-    fun logOnce(event: T)
+    public fun logOnce(event: T)
 }

@@ -1,6 +1,7 @@
 package com.checkout.frames.di.injector
 
 import android.content.Context
+import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
 import com.checkout.frames.component.addresssummary.AddressSummaryViewModel
@@ -16,6 +17,9 @@ import com.checkout.frames.di.component.FramesDIComponent
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
+import com.checkout.frames.tokenization.TokenizationResultHandler
+import com.checkout.frames.tokenization.CardTokenizationUseCase
+import com.checkout.logging.EventLoggerProvider
 import java.lang.ref.WeakReference
 
 internal class FramesInjector(private val component: FramesDIComponent) : Injector {
@@ -42,13 +46,19 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             publicKey: String,
             context: Context,
             environment: Environment,
+            tokenizationResultHandler: TokenizationResultHandler,
             supportedCardSchemeList: List<CardScheme> = emptyList()
         ): Injector = weakInjector?.get() ?: run {
+            val logger = EventLoggerProvider.provide().apply { setup(context, environment) }
+            val cardTokenizationUseCase = CardTokenizationUseCase(
+                CheckoutApiServiceFactory.create(publicKey, environment, context),
+                tokenizationResultHandler::onSuccess,
+                tokenizationResultHandler::onFailure
+            )
             val injector = FramesInjector(
                 DaggerFramesDIComponent.builder()
-                    .publicKey(publicKey)
-                    .context(context)
-                    .environment(environment)
+                    .logger(logger)
+                    .cardTokenizationUseCase(cardTokenizationUseCase)
                     .supportedCardSchemes(supportedCardSchemeList)
                     .build()
             )

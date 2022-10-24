@@ -14,6 +14,8 @@ import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.screen.paymentform.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.PaymentFormScreen
 import com.checkout.frames.style.screen.PaymentFormStyle
+import com.checkout.frames.tokenization.TokenizationResultHandler
+import com.checkout.tokenization.model.TokenDetails
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +31,15 @@ fun Navigator(context: Context) {
         publicKey = PUBLIC_KEY,
         context = context,
         environment = ENVIRONMENT,
+        tokenizationResultHandler = object : TokenizationResultHandler {
+            override fun onSuccess(tokenDetails: TokenDetails) {
+                // TODO: Not yet implemented
+            }
+
+            override fun onFailure(errorMessage: String) {
+                // TODO: Not yet implemented
+            }
+        },
         style = PaymentFormStyle()
     )
 
