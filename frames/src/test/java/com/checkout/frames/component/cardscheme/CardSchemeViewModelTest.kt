@@ -36,10 +36,7 @@ internal class CardSchemeViewModelTest {
     lateinit var spyImageStyleToComposableImageMapper: ImageStyleToComposableImageMapper
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
-        emptyList(),
-        emptyList()
-    )
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
 
     private var style: CardSchemeComponentStyle = CardSchemeComponentStyle()
 

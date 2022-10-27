@@ -32,7 +32,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -43,7 +42,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class AddressSummaryViewModelTest {
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList(), emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
 
     @SpyK
     lateinit var spyComponentStateMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState>

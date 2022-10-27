@@ -30,7 +30,7 @@ fun Navigator(context: Context) {
         context = context,
         environment = ENVIRONMENT,
         style = PaymentFormStyle()
-    )
+        )
 
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }

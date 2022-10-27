@@ -36,8 +36,8 @@
     <string name="cko_billing_form_input_field_city" translatable="true">City</string>
     <string name="cko_billing_form_input_field_state" translatable="true">State</string>
     <string name="cko_billing_form_input_field_postcode" translatable="true">Postcode/zip</string>
-    <string name="cko_billing_form_input_field_phone_title" translatable="true">Phone</string>
-    <string name="cko_billing_form_input_field_phone_subtitle" translatable="true">Phone Number</string>
+    <string name="cko_billing_form_input_field_phone_title" translatable="true">Phone number</string>
+    <string name="cko_billing_form_input_field_phone_subtitle" translatable="true">We will only use this to confirm identity if necessary</string>
     <string name="cko_billing_form_input_field_info" translatable="true">Optional</string>
 
     <!--Billing address summary-->

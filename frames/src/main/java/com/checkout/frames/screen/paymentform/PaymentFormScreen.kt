@@ -23,8 +23,7 @@ public fun PaymentFormScreen(config: PaymentFormConfig) {
             config.publicKey,
             config.context,
             config.environment,
-            config.supportedCardSchemeList,
-            config.billingFormFieldList
+            config.supportedCardSchemeList
         )
     )
 

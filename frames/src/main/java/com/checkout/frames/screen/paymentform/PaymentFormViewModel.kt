@@ -8,7 +8,6 @@ import com.checkout.base.model.Environment
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.injector.FramesInjector
-import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.AddressField
 import javax.inject.Inject
 
 internal class PaymentFormViewModel @Inject internal constructor() : ViewModel() {
@@ -19,8 +18,7 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         private val publicKey: String,
         private val context: Context,
         private val environment: Environment,
-        private val supportedCardSchemes: List<CardScheme> = emptyList(),
-        private val billingFormFieldList: List<AddressField> = emptyList()
+        private val supportedCardSchemes: List<CardScheme> = emptyList()
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject
@@ -34,8 +32,7 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
                 publicKey,
                 context,
                 environment,
-                supportedCardSchemes,
-                billingFormFieldList
+                supportedCardSchemes
             )
 
             injector.inject(this)

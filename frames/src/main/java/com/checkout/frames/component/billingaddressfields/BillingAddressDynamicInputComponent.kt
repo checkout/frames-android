@@ -16,8 +16,8 @@ import com.checkout.frames.style.view.BillingAddressInputComponentViewStyle
 
 @Composable
 internal fun BillingAddressDynamicInputComponent(
-    billingAddressInputComponentViewStyle: List<BillingAddressInputComponentViewStyle>,
-    billingAddressInputComponentState: List<BillingAddressInputComponentState>,
+    inputComponentViewStyleList: List<BillingAddressInputComponentViewStyle>,
+    inputComponentStateList: List<BillingAddressInputComponentState>,
     countryComponentStyle: CountryComponentStyle,
     onFocusChange: (Boolean) -> Unit,
     onValueChange: (String) -> Unit,
@@ -28,22 +28,26 @@ internal fun BillingAddressDynamicInputComponent(
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
-        items(billingAddressInputComponentViewStyle.size) { index ->
+            .fillMaxHeight(),
+        content = {
+            items(inputComponentViewStyleList.size) { index ->
 
-            if (billingAddressInputComponentViewStyle[index].addressFieldName == BillingFormFields.Country.name) {
-                CountryComponent(countryComponentStyle, injector) {
-                    navController.navigate(Screen.CountryPicker.route)
+                if (
+                    inputComponentViewStyleList[index].inputComponentViewStyleMappedEntry.key
+                    == BillingFormFields.Country.name
+                ) {
+                    CountryComponent(countryComponentStyle, injector) {
+                        navController.navigate(Screen.CountryPicker.route)
+                    }
+                } else {
+                    InputComponent(
+                        style = inputComponentViewStyleList[index].inputComponentViewStyleMappedEntry.value,
+                        state = inputComponentStateList[index].mappedInputComponentState.value,
+                        onFocusChanged = onFocusChange,
+                        onValueChange = onValueChange
+                    )
                 }
-            } else {
-                InputComponent(
-                    style = billingAddressInputComponentViewStyle[index].inputComponentViewStyle,
-                    state = billingAddressInputComponentState[index].inputComponentState,
-                    onFocusChanged = onFocusChange,
-                    onValueChange = onValueChange
-                )
             }
         }
-    }
+    )
 }
