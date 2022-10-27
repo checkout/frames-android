@@ -14,8 +14,6 @@ import com.checkout.frames.di.module.PaymentModule
 import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAddressDetailsViewModel
-import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.AddressField
-import com.checkout.frames.screen.billingaddress.billingaddressform.BillingAddressFormViewModel
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
@@ -37,7 +35,6 @@ internal abstract class FramesDIComponent {
     abstract fun inject(factory: PaymentDetailsViewModel.Factory)
     abstract fun inject(factory: CountryPickerViewModel.Factory)
     abstract fun inject(factory: BillingAddressDetailsViewModel.Factory)
-    abstract fun inject(factory: BillingAddressFormViewModel.Factory)
 
     /** Component **/
     abstract fun inject(factory: CardNumberViewModel.Factory)
@@ -64,9 +61,6 @@ internal abstract class FramesDIComponent {
 
         @BindsInstance
         fun supportedCardSchemes(supportedCardSchemeList: List<CardScheme>): Builder
-
-        @BindsInstance
-        fun billingFormFields(billingFormFieldList: List<AddressField>): Builder
 
         fun build(): FramesDIComponent
     }

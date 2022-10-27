@@ -1,7 +1,5 @@
 package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 
-import com.checkout.frames.screen.billingaddress.billingaddressdetails.GetAddressField
-
 /**
  * Enum representing BillingFormFields for BillingFormScreen.
  *
@@ -14,63 +12,45 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.GetAddres
  *     Country - Mandatory and can not be optional field
  *     Phone - Mandatory and can not be optional field
  */
-public enum class BillingFormFields : GetAddressField {
-    FullName {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    },
-    AddressLineOne {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    },
-    AddressLineTwo {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    },
-    City {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    },
-    State {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    },
-    PostCode {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    },
-    Country {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    },
-    PhoneNumber {
-        override fun getAddressField(isOptional: Boolean, addressFieldName: String): AddressField =
-            AddressField(isOptional, addressFieldName)
-    };
+public enum class BillingFormFields(internal var isFieldOptional: Boolean = false) {
+    FullName,
+    AddressLineOne,
+    AddressLineTwo,
+    City,
+    State,
+    PostCode,
+    Country,
+    Phone;
 
     public companion object {
-        public fun fetchAllDefaultBillingFormFields(): List<AddressField> = mutableListOf<AddressField>().apply {
-            addAll(
-                listOf(
-                    FullName.getAddressField(false, FullName.name),
-                    AddressLineOne.getAddressField(false, AddressLineOne.name),
-                    AddressLineTwo.getAddressField(true, AddressLineTwo.name),
-                    City.getAddressField(false, City.name),
-                    State.getAddressField(true, State.name),
-                    PostCode.getAddressField(false, PostCode.name),
-                    Country.getAddressField(false, Country.name),
-                    PhoneNumber.getAddressField(false, PhoneNumber.name)
-                )
-            )
-        }
 
-        public fun fetchAllMandatoryBillingFormFields(): List<AddressField> = mutableListOf<AddressField>().apply {
-            addAll(
-                listOf(
-                    Country.getAddressField(false, Country.name),
-                    PhoneNumber.getAddressField(false, PhoneNumber.name)
+        public fun fetchAllDefaultBillingFormFields(): List<BillingFormFields> = mutableListOf<BillingFormFields>()
+            .apply {
+                addAll(
+                    listOf(
+                        FullName.withOptional(false),
+                        AddressLineOne.withOptional(false),
+                        AddressLineTwo.withOptional(true),
+                        City.withOptional(false),
+                        State.withOptional(true),
+                        PostCode.withOptional(false),
+                        Country.withOptional(false),
+                        Phone.withOptional(false)
+                    )
                 )
-            )
-        }
+            }
+
+        public fun fetchAllMandatoryBillingFormFields(): List<BillingFormFields> = mutableListOf<BillingFormFields>()
+            .apply {
+                addAll(
+                    listOf(
+                        Country.withOptional(false),
+                        Phone.withOptional(false)
+                    )
+                )
+            }
     }
 }
+
+public fun BillingFormFields.withOptional(isOptional: Boolean): BillingFormFields =
+    this.apply { isFieldOptional = isOptional }

@@ -10,7 +10,6 @@ import com.checkout.frames.di.component.CountryViewModelSubComponent
 import com.checkout.frames.di.component.CvvViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
-import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.AddressField
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import dagger.Module
@@ -35,9 +34,8 @@ internal class PaymentModule {
         @Provides
         @Singleton
         fun paymentStateManager(
-            supportedCardSchemes: List<CardScheme>,
-            billingFormFieldList: List<AddressField>
+            supportedCardSchemes: List<CardScheme>
         ): PaymentStateManager =
-            PaymentFormStateManager(supportedCardSchemes, billingFormFieldList)
+            PaymentFormStateManager(supportedCardSchemes)
     }
 }

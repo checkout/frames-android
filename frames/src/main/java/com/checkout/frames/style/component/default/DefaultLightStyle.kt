@@ -128,7 +128,8 @@ public object DefaultLightStyle {
         @StringRes
         placeholderResourceTextId: Int? = null,
         withLeadingIcon: Boolean = false,
-        padding: Padding = Padding()
+        padding: Padding = Padding(),
+        isFieldOptional: Boolean = false
     ): InputComponentStyle = InputComponentStyle(
         titleStyle = titleTextLabelStyle().apply {
             text = titleText
@@ -147,7 +148,8 @@ public object DefaultLightStyle {
             textId = infoTextId
         },
         errorMessageStyle = errorTextLabelStyle(),
-        containerStyle = ContainerStyle(padding = padding)
+        containerStyle = ContainerStyle(padding = padding),
+        isInputFieldOptional = isFieldOptional
     )
 
     public fun cardSchemeComponentStyle(

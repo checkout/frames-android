@@ -4,32 +4,35 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentState
-import com.checkout.frames.screen.manager.PaymentStateManager
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.style.component.billingformdetails.BillingAddressInputComponentStyle
+import com.checkout.frames.style.screen.BillingAddressDetailsStyle
 
 internal class BillingAddressInputComponentStateUseCase(
     private val billingAddressInputComponentStateMapper: Mapper<BillingAddressInputComponentStyle,
-            BillingAddressInputComponentState>,
-    private val paymentStateManager: PaymentStateManager
-) : UseCase<List<BillingAddressInputComponentStyle>, BillingAddressInputComponentsContainerState> {
+            BillingAddressInputComponentState>
+) : UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsContainerState> {
 
-    override fun execute(data: List<BillingAddressInputComponentStyle>): BillingAddressInputComponentsContainerState {
+    override fun execute(data: BillingAddressDetailsStyle): BillingAddressInputComponentsContainerState {
         val defaultBillingAddressInputComponentStateList: MutableList<BillingAddressInputComponentState> =
             mutableListOf()
 
         // Fill default  InputComponentState list
-        data.forEach { billingFormDynamicFieldComponentStyle ->
+        data.inputComponentsContainerStyle.inputComponentStyleList.forEach { billingFormDynamicFieldComponentStyle ->
 
             defaultBillingAddressInputComponentStateList.add(
                 billingAddressInputComponentStateMapper.map(
-                    billingFormDynamicFieldComponentStyle
+                    BillingAddressInputComponentStyle(billingFormDynamicFieldComponentStyle)
                 )
             )
         }
 
         return BillingAddressInputComponentsContainerState(
-            addMandatoryBillingAddressInputComponentState(
-                provideInputComponentStateList(defaultBillingAddressInputComponentStateList),
+            addMandatoryInputComponentsState(
+                provideInputComponentStateList(
+                    data.billingFormFieldList,
+                    defaultBillingAddressInputComponentStateList
+                ),
                 defaultBillingAddressInputComponentStateList
             )
         )
@@ -37,40 +40,43 @@ internal class BillingAddressInputComponentStateUseCase(
 
     // Fill all view state list from the paymentStateManager which contains all enums which provided by the merchant
     private fun provideInputComponentStateList(
+        billingAddressFields: List<BillingFormFields>,
         defaultBillingAddressInputComponentStateList: MutableList<BillingAddressInputComponentState>
     ): MutableList<BillingAddressInputComponentState> {
+        val inputComponentStateList: MutableList<BillingAddressInputComponentState> = mutableListOf()
 
-        val billingAddressInputComponentStateList: MutableList<BillingAddressInputComponentState> = mutableListOf()
-
-        paymentStateManager.billingAddressFields.forEach { addressField ->
+        billingAddressFields.ifEmpty {
+            BillingFormFields.fetchAllDefaultBillingFormFields()
+        }.forEach { addressField ->
             val billingAddressInputComponentState = defaultBillingAddressInputComponentStateList.find {
-                it.addressFieldName == addressField.addressFieldName
-            }?.apply {
-                isOptional = addressField.isOptional
+                it.mappedInputComponentState.key == addressField.name
             }
-            billingAddressInputComponentState?.let { billingAddressInputComponentStateList.add(it) }
+            billingAddressInputComponentState?.let {
+                if (!inputComponentStateList.contains(it)) {
+                    inputComponentStateList.add(it)
+                }
+            }
         }
 
-        return billingAddressInputComponentStateList
+        return inputComponentStateList
     }
 
-    private fun addMandatoryBillingAddressInputComponentState(
+    private fun addMandatoryInputComponentsState(
         processedList: MutableList<BillingAddressInputComponentState>,
         defaultBillingAddressInputComponentStateList: MutableList<BillingAddressInputComponentState>
     ): MutableList<BillingAddressInputComponentState> {
 
-        paymentStateManager.mandatoryBillingAddressFields.forEach { mandatoryBillingAddressField ->
-            if (processedList.none { it.addressFieldName == mandatoryBillingAddressField.addressFieldName }) {
+        BillingFormFields.fetchAllMandatoryBillingFormFields().forEach { mandatoryBillingAddressField ->
+            if (processedList.none { it.mappedInputComponentState.key == mandatoryBillingAddressField.name }) {
+
                 val billingAddressInputComponentState =
                     defaultBillingAddressInputComponentStateList.find {
-                        it.addressFieldName == mandatoryBillingAddressField.addressFieldName
+                        it.mappedInputComponentState.key == mandatoryBillingAddressField.name
                     }
 
-                val mandatoryInputComponentState = billingAddressInputComponentState?.inputComponentState?.let {
+                val mandatoryInputComponentState = billingAddressInputComponentState?.mappedInputComponentState?.let {
                     BillingAddressInputComponentState(
-                        mandatoryBillingAddressField.addressFieldName,
-                        mandatoryBillingAddressField.isOptional,
-                        it,
+                        it
                     )
                 }
 

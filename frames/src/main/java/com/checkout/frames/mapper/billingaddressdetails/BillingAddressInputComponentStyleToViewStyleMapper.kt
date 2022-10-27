@@ -11,8 +11,15 @@ internal class BillingAddressInputComponentStyleToViewStyleMapper(
 ) : Mapper<BillingAddressInputComponentStyle, BillingAddressInputComponentViewStyle> {
 
     override fun map(from: BillingAddressInputComponentStyle) = BillingAddressInputComponentViewStyle(
-        addressFieldName = from.addressFieldName,
-        isOptional = from.isOptional,
-        inputComponentViewStyle = inputComponentStyleMapper.map(from.inputComponentStyle)
+        inputComponentViewStyleMappedEntry = provideInputComponentViewStyle(from)
     )
+
+    private fun provideInputComponentViewStyle(from: BillingAddressInputComponentStyle):
+            Map.Entry<String, InputComponentViewStyle> {
+        val inputComponentViewStyleLinkedHashMap: LinkedHashMap<String, InputComponentViewStyle> = linkedMapOf()
+        inputComponentViewStyleLinkedHashMap[from.inputComponentStyleMappedEntry.key] =
+            inputComponentStyleMapper.map(from.inputComponentStyleMappedEntry.value)
+
+        return inputComponentViewStyleLinkedHashMap.entries.first()
+    }
 }

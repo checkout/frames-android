@@ -48,7 +48,7 @@ fun Navigator(
             override fun onClose() { navController.navigateUp() }
         },
         style = PaymentFormStyle()
-    )
+        )
 
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }
