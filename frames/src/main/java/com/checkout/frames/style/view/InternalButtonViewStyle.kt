@@ -23,7 +23,7 @@ internal data class InternalButtonViewStyle(
     val contentColor: Color = Color.Black,
     val disabledContentColor: Color = Color.Gray,
 
-    val modifier: Modifier = Modifier,
+    var modifier: Modifier = Modifier,
     val shape: Shape,
     val border: BorderStroke? = null,
     val contentPadding: PaddingValues = ButtonDefaults.ContentPadding,

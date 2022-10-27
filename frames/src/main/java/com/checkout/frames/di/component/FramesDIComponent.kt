@@ -8,15 +8,16 @@ import com.checkout.frames.component.cardscheme.CardSchemeViewModel
 import com.checkout.frames.component.country.CountryViewModel
 import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
+import com.checkout.frames.component.paybutton.PayButtonViewModel
 import com.checkout.frames.di.module.PaymentModule
 import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
+import com.checkout.frames.tokenization.InternalCardTokenRequest
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
-import com.checkout.tokenization.model.Card
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -37,11 +38,12 @@ internal abstract class FramesDIComponent {
     abstract fun inject(factory: CardSchemeViewModel.Factory)
     abstract fun inject(factory: CountryViewModel.Factory)
     abstract fun inject(factory: AddressSummaryViewModel.Factory)
+    abstract fun inject(factory: PayButtonViewModel.Factory)
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun cardTokenizationUseCase(cardTokenizationUseCase: UseCase<Card, Unit>): Builder
+        fun cardTokenizationUseCase(cardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>): Builder
 
         @BindsInstance
         fun logger(logger: Logger<LoggingEvent>): Builder

@@ -10,6 +10,7 @@ import com.checkout.frames.component.country.CountryViewModel
 import com.checkout.frames.component.cardscheme.CardSchemeViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
 import com.checkout.frames.component.expirydate.ExpiryDateViewModel
+import com.checkout.frames.component.paybutton.PayButtonViewModel
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.DaggerFramesDIComponent
@@ -35,6 +36,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             is CountryPickerViewModel.Factory -> component.inject(client)
             is CardSchemeViewModel.Factory -> component.inject(client)
             is AddressSummaryViewModel.Factory -> component.inject(client)
+            is PayButtonViewModel.Factory -> component.inject(client)
             else -> throw IllegalArgumentException("Invalid injection request for ${client.javaClass.name}.")
         }
     }
