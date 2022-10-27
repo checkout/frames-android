@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAddressDetailsScreen
 import com.checkout.frames.screen.countrypicker.CountryPickerScreen
@@ -23,27 +22,17 @@ internal fun BillingAddressFormScreen(
     onClose: () -> Unit
 ) {
     val animationDuration = 350
-    val navController = rememberAnimatedNavController()
+    val childNavController = rememberAnimatedNavController()
 
-    val viewModel: BillingAddressFormViewModel = viewModel(
-        factory = BillingAddressFormViewModel.Factory(injector)
-    )
-
-    if (viewModel.goBack.value) {
-        onClose()
-    }
-
-    AnimatedNavHost(navController, startDestination = Screen.BillingFormDetails.route) {
+    AnimatedNavHost(childNavController, startDestination = Screen.BillingFormDetails.route) {
         composable(
             Screen.BillingFormDetails.route
         ) {
             BillingAddressDetailsScreen(
                 style.billingAddressDetailsStyle,
-                viewModel.injector,
-                navController
-            ) {
-                viewModel.goBack.value = true
-            }
+                injector,
+                childNavController
+            ) { onClose() }
         }
         composable(
             Screen.CountryPicker.route,
@@ -56,9 +45,9 @@ internal fun BillingAddressFormScreen(
         ) {
             CountryPickerScreen(
                 style.countryPickerStyle,
-                viewModel.injector
+                injector
             ) {
-                navController.navigateUp()
+                childNavController.navigateUp()
             }
         }
     }

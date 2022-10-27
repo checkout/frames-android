@@ -11,8 +11,16 @@ internal class BillingAddressInputComponentStyleToStateMapper(
 ) : Mapper<BillingAddressInputComponentStyle, BillingAddressInputComponentState> {
 
     override fun map(from: BillingAddressInputComponentStyle) = BillingAddressInputComponentState(
-        addressFieldName = from.addressFieldName,
-        isOptional = from.isOptional,
-        inputComponentState = inputComponentStateMapper.map(from.inputComponentStyle)
+        mappedInputComponentState = provideInputComponentState(from)
     )
+
+    private fun provideInputComponentState(from: BillingAddressInputComponentStyle):
+            Map.Entry<String, InputComponentState> {
+
+        val inputComponentStateLinkedHashMap: LinkedHashMap<String, InputComponentState> = linkedMapOf()
+        inputComponentStateLinkedHashMap[from.inputComponentStyleMappedEntry.key] =
+            inputComponentStateMapper.map(from.inputComponentStyleMappedEntry.value)
+
+        return inputComponentStateLinkedHashMap.entries.first()
+    }
 }

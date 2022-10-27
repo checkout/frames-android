@@ -48,14 +48,12 @@ internal fun BillingAddressDetailsScreen(
         )
 
         BillingAddressDynamicInputComponent(
-            billingAddressInputComponentViewStyle = viewModel.billingAddressInputComponentsStyle,
-            billingAddressInputComponentState = viewModel
-                .billingAddressInputComponentState
-                .billingAddressInputComponentStateList,
+            inputComponentViewStyleList = viewModel.inputComponentsViewContainerStyle.inputComponentViewStyleList,
+            inputComponentStateList = viewModel.inputComponentsState.inputComponentStateList,
             countryComponentStyle = style.countryComponentStyle,
             onFocusChange = viewModel::onFocusChanged,
             onValueChange = viewModel::onSearchChange,
-            modifier = viewModel.billingAddressInputComponentsContainerModifier,
+            modifier = viewModel.inputComponentsContainerModifier,
             injector = injector,
             navController = navController
         )

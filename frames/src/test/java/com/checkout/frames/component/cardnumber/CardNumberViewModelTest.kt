@@ -57,10 +57,7 @@ internal class CardNumberViewModelTest {
     lateinit var spyDynamicImageMapper: ImageStyleToDynamicComposableImageMapper
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
-        emptyList(),
-        emptyList()
-    )
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
 
     private var style: CardNumberComponentStyle = CardNumberComponentStyle()
 
