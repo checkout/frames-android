@@ -46,10 +46,7 @@ internal class CountryViewModelTest {
     lateinit var spyInputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
-        emptyList(),
-        emptyList()
-    )
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
 
     private lateinit var viewModel: CountryViewModel
     private var style = CountryComponentStyle()

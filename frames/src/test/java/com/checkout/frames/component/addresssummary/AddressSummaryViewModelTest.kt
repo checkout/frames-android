@@ -42,7 +42,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class AddressSummaryViewModelTest {
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList(), emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
 
     @SpyK
     lateinit var spyComponentStateMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState>
