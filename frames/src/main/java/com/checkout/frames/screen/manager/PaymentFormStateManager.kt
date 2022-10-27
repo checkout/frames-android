@@ -14,8 +14,6 @@ internal class PaymentFormStateManager(
     private val supportedCardSchemes: List<CardScheme>
 ) : PaymentStateManager {
 
-    override val isReadyTokenize: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
-
     override val cardNumber: MutableStateFlow<String> = MutableStateFlow("")
     override val cardScheme: MutableStateFlow<CardScheme> = MutableStateFlow(CardScheme.UNKNOWN)
     override val isCardNumberValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -30,6 +28,8 @@ internal class PaymentFormStateManager(
 
     override val supportedCardSchemeList = provideCardSchemeList()
 
+    override val isReadyForTokenization: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
+
     @VisibleForTesting
     fun provideCardSchemeList(): List<CardScheme> = supportedCardSchemes.ifEmpty {
         CardScheme.fetchAllSupportedCardSchemes()
@@ -39,6 +39,6 @@ internal class PaymentFormStateManager(
         isCardNumberValid,
         isExpiryDateValid,
         isCvvValid
-    ) { values -> values.all { true } }
+    ) { values -> values.all { it } }
         .stateIn(MainScope(), SharingStarted.Lazily, false)
 }

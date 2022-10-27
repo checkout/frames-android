@@ -4,11 +4,13 @@ import android.content.Context
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
 import com.checkout.frames.style.screen.PaymentFormStyle
+import com.checkout.frames.tokenization.TokenizationResultHandler
 
 public data class PaymentFormConfig(
-    public var publicKey: String,
-    public var context: Context,
-    public var environment: Environment,
+    public val publicKey: String,
+    public val context: Context,
+    public val environment: Environment,
     public var style: PaymentFormStyle,
+    public val tokenizationResultHandler: TokenizationResultHandler,
     public var supportedCardSchemeList: List<CardScheme> = emptyList()
 )

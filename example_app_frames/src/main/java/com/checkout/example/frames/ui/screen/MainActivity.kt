@@ -11,24 +11,41 @@ import androidx.navigation.compose.rememberNavController
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
+import com.checkout.frames.R
 import com.checkout.frames.screen.paymentform.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.PaymentFormScreen
 import com.checkout.frames.style.screen.PaymentFormStyle
+import com.checkout.frames.tokenization.TokenizationResultHandler
+import com.checkout.tokenization.model.TokenDetails
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { Navigator(this.applicationContext) }
+        setContent {
+            Navigator(
+                this.applicationContext,
+                { showAlertDialog(this, getString(R.string.token_generated), it.token) },
+                { showAlertDialog(this, getString(R.string.token_generated_failed), it) }
+            )
+        }
     }
 }
 
 @Composable
-fun Navigator(context: Context) {
+fun Navigator(
+    context: Context,
+    onSuccess: (TokenDetails) -> Unit,
+    onFailure: (String) -> Unit
+) {
     val navController = rememberNavController()
     val defaultPaymentFormConfig = PaymentFormConfig(
         publicKey = PUBLIC_KEY,
         context = context,
         environment = ENVIRONMENT,
+        tokenizationResultHandler = object : TokenizationResultHandler {
+            override fun onSuccess(tokenDetails: TokenDetails) = onSuccess(tokenDetails)
+            override fun onFailure(errorMessage: String) = onFailure(errorMessage)
+        },
         style = PaymentFormStyle()
     )
 

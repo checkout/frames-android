@@ -1,11 +1,14 @@
 package com.checkout.logging
 
+import androidx.annotation.RestrictTo
+
 /**
  * Interface that should be implemented by all logging event types.
  */
-internal interface LoggingEventType {
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public interface LoggingEventType {
     /**
      * Event identifier.
      */
-    val eventId: String
+    public val eventId: String
 }
