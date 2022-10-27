@@ -56,12 +56,12 @@ internal class PayButtonViewModel @Inject constructor(
         .apply { modifier = modifier.fillMaxWidth() }
 
     private fun provideCardData(): Card = with(paymentStateManager) {
-        val billingAddress = this.billingAddress.value
+        val billingAddress = billingAddress.value
         Card(
-            this.expiryDate.value.toExpiryDate(),
+            expiryDate.value.toExpiryDate(),
             billingAddress.name,
-            this.cardNumber.value,
-            this.cvv.value,
+            cardNumber.value,
+            cvv.value,
             billingAddress.address,
             billingAddress.phone
         )
