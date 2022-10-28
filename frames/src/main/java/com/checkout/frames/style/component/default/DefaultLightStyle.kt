@@ -1,10 +1,15 @@
 package com.checkout.frames.style.component.default
 
+import androidx.annotation.ColorLong
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.checkout.frames.R
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
+import com.checkout.frames.model.font.Font
+import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.CardSchemeComponentStyle
+import com.checkout.frames.style.component.ScreenHeaderStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextStyle
@@ -15,9 +20,46 @@ import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.component.base.ImageContainerStyle
 import com.checkout.frames.utils.constants.LightStyleConstants
 import com.checkout.frames.utils.constants.CardSchemeConstants
+import com.checkout.frames.utils.constants.HeaderTitleConstants
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "LongParameterList")
 public object DefaultLightStyle {
+
+    public fun screenHeader(
+        text: String = "",
+        @StringRes
+        textId: Int? = null,
+        @DrawableRes
+        imageId: Int? = null,
+        fontSize: Int = HeaderTitleConstants.fontSize,
+        fontWeight: FontWeight = FontWeight.Normal,
+        font: Font = HeaderTitleConstants.font,
+        @ColorLong
+        textColor: Long = HeaderTitleConstants.textColor,
+        padding: Padding = Padding(),
+        height: Int = HeaderTitleConstants.height,
+        maxLines: Int = HeaderTitleConstants.maxLines,
+        leadingIconSize: Int = HeaderTitleConstants.leadingIconSize,
+        leadingIconPadding: Padding = Padding()
+    ): ScreenHeaderStyle = ScreenHeaderStyle(
+        text = text,
+        textId = textId,
+        textStyle = TextStyle(
+            size = fontSize,
+            color = textColor,
+            font = font,
+            fontWeight = fontWeight,
+            maxLines = maxLines
+        ),
+        backIconStyle = ImageStyle(
+            image = imageId,
+            tinColor = textColor,
+            height = leadingIconSize,
+            width = leadingIconSize,
+            padding = leadingIconPadding
+        ),
+        containerStyle = ContainerStyle(height = height, padding = padding)
+    )
 
     public fun screenTitleTextLabelStyle(
         padding: Padding = Padding()

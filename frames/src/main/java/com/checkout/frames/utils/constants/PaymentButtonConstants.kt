@@ -1,6 +1,7 @@
 package com.checkout.frames.utils.constants
 
 import androidx.annotation.ColorLong
+import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.font.FontWeight
 
@@ -21,8 +22,11 @@ public object PaymentButtonConstants {
     @ColorLong
     public val disabledContainerColor: Long = 0xFFF0F0F0
 
-    /** Default address summary text padding in dp. **/
+    /** Default content padding in dp. **/
     public val contentPadding: Padding = Padding(18)
+
+    /** Default button margin in dp. **/
+    public val buttonMargin: Margin = Margin(bottom = 24)
 
     /** Default pay button title font weight. */
     public val fontWeight: FontWeight = FontWeight.SemiBold

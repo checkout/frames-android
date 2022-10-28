@@ -8,7 +8,7 @@ import com.checkout.base.model.Environment
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.injector.FramesInjector
-import com.checkout.frames.tokenization.TokenizationResultHandler
+import com.checkout.frames.paymentflow.PaymentFlowHandler
 import javax.inject.Inject
 
 internal class PaymentFormViewModel @Inject internal constructor() : ViewModel() {
@@ -19,7 +19,7 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         private val publicKey: String,
         private val context: Context,
         private val environment: Environment,
-        private val tokenizationResultHandler: TokenizationResultHandler,
+        private val paymentFlowHandler: PaymentFlowHandler,
         private val supportedCardSchemes: List<CardScheme> = emptyList()
     ) : ViewModelProvider.Factory, InjectionClient {
 
@@ -32,7 +32,7 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             injector = FramesInjector.create(
                 publicKey, context, environment,
-                tokenizationResultHandler, supportedCardSchemes
+                paymentFlowHandler, supportedCardSchemes
             )
 
             injector.inject(this)

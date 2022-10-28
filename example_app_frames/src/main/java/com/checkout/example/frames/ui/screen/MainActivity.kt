@@ -15,7 +15,7 @@ import com.checkout.frames.R
 import com.checkout.frames.screen.paymentform.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.PaymentFormScreen
 import com.checkout.frames.style.screen.PaymentFormStyle
-import com.checkout.frames.tokenization.TokenizationResultHandler
+import com.checkout.frames.paymentflow.PaymentFlowHandler
 import com.checkout.tokenization.model.TokenDetails
 
 class MainActivity : ComponentActivity() {
@@ -42,9 +42,10 @@ fun Navigator(
         publicKey = PUBLIC_KEY,
         context = context,
         environment = ENVIRONMENT,
-        tokenizationResultHandler = object : TokenizationResultHandler {
+        paymentFlowHandler = object : PaymentFlowHandler {
             override fun onSuccess(tokenDetails: TokenDetails) = onSuccess(tokenDetails)
             override fun onFailure(errorMessage: String) = onFailure(errorMessage)
+            override fun onClose() { navController.navigateUp() }
         },
         style = PaymentFormStyle()
     )

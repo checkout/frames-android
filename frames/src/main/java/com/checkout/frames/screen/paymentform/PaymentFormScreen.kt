@@ -24,7 +24,7 @@ public fun PaymentFormScreen(config: PaymentFormConfig) {
             config.publicKey,
             config.context,
             config.environment,
-            config.tokenizationResultHandler,
+            config.paymentFlowHandler,
             config.supportedCardSchemeList
         )
     )

@@ -9,17 +9,19 @@ import com.checkout.frames.component.country.CountryViewModel
 import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
 import com.checkout.frames.component.paybutton.PayButtonViewModel
+import com.checkout.frames.di.CLOSE_PAYMENT_FLOW_DI
 import com.checkout.frames.di.module.PaymentModule
 import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
-import com.checkout.frames.tokenization.InternalCardTokenRequest
+import com.checkout.frames.paymentflow.InternalCardTokenRequest
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
@@ -44,6 +46,12 @@ internal abstract class FramesDIComponent {
     interface Builder {
         @BindsInstance
         fun cardTokenizationUseCase(cardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>): Builder
+
+        @BindsInstance
+        fun closePaymentFlowUseCase(
+            @Named(CLOSE_PAYMENT_FLOW_DI)
+            closePaymentFlowUseCase: UseCase<Unit, Unit>
+        ): Builder
 
         @BindsInstance
         fun logger(logger: Logger<LoggingEvent>): Builder

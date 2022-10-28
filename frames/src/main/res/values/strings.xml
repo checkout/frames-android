@@ -36,4 +36,7 @@
     <!--Pay button-->
     <string name="cko_pay" translatable="true">Pay</string>
 
+    <!--Payment details screen title-->
+    <string name="cko_payment_details_title" translatable="true">Payment details</string>
+
 </resources>
