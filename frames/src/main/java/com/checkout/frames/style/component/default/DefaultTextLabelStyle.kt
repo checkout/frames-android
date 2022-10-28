@@ -50,6 +50,7 @@ public object DefaultTextLabelStyle {
         textId: Int? = null,
         fontSize: Int = TitleConstants.fontSize,
         font: Font = TitleConstants.font,
+        fontWeight: FontWeight = FontWeight.Normal,
         @ColorLong
         color: Long = TitleConstants.color,
         padding: Padding = Padding(),
@@ -61,7 +62,11 @@ public object DefaultTextLabelStyle {
         text = text,
         textId = textId,
         textStyle = TextStyle(
-            size = fontSize, color = color, font = font, maxLines = maxLines,
+            size = fontSize,
+            color = color,
+            font = font,
+            fontWeight = fontWeight,
+            maxLines = maxLines,
             lineHeight = lineHeight
         ),
         leadingIconStyle = leadingIconStyle,

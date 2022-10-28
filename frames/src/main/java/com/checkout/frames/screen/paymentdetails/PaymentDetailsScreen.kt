@@ -68,5 +68,9 @@ internal fun PaymentDetailsScreen(
         viewModel.componentProvider.AddressSummary(style.addressSummaryComponentStyle) {
             navController.navigate(Screen.BillingFormScreen.route)
         }
+
+        Spacer(modifier = Modifier.padding(top = 32.dp))
+
+        viewModel.componentProvider.PayButton(style = style.payButtonComponentStyle)
     }
 }

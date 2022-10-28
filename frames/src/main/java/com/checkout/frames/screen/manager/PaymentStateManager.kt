@@ -7,8 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 internal interface PaymentStateManager {
 
-    val isReadyTokenize: StateFlow<Boolean>
-
     val cardNumber: MutableStateFlow<String>
     val cardScheme: MutableStateFlow<CardScheme>
     val isCardNumberValid: MutableStateFlow<Boolean>
@@ -22,4 +20,6 @@ internal interface PaymentStateManager {
     val supportedCardSchemeList: List<CardScheme>
 
     val billingAddress: MutableStateFlow<BillingAddress>
+
+    val isReadyForTokenization: StateFlow<Boolean>
 }

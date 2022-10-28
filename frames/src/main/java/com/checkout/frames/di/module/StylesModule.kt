@@ -10,6 +10,7 @@ import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
 import com.checkout.frames.di.component.CountryViewModelSubComponent
 import com.checkout.frames.di.component.CvvViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
+import com.checkout.frames.di.component.PayButtonViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
@@ -46,7 +47,8 @@ import dagger.Provides
         CountryViewModelSubComponent::class,
         CountryPickerViewModelSubComponent::class,
         BillingFormViewModelSubComponent::class,
-        AddressSummaryViewModelSubComponent::class
+        AddressSummaryViewModelSubComponent::class,
+        PayButtonViewModelSubComponent::class
     ]
 )
 internal abstract class StylesModule {

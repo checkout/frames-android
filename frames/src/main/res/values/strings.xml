@@ -45,4 +45,8 @@
     <string name="cko_billing_address_info" translatable="true">We need this information as an additional security measure to verify this card.</string>
     <string name="cko_add_billing_address" translatable="true">Add billing address</string>
     <string name="cko_edit_billing_address" translatable="true">Edit billing address</string>
+
+    <!--Pay button-->
+    <string name="cko_pay" translatable="true">Pay</string>
+
 </resources>
