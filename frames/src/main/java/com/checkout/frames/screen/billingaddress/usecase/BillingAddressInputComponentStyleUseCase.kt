@@ -5,6 +5,7 @@ import com.checkout.base.usecase.UseCase
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.style.component.billingformdetails.BillingAddressInputComponentStyle
 import com.checkout.frames.style.screen.BillingAddressDetailsStyle
+import com.checkout.frames.style.screen.default.DefaultBillingAddressDetailsStyle
 import com.checkout.frames.style.view.BillingAddressInputComponentViewStyle
 import com.checkout.frames.style.view.billingformdetails.BillingAddressInputComponentsViewContainerStyle
 
@@ -14,76 +15,62 @@ internal class BillingAddressInputComponentStyleUseCase(
 ) : UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle> {
 
     override fun execute(data: BillingAddressDetailsStyle): BillingAddressInputComponentsViewContainerStyle {
-        val defaultBillingAddressInputComponentViewStyleList = mutableListOf<BillingAddressInputComponentViewStyle>()
+        val inputComponentViewStyleList = mutableListOf<BillingAddressInputComponentViewStyle>()
 
-        // Fill default view styling list
-        data.inputComponentsContainerStyle.inputComponentStyleList.forEach { billingFormDynamicFieldComponentStyle ->
+        data.inputComponentsContainerStyle.inputComponentStyleValues.forEach { inputComponentStyleValue ->
 
-            defaultBillingAddressInputComponentViewStyleList.add(
+            inputComponentViewStyleList.add(
                 billingAddressInputComponentStyleMapper.map(
-                    BillingAddressInputComponentStyle(billingFormDynamicFieldComponentStyle)
+                    BillingAddressInputComponentStyle(
+                        inputComponentStyleValue.key.name,
+                        inputComponentStyleValue.value
+                    )
                 )
             )
         }
 
         return BillingAddressInputComponentsViewContainerStyle(
-            addMandatoryInputComponentViewStyle(
-                provideInputComponentViewStyleList(
-                    data.billingFormFieldList,
-                    defaultBillingAddressInputComponentViewStyleList
-                ),
-                defaultBillingAddressInputComponentViewStyleList
+            addMandatoryInputComponentViewStyleList(
+                provideDefaultInputComponentViewStyleList(),
+                inputComponentViewStyleList
             )
         )
     }
 
-    private fun provideInputComponentViewStyleList(
-        billingAddressFields: List<BillingFormFields>,
-        defaultBillingAddressInputComponentViewStyleList: MutableList<BillingAddressInputComponentViewStyle>
-    ): MutableList<BillingAddressInputComponentViewStyle> {
+    private fun provideDefaultInputComponentViewStyleList(): MutableList<BillingAddressInputComponentViewStyle> {
+        val inputComponentViewStyleList = mutableListOf<BillingAddressInputComponentViewStyle>()
 
-        val inputComponentViewStyleList: MutableList<BillingAddressInputComponentViewStyle> =
-            mutableListOf()
+        DefaultBillingAddressDetailsStyle.fetchInputComponentStyleValues().forEach {
+                billingFormDynamicFieldComponentStyle ->
 
-        billingAddressFields.ifEmpty {
-            BillingFormFields.fetchAllDefaultBillingFormFields()
-        }.forEach { addressField ->
-            val billingAddressInputComponentViewStyle: BillingAddressInputComponentViewStyle? =
-                defaultBillingAddressInputComponentViewStyleList.find {
-                    it.inputComponentViewStyleMappedEntry.key == addressField.name
-                }
-
-            // Check duplicate entry if merchant provided duplicate styles for fields
-            billingAddressInputComponentViewStyle?.let {
-                if (!inputComponentViewStyleList.contains(it)) {
-                    inputComponentViewStyleList.add(it)
-                }
-            }
+            inputComponentViewStyleList.add(
+                billingAddressInputComponentStyleMapper.map(
+                    BillingAddressInputComponentStyle(
+                        billingFormDynamicFieldComponentStyle.key.name,
+                        billingFormDynamicFieldComponentStyle.value
+                    )
+                )
+            )
         }
-
         return inputComponentViewStyleList
     }
 
-    private fun addMandatoryInputComponentViewStyle(
-        inputComponentViewStyleList: MutableList<BillingAddressInputComponentViewStyle>,
-        defaultInputComponentViewStyleList: MutableList<BillingAddressInputComponentViewStyle>
+    private fun addMandatoryInputComponentViewStyleList(
+        defaultInputComponentViewStyleList: MutableList<BillingAddressInputComponentViewStyle>,
+        inputComponentViewStyleList: MutableList<BillingAddressInputComponentViewStyle>
     ): MutableList<BillingAddressInputComponentViewStyle> {
         BillingFormFields.fetchAllMandatoryBillingFormFields().forEach { mandatoryBillingAddressField ->
             if (
                 inputComponentViewStyleList.none {
-                    it.inputComponentViewStyleMappedEntry.key == mandatoryBillingAddressField.name
+                    it.addressFieldName == mandatoryBillingAddressField.name
                 }
             ) {
                 val billingAddressInputComponentViewStyle =
                     defaultInputComponentViewStyleList.find {
-                        it.inputComponentViewStyleMappedEntry.key == mandatoryBillingAddressField.name
+                        it.addressFieldName == mandatoryBillingAddressField.name
                     }
 
-                val mandatoryInputComponentViewStyle =
-                    billingAddressInputComponentViewStyle?.inputComponentViewStyleMappedEntry?.let {
-                        BillingAddressInputComponentViewStyle(it)
-                    }
-                mandatoryInputComponentViewStyle?.let {
+                billingAddressInputComponentViewStyle?.let {
                     inputComponentViewStyleList.add(it)
                 }
             }
