@@ -33,7 +33,7 @@ internal fun BillingAddressDynamicInputComponent(
             items(inputComponentViewStyleList.size) { index ->
 
                 if (
-                    inputComponentViewStyleList[index].inputComponentViewStyleMappedEntry.key
+                    inputComponentViewStyleList[index].addressFieldName
                     == BillingFormFields.Country.name
                 ) {
                     CountryComponent(countryComponentStyle, injector) {
@@ -41,8 +41,8 @@ internal fun BillingAddressDynamicInputComponent(
                     }
                 } else {
                     InputComponent(
-                        style = inputComponentViewStyleList[index].inputComponentViewStyleMappedEntry.value,
-                        state = inputComponentStateList[index].mappedInputComponentState.value,
+                        style = inputComponentViewStyleList[index].inputComponentViewStyle,
+                        state = inputComponentStateList[index].inputComponentState,
                         onFocusChanged = onFocusChange,
                         onValueChange = onValueChange
                     )

@@ -9,26 +9,114 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.Bi
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.component.billingformdetails.InputComponentsContainerStyle
 import com.checkout.frames.style.component.default.DefaultLightStyle
-import com.checkout.frames.style.screen.BillingFormStyle
 import com.checkout.frames.style.component.billingformdetails.HeaderComponentStyle
 import com.checkout.frames.style.component.default.DefaultButtonStyle
-import com.checkout.frames.style.screen.BillingAddressDetailsStyle
 import com.checkout.frames.utils.constants.BillingAddressDetailsConstants
 import com.checkout.frames.utils.constants.LightStyleConstants
 
 public object DefaultBillingAddressDetailsStyle {
+
     @Suppress("LongMethod")
-    public fun light(): BillingFormStyle {
-        val billingFormHeaderTitleStyle = DefaultLightStyle.screenTitleTextLabelStyle(
+    public fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
+        val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
+
+        inputComponentsStyles[BillingFormFields.FullName] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_billing_form_input_field_full_name,
+            padding = Padding(
+                top = LightStyleConstants.inputComponentTopPadding,
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = false
+        )
+
+        inputComponentsStyles[BillingFormFields.AddressLineOne] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_billing_form_input_field_address_line_one,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = false
+        )
+
+        inputComponentsStyles[BillingFormFields.AddressLineTwo] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_billing_form_input_field_address_line_two,
+
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = true
+        )
+
+        inputComponentsStyles[BillingFormFields.City] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_billing_form_input_field_city,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = false
+        )
+
+        inputComponentsStyles[BillingFormFields.State] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_billing_form_input_field_state,
+            infoTextId = R.string.cko_billing_form_input_field_info,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = true
+        )
+
+        inputComponentsStyles[BillingFormFields.PostCode] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_billing_form_input_field_postcode,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = false
+        )
+
+        inputComponentsStyles[BillingFormFields.Country] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_country_picker_screen_title,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = false
+        )
+
+        inputComponentsStyles[BillingFormFields.Phone] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_billing_form_input_field_phone_title,
+            subtitleTextId = R.string.cko_billing_form_input_field_phone_subtitle,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            ),
+            isFieldOptional = false
+        )
+
+        return inputComponentsStyles
+    }
+
+    public fun headerComponentStyle(): HeaderComponentStyle = HeaderComponentStyle(
+        DefaultLightStyle.screenTitleTextLabelStyle(
             Padding(
                 BillingAddressDetailsConstants.titlePaddingTop,
                 BillingAddressDetailsConstants.titlePaddingBottom,
                 BillingAddressDetailsConstants.titlePaddingStart,
                 BillingAddressDetailsConstants.titlePaddingEnd
             )
-        )
-
-        val billingFormHeaderButtonStyle = DefaultButtonStyle.lightSolid(
+        ),
+        DefaultButtonStyle.lightSolid(
             containerColor = BillingAddressDetailsConstants.buttonContainerColor,
             disabledContainerColor = BillingAddressDetailsConstants.buttonDisabledContainerColor,
             contentColor = BillingAddressDetailsConstants.buttonContentColor,
@@ -46,104 +134,9 @@ public object DefaultBillingAddressDetailsStyle {
                 end = BillingAddressDetailsConstants.buttonContainerEndPadding
             )
         )
+    )
 
-        val inputComponentsStyles: LinkedHashMap<String, InputComponentStyle> = linkedMapOf()
-
-        inputComponentsStyles[BillingFormFields.FullName.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_billing_form_input_field_full_name,
-            padding = Padding(
-                top = LightStyleConstants.inputComponentTopPadding,
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = false
-        )
-
-        inputComponentsStyles[BillingFormFields.AddressLineOne.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_billing_form_input_field_address_line_one,
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = false
-        )
-
-        inputComponentsStyles[BillingFormFields.AddressLineTwo.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_billing_form_input_field_address_line_two,
-
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = true
-        )
-
-        inputComponentsStyles[BillingFormFields.City.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_billing_form_input_field_city,
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = false
-        )
-
-        inputComponentsStyles[BillingFormFields.State.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_billing_form_input_field_state,
-            infoTextId = R.string.cko_billing_form_input_field_info,
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = true
-        )
-
-        inputComponentsStyles[BillingFormFields.PostCode.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_billing_form_input_field_postcode,
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = false
-        )
-
-        inputComponentsStyles[BillingFormFields.Country.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_country_picker_screen_title,
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = false
-        )
-
-        inputComponentsStyles[BillingFormFields.Phone.name] = DefaultLightStyle.inputComponentStyle(
-            titleTextId = R.string.cko_billing_form_input_field_phone_title,
-            subtitleTextId = R.string.cko_billing_form_input_field_phone_subtitle,
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
-            isFieldOptional = false
-        )
-
-        val billingFormHeaderViewStyle = HeaderComponentStyle(
-            billingFormHeaderTitleStyle,
-            billingFormHeaderButtonStyle
-        )
-
-        val billingAddressDetailsStyle =
-            BillingAddressDetailsStyle(
-                headerComponentStyle = billingFormHeaderViewStyle,
-                inputComponentsContainerStyle = InputComponentsContainerStyle(inputComponentsStyles)
-            )
-
-        return BillingFormStyle(billingAddressDetailsStyle)
-    }
+    public fun inputComponentsContainerStyle(): InputComponentsContainerStyle = InputComponentsContainerStyle(
+        fetchInputComponentStyleValues()
+    )
 }
