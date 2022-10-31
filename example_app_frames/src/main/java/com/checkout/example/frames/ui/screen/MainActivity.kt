@@ -47,7 +47,7 @@ fun Navigator(
             override fun onFailure(errorMessage: String) = onFailure(errorMessage)
         },
         style = PaymentFormStyle()
-    )
+        )
 
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }

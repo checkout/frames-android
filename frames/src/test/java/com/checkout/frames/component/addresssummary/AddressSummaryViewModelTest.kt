@@ -13,7 +13,7 @@ import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToStateMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummarySectionStyleToViewStyleMapper
-import com.checkout.frames.screen.billingformdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
@@ -32,7 +32,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

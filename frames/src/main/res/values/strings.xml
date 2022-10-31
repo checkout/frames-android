@@ -27,6 +27,19 @@
     <string name="cko_content_description_image" translatable="true">Image</string>
     <string name="cko_content_description_dynamic_image" translatable="true">Dynamic image</string>
 
+    <!--Billing form screen-->
+    <string name="cko_billing_form_screen_title" translatable="true">Billing address</string>
+    <string name="cko_billing_form_button_save" translatable="true">Save</string>
+    <string name="cko_billing_form_input_field_full_name" translatable="true">Full name</string>
+    <string name="cko_billing_form_input_field_address_line_one" translatable="true">Address line 1</string>
+    <string name="cko_billing_form_input_field_address_line_two" translatable="true">Address line 2</string>
+    <string name="cko_billing_form_input_field_city" translatable="true">City</string>
+    <string name="cko_billing_form_input_field_state" translatable="true">State</string>
+    <string name="cko_billing_form_input_field_postcode" translatable="true">Postcode/zip</string>
+    <string name="cko_billing_form_input_field_phone_title" translatable="true">Phone number</string>
+    <string name="cko_billing_form_input_field_phone_subtitle" translatable="true">We will only use this to confirm identity if necessary</string>
+    <string name="cko_billing_form_input_field_info" translatable="true">Optional</string>
+
     <!--Billing address summary-->
     <string name="cko_billing_address" translatable="true">Billing address</string>
     <string name="cko_billing_address_info" translatable="true">We need this information as an additional security measure to verify this card.</string>

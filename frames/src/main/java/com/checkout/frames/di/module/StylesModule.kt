@@ -4,6 +4,7 @@ import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.component.AddressSummaryViewModelSubComponent
+import com.checkout.frames.di.component.BillingFormViewModelSubComponent
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
 import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
 import com.checkout.frames.di.component.CountryViewModelSubComponent
@@ -45,6 +46,7 @@ import dagger.Provides
         PaymentDetailsViewModelSubComponent::class,
         CountryViewModelSubComponent::class,
         CountryPickerViewModelSubComponent::class,
+        BillingFormViewModelSubComponent::class,
         AddressSummaryViewModelSubComponent::class,
         PayButtonViewModelSubComponent::class
     ]

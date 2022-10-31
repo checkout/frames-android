@@ -8,5 +8,6 @@ internal data class InputComponentState(
     val titleState: TextLabelState = TextLabelState(),
     val subtitleState: TextLabelState = TextLabelState(),
     val infoState: TextLabelState = TextLabelState(),
-    val errorState: TextLabelState = TextLabelState()
+    val errorState: TextLabelState = TextLabelState(),
+    val isInputFieldOptional: Boolean = false
 )

@@ -12,6 +12,7 @@ import com.checkout.frames.component.paybutton.PayButtonViewModel
 import com.checkout.frames.di.module.PaymentModule
 import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAddressDetailsViewModel
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
@@ -24,12 +25,14 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [ValidationModule::class, StylesModule::class, PaymentModule::class])
+@Suppress("TooManyFunctions")
 internal abstract class FramesDIComponent {
 
     /** Screen **/
     abstract fun inject(factory: PaymentFormViewModel.Factory)
     abstract fun inject(factory: PaymentDetailsViewModel.Factory)
     abstract fun inject(factory: CountryPickerViewModel.Factory)
+    abstract fun inject(factory: BillingAddressDetailsViewModel.Factory)
 
     /** Component **/
     abstract fun inject(factory: CardNumberViewModel.Factory)
