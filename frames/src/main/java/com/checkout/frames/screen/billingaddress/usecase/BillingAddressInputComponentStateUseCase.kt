@@ -7,6 +7,7 @@ import com.checkout.frames.component.billingaddressfields.BillingAddressInputCom
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.style.component.billingformdetails.BillingAddressInputComponentStyle
 import com.checkout.frames.style.screen.BillingAddressDetailsStyle
+import com.checkout.frames.style.screen.default.DefaultBillingAddressDetailsStyle
 
 internal class BillingAddressInputComponentStateUseCase(
     private val billingAddressInputComponentStateMapper: Mapper<BillingAddressInputComponentStyle,
@@ -14,75 +15,65 @@ internal class BillingAddressInputComponentStateUseCase(
 ) : UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsContainerState> {
 
     override fun execute(data: BillingAddressDetailsStyle): BillingAddressInputComponentsContainerState {
-        val defaultBillingAddressInputComponentStateList: MutableList<BillingAddressInputComponentState> =
+        val inputComponentStateList: MutableList<BillingAddressInputComponentState> =
             mutableListOf()
 
-        // Fill default  InputComponentState list
-        data.inputComponentsContainerStyle.inputComponentStyleList.forEach { billingFormDynamicFieldComponentStyle ->
+        data.inputComponentsContainerStyle.inputComponentStyleValues.forEach { inputComponentStyleValue ->
 
-            defaultBillingAddressInputComponentStateList.add(
+            inputComponentStateList.add(
                 billingAddressInputComponentStateMapper.map(
-                    BillingAddressInputComponentStyle(billingFormDynamicFieldComponentStyle)
+                    BillingAddressInputComponentStyle(
+                        inputComponentStyleValue.key.name,
+                        inputComponentStyleValue.value
+                    )
                 )
             )
         }
 
         return BillingAddressInputComponentsContainerState(
-            addMandatoryInputComponentsState(
-                provideInputComponentStateList(
-                    data.billingFormFieldList,
-                    defaultBillingAddressInputComponentStateList
-                ),
-                defaultBillingAddressInputComponentStateList
+            addMandatoryInputComponentsStateList(
+                provideDefaultInputComponentViewStateList(),
+                inputComponentStateList
             )
         )
     }
 
-    // Fill all view state list from the paymentStateManager which contains all enums which provided by the merchant
-    private fun provideInputComponentStateList(
-        billingAddressFields: List<BillingFormFields>,
-        defaultBillingAddressInputComponentStateList: MutableList<BillingAddressInputComponentState>
+    private fun addMandatoryInputComponentsStateList(
+        defaultInputComponentStateList: MutableList<BillingAddressInputComponentState>,
+        inputComponentStateList: MutableList<BillingAddressInputComponentState>
     ): MutableList<BillingAddressInputComponentState> {
-        val inputComponentStateList: MutableList<BillingAddressInputComponentState> = mutableListOf()
 
-        billingAddressFields.ifEmpty {
-            BillingFormFields.fetchAllDefaultBillingFormFields()
-        }.forEach { addressField ->
-            val billingAddressInputComponentState = defaultBillingAddressInputComponentStateList.find {
-                it.mappedInputComponentState.key == addressField.name
-            }
-            billingAddressInputComponentState?.let {
-                if (!inputComponentStateList.contains(it)) {
-                    inputComponentStateList.add(it)
+        BillingFormFields.fetchAllMandatoryBillingFormFields().forEach { mandatoryBillingFormField ->
+            if (inputComponentStateList.none { it.addressFieldName == mandatoryBillingFormField.name }) {
+
+                val inputComponentState =
+                    defaultInputComponentStateList.find {
+                        it.addressFieldName == mandatoryBillingFormField.name
+                    }
+
+                inputComponentState?.let {
+                    inputComponentStateList.add(inputComponentState)
                 }
             }
         }
-
         return inputComponentStateList
     }
 
-    private fun addMandatoryInputComponentsState(
-        processedList: MutableList<BillingAddressInputComponentState>,
-        defaultBillingAddressInputComponentStateList: MutableList<BillingAddressInputComponentState>
-    ): MutableList<BillingAddressInputComponentState> {
+    private fun provideDefaultInputComponentViewStateList(): MutableList<BillingAddressInputComponentState> {
+        val inputComponentViewStateList = mutableListOf<BillingAddressInputComponentState>()
 
-        BillingFormFields.fetchAllMandatoryBillingFormFields().forEach { mandatoryBillingAddressField ->
-            if (processedList.none { it.mappedInputComponentState.key == mandatoryBillingAddressField.name }) {
+        DefaultBillingAddressDetailsStyle.fetchInputComponentStyleValues().forEach {
+                billingFormDynamicFieldComponentStyle ->
 
-                val billingAddressInputComponentState =
-                    defaultBillingAddressInputComponentStateList.find {
-                        it.mappedInputComponentState.key == mandatoryBillingAddressField.name
-                    }
-
-                val mandatoryInputComponentState = billingAddressInputComponentState?.mappedInputComponentState?.let {
-                    BillingAddressInputComponentState(
-                        it
+            inputComponentViewStateList.add(
+                billingAddressInputComponentStateMapper.map(
+                    BillingAddressInputComponentStyle(
+                        billingFormDynamicFieldComponentStyle.key.name,
+                        billingFormDynamicFieldComponentStyle.value
                     )
-                }
-
-                mandatoryInputComponentState?.let { processedList.add(it) }
-            }
+                )
+            )
         }
-        return processedList
+        return inputComponentViewStateList
     }
 }
