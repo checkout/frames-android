@@ -38,6 +38,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             is CountryPickerViewModel.Factory -> component.inject(client)
             is CardSchemeViewModel.Factory -> component.inject(client)
             is AddressSummaryViewModel.Factory -> component.inject(client)
+            is BillingAddressDetailsViewModel.Factory -> component.inject(client)
             is PayButtonViewModel.Factory -> component.inject(client)
             is BillingAddressDetailsViewModel.Factory -> component.inject(client)
             else -> throw IllegalArgumentException("Invalid injection request for ${client.javaClass.name}.")
