@@ -30,6 +30,17 @@ internal class PaymentFormStateManager(
 
     override val isReadyForTokenization: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
 
+    override fun resetPaymentState() {
+        cardNumber.value = ""
+        cardScheme.value = CardScheme.UNKNOWN
+        isCardNumberValid.value = false
+        expiryDate.value = ""
+        isExpiryDateValid.value = false
+        cvv.value = ""
+        isCvvValid.value = false
+        billingAddress.value = BillingAddress()
+    }
+
     @VisibleForTesting
     fun provideCardSchemeList(): List<CardScheme> = supportedCardSchemes.ifEmpty {
         CardScheme.fetchAllSupportedCardSchemes()

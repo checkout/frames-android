@@ -9,6 +9,7 @@ import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
@@ -34,6 +35,9 @@ internal class PaymentDetailsViewModelTest {
     @RelaxedMockK
     lateinit var mockClosePaymentFlowUseCase: UseCase<Unit, Unit>
 
+    @RelaxedMockK
+    lateinit var mockPaymentStateManager: PaymentStateManager
+
     @SpyK
     lateinit var spyTextLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>
 
@@ -58,6 +62,7 @@ internal class PaymentDetailsViewModelTest {
             spyTextLabelStateMapper,
             spyClickableImageStyleMapper,
             mockClosePaymentFlowUseCase,
+            mockPaymentStateManager,
             style
         )
     }
@@ -87,6 +92,13 @@ internal class PaymentDetailsViewModelTest {
                 )
             }
         }
+
+    /** Functionality **/
+    @Test
+    fun `when view model is initialised then payment state is reset`() {
+        // Then
+        verify(exactly = 1) { mockPaymentStateManager.resetPaymentState() }
+    }
 
     private fun initMappers() {
         spyTextLabelStyleMapper = TextLabelStyleToViewStyleMapper(ContainerStyleToModifierMapper())

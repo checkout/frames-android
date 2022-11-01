@@ -13,6 +13,7 @@ import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
 import com.checkout.frames.model.request.ImageStyleToClickableImageRequest
+import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
@@ -28,11 +29,16 @@ internal class PaymentDetailsViewModel @Inject constructor(
     private val clickableImageStyleMapper: ImageStyleToClickableComposableImageMapper,
     @Named(CLOSE_PAYMENT_FLOW_DI)
     private val closePaymentFlowUseCase: UseCase<Unit, Unit>,
+    private val paymentStateManager: PaymentStateManager,
     private val style: PaymentDetailsStyle
 ) : ViewModel() {
 
     val headerStyle: TextLabelViewStyle = provideHeaderViewStyle()
     val headerState: TextLabelState = provideHeaderState()
+
+    init {
+        paymentStateManager.resetPaymentState()
+    }
 
     private fun provideHeaderViewStyle(): TextLabelViewStyle = with(style.paymentDetailsHeaderStyle) {
         textLabelStyleMapper.map(
