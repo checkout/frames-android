@@ -14,7 +14,7 @@ import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.PayButtonComponentStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
-import com.checkout.frames.tokenization.InternalCardTokenRequest
+import com.checkout.frames.paymentflow.InternalCardTokenRequest
 import com.checkout.frames.view.InternalButtonState
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK

@@ -11,9 +11,10 @@ import com.checkout.frames.di.component.CvvViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.di.component.PayButtonViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
-import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
+import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
@@ -60,6 +61,10 @@ internal abstract class StylesModule {
         @Provides
         fun provideImageStyleToComposableImageMapper(): ImageStyleToComposableImageMapper =
             ImageStyleToComposableImageMapper()
+
+        @Provides
+        fun provideImageStyleToClickableComposableImageMapper(): ImageStyleToClickableComposableImageMapper =
+            ImageStyleToClickableComposableImageMapper()
 
         @Provides
         fun provideImageStyleToDynamicComposableImageMapper(): ImageStyleToDynamicComposableImageMapper =

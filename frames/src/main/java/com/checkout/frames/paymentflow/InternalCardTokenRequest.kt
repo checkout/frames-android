@@ -1,4 +1,4 @@
-package com.checkout.frames.tokenization
+package com.checkout.frames.paymentflow
 
 import com.checkout.tokenization.model.Card
 

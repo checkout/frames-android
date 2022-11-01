@@ -1,11 +1,13 @@
 package com.checkout.frames.style.screen
 
+import com.checkout.frames.R
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.PayButtonComponentStyle
 import com.checkout.frames.style.component.CountryComponentStyle
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.CvvComponentStyle
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
+import com.checkout.frames.style.component.ScreenHeaderStyle
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
 import com.checkout.frames.style.component.default.DefaultCardNumberComponentStyle
 import com.checkout.frames.style.component.default.DefaultCountryComponentStyle
@@ -16,6 +18,10 @@ import com.checkout.frames.style.component.default.DefaultAddressSummaryComponen
 import com.checkout.frames.style.component.default.DefaultPayButtonComponentStyle
 
 public data class PaymentDetailsStyle(
+    public var paymentDetailsHeaderStyle: ScreenHeaderStyle = DefaultLightStyle.screenHeader(
+        textId = R.string.cko_payment_details_title,
+        imageId = R.drawable.cko_ic_arrow_back
+    ),
     public var cardSchemeStyle: CardSchemeComponentStyle = DefaultLightStyle.cardSchemeComponentStyle(),
     public var cardNumberStyle: CardNumberComponentStyle = DefaultCardNumberComponentStyle.light(),
     public var expiryDateComponentStyle: ExpiryDateComponentStyle = DefaultExpiryDateComponentStyle.light(),

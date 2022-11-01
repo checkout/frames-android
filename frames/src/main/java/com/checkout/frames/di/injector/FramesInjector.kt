@@ -18,8 +18,9 @@ import com.checkout.frames.di.component.FramesDIComponent
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
-import com.checkout.frames.tokenization.TokenizationResultHandler
-import com.checkout.frames.tokenization.CardTokenizationUseCase
+import com.checkout.frames.paymentflow.PaymentFlowHandler
+import com.checkout.frames.paymentflow.CardTokenizationUseCase
+import com.checkout.frames.paymentflow.ClosePaymentFlowUseCase
 import com.checkout.logging.EventLoggerProvider
 import java.lang.ref.WeakReference
 
@@ -48,19 +49,21 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             publicKey: String,
             context: Context,
             environment: Environment,
-            tokenizationResultHandler: TokenizationResultHandler,
+            paymentFlowHandler: PaymentFlowHandler,
             supportedCardSchemeList: List<CardScheme> = emptyList()
         ): Injector = weakInjector?.get() ?: run {
             val logger = EventLoggerProvider.provide().apply { setup(context, environment) }
+            val closePaymentFlowUseCase = ClosePaymentFlowUseCase(paymentFlowHandler::onClose)
             val cardTokenizationUseCase = CardTokenizationUseCase(
                 CheckoutApiServiceFactory.create(publicKey, environment, context),
-                tokenizationResultHandler::onSuccess,
-                tokenizationResultHandler::onFailure
+                paymentFlowHandler::onSuccess,
+                paymentFlowHandler::onFailure
             )
             val injector = FramesInjector(
                 DaggerFramesDIComponent.builder()
                     .logger(logger)
                     .cardTokenizationUseCase(cardTokenizationUseCase)
+                    .closePaymentFlowUseCase(closePaymentFlowUseCase)
                     .supportedCardSchemes(supportedCardSchemeList)
                     .build()
             )

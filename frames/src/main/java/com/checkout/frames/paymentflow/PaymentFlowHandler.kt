@@ -1,11 +1,11 @@
-package com.checkout.frames.tokenization
+package com.checkout.frames.paymentflow
 
 import com.checkout.tokenization.model.TokenDetails
 
 /**
- * Tokenization result handler
+ * Payment flow handler
  */
-public interface TokenizationResultHandler {
+public interface PaymentFlowHandler {
 
     /**
      * Invoked when tokenization is succeed.
@@ -14,9 +14,15 @@ public interface TokenizationResultHandler {
      */
     public fun onSuccess(tokenDetails: TokenDetails)
 
-    /** Invoked when tokenization is failed.
+    /**
+     * Invoked when tokenization is failed.
      *
      * @param errorMessage - [String]
      */
     public fun onFailure(errorMessage: String)
+
+    /**
+     * Invoked when user decides to close payment details screen
+     */
+    public fun onClose()
 }

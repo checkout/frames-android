@@ -100,7 +100,7 @@ public object DefaultTextLabelStyle {
         fontWeight: FontWeight = FontWeight.Normal,
         font: Font = HeaderTitleConstants.font,
         @ColorLong
-        color: Long = HeaderTitleConstants.color,
+        color: Long = HeaderTitleConstants.textColor,
         padding: Padding = Padding(),
         maxLines: Int = HeaderTitleConstants.maxLines,
         leadingIconSize: Int = HeaderTitleConstants.leadingIconSize,

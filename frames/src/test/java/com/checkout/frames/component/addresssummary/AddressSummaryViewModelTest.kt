@@ -32,6 +32,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -79,6 +80,12 @@ internal class AddressSummaryViewModelTest {
     fun `when view model is initialised then component style is mapped to initial component state`() {
         // Then
         verify { spyComponentStateMapper.map(style) }
+    }
+
+    @Test
+    fun `when view model is initialised then initial component state contains enabled button`() {
+        // Then
+        assertTrue(viewModel.componentState.addAddressButtonState.isEnabled.value)
     }
 
     /** Initial style tests **/

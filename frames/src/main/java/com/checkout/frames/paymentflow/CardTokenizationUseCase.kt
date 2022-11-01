@@ -1,4 +1,4 @@
-package com.checkout.frames.tokenization
+package com.checkout.frames.paymentflow
 
 import com.checkout.api.CheckoutApiService
 import com.checkout.base.usecase.UseCase
