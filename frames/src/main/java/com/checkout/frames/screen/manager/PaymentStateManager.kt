@@ -22,4 +22,6 @@ internal interface PaymentStateManager {
     val billingAddress: MutableStateFlow<BillingAddress>
 
     val isReadyForTokenization: StateFlow<Boolean>
+
+    fun resetPaymentState()
 }
