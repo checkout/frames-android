@@ -1,5 +1,7 @@
 package com.checkout.frames.screen.paymentdetails
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -8,7 +10,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -20,17 +27,24 @@ import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 import com.checkout.frames.view.TextLabel
 
 @SuppressWarnings("MagicNumber")
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun PaymentDetailsScreen(
     style: PaymentDetailsStyle,
     injector: Injector,
     navController: NavController
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val resetFocus = remember { mutableStateOf(false) }
     val viewModel: PaymentDetailsViewModel = viewModel(
         factory = PaymentDetailsViewModel.Factory(injector, style)
     )
 
-    Column {
+    Column(
+        modifier = Modifier.clickable(
+            interactionSource = interactionSource, indication = null
+        ) { resetFocus.value = true }
+    ) {
         TextLabel(style = viewModel.headerStyle, state = viewModel.headerState)
 
         Column(
@@ -71,5 +85,11 @@ internal fun PaymentDetailsScreen(
 
             viewModel.componentProvider.PayButton(style = style.payButtonComponentStyle)
         }
+    }
+
+    if (resetFocus.value) {
+        LocalSoftwareKeyboardController.current?.hide()
+        LocalFocusManager.current.clearFocus(true)
+        resetFocus.value = false
     }
 }
