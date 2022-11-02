@@ -41,7 +41,10 @@ internal class AddressSummaryViewModel @Inject constructor(
     }
 
     private fun provideState(style: AddressSummaryComponentStyle): AddressSummaryComponentState =
-        componentStateMapper.map(style).apply { addAddressButtonState.isEnabled.value = true }
+        componentStateMapper.map(style).apply {
+            addAddressButtonState.isEnabled.value = true
+            editAddressButtonState.isEnabled.value = true
+        }
 
     internal class Factory(
         private val injector: Injector,

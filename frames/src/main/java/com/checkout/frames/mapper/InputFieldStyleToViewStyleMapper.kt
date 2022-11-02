@@ -44,7 +44,8 @@ internal class InputFieldStyleToViewStyleMapper(
         borderShape = provideBorderShape(from.indicatorStyle),
         colors = provideColors(from),
         focusedBorderThickness = provideFocusedBorderThickness(from.indicatorStyle),
-        unfocusedBorderThickness = provideUnfocusedBorderThickness(from.indicatorStyle)
+        unfocusedBorderThickness = provideUnfocusedBorderThickness(from.indicatorStyle),
+        keyboardOptions = from.keyboardOptions
     )
 
     @SuppressLint("ModifierFactoryExtensionFunction")

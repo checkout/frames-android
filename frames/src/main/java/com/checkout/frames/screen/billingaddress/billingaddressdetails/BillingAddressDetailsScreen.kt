@@ -1,16 +1,24 @@
 package com.checkout.frames.screen.billingaddress.billingaddressdetails
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.component.billingaddressfields.BillingAddressDynamicInputComponent
+import com.checkout.frames.component.country.CountryComponent
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
+import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.style.screen.BillingAddressDetailsStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
@@ -26,18 +34,22 @@ internal fun BillingAddressDetailsScreen(
     navController: NavHostController,
     onClose: () -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val resetFocus = remember { mutableStateOf(false) }
+
     val viewModel: BillingAddressDetailsViewModel = viewModel(
         factory = BillingAddressDetailsViewModel.Factory(injector, style)
     )
 
-    if (viewModel.goBack.value) {
-        onClose()
-    }
+    if (viewModel.goBack.value) onClose()
 
     Column(
         modifier = viewModel.screenModifier
             .fillMaxWidth()
             .fillMaxHeight()
+            .clickable(
+                interactionSource = interactionSource, indication = null
+            ) { resetFocus.value = true }
     ) {
         HeaderComponent(
             screenTitleStyle = viewModel.screenTitleStyle,
@@ -47,16 +59,35 @@ internal fun BillingAddressDetailsScreen(
             onTapDoneButton = viewModel::onTapDoneButton
         )
 
-        BillingAddressDynamicInputComponent(
-            inputComponentViewStyleList = viewModel.inputComponentsViewContainerStyle.inputComponentViewStyleList,
-            inputComponentStateList = viewModel.inputComponentsState.inputComponentStateList,
-            countryComponentStyle = style.countryComponentStyle,
-            onFocusChange = viewModel::onFocusChanged,
-            onValueChange = viewModel::onSearchChange,
-            modifier = viewModel.inputComponentsContainerModifier,
-            injector = injector,
-            navController = navController
-        )
+        LazyColumn(
+            modifier = viewModel.inputComponentsContainerModifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
+            items(viewModel.inputComponentViewStyleList.size) { index ->
+                if (
+                    viewModel.inputComponentViewStyleList[index].addressFieldName
+                    == BillingFormFields.Country.name
+                ) {
+                    CountryComponent(style.countryComponentStyle, injector) {
+                        navController.navigate(Screen.CountryPicker.route)
+                    }
+                } else {
+                    BillingAddressDynamicInputComponent(
+                        position = index,
+                        inputComponentViewStyle = viewModel.inputComponentViewStyleList[index],
+                        inputComponentState = viewModel.inputComponentsStateList[index],
+                        onFocusChanged = viewModel::onFocusChanged,
+                        onValueChange = viewModel::onAddressFieldTextChange
+                    )
+                }
+            }
+        }
+    }
+
+    if (resetFocus.value) {
+        com.checkout.frames.utils.extensions.ResetFocus()
+        resetFocus.value = false
     }
 }
 
