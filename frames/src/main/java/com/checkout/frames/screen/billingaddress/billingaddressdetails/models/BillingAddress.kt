@@ -8,7 +8,7 @@ import java.util.Locale
 internal data class BillingAddress(
     val name: String? = null,
     val address: Address? = null,
-    val phone: Phone? = null
+    var phone: Phone? = null
 ) {
     internal constructor() : this(
         "",

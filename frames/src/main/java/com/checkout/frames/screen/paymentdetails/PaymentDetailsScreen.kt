@@ -62,7 +62,6 @@ internal fun PaymentDetailsScreen(
             Spacer(modifier = Modifier.padding(top = 32.dp))
 
             viewModel.componentProvider.PayButton(style = style.payButtonComponentStyle)
-
         }
     }
 }

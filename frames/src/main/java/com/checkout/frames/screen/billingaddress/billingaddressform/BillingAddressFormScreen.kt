@@ -21,7 +21,7 @@ internal fun BillingAddressFormScreen(
     injector: Injector,
     onClose: () -> Unit
 ) {
-    val animationDuration = 350
+    val animationDuration = 250
     val childNavController = rememberAnimatedNavController()
 
     AnimatedNavHost(childNavController, startDestination = Screen.BillingFormDetails.route) {

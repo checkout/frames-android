@@ -21,6 +21,7 @@ import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.style.view.addresssummary.AddressSummaryComponentViewStyle
 import com.checkout.tokenization.model.Address
+import com.checkout.tokenization.model.Phone
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
@@ -32,6 +33,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -99,6 +101,7 @@ internal class AddressSummaryViewModelTest {
     @Test
     fun `when address in payment state manager is changed then address summary is updated`() = runTest {
         // Given
+        val country = Country.UNITED_KINGDOM
         val testAddress = BillingAddress(
             address = Address(
                 "LINE 1",
@@ -106,10 +109,11 @@ internal class AddressSummaryViewModelTest {
                 "",
                 "",
                 "ssdfsdf",
-                Country.UNITED_KINGDOM
-            )
+                country
+            ),
+            phone = Phone("123", country)
         )
-        val expectedAddressPreview = "LINE 1\nLINE 2\nssdfsdf\nUnited Kingdom"
+        val expectedAddressPreview = "LINE 1\nLINE 2\nssdfsdf\nUnited Kingdom\n+44 123"
 
         viewModel.prepare()
 

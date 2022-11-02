@@ -3,6 +3,7 @@ package com.checkout.frames.style.component.default
 import androidx.annotation.ColorLong
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.text.KeyboardOptions
 import com.checkout.frames.R
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
@@ -106,13 +107,14 @@ public object DefaultLightStyle {
 
     public fun errorTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.error()
 
-    public fun inputFieldStyle(withLeadingIcon: Boolean = false): InputFieldStyle = InputFieldStyle(
-        textStyle = inputFieldTextStyle(),
-        indicatorStyle = indicatorStyle(),
-        placeholderStyle = placeHolderTextStyle(),
-        leadingIconStyle = if (withLeadingIcon) leadingIconStyle() else null,
-        containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
-    )
+    public fun inputFieldStyle(withLeadingIcon: Boolean = false): InputFieldStyle =
+        InputFieldStyle(
+            textStyle = inputFieldTextStyle(),
+            indicatorStyle = indicatorStyle(),
+            placeholderStyle = placeHolderTextStyle(),
+            leadingIconStyle = if (withLeadingIcon) leadingIconStyle() else null,
+            containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
+        )
 
     public fun inputComponentStyle(
         titleText: String = "",
@@ -129,7 +131,8 @@ public object DefaultLightStyle {
         placeholderResourceTextId: Int? = null,
         withLeadingIcon: Boolean = false,
         padding: Padding = Padding(),
-        isFieldOptional: Boolean = false
+        isFieldOptional: Boolean = false,
+        keyboardOptions: KeyboardOptions = KeyboardOptions.Default
     ): InputComponentStyle = InputComponentStyle(
         titleStyle = titleTextLabelStyle().apply {
             text = titleText
@@ -142,7 +145,7 @@ public object DefaultLightStyle {
         inputFieldStyle = inputFieldStyle(withLeadingIcon).apply {
             placeholderText = placeholderResourceText
             placeholderTextId = placeholderResourceTextId
-        },
+        }.copy(keyboardOptions = keyboardOptions),
         infoStyle = subtitleTextLabelStyle().apply {
             text = infoText
             textId = infoTextId

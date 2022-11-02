@@ -1,5 +1,6 @@
 package com.checkout.frames.utils.extensions
 
+import com.checkout.base.model.Country
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import java.util.Locale
 
@@ -19,13 +20,14 @@ internal fun BillingAddress.summary(): String = if (this.isValid()) {
     }
     // Phone
     if (this.phone?.number?.isNotEmpty() == true)
-        strBuilder.append("\n+${this.phone.country.dialingCode} ${this.phone.number}")
+        strBuilder.append("\n+${this.phone?.country?.dialingCode} ${this.phone?.number}")
 
     strBuilder.toString().trim()
 } else ""
 
 private fun BillingAddress.isValid(): Boolean = when {
     this.address == null -> false
-    this.address.addressLine1.isBlank() -> false
+    this.address.country == Country.INVALID_COUNTRY -> false
+    this.phone == null -> false
     else -> true
 }
