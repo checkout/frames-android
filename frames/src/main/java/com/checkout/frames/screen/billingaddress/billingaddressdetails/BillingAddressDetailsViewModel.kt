@@ -26,9 +26,10 @@ import com.checkout.frames.style.view.BillingAddressInputComponentViewStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.style.view.billingformdetails.BillingAddressInputComponentsViewContainerStyle
+import com.checkout.frames.utils.constants.BillingAddressDetailsConstants
 import com.checkout.frames.utils.extensions.getErrorMessage
-import com.checkout.frames.utils.extensions.saveBillingAddressDetails
-import com.checkout.frames.utils.extensions.updateAddressFieldText
+import com.checkout.frames.utils.extensions.provideBillingAddressDetails
+import com.checkout.frames.utils.extensions.provideAddressFieldText
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.frames.view.TextLabelState
 import kotlinx.coroutines.MainScope
@@ -85,15 +86,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
             }
         }
 
-        inputComponentsStateList.forEachIndexed { index, billingAddressInputComponentState ->
-            with(inputComponentsStateList[index]) {
-                addressFieldText.value = paymentStateManager.billingAddress.value
-                    .updateAddressFieldText(billingAddressInputComponentState.addressFieldName)
-                if (addressFieldText.value.isNotBlank() && !isInputFieldOptional) {
-                    isAddressFieldValid.value = true
-                }
-            }
-        }
+        updateInitialState()
     }
 
     private fun isReadyToSaveAddress(): StateFlow<Boolean> = combine(
@@ -108,7 +101,6 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
             .inputComponentViewStyleList
     }
 
-    @Suppress("MagicNumber")
     private fun provideInputComponentStateList(
         billingAddressDetailsStyle: BillingAddressDetailsStyle
     ): List<BillingAddressInputComponentState> {
@@ -122,7 +114,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
                 inputComponentStateList[index].inputComponentState =
                     inputComponentStateList[index].inputComponentState.copy(
                         inputFieldState = inputComponentStateList[index].inputComponentState.inputFieldState.copy(
-                            maxLength = mutableStateOf(18)
+                            maxLength = mutableStateOf(BillingAddressDetailsConstants.defaultPhoneNumberMaxLength)
                         )
                     )
             } else if (billingAddressInputComponentState.addressFieldName == BillingFormFields.Country.name) {
@@ -142,18 +134,13 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onAddressFieldTextChange(position: Int, text: String) {
-        val inputComponentsState = inputComponentsStateList[position]
+    fun onAddressFieldTextChange(position: Int, text: String) = with(inputComponentsStateList[position]) {
+        val changedTextValue = if (addressFieldName == BillingFormFields.Phone.name)
+            text.replace(onlyDigitsRegex, "") else text
 
-        val changedTextValue = if (
-            inputComponentsState.addressFieldName == BillingFormFields.Phone.name
-        ) text.replace(onlyDigitsRegex, "") else text
-
-        inputComponentsState.addressFieldText.value = changedTextValue.trim()
-        inputComponentsState.isAddressFieldValid.value =
-            changedTextValue.isNotBlank() || inputComponentsState.isInputFieldOptional
-
-        inputComponentsState.hideError()
+        addressFieldText.value = changedTextValue
+        isAddressFieldValid.value = changedTextValue.isNotBlank() || isInputFieldOptional
+        hideError()
     }
 
     private fun provideButtonState() = buttonStateMapper.map(style.headerComponentStyle.headerButtonStyle)
@@ -177,9 +164,22 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
         goBack.value = true
     }
 
+    // Update Billing address fields if navigating it from the edit billing form
+    private fun updateInitialState() {
+        inputComponentsStateList.forEachIndexed { index, billingAddressInputComponentState ->
+            with(inputComponentsStateList[index]) {
+                addressFieldText.value = paymentStateManager.billingAddress.value
+                    .provideAddressFieldText(billingAddressInputComponentState.addressFieldName)
+                if (addressFieldText.value.isNotBlank() && !isInputFieldOptional) {
+                    isAddressFieldValid.value = true
+                }
+            }
+        }
+    }
+
     private fun updateBillingAddress() {
         val country = paymentStateManager.billingAddress.value.address?.country ?: Country.INVALID_COUNTRY
-        paymentStateManager.billingAddress.value = inputComponentsStateList.saveBillingAddressDetails(country)
+        paymentStateManager.billingAddress.value = inputComponentsStateList.provideBillingAddressDetails(country)
     }
 
     internal class Factory(

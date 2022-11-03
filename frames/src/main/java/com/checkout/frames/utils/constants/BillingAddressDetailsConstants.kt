@@ -6,6 +6,7 @@ public object BillingAddressDetailsConstants {
     public const val titlePaddingBottom: Int = 16
     public const val titlePaddingStart: Int = 0
     public const val titlePaddingEnd: Int = 0
+    public const val defaultPhoneNumberMaxLength: Int = 18
 
     /** Billing form done button constants. */
     public const val buttonContainerColor: Long = 0xFF0B5FF0

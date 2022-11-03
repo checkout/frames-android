@@ -22,6 +22,7 @@ import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.style.screen.BillingAddressDetailsStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
+import com.checkout.frames.utils.extensions.ResetFocus
 import com.checkout.frames.view.InternalButton
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.frames.view.TextLabel
@@ -86,7 +87,7 @@ internal fun BillingAddressDetailsScreen(
     }
 
     if (resetFocus.value) {
-        com.checkout.frames.utils.extensions.ResetFocus()
+        ResetFocus()
         resetFocus.value = false
     }
 }
