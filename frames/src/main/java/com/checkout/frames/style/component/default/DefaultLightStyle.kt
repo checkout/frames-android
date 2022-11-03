@@ -3,6 +3,7 @@ package com.checkout.frames.style.component.default
 import androidx.annotation.ColorLong
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.text.KeyboardOptions
 import com.checkout.frames.R
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
@@ -11,13 +12,13 @@ import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.ScreenHeaderStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
-import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextStyle
-import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
-import com.checkout.frames.style.component.base.InputFieldStyle
-import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.ImageContainerStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.utils.constants.LightStyleConstants
 import com.checkout.frames.utils.constants.CardSchemeConstants
 import com.checkout.frames.utils.constants.HeaderTitleConstants
@@ -106,13 +107,18 @@ public object DefaultLightStyle {
 
     public fun errorTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.error()
 
-    public fun inputFieldStyle(withLeadingIcon: Boolean = false): InputFieldStyle = InputFieldStyle(
-        textStyle = inputFieldTextStyle(),
-        indicatorStyle = indicatorStyle(),
-        placeholderStyle = placeHolderTextStyle(),
-        leadingIconStyle = if (withLeadingIcon) leadingIconStyle() else null,
-        containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
-    )
+    public fun inputFieldStyle(
+        withLeadingIcon: Boolean = false,
+        keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    ): InputFieldStyle =
+        InputFieldStyle(
+            textStyle = inputFieldTextStyle(),
+            indicatorStyle = indicatorStyle(),
+            placeholderStyle = placeHolderTextStyle(),
+            leadingIconStyle = if (withLeadingIcon) leadingIconStyle() else null,
+            containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop)),
+            keyboardOptions = keyboardOptions
+        )
 
     public fun inputComponentStyle(
         titleText: String = "",
@@ -121,10 +127,16 @@ public object DefaultLightStyle {
         subtitleText: String = "",
         @StringRes
         subtitleTextId: Int? = null,
+        infoText: String = "",
+        @StringRes
+        infoTextId: Int? = null,
         placeholderResourceText: String = "",
         @StringRes
         placeholderResourceTextId: Int? = null,
         withLeadingIcon: Boolean = false,
+        padding: Padding = Padding(),
+        isFieldOptional: Boolean = false,
+        keyboardOptions: KeyboardOptions = KeyboardOptions.Default
     ): InputComponentStyle = InputComponentStyle(
         titleStyle = titleTextLabelStyle().apply {
             text = titleText
@@ -134,11 +146,17 @@ public object DefaultLightStyle {
             text = subtitleText
             textId = subtitleTextId
         },
-        inputFieldStyle = inputFieldStyle(withLeadingIcon).apply {
+        inputFieldStyle = inputFieldStyle(withLeadingIcon, keyboardOptions).apply {
             placeholderText = placeholderResourceText
             placeholderTextId = placeholderResourceTextId
         },
-        errorMessageStyle = errorTextLabelStyle()
+        infoStyle = subtitleTextLabelStyle().apply {
+            text = infoText
+            textId = infoTextId
+        },
+        errorMessageStyle = errorTextLabelStyle(),
+        containerStyle = ContainerStyle(padding = padding),
+        isInputFieldOptional = isFieldOptional
     )
 
     public fun cardSchemeComponentStyle(

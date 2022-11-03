@@ -2,7 +2,7 @@ package com.checkout.frames.manager
 
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Country
-import com.checkout.frames.screen.billingformdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.tokenization.model.Phone
 import org.junit.jupiter.api.Assertions
