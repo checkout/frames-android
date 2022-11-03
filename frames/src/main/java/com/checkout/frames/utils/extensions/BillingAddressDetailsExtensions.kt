@@ -8,7 +8,7 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.Bi
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.tokenization.model.Phone
 
-internal fun List<BillingAddressInputComponentState>.saveBillingAddressDetails(country: Country): BillingAddress {
+internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetails(country: Country): BillingAddress {
     val billingAddress = BillingAddress()
 
     val phoneInputComponentState = this.find {
@@ -41,11 +41,11 @@ internal fun List<BillingAddressInputComponentState>.saveBillingAddressDetails(c
     )
     billingAddress.address?.let { address ->
         address.country = country
-        address.addressLine1 = addressLineOneInputComponentState?.addressFieldText?.value ?: ""
-        address.addressLine2 = addressLineTwoInputComponentState?.addressFieldText?.value ?: ""
-        address.state = stateInputComponentState?.addressFieldText?.value ?: ""
-        address.city = cityInputComponentState?.addressFieldText?.value ?: ""
-        address.zip = zipInputComponentState?.addressFieldText?.value ?: ""
+        address.addressLine1 = addressLineOneInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
+        address.addressLine2 = addressLineTwoInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
+        address.state = stateInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
+        address.city = cityInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
+        address.zip = zipInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
     }
 
     return billingAddress
@@ -78,7 +78,7 @@ internal fun BillingAddressInputComponentState.getErrorMessage(): Int {
     }
 }
 
-internal fun BillingAddress.updateAddressFieldText(
+internal fun BillingAddress.provideAddressFieldText(
     addressFieldName: String
 ): String {
     return when (addressFieldName) {

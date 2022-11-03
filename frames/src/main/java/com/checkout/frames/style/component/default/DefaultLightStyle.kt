@@ -107,13 +107,17 @@ public object DefaultLightStyle {
 
     public fun errorTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.error()
 
-    public fun inputFieldStyle(withLeadingIcon: Boolean = false): InputFieldStyle =
+    public fun inputFieldStyle(
+        withLeadingIcon: Boolean = false,
+        keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    ): InputFieldStyle =
         InputFieldStyle(
             textStyle = inputFieldTextStyle(),
             indicatorStyle = indicatorStyle(),
             placeholderStyle = placeHolderTextStyle(),
             leadingIconStyle = if (withLeadingIcon) leadingIconStyle() else null,
-            containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop))
+            containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop)),
+            keyboardOptions = keyboardOptions
         )
 
     public fun inputComponentStyle(
@@ -142,10 +146,10 @@ public object DefaultLightStyle {
             text = subtitleText
             textId = subtitleTextId
         },
-        inputFieldStyle = inputFieldStyle(withLeadingIcon).apply {
+        inputFieldStyle = inputFieldStyle(withLeadingIcon, keyboardOptions).apply {
             placeholderText = placeholderResourceText
             placeholderTextId = placeholderResourceTextId
-        }.copy(keyboardOptions = keyboardOptions),
+        },
         infoStyle = subtitleTextLabelStyle().apply {
             text = infoText
             textId = infoTextId
