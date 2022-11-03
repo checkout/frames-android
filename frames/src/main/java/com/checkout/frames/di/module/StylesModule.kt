@@ -48,7 +48,6 @@ import dagger.Provides
         CountryViewModelSubComponent::class,
         CountryPickerViewModelSubComponent::class,
         BillingFormViewModelSubComponent::class,
-        AddressSummaryViewModelSubComponent::class
         AddressSummaryViewModelSubComponent::class,
         PayButtonViewModelSubComponent::class
     ]
