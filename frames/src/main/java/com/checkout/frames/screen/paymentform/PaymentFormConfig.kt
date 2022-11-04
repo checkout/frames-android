@@ -13,4 +13,14 @@ public data class PaymentFormConfig(
     public var style: PaymentFormStyle,
     public val paymentFlowHandler: PaymentFlowHandler,
     public var supportedCardSchemeList: List<CardScheme> = emptyList()
-)
+) {
+    public constructor(
+        publicKey: String,
+        context: Context,
+        environment: Environment,
+        style: PaymentFormStyle,
+        mPaymentFlowHandler: PaymentFlowHandler
+    ) : this(
+        publicKey, context, environment, style, mPaymentFlowHandler, emptyList()
+    )
+}

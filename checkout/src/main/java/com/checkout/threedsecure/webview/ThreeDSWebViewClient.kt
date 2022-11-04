@@ -11,7 +11,7 @@ import com.checkout.threedsecure.logging.ThreeDSLogger
 import com.checkout.threedsecure.utils.toThreeDSError
 
 internal class ThreeDSWebViewClient(
-    private val onResult: (url: String?) -> Unit,
+    private val onResult: (url: String?) -> Boolean,
     private val onError: (error: ThreeDSError) -> Unit,
     private val logger: ThreeDSLogger
 ) : WebViewClient() {
@@ -28,6 +28,10 @@ internal class ThreeDSWebViewClient(
         }
     }
 
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        return request?.url?.let { onResult(it.toString()) } ?: super.shouldOverrideUrlLoading(view, request)
+    }
+
     override fun onPageCommitVisible(view: WebView?, url: String?) {
         super.onPageCommitVisible(view, url)
 
@@ -35,11 +39,6 @@ internal class ThreeDSWebViewClient(
             logger.logLoadedEvent(true)
             loadedFirstTime = false
         }
-    }
-
-    override fun onPageFinished(view: WebView?, url: String?) {
-        super.onPageFinished(view, url)
-        onResult(url)
     }
 
     override fun onReceivedError(

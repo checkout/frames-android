@@ -8,6 +8,12 @@ import com.checkout.tokenization.model.TokenDetails
 public interface PaymentFlowHandler {
 
     /**
+     * Invoked when tokenization is started.
+     * Can be used to show a progress bar.
+     */
+    public fun onSubmit()
+
+    /**
      * Invoked when tokenization is succeed.
      *
      * @param tokenDetails - [TokenDetails]
@@ -24,5 +30,5 @@ public interface PaymentFlowHandler {
     /**
      * Invoked when user decides to close payment details screen
      */
-    public fun onClose()
+    public fun onBackPressed()
 }

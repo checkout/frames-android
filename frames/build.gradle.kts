@@ -36,5 +36,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":checkout"))
+    api(project(":checkout"))
 }
