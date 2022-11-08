@@ -108,6 +108,7 @@ internal class PayButtonViewModelTest {
         spyPaymentStateManager.isCardNumberValid.value = true
         spyPaymentStateManager.isCvvValid.value = true
         spyPaymentStateManager.isExpiryDateValid.value = true
+        spyPaymentStateManager.isBillingAddressValid.value = true
 
         // Then
         testScheduler.advanceUntilIdle()

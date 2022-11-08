@@ -12,16 +12,20 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.utils.constants.AddressSummaryConstants
 import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.utils.constants.LightStyleConstants
+import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 
 public object DefaultAddressSummaryComponentStyle {
 
-    public fun light(): AddressSummaryComponentStyle {
+    public fun light(isOptional: Boolean = false): AddressSummaryComponentStyle {
         val titleStyle = DefaultTextLabelStyle.title(textId = R.string.cko_billing_address)
         val subTitleStyle = DefaultTextLabelStyle.subtitle(textId = R.string.cko_billing_address_info)
         val addAddressButtonStyle = DefaultButtonStyle.lightOutline(
             textId = R.string.cko_add_billing_address,
             trailingIconStyle = DefaultImageStyle.buttonTrailingImageStyle(),
-            margin = Margin(top = AddressSummaryConstants.marginBeforeSummarySection)
+            margin = Margin(
+                top = AddressSummaryConstants.marginBeforeSummarySection,
+                bottom = PaymentDetailsScreenConstants.marginBottom
+            )
         )
         val summarySectionStyle = AddressSummarySectionStyle(
             addressTextStyle = DefaultTextLabelStyle.text(
@@ -41,7 +45,10 @@ public object DefaultAddressSummaryComponentStyle {
                     BorderConstants.unfocusedBorderThickness,
                     LightStyleConstants.unfocusedBorderColor
                 ),
-                margin = Margin(top = AddressSummaryConstants.marginBeforeSummarySection)
+                margin = Margin(
+                    top = AddressSummaryConstants.marginBeforeSummarySection,
+                    bottom = PaymentDetailsScreenConstants.marginBottom
+                )
             )
         )
 
@@ -49,7 +56,8 @@ public object DefaultAddressSummaryComponentStyle {
             titleStyle,
             subTitleStyle,
             addAddressButtonStyle,
-            summarySectionStyle
+            summarySectionStyle,
+            isOptional = isOptional
         )
     }
 }

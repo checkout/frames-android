@@ -135,6 +135,7 @@ public object DefaultLightStyle {
         placeholderResourceTextId: Int? = null,
         withLeadingIcon: Boolean = false,
         padding: Padding = Padding(),
+        margin: Margin = Margin(),
         isFieldOptional: Boolean = false,
         keyboardOptions: KeyboardOptions = KeyboardOptions.Default
     ): InputComponentStyle = InputComponentStyle(
@@ -155,7 +156,7 @@ public object DefaultLightStyle {
             textId = infoTextId
         },
         errorMessageStyle = errorTextLabelStyle(),
-        containerStyle = ContainerStyle(padding = padding),
+        containerStyle = ContainerStyle(padding = padding, margin = margin),
         isInputFieldOptional = isFieldOptional
     )
 

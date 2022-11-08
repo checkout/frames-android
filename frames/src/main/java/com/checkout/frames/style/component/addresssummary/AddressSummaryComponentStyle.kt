@@ -9,7 +9,8 @@ public data class AddressSummaryComponentStyle(
     val subTitleStyle: TextLabelStyle? = null,
     val addAddressButtonStyle: ButtonStyle,
     val summarySectionStyle: AddressSummarySectionStyle,
-    val containerStyle: ContainerStyle = ContainerStyle()
+    val containerStyle: ContainerStyle = ContainerStyle(),
+    val isOptional: Boolean = false
 ) {
     public constructor() : this(
         summarySectionStyle = AddressSummarySectionStyle(

@@ -41,8 +41,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -194,7 +194,19 @@ internal class BillingAddressDetailsViewModelTest {
         viewModel.onTapDoneButton()
 
         // Then
-        Assertions.assertTrue(viewModel.goBack.value)
+        assertTrue(viewModel.goBack.value)
+    }
+
+    @Test
+    fun `when save button is clicked then billing address in payment state manager marked as valid`() {
+        // Given
+        spyPaymentStateManager.isBillingAddressValid.value = false
+
+        // When
+        viewModel.onTapDoneButton()
+
+        // Then
+        assertTrue(spyPaymentStateManager.isBillingAddressValid.value)
     }
 
     @Test
@@ -207,7 +219,7 @@ internal class BillingAddressDetailsViewModelTest {
 
         // Then
         testScheduler.advanceUntilIdle()
-        Assertions.assertTrue(viewModel.screenButtonState.isEnabled.value)
+        assertTrue(viewModel.screenButtonState.isEnabled.value)
     }
 
     @Test
@@ -284,8 +296,8 @@ internal class BillingAddressDetailsViewModelTest {
 
         // Then
         with(viewModel.inputComponentsStateList[givenPosition].inputComponentState) {
-            Assertions.assertTrue(inputFieldState.isError.value)
-            Assertions.assertTrue(errorState.isVisible.value)
+            assertTrue(inputFieldState.isError.value)
+            assertTrue(errorState.isVisible.value)
             assertEquals(errorState.textId.value, R.string.cko_billing_form_input_field_address_line_one_error)
         }
     }

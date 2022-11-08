@@ -25,20 +25,25 @@ internal class PaymentFormStateManager(
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())
+    override val isBillingAddressValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override val supportedCardSchemeList = provideCardSchemeList()
 
     override val isReadyForTokenization: StateFlow<Boolean> = provideIsReadyTokenizeFlow()
 
-    override fun resetPaymentState() {
+    override fun resetPaymentState(
+        isCvvValid: Boolean,
+        isBillingAddressValid: Boolean
+    ) {
         cardNumber.value = ""
         cardScheme.value = CardScheme.UNKNOWN
         isCardNumberValid.value = false
         expiryDate.value = ""
         isExpiryDateValid.value = false
         cvv.value = ""
-        isCvvValid.value = false
+        this.isCvvValid.value = isCvvValid
         billingAddress.value = BillingAddress()
+        this.isBillingAddressValid.value = isBillingAddressValid
     }
 
     @VisibleForTesting
@@ -49,7 +54,8 @@ internal class PaymentFormStateManager(
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
         isCardNumberValid,
         isExpiryDateValid,
-        isCvvValid
+        isCvvValid,
+        isBillingAddressValid
     ) { values -> values.all { it } }
         .stateIn(MainScope(), SharingStarted.Lazily, false)
 }

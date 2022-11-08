@@ -27,7 +27,8 @@ internal class AddressSummaryViewModel @Inject constructor(
 
     fun prepare() = viewModelScope.launch {
         paymentStateManager.billingAddress.collect { billingAddress ->
-            componentState.addressPreviewState.text.value = billingAddress.summary()
+            componentState.addressPreviewState.text.value =
+                if (paymentStateManager.isBillingAddressValid.value) billingAddress.summary() else ""
         }
     }
 

@@ -3,8 +3,6 @@ package com.checkout.frames.screen.paymentdetails
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.rememberScrollState
@@ -16,13 +14,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.style.screen.PaymentDetailsStyle
-import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 import com.checkout.frames.view.TextLabel
 
 @SuppressWarnings("MagicNumber")
@@ -47,34 +43,31 @@ internal fun PaymentDetailsScreen(
         TextLabel(style = viewModel.headerStyle, state = viewModel.headerState)
 
         Column(
-            modifier = Modifier
-                .padding(
-                    start = PaymentDetailsScreenConstants.padding.dp,
-                    end = PaymentDetailsScreenConstants.padding.dp
-                )
+            modifier = viewModel.fieldsContainerModifier
                 .fillMaxWidth()
                 .fillMaxHeight()
                 .verticalScroll(rememberScrollState())
         ) {
+            // Cards schemes
             viewModel.componentProvider.CardScheme(style = style.cardSchemeStyle)
 
+            // Card Number
             viewModel.componentProvider.CardNumber(style = style.cardNumberStyle)
 
-            Spacer(modifier = Modifier.padding(top = 24.dp))
-
+            // Expiry Date
             viewModel.componentProvider.ExpiryDate(style = style.expiryDateComponentStyle)
 
-            Spacer(modifier = Modifier.padding(top = 24.dp))
+            // CVV
+            style.cvvComponentStyle?.let { viewModel.componentProvider.Cvv(style = it) }
 
-            viewModel.componentProvider.Cvv(style = style.cvvComponentStyle)
-
-            Spacer(modifier = Modifier.padding(top = 24.dp))
-
-            viewModel.componentProvider.AddressSummary(style.addressSummaryComponentStyle) {
-                navController.navigate(Screen.BillingFormScreen.route)
+            // Billing Address Summary
+            style.addressSummaryComponentStyle?.let { addressSummaryStyle ->
+                viewModel.componentProvider.AddressSummary(style = addressSummaryStyle) {
+                    navController.navigate(Screen.BillingFormScreen.route)
+                }
             }
-            Spacer(modifier = Modifier.padding(top = 32.dp))
 
+            // Pay Button
             viewModel.componentProvider.PayButton(style = style.payButtonComponentStyle)
         }
     }
