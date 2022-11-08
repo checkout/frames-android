@@ -40,12 +40,12 @@
     <string name="cko_billing_form_input_field_info" translatable="true">Optional</string>
 
     <!--Billing form screen error messages-->
-    <string name="cko_billing_form_input_field_address_line_one_error" translatable="true">Missing Address Line 1</string>
-    <string name="cko_billing_form_input_field_address_line_two_error" translatable="true">Missing Address Line 2</string>
+    <string name="cko_billing_form_input_field_address_line_one_error" translatable="true">Missing Address line 1</string>
+    <string name="cko_billing_form_input_field_address_line_two_error" translatable="true">Missing Address line 2</string>
     <string name="cko_billing_form_input_field_city_error" translatable="true">Missing City</string>
     <string name="cko_billing_form_input_field_state_error" translatable="true">Missing State</string>
-    <string name="cko_billing_form_input_field_post_code_error" translatable="true">Missing PostCode</string>
-    <string name="cko_billing_form_input_field_phone_number_error" translatable="true">Missing Phone Number</string>
+    <string name="cko_billing_form_input_field_post_code_error" translatable="true">Missing Postcode</string>
+    <string name="cko_billing_form_input_field_phone_number_error" translatable="true">Missing Phone number</string>
 
     <!--Billing address summary-->
     <string name="cko_billing_address" translatable="true">Billing address</string>
