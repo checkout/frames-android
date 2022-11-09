@@ -15,7 +15,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 @SuppressWarnings("MagicNumber")
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-public fun PaymentFormScreen(config: PaymentFormConfig) {
+internal fun PaymentFormScreen(config: PaymentFormConfig) {
     val animationDuration = 350
     val navController = rememberAnimatedNavController()
     val viewModel: PaymentFormViewModel = viewModel(

@@ -13,7 +13,7 @@ import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.R
 import com.checkout.frames.screen.paymentform.PaymentFormConfig
-import com.checkout.frames.screen.paymentform.PaymentFormScreen
+import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.paymentflow.PaymentFlowHandler
 import com.checkout.tokenization.model.TokenDetails
@@ -43,15 +43,19 @@ fun Navigator(
         context = context,
         environment = ENVIRONMENT,
         paymentFlowHandler = object : PaymentFlowHandler {
+            override fun onSubmit() {
+                /*Intentionally left empty*/
+            }
             override fun onSuccess(tokenDetails: TokenDetails) = onSuccess(tokenDetails)
             override fun onFailure(errorMessage: String) = onFailure(errorMessage)
-            override fun onClose() { navController.navigateUp() }
+            override fun onBackPressed() { navController.navigateUp() }
         },
         style = PaymentFormStyle()
-        )
+    )
+    val paymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
 
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }
-        composable(route = Screen.DefaultUI.route) { PaymentFormScreen(defaultPaymentFormConfig) }
+        composable(route = Screen.DefaultUI.route) { paymentFormMediator.PaymentForm() }
     }
 }

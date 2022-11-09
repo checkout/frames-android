@@ -32,6 +32,7 @@ internal class CardTokenizationUseCaseTest {
 
     private lateinit var cardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>
 
+    private var merchantOnStart: Boolean = false
     private var merchantResultErrorMessage: String? = null
     private var merchantResultTokenDetails: TokenDetails? = null
 
@@ -39,9 +40,24 @@ internal class CardTokenizationUseCaseTest {
     fun setUp() {
         cardTokenizationUseCase = CardTokenizationUseCase(
             mockCheckoutApiService,
+            { merchantOnStart = true },
             { merchantResultTokenDetails = it },
             { merchantResultErrorMessage = it }
         )
+    }
+
+    @Test
+    fun `when usecase is executed then onStart is invoked`() {
+        // Given
+        val fakeCard = Card(ExpiryDate(2, 24), number = "")
+        val request = InternalCardTokenRequest(fakeCard, {}, {})
+        merchantOnStart = false
+
+        // When
+        cardTokenizationUseCase.execute(request)
+
+        // Then
+        assertTrue(merchantOnStart)
     }
 
     @Test

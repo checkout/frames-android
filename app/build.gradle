@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     defaultConfig {
         applicationId "checkout.checkout_android"
-        minSdkVersion 21
-        targetSdkVersion 31
+        minSdkVersion 24
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,10 +43,7 @@ android {
 }
 
 dependencies {
-    // Frames module dependency
-    implementation FramesConfig.framesAndroidDependency
-
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation'androidx.activity:activity:1.6.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
@@ -59,15 +56,6 @@ dependencies {
     ext.okHttpVersion = '4.9.0'
     implementation 'com.squareup.okhttp3:okhttp:' + ext.okHttpVersion
     implementation 'com.squareup.okhttp3:logging-interceptor:' + ext.okHttpVersion
-}
 
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        if (FramesConfig.useLocalModuleDependencies) {
-
-            substitute(module("${FramesConfig.productGroupId}:${FramesConfig.productArtefactId}"))
-                    .using(project(":android-sdk"))
-                    .because("Development and QA validation is performed using the local project module")
-        }
-    }
+    implementation(project(":frames"))
 }

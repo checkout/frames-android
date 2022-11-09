@@ -23,7 +23,6 @@ import com.checkout.frames.paymentflow.PaymentFlowHandler
 import com.checkout.frames.paymentflow.CardTokenizationUseCase
 import com.checkout.frames.paymentflow.ClosePaymentFlowUseCase
 import com.checkout.logging.EventLoggerProvider
-import java.lang.ref.WeakReference
 
 internal class FramesInjector(private val component: FramesDIComponent) : Injector {
 
@@ -45,23 +44,22 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
     }
 
     companion object {
-        private var weakInjector: WeakReference<Injector>? = null
-
         internal fun create(
             publicKey: String,
             context: Context,
             environment: Environment,
             paymentFlowHandler: PaymentFlowHandler,
             supportedCardSchemeList: List<CardScheme> = emptyList()
-        ): Injector = weakInjector?.get() ?: run {
+        ): Injector {
             val logger = EventLoggerProvider.provide().apply { setup(context, environment) }
-            val closePaymentFlowUseCase = ClosePaymentFlowUseCase(paymentFlowHandler::onClose)
+            val closePaymentFlowUseCase = ClosePaymentFlowUseCase(paymentFlowHandler::onBackPressed)
             val cardTokenizationUseCase = CardTokenizationUseCase(
                 CheckoutApiServiceFactory.create(publicKey, environment, context),
+                paymentFlowHandler::onSubmit,
                 paymentFlowHandler::onSuccess,
                 paymentFlowHandler::onFailure
             )
-            val injector = FramesInjector(
+            return FramesInjector(
                 DaggerFramesDIComponent.builder()
                     .logger(logger)
                     .cardTokenizationUseCase(cardTokenizationUseCase)
@@ -69,8 +67,6 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
                     .supportedCardSchemes(supportedCardSchemeList)
                     .build()
             )
-            weakInjector = WeakReference(injector)
-            injector
         }
     }
 }

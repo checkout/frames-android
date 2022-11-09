@@ -24,7 +24,7 @@ internal class ThreeDSWebViewClientTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        client = ThreeDSWebViewClient({}, {}, logger)
+        client = ThreeDSWebViewClient({ true }, {}, logger)
     }
 
     @Test

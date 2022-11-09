@@ -16,7 +16,7 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 internal class ProcessThreeDSUseCaseTest {
 
-    private lateinit var processThreeDSUseCase: UseCase<ProcessThreeDSRequest, ThreeDSResult>
+    private lateinit var processThreeDSUseCase: UseCase<ProcessThreeDSRequest, ThreeDSResult?>
 
     @Before
     fun setUp() {
@@ -95,20 +95,18 @@ internal class ProcessThreeDSUseCaseTest {
     }
 
     @Test
-    fun `when redirect url is not recognized then return correct error result`() {
+    fun `when redirect url is not recognized then return null`() {
         // Given
         val mockRequest = ProcessThreeDSRequest(
             redirectUrl = "https://www.test.for.test/unknown",
             successUrl = "https://successUrl/test",
             failureUrl = "https://failure/test"
         )
-        val expected = ThreeDSResult.Error(ThreeDSError(ThreeDSError.RECEIVED_FAILURE_URL, "Unrecognized url."))
 
         // When
         val result = processThreeDSUseCase.execute(mockRequest)
 
         // Then
-        assertTrue(result is ThreeDSResult.Error)
-        assertEquals(expected.error.errorCode, (result as? ThreeDSResult.Error)?.error?.errorCode)
+        assertEquals(null, result)
     }
 }

@@ -1,6 +1,7 @@
 package com.checkout.threedsecure
 
 import android.webkit.WebView
+import androidx.annotation.RestrictTo
 import androidx.annotation.VisibleForTesting
 import com.checkout.base.usecase.UseCase
 import com.checkout.threedsecure.error.ThreeDSError
@@ -12,15 +13,16 @@ import com.checkout.threedsecure.model.ThreeDSResultHandler
 import com.checkout.threedsecure.webview.ThreeDSWebView
 import com.checkout.threedsecure.webview.ThreeDSWebViewClient
 
-internal class ThreeDSExecutor(
-    private val processResultUseCase: UseCase<ProcessThreeDSRequest, ThreeDSResult>,
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public class ThreeDSExecutor(
+    private val processResultUseCase: UseCase<ProcessThreeDSRequest, ThreeDSResult?>,
     private val logger: ThreeDSLogger
 ) : Executor<ThreeDSRequest> {
 
-    override fun execute(request: ThreeDSRequest) = request.container.addView(provideWebView(request))
+    override fun execute(request: ThreeDSRequest): Unit = request.container.addView(provideWebView(request))
 
     @VisibleForTesting
-    fun provideWebView(request: ThreeDSRequest): WebView = with(request) {
+    public fun provideWebView(request: ThreeDSRequest): WebView = with(request) {
         ThreeDSWebView(container.context).apply {
             webViewClient = ThreeDSWebViewClient(
                 onResult = { handleResult(it, successUrl, failureUrl, resultHandler) },
@@ -32,23 +34,28 @@ internal class ThreeDSExecutor(
     }
 
     @VisibleForTesting
-    fun handleResult(
+    public fun handleResult(
         url: String?,
         successUrl: String,
         failureUrl: String,
         resultHandler: ThreeDSResultHandler
-    ) {
+    ): Boolean {
         val threeDSResult = processResultUseCase.execute(ProcessThreeDSRequest(url, successUrl, failureUrl))
-        logger.logCompletedEvent(
-            success = threeDSResult is ThreeDSResult.Success,
-            token = (threeDSResult as? ThreeDSResult.Success)?.token,
-            error = (threeDSResult as? ThreeDSResult.Error)?.error
-        )
-        resultHandler.invoke(threeDSResult)
+
+        threeDSResult?.let {
+            logger.logCompletedEvent(
+                success = it is ThreeDSResult.Success,
+                token = (it as? ThreeDSResult.Success)?.token,
+                error = (it as? ThreeDSResult.Error)?.error
+            )
+            resultHandler.invoke(it)
+            return true
+        }
+        return false
     }
 
     @VisibleForTesting
-    fun handleError(error: ThreeDSError, resultHandler: ThreeDSResultHandler) {
+    public fun handleError(error: ThreeDSError, resultHandler: ThreeDSResultHandler) {
         logger.logLoadedEvent(false, error)
         resultHandler.invoke(ThreeDSResult.Error(error))
     }

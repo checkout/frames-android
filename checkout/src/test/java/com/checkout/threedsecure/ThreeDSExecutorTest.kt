@@ -34,7 +34,7 @@ import java.util.stream.Stream
 internal class ThreeDSExecutorTest {
 
     @RelaxedMockK
-    lateinit var processThreeDSUseCase: UseCase<ProcessThreeDSRequest, ThreeDSResult>
+    lateinit var processThreeDSUseCase: UseCase<ProcessThreeDSRequest, ThreeDSResult?>
 
     @RelaxedMockK
     lateinit var mockContext: Context

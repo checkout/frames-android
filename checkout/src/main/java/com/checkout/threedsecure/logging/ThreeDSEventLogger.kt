@@ -1,5 +1,6 @@
 package com.checkout.threedsecure.logging
 
+import androidx.annotation.RestrictTo
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
@@ -7,16 +8,17 @@ import com.checkout.logging.utils.putErrorAttributes
 import com.checkout.logging.utils.SUCCESS
 import com.checkout.logging.utils.TOKEN_ID
 
-internal class ThreeDSEventLogger(
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public class ThreeDSEventLogger(
     private val logger: Logger<LoggingEvent>
 ) : ThreeDSLogger {
 
-    override fun logPresentedEvent() = logEvent(ThreeDSEventType.PRESENTED)
+    override fun logPresentedEvent(): Unit = logEvent(ThreeDSEventType.PRESENTED)
 
-    override fun logLoadedEvent(success: Boolean, error: Throwable?) =
+    override fun logLoadedEvent(success: Boolean, error: Throwable?): Unit =
         logEvent(ThreeDSEventType.LOADED, success, error)
 
-    override fun logCompletedEvent(success: Boolean, token: String?, error: Throwable?) =
+    override fun logCompletedEvent(success: Boolean, token: String?, error: Throwable?): Unit =
         logEvent(ThreeDSEventType.COMPLETED, success, error, token)
 
     private fun logEvent(

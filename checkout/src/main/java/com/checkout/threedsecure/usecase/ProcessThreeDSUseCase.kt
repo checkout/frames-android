@@ -1,20 +1,22 @@
 package com.checkout.threedsecure.usecase
 
 import android.net.Uri
+import androidx.annotation.RestrictTo
 import com.checkout.base.usecase.UseCase
 import com.checkout.threedsecure.error.ThreeDSError
 import com.checkout.threedsecure.model.ProcessThreeDSRequest
 import com.checkout.threedsecure.model.ThreeDSResult
 import com.checkout.threedsecure.utils.matches
 
-internal class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSResult> {
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSResult?> {
 
     private companion object {
         const val KEY_PAYMENT_TOKEN = "cko-payment-token"
         const val KEY_SESSION_ID = "cko-session-id"
     }
 
-    override fun execute(data: ProcessThreeDSRequest): ThreeDSResult = with(data) {
+    override fun execute(data: ProcessThreeDSRequest): ThreeDSResult? = with(data) {
         val redirectUri = Uri.parse(redirectUrl)
 
         return when {
@@ -25,7 +27,7 @@ internal class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSRes
                 else ThreeDSResult.Success(token)
             }
             Uri.parse(failureUrl).matches(redirectUri) -> ThreeDSResult.Failure
-            else -> provideError(ThreeDSError.RECEIVED_FAILURE_URL, "Unrecognized url.")
+            else -> null
         }
     }
 
