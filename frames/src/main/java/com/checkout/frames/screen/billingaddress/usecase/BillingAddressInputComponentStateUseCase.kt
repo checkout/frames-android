@@ -15,8 +15,7 @@ internal class BillingAddressInputComponentStateUseCase(
 ) : UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsContainerState> {
 
     override fun execute(data: BillingAddressDetailsStyle): BillingAddressInputComponentsContainerState {
-        val inputComponentStateList: MutableList<BillingAddressInputComponentState> =
-            mutableListOf()
+        val inputComponentStateList: MutableList<BillingAddressInputComponentState> = mutableListOf()
 
         data.inputComponentsContainerStyle.inputComponentStyleValues.forEach { inputComponentStyleValue ->
 
