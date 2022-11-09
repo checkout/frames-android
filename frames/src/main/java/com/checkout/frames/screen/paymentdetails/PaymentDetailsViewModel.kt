@@ -1,6 +1,7 @@
 package com.checkout.frames.screen.paymentdetails
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.checkout.base.mapper.Mapper
@@ -14,6 +15,7 @@ import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
 import com.checkout.frames.model.request.ImageStyleToClickableImageRequest
 import com.checkout.frames.screen.manager.PaymentStateManager
+import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
@@ -26,6 +28,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
     val componentProvider: ComponentProvider,
     private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
     private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
+    private val containerMapper: Mapper<ContainerStyle, Modifier>,
     private val clickableImageStyleMapper: ImageStyleToClickableComposableImageMapper,
     @Named(CLOSE_PAYMENT_FLOW_DI)
     private val closePaymentFlowUseCase: UseCase<Unit, Unit>,
@@ -35,9 +38,12 @@ internal class PaymentDetailsViewModel @Inject constructor(
 
     val headerStyle: TextLabelViewStyle = provideHeaderViewStyle()
     val headerState: TextLabelState = provideHeaderState()
+    val fieldsContainerModifier: Modifier = containerMapper.map(style.fieldsContainerStyle)
 
     init {
-        paymentStateManager.resetPaymentState()
+        val isCvvValidByDefault = style.cvvComponentStyle == null
+        val isBillingAddressValidByDefault = style.addressSummaryComponentStyle?.isOptional ?: true
+        paymentStateManager.resetPaymentState(isCvvValidByDefault, isBillingAddressValidByDefault)
     }
 
     private fun provideHeaderViewStyle(): TextLabelViewStyle = with(style.paymentDetailsHeaderStyle) {

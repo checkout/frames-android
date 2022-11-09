@@ -18,10 +18,10 @@ import com.checkout.frames.utils.constants.BillingAddressDetailsConstants
 import com.checkout.frames.utils.constants.LightStyleConstants
 
 public object DefaultBillingAddressDetailsStyle {
-    public val defaultKeyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
 
     @Suppress("LongMethod")
     public fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
+        val defaultKeyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
 
         inputComponentsStyles[BillingFormFields.AddressLineOne] = DefaultLightStyle.inputComponentStyle(
@@ -37,7 +37,7 @@ public object DefaultBillingAddressDetailsStyle {
 
         inputComponentsStyles[BillingFormFields.AddressLineTwo] = DefaultLightStyle.inputComponentStyle(
             titleTextId = R.string.cko_billing_form_input_field_address_line_two,
-            infoTextId = R.string.cko_billing_form_input_field_info,
+            infoTextId = R.string.cko_input_field_optional_info,
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
@@ -60,7 +60,7 @@ public object DefaultBillingAddressDetailsStyle {
 
         inputComponentsStyles[BillingFormFields.State] = DefaultLightStyle.inputComponentStyle(
             titleTextId = R.string.cko_billing_form_input_field_state,
-            infoTextId = R.string.cko_billing_form_input_field_info,
+            infoTextId = R.string.cko_input_field_optional_info,
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,

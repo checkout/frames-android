@@ -1,6 +1,9 @@
 package com.checkout.frames.screen.paymentdetails
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.provider.ComponentProvider
@@ -10,10 +13,12 @@ import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.screen.manager.PaymentStateManager
+import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.view.TextLabelState
+import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
@@ -23,6 +28,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 
 @ExperimentalCoroutinesApi
 @SuppressLint("NewApi")
@@ -32,7 +41,7 @@ internal class PaymentDetailsViewModelTest {
     @RelaxedMockK
     lateinit var mockComponentProvider: ComponentProvider
 
-    @RelaxedMockK
+    @MockK(relaxUnitFun = true)
     lateinit var mockClosePaymentFlowUseCase: UseCase<Unit, Unit>
 
     @RelaxedMockK
@@ -43,6 +52,9 @@ internal class PaymentDetailsViewModelTest {
 
     @SpyK
     lateinit var spyTextLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>
+
+    @SpyK
+    lateinit var spyContainerMapper: Mapper<ContainerStyle, Modifier>
 
     @SpyK
     lateinit var spyClickableImageStyleMapper: ImageStyleToClickableComposableImageMapper
@@ -56,15 +68,7 @@ internal class PaymentDetailsViewModelTest {
 
     @BeforeEach
     fun setUp() {
-        viewModel = PaymentDetailsViewModel(
-            mockComponentProvider,
-            spyTextLabelStyleMapper,
-            spyTextLabelStateMapper,
-            spyClickableImageStyleMapper,
-            mockClosePaymentFlowUseCase,
-            mockPaymentStateManager,
-            style
-        )
+        initViewModel(style)
     }
 
     /** Initial state tests **/
@@ -93,16 +97,71 @@ internal class PaymentDetailsViewModelTest {
             }
         }
 
-    /** Functionality **/
     @Test
-    fun `when view model is initialised then payment state is reset`() {
+    fun `when view model is initialised then fields container style is mapped to Modifier`() {
         // Then
-        verify(exactly = 1) { mockPaymentStateManager.resetPaymentState() }
+        verify(exactly = 1) { spyContainerMapper.map(style.fieldsContainerStyle) }
+    }
+
+    /** Functionality **/
+    @ParameterizedTest(
+        name = "When view model initialised with: " +
+                "cvvComponentStyle is null = {0}, " +
+                "addressSummaryComponentStyle is null = {1} " +
+                "and addressSummaryComponentStyle is optional = {2}; " +
+                "Then payment state is reset with: " +
+                "isCvvValid = {3} and isBillingAddressValid = {4}"
+    )
+    @MethodSource("resetArguments")
+    fun `when view model is initialised then payment state is reset with correct values`(
+        isCvvStyleNull: Boolean,
+        isAddressStyleNull: Boolean,
+        isAddressOptional: Boolean,
+        isCvvValid: Boolean,
+        isBillingAddressValid: Boolean
+    ) {
+        // Given
+        val style = PaymentDetailsStyle().apply {
+            if (isCvvStyleNull) cvvComponentStyle = null
+            addressSummaryComponentStyle =
+                if (isAddressStyleNull) null else addressSummaryComponentStyle?.copy(isOptional = isAddressOptional)
+        }
+
+        // When
+        initViewModel(style)
+
+        // Then
+        verify { mockPaymentStateManager.resetPaymentState(isCvvValid, isBillingAddressValid) }
+    }
+
+    private fun initViewModel(style: PaymentDetailsStyle) {
+        viewModel = PaymentDetailsViewModel(
+            mockComponentProvider,
+            spyTextLabelStyleMapper,
+            spyTextLabelStateMapper,
+            spyContainerMapper,
+            spyClickableImageStyleMapper,
+            mockClosePaymentFlowUseCase,
+            mockPaymentStateManager,
+            style
+        )
     }
 
     private fun initMappers() {
         spyTextLabelStyleMapper = TextLabelStyleToViewStyleMapper(ContainerStyleToModifierMapper())
         spyTextLabelStateMapper = TextLabelStyleToStateMapper(ImageStyleToComposableImageMapper())
         spyClickableImageStyleMapper = ImageStyleToClickableComposableImageMapper()
+        spyContainerMapper = ContainerStyleToModifierMapper()
+    }
+
+    companion object {
+        @RequiresApi(Build.VERSION_CODES.N)
+        @JvmStatic
+        fun resetArguments(): Stream<Arguments> = Stream.of(
+            Arguments.of(false, false, false, false, false),
+            Arguments.of(true, false, false, true, false),
+            Arguments.of(true, true, false, true, true),
+            Arguments.of(true, false, true, true, true)
+        )
     }
 }

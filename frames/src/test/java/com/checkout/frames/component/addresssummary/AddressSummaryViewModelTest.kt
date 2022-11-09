@@ -119,6 +119,7 @@ internal class AddressSummaryViewModelTest {
 
         // When
         spyPaymentStateManager.billingAddress.value = testAddress
+        spyPaymentStateManager.isBillingAddressValid.value = true
         testScheduler.advanceUntilIdle()
 
         // Then

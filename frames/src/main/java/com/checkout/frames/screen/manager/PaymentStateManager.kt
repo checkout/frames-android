@@ -20,8 +20,12 @@ internal interface PaymentStateManager {
     val supportedCardSchemeList: List<CardScheme>
 
     val billingAddress: MutableStateFlow<BillingAddress>
+    val isBillingAddressValid: MutableStateFlow<Boolean>
 
     val isReadyForTokenization: StateFlow<Boolean>
 
-    fun resetPaymentState()
+    fun resetPaymentState(
+        isCvvValid: Boolean,
+        isBillingAddressValid: Boolean
+    )
 }

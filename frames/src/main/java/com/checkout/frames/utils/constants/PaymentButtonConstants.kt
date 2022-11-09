@@ -26,7 +26,7 @@ public object PaymentButtonConstants {
     public val contentPadding: Padding = Padding(18)
 
     /** Default button margin in dp. **/
-    public val buttonMargin: Margin = Margin(bottom = 24)
+    public val buttonMargin: Margin = Margin(top = 12, bottom = 24)
 
     /** Default pay button title font weight. */
     public val fontWeight: FontWeight = FontWeight.SemiBold

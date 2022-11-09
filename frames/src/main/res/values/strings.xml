@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Input field component-->
+    <string name="cko_input_field_optional_info" translatable="true">Optional</string>
+
     <!--Expiry date component-->
     <string name="cko_base_invalid_expiry_date_error" translatable="true">Please enter a valid expiry date.</string>
     <string name="cko_base_invalid_past_expiry_date_error" translatable="true">Expiry date is in the past.</string>
@@ -37,7 +40,6 @@
     <string name="cko_billing_form_input_field_postcode" translatable="true">Postcode/zip</string>
     <string name="cko_billing_form_input_field_phone_title" translatable="true">Phone number</string>
     <string name="cko_billing_form_input_field_phone_subtitle" translatable="true">We will only use this to confirm identity if necessary</string>
-    <string name="cko_billing_form_input_field_info" translatable="true">Optional</string>
 
     <!--Billing form screen error messages-->
     <string name="cko_billing_form_input_field_address_line_one_error" translatable="true">Missing Address line 1</string>
