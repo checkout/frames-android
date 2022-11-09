@@ -1,5 +1,6 @@
 package com.checkout.frames.screen.billingaddress.billingaddressdetails
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
@@ -42,7 +43,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("LongParameterList", "UnusedPrivateMember")
+@Suppress("LongParameterList", "UnusedPrivateMember", "TooManyFunctions")
 internal class BillingAddressDetailsViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
     private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
@@ -80,6 +81,11 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     }
 
     init {
+      prepare()
+    }
+
+    @VisibleForTesting
+    fun prepare() {
         viewModelScope.launch {
             isReadyToSaveAddress().collect {
                 screenButtonState.isEnabled.value = it
