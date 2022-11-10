@@ -1,2 +1,0 @@
--keep class com.android.volley.** { *; }
--keep class com.checkout.** { *; }
