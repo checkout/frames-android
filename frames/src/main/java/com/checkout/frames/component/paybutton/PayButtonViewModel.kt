@@ -9,13 +9,17 @@ import com.checkout.base.usecase.UseCase
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.PayButtonViewModelSubComponent
+import com.checkout.frames.logging.PaymentFormEventType
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.PayButtonComponentStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.paymentflow.InternalCardTokenRequest
+import com.checkout.frames.utils.extensions.logEvent
 import com.checkout.frames.utils.extensions.toExpiryDate
 import com.checkout.frames.view.InternalButtonState
+import com.checkout.logging.Logger
+import com.checkout.logging.model.LoggingEvent
 import com.checkout.tokenization.model.Card
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,7 +30,8 @@ internal class PayButtonViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
     private val cardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>,
     private val buttonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
-    private val buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>
+    private val buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
+    private val logger: Logger<LoggingEvent>
 ) : ViewModel() {
 
     val buttonStyle = provideButtonViewStyle()
@@ -49,6 +54,7 @@ internal class PayButtonViewModel @Inject constructor(
         )
 
         buttonState.isEnabled.value = false
+        logger.logEvent(PaymentFormEventType.SUBMITTED)
         cardTokenizationUseCase.execute(request)
     }
 

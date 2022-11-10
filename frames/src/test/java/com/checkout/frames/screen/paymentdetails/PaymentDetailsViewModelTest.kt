@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.provider.ComponentProvider
+import com.checkout.frames.logging.PaymentFormEventType
 import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
@@ -18,12 +19,16 @@ import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.view.TextLabelState
-import io.mockk.impl.annotations.MockK
+import com.checkout.logging.Logger
+import com.checkout.logging.model.LoggingEvent
+import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
+import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.amshove.kluent.internal.assertEquals
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -41,11 +46,14 @@ internal class PaymentDetailsViewModelTest {
     @RelaxedMockK
     lateinit var mockComponentProvider: ComponentProvider
 
-    @MockK(relaxUnitFun = true)
+    @RelaxedMockK
     lateinit var mockClosePaymentFlowUseCase: UseCase<Unit, Unit>
 
     @RelaxedMockK
     lateinit var mockPaymentStateManager: PaymentStateManager
+
+    @RelaxedMockK
+    lateinit var mockLogger: Logger<LoggingEvent>
 
     @SpyK
     lateinit var spyTextLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>
@@ -59,6 +67,7 @@ internal class PaymentDetailsViewModelTest {
     @SpyK
     lateinit var spyClickableImageStyleMapper: ImageStyleToClickableComposableImageMapper
 
+    private val capturedEvent = slot<LoggingEvent>()
     private val style: PaymentDetailsStyle = PaymentDetailsStyle()
     private lateinit var viewModel: PaymentDetailsViewModel
 
@@ -68,6 +77,9 @@ internal class PaymentDetailsViewModelTest {
 
     @BeforeEach
     fun setUp() {
+        every { mockLogger.log(capture(capturedEvent)) } returns Unit
+        every { mockClosePaymentFlowUseCase.execute(Unit) } returns Unit
+
         initViewModel(style)
     }
 
@@ -104,6 +116,23 @@ internal class PaymentDetailsViewModelTest {
     }
 
     /** Functionality **/
+
+    @Test
+    fun `when view model is initialised then presented event is logged`() {
+        // Then
+        assertEquals(PaymentFormEventType.PRESENTED.eventId, capturedEvent.captured.typeIdentifier)
+    }
+
+    @Test
+    fun `when close invoked then close use case executed and canceled event logged`() {
+        // When
+        viewModel.onClose()
+
+        // Then
+        verify(exactly = 1) { mockClosePaymentFlowUseCase.execute(Unit) }
+        assertEquals(PaymentFormEventType.CANCELED.eventId, capturedEvent.captured.typeIdentifier)
+    }
+
     @ParameterizedTest(
         name = "When view model initialised with: " +
                 "cvvComponentStyle is null = {0}, " +
@@ -143,6 +172,7 @@ internal class PaymentDetailsViewModelTest {
             spyClickableImageStyleMapper,
             mockClosePaymentFlowUseCase,
             mockPaymentStateManager,
+            mockLogger,
             style
         )
     }

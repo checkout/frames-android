@@ -25,6 +25,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":checkout"))
     implementation(project(":frames"))
 }

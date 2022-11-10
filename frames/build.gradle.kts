@@ -3,6 +3,7 @@ import com.checkout.buildsrc.applyAndroidJUnit5Configuration
 import com.checkout.buildsrc.applyCommonLibConfigurations
 import com.checkout.buildsrc.applyDeclarativeUIConfigurations
 import com.checkout.buildsrc.applyDIConfigurations
+import com.checkout.buildsrc.BuildConfigFieldName
 
 plugins {
     id("com.android.library")
@@ -19,6 +20,34 @@ applyDIConfigurations()
 
 android {
     resourcePrefix = "cko_"
+
+    defaultConfig {
+        buildConfigField(
+            "String",
+            BuildConfigFieldName.productVersion,
+            "\"${FramesConfig.productVersion}\""
+        )
+
+        buildConfigField(
+            "String",
+            BuildConfigFieldName.productName,
+            "\"${FramesConfig.pomName}\""
+        )
+
+        buildConfigField(
+            "String",
+            BuildConfigFieldName.productIdentifier,
+            "\"${FramesConfig.productGroupId}.${FramesConfig.productArtefactId}\""
+        )
+
+        buildConfigField(
+            "String",
+            BuildConfigFieldName.loggingIdentifier,
+            "\"${FramesConfig.loggingGroupId}.${FramesConfig.productArtefactId}\""
+        )
+
+        consumerProguardFiles("consumer-rules.pro")
+    }
 
     buildFeatures {
         compose = true

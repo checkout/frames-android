@@ -2,7 +2,6 @@ package com.checkout.logging
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
-import com.checkout.BuildConfig
 import com.checkout.base.model.Environment
 import com.checkout.eventlogger.CheckoutEventLogger
 import com.checkout.eventlogger.METADATA_CORRELATION_ID
@@ -16,14 +15,20 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
 
     @VisibleForTesting
     val sentLogs = hashSetOf<String>()
+
     @VisibleForTesting
     var needToSetup = true
 
-    override fun setup(context: Context, environment: Environment) {
+    override fun setup(
+        context: Context,
+        environment: Environment,
+        identifier: String,
+        version: String
+    ) {
         if (needToSetup) {
             logger.enableRemoteProcessor(
                 environment.toLoggingEnvironment(),
-                provideProcessorMetadata(context, environment)
+                provideProcessorMetadata(context, environment, identifier, version)
             )
             resetSession()
             needToSetup = false
@@ -42,10 +47,15 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
         if (sentLogs.add(event.eventType.eventId)) log(event)
     }
 
-    private fun provideProcessorMetadata(context: Context, environment: Environment) = RemoteProcessorMetadata.from(
+    private fun provideProcessorMetadata(
+        context: Context,
+        environment: Environment,
+        identifier: String,
+        version: String,
+    ) = RemoteProcessorMetadata.from(
         context,
         environment.toLoggingName(),
-        BuildConfig.PRODUCT_IDENTIFIER,
-        BuildConfig.PRODUCT_VERSION
+        identifier,
+        version
     )
 }

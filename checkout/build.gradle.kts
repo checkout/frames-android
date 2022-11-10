@@ -52,7 +52,7 @@ android {
         buildConfigField(
             "String",
             BuildConfigFieldName.productIdentifier,
-            "\"${CheckoutConfig.groupId}${CheckoutConfig.artifactId}\""
+            "\"${CheckoutConfig.groupId}.${CheckoutConfig.artifactId}\""
         )
 
         consumerProguardFiles("consumer-rules.pro")
