@@ -7,6 +7,7 @@ import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.R
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
+import com.checkout.frames.logging.BillingFormEventType
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
@@ -29,10 +30,13 @@ import com.checkout.frames.style.view.billingformdetails.BillingAddressInputComp
 import com.checkout.frames.utils.extensions.provideBillingAddressDetails
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.frames.view.TextLabelState
+import com.checkout.logging.Logger
+import com.checkout.logging.model.LoggingEvent
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
+import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -61,6 +65,9 @@ internal class BillingAddressDetailsViewModelTest {
     @RelaxedMockK
     lateinit var mockBillingAddressDetailsComponentStyleUseCase:
             UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle>
+
+    @RelaxedMockK
+    lateinit var mockLogger: Logger<LoggingEvent>
 
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
@@ -91,6 +98,7 @@ internal class BillingAddressDetailsViewModelTest {
     private lateinit var viewModel: BillingAddressDetailsViewModel
 
     private val dispatcher = StandardTestDispatcher()
+    private val capturedEvent = slot<LoggingEvent>()
 
     private var defaultState =
         BillingAddressInputComponentsContainerState(BillingAddressDetailsTestData.fetchInputComponentStateList())
@@ -105,6 +113,7 @@ internal class BillingAddressDetailsViewModelTest {
     fun setUp() {
         Dispatchers.setMain(dispatcher)
 
+        every { mockLogger.log(capture(capturedEvent)) } returns Unit
         every { mockBillingAddressDetailsComponentStateUseCase.execute(any()) } returns defaultState
         every { mockBillingAddressDetailsComponentStyleUseCase.execute(any()) } returns defaultViewStyle
 
@@ -118,6 +127,7 @@ internal class BillingAddressDetailsViewModelTest {
             mockBillingAddressDetailsComponentStyleUseCase,
             spyButtonStyleMapper,
             spyButtonStateMapper,
+            mockLogger,
             style
         )
     }
@@ -338,6 +348,30 @@ internal class BillingAddressDetailsViewModelTest {
             viewModel.inputComponentsStateList[givenPosition].isAddressFieldValid.value,
             expectedIsAddressFieldValid
         )
+    }
+
+    @Test
+    fun `when view model initialised then presented event is logged`() {
+        // Then
+        assertEquals(BillingFormEventType.PRESENTED.eventId, capturedEvent.captured.typeIdentifier)
+    }
+
+    @Test
+    fun `when header close button pressed then canceled event is logged`() {
+        // When
+        viewModel.onClose()
+
+        // Then
+        assertEquals(BillingFormEventType.CANCELED.eventId, capturedEvent.captured.typeIdentifier)
+    }
+
+    @Test
+    fun `when done button pressed then submit event is logged`() {
+        // When
+        viewModel.onTapDoneButton()
+
+        // Then
+        assertEquals(BillingFormEventType.SUBMIT.eventId, capturedEvent.captured.typeIdentifier)
     }
 
     private fun initMappers() {
