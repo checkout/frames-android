@@ -52,7 +52,7 @@ configure<CodeQualityToolsPluginExtension> {
     xmlReports = false
     htmlReports = true
     textReports = false
-    ignoreProjects = listOf("buildSrc", "app", "android-sdk", "FramesKotlinSample", "examples_app", "googlepay_examples_app")
+    ignoreProjects = listOf("buildSrc", "app")
 
     checkstyle {
         enabled = false
