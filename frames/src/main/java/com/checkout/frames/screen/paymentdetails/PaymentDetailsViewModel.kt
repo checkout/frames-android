@@ -1,5 +1,6 @@
 package com.checkout.frames.screen.paymentdetails
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.checkout.frames.di.CLOSE_PAYMENT_FLOW_DI
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
+import com.checkout.frames.logging.PaymentFormEventType
 import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
 import com.checkout.frames.model.request.ImageStyleToClickableImageRequest
 import com.checkout.frames.screen.manager.PaymentStateManager
@@ -19,11 +21,16 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
+import com.checkout.frames.utils.extensions.logEvent
+import com.checkout.frames.utils.extensions.logEventWithLocale
 import com.checkout.frames.view.TextLabelState
+import com.checkout.logging.Logger
+import com.checkout.logging.model.LoggingEvent
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
 
+@SuppressWarnings("LongParameterList")
 internal class PaymentDetailsViewModel @Inject constructor(
     val componentProvider: ComponentProvider,
     private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
@@ -33,6 +40,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
     @Named(CLOSE_PAYMENT_FLOW_DI)
     private val closePaymentFlowUseCase: UseCase<Unit, Unit>,
     private val paymentStateManager: PaymentStateManager,
+    private val logger: Logger<LoggingEvent>,
     private val style: PaymentDetailsStyle
 ) : ViewModel() {
 
@@ -44,6 +52,13 @@ internal class PaymentDetailsViewModel @Inject constructor(
         val isCvvValidByDefault = style.cvvComponentStyle == null
         val isBillingAddressValidByDefault = style.addressSummaryComponentStyle?.isOptional ?: true
         paymentStateManager.resetPaymentState(isCvvValidByDefault, isBillingAddressValidByDefault)
+        logger.logEventWithLocale(PaymentFormEventType.PRESENTED)
+    }
+
+    @VisibleForTesting
+    fun onClose() {
+        logger.logEvent(PaymentFormEventType.CANCELED)
+        closePaymentFlowUseCase.execute(Unit)
     }
 
     private fun provideHeaderViewStyle(): TextLabelViewStyle = with(style.paymentDetailsHeaderStyle) {
@@ -53,7 +68,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
     }
 
     private fun provideHeaderState(): TextLabelState = with(style.paymentDetailsHeaderStyle) {
-        val imageRequest = ImageStyleToClickableImageRequest(backIconStyle) { closePaymentFlowUseCase.execute(Unit) }
+        val imageRequest = ImageStyleToClickableImageRequest(backIconStyle) { onClose() }
 
         textLabelStateMapper.map(
             TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle)

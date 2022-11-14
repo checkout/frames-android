@@ -4,6 +4,7 @@ import android.content.Context
 import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
+import com.checkout.frames.BuildConfig
 import com.checkout.frames.component.addresssummary.AddressSummaryViewModel
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
 import com.checkout.frames.component.country.CountryViewModel
@@ -15,6 +16,7 @@ import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.DaggerFramesDIComponent
 import com.checkout.frames.di.component.FramesDIComponent
+import com.checkout.frames.logging.PaymentFormEventType
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAddressDetailsViewModel
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
@@ -22,6 +24,7 @@ import com.checkout.frames.screen.paymentform.PaymentFormViewModel
 import com.checkout.frames.paymentflow.PaymentFlowHandler
 import com.checkout.frames.paymentflow.CardTokenizationUseCase
 import com.checkout.frames.paymentflow.ClosePaymentFlowUseCase
+import com.checkout.frames.utils.extensions.logEvent
 import com.checkout.logging.EventLoggerProvider
 
 internal class FramesInjector(private val component: FramesDIComponent) : Injector {
@@ -51,7 +54,10 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             paymentFlowHandler: PaymentFlowHandler,
             supportedCardSchemeList: List<CardScheme> = emptyList()
         ): Injector {
-            val logger = EventLoggerProvider.provide().apply { setup(context, environment) }
+            val logger = EventLoggerProvider.provide().apply {
+                setup(context, environment, BuildConfig.LOGGING_IDENTIFIER, BuildConfig.PRODUCT_VERSION)
+                logEvent(PaymentFormEventType.INITIALISED)
+            }
             val closePaymentFlowUseCase = ClosePaymentFlowUseCase(paymentFlowHandler::onBackPressed)
             val cardTokenizationUseCase = CardTokenizationUseCase(
                 CheckoutApiServiceFactory.create(publicKey, environment, context),
