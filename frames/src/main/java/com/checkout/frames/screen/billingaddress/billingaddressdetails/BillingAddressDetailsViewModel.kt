@@ -17,6 +17,7 @@ import com.checkout.frames.di.component.BillingFormViewModelSubComponent
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.model.request.ImageStyleToDynamicImageRequest
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
+import com.checkout.frames.logging.BillingFormEventType
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ButtonStyle
@@ -29,10 +30,13 @@ import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.style.view.billingformdetails.BillingAddressInputComponentsViewContainerStyle
 import com.checkout.frames.utils.constants.BillingAddressDetailsConstants
 import com.checkout.frames.utils.extensions.getErrorMessage
+import com.checkout.frames.utils.extensions.logEvent
 import com.checkout.frames.utils.extensions.provideBillingAddressDetails
 import com.checkout.frames.utils.extensions.provideAddressFieldText
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.frames.view.TextLabelState
+import com.checkout.logging.Logger
+import com.checkout.logging.model.LoggingEvent
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -56,6 +60,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle>,
     private val buttonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
     private val buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
+    private val logger: Logger<LoggingEvent>,
     private val style: BillingAddressDetailsStyle
 ) : ViewModel() {
     val screenTitleStyle = textLabelStyleMapper.map(style.headerComponentStyle.headerTitleStyle)
@@ -84,6 +89,30 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
       prepare()
     }
 
+    fun onFocusChanged(position: Int, isFocused: Boolean) {
+        if (isFocused) wasFocused = isFocused
+
+        with(inputComponentsStateList[position]) {
+            // Show error for previously focussed field if text value is empty and is not optional
+            if (!isFocused && wasFocused && !isAddressFieldValid.value) showError(getErrorMessage())
+        }
+    }
+
+    fun onAddressFieldTextChange(position: Int, text: String) = with(inputComponentsStateList[position]) {
+        val changedTextValue = if (addressFieldName == BillingFormFields.Phone.name)
+            text.replace(onlyDigitsRegex, "") else text
+
+        addressFieldText.value = changedTextValue
+        isAddressFieldValid.value = changedTextValue.isNotBlank() || isInputFieldOptional
+        hideError()
+    }
+
+    fun onTapDoneButton() {
+        updateBillingAddress()
+        logger.logEvent(BillingFormEventType.SUBMIT)
+        goBack.value = true
+    }
+
     @VisibleForTesting
     fun prepare() {
         viewModelScope.launch {
@@ -93,6 +122,13 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
         }
 
         updateInitialState()
+        logger.logEvent(BillingFormEventType.PRESENTED)
+    }
+
+    @VisibleForTesting
+    fun onClose() {
+        logger.logEvent(BillingFormEventType.CANCELED)
+        goBack.value = true
     }
 
     private fun isReadyToSaveAddress(): StateFlow<Boolean> = combine(
@@ -131,24 +167,6 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
         return inputComponentStateList
     }
 
-    fun onFocusChanged(position: Int, isFocused: Boolean) {
-        if (isFocused) wasFocused = isFocused
-
-        with(inputComponentsStateList[position]) {
-            // Show error for previously focussed field if text value is empty and is not optional
-            if (!isFocused && wasFocused && !isAddressFieldValid.value) showError(getErrorMessage())
-        }
-    }
-
-    fun onAddressFieldTextChange(position: Int, text: String) = with(inputComponentsStateList[position]) {
-        val changedTextValue = if (addressFieldName == BillingFormFields.Phone.name)
-            text.replace(onlyDigitsRegex, "") else text
-
-        addressFieldText.value = changedTextValue
-        isAddressFieldValid.value = changedTextValue.isNotBlank() || isInputFieldOptional
-        hideError()
-    }
-
     private fun provideButtonState() = buttonStateMapper.map(style.headerComponentStyle.headerButtonStyle)
 
     private fun provideScreenTitleState(style: TextLabelStyle): TextLabelState {
@@ -158,16 +176,11 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
             ImageStyleToDynamicImageRequest(
                 style.leadingIconStyle,
                 flowOf(R.drawable.cko_ic_cross_close),
-                flowOf { goBack.value = true }
+                flowOf { onClose() }
             )
         )
 
         return state
-    }
-
-    fun onTapDoneButton() {
-        updateBillingAddress()
-        goBack.value = true
     }
 
     // Update Billing address fields if navigating it from the edit billing form

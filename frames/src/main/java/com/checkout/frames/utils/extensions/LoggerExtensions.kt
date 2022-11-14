@@ -12,6 +12,6 @@ internal fun Logger<LoggingEvent>.logEvent(event: LoggingEventType) {
 }
 
 internal fun Logger<LoggingEvent>.logEventWithLocale(event: LoggingEventType) {
-    val deviceLanguage = Locale.current.language
+    val deviceLanguage = "${Locale.current.language}_${Locale.current.region}"
     log(LoggingEvent(event, properties = mapOf(LOGGING_LOCALE_KEY to deviceLanguage)))
 }
