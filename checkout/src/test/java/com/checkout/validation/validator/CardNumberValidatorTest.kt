@@ -153,6 +153,7 @@ internal class CardNumberValidatorTest {
             Arguments.of("4658584090000001", false, provideSuccess(CardScheme.VISA)),
             Arguments.of("4484070000035519", false, provideSuccess(CardScheme.VISA)),
             Arguments.of("4000144433439906", false, provideSuccess(CardScheme.VISA)),
+            Arguments.of("4000144433439906424", false, provideSuccess(CardScheme.VISA)),
             // With whitespaces
             Arguments.of("37828 22463 10005", false, provideSuccess(CardScheme.AMERICAN_EXPRESS)),
             Arguments.of("37828\n22463\n10005", false, provideSuccess(CardScheme.AMERICAN_EXPRESS)),

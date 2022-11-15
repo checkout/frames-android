@@ -71,8 +71,9 @@ internal class CardNumberTransformationTest {
             Arguments.of(' ', CardScheme.MAESTRO, "42424242123", "4242 4242 123"),
             Arguments.of(' ', CardScheme.MASTERCARD, "1234123412341111", "1234 1234 1234 1111"),
             Arguments.of(' ', CardScheme.MASTERCARD, "12341234123", "1234 1234 123"),
-            Arguments.of(' ', CardScheme.VISA, "1234123412341111", "1234 1234 1234 1111"),
-            Arguments.of(' ', CardScheme.VISA, "12341234123", "1234 1234 123")
+            Arguments.of(' ', CardScheme.VISA, "1234123412341111", "1234 1234 1234 1111 "),
+            Arguments.of(' ', CardScheme.VISA, "12341234123", "1234 1234 123"),
+            Arguments.of(' ', CardScheme.VISA, "4000001234562345678", "4000 0012 3456 2345 678")
         )
     }
 }
