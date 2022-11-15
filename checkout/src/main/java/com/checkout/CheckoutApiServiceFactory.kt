@@ -1,7 +1,6 @@
 package com.checkout
 
 import android.content.Context
-import androidx.annotation.RestrictTo
 import com.checkout.api.CheckoutApiClient
 import com.checkout.api.CheckoutApiService
 import com.checkout.base.model.Environment
@@ -27,7 +26,6 @@ import com.checkout.validation.validator.PhoneValidator
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public object CheckoutApiServiceFactory {
 
     public fun create(
