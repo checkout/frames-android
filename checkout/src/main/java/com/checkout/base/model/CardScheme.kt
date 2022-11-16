@@ -63,10 +63,10 @@ public enum class CardScheme(
     ),
     DISCOVER(
         cvvLength = setOf(3),
-        regex = Regex("^6(?:011(0[0-9]|[2-4]\\d|74|7[7-9]|8[6-9]|9[0-9])|4[4-9]\\d{3}|5\\d{4})\\d{10}$"),
-        eagerRegex = Regex("^6(011(0[0-9]|[1-4]|74|7[7-9]|8[6-9]|9[0-9])|4[4-9]|5)\\d*$"),
-        maxNumberLength = 19,
-        numberSeparatorPattern = listOf(4, 9, 14, 19),
+        regex = Regex("^6(?:011|4[4-9]\\d|5\\d{2})\\d{12}$"),
+        eagerRegex = Regex("^6(011|4[4-9]|5)\\d*$"),
+        maxNumberLength = 16,
+        numberSeparatorPattern = listOf(4, 9, 14),
         imageId = R.drawable.cko_ic_scheme_discover
     ),
     JCB(
