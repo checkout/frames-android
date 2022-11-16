@@ -114,6 +114,20 @@ internal class ValidateTokenizationDataUseCaseTest {
     }
 
     @Test
+    fun `when valid card data with empty cvv number is requested then return success result`() {
+        // Given
+        val mockRequest = CardTokenTestData.card.copy(cvv = "")
+        every { mockCardValidator.validateCvv(any(), any()) } returns ValidationResult.Failure(CheckoutError("1"))
+
+        // When
+        val result = validateTokenizationDataUseCase.execute(mockRequest)
+
+        // Then
+        verify { mockCardValidator.validateCvv(eq(mockRequest.cvv ?: ""), eq(CardScheme.VISA)) }
+        assertTrue(result is ValidationResult.Success)
+    }
+
+    @Test
     fun `when invalid card number is requested then return failure result`() {
         // Given
         val mockRequest = mockk<Card>()
