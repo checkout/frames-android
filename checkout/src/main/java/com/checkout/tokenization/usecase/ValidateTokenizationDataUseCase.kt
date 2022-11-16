@@ -34,7 +34,7 @@ internal class ValidateTokenizationDataUseCase(
         }
 
         with(cardValidator.validateCvv(data.cvv ?: "", scheme)) {
-            if (this is ValidationResult.Failure) return this
+            if (this is ValidationResult.Failure && !data.cvv.isNullOrEmpty()) return this
         }
 
         provideAddressValidationRequest(data.billingAddress)?.let {
