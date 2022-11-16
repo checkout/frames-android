@@ -61,7 +61,7 @@ internal class CardNumberTransformationTest {
             Arguments.of(' ', CardScheme.AMERICAN_EXPRESS, "11111111111", "1111 111111 1"),
             Arguments.of(' ', CardScheme.DINERS_CLUB, "4242424242421111111", "4242 4242 4242 1111 111"),
             Arguments.of(' ', CardScheme.DINERS_CLUB, "4242424242", "4242 4242 42"),
-            Arguments.of(' ', CardScheme.DISCOVER, "4242424242421111111", "4242 4242 4242 1111 111"),
+            Arguments.of(' ', CardScheme.DISCOVER, "4242424242421111", "4242 4242 4242 1111"),
             Arguments.of(' ', CardScheme.DISCOVER, "424242424211", "4242 4242 4211 "),
             Arguments.of(' ', CardScheme.JCB, "4242424242421111111", "4242 4242 4242 1111 111"),
             Arguments.of(' ', CardScheme.JCB, "42424242", "4242 4242 "),
