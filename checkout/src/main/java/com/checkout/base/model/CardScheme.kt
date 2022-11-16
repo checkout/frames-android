@@ -119,7 +119,9 @@ public enum class CardScheme(
         cvvLength = setOf(3),
         regex = Regex("^4\\d{12}(\\d{3}|\\d{6})?$"),
         eagerRegex = Regex("^4\\d*$"),
-        imageId = R.drawable.cko_ic_scheme_visa
+        maxNumberLength = 19,
+        imageId = R.drawable.cko_ic_scheme_visa,
+        numberSeparatorPattern = listOf(4, 9, 14, 19),
     ),
     UNKNOWN(
         cvvLength = setOf(0, 3, 4),
