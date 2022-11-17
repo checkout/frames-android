@@ -15,7 +15,7 @@ import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.PayButtonComponentStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
-import com.checkout.frames.paymentflow.InternalCardTokenRequest
+import com.checkout.frames.model.request.InternalCardTokenRequest
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent

@@ -1,4 +1,4 @@
-package com.checkout.frames.paymentflow
+package com.checkout.frames.usecase
 
 import com.checkout.base.usecase.UseCase
 

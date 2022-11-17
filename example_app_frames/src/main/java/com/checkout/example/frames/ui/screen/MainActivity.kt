@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.checkout.base.model.CardScheme
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
@@ -15,7 +16,7 @@ import com.checkout.frames.R
 import com.checkout.frames.screen.paymentform.PaymentFormConfig
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.style.screen.PaymentFormStyle
-import com.checkout.frames.paymentflow.PaymentFlowHandler
+import com.checkout.frames.api.PaymentFlowHandler
 import com.checkout.tokenization.model.TokenDetails
 
 class MainActivity : ComponentActivity() {
@@ -46,11 +47,21 @@ fun Navigator(
             override fun onSubmit() {
                 /*Intentionally left empty*/
             }
+
             override fun onSuccess(tokenDetails: TokenDetails) = onSuccess(tokenDetails)
             override fun onFailure(errorMessage: String) = onFailure(errorMessage)
-            override fun onBackPressed() { navController.navigateUp() }
+            override fun onBackPressed() {
+                navController.navigateUp()
+            }
         },
-        style = PaymentFormStyle()
+        style = PaymentFormStyle(),
+        supportedCardSchemeList = listOf(
+            CardScheme.VISA,
+            CardScheme.DISCOVER,
+            CardScheme.MASTERCARD,
+            CardScheme.MAESTRO,
+            CardScheme.AMERICAN_EXPRESS
+        )
     )
     val paymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
 

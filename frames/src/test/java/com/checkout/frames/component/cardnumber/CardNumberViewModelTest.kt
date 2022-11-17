@@ -236,6 +236,32 @@ internal class CardNumberViewModelTest {
     }
 
     @Test
+    fun `when full card number validation succeeds but scheme not supported then error is shown`() {
+        // Given
+        val testCardNumber = "3424234234234"
+        viewModel.componentState.cardNumber.value = testCardNumber
+        every {
+            mockCardValidator.validateCardNumber(eq(testCardNumber))
+        } returns ValidationResult.Success(CardScheme.MADA)
+        every {
+            spyPaymentStateManager.supportedCardSchemeList
+        } returns listOf(CardScheme.MAESTRO)
+
+        // When
+        viewModel.onFocusChanged(true)
+        viewModel.onFocusChanged(false)
+
+        // Then
+        // Then
+        verify(exactly = 1) { mockCardValidator.validateCardNumber(eq(testCardNumber)) }
+        with(viewModel.componentState.inputState) {
+            assertTrue(inputFieldState.isError.value)
+            assertTrue(errorState.isVisible.value)
+            assertEquals(errorState.textId.value, R.string.cko_base_invalid_card_number_error)
+        }
+    }
+
+    @Test
     fun `when full card number validation fails then error is shown`() {
         // Given
         val testCardNumber = "3424234234234"
@@ -275,6 +301,31 @@ internal class CardNumberViewModelTest {
         with(viewModel.componentState.inputState) {
             assertFalse(inputFieldState.isError.value)
             assertFalse(errorState.isVisible.value)
+        }
+        assertEquals(viewModel.componentState.cardScheme.value, CardScheme.VISA)
+        assertEquals(viewModel.componentState.cardNumberLength.value, CardScheme.VISA.maxNumberLength)
+    }
+
+    @Test
+    fun `when eager card number validation succeeds but scheme not supported then error is shown and scheme updated`() {
+        // Given
+        val testCardNumber = "4242424242424242"
+        every {
+            mockCardValidator.eagerValidateCardNumber(eq(testCardNumber))
+        } returns ValidationResult.Success(CardScheme.VISA)
+        every {
+            spyPaymentStateManager.supportedCardSchemeList
+        } returns listOf(CardScheme.DISCOVER)
+
+        // When
+        viewModel.onCardNumberChange(testCardNumber)
+
+        // Then
+        verify(exactly = 1) { mockCardValidator.eagerValidateCardNumber(eq(testCardNumber)) }
+        with(viewModel.componentState.inputState) {
+            assertTrue(inputFieldState.isError.value)
+            assertTrue(errorState.isVisible.value)
+            assertEquals(errorState.textId.value, R.string.cko_base_invalid_card_number_error)
         }
         assertEquals(viewModel.componentState.cardScheme.value, CardScheme.VISA)
         assertEquals(viewModel.componentState.cardNumberLength.value, CardScheme.VISA.maxNumberLength)

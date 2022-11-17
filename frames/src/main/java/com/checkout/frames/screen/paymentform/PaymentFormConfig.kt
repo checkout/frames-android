@@ -4,7 +4,7 @@ import android.content.Context
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
 import com.checkout.frames.style.screen.PaymentFormStyle
-import com.checkout.frames.paymentflow.PaymentFlowHandler
+import com.checkout.frames.api.PaymentFlowHandler
 
 public data class PaymentFormConfig(
     public val publicKey: String,

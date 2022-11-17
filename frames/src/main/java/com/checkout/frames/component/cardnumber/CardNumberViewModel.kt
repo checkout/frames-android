@@ -76,13 +76,21 @@ internal class CardNumberViewModel @Inject constructor(
                 componentState.cardNumberLength.value = this.maxNumberLength
                 paymentStateManager.cardScheme.update { this }
             }
-            componentState.hideError()
-            paymentStateManager.isCardNumberValid.update { true }
+
+            if (this in paymentStateManager.supportedCardSchemeList) hideValidationError()
+            else showValidationError()
         }
-        is ValidationResult.Failure -> {
-            componentState.showError(R.string.cko_base_invalid_card_number_error)
-            paymentStateManager.isCardNumberValid.update { false }
-        }
+        is ValidationResult.Failure -> showValidationError()
+    }
+
+    private fun showValidationError() {
+        componentState.showError(R.string.cko_base_invalid_card_number_error)
+        paymentStateManager.isCardNumberValid.update { false }
+    }
+
+    private fun hideValidationError() {
+        componentState.hideError()
+        paymentStateManager.isCardNumberValid.update { true }
     }
 
     private fun provideViewState(style: CardNumberComponentStyle): CardNumberComponentState {
