@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>PaymentDetailsStyle</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../index.html">
+<span>Frames Android SDK by Checkout.com - v4.0.0-beta</span>            </a>    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageids="frames::com.checkout.frames.style.screen/PaymentDetailsStyle///PointingToDeclaration//-1538894547">
+  <div class="breadcrumbs"><a href="../../index.html">frames</a><span class="delimiter">/</span><a href="../index.html">com.checkout.frames.style.screen</a><span class="delimiter">/</span><a href="index.html">PaymentDetailsStyle</a></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Payment</span><wbr><span>Details</span><wbr><span><span>Style</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">PaymentDetailsStyle</a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>paymentDetailsHeaderStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-screen-header-style/index.html">ScreenHeaderStyle</a><span class="token operator"> = </span>DefaultLightStyle.screenHeader(
+        textId = R.string.cko_payment_details_title,
+        imageId = R.drawable.cko_ic_arrow_back
+    )<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>cardSchemeStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-card-scheme-component-style/index.html">CardSchemeComponentStyle</a><span class="token operator"> = </span>DefaultLightStyle.cardSchemeComponentStyle()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>cardNumberStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-card-number-component-style/index.html">CardNumberComponentStyle</a><span class="token operator"> = </span>DefaultCardNumberComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>expiryDateComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-expiry-date-component-style/index.html">ExpiryDateComponentStyle</a><span class="token operator"> = </span>DefaultExpiryDateComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>cvvComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-cvv-component-style/index.html">CvvComponentStyle</a><span class="token operator">?</span><span class="token operator"> = </span>DefaultCvvComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>countryComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-country-component-style/index.html">CountryComponentStyle</a><span class="token operator"> = </span>DefaultCountryComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>addressSummaryComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component.addresssummary/-address-summary-component-style/index.html">AddressSummaryComponentStyle</a><span class="token operator">?</span><span class="token operator"> = </span>DefaultAddressSummaryComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>payButtonComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-pay-button-component-style/index.html">PayButtonComponentStyle</a><span class="token operator"> = </span>DefaultPayButtonComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">var </span>fieldsContainerStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component.base/-container-style/index.html">ContainerStyle</a><span class="token operator"> = </span>ContainerStyle(
+        padding = Padding(
+            start = PaymentDetailsScreenConstants.padding,
+            end = PaymentDetailsScreenConstants.padding
+        )
+    )</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="tabbedcontent">Constructors</h2>
+      <div class="table" data-togglable="Constructors"><a data-name="114707649%2FConstructors%2F-1538894547" anchor-label="PaymentDetailsStyle" id="114707649%2FConstructors%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue TabbedContent">
+            <div class=""><span class="inline-flex">
+                <div><a href="-payment-details-style.html"><span>Payment</span><wbr><span>Details</span><wbr><span><span>Style</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="114707649%2FConstructors%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-payment-details-style.html"><span class="token function">PaymentDetailsStyle</span></a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;paymentDetailsHeaderStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-screen-header-style/index.html">ScreenHeaderStyle</a><span class="token operator"> = </span>DefaultLightStyle.screenHeader(
+        textId = R.string.cko_payment_details_title,
+        imageId = R.drawable.cko_ic_arrow_back
+    )<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;cardSchemeStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-card-scheme-component-style/index.html">CardSchemeComponentStyle</a><span class="token operator"> = </span>DefaultLightStyle.cardSchemeComponentStyle()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;cardNumberStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-card-number-component-style/index.html">CardNumberComponentStyle</a><span class="token operator"> = </span>DefaultCardNumberComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;expiryDateComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-expiry-date-component-style/index.html">ExpiryDateComponentStyle</a><span class="token operator"> = </span>DefaultExpiryDateComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;cvvComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-cvv-component-style/index.html">CvvComponentStyle</a><span class="token operator">?</span><span class="token operator"> = </span>DefaultCvvComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;countryComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-country-component-style/index.html">CountryComponentStyle</a><span class="token operator"> = </span>DefaultCountryComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;addressSummaryComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component.addresssummary/-address-summary-component-style/index.html">AddressSummaryComponentStyle</a><span class="token operator">?</span><span class="token operator"> = </span>DefaultAddressSummaryComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;payButtonComponentStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-pay-button-component-style/index.html">PayButtonComponentStyle</a><span class="token operator"> = </span>DefaultPayButtonComponentStyle.light()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;fieldsContainerStyle<span class="token operator">: </span><a href="../../com.checkout.frames.style.component.base/-container-style/index.html">ContainerStyle</a><span class="token operator"> = </span>ContainerStyle(
+        padding = Padding(
+            start = PaymentDetailsScreenConstants.padding,
+            end = PaymentDetailsScreenConstants.padding
+        )
+    )</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="807626372%2FProperties%2F-1538894547" anchor-label="addressSummaryComponentStyle" id="807626372%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="address-summary-component-style.html">addressSummaryComponentStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="807626372%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="807626372%2FProperties%2F-1538894547" anchor-label="addressSummaryComponentStyle" id="807626372%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="address-summary-component-style.html">addressSummaryComponentStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component.addresssummary/-address-summary-component-style/index.html">AddressSummaryComponentStyle</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2064743816%2FProperties%2F-1538894547" anchor-label="cardNumberStyle" id="-2064743816%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="card-number-style.html">cardNumberStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2064743816%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-2064743816%2FProperties%2F-1538894547" anchor-label="cardNumberStyle" id="-2064743816%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="card-number-style.html">cardNumberStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-card-number-component-style/index.html">CardNumberComponentStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="142955476%2FProperties%2F-1538894547" anchor-label="cardSchemeStyle" id="142955476%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="card-scheme-style.html">cardSchemeStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="142955476%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="142955476%2FProperties%2F-1538894547" anchor-label="cardSchemeStyle" id="142955476%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="card-scheme-style.html">cardSchemeStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-card-scheme-component-style/index.html">CardSchemeComponentStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-46085306%2FProperties%2F-1538894547" anchor-label="countryComponentStyle" id="-46085306%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="country-component-style.html">countryComponentStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-46085306%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-46085306%2FProperties%2F-1538894547" anchor-label="countryComponentStyle" id="-46085306%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="country-component-style.html">countryComponentStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-country-component-style/index.html">CountryComponentStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1531488935%2FProperties%2F-1538894547" anchor-label="cvvComponentStyle" id="-1531488935%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="cvv-component-style.html">cvvComponentStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1531488935%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-1531488935%2FProperties%2F-1538894547" anchor-label="cvvComponentStyle" id="-1531488935%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="cvv-component-style.html">cvvComponentStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-cvv-component-style/index.html">CvvComponentStyle</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1090768821%2FProperties%2F-1538894547" anchor-label="expiryDateComponentStyle" id="1090768821%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="expiry-date-component-style.html">expiryDateComponentStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1090768821%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="1090768821%2FProperties%2F-1538894547" anchor-label="expiryDateComponentStyle" id="1090768821%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="expiry-date-component-style.html">expiryDateComponentStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-expiry-date-component-style/index.html">ExpiryDateComponentStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-550674303%2FProperties%2F-1538894547" anchor-label="fieldsContainerStyle" id="-550674303%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="fields-container-style.html">fieldsContainerStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-550674303%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-550674303%2FProperties%2F-1538894547" anchor-label="fieldsContainerStyle" id="-550674303%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="fields-container-style.html">fieldsContainerStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component.base/-container-style/index.html">ContainerStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="722310050%2FProperties%2F-1538894547" anchor-label="payButtonComponentStyle" id="722310050%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="pay-button-component-style.html">payButtonComponentStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="722310050%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="722310050%2FProperties%2F-1538894547" anchor-label="payButtonComponentStyle" id="722310050%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="pay-button-component-style.html">payButtonComponentStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-pay-button-component-style/index.html">PayButtonComponentStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1536998216%2FProperties%2F-1538894547" anchor-label="paymentDetailsHeaderStyle" id="1536998216%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="payment-details-header-style.html">paymentDetailsHeaderStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1536998216%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="1536998216%2FProperties%2F-1538894547" anchor-label="paymentDetailsHeaderStyle" id="1536998216%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="payment-details-header-style.html">paymentDetailsHeaderStyle</a><span class="token operator">: </span><a href="../../com.checkout.frames.style.component/-screen-header-style/index.html">ScreenHeaderStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        </div>
+    </div>
+</div>
+
+</body></html>
+

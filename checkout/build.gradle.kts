@@ -10,6 +10,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
+    id("org.jetbrains.dokka")
 }
 
 configureMavenPublication("CheckoutAndroid") {
@@ -78,4 +79,29 @@ android {
 }
 
 dependencies {
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+    moduleName.set(FramesConfig.docsTitle)
+    moduleVersion.set(FramesConfig.productVersion)
+    suppressInheritedMembers.set(true)
+    suppressObviousFunctions.set(true)
+
+    dokkaSourceSets {
+        configureEach {
+            suppress.set(true)
+        }
+
+        named("main") {
+            suppress.set(false)
+            noAndroidSdkLink.set(false)
+
+            displayName.set(FramesConfig.docsDisplayName)
+            skipEmptyPackages.set(true)
+            suppress.set(false)
+            reportUndocumented.set(true)
+
+            includes.from("module.md")
+        }
+    }
 }
