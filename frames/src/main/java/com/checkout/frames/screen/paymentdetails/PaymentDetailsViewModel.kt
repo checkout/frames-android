@@ -49,8 +49,8 @@ internal class PaymentDetailsViewModel @Inject constructor(
     val fieldsContainerModifier: Modifier = containerMapper.map(style.fieldsContainerStyle)
 
     init {
-        val isCvvValidByDefault = style.cvvComponentStyle == null
-        val isBillingAddressValidByDefault = style.addressSummaryComponentStyle?.isOptional ?: true
+        val isCvvValidByDefault = style.cvvStyle == null
+        val isBillingAddressValidByDefault = style.addressSummaryStyle?.isOptional ?: true
         paymentStateManager.resetPaymentState(isCvvValidByDefault, isBillingAddressValidByDefault)
         logger.logEventWithLocale(PaymentFormEventType.PRESENTED)
     }

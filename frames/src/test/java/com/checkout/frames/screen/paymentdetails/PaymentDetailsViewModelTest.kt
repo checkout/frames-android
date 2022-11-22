@@ -151,9 +151,9 @@ internal class PaymentDetailsViewModelTest {
     ) {
         // Given
         val style = PaymentDetailsStyle().apply {
-            if (isCvvStyleNull) cvvComponentStyle = null
-            addressSummaryComponentStyle =
-                if (isAddressStyleNull) null else addressSummaryComponentStyle?.copy(isOptional = isAddressOptional)
+            if (isCvvStyleNull) cvvStyle = null
+            addressSummaryStyle =
+                if (isAddressStyleNull) null else addressSummaryStyle?.copy(isOptional = isAddressOptional)
         }
 
         // When

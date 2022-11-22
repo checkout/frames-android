@@ -4,7 +4,6 @@ import com.checkout.frames.R
 import com.checkout.frames.model.Padding
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.PayButtonComponentStyle
-import com.checkout.frames.style.component.CountryComponentStyle
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.CvvComponentStyle
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
@@ -12,7 +11,6 @@ import com.checkout.frames.style.component.ScreenHeaderStyle
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.default.DefaultCardNumberComponentStyle
-import com.checkout.frames.style.component.default.DefaultCountryComponentStyle
 import com.checkout.frames.style.component.default.DefaultCvvComponentStyle
 import com.checkout.frames.style.component.default.DefaultExpiryDateComponentStyle
 import com.checkout.frames.style.component.default.DefaultLightStyle
@@ -27,12 +25,11 @@ public data class PaymentDetailsStyle(
     ),
     public var cardSchemeStyle: CardSchemeComponentStyle = DefaultLightStyle.cardSchemeComponentStyle(),
     public var cardNumberStyle: CardNumberComponentStyle = DefaultCardNumberComponentStyle.light(),
-    public var expiryDateComponentStyle: ExpiryDateComponentStyle = DefaultExpiryDateComponentStyle.light(),
-    public var cvvComponentStyle: CvvComponentStyle? = DefaultCvvComponentStyle.light(),
-    public var countryComponentStyle: CountryComponentStyle = DefaultCountryComponentStyle.light(),
-    public var addressSummaryComponentStyle: AddressSummaryComponentStyle? =
+    public var expiryDateStyle: ExpiryDateComponentStyle = DefaultExpiryDateComponentStyle.light(),
+    public var cvvStyle: CvvComponentStyle? = DefaultCvvComponentStyle.light(),
+    public var addressSummaryStyle: AddressSummaryComponentStyle? =
         DefaultAddressSummaryComponentStyle.light(),
-    public var payButtonComponentStyle: PayButtonComponentStyle = DefaultPayButtonComponentStyle.light(),
+    public var payButtonStyle: PayButtonComponentStyle = DefaultPayButtonComponentStyle.light(),
     public var fieldsContainerStyle: ContainerStyle = ContainerStyle(
         padding = Padding(
             start = PaymentDetailsScreenConstants.padding,

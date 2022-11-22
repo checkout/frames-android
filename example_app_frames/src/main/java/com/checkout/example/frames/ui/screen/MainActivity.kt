@@ -65,8 +65,16 @@ fun Navigator(
     )
     val paymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
 
+    val customPaymentFormMediator = PaymentFormMediator(
+        defaultPaymentFormConfig.copy(
+            style = PaymentFormStyleProvider.provide(paymentFormTheme)
+
+        )
+    )
+
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }
         composable(route = Screen.DefaultUI.route) { paymentFormMediator.PaymentForm() }
+        composable(route = Screen.CustomUI.route) { customPaymentFormMediator.PaymentForm() }
     }
 }

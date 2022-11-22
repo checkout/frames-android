@@ -9,5 +9,6 @@ public data class InputComponentStyle(
     val inputFieldStyle: InputFieldStyle = InputFieldStyle(),
     val errorMessageStyle: TextLabelStyle? = DefaultTextLabelStyle.error(),
     val containerStyle: ContainerStyle = ContainerStyle(),
-    val isInputFieldOptional: Boolean = false
+    val isInputFieldOptional: Boolean = false,
+    val isInputFieldHidden: Boolean = false,
 )
