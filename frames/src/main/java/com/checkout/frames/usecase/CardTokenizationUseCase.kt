@@ -1,7 +1,8 @@
-package com.checkout.frames.paymentflow
+package com.checkout.frames.usecase
 
 import com.checkout.api.CheckoutApiService
 import com.checkout.base.usecase.UseCase
+import com.checkout.frames.model.request.InternalCardTokenRequest
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.TokenDetails
 

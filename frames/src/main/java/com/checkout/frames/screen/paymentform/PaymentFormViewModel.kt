@@ -8,7 +8,7 @@ import com.checkout.base.model.Environment
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.injector.FramesInjector
-import com.checkout.frames.paymentflow.PaymentFlowHandler
+import com.checkout.frames.api.PaymentFlowHandler
 import javax.inject.Inject
 
 internal class PaymentFormViewModel @Inject internal constructor() : ViewModel() {

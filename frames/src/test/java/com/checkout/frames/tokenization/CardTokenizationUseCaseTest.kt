@@ -3,8 +3,8 @@ package com.checkout.frames.tokenization
 import android.annotation.SuppressLint
 import com.checkout.api.CheckoutApiService
 import com.checkout.base.usecase.UseCase
-import com.checkout.frames.paymentflow.CardTokenizationUseCase
-import com.checkout.frames.paymentflow.InternalCardTokenRequest
+import com.checkout.frames.usecase.CardTokenizationUseCase
+import com.checkout.frames.model.request.InternalCardTokenRequest
 import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.ExpiryDate
