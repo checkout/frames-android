@@ -12,6 +12,8 @@ object FramesConfig {
     const val githubProjectName = "checkout/frames-android"
     const val githubProjectUrl = "https://github.com/${githubProjectName}"
 
+    const val pomLicenseUrl = "https://raw.githubusercontent.com/${githubProjectName}/master/LICENSE"
+
     /*
     * Set to true during Development
     *  - Uses the `android-sdk` module

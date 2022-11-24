@@ -12,6 +12,7 @@ plugins {
     kotlin("android.extensions")
     kotlin("kapt")
     id("org.jetbrains.dokka")
+    id("maven-publish")
 }
 
 applyAndroidJUnit5Configuration()
@@ -59,6 +60,12 @@ android {
         kotlinCompilerExtensionVersion = Versions.compose_compiler_ext
     }
 
+    buildTypes {
+        release {
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+    }
+
     kotlinOptions {
         // Needed to prevent warning when ViewModelProvider.Factory inherited
         // "Inheritance from an interface with '@JvmDefault' members is only allowed with -Xjvm-default option"
@@ -70,6 +77,7 @@ dependencies {
     api(project(":checkout"))
 }
 
+/* Documentation */
 tasks.withType<DokkaTask>().configureEach {
     moduleName.set(FramesConfig.docsTitle)
     moduleVersion.set(FramesConfig.productVersion)
@@ -91,6 +99,40 @@ tasks.withType<DokkaTask>().configureEach {
             reportUndocumented.set(true)
 
             includes.from("module.md")
+        }
+    }
+}
+
+/* Release process */
+
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                from(components.getByName("release"))
+                artifactId = FramesConfig.productArtefactId
+                version = FramesConfig.productVersion
+                groupId = FramesConfig.productGroupId
+
+                pom {
+                    name.set(FramesConfig.pomName)
+                    description.set(FramesConfig.pomDescription)
+                    url.set(FramesConfig.githubProjectUrl)
+
+                    licenses {
+                        license {
+                            name.set(AppConfig.pomLicenseName)
+                            url.set(FramesConfig.pomLicenseUrl)
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set(AppConfig.pomDeveloperId)
+                            name.set(AppConfig.pomDeveloperName)
+                        }
+                    }
+                }
+            }
         }
     }
 }
