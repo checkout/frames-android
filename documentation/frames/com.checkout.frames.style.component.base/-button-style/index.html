@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ButtonStyle</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../index.html">
+<span>Frames Android SDK by Checkout.com - v4.0.0-beta</span>            </a>    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageids="frames::com.checkout.frames.style.component.base/ButtonStyle///PointingToDeclaration//-1538894547">
+  <div class="breadcrumbs"><a href="../../index.html">frames</a><span class="delimiter">/</span><a href="../index.html">com.checkout.frames.style.component.base</a><span class="delimiter">/</span><a href="index.html">ButtonStyle</a></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Button</span><wbr><span><span>Style</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">ButtonStyle</a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>containerColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>disabledContainerColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>contentColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">4278190080</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>disabledContentColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">4278190080</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>shape<span class="token operator">: </span><a href="../../com.checkout.frames.model/-shape/index.html">Shape</a><span class="token operator"> = </span>Shape.Rectangle<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>cornerRadius<span class="token operator">: </span><a href="../../com.checkout.frames.model/-corner-radius/index.html">CornerRadius</a><span class="token operator"> = </span>CornerRadius()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>borderStroke<span class="token operator">: </span><a href="../../com.checkout.frames.model/-border-stroke/index.html">BorderStroke</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>buttonElevation<span class="token operator">: </span><a href="../../com.checkout.frames.model/-button-elevation/index.html">ButtonElevation</a><span class="token operator"> = </span>ButtonElevation()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>contentPadding<span class="token operator">: </span><a href="../../com.checkout.frames.model/-padding/index.html">Padding</a><span class="token operator"> = </span>Padding()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>textStyle<span class="token operator">: </span><a href="../-text-label-style/index.html">TextLabelStyle</a><span class="token operator"> = </span>TextLabelStyle()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>containerStyle<span class="token operator">: </span><a href="../-container-style/index.html">ContainerStyle</a><span class="token operator"> = </span>ContainerStyle()</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="tabbedcontent">Constructors</h2>
+      <div class="table" data-togglable="Constructors"><a data-name="-1453076212%2FConstructors%2F-1538894547" anchor-label="ButtonStyle" id="-1453076212%2FConstructors%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue TabbedContent">
+            <div class=""><span class="inline-flex">
+                <div><a href="-button-style.html"><span>Button</span><wbr><span><span>Style</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1453076212%2FConstructors%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-button-style.html"><span class="token function">ButtonStyle</span></a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>containerColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>disabledContainerColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>contentColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">4278190080</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>disabledContentColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">4278190080</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;shape<span class="token operator">: </span><a href="../../com.checkout.frames.model/-shape/index.html">Shape</a><span class="token operator"> = </span>Shape.Rectangle<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;cornerRadius<span class="token operator">: </span><a href="../../com.checkout.frames.model/-corner-radius/index.html">CornerRadius</a><span class="token operator"> = </span>CornerRadius()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;borderStroke<span class="token operator">: </span><a href="../../com.checkout.frames.model/-border-stroke/index.html">BorderStroke</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;buttonElevation<span class="token operator">: </span><a href="../../com.checkout.frames.model/-button-elevation/index.html">ButtonElevation</a><span class="token operator"> = </span>ButtonElevation()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;contentPadding<span class="token operator">: </span><a href="../../com.checkout.frames.model/-padding/index.html">Padding</a><span class="token operator"> = </span>Padding()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;textStyle<span class="token operator">: </span><a href="../-text-label-style/index.html">TextLabelStyle</a><span class="token operator"> = </span>TextLabelStyle()<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;containerStyle<span class="token operator">: </span><a href="../-container-style/index.html">ContainerStyle</a><span class="token operator"> = </span>ContainerStyle()</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="1035324870%2FProperties%2F-1538894547" anchor-label="borderStroke" id="1035324870%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="border-stroke.html">borderStroke</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1035324870%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="1035324870%2FProperties%2F-1538894547" anchor-label="borderStroke" id="1035324870%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="border-stroke.html">borderStroke</a><span class="token operator">: </span><a href="../../com.checkout.frames.model/-border-stroke/index.html">BorderStroke</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1035324870%2FProperties%2F-1538894547" anchor-label="borderStroke" id="1035324870%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Border stroke details.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2016810149%2FProperties%2F-1538894547" anchor-label="buttonElevation" id="2016810149%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="button-elevation.html">buttonElevation</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2016810149%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="2016810149%2FProperties%2F-1538894547" anchor-label="buttonElevation" id="2016810149%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="button-elevation.html">buttonElevation</a><span class="token operator">: </span><a href="../../com.checkout.frames.model/-button-elevation/index.html">ButtonElevation</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="2016810149%2FProperties%2F-1538894547" anchor-label="buttonElevation" id="2016810149%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Button elevation in dp.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-791978392%2FProperties%2F-1538894547" anchor-label="containerColor" id="-791978392%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="container-color.html">containerColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-791978392%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-791978392%2FProperties%2F-1538894547" anchor-label="containerColor" id="-791978392%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="container-color.html">containerColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">0</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-791978392%2FProperties%2F-1538894547" anchor-label="containerColor" id="-791978392%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB container color of this Button when enabled.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="549880794%2FProperties%2F-1538894547" anchor-label="containerStyle" id="549880794%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="container-style.html">containerStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="549880794%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="549880794%2FProperties%2F-1538894547" anchor-label="containerStyle" id="549880794%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="container-style.html">containerStyle</a><span class="token operator">: </span><a href="../-container-style/index.html">ContainerStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="549880794%2FProperties%2F-1538894547" anchor-label="containerStyle" id="549880794%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Top level button container style.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1491758176%2FProperties%2F-1538894547" anchor-label="contentColor" id="-1491758176%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="content-color.html">contentColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1491758176%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-1491758176%2FProperties%2F-1538894547" anchor-label="contentColor" id="-1491758176%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="content-color.html">contentColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">4278190080</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1491758176%2FProperties%2F-1538894547" anchor-label="contentColor" id="-1491758176%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB content color of this Button when enabled.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="824812850%2FProperties%2F-1538894547" anchor-label="contentPadding" id="824812850%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="content-padding.html">contentPadding</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="824812850%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="824812850%2FProperties%2F-1538894547" anchor-label="contentPadding" id="824812850%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="content-padding.html">contentPadding</a><span class="token operator">: </span><a href="../../com.checkout.frames.model/-padding/index.html">Padding</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="824812850%2FProperties%2F-1538894547" anchor-label="contentPadding" id="824812850%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Content padding in dp.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="44715363%2FProperties%2F-1538894547" anchor-label="cornerRadius" id="44715363%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="corner-radius.html">cornerRadius</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="44715363%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="44715363%2FProperties%2F-1538894547" anchor-label="cornerRadius" id="44715363%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="corner-radius.html">cornerRadius</a><span class="token operator">: </span><a href="../../com.checkout.frames.model/-corner-radius/index.html">CornerRadius</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="44715363%2FProperties%2F-1538894547" anchor-label="cornerRadius" id="44715363%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Corner radius of the button shape or border stroke.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1641253708%2FProperties%2F-1538894547" anchor-label="disabledContainerColor" id="1641253708%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="disabled-container-color.html">disabledContainerColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1641253708%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="1641253708%2FProperties%2F-1538894547" anchor-label="disabledContainerColor" id="1641253708%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="disabled-container-color.html">disabledContainerColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">0</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1641253708%2FProperties%2F-1538894547" anchor-label="disabledContainerColor" id="1641253708%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB container color of this Button when not enabled.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-313808508%2FProperties%2F-1538894547" anchor-label="disabledContentColor" id="-313808508%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="disabled-content-color.html">disabledContentColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-313808508%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-313808508%2FProperties%2F-1538894547" anchor-label="disabledContentColor" id="-313808508%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="disabled-content-color.html">disabledContentColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">4278190080</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-313808508%2FProperties%2F-1538894547" anchor-label="disabledContentColor" id="-313808508%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB content color of this Button when not enabled.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-225415985%2FProperties%2F-1538894547" anchor-label="shape" id="-225415985%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="shape.html">shape</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-225415985%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-225415985%2FProperties%2F-1538894547" anchor-label="shape" id="-225415985%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="shape.html">shape</a><span class="token operator">: </span><a href="../../com.checkout.frames.model/-shape/index.html">Shape</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-225415985%2FProperties%2F-1538894547" anchor-label="shape" id="-225415985%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Button shape.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1554000948%2FProperties%2F-1538894547" anchor-label="textStyle" id="-1554000948%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="text-style.html">textStyle</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1554000948%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-1554000948%2FProperties%2F-1538894547" anchor-label="textStyle" id="-1554000948%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="text-style.html">textStyle</a><span class="token operator">: </span><a href="../-text-label-style/index.html">TextLabelStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1554000948%2FProperties%2F-1538894547" anchor-label="textStyle" id="-1554000948%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The text label style. Can be used to set leading and trailing icons.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        </div>
+    </div>
+</div>
+
+</body></html>
+

@@ -129,7 +129,7 @@ fun Project.applyCommonLibConfigurations() {
 
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs +
-                    "-Xopt-in=kotlin.contracts.ExperimentalContracts" +
+                    "-opt-in=kotlin.contracts.ExperimentalContracts" +
                     "-Xexplicit-api=strict"
         }
 

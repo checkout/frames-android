@@ -5,7 +5,7 @@ object FramesConfig {
     const val loggingGroupId = "com.checkout"
 
     const val docsTitle = "Frames Android SDK"
-    const val docsDisplayName = "Frames Android SDK from Checkout.com"
+    const val docsDisplayName = "Frames Android SDK by Checkout.com"
 
     const val pomName = "Checkout.com Frames Android SDK"
     const val pomDescription = "Card tokenisation library for Android by Checkout.com"

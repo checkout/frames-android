@@ -17,4 +17,5 @@ object ProjectDependencies {
     val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     val codeQualityToolsPlugin = "com.vanniktech:gradle-code-quality-tools-plugin:${Versions.codeQualityToolsPlugin}"
     val dokkaPlugin = "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
+    val dokkaKotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 }

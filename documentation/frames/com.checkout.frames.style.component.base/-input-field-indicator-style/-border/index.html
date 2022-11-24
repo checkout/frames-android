@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Border</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../../../index.html">
+<span>Frames Android SDK by Checkout.com - v4.0.0-beta</span>            </a>    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageids="frames::com.checkout.frames.style.component.base/InputFieldIndicatorStyle.Border///PointingToDeclaration//-1538894547">
+  <div class="breadcrumbs"><a href="../../../index.html">frames</a><span class="delimiter">/</span><a href="../../index.html">com.checkout.frames.style.component.base</a><span class="delimiter">/</span><a href="../index.html">InputFieldIndicatorStyle</a><span class="delimiter">/</span><a href="index.html">Border</a></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Border</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Border</a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>shape<span class="token operator">: </span><a href="../../../com.checkout.frames.model/-shape/index.html">Shape</a><span class="token operator"> = </span>Shape.RoundCorner<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>cornerRadius<span class="token operator">: </span><a href="../../../com.checkout.frames.model/-corner-radius/index.html">CornerRadius</a><span class="token operator"> = </span>CornerRadius(BorderConstants.radius)<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>focusedBorderThickness<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>BorderConstants.focusedBorderThickness<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span class="token keyword">val </span>unfocusedBorderThickness<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>BorderConstants.unfocusedBorderThickness<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>focusedBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.focusedBorderColor<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>unfocusedBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.unfocusedBorderColor<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>disabledBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.disabledBorderColor<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span><span class="token keyword">val </span>errorBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.errorBorderColor</span></span><span class="token punctuation">)</span> : <a href="../index.html">InputFieldIndicatorStyle</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="tabbedcontent">Constructors</h2>
+      <div class="table" data-togglable="Constructors"><a data-name="1318488930%2FConstructors%2F-1538894547" anchor-label="Border" id="1318488930%2FConstructors%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue TabbedContent">
+            <div class=""><span class="inline-flex">
+                <div><a href="-border.html"><span><span>Border</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1318488930%2FConstructors%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-border.html"><span class="token function">Border</span></a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;shape<span class="token operator">: </span><a href="../../../com.checkout.frames.model/-shape/index.html">Shape</a><span class="token operator"> = </span>Shape.RoundCorner<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;cornerRadius<span class="token operator">: </span><a href="../../../com.checkout.frames.model/-corner-radius/index.html">CornerRadius</a><span class="token operator"> = </span>CornerRadius(BorderConstants.radius)<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;focusedBorderThickness<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>BorderConstants.focusedBorderThickness<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;unfocusedBorderThickness<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>BorderConstants.unfocusedBorderThickness<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>focusedBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.focusedBorderColor<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>unfocusedBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.unfocusedBorderColor<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>disabledBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.disabledBorderColor<span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;<span><span class="token annotation">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/ColorLong.html"><span class="token annotation">ColorLong</span></a>&nbsp;</span>errorBorderColor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>BorderConstants.errorBorderColor</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="1598617068%2FProperties%2F-1538894547" anchor-label="cornerRadius" id="1598617068%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="corner-radius.html">cornerRadius</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1598617068%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="1598617068%2FProperties%2F-1538894547" anchor-label="cornerRadius" id="1598617068%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="corner-radius.html">cornerRadius</a><span class="token operator">: </span><a href="../../../com.checkout.frames.model/-corner-radius/index.html">CornerRadius</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1598617068%2FProperties%2F-1538894547" anchor-label="cornerRadius" id="1598617068%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Radius in dp.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="229446988%2FProperties%2F-1538894547" anchor-label="disabledBorderColor" id="229446988%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="disabled-border-color.html">disabledBorderColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="229446988%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="229446988%2FProperties%2F-1538894547" anchor-label="disabledBorderColor" id="229446988%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="disabled-border-color.html">disabledBorderColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="229446988%2FProperties%2F-1538894547" anchor-label="disabledBorderColor" id="229446988%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB color to create a disabled border Color from.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-586356796%2FProperties%2F-1538894547" anchor-label="errorBorderColor" id="-586356796%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="error-border-color.html">errorBorderColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-586356796%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-586356796%2FProperties%2F-1538894547" anchor-label="errorBorderColor" id="-586356796%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="error-border-color.html">errorBorderColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-586356796%2FProperties%2F-1538894547" anchor-label="errorBorderColor" id="-586356796%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB color to create an error border Color from.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-636614605%2FProperties%2F-1538894547" anchor-label="focusedBorderColor" id="-636614605%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="focused-border-color.html">focusedBorderColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-636614605%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-636614605%2FProperties%2F-1538894547" anchor-label="focusedBorderColor" id="-636614605%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="focused-border-color.html">focusedBorderColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-636614605%2FProperties%2F-1538894547" anchor-label="focusedBorderColor" id="-636614605%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB color to create a focused border Color from.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1282088766%2FProperties%2F-1538894547" anchor-label="focusedBorderThickness" id="-1282088766%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="focused-border-thickness.html">focusedBorderThickness</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1282088766%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-1282088766%2FProperties%2F-1538894547" anchor-label="focusedBorderThickness" id="-1282088766%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="focused-border-thickness.html">focusedBorderThickness</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1282088766%2FProperties%2F-1538894547" anchor-label="focusedBorderThickness" id="-1282088766%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Focused border thickness in dp.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-121086874%2FProperties%2F-1538894547" anchor-label="shape" id="-121086874%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="shape.html">shape</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-121086874%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-121086874%2FProperties%2F-1538894547" anchor-label="shape" id="-121086874%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="shape.html">shape</a><span class="token operator">: </span><a href="../../../com.checkout.frames.model/-shape/index.html">Shape</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1957938810%2FProperties%2F-1538894547" anchor-label="unfocusedBorderColor" id="1957938810%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="unfocused-border-color.html">unfocusedBorderColor</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1957938810%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="1957938810%2FProperties%2F-1538894547" anchor-label="unfocusedBorderColor" id="1957938810%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="unfocused-border-color.html">unfocusedBorderColor</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1957938810%2FProperties%2F-1538894547" anchor-label="unfocusedBorderColor" id="1957938810%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">The 32-bit ARGB color to create an unfocused border Color from.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-317447287%2FProperties%2F-1538894547" anchor-label="unfocusedBorderThickness" id="-317447287%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a>
+        <div class="table-row" data-filterable-current=":frames:dokkaHtmlPartial/release" data-filterable-set=":frames:dokkaHtmlPartial/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="unfocused-border-thickness.html">unfocusedBorderThickness</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-317447287%2FProperties%2F-1538894547"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":frames:dokkaHtmlPartial/release"><a data-name="-317447287%2FProperties%2F-1538894547" anchor-label="unfocusedBorderThickness" id="-317447287%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="unfocused-border-thickness.html">unfocusedBorderThickness</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-317447287%2FProperties%2F-1538894547" anchor-label="unfocusedBorderThickness" id="-317447287%2FProperties%2F-1538894547" data-filterable-set=":frames:dokkaHtmlPartial/release"></a><p class="paragraph">Unfocused border thickness in dp.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        </div>
+    </div>
+</div>
+
+</body></html>
+
