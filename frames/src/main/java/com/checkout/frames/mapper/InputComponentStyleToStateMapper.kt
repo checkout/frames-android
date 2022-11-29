@@ -21,7 +21,6 @@ internal class InputComponentStyleToStateMapper(
             infoState = textLabelMapper.map(from.infoStyle),
             errorState = textLabelMapper.map(from.errorMessageStyle),
             isInputFieldOptional = from.isInputFieldOptional,
-            isInputFieldHidden = from.isInputFieldHidden,
         )
     }
 }

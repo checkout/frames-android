@@ -95,7 +95,7 @@ internal class CvvViewModel @Inject constructor(
 
     private fun provideViewStyle(inputStyle: InputComponentStyle): InputComponentViewStyle {
         var viewStyle = inputComponentStyleMapper.map(inputStyle)
-        val keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next)
+        val keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
 
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(

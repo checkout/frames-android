@@ -137,7 +137,6 @@ public object DefaultLightStyle {
         padding: Padding = Padding(),
         margin: Margin = Margin(),
         isFieldOptional: Boolean = false,
-        isFieldHidden: Boolean = false,
         keyboardOptions: KeyboardOptions = KeyboardOptions.Default
     ): InputComponentStyle = InputComponentStyle(
         titleStyle = titleTextLabelStyle().apply {
@@ -158,8 +157,7 @@ public object DefaultLightStyle {
         },
         errorMessageStyle = errorTextLabelStyle(),
         containerStyle = ContainerStyle(padding = padding, margin = margin),
-        isInputFieldOptional = isFieldOptional,
-        isInputFieldHidden = isFieldHidden
+        isInputFieldOptional = isFieldOptional
     )
 
     public fun cardSchemeComponentStyle(

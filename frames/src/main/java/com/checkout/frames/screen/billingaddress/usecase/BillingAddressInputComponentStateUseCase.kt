@@ -19,7 +19,6 @@ internal class BillingAddressInputComponentStateUseCase(
 
         data.inputComponentsContainerStyle.inputComponentStyleValues.forEach { inputComponentStyleValue ->
 
-            if (!inputComponentStyleValue.value.isInputFieldHidden) {
                 inputComponentStateList.add(
                     billingAddressInputComponentStateMapper.map(
                         BillingAddressInputComponentStyle(
@@ -28,7 +27,6 @@ internal class BillingAddressInputComponentStateUseCase(
                         )
                     )
                 )
-            }
         }
 
         return BillingAddressInputComponentsContainerState(

@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.checkout.base.model.CardScheme
 import com.checkout.example.frames.navigation.Screen
+import com.checkout.example.frames.ui.utils.CustomPaymentFormTheme
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.R
@@ -17,6 +18,7 @@ import com.checkout.frames.screen.paymentform.PaymentFormConfig
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.style.theme.paymentform.PaymentFormStyleProvider
 import com.checkout.tokenization.model.TokenDetails
 
 class MainActivity : ComponentActivity() {
@@ -38,6 +40,7 @@ fun Navigator(
     onSuccess: (TokenDetails) -> Unit,
     onFailure: (String) -> Unit
 ) {
+
     val navController = rememberNavController()
     val defaultPaymentFormConfig = PaymentFormConfig(
         publicKey = PUBLIC_KEY,
@@ -67,7 +70,7 @@ fun Navigator(
 
     val customPaymentFormMediator = PaymentFormMediator(
         defaultPaymentFormConfig.copy(
-            style = PaymentFormStyleProvider.provide(paymentFormTheme)
+            style = PaymentFormStyleProvider.provide(CustomPaymentFormTheme.providePaymentFormTheme())
 
         )
     )
