@@ -19,14 +19,14 @@ internal class BillingAddressInputComponentStateUseCase(
 
         data.inputComponentsContainerStyle.inputComponentStyleValues.forEach { inputComponentStyleValue ->
 
-            inputComponentStateList.add(
-                billingAddressInputComponentStateMapper.map(
-                    BillingAddressInputComponentStyle(
-                        inputComponentStyleValue.key.name,
-                        inputComponentStyleValue.value
+                inputComponentStateList.add(
+                    billingAddressInputComponentStateMapper.map(
+                        BillingAddressInputComponentStyle(
+                            inputComponentStyleValue.key.name,
+                            inputComponentStyleValue.value
+                        )
                     )
                 )
-            )
         }
 
         return BillingAddressInputComponentsContainerState(

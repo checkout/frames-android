@@ -3,6 +3,7 @@
     <string name="payment_experience">Try Payment Experience</string>
     <string name="generate_token">Generate Token</string>
     <string name="default_ui">Default UI (In progress)</string>
+    <string name="custom_ui">Custom UI (In progress)</string>
     <string name="google_pay_payment_data">GooglePay payment data</string>
     <string name="token_generated">Token generated</string>
     <string name="token_generated_failed">Token generating failed</string>

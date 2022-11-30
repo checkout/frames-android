@@ -21,7 +21,7 @@ public object DefaultBillingAddressDetailsStyle {
 
     @Suppress("LongMethod")
     public fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
-        val defaultKeyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+        val defaultKeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
 
         inputComponentsStyles[BillingFormFields.AddressLineOne] = DefaultLightStyle.inputComponentStyle(

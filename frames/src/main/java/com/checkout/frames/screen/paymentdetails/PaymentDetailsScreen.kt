@@ -55,20 +55,20 @@ internal fun PaymentDetailsScreen(
             viewModel.componentProvider.CardNumber(style = style.cardNumberStyle)
 
             // Expiry Date
-            viewModel.componentProvider.ExpiryDate(style = style.expiryDateComponentStyle)
+            viewModel.componentProvider.ExpiryDate(style = style.expiryDateStyle)
 
             // CVV
-            style.cvvComponentStyle?.let { viewModel.componentProvider.Cvv(style = it) }
+            style.cvvStyle?.let { viewModel.componentProvider.Cvv(style = it) }
 
             // Billing Address Summary
-            style.addressSummaryComponentStyle?.let { addressSummaryStyle ->
+            style.addressSummaryStyle?.let { addressSummaryStyle ->
                 viewModel.componentProvider.AddressSummary(style = addressSummaryStyle) {
                     navController.navigate(Screen.BillingFormScreen.route)
                 }
             }
 
             // Pay Button
-            viewModel.componentProvider.PayButton(style = style.payButtonComponentStyle)
+            viewModel.componentProvider.PayButton(style = style.payButtonStyle)
         }
     }
 
