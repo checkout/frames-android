@@ -12,5 +12,5 @@ public data class BillingAddressDetailsStyle(
     var inputComponentsContainerStyle: InputComponentsContainerStyle =
         DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle(),
     var countryComponentStyle: CountryComponentStyle = DefaultCountryComponentStyle.light(),
-    var containerStyle: ContainerStyle = ContainerStyle()
+    var containerStyle: ContainerStyle = ContainerStyle(color = 0xFFFFFFFF)
 )
