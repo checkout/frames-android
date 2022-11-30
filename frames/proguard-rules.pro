@@ -20,6 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontshrink
--dontoptimize
--dontpreverify
+-keep class com.checkout.** { *; }

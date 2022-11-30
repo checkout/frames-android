@@ -3,32 +3,15 @@ import com.checkout.buildsrc.applyCommonLibConfigurations
 import com.checkout.buildsrc.applyAndroidJUnit4Configuration
 import com.checkout.buildsrc.applyNetworkConfigurations
 import com.checkout.buildsrc.BuildConfigFieldName
-import com.checkout.buildsrc.publishing.configureMavenPublication
-import com.checkout.buildsrc.publishing.PublishComponentInformation
 
 plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
     id("org.jetbrains.dokka")
+    id("maven-publish")
 }
 
-configureMavenPublication("CheckoutAndroid") {
-    with(CheckoutConfig) {
-        PublishComponentInformation(
-            groupId,
-            artifactId,
-            version,
-            pomName,
-            pomDescription,
-            githubProjectName,
-            githubProjectUrl,
-            AppConfig.developerId,
-            AppConfig.developerName,
-            "" // TODO Confirm License Name
-        )
-    }
-}
 applyAndroidJUnit5Configuration()
 applyAndroidJUnit4Configuration()
 applyCommonLibConfigurations()
@@ -61,6 +44,8 @@ android {
 
     buildTypes {
         release {
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+
             buildConfigField(
                 "Boolean",
                 BuildConfigFieldName.defaultLogcatMonitoring,
@@ -102,6 +87,38 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
             reportUndocumented.set(true)
 
             includes.from("module.md")
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                from(components.getByName("release"))
+                artifactId = CheckoutConfig.artifactId
+                version = CheckoutConfig.version
+                groupId = FramesConfig.productGroupId
+
+                pom {
+                    name.set(CheckoutConfig.pomName)
+                    description.set(CheckoutConfig.pomDescription)
+                    url.set(CheckoutConfig.githubProjectUrl)
+
+                    licenses {
+                        license {
+                            name.set(AppConfig.pomLicenseName)
+                            url.set(CheckoutConfig.pomLicenseUrl)
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set(AppConfig.pomDeveloperId)
+                            name.set(AppConfig.pomDeveloperName)
+                        }
+                    }
+                }
+            }
         }
     }
 }

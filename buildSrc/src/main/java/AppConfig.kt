@@ -1,4 +1,5 @@
 object AppConfig {
-    const val developerId = "mobile-team-cko"
-    const val developerName = "Checkout Mobile Team"
+    const val pomLicenseName = "MIT License"
+    const val pomDeveloperId = "mobile-team-cko"
+    const val pomDeveloperName = "Checkout Mobile Team"
 }
