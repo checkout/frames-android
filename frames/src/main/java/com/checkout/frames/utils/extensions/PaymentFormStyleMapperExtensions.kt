@@ -16,8 +16,8 @@ internal fun TextLabelStyle?.provideTitleStyle(
     from: PaymentFormTheme
 ): TextLabelStyle? {
     return this?.copy(
-        text = component.titleText,
-        textId = component.titleTextId,
+        text = text.provideText(component.titleText),
+        textId = textId?.provideTextId(component.titleTextId),
         leadingIconStyle = leadingIconStyle?.copy(
             tinColor = from.paymentFormThemeColors.imageColors.tinColor
         ),
@@ -30,13 +30,21 @@ internal fun TextLabelStyle?.provideTitleTextStyle(paymentFormTheme: PaymentForm
         ?: TextStyle()
 }
 
+internal fun String.provideText(text: String? = null): String {
+    return if (text.isNullOrEmpty()) this else text
+}
+
+internal fun Int.provideTextId(textID: Int? = null): Int {
+    return textID ?: this
+}
+
 internal fun TextLabelStyle?.provideSubTitleStyle(
     component: PaymentFormComponent,
     from: PaymentFormTheme
 ): TextLabelStyle? {
     return this?.copy(
-        text = component.subTitleText,
-        textId = component.subTitleTextId,
+        text = text.provideText(component.subTitleText),
+        textId = textId?.provideTextId(component.subTitleTextId),
         textStyle = provideSubTitleTextStyle(from)
     )
 }
@@ -46,8 +54,8 @@ internal fun TextLabelStyle?.provideInfoStyle(
     from: PaymentFormTheme
 ): TextLabelStyle? {
     return this?.copy(
-        text = component.infoText,
-        textId = component.infoTextId,
+        text = text.provideText(component.infoText),
+        textId = textId?.provideTextId(component.infoTextId),
         textStyle = provideInfoTextStyle(from)
     )
 }
@@ -127,8 +135,8 @@ internal fun ButtonStyle.provideButtonStyle(
         containerColor = from.paymentFormThemeColors.buttonColors.containerColor,
         disabledContainerColor = from.paymentFormThemeColors.buttonColors.disabledContainerColor,
         textStyle = textStyle.copy(
-            text = component.titleText,
-            textId = component.titleTextId,
+            text = textStyle.text.provideText(component.titleText),
+            textId = textStyle.textId?.provideTextId(component.titleTextId),
             trailingIconStyle = textStyle.trailingIconStyle?.copy(
                 tinColor = from.paymentFormThemeColors.buttonColors.contentColor
             ),

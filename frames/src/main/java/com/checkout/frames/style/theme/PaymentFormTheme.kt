@@ -8,7 +8,7 @@ public data class PaymentFormTheme(
     /**
      * Custom payment form fields used by the merchants
      */
-    val paymentFormComponents: List<PaymentFormComponent>,
+    val paymentFormComponents: List<PaymentFormComponent> = DefaultPaymentFormTheme.provideComponents(),
     /**
      * Custom CornerRadius provided by the merchants
      */

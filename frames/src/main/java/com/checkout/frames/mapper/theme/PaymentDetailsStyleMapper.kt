@@ -28,6 +28,8 @@ import com.checkout.frames.utils.extensions.provideContainerStyle
 import com.checkout.frames.utils.extensions.provideSubTitleStyle
 import com.checkout.frames.utils.extensions.provideTitleStyle
 import com.checkout.frames.utils.extensions.provideTitleTextStyle
+import com.checkout.frames.utils.extensions.provideText
+import com.checkout.frames.utils.extensions.provideTextId
 
 internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetailsStyle> {
 
@@ -178,8 +180,8 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         }
         paymentFormComponent?.let { component ->
             screenHeaderStyle = screenHeaderStyle.copy(
-                text = component.titleText,
-                textId = component.titleTextId,
+                text = screenHeaderStyle.text.provideText(component.titleText),
+                textId = screenHeaderStyle.textId?.provideTextId(component.titleTextId),
                 backIconStyle = screenHeaderStyle.backIconStyle.copy(
                     image = component.backIconImageResourceID,
                     tinColor = from.paymentFormThemeColors.imageColors.tinColor,

@@ -9,6 +9,5 @@ internal data class InputComponentState(
     val subtitleState: TextLabelState = TextLabelState(),
     val infoState: TextLabelState = TextLabelState(),
     val errorState: TextLabelState = TextLabelState(),
-    val isInputFieldOptional: Boolean = false,
-    val isInputFieldHidden: Boolean = false
+    val isInputFieldOptional: Boolean = false
 )

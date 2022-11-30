@@ -9,6 +9,5 @@ internal data class InputComponentViewStyle(
     val inputFieldStyle: InputFieldViewStyle = InputFieldViewStyle(),
     val errorMessageStyle: TextLabelViewStyle,
     val containerModifier: Modifier = Modifier,
-    val isInputFieldOptional: Boolean = false,
-    val isInputFieldHidden: Boolean = false
+    val isInputFieldOptional: Boolean = false
 )

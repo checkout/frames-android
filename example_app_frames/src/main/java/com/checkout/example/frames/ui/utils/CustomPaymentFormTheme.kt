@@ -156,7 +156,7 @@ object CustomPaymentFormTheme {
         .setSubTitleTextId(R.string.cko_billing_form_input_field_phone_subtitle)
         .build()
 
-    private val paymentFormInputFieldList =
+    private val paymentFormComponents =
         listOf(
             cardScheme,
             headerTitle,
@@ -178,6 +178,6 @@ object CustomPaymentFormTheme {
         )
 
     fun providePaymentFormTheme(): PaymentFormTheme {
-        return PaymentFormTheme(paymentFormThemeColors, paymentFormInputFieldList)
+        return PaymentFormTheme(paymentFormThemeColors, paymentFormComponents)
     }
 }
