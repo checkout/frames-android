@@ -30,8 +30,12 @@ public object DefaultPaymentFormTheme {
         .setPaymentFormField(PaymentFormComponentField.CVV)
         .build()
 
-    private val billingSummary = PaymentFormComponentBuilder()
-        .setPaymentFormField(PaymentFormComponentField.BillingSummary)
+    private val billingSummaryTextStyle = PaymentFormComponentBuilder()
+        .setPaymentFormField(PaymentFormComponentField.BillingSummaryTextStyle)
+        .build()
+
+    private val billingSummaryContainer = PaymentFormComponentBuilder()
+        .setPaymentFormField(PaymentFormComponentField.BillingSummaryContainer)
         .build()
 
     private val payButton = PaymentFormComponentBuilder()
@@ -89,7 +93,8 @@ public object DefaultPaymentFormTheme {
             expiryDate,
             cvv,
             payButton,
-            billingSummary,
+            billingSummaryTextStyle,
+            billingSummaryContainer,
             billingDetailsHeader,
             country,
             countryPicker,

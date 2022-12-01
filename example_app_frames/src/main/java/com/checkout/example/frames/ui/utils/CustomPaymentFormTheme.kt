@@ -36,7 +36,7 @@ object CustomPaymentFormTheme {
             cursorHandleColor = surfaceColor,
             cursorHighlightColor = backgroundColor
         ),
-        dividerColor = DividerColor(color = backgroundColor),
+        dividerColor = DividerColor(color = surfaceColor),
         imageColors = ImageColors(tinColor = surfaceColor),
         textColors = TextColors(
             titleColor = surfaceColor,
@@ -86,10 +86,17 @@ object CustomPaymentFormTheme {
         .setSubTitleTextId(R.string.cko_cvv_component_subtitle)
         .build()
 
-    private val billingSummary = PaymentFormComponentBuilder()
-        .setPaymentFormField(PaymentFormComponentField.BillingSummary)
+    private val billingSummaryTextStyle = PaymentFormComponentBuilder()
+        .setPaymentFormField(PaymentFormComponentField.BillingSummaryTextStyle)
         .setTitleTextId(R.string.cko_billing_address)
+        .setIsFieldOptional(false)
         .setSubTitleTextId(R.string.cko_billing_address_info)
+        .build()
+
+    private val billingSummaryContainer = PaymentFormComponentBuilder()
+        .setTitleTextId(R.string.cko_add_billing_address)
+        .setIsFieldOptional(false)
+        .setPaymentFormField(PaymentFormComponentField.BillingSummaryContainer)
         .build()
 
     private val payButton = PaymentFormComponentBuilder()
@@ -164,7 +171,8 @@ object CustomPaymentFormTheme {
             expiryDate,
             cvv,
             payButton,
-            billingSummary,
+            billingSummaryTextStyle,
+            billingSummaryContainer,
             billingDetailsHeader,
             country,
             countryPicker,
@@ -178,6 +186,9 @@ object CustomPaymentFormTheme {
         )
 
     fun providePaymentFormTheme(): PaymentFormTheme {
-        return PaymentFormTheme(paymentFormThemeColors, paymentFormComponents)
+        return PaymentFormTheme(
+            paymentFormThemeColors,
+            paymentFormComponents
+        )
     }
 }

@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 package com.checkout.frames.utils.extensions
 
 import com.checkout.frames.model.Padding
@@ -34,11 +35,11 @@ internal fun String.provideText(text: String? = null): String {
     return if (text.isNullOrEmpty()) this else text
 }
 
+/**
+ * Check titleText is provided from the merchant return null for the textID
+ * If titleText is not provided from the merchant return textID from the merchant or default style textId
+ */
 internal fun Int.provideTextId(text: String? = null, textId: Int?): Int? {
-    /**
-     * Check titleText is provided from the merchant return null for the textID
-     * If titleText is not provided from the merchant return textID from the merchant or default style textId
-     */
     return if (text.isNullOrBlank()) textId ?: this else null
 }
 
@@ -48,7 +49,7 @@ internal fun TextLabelStyle?.provideSubTitleStyle(
 ): TextLabelStyle? {
     return this?.copy(
         text = text.provideText(component.subTitleText),
-        textId = textId?.provideTextId(component.titleText, component.titleTextId),
+        textId = textId?.provideTextId(component.subTitleText, component.subTitleTextId),
         textStyle = provideSubTitleTextStyle(from)
     )
 }
@@ -59,7 +60,7 @@ internal fun TextLabelStyle?.provideInfoStyle(
 ): TextLabelStyle? {
     return this?.copy(
         text = text.provideText(component.infoText),
-        textId = textId?.provideTextId(component.titleText, component.titleTextId),
+        textId = textId?.provideTextId(component.infoText, component.infoTextId),
         textStyle = provideInfoTextStyle(from)
     )
 }
@@ -93,7 +94,9 @@ internal fun PaymentFormTheme.provideIndicatorStyle(): InputFieldIndicatorStyle 
         focusedBorderColor = paymentFormThemeColors.inputFieldColors.focusedBorderColor,
         unfocusedBorderColor = paymentFormThemeColors.inputFieldColors.unfocusedBorderColor,
         disabledBorderColor = paymentFormThemeColors.inputFieldColors.disabledBorderColor,
-        errorBorderColor = paymentFormThemeColors.inputFieldColors.errorBorderColor
+        errorBorderColor = paymentFormThemeColors.inputFieldColors.errorBorderColor,
+        shape = paymentFormShape.inputFieldShape,
+        cornerRadius = paymentFormCornerRadius.inputFieldCornerRadius
     )
 }
 
@@ -118,7 +121,9 @@ internal fun ContainerStyle.provideInputFieldContainerStyle(
     from: PaymentFormTheme,
 ): ContainerStyle {
     return copy(
-        color = from.paymentFormThemeColors.inputFieldColors.inputFieldBackgroundColor
+        color = from.paymentFormThemeColors.inputFieldColors.inputFieldBackgroundColor,
+        shape = from.paymentFormShape.inputFieldShape,
+        cornerRadius = from.paymentFormCornerRadius.inputFieldCornerRadius
     )
 }
 
@@ -129,7 +134,7 @@ internal fun PaymentFormTheme.provideContainerStyle(padding: Padding? = null): C
     )
 }
 
-internal fun ButtonStyle.provideButtonStyle(
+internal fun ButtonStyle.provideSolidButtonStyle(
     from: PaymentFormTheme,
     component: PaymentFormComponent,
 ): ButtonStyle {
@@ -137,10 +142,36 @@ internal fun ButtonStyle.provideButtonStyle(
         contentColor = from.paymentFormThemeColors.buttonColors.contentColor,
         disabledContentColor = from.paymentFormThemeColors.buttonColors.disabledContentColor,
         containerColor = from.paymentFormThemeColors.buttonColors.containerColor,
+        cornerRadius = from.paymentFormCornerRadius.buttonCornerRadius,
+        shape = from.paymentFormShape.buttonShape,
         disabledContainerColor = from.paymentFormThemeColors.buttonColors.disabledContainerColor,
         textStyle = textStyle.copy(
             text = textStyle.text.provideText(component.titleText),
             textId = textStyle.textId?.provideTextId(component.titleText, component.titleTextId),
+            trailingIconStyle = textStyle.trailingIconStyle?.copy(
+                tinColor = from.paymentFormThemeColors.buttonColors.contentColor
+            ),
+            textStyle = textStyle.provideTitleTextStyle(from)
+        )
+    )
+}
+
+internal fun ButtonStyle.provideOutLinedButtonStyle(
+    from: PaymentFormTheme,
+    component: PaymentFormComponent?,
+): ButtonStyle {
+    return copy(
+        contentColor = from.paymentFormThemeColors.buttonColors.contentColor,
+        disabledContentColor = from.paymentFormThemeColors.buttonColors.disabledContentColor,
+        disabledContainerColor = from.paymentFormThemeColors.buttonColors.disabledContainerColor,
+        borderStroke = borderStroke?.copy(
+            color = from.paymentFormThemeColors.buttonColors.containerColor
+        ),
+        cornerRadius = from.paymentFormCornerRadius.buttonCornerRadius,
+        shape = from.paymentFormShape.buttonShape,
+        textStyle = textStyle.copy(
+            text = textStyle.text.provideText(component?.titleText),
+            textId = textStyle.textId?.provideTextId(component?.titleText, component?.titleTextId),
             trailingIconStyle = textStyle.trailingIconStyle?.copy(
                 tinColor = from.paymentFormThemeColors.buttonColors.contentColor
             ),

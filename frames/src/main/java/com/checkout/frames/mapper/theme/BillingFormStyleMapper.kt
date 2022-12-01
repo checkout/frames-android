@@ -21,7 +21,7 @@ import com.checkout.frames.utils.extensions.provideInfoStyle
 import com.checkout.frames.utils.extensions.provideErrorMessageStyle
 import com.checkout.frames.utils.extensions.provideIndicatorStyle
 import com.checkout.frames.utils.extensions.provideInputFieldContainerStyle
-import com.checkout.frames.utils.extensions.provideButtonStyle
+import com.checkout.frames.utils.extensions.provideSolidButtonStyle
 import com.checkout.frames.utils.extensions.provideInputFieldStyle
 import com.checkout.frames.utils.extensions.provideSubTitleStyle
 import com.checkout.frames.utils.extensions.provideTitleStyle
@@ -215,7 +215,7 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
 
         headerButtonComponent?.let { component ->
             screenHeaderStyle = screenHeaderStyle.copy(
-                headerButtonStyle = screenHeaderStyle.headerButtonStyle.provideButtonStyle(from, component)
+                headerButtonStyle = screenHeaderStyle.headerButtonStyle.provideSolidButtonStyle(from, component)
             )
         }
 

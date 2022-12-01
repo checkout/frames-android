@@ -10,15 +10,26 @@ public data class PaymentFormTheme(
      */
     val paymentFormComponents: List<PaymentFormComponent> = DefaultPaymentFormTheme.provideComponents(),
     /**
-     * Custom CornerRadius provided by the merchants
-     */
-    val paymentFormCornerRadius: PaymentFormCornerRadius = PaymentFormCornerRadius(),
-    /**
      * Custom Shape provided by the merchants
      */
-    val paymentFormShape: PaymentFormShape = PaymentFormShape(),
+    val paymentFormShape: PaymentFormShape,
+    /**
+     * Custom CornerRadius provided by the merchants
+     */
+    val paymentFormCornerRadius: PaymentFormCornerRadius,
     /**
      * Custom Font provided by the merchants
      */
-    val paymentFormFont: PaymentFormFont = PaymentFormFont()
-)
+    val paymentFormFont: PaymentFormFont,
+) {
+    public constructor(
+        paymentFormThemeColors: PaymentFormThemeColors,
+        paymentFormComponents: List<PaymentFormComponent>,
+    ) : this(
+        paymentFormThemeColors,
+        paymentFormComponents,
+        PaymentFormShape(),
+        PaymentFormCornerRadius(),
+        PaymentFormFont()
+    )
+}

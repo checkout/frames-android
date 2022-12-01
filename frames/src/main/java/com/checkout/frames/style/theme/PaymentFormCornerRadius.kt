@@ -1,10 +1,12 @@
 package com.checkout.frames.style.theme
 
+import com.checkout.frames.model.CornerRadius
+import com.checkout.frames.utils.constants.BorderConstants
+import com.checkout.frames.utils.constants.ContainerConstants
+
 public data class PaymentFormCornerRadius(
-    val topStart: Int = 0,
-    val topEnd: Int = 0,
-    val bottomEnd: Int = 0,
-    val bottomStart: Int = 0
-) {
-    public constructor(radius: Int) : this(radius, radius, radius, radius)
-}
+    val inputFieldCornerRadius: CornerRadius = CornerRadius(ContainerConstants.radius),
+    val addressSummaryCornerRadius: CornerRadius = CornerRadius(BorderConstants.radius),
+    val buttonCornerRadius: CornerRadius = CornerRadius(),
+    val screenBackgroundCornerRadius: CornerRadius = CornerRadius(ContainerConstants.radius)
+)
