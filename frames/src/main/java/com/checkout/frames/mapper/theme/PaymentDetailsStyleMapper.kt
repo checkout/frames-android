@@ -181,7 +181,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         paymentFormComponent?.let { component ->
             screenHeaderStyle = screenHeaderStyle.copy(
                 text = screenHeaderStyle.text.provideText(component.titleText),
-                textId = screenHeaderStyle.textId?.provideTextId(component.titleTextId),
+                textId = screenHeaderStyle.textId?.provideTextId(component.titleText, component.titleTextId),
                 backIconStyle = screenHeaderStyle.backIconStyle.copy(
                     image = component.backIconImageResourceID,
                     tinColor = from.paymentFormThemeColors.imageColors.tinColor,
