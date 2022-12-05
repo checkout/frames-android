@@ -27,6 +27,7 @@ import com.checkout.frames.style.theme.PaymentFormTheme
 import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 import com.checkout.frames.utils.constants.AddressSummaryConstants
 import com.checkout.frames.utils.constants.BorderConstants
+import com.checkout.frames.utils.constants.ContainerConstants
 import com.checkout.frames.utils.extensions.provideOutLinedButtonStyle
 import com.checkout.frames.utils.extensions.provideContainerStyle
 import com.checkout.frames.utils.extensions.provideErrorMessageStyle
@@ -82,8 +83,10 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                 inputStyle = with(cardNumberComponentStyle.inputStyle) {
                     this.copy(
                         titleStyle = titleStyle.provideTitleStyle(component, from),
+                        subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                         inputFieldStyle = this.provideInputFieldStyle(from),
-                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from)
+                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
+                        isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
                     )
                 }
             )
@@ -92,58 +95,92 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         return cardNumberComponentStyle
     }
 
+    @Suppress("ComplexMethod")
     private fun provideAddressSummaryStyle(from: PaymentFormTheme): AddressSummaryComponentStyle? {
-        val textStyleComponent = from.paymentFormComponents.find {
-            PaymentFormComponentField.BillingSummaryTextStyle.name == it.paymentFormComponentField.name
+        val billingSummaryHeader = from.paymentFormComponents.find {
+            PaymentFormComponentField.BillingSummaryHeader.name == it.paymentFormComponentField.name
         }
 
-        val containerComponent = from.paymentFormComponents.find {
-            PaymentFormComponentField.BillingSummaryContainer.name == it.paymentFormComponentField.name
+        val addButtonComponent = from.paymentFormComponents.find {
+            PaymentFormComponentField.AddBillingSummaryButton.name == it.paymentFormComponentField.name
         }
 
-        val isOptional: Boolean = textStyleComponent?.isFieldOptional == true ||
-                containerComponent?.isFieldOptional == true
+        val editButtonComponent = from.paymentFormComponents.find {
+            PaymentFormComponentField.EditBillingSummaryButton.name == it.paymentFormComponentField.name
+        }
+
+        val summaryPreviewComponent = from.paymentFormComponents.find {
+            PaymentFormComponentField.BillingSummaryPreview.name == it.paymentFormComponentField.name
+        }
+
+        val isOptional: Boolean =
+            summaryPreviewComponent?.isFieldOptional == true || addButtonComponent?.isFieldOptional == true ||
+                    editButtonComponent?.isFieldOptional == true || billingSummaryHeader?.isFieldOptional == true
 
         var addressSummaryComponentStyle = DefaultAddressSummaryComponentStyle.light(isOptional)
 
-        textStyleComponent?.let { textComponent ->
+        billingSummaryHeader?.let { textComponent ->
+            @Suppress("ComplexCondition")
+            if (
+                textComponent.isFieldHidden == true || summaryPreviewComponent?.isFieldHidden == true ||
+                addButtonComponent?.isFieldHidden == true || editButtonComponent?.isFieldHidden == true ||
+                billingSummaryHeader.isFieldHidden == true
+            ) return null
 
-            if (textComponent.isFieldHidden || containerComponent?.isFieldHidden == true) return null
-
-            with(addressSummaryComponentStyle) {
-                addressSummaryComponentStyle = copy(
-                    titleStyle = titleStyle.provideTitleStyle(textComponent, from),
-                    subTitleStyle = provideAddressSummarySubTitle(subTitleStyle, textComponent, from),
-                    addAddressButtonStyle = addAddressButtonStyle.provideOutLinedButtonStyle(from, containerComponent),
-                    summarySectionStyle = summarySectionStyle.copy(
-                        editAddressButtonStyle = summarySectionStyle.editAddressButtonStyle.provideOutLinedButtonStyle(
-                            from,
-                            textComponent
-                        ),
-                        addressTextStyle = summarySectionStyle.addressTextStyle.copy(
-                            textStyle = summarySectionStyle.addressTextStyle.provideTitleTextStyle(from)
-                        ),
-                        dividerStyle = summarySectionStyle.dividerStyle?.copy(
-                            color = from.paymentFormThemeColors.dividerColor.color
-                        ),
-                        containerStyle = ContainerStyle(
-                            shape = from.paymentFormShape.buttonShape,
-                            cornerRadius = from.paymentFormCornerRadius.buttonCornerRadius,
-                            borderStroke = BorderStroke(
-                                width = BorderConstants.unfocusedBorderThickness,
-                                color = from.paymentFormThemeColors.buttonColors.containerColor
-                            ),
-                            margin = Margin(
-                                top = AddressSummaryConstants.marginBeforeSummarySection,
-                                bottom = PaymentDetailsScreenConstants.marginBottom
-                            )
-                        )
-                    )
-                )
-            }
+            addressSummaryComponentStyle = provideSummaryComponentStyle(
+                addressSummaryComponentStyle,
+                from,
+                textComponent,
+                addButtonComponent,
+                editButtonComponent
+            )
         }
 
         return addressSummaryComponentStyle
+    }
+
+    private fun provideSummaryComponentStyle(
+        addressSummaryComponentStyle: AddressSummaryComponentStyle,
+        from: PaymentFormTheme,
+        textComponent: PaymentFormComponent,
+        addButtonComponent: PaymentFormComponent?,
+        editButtonComponent: PaymentFormComponent?,
+    ): AddressSummaryComponentStyle {
+        return with(addressSummaryComponentStyle) {
+            copy(
+                titleStyle = titleStyle.provideTitleStyle(textComponent, from),
+                subTitleStyle = provideAddressSummarySubTitle(subTitleStyle, textComponent, from),
+                addAddressButtonStyle = addAddressButtonStyle.provideOutLinedButtonStyle(from, addButtonComponent),
+                summarySectionStyle = summarySectionStyle.copy(
+                    editAddressButtonStyle = summarySectionStyle.editAddressButtonStyle.provideOutLinedButtonStyle(
+                        from,
+                        editButtonComponent
+                    ),
+                    addressTextStyle = summarySectionStyle.addressTextStyle.copy(
+                        textStyle = summarySectionStyle.addressTextStyle.provideTitleTextStyle(from)
+                    ),
+                    dividerStyle = summarySectionStyle.dividerStyle?.copy(
+                        color = from.paymentFormThemeColors.dividerColor.color
+                    ),
+                    containerStyle = ContainerStyle(
+                        borderStroke = BorderStroke(
+                            width = BorderConstants.unfocusedBorderThickness,
+                            color = from.paymentFormThemeColors.buttonColors.containerColor
+                        ),
+                        margin = Margin(
+                            top = AddressSummaryConstants.marginBeforeSummarySection,
+                            bottom = AddressSummaryConstants.marginAfterSummarySection
+                        )
+                    )
+                ),
+                containerStyle = containerStyle.copy(
+                    shape = from.paymentFormShape.addressSummaryShape,
+                    cornerRadius = from.paymentFormCornerRadius.addressSummaryCornerRadius,
+                    color = from.paymentFormThemeColors.inputFieldColors.inputFieldBackgroundColor,
+                    padding = Padding(start = ContainerConstants.paddingStart, end = ContainerConstants.paddingEnd)
+                )
+            )
+        }
     }
 
     /**
@@ -153,21 +190,24 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         subTitleStyle: TextLabelStyle?,
         component: PaymentFormComponent,
         from: PaymentFormTheme,
-    ): TextLabelStyle? = if (component.isFieldOptional) null else subTitleStyle.provideSubTitleStyle(component, from)
+    ): TextLabelStyle? =
+        if (component.isFieldOptional == true) null else subTitleStyle.provideSubTitleStyle(component, from)
 
-    private fun provideCVVStyle(from: PaymentFormTheme): CvvComponentStyle {
+    private fun provideCVVStyle(from: PaymentFormTheme): CvvComponentStyle? {
         var cvvComponentStyle = DefaultCvvComponentStyle.light()
         val paymentFormComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.CVV.name == it.paymentFormComponentField.name
         }
         paymentFormComponent?.let { component ->
+            if (component.isFieldHidden == true) return null
             cvvComponentStyle = cvvComponentStyle.copy(
                 inputStyle = with(cvvComponentStyle.inputStyle) {
                     this.copy(
                         titleStyle = titleStyle.provideTitleStyle(component, from),
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
-                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from)
+                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
+                        isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
                     )
                 }
             )
@@ -188,7 +228,8 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                         titleStyle = titleStyle.provideTitleStyle(component, from),
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
-                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from)
+                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
+                        isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
                     )
                 }
             )
@@ -223,7 +264,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         paymentFormComponent?.let { component ->
             screenHeaderStyle = screenHeaderStyle.copy(
                 text = screenHeaderStyle.text.provideText(component.titleText),
-                textId = screenHeaderStyle.textId?.provideTextId(component.titleText, component.titleTextId),
+                textId = screenHeaderStyle.textId.provideTextId(component.titleText, component.titleTextId),
                 backIconStyle = screenHeaderStyle.backIconStyle.copy(
                     image = component.backIconImageResourceID,
                     tinColor = from.paymentFormThemeColors.imageColors.tinColor,

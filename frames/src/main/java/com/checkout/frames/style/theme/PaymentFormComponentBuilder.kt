@@ -7,9 +7,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 @Suppress("TooManyFunctions")
 public class PaymentFormComponentBuilder : ObjectBuilder<PaymentFormComponent> {
     private var paymentFormComponentField: PaymentFormComponentField = PaymentFormComponentField.UNKNOWN
-    public var isInputFieldOptional: Boolean = false
-    private var isInputFieldHidden: Boolean = false
-    private var titleText: String = ""
+    public var isInputFieldOptional: Boolean? = null
+    private var isInputFieldHidden: Boolean? = null
+    private var titleText: String? = null
     private var inputFieldKeyBoardOption: KeyboardOptions = KeyboardOptions.Default
 
     @StringRes
@@ -18,11 +18,11 @@ public class PaymentFormComponentBuilder : ObjectBuilder<PaymentFormComponent> {
 
     @StringRes
     private var subTitleTextResourceId: Int? = null
-    private var infoText: String = ""
+    private var infoText: String? = null
 
     @StringRes
     private var infoTextResourceId: Int? = null
-    private var placeholderResourceText: String = ""
+    private var placeholderResourceText: String? = null
 
     @DrawableRes
     private var backIconImageID: Int? = null

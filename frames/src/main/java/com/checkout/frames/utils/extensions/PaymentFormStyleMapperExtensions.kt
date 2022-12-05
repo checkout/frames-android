@@ -11,36 +11,21 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.theme.PaymentFormComponent
 import com.checkout.frames.style.theme.PaymentFormTheme
-
+/**
+ * TextLabelStyle extensions
+ */
 internal fun TextLabelStyle?.provideTitleStyle(
     component: PaymentFormComponent,
     from: PaymentFormTheme,
 ): TextLabelStyle? {
     return this?.copy(
         text = text.provideText(component.titleText),
-        textId = textId?.provideTextId(component.titleText, component.titleTextId),
+        textId = textId.provideTextId(component.titleText, component.titleTextId),
         leadingIconStyle = leadingIconStyle?.copy(
             tinColor = from.paymentFormThemeColors.imageColors.tinColor
         ),
         textStyle = provideTitleTextStyle(from)
     )
-}
-
-internal fun TextLabelStyle?.provideTitleTextStyle(paymentFormTheme: PaymentFormTheme): TextStyle {
-    return this?.textStyle?.copy(color = paymentFormTheme.paymentFormThemeColors.textColors.titleColor)
-        ?: TextStyle()
-}
-
-internal fun String.provideText(text: String? = null): String {
-    return if (text.isNullOrEmpty()) this else text
-}
-
-/**
- * Check titleText is provided from the merchant return null for the textID
- * If titleText is not provided from the merchant return textID from the merchant or default style textId
- */
-internal fun Int.provideTextId(text: String? = null, textId: Int?): Int? {
-    return if (text.isNullOrBlank()) textId ?: this else null
 }
 
 internal fun TextLabelStyle?.provideSubTitleStyle(
@@ -49,7 +34,7 @@ internal fun TextLabelStyle?.provideSubTitleStyle(
 ): TextLabelStyle? {
     return this?.copy(
         text = text.provideText(component.subTitleText),
-        textId = textId?.provideTextId(component.subTitleText, component.subTitleTextId),
+        textId = textId.provideTextId(component.subTitleText, component.subTitleTextId),
         textStyle = provideSubTitleTextStyle(from)
     )
 }
@@ -60,9 +45,27 @@ internal fun TextLabelStyle?.provideInfoStyle(
 ): TextLabelStyle? {
     return this?.copy(
         text = text.provideText(component.infoText),
-        textId = textId?.provideTextId(component.infoText, component.infoTextId),
+        textId = textId.provideTextId(component.infoText, component.infoTextId),
         textStyle = provideInfoTextStyle(from)
     )
+}
+
+internal fun TextLabelStyle?.provideErrorMessageStyle(
+    paymentFormTheme: PaymentFormTheme,
+): TextLabelStyle? {
+    return this?.copy(
+        textStyle = this.textStyle.copy(
+            color = paymentFormTheme.paymentFormThemeColors.textColors.errorColor
+        )
+    )
+}
+
+/**
+ * TextStyle extensions
+ */
+internal fun TextLabelStyle?.provideTitleTextStyle(paymentFormTheme: PaymentFormTheme): TextStyle {
+    return this?.textStyle?.copy(color = paymentFormTheme.paymentFormThemeColors.textColors.titleColor)
+        ?: TextStyle()
 }
 
 internal fun TextLabelStyle?.provideSubTitleTextStyle(
@@ -79,16 +82,24 @@ internal fun TextLabelStyle?.provideInfoTextStyle(
         ?: TextStyle()
 }
 
-internal fun TextLabelStyle?.provideErrorMessageStyle(
-    paymentFormTheme: PaymentFormTheme,
-): TextLabelStyle? {
-    return this?.copy(
-        textStyle = this.textStyle.copy(
-            color = paymentFormTheme.paymentFormThemeColors.textColors.errorColor
-        )
-    )
+/**
+ * Text resources extensions
+ */
+internal fun String.provideText(text: String? = null): String {
+    return if (text.isNullOrEmpty()) this else text
 }
 
+/**
+ * Check titleText is provided from the merchant return null for the textID
+ * If titleText is not provided from the merchant return textID from the merchant or default style textId
+ */
+internal fun Int?.provideTextId(text: String? = null, textId: Int?): Int? {
+    return if (!text.isNullOrEmpty()) textId else textId ?: this
+}
+
+/**
+ * InputField style extensions
+ */
 internal fun PaymentFormTheme.provideIndicatorStyle(): InputFieldIndicatorStyle {
     return InputFieldIndicatorStyle.Border().copy(
         focusedBorderColor = paymentFormThemeColors.inputFieldColors.focusedBorderColor,
@@ -127,6 +138,9 @@ internal fun ContainerStyle.provideInputFieldContainerStyle(
     )
 }
 
+/**
+ * Container style extensions
+ */
 internal fun PaymentFormTheme.provideContainerStyle(padding: Padding? = null): ContainerStyle {
     return ContainerStyle().copy(
         color = paymentFormThemeColors.paymentFormColors.background,
@@ -134,6 +148,9 @@ internal fun PaymentFormTheme.provideContainerStyle(padding: Padding? = null): C
     )
 }
 
+/**
+ * Button style extensions
+ */
 internal fun ButtonStyle.provideSolidButtonStyle(
     from: PaymentFormTheme,
     component: PaymentFormComponent,
@@ -147,7 +164,7 @@ internal fun ButtonStyle.provideSolidButtonStyle(
         disabledContainerColor = from.paymentFormThemeColors.buttonColors.disabledContainerColor,
         textStyle = textStyle.copy(
             text = textStyle.text.provideText(component.titleText),
-            textId = textStyle.textId?.provideTextId(component.titleText, component.titleTextId),
+            textId = textStyle.textId.provideTextId(component.titleText, component.titleTextId),
             trailingIconStyle = textStyle.trailingIconStyle?.copy(
                 tinColor = from.paymentFormThemeColors.buttonColors.contentColor
             ),
@@ -171,7 +188,7 @@ internal fun ButtonStyle.provideOutLinedButtonStyle(
         shape = from.paymentFormShape.buttonShape,
         textStyle = textStyle.copy(
             text = textStyle.text.provideText(component?.titleText),
-            textId = textStyle.textId?.provideTextId(component?.titleText, component?.titleTextId),
+            textId = textStyle.textId.provideTextId(component?.titleText, component?.titleTextId),
             trailingIconStyle = textStyle.trailingIconStyle?.copy(
                 tinColor = from.paymentFormThemeColors.buttonColors.contentColor
             ),

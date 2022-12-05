@@ -38,102 +38,95 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         countryPickerStyle = provideCountryPickerStyle(from)
     )
 
-    @Suppress("LongMethod")
     private fun provideInputComponentsContainerStyle(from: PaymentFormTheme): InputComponentsContainerStyle {
         var inputComponentsContainerStyle = DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle()
-        val inputComponentStyleValues = inputComponentsContainerStyle.inputComponentStyleValues
+        val defaultComponentStylesValues = inputComponentsContainerStyle.inputComponentStyleValues
 
-        val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
+        val componentStylesValues: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
 
         val addressLineOneComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.AddressLineOne.name == it.paymentFormComponentField.name
         }
-
-        var addressLineOneInputStyle = inputComponentStyleValues[BillingFormFields.AddressLineOne]
+        val addressLineOneInputStyle = defaultComponentStylesValues[BillingFormFields.AddressLineOne]
         addressLineOneComponent?.let { component ->
-            if (!component.isFieldHidden) {
-                addressLineOneInputStyle = provideInputComponentStyle(addressLineOneInputStyle, component, from)
-                inputComponentsStyles[BillingFormFields.AddressLineOne] =
-                    addressLineOneInputStyle ?: InputComponentStyle()
-            }
+            componentStylesValues[BillingFormFields.AddressLineOne] =
+                provideComponentStyle(component, addressLineOneInputStyle, from) ?: InputComponentStyle()
         }
 
         val addressLineTwoComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.AddressLineTwo.name == it.paymentFormComponentField.name
         }
-        var addressLineOTwoInputStyle = inputComponentStyleValues[BillingFormFields.AddressLineTwo]
+        val addressLineOTwoInputStyle = defaultComponentStylesValues[BillingFormFields.AddressLineTwo]
         addressLineTwoComponent?.let { component ->
-            if (!component.isFieldHidden) {
-                addressLineOTwoInputStyle = provideInputComponentStyle(addressLineOTwoInputStyle, component, from)
-                inputComponentsStyles[BillingFormFields.AddressLineTwo] =
-                    addressLineOTwoInputStyle ?: InputComponentStyle()
-            }
+            componentStylesValues[BillingFormFields.AddressLineTwo] =
+                provideComponentStyle(component, addressLineOTwoInputStyle, from) ?: InputComponentStyle()
         }
 
         val cityComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.City.name == it.paymentFormComponentField.name
         }
-        var cityInputStyle = inputComponentStyleValues[BillingFormFields.City]
+        val cityInputStyle = defaultComponentStylesValues[BillingFormFields.City]
         cityComponent?.let { component ->
-            if (!component.isFieldHidden) {
-                cityInputStyle = provideInputComponentStyle(cityInputStyle, component, from)
-                inputComponentsStyles[BillingFormFields.City] = cityInputStyle ?: InputComponentStyle()
-            }
+            componentStylesValues[BillingFormFields.City] =
+                provideComponentStyle(component, cityInputStyle, from) ?: InputComponentStyle()
         }
 
         val stateComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.State.name == it.paymentFormComponentField.name
         }
-        var stateInputStyle = inputComponentStyleValues[BillingFormFields.State]
+        val stateInputStyle = defaultComponentStylesValues[BillingFormFields.State]
         stateComponent?.let { component ->
-            if (!component.isFieldHidden) {
-                stateInputStyle = provideInputComponentStyle(stateInputStyle, component, from)
-                inputComponentsStyles[BillingFormFields.State] = stateInputStyle ?: InputComponentStyle()
-            }
+            componentStylesValues[BillingFormFields.State] =
+                provideComponentStyle(component, stateInputStyle, from) ?: InputComponentStyle()
         }
 
         val postCodeComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.PostCode.name == it.paymentFormComponentField.name
         }
-        var postCodeInputStyle = inputComponentStyleValues[BillingFormFields.PostCode]
+        val postCodeInputStyle = defaultComponentStylesValues[BillingFormFields.PostCode]
         postCodeComponent?.let { component ->
-            if (!component.isFieldHidden) {
-                postCodeInputStyle = provideInputComponentStyle(postCodeInputStyle, component, from)
-                inputComponentsStyles[BillingFormFields.PostCode] = postCodeInputStyle ?: InputComponentStyle()
-            }
+            componentStylesValues[BillingFormFields.PostCode] =
+                provideComponentStyle(component, postCodeInputStyle, from) ?: InputComponentStyle()
         }
 
         val phoneComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.Phone.name == it.paymentFormComponentField.name
         }
-        var phoneInputStyle = inputComponentStyleValues[BillingFormFields.Phone]
+        val phoneInputStyle = defaultComponentStylesValues[BillingFormFields.Phone]
         phoneComponent?.let { component ->
-            phoneInputStyle = provideInputComponentStyle(phoneInputStyle, component, from)
-            inputComponentsStyles[BillingFormFields.Phone] = phoneInputStyle ?: InputComponentStyle()
+            componentStylesValues[BillingFormFields.Phone] =
+                provideComponentStyle(component, phoneInputStyle, from) ?: InputComponentStyle()
         }
 
-        if (!inputComponentsStyles.isEmpty()) {
+        if (!componentStylesValues.isEmpty()) {
             inputComponentsContainerStyle = inputComponentsContainerStyle.copy(
-                inputComponentStyleValues = inputComponentsStyles
+                inputComponentStyleValues = componentStylesValues
             )
         }
 
         return inputComponentsContainerStyle
     }
 
-    private fun provideInputComponentStyle(
-        addressLineOneInputStyle: InputComponentStyle?,
+    private fun provideComponentStyle(
         component: PaymentFormComponent,
-        from: PaymentFormTheme
+        inputComponentStyle: InputComponentStyle?,
+        from: PaymentFormTheme,
+    ) = if (component.isFieldHidden == null || component.isFieldHidden == false)
+        provideInputComponentStyle(inputComponentStyle, component, from) else null
+
+    private fun provideInputComponentStyle(
+        inputComponentStyle: InputComponentStyle?,
+        component: PaymentFormComponent,
+        from: PaymentFormTheme,
     ): InputComponentStyle? {
-        return with(addressLineOneInputStyle) {
+        return with(inputComponentStyle) {
             this?.copy(
                 titleStyle = titleStyle.provideTitleStyle(component, from),
                 subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                 infoStyle = infoStyle.provideInfoStyle(component, from),
                 inputFieldStyle = this.provideInputFieldStyle(from),
                 errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
-                isInputFieldOptional = component.isFieldOptional
+                isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
             )
         }
     }
