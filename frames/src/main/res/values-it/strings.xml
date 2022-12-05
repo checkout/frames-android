@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cko_input_field_optional_info">Opzionale</string>
+    <string name="cko_billing_form_input_field_address_line_one_error">Riga indirizzo 1 mancante</string>
+    <string name="cko_billing_form_input_field_address_line_two_error">Riga indirizzo 2 mancante</string>
+    <string name="cko_billing_form_input_field_city_error">Città scomparsa</string>
+    <string name="cko_billing_form_input_field_state_error">Contea scomparsa</string>
+    <string name="cko_billing_form_input_field_post_code_error">Codice postale mancante</string>
+    <string name="cko_billing_form_input_field_phone_number_error">Numero di telefono mancante</string>
+    <string name="cko_billing_form_input_field_phone_title">Numero di telefono</string>
+    <string name="cko_billing_address">Indirizzo di fatturazione</string>
+    <string name="cko_search_county_placeholder">Per favore seleziona un paese</string>
+    <string name="cko_billing_address_info">Abbiamo bisogno di queste informazioni come misura di sicurezza aggiuntiva per verificare questa carta</string>
+    <string name="cko_add_billing_address">Aggiunge indirizzo di fatturazione</string>
+    <string name="cko_edit_billing_address">Modifica indirizzo di fatturazione</string>
+    <string name="cko_expiry_date_component_title">Data di scadenza</string>
+    <string name="cko_expiry_date_component_subtitle">Il formato della data è MM/AA</string>
+    <string name="cko_base_invalid_expiry_date_error">Si prega di inserire una data di scadenza valida</string>
+    <string name="cko_base_invalid_past_expiry_date_error">La data di scadenza è nel passato</string>
+    <string name="cko_cvv_component_title">Codice di sicurezza</string>
+    <string name="cko_cvv_component_subtitle">Codice a 3 – 4 cifre sulla sua carta</string>
+    <string name="cko_cvv_component_error">Inserisce un codice di sicurezza valido</string>
+    <string name="cko_payment_details_title">Dettagli di pagamento</string>
+    <string name="cko_accepted_cards_title">Carte accettate</string>
+    <string name="cko_card_number_title">Numero di carta</string>
+    <string name="cko_base_invalid_card_number_error">Per favore inserisce un numero di carta valido</string>
+    <string name="cko_pay">Paga</string>
+    <string name="cko_billing_form_input_field_city">Città</string>
+    <string name="cko_billing_form_button_save">Fatto</string>
+    <string name="cko_country_picker_screen_title">Paese</string>
+    <string name="cko_billing_form_input_field_address_line_one">Indirizzo linea 1</string>
+    <string name="cko_billing_form_input_field_address_line_two">Indirizzo linea 2</string>
+    <string name="cko_billing_form_input_field_state">Regione</string>
+    <string name="cko_billing_form_input_field_postcode">Codice postale</string>
+</resources>

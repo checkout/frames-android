@@ -171,7 +171,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
 
     private fun provideScreenTitleState(style: TextLabelStyle): TextLabelState {
         val state = textLabelStateMapper.map(style)
-        state.textId.value = R.string.cko_billing_form_screen_title
+        state.textId.value = R.string.cko_billing_address
         state.leadingIcon.value = imageMapper.map(
             ImageStyleToDynamicImageRequest(
                 style.leadingIconStyle,

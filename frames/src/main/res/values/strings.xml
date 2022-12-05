@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--Input field component-->
     <string name="cko_input_field_optional_info" translatable="true">Optional</string>
 
@@ -8,7 +8,7 @@
     <string name="cko_base_invalid_past_expiry_date_error" translatable="true">Expiry date is in the past.</string>
     <string name="cko_expiry_date_component_title" translatable="true">Expiry date</string>
     <string name="cko_expiry_date_component_subtitle" translatable="true">Format is MM/YY</string>
-    <string name="cko_expiry_date_component_placeholder" translatable="true">_ _  / _ _</string>
+    <string name="cko_expiry_date_component_placeholder" translatable="false">_ _  / _ _</string>
 
     <!--Card number component-->
     <string name="cko_card_number_title" translatable="true">Card number</string>
@@ -27,19 +27,18 @@
     <string name="cko_search_county_placeholder" translatable="true">Please select a country</string>
 
     <!--Content description-->
-    <string name="cko_content_description_image" translatable="true">Image</string>
-    <string name="cko_content_description_dynamic_image" translatable="true">Dynamic image</string>
+    <string name="cko_content_description_image" translatable="false">Image</string>
+    <string name="cko_content_description_dynamic_image" translatable="false">Dynamic image</string>
 
     <!--Billing form screen-->
-    <string name="cko_billing_form_screen_title" translatable="true">Billing address</string>
-    <string name="cko_billing_form_button_save" translatable="true">Save</string>
+    <string name="cko_billing_form_button_save" translatable="true">Done</string>
     <string name="cko_billing_form_input_field_address_line_one" translatable="true">Address line 1</string>
     <string name="cko_billing_form_input_field_address_line_two" translatable="true">Address line 2</string>
     <string name="cko_billing_form_input_field_city" translatable="true">City</string>
     <string name="cko_billing_form_input_field_state" translatable="true">State</string>
     <string name="cko_billing_form_input_field_postcode" translatable="true">Postcode/zip</string>
     <string name="cko_billing_form_input_field_phone_title" translatable="true">Phone number</string>
-    <string name="cko_billing_form_input_field_phone_subtitle" translatable="true">We will only use this to confirm identity if necessary</string>
+    <string name="cko_billing_form_input_field_phone_subtitle" translatable="true" tools:ignore="MissingTranslation">We will only use this to confirm identity if necessary</string>
 
     <!--Billing form screen error messages-->
     <string name="cko_billing_form_input_field_address_line_one_error" translatable="true">Missing Address line 1</string>

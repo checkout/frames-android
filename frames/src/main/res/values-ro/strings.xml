@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cko_input_field_optional_info">Opțional</string>
+    <string name="cko_billing_form_input_field_address_line_one_error">Completați linia 1 de adresă</string>
+    <string name="cko_billing_form_input_field_address_line_two_error">Completați linia 2 de adresă</string>
+    <string name="cko_billing_form_input_field_city_error">Completați orașul</string>
+    <string name="cko_billing_form_input_field_state_error">Completați județul</string>
+    <string name="cko_billing_form_input_field_post_code_error">Completați codul poștal</string>
+    <string name="cko_billing_form_input_field_phone_number_error">Completați numărul de telefon</string>
+    <string name="cko_billing_form_input_field_phone_title">Număr de telefon</string>
+    <string name="cko_billing_address">Adresa de facturare</string>
+    <string name="cko_search_county_placeholder">Alegeți țara</string>
+    <string name="cko_billing_address_info">Avem nevoie de aceste informații ca măsură suplimentară de securitate pentru a verifica acest card.</string>
+    <string name="cko_add_billing_address">Adăugați adresa de facturare</string>
+    <string name="cko_edit_billing_address">Editează adresa de facturare</string>
+    <string name="cko_expiry_date_component_title">Data expirării</string>
+    <string name="cko_expiry_date_component_subtitle">Formatul este LL/AA</string>
+    <string name="cko_base_invalid_expiry_date_error">Introduceți o dată de expirare validă</string>
+    <string name="cko_base_invalid_past_expiry_date_error">Data de expirare este în trecut</string>
+    <string name="cko_cvv_component_title">Cod de securitate</string>
+    <string name="cko_cvv_component_subtitle">Codul de securitate din 3 sau 4 cifre de pe card</string>
+    <string name="cko_cvv_component_error">Introduceți un cod de securitate valid</string>
+    <string name="cko_payment_details_title">Detalii plată</string>
+    <string name="cko_accepted_cards_title">Carduri acceptate</string>
+    <string name="cko_card_number_title">Numărul de card</string>
+    <string name="cko_base_invalid_card_number_error">Introduceți un număr valid de card</string>
+    <string name="cko_pay">Plătește</string>
+    <string name="cko_billing_form_input_field_city">Oraș</string>
+    <string name="cko_billing_form_button_save">Ok</string>
+    <string name="cko_country_picker_screen_title">Țară</string>
+    <string name="cko_billing_form_input_field_address_line_one">Linia 1 de adresă</string>
+    <string name="cko_billing_form_input_field_address_line_two">Linia 2 de adresă</string>
+    <string name="cko_billing_form_input_field_state">Județ</string>
+    <string name="cko_billing_form_input_field_postcode">Codul poștal</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cko_input_field_optional_info">إختياري</string>
+    <string name="cko_billing_form_input_field_address_line_one_error">يُرجى إدخال سطر العنوان الأول</string>
+    <string name="cko_billing_form_input_field_address_line_two_error">يُرجى إدخال سطر العنوان الثاني</string>
+    <string name="cko_billing_form_input_field_city_error">يُرجى إدخال المدينة</string>
+    <string name="cko_billing_form_input_field_state_error">يُرجى إدخال المنطقة</string>
+    <string name="cko_billing_form_input_field_post_code_error">يُرجى إدخال الرمز البريدي</string>
+    <string name="cko_billing_form_input_field_phone_number_error">يُرجى إدخال رقم الهاتف</string>
+    <string name="cko_billing_form_input_field_phone_title">رقم الهاتف</string>
+    <string name="cko_billing_address">عنوان الدفع</string>
+    <string name="cko_search_county_placeholder">يُرجى إختيار الدولة</string>
+    <string name="cko_billing_address_info">هذه البيانات تستخدم كإجراء أمني إضافي للتحقق من البطاقة</string>
+    <string name="cko_add_billing_address">يُرجى إدخال عنوان الدفع</string>
+    <string name="cko_edit_billing_address">تعديل عنوان الدفع</string>
+    <string name="cko_expiry_date_component_title">تاريخ إنتهاء الصلاحية</string>
+    <string name="cko_expiry_date_component_subtitle">الصيغة ش ش / س س</string>
+    <string name="cko_base_invalid_expiry_date_error">يُرجي إدخال تاريخ إنتهاء الصلاحية</string>
+    <string name="cko_base_invalid_past_expiry_date_error">تاريخ إنتهاء الصلاحية في الماضي</string>
+    <string name="cko_cvv_component_title">رقم التحقق من البطاقة</string>
+    <string name="cko_cvv_component_subtitle">٣ أو ٤ ارقام موجودة في الجانب الخلفي للبطاقة</string>
+    <string name="cko_cvv_component_error">يُرجى ادخال رقم التحقق من البطاقة</string>
+    <string name="cko_payment_details_title">تفاصيل الدفع</string>
+    <string name="cko_accepted_cards_title">البطاقات المقبولة:</string>
+    <string name="cko_card_number_title">رقم البطاقة</string>
+    <string name="cko_base_invalid_card_number_error">يُرجى إدخال رقم بطاقة صالح</string>
+    <string name="cko_pay">ادفع</string>
+    <string name="cko_billing_form_input_field_city">المدينة</string>
+    <string name="cko_billing_form_button_save">تم</string>
+    <string name="cko_country_picker_screen_title">الدولة</string>
+    <string name="cko_billing_form_input_field_address_line_one">سطر العنوان الأول</string>
+    <string name="cko_billing_form_input_field_address_line_two">سطر العنوان الثاني</string>
+    <string name="cko_billing_form_input_field_state">المنطقة</string>
+    <string name="cko_billing_form_input_field_postcode">الرمز البريدي</string>
+</resources>
