@@ -22,4 +22,6 @@ public object AddressSummaryConstants {
 
     /** Default margin before summary section in dp. **/
     public const val marginBeforeSummarySection: Int = 8
+    /** Default margin after summary section in dp. **/
+    public const val marginAfterSummarySection: Int = 8
 }
