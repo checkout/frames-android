@@ -18,7 +18,14 @@ public object DefaultAddressSummaryComponentStyle {
 
     public fun light(isOptional: Boolean = false): AddressSummaryComponentStyle {
         val titleStyle = DefaultTextLabelStyle.title(textId = R.string.cko_billing_address)
-        val subTitleStyle = DefaultTextLabelStyle.subtitle(textId = R.string.cko_billing_address_info)
+
+        /**
+         * For billing summary, if field is optional, required to hide subtitle from the screen
+         */
+        val subTitleStyle =
+            if (isOptional) null
+            else DefaultTextLabelStyle.subtitle(textId = R.string.cko_billing_address_info)
+
         val addAddressButtonStyle = DefaultButtonStyle.lightOutline(
             textId = R.string.cko_add_billing_address,
             trailingIconStyle = DefaultImageStyle.buttonTrailingImageStyle(),
