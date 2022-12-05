@@ -70,6 +70,12 @@ object CustomPaymentFormTheme {
         .setSubTitleText("Eg. street address, apartment number")
         .setInfoTextId(R.string.cko_input_field_optional_info)
         .setIsFieldOptional(true)
+        .setIsFieldHidden(false)
+        .build()
+
+    private val addressLineTwo = PaymentFormComponentBuilder()
+        .setPaymentFormField(PaymentFormComponentField.AddressLineTwo)
+        .setIsFieldHidden(true)
         .build()
 
     private val addBillingSummaryButton = PaymentFormComponentBuilder()
@@ -92,6 +98,7 @@ object CustomPaymentFormTheme {
             paymentFormComponents = DefaultPaymentFormTheme.providePaymentFormComponents(
                 cardNumber = cardNumber,
                 addressLineOne = addressLineOne,
+                addressLineTwo = addressLineTwo,
                 addBillingSummaryButton = addBillingSummaryButton,
                 editBillingSummaryButton = editBillingSummaryButton
             ),

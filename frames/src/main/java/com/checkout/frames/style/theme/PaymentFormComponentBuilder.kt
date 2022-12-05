@@ -7,8 +7,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 @Suppress("TooManyFunctions")
 public class PaymentFormComponentBuilder : ObjectBuilder<PaymentFormComponent> {
     private var paymentFormComponentField: PaymentFormComponentField = PaymentFormComponentField.UNKNOWN
-    public var isInputFieldOptional: Boolean? = null
-    private var isInputFieldHidden: Boolean? = null
+    public var isInputFieldOptional: Boolean = false
+    private var isInputFieldHidden: Boolean = false
     private var titleText: String? = null
     private var inputFieldKeyBoardOption: KeyboardOptions = KeyboardOptions.Default
 

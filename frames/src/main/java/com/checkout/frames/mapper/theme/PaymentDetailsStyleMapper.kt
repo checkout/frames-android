@@ -86,7 +86,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                         inputFieldStyle = this.provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
-                        isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
+                        isInputFieldOptional = component.isFieldOptional
                     )
                 }
             )
@@ -122,9 +122,8 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         billingSummaryHeader?.let { textComponent ->
             @Suppress("ComplexCondition")
             if (
-                textComponent.isFieldHidden == true || summaryPreviewComponent?.isFieldHidden == true ||
-                addButtonComponent?.isFieldHidden == true || editButtonComponent?.isFieldHidden == true ||
-                billingSummaryHeader.isFieldHidden == true
+                textComponent.isFieldHidden || summaryPreviewComponent?.isFieldHidden == true ||
+                addButtonComponent?.isFieldHidden == true || editButtonComponent?.isFieldHidden == true
             ) return null
 
             addressSummaryComponentStyle = provideSummaryComponentStyle(
@@ -191,7 +190,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         component: PaymentFormComponent,
         from: PaymentFormTheme,
     ): TextLabelStyle? =
-        if (component.isFieldOptional == true) null else subTitleStyle.provideSubTitleStyle(component, from)
+        if (component.isFieldOptional) null else subTitleStyle.provideSubTitleStyle(component, from)
 
     private fun provideCVVStyle(from: PaymentFormTheme): CvvComponentStyle? {
         var cvvComponentStyle = DefaultCvvComponentStyle.light()
@@ -199,7 +198,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
             PaymentFormComponentField.CVV.name == it.paymentFormComponentField.name
         }
         paymentFormComponent?.let { component ->
-            if (component.isFieldHidden == true) return null
+            if (component.isFieldHidden) return null
             cvvComponentStyle = cvvComponentStyle.copy(
                 inputStyle = with(cvvComponentStyle.inputStyle) {
                     this.copy(
@@ -207,7 +206,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
-                        isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
+                        isInputFieldOptional = component.isFieldOptional
                     )
                 }
             )
@@ -229,7 +228,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
-                        isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
+                        isInputFieldOptional = component.isFieldOptional
                     )
                 }
             )

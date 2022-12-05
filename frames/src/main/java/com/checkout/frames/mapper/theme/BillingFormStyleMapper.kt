@@ -38,6 +38,7 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         countryPickerStyle = provideCountryPickerStyle(from)
     )
 
+    @Suppress("LongMethod")
     private fun provideInputComponentsContainerStyle(from: PaymentFormTheme): InputComponentsContainerStyle {
         var inputComponentsContainerStyle = DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle()
         val defaultComponentStylesValues = inputComponentsContainerStyle.inputComponentStyleValues
@@ -49,8 +50,9 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         }
         val addressLineOneInputStyle = defaultComponentStylesValues[BillingFormFields.AddressLineOne]
         addressLineOneComponent?.let { component ->
-            componentStylesValues[BillingFormFields.AddressLineOne] =
-                provideComponentStyle(component, addressLineOneInputStyle, from) ?: InputComponentStyle()
+            provideComponentStyle(component, addressLineOneInputStyle, from)?.let { inputComponentStyle ->
+                componentStylesValues[BillingFormFields.AddressLineOne] = inputComponentStyle
+            }
         }
 
         val addressLineTwoComponent = from.paymentFormComponents.find {
@@ -58,8 +60,9 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         }
         val addressLineOTwoInputStyle = defaultComponentStylesValues[BillingFormFields.AddressLineTwo]
         addressLineTwoComponent?.let { component ->
-            componentStylesValues[BillingFormFields.AddressLineTwo] =
-                provideComponentStyle(component, addressLineOTwoInputStyle, from) ?: InputComponentStyle()
+            provideComponentStyle(component, addressLineOTwoInputStyle, from)?.let { inputComponentStyle ->
+                componentStylesValues[BillingFormFields.AddressLineTwo] = inputComponentStyle
+            }
         }
 
         val cityComponent = from.paymentFormComponents.find {
@@ -67,8 +70,9 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         }
         val cityInputStyle = defaultComponentStylesValues[BillingFormFields.City]
         cityComponent?.let { component ->
-            componentStylesValues[BillingFormFields.City] =
-                provideComponentStyle(component, cityInputStyle, from) ?: InputComponentStyle()
+            provideComponentStyle(component, cityInputStyle, from)?.let { inputComponentStyle ->
+                componentStylesValues[BillingFormFields.City] = inputComponentStyle
+            }
         }
 
         val stateComponent = from.paymentFormComponents.find {
@@ -76,8 +80,9 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         }
         val stateInputStyle = defaultComponentStylesValues[BillingFormFields.State]
         stateComponent?.let { component ->
-            componentStylesValues[BillingFormFields.State] =
-                provideComponentStyle(component, stateInputStyle, from) ?: InputComponentStyle()
+            provideComponentStyle(component, stateInputStyle, from)?.let { inputComponentStyle ->
+                componentStylesValues[BillingFormFields.State] = inputComponentStyle
+            }
         }
 
         val postCodeComponent = from.paymentFormComponents.find {
@@ -85,8 +90,9 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         }
         val postCodeInputStyle = defaultComponentStylesValues[BillingFormFields.PostCode]
         postCodeComponent?.let { component ->
-            componentStylesValues[BillingFormFields.PostCode] =
-                provideComponentStyle(component, postCodeInputStyle, from) ?: InputComponentStyle()
+            provideComponentStyle(component, postCodeInputStyle, from)?.let { inputComponentStyle ->
+                componentStylesValues[BillingFormFields.PostCode] = inputComponentStyle
+            }
         }
 
         val phoneComponent = from.paymentFormComponents.find {
@@ -94,8 +100,9 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         }
         val phoneInputStyle = defaultComponentStylesValues[BillingFormFields.Phone]
         phoneComponent?.let { component ->
-            componentStylesValues[BillingFormFields.Phone] =
-                provideComponentStyle(component, phoneInputStyle, from) ?: InputComponentStyle()
+            provideComponentStyle(component, phoneInputStyle, from)?.let { inputComponentStyle ->
+                componentStylesValues[BillingFormFields.Phone] = inputComponentStyle
+            }
         }
 
         if (!componentStylesValues.isEmpty()) {
@@ -111,7 +118,7 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         component: PaymentFormComponent,
         inputComponentStyle: InputComponentStyle?,
         from: PaymentFormTheme,
-    ) = if (component.isFieldHidden == null || component.isFieldHidden == false)
+    ) = if (!component.isFieldHidden)
         provideInputComponentStyle(inputComponentStyle, component, from) else null
 
     private fun provideInputComponentStyle(
@@ -126,7 +133,7 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
                 infoStyle = infoStyle.provideInfoStyle(component, from),
                 inputFieldStyle = this.provideInputFieldStyle(from),
                 errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
-                isInputFieldOptional = component.isFieldOptional ?: this.isInputFieldOptional
+                isInputFieldOptional = component.isFieldOptional
             )
         }
     }
