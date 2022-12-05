@@ -9,7 +9,7 @@ public class PaymentFormComponentBuilder : ObjectBuilder<PaymentFormComponent> {
     private var paymentFormComponentField: PaymentFormComponentField = PaymentFormComponentField.UNKNOWN
     public var isInputFieldOptional: Boolean = false
     private var isInputFieldHidden: Boolean = false
-    private var titleText: String = ""
+    private var titleText: String? = null
     private var inputFieldKeyBoardOption: KeyboardOptions = KeyboardOptions.Default
 
     @StringRes
@@ -18,11 +18,11 @@ public class PaymentFormComponentBuilder : ObjectBuilder<PaymentFormComponent> {
 
     @StringRes
     private var subTitleTextResourceId: Int? = null
-    private var infoText: String = ""
+    private var infoText: String? = null
 
     @StringRes
     private var infoTextResourceId: Int? = null
-    private var placeholderResourceText: String = ""
+    private var placeholderResourceText: String? = null
 
     @DrawableRes
     private var backIconImageID: Int? = null
