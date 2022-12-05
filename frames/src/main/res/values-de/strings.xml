@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cko_input_field_optional_info">Optional</string>
+    <string name="cko_billing_form_input_field_address_line_one_error">Fehlende Addresszeile 1</string>
+    <string name="cko_billing_form_input_field_address_line_two_error">Fehlende Addresszeile 2</string>
+    <string name="cko_billing_form_input_field_city_error">Fehlende Stadt</string>
+    <string name="cko_billing_form_input_field_state_error">Fehlendes Bundesland</string>
+    <string name="cko_billing_form_input_field_post_code_error">Fehlende Postleitzahl</string>
+    <string name="cko_billing_form_input_field_phone_number_error">Fehlende Telefonnummer</string>
+    <string name="cko_billing_form_input_field_phone_title">Telefonnummer</string>
+    <string name="cko_billing_address">Rechnungsanschrift</string>
+    <string name="cko_search_county_placeholder">Bitte wählen Sie ein Land aus</string>
+    <string name="cko_billing_address_info">Wir benötigen diese Information zur zusätzlichen Sicherheitsüberprüfung dieser Kreditkarte.</string>
+    <string name="cko_add_billing_address">Rechnungsanschrift hinzufügen</string>
+    <string name="cko_edit_billing_address">Rechnungsanschrift bearbeiten</string>
+    <string name="cko_expiry_date_component_title">Gültig bis</string>
+    <string name="cko_expiry_date_component_subtitle">Datumsformat MM/JJ</string>
+    <string name="cko_base_invalid_expiry_date_error">Bitte geben Sie ein gültiges Ablaufdatum an</string>
+    <string name="cko_base_invalid_past_expiry_date_error">Das Ablaufdatum liegt in der Vergangenheit</string>
+    <string name="cko_cvv_component_title">Sicherheitscode</string>
+    <string name="cko_cvv_component_subtitle">3 – 4 Ziffern Code auf Ihrer Karte</string>
+    <string name="cko_cvv_component_error">Bitte geben Sie einen gültigen Sicherheitscode an</string>
+    <string name="cko_payment_details_title">Zahlungsdetails</string>
+    <string name="cko_accepted_cards_title">Akzeptierte Kreditkarten</string>
+    <string name="cko_card_number_title">Kreditkartennummer</string>
+    <string name="cko_base_invalid_card_number_error">Bitte geben Sie eine gültige Kreditkartennummer an</string>
+    <string name="cko_pay">Zahlungspflichtig bestellen</string>
+    <string name="cko_billing_form_input_field_city">Stadt</string>
+    <string name="cko_billing_form_button_save">Fertig</string>
+    <string name="cko_country_picker_screen_title">Land</string>
+    <string name="cko_billing_form_input_field_address_line_one">Addresszeile 1</string>
+    <string name="cko_billing_form_input_field_address_line_two">Addresszeile 2</string>
+    <string name="cko_billing_form_input_field_state">Bundesland</string>
+    <string name="cko_billing_form_input_field_postcode">Postleitzahl</string>
+</resources>
