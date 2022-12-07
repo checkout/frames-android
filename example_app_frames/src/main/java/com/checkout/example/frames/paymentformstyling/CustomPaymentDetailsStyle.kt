@@ -33,6 +33,7 @@ import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.utils.constants.ErrorConstants
 import com.checkout.frames.utils.constants.PaymentButtonConstants
 
+@Suppress("TooManyFunctions")
 object CustomPaymentDetailsStyle {
 
     fun providePaymentDetailsStyle() = PaymentDetailsStyle(

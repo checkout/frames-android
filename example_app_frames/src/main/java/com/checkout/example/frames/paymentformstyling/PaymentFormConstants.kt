@@ -10,7 +10,8 @@ object PaymentFormConstants {
     const val placeHolderTextColor: Long = 0XFFACA2B4
     /** Screen padding in dp. */
     const val padding: Int = 16
-    const val paddingOneDp: Int = 1
+    const val paddingTenDp: Int = 10
+    const val paddingSixDp: Int = 6
     const val backIconSize: Int = 28
 
     /** Field bottom margin in dp. */
@@ -18,7 +19,7 @@ object PaymentFormConstants {
     const val marginTop: Int = 16
     const val margin: Int = 10
 
-    val cornerRadius = 12
+    const val cornerRadius = 12
     val inputFieldBorderShape = Shape.RoundCorner
     val inputFieldCornerRadius = CornerRadius(cornerRadius)
 }

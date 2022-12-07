@@ -9,7 +9,8 @@ import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.corne
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.inputFieldBorderShape
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.inputFieldColor
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.inputFieldCornerRadius
-import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.paddingOneDp
+import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.paddingSixDp
+import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.paddingTenDp
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.textColor
 import com.checkout.frames.R
 import com.checkout.frames.model.Margin
@@ -22,6 +23,7 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.component.base.InputFieldStyle
+import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.style.component.billingformdetails.HeaderComponentStyle
 import com.checkout.frames.style.component.billingformdetails.InputComponentsContainerStyle
 import com.checkout.frames.style.component.default.DefaultCountryComponentStyle
@@ -46,12 +48,8 @@ object CustomBillingFormStyle {
 
         style = style.copy(
             screenTitleStyle = style.screenTitleStyle.copy(
-                textStyle = style.screenTitleStyle.textStyle.copy(
-                    color = textColor
-                ),
-                leadingIconStyle = style.screenTitleStyle.leadingIconStyle?.copy(
-                    tinColor = textColor
-                )
+                textStyle = style.screenTitleStyle.textStyle.copy(color = textColor),
+                leadingIconStyle = style.screenTitleStyle.leadingIconStyle?.copy(tinColor = textColor)
             ),
             containerStyle = style.containerStyle.copy(
                 color = backgroundColor
@@ -66,9 +64,7 @@ object CustomBillingFormStyle {
                         )
                     ),
                     indicatorStyle = provideIndicatorStyle(),
-                    placeholderStyle = placeholderStyle.copy(
-                        color = PaymentFormConstants.placeHolderTextColor
-                    ),
+                    placeholderStyle = placeholderStyle.copy(color = PaymentFormConstants.placeHolderTextColor),
                     leadingIconStyle = leadingIconStyle?.copy(
                         tinColor = textColor
                     ),
@@ -100,7 +96,8 @@ object CustomBillingFormStyle {
         inputStyle = inputStyle.copy(
             inputFieldStyle = provideInputFieldStyle(inputStyle.inputFieldStyle),
             titleStyle = inputStyle.titleStyle?.copy(
-                containerStyle = ContainerStyle(padding = Padding(start = cornerRadius, bottom = paddingOneDp))
+                textStyle = inputStyle.titleStyle?.textStyle?.copy(color = textColor) ?: TextStyle(),
+                containerStyle = ContainerStyle(padding = Padding(start = cornerRadius, bottom = paddingTenDp))
             )
         )
 
@@ -116,11 +113,11 @@ object CustomBillingFormStyle {
         style = style.copy(
             headerTitleStyle = style.headerTitleStyle.copy(
                 textStyle = style.headerTitleStyle.textStyle.copy(
-                    color = textColor,
-                    fontWeight = FontWeight.Bold
+                    color = textColor, fontWeight = FontWeight.Bold
                 ),
             ),
-            headerButtonStyle = style.headerButtonStyle.copy(
+            headerButtonStyle = style.headerButtonStyle
+                .copy(
                 contentColor = inputFieldColor,
                 containerColor = textColor,
                 shape = Shape.Circle,
@@ -132,73 +129,100 @@ object CustomBillingFormStyle {
     }
 
     @Suppress("LongMethod")
-    fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
+    private fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
         val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
 
         inputComponentsStyles[BillingFormFields.AddressLineOne] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_address_line_one,
             isFieldOptional = false,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+            )
         )
 
         inputComponentsStyles[BillingFormFields.AddressLineTwo] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_address_line_two,
             infoTextId = R.string.cko_input_field_optional_info,
             isFieldOptional = true,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            )
         )
 
         inputComponentsStyles[BillingFormFields.City] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_city,
             isFieldOptional = false,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding
+            )
         )
 
         inputComponentsStyles[BillingFormFields.State] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_state,
             infoTextId = R.string.cko_input_field_optional_info,
             isFieldOptional = true,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            )
         )
 
         inputComponentsStyles[BillingFormFields.PostCode] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_postcode,
             isFieldOptional = false,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            )
         )
 
         inputComponentsStyles[BillingFormFields.Phone] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_phone_title,
             isFieldOptional = false,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = paddingTenDp
+            )
         )
 
         return inputComponentsStyles
     }
 
     private fun provideInputComponentStyle(
-        @StringRes
-        placeholderTextId: Int? = null,
-        @StringRes
-        infoTextId: Int? = null,
+        @StringRes placeholderTextId: Int? = null,
+        @StringRes infoTextId: Int? = null,
         isFieldOptional: Boolean = false,
         keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+        padding: Padding = Padding()
     ): InputComponentStyle {
         var style = DefaultLightStyle.inputComponentStyle(
             placeholderResourceTextId = placeholderTextId,
             infoTextId = infoTextId,
-            padding = Padding(
-                start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            ),
+            padding = padding,
             isFieldOptional = isFieldOptional,
             keyboardOptions = keyboardOptions
         )
 
         style = style.copy(
             infoStyle = style.infoStyle?.copy(
-                containerStyle = ContainerStyle(padding = Padding(bottom = paddingOneDp, end = cornerRadius))
+                containerStyle = ContainerStyle(
+                    padding = Padding(
+                        top = paddingSixDp, bottom = paddingSixDp, end = cornerRadius
+                    )
+                )
             ),
             inputFieldStyle = provideInputFieldStyle(style.inputFieldStyle)
         )
@@ -220,8 +244,7 @@ object CustomBillingFormStyle {
     }
 
     private fun provideIndicatorStyle(): InputFieldIndicatorStyle = InputFieldIndicatorStyle.Underline(
-        focusedUnderlineThickness = 0,
-        unfocusedUnderlineThickness = 0
+        focusedUnderlineThickness = 0, unfocusedUnderlineThickness = 0
     )
 
     private fun provideContainerStyle(): ContainerStyle {
