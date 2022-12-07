@@ -4,7 +4,7 @@ import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Shape
 
 object PaymentFormConstants {
-    const val backgroundColor: Long = 0XFFFFD1D9
+    const val backgroundColor: Long = 0XFFFFCDC2
     const val inputFieldColor: Long = 0XFFFFFFFF
     const val textColor: Long = 0XFF461E67
     const val placeHolderTextColor: Long = 0XFFACA2B4
@@ -18,6 +18,7 @@ object PaymentFormConstants {
     const val marginTop: Int = 16
     const val margin: Int = 10
 
-    val inputFieldBorderShape = Shape.CutCorner
-    val inputFieldCornerRadius = CornerRadius(12)
+    val cornerRadius = 12
+    val inputFieldBorderShape = Shape.RoundCorner
+    val inputFieldCornerRadius = CornerRadius(cornerRadius)
 }

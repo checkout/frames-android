@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.backgroundColor
+import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.cornerRadius
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.inputFieldBorderShape
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.inputFieldColor
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.inputFieldCornerRadius
@@ -99,7 +100,7 @@ object CustomBillingFormStyle {
         inputStyle = inputStyle.copy(
             inputFieldStyle = provideInputFieldStyle(inputStyle.inputFieldStyle),
             titleStyle = inputStyle.titleStyle?.copy(
-                containerStyle = ContainerStyle(padding = Padding(bottom = paddingOneDp))
+                containerStyle = ContainerStyle(padding = Padding(start = cornerRadius, bottom = paddingOneDp))
             )
         )
 
@@ -197,7 +198,7 @@ object CustomBillingFormStyle {
 
         style = style.copy(
             infoStyle = style.infoStyle?.copy(
-                containerStyle = ContainerStyle(padding = Padding(bottom = paddingOneDp))
+                containerStyle = ContainerStyle(padding = Padding(bottom = paddingOneDp, end = cornerRadius))
             ),
             inputFieldStyle = provideInputFieldStyle(style.inputFieldStyle)
         )
@@ -218,13 +219,10 @@ object CustomBillingFormStyle {
         )
     }
 
-    private fun provideIndicatorStyle(): InputFieldIndicatorStyle {
-        return InputFieldIndicatorStyle.Border().copy(
-            shape = inputFieldBorderShape,
-            cornerRadius = inputFieldCornerRadius,
-            focusedBorderColor = textColor,
-        )
-    }
+    private fun provideIndicatorStyle(): InputFieldIndicatorStyle = InputFieldIndicatorStyle.Underline(
+        focusedUnderlineThickness = 0,
+        unfocusedUnderlineThickness = 0
+    )
 
     private fun provideContainerStyle(): ContainerStyle {
         return ContainerStyle(
