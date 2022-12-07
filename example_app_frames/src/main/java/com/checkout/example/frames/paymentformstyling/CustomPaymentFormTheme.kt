@@ -10,52 +10,16 @@ import com.checkout.frames.style.theme.PaymentFormTheme
 import com.checkout.frames.style.theme.DefaultPaymentFormTheme
 import com.checkout.frames.style.theme.PaymentFormShape
 import com.checkout.frames.style.theme.PaymentFormCornerRadius
-import com.checkout.frames.style.theme.colors.PaymentFormColors
-import com.checkout.frames.style.theme.colors.PaymentFormButtonColors
-import com.checkout.frames.style.theme.colors.CursorColors
-import com.checkout.frames.style.theme.colors.DividerColor
-import com.checkout.frames.style.theme.colors.ImageColors
-import com.checkout.frames.style.theme.colors.InputFieldColors
-import com.checkout.frames.style.theme.colors.TextColors
 
 object CustomPaymentFormTheme {
-    private const val surfaceColor = 0XFF00CC2D
-    private const val onSurfaceColor = 0xFFFFFFFF
-    private const val inverseSurfaceColor = 0XFF003300
-    private const val backgroundColor = 0xFF17201E
-    private const val errorColor = 0XFFFF0000
-    private const val tertiaryColor = 0XFFB1B1B1
-    private const val containerColor = 0XFF24302D
-
     private val paymentFormThemeColors = PaymentFormThemeColors(
-        paymentFormColors = PaymentFormColors(background = backgroundColor),
-        buttonColors = PaymentFormButtonColors(
-            containerColor = surfaceColor,
-            disabledContainerColor = inverseSurfaceColor,
-            contentColor = onSurfaceColor,
-            disabledContentColor = tertiaryColor,
-        ),
-        cursorColors = CursorColors(
-            cursorColor = surfaceColor,
-            errorCursorColor = errorColor,
-            cursorHandleColor = surfaceColor,
-            cursorHighlightColor = backgroundColor
-        ),
-        dividerColor = DividerColor(color = surfaceColor),
-        imageColors = ImageColors(tinColor = surfaceColor),
-        textColors = TextColors(
-            titleColor = surfaceColor,
-            subTitleColor = tertiaryColor,
-            infoColor = tertiaryColor,
-            errorColor = errorColor
-        ),
-        inputFieldColors = InputFieldColors(
-            focusedBorderColor = surfaceColor,
-            unfocusedBorderColor = tertiaryColor,
-            disabledBorderColor = tertiaryColor,
-            errorBorderColor = errorColor,
-            inputFieldBackgroundColor = containerColor
-        )
+        accentColor = 0XFF00CC2D,
+        textColor = 0XFFB1B1B1,
+        errorColor = 0XFFFF0000,
+        backgroundColor = 0xFF17201E,
+        fieldBackgroundColor = 0XFF24302D,
+        enabledButtonColor = 0xFFFFFFFF,
+        disabledButtonColor = 0XFF003300
     )
 
     private val cardNumber = PaymentFormComponentBuilder()

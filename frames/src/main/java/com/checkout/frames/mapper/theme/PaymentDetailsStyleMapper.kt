@@ -169,13 +169,13 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                         margin = Margin(
                             top = AddressSummaryConstants.marginBeforeSummarySection,
                             bottom = AddressSummaryConstants.marginAfterSummarySection
-                        )
+                        ),
+                        cornerRadius = from.paymentFormCornerRadius.addressSummaryCornerRadius,
+                        color = from.paymentFormThemeColors.inputFieldColors.inputFieldBackgroundColor,
                     )
                 ),
                 containerStyle = containerStyle.copy(
                     shape = from.paymentFormShape.addressSummaryShape,
-                    cornerRadius = from.paymentFormCornerRadius.addressSummaryCornerRadius,
-                    color = from.paymentFormThemeColors.inputFieldColors.inputFieldBackgroundColor,
                     padding = Padding(start = ContainerConstants.paddingStart, end = ContainerConstants.paddingEnd)
                 )
             )
