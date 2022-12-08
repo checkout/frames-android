@@ -5,5 +5,7 @@ sealed class Screen(val route: String) {
 
     object DefaultUI : Screen(DEFAULT_UI_SCREEN)
 
+    object CustomThemingUI : Screen(CUSTOM_THEMING_UI_SCREEN)
+
     object CustomUI : Screen(CUSTOM_UI_SCREEN)
 }

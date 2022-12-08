@@ -80,7 +80,21 @@ fun HomeScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(Modifier.height(50.dp))
+                Spacer(Modifier.height(25.dp))
+
+                Button(
+                    onClick = { navController.navigate(Screen.CustomThemingUI.route) },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20),
+                    colors = ButtonDefaults.buttonColors(DarkBlue)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.custom_ui_theme),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
+
+                Spacer(Modifier.height(25.dp))
 
                 Button(
                     onClick = { navController.navigate(Screen.CustomUI.route) },
@@ -94,7 +108,7 @@ fun HomeScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(Modifier.height(50.dp))
+                Spacer(Modifier.height(30.dp))
 
                 Text(
                     text = stringResource(R.string.generate_token),
