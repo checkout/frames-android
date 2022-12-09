@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.checkout.base.model.CardScheme
 import com.checkout.example.frames.navigation.Screen
+import com.checkout.example.frames.paymentformstyling.CustomBillingFormStyle
+import com.checkout.example.frames.paymentformstyling.CustomPaymentDetailsStyle
 import com.checkout.example.frames.paymentformstyling.CustomPaymentFormTheme
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
@@ -40,7 +42,6 @@ fun Navigator(
     onSuccess: (TokenDetails) -> Unit,
     onFailure: (String) -> Unit
 ) {
-
     val navController = rememberNavController()
     val defaultPaymentFormConfig = PaymentFormConfig(
         publicKey = PUBLIC_KEY,
@@ -66,17 +67,32 @@ fun Navigator(
             CardScheme.AMERICAN_EXPRESS
         )
     )
-    val paymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
+    val defaultPaymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
 
-    val customPaymentFormMediator = PaymentFormMediator(
+    val customThemingPaymentFormMediator = PaymentFormMediator(
         defaultPaymentFormConfig.copy(
             style = PaymentFormStyleProvider.provide(CustomPaymentFormTheme.providePaymentFormTheme())
         )
     )
 
+    val customPaymentFormMediator = PaymentFormMediator(
+        defaultPaymentFormConfig.copy(
+            style = PaymentFormStyle(
+                CustomPaymentDetailsStyle.providePaymentDetailsStyle(),
+                CustomBillingFormStyle.provideBillingFormStyle()
+            ),
+            supportedCardSchemeList = listOf(
+                CardScheme.VISA,
+                CardScheme.MASTERCARD,
+                CardScheme.AMERICAN_EXPRESS
+            )
+        )
+    )
+
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }
-        composable(route = Screen.DefaultUI.route) { paymentFormMediator.PaymentForm() }
+        composable(route = Screen.DefaultUI.route) { defaultPaymentFormMediator.PaymentForm() }
+        composable(route = Screen.CustomThemingUI.route) { customThemingPaymentFormMediator.PaymentForm() }
         composable(route = Screen.CustomUI.route) { customPaymentFormMediator.PaymentForm() }
     }
 }
