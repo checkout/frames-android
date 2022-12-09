@@ -3,7 +3,7 @@
 [![](https://jitpack.io/v/checkout/frames-android.svg)](https://jitpack.io/#checkout/frames-android)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Start accepting online payments in just a few minutes with our Android SDK. It's quick and easy to integrate, accepts online payments from all major credit cards, and is customizable to your brand.
+Start accepting online payments in just a few minutes with our Android SDK. It's quick and easy to integrate, accepts online payments from all major debit and credit cards, and is customizable to your brand.
 
 
 <div align="center">
@@ -193,7 +193,7 @@ val style = PaymentFormStyleProvider.provide(theme)
 We think this approach should hit a good balance between great control of UI & simple, concise code. However if you still find the mapping to need excessive customisation, our final approach may be more to your liking.
 
 ### Declare all components
-This is by no means the easy way, but it is absolutely the way to fully customise every property, and discover the full extent of customisability as you navigate through.
+This is by no means the easy way, but it is absolutely the way to fully customise every property, and discover the full extent of customisability as you navigate through `CustomPaymentDetailsStyle.kt`.
 
 ```kotlin
 val paymentDetailsStyle: PaymentDetailsStyle = PaymentDetailsStyle(
