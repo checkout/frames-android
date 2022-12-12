@@ -1,12 +1,20 @@
 <resources>
     <string name="app_name" translatable="false">Frames Checkout Example</string>
-    <string name="payment_experience" translatable="false">Try Payment Experience</string>
-    <string name="generate_token" translatable="false">Generate Token</string>
-    <string name="custom_ui_theme" translatable="false">Custom Theming UI</string>
+    <string name="mobile_sdk" translatable="false">Mobile SDK</string>
+    <string name="sample_app" translatable="false">Sample App</string>
+    <string name="submit" translatable="false">Submit</string>
+    <string name="payment_experience" translatable="false">Payment Experience</string>
+    <string name="simulate_wallet" translatable="false">Simulate APMS and Wallets</string>
+    <string name="threed_secure" translatable="false">3DS</string>
+    <string name="custom_ui_theme" translatable="false">Theme UI</string>
     <string name="custom_ui" translatable="false">Custom UI</string>
     <string name="default_ui" translatable="false">Default UI</string>
     <string name="accepted_card_schemes" translatable="false">Visa, Mastercard and American Express accepted.</string>
-    <string name="google_pay_payment_data" translatable="false">GooglePay payment data</string>
+    <string name="google_pay" translatable="false">GooglePay</string>
+    <string name="payment_data" translatable="false">Payment data</string>
     <string name="token_generated" translatable="false">Token generated</string>
     <string name="token_generated_failed" translatable="false">Token generating failed</string>
+    <string name="empty_url" translatable="false">Empty URL</string>
+    <string name="paste_valid_link" translatable="false">Please paste valid url to test the 3DS flow.</string>
+    <string name="authentication_success" translatable="false">Authentication success</string>
 </resources>
