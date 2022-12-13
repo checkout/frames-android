@@ -14,6 +14,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.checkout.example.frames.ui.screen.ThreedSecureActivity
 import com.checkout.example.frames.ui.theme.ButtonBorder
 import com.checkout.example.frames.ui.theme.DarkBlue
+import com.checkout.example.frames.ui.theme.GrayColor
 import com.checkout.example.frames.ui.utils.CORNER_RADIUS_PERCENT
 import com.checkout.example.frames.ui.utils.PromptUtils
 import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
@@ -55,7 +57,10 @@ fun ThreedComponent(context: Context) {
                 .fillMaxWidth()
                 .weight(3F),
             shape = RoundedCornerShape(CORNER_RADIUS_PERCENT),
-            colors = TextFieldDefaults.outlinedTextFieldColors(unfocusedBorderColor = ButtonBorder),
+            placeholder = { Text(context.getString(R.string.enter_3ds_redirection_url)) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = ButtonBorder, placeholderColor = GrayColor
+            ),
             onValueChange = { textValue = it }
         )
 
@@ -81,7 +86,7 @@ fun ThreedComponent(context: Context) {
             colors = CardDefaults.cardColors(containerColor = Color.Transparent, contentColor = DarkBlue)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.cloud),
+                painter = painterResource(id = R.mipmap.cloud),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp, bottom = 12.dp)

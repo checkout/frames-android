@@ -1,13 +1,10 @@
 package com.checkout.example.frames.ui.screen
 
-import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.ui.platform.LocalContext
-import com.checkout.CheckoutApiServiceFactory
-import com.checkout.base.model.Environment
+import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.FAILURE_URL
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.example.frames.ui.utils.PromptUtils
@@ -15,16 +12,44 @@ import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
 import com.checkout.example.frames.ui.utils.SUCCESS_URL
 import com.checkout.example.frames.ui.utils.URL_IDENTIFIER
 import com.checkout.frames.R
+import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.api.PaymentFormMediator
+import com.checkout.frames.screen.paymentform.PaymentFormConfig
+import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.threedsecure.model.ThreeDSRequest
 import com.checkout.threedsecure.model.ThreeDSResult
 import com.checkout.threedsecure.model.ThreeDSResultHandler
+import com.checkout.tokenization.model.TokenDetails
 
 class ThreedSecureActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val url = intent.getStringExtra(URL_IDENTIFIER)
-            invokeThreedSecureFlow(LocalContext.current, url ?: "", findViewById(android.R.id.content))
+
+            val paymentFormConfig = PaymentFormConfig(
+                publicKey = PUBLIC_KEY,
+                context = this,
+                environment = ENVIRONMENT,
+                paymentFlowHandler = object : PaymentFlowHandler {
+                    override fun onSubmit() {
+                        /*Intentionally left empty*/
+                    }
+
+                    override fun onSuccess(tokenDetails: TokenDetails) {
+                        /*Intentionally left empty*/
+                    }
+
+                    override fun onFailure(errorMessage: String) {
+                        /*Intentionally left empty*/
+                    }
+
+                    override fun onBackPressed() { finish() }
+                },
+                style = PaymentFormStyle(),
+            )
+            val paymentFormMediator = PaymentFormMediator(paymentFormConfig)
+            invokeThreedSecureFlow(url ?: "", findViewById(android.R.id.content), paymentFormMediator)
         }
     }
 
@@ -39,14 +64,7 @@ class ThreedSecureActivity : ComponentActivity() {
         }.show()
     }
 
-    private fun invokeThreedSecureFlow(context: Context, url: String, viewGroup: ViewGroup) {
-        /**
-         * Creating instance of CheckoutApiClient
-         */
-        val checkoutApiClient = CheckoutApiServiceFactory.create(
-            PUBLIC_KEY, Environment.SANDBOX, context
-        )
-
+    private fun invokeThreedSecureFlow(url: String, viewGroup: ViewGroup, paymentFormMediator: PaymentFormMediator) {
         val request = ThreeDSRequest(
             container = viewGroup, // Provide a ViewGroup container for 3DS WebView
             challengeUrl = url, // Provide a 3D Secure URL
@@ -54,10 +72,10 @@ class ThreedSecureActivity : ComponentActivity() {
         )
 
         /**
-         * Invoke handleThreeDS method from checkoutApiClient
+         * Invoke handleThreeDS method from paymentFormMediator
          * Pass request as parameter.
          */
-        checkoutApiClient.handleThreeDS(request)
+        paymentFormMediator.handleThreeDS(request)
     }
 
     private val threeDSResultHandler: ThreeDSResultHandler = { threeDSResult: ThreeDSResult ->
