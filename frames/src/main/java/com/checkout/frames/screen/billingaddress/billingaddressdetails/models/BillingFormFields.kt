@@ -24,6 +24,7 @@ public enum class BillingFormFields(internal var isFieldOptional: Boolean = fals
 
     public companion object {
 
+        @JvmStatic
         public fun fetchAllDefaultBillingFormFields(): List<BillingFormFields> = mutableListOf<BillingFormFields>()
             .apply {
                 addAll(
@@ -40,6 +41,7 @@ public enum class BillingFormFields(internal var isFieldOptional: Boolean = fals
                 )
             }
 
+        @JvmStatic
         public fun fetchAllMandatoryBillingFormFields(): List<BillingFormFields> = mutableListOf<BillingFormFields>()
             .apply {
                 addAll(

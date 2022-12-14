@@ -38,6 +38,7 @@ import com.checkout.frames.utils.constants.LightStyleConstants
 
 object CustomBillingFormStyle {
     private val defaultKeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+
     fun provideBillingFormStyle() = BillingFormStyle(
         billingAddressDetailsStyle = provideBillingAddressDetailsStyle(),
         countryPickerStyle = provideCountryPickerStyle()

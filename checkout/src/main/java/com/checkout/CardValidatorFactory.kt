@@ -17,6 +17,7 @@ public object CardValidatorFactory {
      * Creates public card validator.
      * @return [CardValidator] for individual card details components validation.
      */
+    @JvmStatic
     public fun create(): CardValidator {
         return CardDetailsValidator(
             ExpiryDateValidator(),
