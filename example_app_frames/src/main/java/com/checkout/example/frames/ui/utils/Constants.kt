@@ -22,3 +22,6 @@ const val SECRET_KEY = "sk_test_568e6077-a08f-4692-9237-cc6c48dcf6aa"
  */
 const val SUCCESS_URL = "https://httpstat.us/200?q=Success"
 const val FAILURE_URL = "https://httpstat.us/200?q=Failure"
+
+const val CORNER_RADIUS_PERCENT = 12
+const val URL_IDENTIFIER = "URL"
