@@ -259,6 +259,7 @@ public enum class Country(
 
     public companion object {
 
+        @JvmStatic
         public fun from(iso3166Alpha2: String): Country {
 
             val country: Country? = values().firstOrNull {

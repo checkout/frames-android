@@ -28,6 +28,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 public object CheckoutApiServiceFactory {
 
+    @JvmStatic
     public fun create(
         publicKey: String,
         environment: Environment,

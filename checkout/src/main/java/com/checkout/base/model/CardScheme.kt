@@ -132,6 +132,7 @@ public enum class CardScheme(
     );
 
     public companion object {
+        @JvmStatic
         public fun fetchAllSupportedCardSchemes(): List<CardScheme> = mutableListOf<CardScheme>().apply {
             addAll(values())
             remove(UNKNOWN)
