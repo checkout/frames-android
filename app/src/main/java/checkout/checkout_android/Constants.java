@@ -1,6 +1,6 @@
 package checkout.checkout_android;
 
-import com.checkout.android_sdk.Utils.Environment;
+import com.checkout.base.model.Environment;
 
 public class Constants {
     private Constants() { }

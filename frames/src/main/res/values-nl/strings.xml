@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cko_input_field_optional_info">Optioneel</string>
+    <string name="cko_billing_form_input_field_address_line_one_error">Ontbrekende adresregel 1</string>
+    <string name="cko_billing_form_input_field_address_line_two_error">Ontbrekende adresregel 2</string>
+    <string name="cko_billing_form_input_field_city_error">Ontbrekende stad</string>
+    <string name="cko_billing_form_input_field_state_error">Ontbrekende provincie</string>
+    <string name="cko_billing_form_input_field_post_code_error">Ontbrekende postcode</string>
+    <string name="cko_billing_form_input_field_phone_number_error">Ontbrekend telefoonnummer</string>
+    <string name="cko_billing_form_input_field_phone_title">Telefoonnummer</string>
+    <string name="cko_billing_address">Facturatie adres</string>
+    <string name="cko_search_county_placeholder">Selecteer alstublieft een land</string>
+    <string name="cko_billing_address_info">We hebben deze informatie nodig als extra beveiligingsmaatregel om deze kaart te verifiëren</string>
+    <string name="cko_add_billing_address">Factuuradres toevoegen</string>
+    <string name="cko_edit_billing_address">Factuuradres wijzigen</string>
+    <string name="cko_expiry_date_component_title">Vervaldatum</string>
+    <string name="cko_expiry_date_component_subtitle">Formaat is MM/JJ</string>
+    <string name="cko_base_invalid_expiry_date_error">Voer een geldige vervaldatum in</string>
+    <string name="cko_base_invalid_past_expiry_date_error">Vervaldatum ligt in het verleden</string>
+    <string name="cko_cvv_component_title">Beveiligingscode</string>
+    <string name="cko_cvv_component_subtitle">3–4 cijferige code op uw kaart</string>
+    <string name="cko_cvv_component_error">Voer een geldige beveiligingscode in</string>
+    <string name="cko_payment_details_title">Betalingsdetails</string>
+    <string name="cko_accepted_cards_title">Geaccepteerde kaarten</string>
+    <string name="cko_card_number_title">Kaartnummer</string>
+    <string name="cko_base_invalid_card_number_error">Gelieve een geldig kaart nummer in te voeren</string>
+    <string name="cko_pay">Betalen</string>
+    <string name="cko_billing_form_input_field_city">Stad</string>
+    <string name="cko_billing_form_button_save">Gedaan</string>
+    <string name="cko_country_picker_screen_title">Land</string>
+    <string name="cko_billing_form_input_field_address_line_one">Adres regel 1</string>
+    <string name="cko_billing_form_input_field_address_line_two">Adres regel 2</string>
+    <string name="cko_billing_form_input_field_state">Provincie</string>
+    <string name="cko_billing_form_input_field_postcode">Postcode</string>
+</resources>

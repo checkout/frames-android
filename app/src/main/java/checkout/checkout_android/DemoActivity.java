@@ -1,52 +1,49 @@
 package checkout.checkout_android;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 
-import com.checkout.android_sdk.PaymentForm;
-import com.checkout.android_sdk.PaymentForm.On3DSFinished;
-import com.checkout.android_sdk.PaymentForm.PaymentFormCallback;
-import com.checkout.android_sdk.Response.CardTokenisationFail;
-import com.checkout.android_sdk.Response.CardTokenisationResponse;
-import com.checkout.android_sdk.network.NetworkError;
-
-import java.util.Locale;
+import com.checkout.frames.api.PaymentFormMediator;
+import com.checkout.frames.api.PaymentFlowHandler;
+import com.checkout.frames.screen.paymentform.PaymentFormConfig;
+import com.checkout.frames.style.screen.PaymentFormStyle;
+import com.checkout.threedsecure.model.ThreeDSRequest;
+import com.checkout.threedsecure.model.ThreeDSResult;
+import com.checkout.tokenization.model.TokenDetails;
 
 import checkout.checkout_android.utils.PaymentUtil;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
-public class DemoActivity extends Activity {
+public class DemoActivity extends ComponentActivity {
 
-    private PaymentForm mPaymentForm;
     private ProgressDialog mProgressDialog;
+    private PaymentFormMediator mPaymentFormMediator;
 
-    // Callback used for the Payment Form interaction
-    private final PaymentFormCallback mFormListener = new PaymentFormCallback() {
+    private final PaymentFlowHandler mPaymentFlowHandler = new PaymentFlowHandler() {
+
         @Override
-        public void onFormSubmit() {
+        public void onSubmit() {
             mProgressDialog.show(); // show loader
         }
 
         @Override
-        public void onTokenGenerated(CardTokenisationResponse response) {
+        public void onSuccess(@NonNull TokenDetails tokenDetails) {
             mProgressDialog.dismiss(); // dismiss the loader
-            mPaymentForm.clearForm(); // clear the form
-            displayMakePaymentMessage(response.getToken());
+            displayMakePaymentMessage(tokenDetails.getToken());
         }
 
         @Override
-        public void onError(CardTokenisationFail response) {
+        public void onFailure(@NonNull String errorMessage) {
             mProgressDialog.dismiss(); // dismiss the loader
-            displayMessage("Token Error", response.getErrorType(), false);
-        }
-
-        @Override
-        public void onNetworkError(NetworkError error) {
-            mProgressDialog.dismiss(); // dismiss the loader
-            displayMessage("Network Error", String.valueOf(error), false);
+            displayMessage("Token Error", errorMessage, false);
         }
 
         @Override
@@ -55,39 +52,48 @@ public class DemoActivity extends Activity {
         }
     };
 
-    private final On3DSFinished m3DSecureListener = new On3DSFinished() {
-        @Override
-        public void onSuccess(String token) {
+    private final Function1<ThreeDSResult, Unit> threeDSResultHandler = threeDSResult -> {
+        if (threeDSResult instanceof ThreeDSResult.Success) {
+            String token = ((ThreeDSResult.Success) threeDSResult).getToken();
             displayMessage("Result", "Authentication success: " + token, true);
+        } else if (threeDSResult instanceof ThreeDSResult.Error) {
+            String errorMessage = ((ThreeDSResult.Error) threeDSResult).getError().getMessage();
+            displayMessage("Result", "Authentication error: " + errorMessage, true);
+        } else {
+            displayMessage("Result", "Authentication Failure", true);
         }
-
-        @Override
-        public void onError(String errorMessage) {
-            displayMessage("Result", "Authentication failure: " + errorMessage, true);
-        }
+        return null;
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo);
 
         // initialise the loader
         mProgressDialog = new ProgressDialog(DemoActivity.this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setMessage("Loading...");
 
-        mPaymentForm = findViewById(R.id.checkout_card_form);
-        mPaymentForm
-                .setFormListener(mFormListener)
-                .set3DSListener(m3DSecureListener)
-                .setEnvironment(Constants.ENVIRONMENT)
-                .setKey(Constants.PUBLIC_KEY)
-                .setDefaultBillingCountry(Locale.UK);
+        mPaymentFormMediator = new PaymentFormMediator(providePaymentFormConfig());
+        mPaymentFormMediator.setActivityContent(this);
+    }
 
-        if (savedInstanceState == null) {
-            mPaymentForm.clearForm();
-        }
+    @Override
+    public void onBackPressed() {
+        ViewGroup container = this.findViewById(android.R.id.content);
+        View lastChild = container.getChildAt(container.getChildCount() - 1);
+
+        if (lastChild instanceof WebView) container.removeView(lastChild);
+        else super.onBackPressed();
+    }
+
+    private PaymentFormConfig providePaymentFormConfig() {
+        return new PaymentFormConfig(
+                Constants.PUBLIC_KEY,
+                this,
+                Constants.ENVIRONMENT,
+                new PaymentFormStyle(),
+                mPaymentFlowHandler);
     }
 
     private void displayMessage(String title, String message, boolean exitScreen) {
@@ -117,7 +123,6 @@ public class DemoActivity extends Activity {
                 .show();
     }
 
-
     private void purchase(String token) {
         mProgressDialog.show();
         PaymentUtil.createPayment(token, (success, redirectUrl) -> {
@@ -131,10 +136,14 @@ public class DemoActivity extends Activity {
     }
 
     private void start3DS(@NonNull String redirectUrl) {
-        mPaymentForm.handle3DS(
+        ThreeDSRequest threeDSRequest = new ThreeDSRequest(
+                this.findViewById(android.R.id.content),
                 redirectUrl,
                 Constants.SUCCESS_URL,
-                Constants.FAILURE_URL
+                Constants.FAILURE_URL,
+                threeDSResultHandler
         );
+
+        mPaymentFormMediator.handleThreeDS(threeDSRequest);
     }
 }
