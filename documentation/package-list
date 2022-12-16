@@ -24,7 +24,6 @@ com.checkout.frames.api
 com.checkout.frames.error
 com.checkout.frames.model
 com.checkout.frames.model.font
-com.checkout.frames.paymentflow
 com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 com.checkout.frames.screen.paymentform
 com.checkout.frames.style.component
@@ -34,4 +33,7 @@ com.checkout.frames.style.component.billingformdetails
 com.checkout.frames.style.component.default
 com.checkout.frames.style.screen
 com.checkout.frames.style.screen.default
+com.checkout.frames.style.theme
+com.checkout.frames.style.theme.colors
+com.checkout.frames.style.theme.paymentform
 com.checkout.frames.utils.constants
