@@ -92,7 +92,7 @@ apply(plugin = "org.jetbrains.dokka")
 
 val dokkaHtmlMultiModule by tasks.existing(DokkaMultiModuleTask::class) {
     version = FramesConfig.productVersion
-    outputDirectory.set(file("$rootDir/documentation"))
+    outputDirectory.set(file("$rootDir/docs"))
     moduleName.set("${FramesConfig.docsDisplayName} - v${FramesConfig.productVersion}")
 }
 
