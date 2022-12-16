@@ -1,5 +1,5 @@
 object FramesConfig {
-    const val productVersion = "4.0.0-beta"
+    const val productVersion = "4.0.0"
     const val productArtefactId = "frames-android"
     const val productGroupId = "com.github.checkout"
     const val loggingGroupId = "com.checkout"
