@@ -28,6 +28,7 @@ internal class CardTokenizationNetworkDataMapper : TokenizationNetworkDataMapper
             expiryMonth = result.expiryMonth,
             expiryYear = result.expiryYear,
             scheme = result.scheme,
+            schemeLocal = result.schemeLocal,
             last4 = result.last4,
             bin = result.bin,
             cardType = result.cardType,

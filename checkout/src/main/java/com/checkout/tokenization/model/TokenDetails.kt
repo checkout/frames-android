@@ -13,6 +13,8 @@ public data class TokenDetails(
 
     val scheme: String?,
 
+    val schemeLocal: String?,
+
     val last4: String,
 
     val bin: String,
