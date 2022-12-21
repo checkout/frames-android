@@ -63,7 +63,7 @@ private fun AddressSummarySection(
         // Address Preview
         TextLabel(style = style.addressTextStyle, state = addressPreviewState)
         // Divider
-        style.dividerStyle?.let { Divider(it.modifier, it.color, it.thickness) }
+        style.dividerStyle?.let { Divider(it.modifier, it.thickness, it.color) }
         // Edit button
         InternalButton(
             style = style.editAddressButtonStyle,
