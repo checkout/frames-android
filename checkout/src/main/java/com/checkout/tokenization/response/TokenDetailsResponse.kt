@@ -30,6 +30,9 @@ internal data class TokenDetailsResponse(
     @Json(name = "scheme")
     val scheme: String?,
 
+    @Json(name = "scheme_local")
+    val schemeLocal: String?,
+
     @Json(name = "last4")
     val last4: String,
 

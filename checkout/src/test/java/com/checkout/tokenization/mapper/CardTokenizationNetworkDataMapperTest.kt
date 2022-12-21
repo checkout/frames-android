@@ -83,6 +83,7 @@ internal class CardTokenizationNetworkDataMapperTest {
                 expiryMonth = 6,
                 expiryYear = 2025,
                 scheme = "VISA",
+                schemeLocal = "cartes_bancaires",
                 last4 = "4242",
                 bin = "454347",
                 cardType = "Credit",
@@ -102,6 +103,7 @@ internal class CardTokenizationNetworkDataMapperTest {
             every { mockGetTokenDetailsResponse.type } returns tokenDetails.type
             every { mockGetTokenDetailsResponse.token } returns tokenDetails.token
             every { mockGetTokenDetailsResponse.scheme } returns tokenDetails.scheme
+            every { mockGetTokenDetailsResponse.schemeLocal } returns tokenDetails.schemeLocal
             every { mockGetTokenDetailsResponse.expiresOn } returns tokenDetails.expiresOn
             every { mockGetTokenDetailsResponse.expiryMonth } returns tokenDetails.expiryMonth
             every { mockGetTokenDetailsResponse.expiryYear } returns tokenDetails.expiryYear

@@ -71,6 +71,7 @@ internal object CardTokenTestData {
         expiryMonth = 6,
         expiryYear = 2025,
         scheme = "VISA",
+        schemeLocal = "cartes_bancaires",
         last4 = "4242",
         bin = "454347",
         cardType = "Credit",
