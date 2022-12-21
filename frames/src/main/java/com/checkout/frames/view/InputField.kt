@@ -58,19 +58,16 @@ internal fun InputField(
 ) = with(style) {
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val textStyle = provideTextStyle(this)
-    val colors = provideInputFieldColors(borderShape != null, colors)
+    val colors = provideInputFieldColors(borderShape != null, containerShape != null, colors)
     // If color is not provided via the text inputStyle, use content color as a default
-    val textColor = textStyle.color.takeOrElse { colors.textColor(enabled).value }
+    val textColor = textStyle.color.takeOrElse { Color.Black }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
-    val textSelectionColors = provideTextSelectionColors(style.colors, colors.cursorColor(isError = false).value)
+    val textSelectionColors = provideTextSelectionColors(style.colors, provideCursorColor(style.colors))
     var modifier = modifier
         .clearFocusOnKeyboardDismiss()
-        .background(colors.containerColor(enabled).value, containerShape)
+        .withBackground(style.colors, style.containerShape)
         .onFocusChanged { onFocusChanged?.let { onFocusChanged -> onFocusChanged(it.isFocused) } }
-        .defaultMinSize(
-            minWidth = TextFieldDefaults.MinWidth,
-            minHeight = TextFieldDefaults.MinHeight
-        )
+        .defaultMinSize(TextFieldDefaults.MinWidth, TextFieldDefaults.MinHeight)
 
     if (borderShape == null) modifier = modifier.indicatorLine(
         enabled,
@@ -89,7 +86,7 @@ internal fun InputField(
             enabled = enabled,
             readOnly = readOnly,
             textStyle = mergedTextStyle,
-            cursorBrush = SolidColor(colors.cursorColor(state.isError.value).value),
+            cursorBrush = SolidColor(provideCursorColor(style.colors)),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
@@ -164,8 +161,8 @@ private fun DecorationBox(
         isError = isError,
         interactionSource = interactionSource,
         colors = colors,
-        border = {
-            TextFieldDefaults.BorderBox(
+        container = {
+            TextFieldDefaults.OutlinedBorderContainerBox(
                 enabled,
                 isError,
                 interactionSource,
@@ -178,9 +175,14 @@ private fun DecorationBox(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @SuppressWarnings("NestedBlockDepth")
-private fun provideInputFieldColors(withBorder: Boolean, colors: InputFieldColors?): TextFieldColors {
+private fun provideInputFieldColors(
+    withBorder: Boolean,
+    withContainerShape: Boolean,
+    colors: InputFieldColors?
+): TextFieldColors {
     val textColor = colors?.textColor ?: Color.Black
     val placeholderColor = colors?.placeholderColor ?: Color.Gray
     val focusedIndicatorColor = colors?.focusedIndicatorColor ?: Color(BorderConstants.focusedBorderColor)
@@ -188,7 +190,7 @@ private fun provideInputFieldColors(withBorder: Boolean, colors: InputFieldColor
     val disabledIndicatorColor = colors?.disabledIndicatorColor ?: Color(BorderConstants.disabledBorderColor)
     val errorIndicatorColor = colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor)
     val containerColor = colors?.containerColor ?: Color.Transparent
-    val cursorColor = colors?.cursorColor ?: colors?.focusedIndicatorColor ?: Color.Black
+    val cursorColor = provideCursorColor(colors)
     val errorCursorColor =
         colors?.errorCursorColor ?: colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor)
 
@@ -205,11 +207,11 @@ private fun provideInputFieldColors(withBorder: Boolean, colors: InputFieldColor
     ) else textFieldColors(
         textColor = textColor,
         placeholderColor = placeholderColor,
-        focusedIndicatorColor = focusedIndicatorColor,
-        unfocusedIndicatorColor = unfocusedIndicatorColor,
-        disabledIndicatorColor = disabledIndicatorColor,
-        errorIndicatorColor = errorIndicatorColor,
-        containerColor = containerColor,
+        focusedIndicatorColor = if (withContainerShape) Color.Transparent else focusedIndicatorColor,
+        unfocusedIndicatorColor = if (withContainerShape) Color.Transparent else unfocusedIndicatorColor,
+        disabledIndicatorColor = if (withContainerShape) Color.Transparent else disabledIndicatorColor,
+        errorIndicatorColor = if (withContainerShape) Color.Transparent else errorIndicatorColor,
+        containerColor = if (withContainerShape) Color.Transparent else containerColor,
         cursorColor = cursorColor,
         errorCursorColor = errorCursorColor
     )
@@ -232,6 +234,15 @@ private fun provideTextStyle(style: InputFieldViewStyle): TextStyle {
 
     return textStyle
 }
+
+@Composable
+private fun provideCursorColor(colors: InputFieldColors?): Color {
+    return colors?.cursorHandleColor ?: colors?.cursorColor ?: colors?.focusedIndicatorColor ?: Color.Black
+}
+
+private fun Modifier.withBackground(colors: InputFieldColors?, containerShape: Shape?) = containerShape?.let {
+    this.background(colors?.containerColor ?: Color.Unspecified, it)
+} ?: this
 
 private fun ((String) -> Unit).withMaxLength(maxLength: Int?): (String) -> Unit = {
     maxLength?.let { limit ->

@@ -21,7 +21,7 @@ object Versions {
     const val materialDesign = "1.4.0"
     const val lifeCycle = "2.5.1"
     const val compose_compiler_ext = "1.2.0"
-    const val compose_material3 = "1.0.0-alpha14"
+    const val compose_material3 = "1.0.1"
     const val compose_version = "1.2.0-rc03"
     const val compose_activity_version = "1.6.0-alpha05"
     const val compose_customview_poolingcontainer = "1.0.0"
