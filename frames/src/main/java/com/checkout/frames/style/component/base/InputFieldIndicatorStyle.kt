@@ -8,7 +8,7 @@ import com.checkout.frames.utils.constants.UnderlineConstants
 
 public sealed class InputFieldIndicatorStyle {
 
-    public data class Border(
+    public data class Border @JvmOverloads constructor(
         val shape: Shape = Shape.RoundCorner,
         /** Radius in dp. */
         val cornerRadius: CornerRadius = CornerRadius(BorderConstants.radius),
@@ -30,7 +30,7 @@ public sealed class InputFieldIndicatorStyle {
         val errorBorderColor: Long = BorderConstants.errorBorderColor
     ) : InputFieldIndicatorStyle()
 
-    public data class Underline(
+    public data class Underline @JvmOverloads constructor(
         /** Focused underline thickness in dp. */
         val focusedUnderlineThickness: Int = UnderlineConstants.focusedUnderlineThickness,
         /** Unfocused underline thickness in dp. */

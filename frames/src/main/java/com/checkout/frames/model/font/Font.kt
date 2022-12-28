@@ -58,7 +58,7 @@ public sealed class Font {
      * @param boldFont integer font resource id for bold weight.
      * @param extraBoldFont integer font resource id for extra bold weight.
      */
-    public data class Custom(
+    public data class Custom @JvmOverloads constructor(
         @FontRes
         val normalFont: Int,
         @FontRes

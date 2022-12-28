@@ -5,7 +5,7 @@ import com.checkout.frames.style.component.base.ImageContainerStyle
 import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 
-public data class CardSchemeComponentStyle(
+public data class CardSchemeComponentStyle @JvmOverloads constructor(
     val titleStyle: TextLabelStyle = TextLabelStyle(),
     val imageStyle: ImageStyle? = null,
     val containerStyle: ContainerStyle = ContainerStyle(),
