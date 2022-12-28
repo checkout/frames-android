@@ -39,6 +39,8 @@ Frames for Android tokenises consumer data for use within [Checkout.com](https:/
 - [License](#License)
 
 
+Complete information will be found in the [Checkout Docs](https://www.checkout.com/docs/integrate/sdks/android-sdk).
+
 You can find the Frames API reference [on our KDoc](https://checkout.github.io/frames-android/index.html).
 
 
