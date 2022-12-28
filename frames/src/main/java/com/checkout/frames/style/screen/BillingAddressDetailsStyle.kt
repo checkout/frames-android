@@ -7,7 +7,7 @@ import com.checkout.frames.style.component.billingformdetails.HeaderComponentSty
 import com.checkout.frames.style.component.default.DefaultCountryComponentStyle
 import com.checkout.frames.style.screen.default.DefaultBillingAddressDetailsStyle
 
-public data class BillingAddressDetailsStyle(
+public data class BillingAddressDetailsStyle @JvmOverloads constructor(
     var headerComponentStyle: HeaderComponentStyle = DefaultBillingAddressDetailsStyle.headerComponentStyle(),
     var inputComponentsContainerStyle: InputComponentsContainerStyle =
         DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle(),

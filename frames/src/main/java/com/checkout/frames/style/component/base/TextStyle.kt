@@ -6,7 +6,7 @@ import com.checkout.frames.model.font.Font
 import com.checkout.frames.model.font.FontStyle
 import com.checkout.frames.model.font.FontWeight
 
-public data class TextStyle(
+public data class TextStyle @JvmOverloads constructor(
     /** Text size in sp. */
     val size: Int = 14,
     /** The 32-bit ARGB text color. F.e. black color 0xFF000000. */

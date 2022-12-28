@@ -55,6 +55,7 @@ public class PaymentFormMediator(
      *
      * @return [View]
      */
+    @JvmOverloads
     public fun provideFragmentContent(
         fragment: Fragment,
         strategy: ViewCompositionStrategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed

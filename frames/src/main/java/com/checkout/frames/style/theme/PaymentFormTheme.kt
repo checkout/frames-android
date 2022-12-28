@@ -1,6 +1,6 @@
 package com.checkout.frames.style.theme
 
-public data class PaymentFormTheme(
+public data class PaymentFormTheme @JvmOverloads constructor(
     /**
      * Custom colors provided by the merchants
      */
