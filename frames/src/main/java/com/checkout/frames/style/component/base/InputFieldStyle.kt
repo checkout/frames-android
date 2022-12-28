@@ -3,7 +3,7 @@ package com.checkout.frames.style.component.base
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardOptions
 
-public data class InputFieldStyle(
+public data class InputFieldStyle @JvmOverloads constructor(
     val textStyle: TextStyle = TextStyle(),
     var placeholderText: String = "",
     @StringRes

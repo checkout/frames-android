@@ -16,6 +16,7 @@ import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 
 public object DefaultAddressSummaryComponentStyle {
 
+    @JvmOverloads
     public fun light(isOptional: Boolean = false): AddressSummaryComponentStyle {
         val titleStyle = DefaultTextLabelStyle.title(textId = R.string.cko_billing_address)
 

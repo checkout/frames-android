@@ -4,7 +4,7 @@ import androidx.annotation.ColorLong
 import androidx.annotation.DrawableRes
 import com.checkout.frames.model.Padding
 
-public data class ImageStyle(
+public data class ImageStyle @JvmOverloads constructor(
     /** Image resource. */
     @DrawableRes
     val image: Int? = null,

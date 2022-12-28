@@ -4,21 +4,16 @@ import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 
-public data class AddressSummaryComponentStyle(
+public data class AddressSummaryComponentStyle @JvmOverloads constructor(
     val titleStyle: TextLabelStyle? = null,
     val subTitleStyle: TextLabelStyle? = null,
-    val addAddressButtonStyle: ButtonStyle,
-    val summarySectionStyle: AddressSummarySectionStyle,
+    val addAddressButtonStyle: ButtonStyle = ButtonStyle(),
+    val summarySectionStyle: AddressSummarySectionStyle = AddressSummarySectionStyle(
+        TextLabelStyle(),
+        null,
+        ButtonStyle(),
+        ContainerStyle()
+    ),
     val containerStyle: ContainerStyle = ContainerStyle(),
     val isOptional: Boolean = false
-) {
-    public constructor() : this(
-        summarySectionStyle = AddressSummarySectionStyle(
-            TextLabelStyle(),
-            null,
-            ButtonStyle(),
-            ContainerStyle()
-        ),
-        addAddressButtonStyle = ButtonStyle()
-    )
-}
+)

@@ -1,6 +1,6 @@
 package com.checkout.frames.style.theme
 
-public data class PaymentFormComponent(
+public data class PaymentFormComponent @JvmOverloads constructor(
     val paymentFormComponentField: PaymentFormComponentField,
     val isFieldOptional: Boolean = false,
     val isFieldHidden: Boolean = false,

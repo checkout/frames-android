@@ -123,6 +123,7 @@ public object DefaultPaymentFormTheme {
      * This function is used for merchant to provide specific custom component for theme
      */
     @Suppress("LongParameterList")
+    @JvmOverloads
     public fun providePaymentFormComponents(
         paymentHeaderTitle: PaymentFormComponent = this.paymentHeaderTitle,
         cardScheme: PaymentFormComponent = this.cardScheme,

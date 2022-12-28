@@ -2,7 +2,7 @@ package com.checkout.frames.style.component.base
 
 import com.checkout.frames.style.component.default.DefaultTextLabelStyle
 
-public data class InputComponentStyle(
+public data class InputComponentStyle @JvmOverloads constructor(
     val titleStyle: TextLabelStyle? = null,
     val subtitleStyle: TextLabelStyle? = null,
     val infoStyle: TextLabelStyle? = null,

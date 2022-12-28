@@ -7,7 +7,7 @@ import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.model.ButtonElevation
 import com.checkout.frames.model.Padding
 
-public data class ButtonStyle(
+public data class ButtonStyle @JvmOverloads constructor(
     /** The 32-bit ARGB container color of this Button when enabled. */
     @ColorLong
     val containerColor: Long = 0x00000000,
