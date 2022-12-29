@@ -18,7 +18,7 @@ import com.checkout.frames.style.component.default.DefaultAddressSummaryComponen
 import com.checkout.frames.style.component.default.DefaultPayButtonComponentStyle
 import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 
-public data class PaymentDetailsStyle(
+public data class PaymentDetailsStyle @JvmOverloads constructor(
     public var paymentDetailsHeaderStyle: ScreenHeaderStyle = DefaultLightStyle.screenHeader(
         textId = R.string.cko_payment_details_title,
         imageId = R.drawable.cko_ic_arrow_back

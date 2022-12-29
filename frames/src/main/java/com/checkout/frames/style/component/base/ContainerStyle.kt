@@ -8,7 +8,7 @@ import com.checkout.frames.model.Shape
 import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.utils.constants.ContainerConstants
 
-public data class ContainerStyle(
+public data class ContainerStyle @JvmOverloads constructor(
     /**
      * The 32-bit ARGB container background color.
      * Transparent by default.

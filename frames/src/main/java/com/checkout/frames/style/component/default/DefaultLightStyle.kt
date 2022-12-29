@@ -26,6 +26,7 @@ import com.checkout.frames.utils.constants.HeaderTitleConstants
 @Suppress("TooManyFunctions", "LongParameterList")
 public object DefaultLightStyle {
 
+    @JvmOverloads
     public fun screenHeader(
         text: String = "",
         @StringRes
@@ -62,6 +63,7 @@ public object DefaultLightStyle {
         containerStyle = ContainerStyle(height = height, padding = padding)
     )
 
+    @JvmOverloads
     public fun screenTitleTextLabelStyle(
         padding: Padding = Padding()
     ): TextLabelStyle = DefaultTextLabelStyle.headerTitle(padding = padding)

@@ -4,7 +4,7 @@ import androidx.annotation.ColorLong
 import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.utils.constants.UnderlineConstants
 
-public data class InputFieldColors(
+public data class InputFieldColors @JvmOverloads constructor(
     @ColorLong
     val focusedBorderColor: Long = BorderConstants.focusedBorderColor,
     @ColorLong

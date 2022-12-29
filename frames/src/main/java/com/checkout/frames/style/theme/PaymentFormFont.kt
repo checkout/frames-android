@@ -4,7 +4,7 @@ import com.checkout.frames.model.font.Font
 import com.checkout.frames.model.font.FontStyle
 import com.checkout.frames.model.font.FontWeight
 
-public data class PaymentFormFont(
+public data class PaymentFormFont @JvmOverloads constructor(
     /** Defines font family. */
     val font: Font = Font.Default,
     /** Defines font inputStyle, normal or italic. */

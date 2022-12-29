@@ -17,6 +17,7 @@ import com.checkout.frames.utils.constants.LightStyleConstants
 
 public object DefaultButtonStyle {
     @Suppress("LongParameterList")
+    @JvmOverloads
     public fun lightOutline(
         text: String = "",
         @StringRes
@@ -60,6 +61,7 @@ public object DefaultButtonStyle {
     )
 
     @Suppress("LongParameterList")
+    @JvmOverloads
     public fun lightSolid(
         text: String = "",
         @StringRes

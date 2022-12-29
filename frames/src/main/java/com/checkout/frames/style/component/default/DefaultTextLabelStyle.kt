@@ -19,6 +19,7 @@ import com.checkout.frames.utils.constants.TextConstants
 
 public object DefaultTextLabelStyle {
 
+    @JvmOverloads
     public fun error(
         fontSize: Int = ErrorConstants.fontSize,
         font: Font = ErrorConstants.font,
@@ -44,6 +45,7 @@ public object DefaultTextLabelStyle {
         containerStyle = ContainerStyle(padding = padding)
     )
 
+    @JvmOverloads
     public fun title(
         text: String = "",
         @StringRes
@@ -74,6 +76,7 @@ public object DefaultTextLabelStyle {
         containerStyle = ContainerStyle(padding = padding)
     )
 
+    @JvmOverloads
     public fun subtitle(
         text: String = "",
         @StringRes
@@ -95,6 +98,7 @@ public object DefaultTextLabelStyle {
         containerStyle = ContainerStyle(padding = padding)
     )
 
+    @JvmOverloads
     public fun headerTitle(
         fontSize: Int = HeaderTitleConstants.fontSize,
         fontWeight: FontWeight = FontWeight.Normal,
@@ -122,6 +126,7 @@ public object DefaultTextLabelStyle {
         containerStyle = ContainerStyle(padding = padding)
     )
 
+    @JvmOverloads
     public fun text(
         text: String = "",
         @StringRes

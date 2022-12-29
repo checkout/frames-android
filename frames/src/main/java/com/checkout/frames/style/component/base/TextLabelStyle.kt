@@ -2,7 +2,7 @@ package com.checkout.frames.style.component.base
 
 import androidx.annotation.StringRes
 
-public data class TextLabelStyle(
+public data class TextLabelStyle @JvmOverloads constructor(
     var text: String = "",
     @StringRes
     var textId: Int? = null,

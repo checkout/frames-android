@@ -8,6 +8,7 @@ import com.checkout.frames.utils.constants.LightStyleConstants
 
 public object DefaultImageStyle {
 
+    @JvmOverloads
     public fun buttonTrailingImageStyle(
         image: Int = R.drawable.cko_ic_caret_right,
         tinColor: Long? = LightStyleConstants.focusedBorderColor,

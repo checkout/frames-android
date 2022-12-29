@@ -3,7 +3,7 @@ package com.checkout.tokenization.model
 /**
  * A representation of a [Card API object]
  */
-public data class Card constructor(
+public data class Card @JvmOverloads constructor(
     /**
      * ExpiryDate of the Card. See [ExpiryDate]
      */
