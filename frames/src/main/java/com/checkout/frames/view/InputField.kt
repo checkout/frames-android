@@ -80,9 +80,11 @@ internal fun InputField(
                 if (autofillType == AutofillType.CreditCardExpirationDate) {
                     val date = it.replace("/", "")
                     state.text.value = date
+                    onValueChange(state.text.value)
                     return@AutofillNode
                 }
                 state.text.value = it
+                onValueChange(state.text.value)
             }
         )
         LocalAutofillTree.current += autofillNode
