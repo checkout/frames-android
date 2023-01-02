@@ -77,6 +77,11 @@ internal fun InputField(
         autofillNode = AutofillNode(
             autofillTypes = listOf(autofillType),
             onFill = {
+                if (autofillType == AutofillType.CreditCardExpirationDate) {
+                    val date = it.replace("/", "")
+                    state.text.value = date
+                    return@AutofillNode
+                }
                 state.text.value = it
             }
         )
