@@ -4,11 +4,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.component.base.InputComponent
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.style.component.CountryComponentStyle
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun CountryComponent(
     style: CountryComponentStyle,

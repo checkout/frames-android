@@ -104,7 +104,7 @@ internal class ExpiryDateViewModel @Inject constructor(
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 keyboardOptions = keyboardOptions,
-                visualTransformation = ExpiryDateVisualTransformation(),
+                visualTransformation = ExpiryDateVisualTransformation(), // FIXME slash issue with the autofill
                 forceLTR = true
             )
         )

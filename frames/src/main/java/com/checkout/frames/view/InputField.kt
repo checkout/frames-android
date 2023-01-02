@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,25 +15,32 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.Surface
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors
 import androidx.compose.material3.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.AutofillNode
+import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalAutofill
+import androidx.compose.ui.platform.LocalAutofillTree
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -44,15 +51,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.InputFieldColors
-import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.style.view.InputFieldViewStyle
+import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.utils.extensions.clearFocusOnKeyboardDismiss
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 internal fun InputField(
     style: InputFieldViewStyle,
     state: InputFieldState,
+    autofillType: AutofillType? = null,
     onFocusChanged: ((Boolean) -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) = with(style) {
@@ -63,6 +71,19 @@ internal fun InputField(
     val textColor = textStyle.color.takeOrElse { colors.textColor(enabled).value }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
     val textSelectionColors = provideTextSelectionColors(style.colors, colors.cursorColor(isError = false).value)
+
+    var autofillNode: AutofillNode? = null
+    if (autofillType != null) {
+        autofillNode = AutofillNode(
+            autofillTypes = listOf(autofillType),
+            onFill = {
+                state.text.value = it
+            }
+        )
+        LocalAutofillTree.current += autofillNode
+    }
+    val autofill = LocalAutofill.current
+
     var modifier = modifier
         .clearFocusOnKeyboardDismiss()
         .background(colors.containerColor(enabled).value, containerShape)
@@ -71,6 +92,21 @@ internal fun InputField(
             minWidth = TextFieldDefaults.MinWidth,
             minHeight = TextFieldDefaults.MinHeight
         )
+        .onGloballyPositioned {
+            autofillNode?.boundingBox = it.boundsInWindow()
+        }
+        .onFocusChanged { focusState ->
+            if (autofillNode != null) {
+                autofill?.run {
+                    if (focusState.isFocused) {
+                        requestAutofillForNode(autofillNode)
+                    } else {
+                        cancelAutofillForNode(autofillNode)
+                    }
+                }
+            }
+        }
+
 
     if (borderShape == null) modifier = modifier.indicatorLine(
         enabled,
@@ -241,6 +277,7 @@ private fun ((String) -> Unit).withMaxLength(maxLength: Int?): (String) -> Unit 
 
 /* ------------------------------ Preview ------------------------------ */
 
+@OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true, name = "Default InputField")
 @Composable
@@ -266,6 +303,7 @@ private fun InputFieldPreview() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true, name = "Round InputField")
 @Composable
@@ -296,6 +334,7 @@ private fun RoundInputFieldPreview() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true, name = "Rectangle OutlineInputField")
 @Composable
@@ -321,6 +360,7 @@ private fun CustomOutlineInputFieldPreview() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true, name = "Cut corner OutlineInputField")
 @Composable
@@ -348,6 +388,7 @@ private fun CutCornerOutlineInputFieldPreview() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true, name = "Circle OutlineInputField1")
 @Composable

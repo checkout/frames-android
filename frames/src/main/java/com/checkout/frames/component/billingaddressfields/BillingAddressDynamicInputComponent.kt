@@ -1,9 +1,11 @@
 package com.checkout.frames.component.billingaddressfields
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.checkout.frames.component.base.InputComponent
 import com.checkout.frames.style.view.BillingAddressInputComponentViewStyle
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun BillingAddressDynamicInputComponent(
     position: Int,

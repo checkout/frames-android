@@ -63,6 +63,7 @@ internal fun CountryPickerScreen(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun HeaderComponent(
     screenTitleStyle: TextLabelViewStyle,
@@ -74,7 +75,7 @@ private fun HeaderComponent(
 ) {
     Column {
         TextLabel(style = screenTitleStyle, state = screenTitleState)
-        InputField(searchFieldStyle, searchFieldState, onSearchFocusChange, onSearchValueChange)
+        InputField(searchFieldStyle, searchFieldState, null, onSearchFocusChange, onSearchValueChange)
     }
 }
 

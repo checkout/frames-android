@@ -5,15 +5,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.AutofillType
 import com.checkout.frames.style.view.InputComponentViewStyle
 import com.checkout.frames.view.InputField
 import com.checkout.frames.view.TextLabel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun InputComponent(
     style: InputComponentViewStyle,
     state: InputComponentState,
+    autofillType: AutofillType? = null,
     onFocusChanged: ((Boolean) -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) = with(state) {
@@ -39,7 +43,7 @@ internal fun InputComponent(
             }
         }
         // Input field
-        InputField(style.inputFieldStyle, inputFieldState, onFocusChanged, onValueChange)
+        InputField(style.inputFieldStyle, inputFieldState, autofillType, onFocusChanged, onValueChange)
         // Error message
         if (errorState.isVisible.value) TextLabel(style.errorMessageStyle, errorState)
     }
