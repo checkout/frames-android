@@ -1,15 +1,14 @@
 package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 
 import com.checkout.base.model.Country
-import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.DEFAULT_BILLING_ADDRESS
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
-import java.util.*
+import java.util.Locale
 
 internal data class BillingAddress(
     val name: String? = null,
     val address: Address? = null,
-    var phone: Phone? = null,
+    var phone: Phone? = null
 ) {
     internal constructor() : this(
         "",
