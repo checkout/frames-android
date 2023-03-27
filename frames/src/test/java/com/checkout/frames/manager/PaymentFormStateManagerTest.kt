@@ -45,7 +45,8 @@ internal class PaymentFormStateManagerTest {
     @MethodSource("resetArguments")
     fun `when reset of payment state is requested then payment state is returned to a default state`(
         isCvvValid: Boolean,
-        isBillingAddressValid: Boolean
+        isBillingAddressValid: Boolean,
+        isBillingAddressEnabled: Boolean,
     ) {
         // Given
         val supportedSchemes = listOf(CardScheme.VISA, CardScheme.DISCOVER)
@@ -61,9 +62,10 @@ internal class PaymentFormStateManagerTest {
             phone = Phone("+4332452452345234", Country.UNITED_KINGDOM)
         )
         paymentFormStateManager.isBillingAddressValid.value = !isBillingAddressValid
+        paymentFormStateManager.isBillingAddressEnabled.value = !isBillingAddressEnabled
 
         // When
-        paymentFormStateManager.resetPaymentState(isCvvValid, isBillingAddressValid)
+        paymentFormStateManager.resetPaymentState(isCvvValid, isBillingAddressValid, isBillingAddressEnabled)
 
         // Then
         Assertions.assertEquals(paymentFormStateManager.cvv.value, "")
@@ -74,6 +76,7 @@ internal class PaymentFormStateManagerTest {
         Assertions.assertEquals(paymentFormStateManager.isExpiryDateValid.value, false)
         Assertions.assertEquals(paymentFormStateManager.billingAddress.value, BillingAddress())
         Assertions.assertEquals(paymentFormStateManager.isBillingAddressValid.value, isBillingAddressValid)
+        Assertions.assertEquals(paymentFormStateManager.isBillingAddressEnabled.value, isBillingAddressEnabled)
         Assertions.assertEquals(paymentFormStateManager.supportedCardSchemeList, supportedSchemes)
     }
 

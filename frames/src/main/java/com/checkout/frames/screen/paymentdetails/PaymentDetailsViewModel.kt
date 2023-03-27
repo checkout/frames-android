@@ -35,11 +35,11 @@ internal class PaymentDetailsViewModel @Inject constructor(
     val componentProvider: ComponentProvider,
     private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
     private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
-    private val containerMapper: Mapper<ContainerStyle, Modifier>,
+    containerMapper: Mapper<ContainerStyle, Modifier>,
     private val clickableImageStyleMapper: ImageStyleToClickableComposableImageMapper,
     @Named(CLOSE_PAYMENT_FLOW_DI)
     private val closePaymentFlowUseCase: UseCase<Unit, Unit>,
-    private val paymentStateManager: PaymentStateManager,
+    paymentStateManager: PaymentStateManager,
     private val logger: Logger<LoggingEvent>,
     private val style: PaymentDetailsStyle
 ) : ViewModel() {
@@ -51,7 +51,12 @@ internal class PaymentDetailsViewModel @Inject constructor(
     init {
         val isCvvValidByDefault = style.cvvStyle == null
         val isBillingAddressValidByDefault = style.addressSummaryStyle?.isOptional ?: true
-        paymentStateManager.resetPaymentState(isCvvValidByDefault, isBillingAddressValidByDefault)
+        val isBillingAddressValidEnabled = style.addressSummaryStyle != null
+        paymentStateManager.resetPaymentState(
+            isCvvValidByDefault,
+            isBillingAddressValidByDefault,
+            isBillingAddressValidEnabled
+        )
         logger.logEventWithLocale(PaymentFormEventType.PRESENTED)
     }
 

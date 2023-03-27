@@ -160,7 +160,8 @@ internal class PaymentDetailsViewModelTest {
         initViewModel(style)
 
         // Then
-        verify { mockPaymentStateManager.resetPaymentState(isCvvValid, isBillingAddressValid) }
+        val isBillingAddressEnabled = !isAddressStyleNull
+        verify { mockPaymentStateManager.resetPaymentState(isCvvValid, isBillingAddressValid, isBillingAddressEnabled) }
     }
 
     private fun initViewModel(style: PaymentDetailsStyle) {
