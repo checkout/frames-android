@@ -40,7 +40,7 @@ internal class PaymentFormStateManagerTest {
     @ParameterizedTest(
         name = "When reset of payment state is requested with: " +
                 "isCvvValid = {0} and isBillingAddressValid = {1}; " +
-                "Then default cvv isValid state = {0} and address isValid state = {1}"
+                "Then default cvv isValid state = {0}, address isValid state = {1} and address isEnabled state = {2}"
     )
     @MethodSource("resetArguments")
     fun `when reset of payment state is requested then payment state is returned to a default state`(
@@ -84,10 +84,14 @@ internal class PaymentFormStateManagerTest {
         @RequiresApi(Build.VERSION_CODES.N)
         @JvmStatic
         fun resetArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of(false, false),
-            Arguments.of(true, false),
-            Arguments.of(false, true),
-            Arguments.of(true, true)
+            Arguments.of(false, false, true),
+            Arguments.of(true, false, true),
+            Arguments.of(false, true, true),
+            Arguments.of(true, true, true),
+            Arguments.of(false, false, false),
+            Arguments.of(true, false, false),
+            Arguments.of(false, true, false),
+            Arguments.of(true, true, false),
         )
     }
 }
