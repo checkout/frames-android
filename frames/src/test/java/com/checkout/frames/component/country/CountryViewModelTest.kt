@@ -5,13 +5,13 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
+import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CountryComponentStyle
@@ -99,13 +99,28 @@ internal class CountryViewModelTest {
     /** Country field update **/
 
     @Test
+    fun `when country field data is updated it should call onCountryUpdated`() = runTest {
+        // Given
+        spyPaymentStateManager.billingAddress.value.address?.country = Country.UNITED_KINGDOM
+
+        fun assertUpdatedCountry(expectedCountry: Country, actualCountry: Country) {
+            assertEquals(expectedCountry, actualCountry)
+        }
+        // When
+        viewModel.prepare { actualCountry ->
+            // Then
+            assertUpdatedCountry(Country.UNITED_KINGDOM, actualCountry)
+        }
+    }
+
+    @Test
     fun `when country in payment state manager is changed then country field data is updated`() = runTest {
         // Given
         val testCountry = Country.UNITED_STATES_OF_AMERICA
         val expectedCountryFieldText = "\uD83C\uDDFA\uD83C\uDDF8    United States"
 
         spyPaymentStateManager.billingAddress.value.address?.country = Country.UNITED_KINGDOM
-        viewModel.prepare()
+        viewModel.prepare { }
 
         // When
         spyPaymentStateManager.billingAddress.value.address?.country = testCountry

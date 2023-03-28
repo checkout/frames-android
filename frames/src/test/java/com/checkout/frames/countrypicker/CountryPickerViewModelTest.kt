@@ -241,6 +241,14 @@ internal class CountryPickerViewModelTest {
         assertTrue(viewModel.searchFieldState.text.value.isEmpty())
     }
 
+    @Test
+    fun `onLeaveScreen should update visitedCountryPicker to true in PaymentStateManager`() {
+        paymentStateManager.visitedCountryPicker.value = false
+        assertFalse(paymentStateManager.visitedCountryPicker.value)
+        viewModel.onLeaveScreen()
+        assertTrue(paymentStateManager.visitedCountryPicker.value)
+    }
+
     private fun initMappers() {
         val imageMapper = ImageStyleToComposableImageMapper()
 

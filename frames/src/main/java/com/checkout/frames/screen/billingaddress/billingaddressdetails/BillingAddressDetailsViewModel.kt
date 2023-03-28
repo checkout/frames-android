@@ -11,13 +11,13 @@ import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.R
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentState
+import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.BillingFormViewModelSubComponent
+import com.checkout.frames.logging.BillingFormEventType
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.model.request.ImageStyleToDynamicImageRequest
-import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
-import com.checkout.frames.logging.BillingFormEventType
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ButtonStyle
@@ -31,18 +31,18 @@ import com.checkout.frames.style.view.billingformdetails.BillingAddressInputComp
 import com.checkout.frames.utils.constants.BillingAddressDetailsConstants
 import com.checkout.frames.utils.extensions.getErrorMessage
 import com.checkout.frames.utils.extensions.logEvent
-import com.checkout.frames.utils.extensions.provideBillingAddressDetails
 import com.checkout.frames.utils.extensions.provideAddressFieldText
+import com.checkout.frames.utils.extensions.provideBillingAddressDetails
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.frames.view.TextLabelState
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
@@ -50,18 +50,18 @@ import javax.inject.Provider
 @Suppress("LongParameterList", "UnusedPrivateMember", "TooManyFunctions")
 internal class BillingAddressDetailsViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
-    private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
+    textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
     private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
-    private val containerMapper: Mapper<ContainerStyle, Modifier>,
+    containerMapper: Mapper<ContainerStyle, Modifier>,
     private val imageMapper: ImageStyleToDynamicComposableImageMapper,
     private val billingAddressDetailsComponentStateUseCase:
     UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsContainerState>,
     private val billingAddressDetailsComponentStyleUseCase:
     UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle>,
-    private val buttonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
+    buttonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
     private val buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
     private val logger: Logger<LoggingEvent>,
-    private val style: BillingAddressDetailsStyle
+    private val style: BillingAddressDetailsStyle,
 ) : ViewModel() {
     val screenTitleStyle = textLabelStyleMapper.map(style.headerComponentStyle.headerTitleStyle)
     val screenTitleState = provideScreenTitleState(style.headerComponentStyle.headerTitleStyle)
@@ -113,6 +113,19 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
         goBack.value = true
     }
 
+    // Update the country component state if the country is different from current value
+    internal fun updateCountryComponentState(
+        state: BillingAddressInputComponentState,
+        country: Country,
+    ) {
+        with(state) {
+            val isCountryValid = country != Country.INVALID_COUNTRY
+            if (isAddressFieldValid.value != isCountryValid)
+                isAddressFieldValid.value = isCountryValid
+            if (addressFieldText.value != country.name) addressFieldText.value = country.name
+        }
+    }
+
     @VisibleForTesting
     fun prepare() {
         viewModelScope.launch {
@@ -159,8 +172,6 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
                             maxLength = mutableStateOf(BillingAddressDetailsConstants.defaultPhoneNumberMaxLength)
                         )
                     )
-            } else if (billingAddressInputComponentState.addressFieldName == BillingFormFields.Country.name) {
-                billingAddressInputComponentState.isAddressFieldValid.value = true
             }
         }
 

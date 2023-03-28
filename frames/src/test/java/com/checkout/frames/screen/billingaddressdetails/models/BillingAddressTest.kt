@@ -6,6 +6,7 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.Bi
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
+import org.amshove.kluent.internal.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -46,6 +47,11 @@ internal class BillingAddressTest {
     @Test
     fun `If BillingAddress country is edited then edited() should return true`() =
         assertTrue(BillingAddress(address = buildBillingAddress(country = Country.ANGOLA)).isEdited())
+
+    @Test
+    fun `Default BillingAddress country is INVALID_COUNTRY`() {
+        assertEquals(Country.INVALID_COUNTRY, BillingAddress().address!!.country)
+    }
 
     private companion object {
         private fun buildBillingAddress(
