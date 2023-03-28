@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.checkout.base.mapper.Mapper
+import com.checkout.base.model.Country
+import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
@@ -28,7 +30,7 @@ internal class CountryViewModel @Inject constructor(
     val componentState = provideViewState(style.inputStyle)
     val componentStyle = provideViewStyle(style.inputStyle)
 
-    fun prepare() {
+    fun prepare(onCountryUpdated: (country: Country) -> Unit) {
         viewModelScope.launch {
             paymentStateManager.billingAddress.collect { billingAddress ->
                 val country = billingAddress.address?.country
@@ -38,6 +40,22 @@ internal class CountryViewModel @Inject constructor(
                 val emojiFlag = country?.emojiFlag()
 
                 componentState.inputFieldState.text.value = "$emojiFlag    $name"
+
+                onCountryUpdated(country ?: Country.INVALID_COUNTRY)
+                maybeShowErrorMessage(country)
+            }
+        }
+    }
+
+    private fun maybeShowErrorMessage(country: Country?) {
+        if (paymentStateManager.visitedCountryPicker.value) {
+            with(componentState.errorState) {
+                if (country == Country.INVALID_COUNTRY) {
+                    isVisible.value = true
+                    textId.value = R.string.cko_billing_form_input_field_phone_country_error
+                } else {
+                    isVisible.value = false
+                }
             }
         }
     }

@@ -6,17 +6,21 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.R
+import com.checkout.frames.component.base.InputComponentState
+import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentState
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.logging.BillingFormEventType
-import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
-import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
+import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mock.BillingAddressDetailsTestData
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAddressDetailsViewModel
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.DEFAULT_BILLING_ADDRESS
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ButtonStyle
@@ -28,6 +32,7 @@ import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.style.view.billingformdetails.BillingAddressInputComponentsViewContainerStyle
 import com.checkout.frames.utils.extensions.provideBillingAddressDetails
+import com.checkout.frames.view.InputFieldState
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.frames.view.TextLabelState
 import com.checkout.logging.Logger
@@ -46,8 +51,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -238,7 +243,7 @@ internal class BillingAddressDetailsViewModelTest {
         viewModel.onAddressFieldTextChange(0, "Test address one")
         viewModel.onAddressFieldTextChange(1, "Test address two")
         val expectedBillingAddress =
-            viewModel.inputComponentsStateList.provideBillingAddressDetails(Country.from(Locale.getDefault().country))
+            viewModel.inputComponentsStateList.provideBillingAddressDetails(DEFAULT_BILLING_ADDRESS.address!!.country)
 
         // When
         viewModel.onTapDoneButton()
@@ -257,6 +262,7 @@ internal class BillingAddressDetailsViewModelTest {
         viewModel.onAddressFieldTextChange(3, "state")
         viewModel.onAddressFieldTextChange(4, "postcode")
         viewModel.onAddressFieldTextChange(5, "12345")
+        viewModel.updateCountryComponentState(viewModel.inputComponentsStateList[6], Country.UNITED_KINGDOM)
         val expectedBillingAddress =
             viewModel.inputComponentsStateList.provideBillingAddressDetails(Country.from(Locale.getDefault().country))
         viewModel.onTapDoneButton()
@@ -372,6 +378,51 @@ internal class BillingAddressDetailsViewModelTest {
 
         // Then
         assertEquals(BillingFormEventType.SUBMIT.eventId, capturedEvent.captured.typeIdentifier)
+    }
+
+    @Test
+    fun `updateCountryComponentState should update the country state if it's a different country`() {
+        // Given
+        val state = BillingAddressInputComponentState(
+            addressFieldName = BillingFormFields.Country.name,
+            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.JAMAICA.name })
+        )
+        // When
+        viewModel.updateCountryComponentState(state, Country.DENMARK)
+
+        // Then
+        assertEquals(Country.DENMARK.name, state.addressFieldText.value)
+        assertTrue(state.isAddressFieldValid.value)
+    }
+
+    @Test
+    fun `updateCountryComponentState should not change the country state if it's a same country`() {
+        // Given
+        val state = BillingAddressInputComponentState(
+            addressFieldName = BillingFormFields.Country.name,
+            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.DENMARK.name })
+        )
+        // When
+        viewModel.updateCountryComponentState(state, Country.DENMARK)
+
+        // Then
+        assertEquals(Country.DENMARK.name, state.addressFieldText.value)
+        assertTrue(state.isAddressFieldValid.value)
+    }
+
+    @Test
+    fun `updateCountryComponentState should make the state invalid if passing in an invalid country`() {
+        // Given
+        val state = BillingAddressInputComponentState(
+            addressFieldName = BillingFormFields.Country.name,
+            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.DENMARK.name })
+        )
+        // When
+        viewModel.updateCountryComponentState(state, Country.INVALID_COUNTRY)
+
+        // Then
+        assertEquals(Country.INVALID_COUNTRY.name, state.addressFieldText.value)
+        assertFalse(state.isAddressFieldValid.value)
     }
 
     private fun initMappers() {

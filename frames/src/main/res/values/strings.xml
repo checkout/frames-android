@@ -47,6 +47,7 @@
     <string name="cko_billing_form_input_field_state_error" translatable="true">Missing State</string>
     <string name="cko_billing_form_input_field_post_code_error" translatable="true">Missing Postcode</string>
     <string name="cko_billing_form_input_field_phone_number_error" translatable="true">Missing Phone number</string>
+    <string name="cko_billing_form_input_field_phone_country_error" translatable="true">Missing Country</string>
 
     <!--Billing address summary-->
     <string name="cko_billing_address" translatable="true">Billing address</string>

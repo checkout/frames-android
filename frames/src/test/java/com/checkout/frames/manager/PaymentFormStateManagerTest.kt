@@ -63,6 +63,7 @@ internal class PaymentFormStateManagerTest {
         )
         paymentFormStateManager.isBillingAddressValid.value = !isBillingAddressValid
         paymentFormStateManager.isBillingAddressEnabled.value = !isBillingAddressEnabled
+        paymentFormStateManager.visitedCountryPicker.value = true
 
         // When
         paymentFormStateManager.resetPaymentState(isCvvValid, isBillingAddressValid, isBillingAddressEnabled)
@@ -77,6 +78,7 @@ internal class PaymentFormStateManagerTest {
         Assertions.assertEquals(paymentFormStateManager.billingAddress.value, BillingAddress())
         Assertions.assertEquals(paymentFormStateManager.isBillingAddressValid.value, isBillingAddressValid)
         Assertions.assertEquals(paymentFormStateManager.isBillingAddressEnabled.value, isBillingAddressEnabled)
+        Assertions.assertEquals(paymentFormStateManager.visitedCountryPicker.value, false)
         Assertions.assertEquals(paymentFormStateManager.supportedCardSchemeList, supportedSchemes)
     }
 

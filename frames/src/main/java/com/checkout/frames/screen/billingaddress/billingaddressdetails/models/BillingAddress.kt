@@ -3,7 +3,6 @@ package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 import com.checkout.base.model.Country
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
-import java.util.Locale
 
 internal data class BillingAddress(
     val name: String? = null,
@@ -12,7 +11,7 @@ internal data class BillingAddress(
 ) {
     internal constructor() : this(
         "",
-        Address("", "", "", "", "", Country.from(Locale.getDefault().country))
+        Address("", "", "", "", "", Country.INVALID_COUNTRY)
     )
 
     internal companion object {

@@ -2,21 +2,22 @@ package com.checkout.frames.screen.billingaddress.billingaddressdetails
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.checkout.frames.di.base.Injector
 import com.checkout.frames.component.billingaddressfields.BillingAddressDynamicInputComponent
 import com.checkout.frames.component.country.CountryComponent
+import com.checkout.frames.di.base.Injector
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.style.screen.BillingAddressDetailsStyle
@@ -65,19 +66,19 @@ internal fun BillingAddressDetailsScreen(
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-            items(viewModel.inputComponentViewStyleList.size) { index ->
-                if (
-                    viewModel.inputComponentViewStyleList[index].addressFieldName
-                    == BillingFormFields.Country.name
-                ) {
-                    CountryComponent(style.countryComponentStyle, injector) {
-                        navController.navigate(Screen.CountryPicker.route)
-                    }
+            itemsIndexed(items = viewModel.inputComponentsStateList) { index, state ->
+                if (state.addressFieldName == BillingFormFields.Country.name) {
+                    CountryComponent(
+                        style = style.countryComponentStyle,
+                        injector = injector,
+                        onCountryUpdated = { country -> viewModel.updateCountryComponentState(state, country) },
+                        goToCountryPicker = { navController.navigate(Screen.CountryPicker.route) },
+                    )
                 } else {
                     BillingAddressDynamicInputComponent(
                         position = index,
                         inputComponentViewStyle = viewModel.inputComponentViewStyleList[index],
-                        inputComponentState = viewModel.inputComponentsStateList[index],
+                        inputComponentState = state,
                         onFocusChanged = viewModel::onFocusChanged,
                         onValueChange = viewModel::onAddressFieldTextChange
                     )

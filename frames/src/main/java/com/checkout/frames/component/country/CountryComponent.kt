@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.checkout.base.model.Country
 import com.checkout.frames.component.base.InputComponent
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.style.component.CountryComponentStyle
@@ -13,13 +14,14 @@ import com.checkout.frames.style.component.CountryComponentStyle
 internal fun CountryComponent(
     style: CountryComponentStyle,
     injector: Injector,
-    goToCountryPicker: () -> Unit
+    onCountryUpdated: (country: Country) -> Unit,
+    goToCountryPicker: () -> Unit,
 ) {
     val viewModel: CountryViewModel = viewModel(
         factory = CountryViewModel.Factory(injector, style)
     )
 
-    viewModel.prepare()
+    viewModel.prepare(onCountryUpdated)
 
     with(viewModel.componentStyle.inputFieldStyle) {
         modifier = modifier.clickable(
