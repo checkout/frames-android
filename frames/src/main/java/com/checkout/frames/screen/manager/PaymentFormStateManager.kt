@@ -26,6 +26,7 @@ internal class PaymentFormStateManager(
 
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())
     override val isBillingAddressValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    override val isBillingAddressEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override val supportedCardSchemeList = provideCardSchemeList()
 
@@ -33,7 +34,8 @@ internal class PaymentFormStateManager(
 
     override fun resetPaymentState(
         isCvvValid: Boolean,
-        isBillingAddressValid: Boolean
+        isBillingAddressValid: Boolean,
+        isBillingAddressEnabled: Boolean,
     ) {
         cardNumber.value = ""
         cardScheme.value = CardScheme.UNKNOWN
@@ -44,6 +46,7 @@ internal class PaymentFormStateManager(
         this.isCvvValid.value = isCvvValid
         billingAddress.value = BillingAddress()
         this.isBillingAddressValid.value = isBillingAddressValid
+        this.isBillingAddressEnabled.value = isBillingAddressEnabled
     }
 
     @VisibleForTesting

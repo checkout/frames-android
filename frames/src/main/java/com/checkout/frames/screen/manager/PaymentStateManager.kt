@@ -21,11 +21,14 @@ internal interface PaymentStateManager {
 
     val billingAddress: MutableStateFlow<BillingAddress>
     val isBillingAddressValid: MutableStateFlow<Boolean>
+    // Whether the billing address form is enabled or set to null
+    val isBillingAddressEnabled: MutableStateFlow<Boolean>
 
     val isReadyForTokenization: StateFlow<Boolean>
 
     fun resetPaymentState(
         isCvvValid: Boolean,
-        isBillingAddressValid: Boolean
+        isBillingAddressValid: Boolean,
+        isBillingAddressEnabled: Boolean,
     )
 }

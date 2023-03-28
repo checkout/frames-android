@@ -40,12 +40,13 @@ internal class PaymentFormStateManagerTest {
     @ParameterizedTest(
         name = "When reset of payment state is requested with: " +
                 "isCvvValid = {0} and isBillingAddressValid = {1}; " +
-                "Then default cvv isValid state = {0} and address isValid state = {1}"
+                "Then default cvv isValid state = {0}, address isValid state = {1} and address isEnabled state = {2}"
     )
     @MethodSource("resetArguments")
     fun `when reset of payment state is requested then payment state is returned to a default state`(
         isCvvValid: Boolean,
-        isBillingAddressValid: Boolean
+        isBillingAddressValid: Boolean,
+        isBillingAddressEnabled: Boolean,
     ) {
         // Given
         val supportedSchemes = listOf(CardScheme.VISA, CardScheme.DISCOVER)
@@ -61,9 +62,10 @@ internal class PaymentFormStateManagerTest {
             phone = Phone("+4332452452345234", Country.UNITED_KINGDOM)
         )
         paymentFormStateManager.isBillingAddressValid.value = !isBillingAddressValid
+        paymentFormStateManager.isBillingAddressEnabled.value = !isBillingAddressEnabled
 
         // When
-        paymentFormStateManager.resetPaymentState(isCvvValid, isBillingAddressValid)
+        paymentFormStateManager.resetPaymentState(isCvvValid, isBillingAddressValid, isBillingAddressEnabled)
 
         // Then
         Assertions.assertEquals(paymentFormStateManager.cvv.value, "")
@@ -74,6 +76,7 @@ internal class PaymentFormStateManagerTest {
         Assertions.assertEquals(paymentFormStateManager.isExpiryDateValid.value, false)
         Assertions.assertEquals(paymentFormStateManager.billingAddress.value, BillingAddress())
         Assertions.assertEquals(paymentFormStateManager.isBillingAddressValid.value, isBillingAddressValid)
+        Assertions.assertEquals(paymentFormStateManager.isBillingAddressEnabled.value, isBillingAddressEnabled)
         Assertions.assertEquals(paymentFormStateManager.supportedCardSchemeList, supportedSchemes)
     }
 
@@ -81,10 +84,14 @@ internal class PaymentFormStateManagerTest {
         @RequiresApi(Build.VERSION_CODES.N)
         @JvmStatic
         fun resetArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of(false, false),
-            Arguments.of(true, false),
-            Arguments.of(false, true),
-            Arguments.of(true, true)
+            Arguments.of(false, false, true),
+            Arguments.of(true, false, true),
+            Arguments.of(false, true, true),
+            Arguments.of(true, true, true),
+            Arguments.of(false, false, false),
+            Arguments.of(true, false, false),
+            Arguments.of(false, true, false),
+            Arguments.of(true, true, false),
         )
     }
 }

@@ -14,4 +14,18 @@ internal data class BillingAddress(
         "",
         Address("", "", "", "", "", Country.from(Locale.getDefault().country))
     )
+
+    internal companion object {
+        internal val DEFAULT_BILLING_ADDRESS by lazy { BillingAddress() }
+
+        // Whether the [BillingAddress] has been edited or same as the default one.
+        internal fun BillingAddress.isEdited() = (name == DEFAULT_BILLING_ADDRESS.name &&
+                address?.addressLine1 == DEFAULT_BILLING_ADDRESS.address?.addressLine1 &&
+                address?.addressLine2 == DEFAULT_BILLING_ADDRESS.address?.addressLine2 &&
+                address?.city == DEFAULT_BILLING_ADDRESS.address?.city &&
+                address?.state == DEFAULT_BILLING_ADDRESS.address?.state &&
+                address?.zip == DEFAULT_BILLING_ADDRESS.address?.zip &&
+                address?.country == DEFAULT_BILLING_ADDRESS.address?.country &&
+                phone == DEFAULT_BILLING_ADDRESS.phone).not()
+    }
 }

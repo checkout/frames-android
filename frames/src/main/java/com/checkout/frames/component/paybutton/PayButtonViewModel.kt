@@ -10,11 +10,12 @@ import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.PayButtonViewModelSubComponent
 import com.checkout.frames.logging.PaymentFormEventType
+import com.checkout.frames.model.request.InternalCardTokenRequest
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.PayButtonComponentStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
-import com.checkout.frames.model.request.InternalCardTokenRequest
 import com.checkout.frames.utils.extensions.logEvent
 import com.checkout.frames.utils.extensions.toExpiryDate
 import com.checkout.frames.view.InternalButtonState
@@ -30,7 +31,7 @@ internal class PayButtonViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
     private val cardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>,
     private val buttonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
-    private val buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
+    buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
     private val logger: Logger<LoggingEvent>
 ) : ViewModel() {
 
@@ -62,14 +63,16 @@ internal class PayButtonViewModel @Inject constructor(
         .apply { modifier = modifier.fillMaxWidth() }
 
     private fun provideCardData(): Card = with(paymentStateManager) {
-        val billingAddress = billingAddress.value
+        // Get the BillingAddress value only if "the billing address is enabled" and "the address is edited".
+        val address = billingAddress.value.takeIf { isBillingAddressEnabled.value && it.isEdited() }
+
         Card(
             expiryDate.value.toExpiryDate(),
-            billingAddress.name,
+            address?.name,
             cardNumber.value,
             cvv.value,
-            billingAddress.address,
-            billingAddress.phone
+            address?.address,
+            address?.phone
         )
     }
 

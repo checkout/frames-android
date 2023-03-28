@@ -2,23 +2,27 @@ package com.checkout.frames.component.paybutton
 
 import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
+import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.logging.PaymentFormEventType
-import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
+import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
+import com.checkout.frames.model.request.InternalCardTokenRequest
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.PayButtonComponentStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
-import com.checkout.frames.model.request.InternalCardTokenRequest
 import com.checkout.frames.view.InternalButtonState
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
+import com.checkout.tokenization.model.Address
+import com.checkout.tokenization.model.Phone
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
@@ -34,8 +38,8 @@ import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.internal.assertEquals
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -46,22 +50,23 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class PayButtonViewModelTest {
 
     @RelaxedMockK
-    lateinit var mockCardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>
+    private lateinit var mockCardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>
 
     @RelaxedMockK
-    lateinit var mockLogger: Logger<LoggingEvent>
+    private lateinit var mockLogger: Logger<LoggingEvent>
 
     @SpyK
-    lateinit var spyButtonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>
+    private lateinit var spyButtonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>
 
     @SpyK
-    lateinit var spyButtonStateMapper: Mapper<ButtonStyle, InternalButtonState>
+    private lateinit var spyButtonStateMapper: Mapper<ButtonStyle, InternalButtonState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
+    private var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
 
     private val dispatcher = StandardTestDispatcher()
     private val capturedEvent = slot<LoggingEvent>()
+    private val capturedTokenRequest = slot<InternalCardTokenRequest>()
     private val style: PayButtonComponentStyle = PayButtonComponentStyle(ButtonStyle())
 
     private lateinit var viewModel: PayButtonViewModel
@@ -75,6 +80,7 @@ internal class PayButtonViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         every { mockLogger.log(capture(capturedEvent)) } returns Unit
+        every { mockCardTokenizationUseCase.execute(capture(capturedTokenRequest)) } returns Unit
 
         viewModel = PayButtonViewModel(
             style, spyPaymentStateManager, mockCardTokenizationUseCase,
@@ -152,6 +158,59 @@ internal class PayButtonViewModelTest {
         assertEquals(PaymentFormEventType.SUBMITTED.eventId, capturedEvent.captured.typeIdentifier)
     }
 
+    @Test
+    fun `Card should include address if the billing address is enabled and edited`() = runTest {
+        // Given
+        spyPaymentStateManager.isBillingAddressEnabled.value = true
+        spyPaymentStateManager.billingAddress.value = EDITED_BILLING_ADDRESS
+
+        // When
+        viewModel.pay()
+
+        // Then
+        testScheduler.advanceUntilIdle()
+        with(capturedTokenRequest.captured.card) {
+            assertEquals(EDITED_BILLING_ADDRESS.address, billingAddress)
+            assertEquals(EDITED_BILLING_ADDRESS.name, name)
+            assertEquals(EDITED_BILLING_ADDRESS.phone, phone)
+        }
+    }
+
+    @Test
+    fun `Card should include not include name, phone and address if the billing address is disabled`() = runTest {
+        // Given
+        spyPaymentStateManager.isBillingAddressEnabled.value = false
+
+        // When
+        viewModel.pay()
+
+        // Then
+        testScheduler.advanceUntilIdle()
+        with(capturedTokenRequest.captured.card) {
+            assertNull(billingAddress)
+            assertNull(name)
+            assertNull(phone)
+        }
+    }
+
+    @Test
+    fun `Card should include not include name, phone and  address if the billing address is not edited`() = runTest {
+        // Given
+        spyPaymentStateManager.isBillingAddressEnabled.value = true
+        spyPaymentStateManager.billingAddress.value = BillingAddress()
+
+        // When
+        viewModel.pay()
+
+        // Then
+        testScheduler.advanceUntilIdle()
+        with(capturedTokenRequest.captured.card) {
+            assertNull(billingAddress)
+            assertNull(name)
+            assertNull(phone)
+        }
+    }
+
     private fun initMappers() {
         val containerMapper = ContainerStyleToModifierMapper()
 
@@ -162,6 +221,14 @@ internal class PayButtonViewModelTest {
 
         spyButtonStateMapper = ButtonStyleToInternalStateMapper(
             TextLabelStyleToStateMapper(ImageStyleToComposableImageMapper())
+        )
+    }
+
+    private companion object {
+        private val EDITED_BILLING_ADDRESS = BillingAddress(
+            name = "NAME",
+            address = Address("ADDRESS_LINE_1", "ADDRESS_LINE_2", "", "", "", Country.UNITED_KINGDOM),
+            phone = Phone("1234", Country.AFGHANISTAN)
         )
     }
 }
