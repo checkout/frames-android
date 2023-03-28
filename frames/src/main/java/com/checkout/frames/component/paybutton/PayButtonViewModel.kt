@@ -63,9 +63,7 @@ internal class PayButtonViewModel @Inject constructor(
         .apply { modifier = modifier.fillMaxWidth() }
 
     private fun provideCardData(): Card = with(paymentStateManager) {
-        /**
-         * Get the BillingAddress value only if "the billing address is enabled" and "the address is edited".
-         */
+        // Get the BillingAddress value only if "the billing address is enabled" and "the address is edited".
         val address = billingAddress.value.takeIf { isBillingAddressEnabled.value && it.isEdited() }
 
         Card(

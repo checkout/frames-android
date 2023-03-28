@@ -18,9 +18,7 @@ internal data class BillingAddress(
     internal companion object {
         internal val DEFAULT_BILLING_ADDRESS by lazy { BillingAddress() }
 
-        /**
-         * Whether the [BillingAddress] has been edited or same as the default one.
-         */
+        // Whether the [BillingAddress] has been edited or same as the default one.
         internal fun BillingAddress.isEdited() = (name == DEFAULT_BILLING_ADDRESS.name &&
                 address?.addressLine1 == DEFAULT_BILLING_ADDRESS.address?.addressLine1 &&
                 address?.addressLine2 == DEFAULT_BILLING_ADDRESS.address?.addressLine2 &&
