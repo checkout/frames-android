@@ -32,4 +32,5 @@
     <string name="cko_billing_form_input_field_address_line_two">Indirizzo linea 2</string>
     <string name="cko_billing_form_input_field_state">Regione</string>
     <string name="cko_billing_form_input_field_postcode">Codice postale</string>
+    <string name="cko_billing_form_input_field_phone_country_error">Paese scomparso</string>
 </resources>

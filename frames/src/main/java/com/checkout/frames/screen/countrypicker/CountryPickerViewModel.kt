@@ -26,19 +26,20 @@ import com.checkout.frames.view.InputFieldState
 import com.checkout.frames.view.TextLabelState
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class CountryPickerViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
-    private val inputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>,
+    inputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>,
     private val inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>,
-    private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
+    textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
     private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
-    private val containerMapper: Mapper<ContainerStyle, Modifier>,
+    containerMapper: Mapper<ContainerStyle, Modifier>,
     private val imageMapper: ImageStyleToDynamicComposableImageMapper,
-    private val style: CountryPickerStyle
+    style: CountryPickerStyle
 ) : ViewModel() {
 
     val screenTitleStyle = textLabelStyleMapper.map(style.screenTitleStyle)
@@ -69,7 +70,7 @@ internal class CountryPickerViewModel @Inject constructor(
 
     fun onCountryChosen(iso2: String) {
         paymentStateManager.billingAddress.value.address?.country = Country.from(iso2)
-        goBack.value = true
+        onLeaveScreen()
     }
 
     @VisibleForTesting
@@ -84,6 +85,12 @@ internal class CountryPickerViewModel @Inject constructor(
         else onReset()
     }
 
+    @VisibleForTesting
+    internal fun onLeaveScreen() {
+        paymentStateManager.visitedCountryPicker.update { true }
+        goBack.value = true
+    }
+
     private fun provideScreenTitleState(style: TextLabelStyle): TextLabelState {
         val state = textLabelStateMapper.map(style)
 
@@ -92,7 +99,7 @@ internal class CountryPickerViewModel @Inject constructor(
             ImageStyleToDynamicImageRequest(
                 style.leadingIconStyle,
                 flowOf(R.drawable.cko_ic_cross_close),
-                flowOf { goBack.value = true }
+                flowOf { onLeaveScreen() }
             )
         )
 
@@ -134,7 +141,8 @@ internal class CountryPickerViewModel @Inject constructor(
             emojiFlag = it.emojiFlag(),
             iso2 = it.iso3166Alpha2
         )
-    }
+    // Filter out [INVALID_COUNTRY] in the selectable options
+    }.filter { it.name.isNotEmpty() }
 
     internal class Factory(
         private val injector: Injector,

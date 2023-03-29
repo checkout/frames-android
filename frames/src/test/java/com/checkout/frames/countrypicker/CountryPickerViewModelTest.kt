@@ -126,7 +126,10 @@ internal class CountryPickerViewModelTest {
     @Test
     fun `when view model is initialised then country picker shows all countries`() {
         // Then
-        assertEquals(Country.values().size, viewModel.searchCountries.value.size)
+        assertEquals(
+            Country.values().filter { it != Country.INVALID_COUNTRY }.size,
+            viewModel.searchCountries.value.size
+        )
     }
 
     @Test
@@ -239,6 +242,14 @@ internal class CountryPickerViewModelTest {
         // Then
         assertFalse(viewModel.isSearchActive.value)
         assertTrue(viewModel.searchFieldState.text.value.isEmpty())
+    }
+
+    @Test
+    fun `onLeaveScreen should update visitedCountryPicker to true in PaymentStateManager`() {
+        paymentStateManager.visitedCountryPicker.value = false
+        assertFalse(paymentStateManager.visitedCountryPicker.value)
+        viewModel.onLeaveScreen()
+        assertTrue(paymentStateManager.visitedCountryPicker.value)
     }
 
     private fun initMappers() {
