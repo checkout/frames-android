@@ -9,5 +9,6 @@ fun Project.applyAndroidJUnit4Configuration() {
         testImplementation(Dependencies.junit4)
         testImplementation(Dependencies.junitVintageEngine)
         testImplementation(Dependencies.robolectric)
+        testImplementation(Dependencies.truth)
     }
 }

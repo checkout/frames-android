@@ -2,6 +2,7 @@ package com.checkout.frames.component.expirydate
 
 import android.annotation.SuppressLint
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import io.mockk.junit5.MockKExtension
 import org.amshove.kluent.internal.assertEquals
@@ -11,6 +12,8 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
 @SuppressLint("NewApi")
 @ExtendWith(MockKExtension::class)
@@ -41,6 +44,26 @@ internal class ExpiryDateVisualTransformationTest {
         // Then
         assertEquals(transformedExpiryDate, result)
     }
+    @Test
+    fun `verify offsetMapping for 123`() {
+        val result = expiryDateVisualTransformation.filter(AnnotatedString("123"))
+        assertCorrectMapping(original = "123", result)
+    }
+    @Test
+    fun `verify offsetMapping for 143`() {
+        val result = expiryDateVisualTransformation.filter(AnnotatedString("143"))
+        assertCorrectMapping(original = "143", result)
+    }
+    @Test
+    fun `verify offsetMapping for 093`() {
+        val result = expiryDateVisualTransformation.filter(AnnotatedString("093"))
+        assertCorrectMapping(original = "093", result)
+    }
+    @Test
+    fun `verify offsetMapping for 53`() {
+        val result = expiryDateVisualTransformation.filter(AnnotatedString("53"))
+        assertCorrectMapping(original = "53", result)
+    }
 
     companion object {
         @JvmStatic
@@ -64,5 +87,22 @@ internal class ExpiryDateVisualTransformationTest {
             Arguments.of("9", "09 / "),
             Arguments.of("856", "08 / 56"),
         )
+    }
+
+    private fun assertCorrectMapping(
+        original: String,
+        result: TransformedText,
+    ) {
+        val transformed = result.text.text
+
+        for (offset in 0..original.length) {
+            val transformedOffset = result.offsetMapping.originalToTransformed(offset)
+            assertThat(transformedOffset).isIn(0..transformed.length)
+        }
+
+        for (offset in 0..result.text.text.length) {
+            val originalOffset = result.offsetMapping.transformedToOriginal(offset)
+            assertThat(originalOffset).isIn(0..original.length)
+        }
     }
 }
