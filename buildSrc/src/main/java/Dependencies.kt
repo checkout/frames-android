@@ -81,6 +81,7 @@ object Dependencies {
     const val kluent = "org.amshove.kluent:kluent:${Versions.kluent}"
     const val kluentAndroid = "org.amshove.kluent:kluent-android:${Versions.kluent}"
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
+    const val truth = "com.google.truth:truth:${Versions.truth}"
     const val okhttpMockServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
     const val jsonTest = "org.json:json:${Versions.jsonTest}"

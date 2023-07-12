@@ -14,8 +14,7 @@ internal class ExpiryDateVisualTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString) = performExpiryDateFilter(text)
 
     private fun performExpiryDateFilter(text: AnnotatedString): TransformedText {
-        // format: XX/XX
-        /*
+        /* format: MM/YY
          * Depending on the first number is where the separator will be placed
          * If the first number is 2-9 then the slash will come after the
          * 2, if the first number is 11 or 12 it will be after the second digit,

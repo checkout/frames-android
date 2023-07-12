@@ -42,6 +42,7 @@ object Versions {
     const val kluent = "1.68"
     const val mockk = "1.11.0"
     const val robolectric = "4.8"
+    const val truth = "1.1.5"
 
     // Instrumented Testing Dependencies
     const val androidxJunit = "1.1.2"
