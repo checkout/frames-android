@@ -247,6 +247,30 @@ internal class ExpiryDateViewModelTest {
     }
 
     @Test
+    fun `when validateExpiryDate validation fails and onCalling inputChange one more time without user interaction then show error`() {
+        // Given
+        val testExpiryDate = "1211"
+        viewModel.componentState.expiryDate.value = testExpiryDate
+        val smartExpiryDateValidationRequest = SmartExpiryDateValidationRequest(true, testExpiryDate)
+
+        every {
+            mockSmartExpiryDateValidationUseCase.execute(eq(smartExpiryDateValidationRequest))
+        } returns ValidationResult.Failure(CheckoutError(ValidationError.EXPIRY_DATE_IN_PAST))
+
+        // When
+        viewModel.onExpiryDateInputChange(testExpiryDate)
+        viewModel.onExpiryDateInputChange(testExpiryDate)
+
+        // Then
+        verify(exactly = 1) { mockSmartExpiryDateValidationUseCase.execute(eq(smartExpiryDateValidationRequest)) }
+        with(viewModel.componentState.inputState) {
+            Assertions.assertTrue(inputFieldState.isError.value)
+            Assertions.assertTrue(errorState.isVisible.value)
+            Assertions.assertEquals(errorState.textId.value, R.string.cko_base_invalid_past_expiry_date_error)
+        }
+    }
+
+    @Test
     fun `when validateExpiryDate validation succeeds on input change then hide error and update expiry date max length`() {
         // Given
         val testExpiryDate = "234"

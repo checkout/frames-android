@@ -46,6 +46,9 @@ internal class ExpiryDateViewModel @Inject constructor(
     // Needed to prevent validation on focus switch for initial component state
     private var wasFocused = false
 
+    // Flag to manage expiry past date error visibility
+    private var wasInvalidPastExpiryDate = false
+
     fun onFocusChanged(isFocused: Boolean) {
         if (isFocused) wasFocused = isFocused
 
@@ -56,7 +59,14 @@ internal class ExpiryDateViewModel @Inject constructor(
     }
 
     fun onExpiryDateInputChange(inputExpiryDate: String) = with(inputExpiryDate.replace(onlyDigitsRegex, "")) {
-        validateExpiryDate(this, true)
+        /*
+         In some OS level, for instance, API level 27. After throwing failure from the handleValidationResult function,
+         instantly invoked the onValueChange from the ExpiryDateComponent(without any user input) resulting in
+         hiding/blinking the visible expiry date error.
+         */
+        if (componentState.expiryDate.value == this && wasInvalidPastExpiryDate)
+            wasInvalidPastExpiryDate = false
+        else validateExpiryDate(this, true)
     }
 
     private fun updateExpiryDateMaxLength(smartLogicExpiryDateUseCase: ValidationResult.Success<String>) {
@@ -79,13 +89,15 @@ internal class ExpiryDateViewModel @Inject constructor(
             componentState.hideError()
             paymentStateManager.expiryDate.value = result.value
             paymentStateManager.isExpiryDateValid.update { true }
+            wasInvalidPastExpiryDate = false
         }
 
         is ValidationResult.Failure -> {
             paymentStateManager.isExpiryDateValid.update { false }
-            if (isFocused && result.error.errorCode == EXPIRY_DATE_IN_PAST)
+            if (isFocused && result.error.errorCode == EXPIRY_DATE_IN_PAST) {
                 componentState.showError(R.string.cko_base_invalid_past_expiry_date_error)
-            else
+                wasInvalidPastExpiryDate = true
+            } else
                 componentState.showError(R.string.cko_base_invalid_expiry_date_error)
         }
     }
