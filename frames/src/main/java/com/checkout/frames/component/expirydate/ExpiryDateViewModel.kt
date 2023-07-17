@@ -97,8 +97,9 @@ internal class ExpiryDateViewModel @Inject constructor(
             if (isFocused && result.error.errorCode == EXPIRY_DATE_IN_PAST) {
                 componentState.showError(R.string.cko_base_invalid_past_expiry_date_error)
                 wasInvalidPastExpiryDate = true
-            } else
+            } else {
                 componentState.showError(R.string.cko_base_invalid_expiry_date_error)
+            }
         }
     }
 
