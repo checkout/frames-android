@@ -22,6 +22,7 @@ import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.component.cardholdername.CardHolderNameViewModel
 import com.checkout.frames.usecase.CardTokenizationUseCase
 import com.checkout.frames.usecase.ClosePaymentFlowUseCase
 import com.checkout.frames.utils.extensions.logEvent
@@ -32,6 +33,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
     override fun inject(client: InjectionClient) {
         when (client) {
             is CardNumberViewModel.Factory -> component.inject(client)
+            is CardHolderNameViewModel.Factory -> component.inject(client)
             is ExpiryDateViewModel.Factory -> component.inject(client)
             is CvvViewModel.Factory -> component.inject(client)
             is PaymentDetailsViewModel.Factory -> component.inject(client)

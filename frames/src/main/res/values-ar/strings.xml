@@ -33,4 +33,5 @@
     <string name="cko_billing_form_input_field_state">المنطقة</string>
     <string name="cko_billing_form_input_field_postcode">الرمز البريدي</string>
     <string name="cko_billing_form_input_field_phone_country_error">يُرجى إختيار الدولة</string>
+    <string name="cko_card_holder_name_title">إسم حامل البطاقة</string>
 </resources>

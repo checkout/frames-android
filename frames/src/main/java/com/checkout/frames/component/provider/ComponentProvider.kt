@@ -1,6 +1,7 @@
 package com.checkout.frames.component.provider
 
 import androidx.compose.runtime.Composable
+import com.checkout.frames.style.component.CardHolderNameComponentStyle
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.CvvComponentStyle
@@ -11,6 +12,9 @@ import com.checkout.frames.style.component.addresssummary.AddressSummaryComponen
 internal interface ComponentProvider {
     @Composable
     fun CardScheme(style: CardSchemeComponentStyle)
+
+    @Composable
+    fun CardHolderName(style: CardHolderNameComponentStyle)
 
     @Composable
     fun CardNumber(style: CardNumberComponentStyle)

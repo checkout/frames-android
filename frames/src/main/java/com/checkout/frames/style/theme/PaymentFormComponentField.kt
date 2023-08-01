@@ -6,6 +6,7 @@ package com.checkout.frames.style.theme
 public enum class PaymentFormComponentField {
     PaymentHeaderTitle,
     CardScheme,
+    CardHolderName,
     CardNumber,
     ExpiryDate,
     CVV,

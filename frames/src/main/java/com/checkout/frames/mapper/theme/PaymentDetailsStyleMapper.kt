@@ -5,6 +5,7 @@ import com.checkout.frames.R
 import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
+import com.checkout.frames.style.component.CardHolderNameComponentStyle
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.CvvComponentStyle
@@ -16,6 +17,7 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.default.DefaultCvvComponentStyle
 import com.checkout.frames.style.component.default.DefaultAddressSummaryComponentStyle
+import com.checkout.frames.style.component.default.DefaultCardHolderNameComponentStyle
 import com.checkout.frames.style.component.default.DefaultCardNumberComponentStyle
 import com.checkout.frames.style.component.default.DefaultExpiryDateComponentStyle
 import com.checkout.frames.style.component.default.DefaultPayButtonComponentStyle
@@ -38,12 +40,13 @@ import com.checkout.frames.utils.extensions.provideText
 import com.checkout.frames.utils.extensions.provideTextId
 import com.checkout.frames.utils.extensions.provideTitleStyle
 import com.checkout.frames.utils.extensions.provideTitleTextStyle
-
+@Suppress("TooManyFunctions")
 internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetailsStyle> {
 
     override fun map(from: PaymentFormTheme) = PaymentDetailsStyle(
         paymentDetailsHeaderStyle = providePaymentDetailsHeaderStyle(from),
         cardSchemeStyle = provideCardSchemeStyle(from),
+        cardHolderNameComponentStyle = provideCardHolderNameStyle(from),
         cardNumberStyle = provideCardNumberStyle(from),
         expiryDateStyle = provideExpiryDateStyle(from),
         cvvStyle = provideCVVStyle(from),
@@ -212,6 +215,27 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
             )
         }
         return cvvComponentStyle
+    }
+
+    private fun provideCardHolderNameStyle(from: PaymentFormTheme): CardHolderNameComponentStyle {
+        var cardHolderNameStyle = DefaultCardHolderNameComponentStyle.light()
+        val paymentFormComponent = from.paymentFormComponents.find {
+            PaymentFormComponentField.CardHolderName.name == it.paymentFormComponentField.name
+        }
+        paymentFormComponent?.let { component ->
+            cardHolderNameStyle = cardHolderNameStyle.copy(
+                inputStyle = with(cardHolderNameStyle.inputStyle) {
+                    this.copy(
+                        titleStyle = titleStyle.provideTitleStyle(component, from),
+                        subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
+                        inputFieldStyle = provideInputFieldStyle(from),
+                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
+                        isInputFieldOptional = component.isFieldOptional
+                    )
+                }
+            )
+        }
+        return cardHolderNameStyle
     }
 
     private fun provideExpiryDateStyle(from: PaymentFormTheme): ExpiryDateComponentStyle {
