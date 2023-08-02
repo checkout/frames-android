@@ -14,7 +14,7 @@
     <string name="cko_card_number_title" translatable="true">Card number</string>
     <string name="cko_base_invalid_card_number_error" translatable="true">Please enter a valid card number.</string>
 
-    <!--Card holder name component-->
+    <!--CardHolderName component-->
     <string name="cko_card_holder_name_title" translatable="true">Cardholder name</string>
 
     <!--Card number component-->

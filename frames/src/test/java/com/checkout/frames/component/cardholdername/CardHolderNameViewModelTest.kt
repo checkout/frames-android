@@ -37,7 +37,7 @@ internal class CardHolderNameViewModelTest {
     @SpyK
     lateinit var spyInputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
 
-    private var style: CardHolderNameComponentStyle = CardHolderNameComponentStyle()
+    private val style: CardHolderNameComponentStyle = CardHolderNameComponentStyle()
 
     private lateinit var viewModel: CardHolderNameViewModel
 
@@ -61,7 +61,7 @@ internal class CardHolderNameViewModelTest {
     }
 
     @Test
-    fun `when view model is initialised then initial state has empty card holder name`() {
+    fun `when view model is initialised then initial state has empty cardHolderName`() {
         // Then
         assertTrue(viewModel.componentState.cardHolderName.value.isEmpty())
     }
@@ -83,7 +83,7 @@ internal class CardHolderNameViewModelTest {
     /** Input data filtering **/
 
     @Test
-    fun `when card holder name with special characters and digits entered then these symbols are removed`() {
+    fun `when cardHolderName with special characters and digits entered then these symbols are removed`() {
         // Given
         val sourceInput = "Denny@123"
         val filteredInput = "Denny"
@@ -96,10 +96,10 @@ internal class CardHolderNameViewModelTest {
     }
 
     @ParameterizedTest(
-        name = "When on card holder name change invoked with {0} then {1} set to text field state"
+        name = "When on cardHolderName change invoked with {0} then {1} set to text field state"
     )
     @MethodSource("onTextChangedArguments")
-    fun `When on card holder name change invoked with a string then cleaned string should be set to a text field state`(
+    fun `When on cardHolderName change invoked with a string then cleaned string should be set to a text field state`(
         enteredText: String,
         cleanedText: String,
     ) {
@@ -123,7 +123,7 @@ internal class CardHolderNameViewModelTest {
         )
     }
 
-    companion object {
+   private companion object {
         @JvmStatic
         fun onTextChangedArguments(): Stream<Arguments> = Stream.of(
             Arguments.of("TestName_£Charles", "TestNameCharles"),

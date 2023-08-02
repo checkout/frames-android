@@ -24,7 +24,7 @@ internal class CardHolderNameViewModel @Inject constructor(
     val componentState = provideViewState(style)
     val componentStyle = provideViewStyle(style.inputStyle)
 
-    internal companion object {
+    private companion object {
         val nameRegex = "[^a-zA-Z'\\s-]".toRegex()
     }
 
