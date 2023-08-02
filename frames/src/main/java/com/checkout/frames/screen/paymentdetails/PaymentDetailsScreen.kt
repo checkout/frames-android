@@ -51,6 +51,9 @@ internal fun PaymentDetailsScreen(
             // Cards schemes
             viewModel.componentProvider.CardScheme(style = style.cardSchemeStyle)
 
+            // CardHolderName
+            viewModel.componentProvider.CardHolderName(style = style.cardHolderNameComponentStyle)
+
             // Card Number
             viewModel.componentProvider.CardNumber(style = style.cardNumberStyle)
 

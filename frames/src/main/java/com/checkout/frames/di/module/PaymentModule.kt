@@ -4,6 +4,7 @@ import com.checkout.base.model.CardScheme
 import com.checkout.frames.di.component.CardSchemeViewModelSubComponent
 import com.checkout.frames.di.component.AddressSummaryViewModelSubComponent
 import com.checkout.frames.di.component.BillingFormViewModelSubComponent
+import com.checkout.frames.di.component.CardHolderNameViewModelSubComponent
 import com.checkout.frames.di.component.CardNumberViewModelSubComponent
 import com.checkout.frames.di.component.CountryPickerViewModelSubComponent
 import com.checkout.frames.di.component.CountryViewModelSubComponent
@@ -19,6 +20,7 @@ import javax.inject.Singleton
 @Module(
     subcomponents = [
         CardNumberViewModelSubComponent::class,
+        CardHolderNameViewModelSubComponent::class,
         CvvViewModelSubComponent::class,
         ExpiryDateViewModelSubComponent::class,
         PaymentDetailsViewModelSubComponent::class,

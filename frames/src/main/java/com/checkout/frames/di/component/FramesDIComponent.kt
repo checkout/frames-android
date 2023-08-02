@@ -3,6 +3,7 @@ package com.checkout.frames.di.component
 import com.checkout.base.model.CardScheme
 import com.checkout.frames.component.addresssummary.AddressSummaryViewModel
 import com.checkout.base.usecase.UseCase
+import com.checkout.frames.component.cardholdername.CardHolderNameViewModel
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
 import com.checkout.frames.component.cardscheme.CardSchemeViewModel
 import com.checkout.frames.component.country.CountryViewModel
@@ -38,6 +39,7 @@ internal abstract class FramesDIComponent {
 
     /** Component **/
     abstract fun inject(factory: CardNumberViewModel.Factory)
+    abstract fun inject(factory: CardHolderNameViewModel.Factory)
     abstract fun inject(factory: CvvViewModel.Factory)
     abstract fun inject(factory: ExpiryDateViewModel.Factory)
     abstract fun inject(factory: CardSchemeViewModel.Factory)
