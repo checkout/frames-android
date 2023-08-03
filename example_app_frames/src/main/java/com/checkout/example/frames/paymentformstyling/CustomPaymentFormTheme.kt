@@ -28,6 +28,13 @@ object CustomPaymentFormTheme {
         .setSubTitleText("Card number is required")
         .build()
 
+    private val cardHolderName = PaymentFormComponentBuilder()
+        .setPaymentFormField(PaymentFormComponentField.CardHolderName)
+        .setIsFieldOptional(false)
+        .setTitleTextId(R.string.cko_card_holder_name_title)
+        .setInfoTextId(R.string.mandatory_label)
+        .build()
+
     private val addressLineOne = PaymentFormComponentBuilder()
         .setPaymentFormField(PaymentFormComponentField.AddressLineOne)
         .setTitleTextId(R.string.cko_billing_form_input_field_address_line_one)
@@ -61,6 +68,7 @@ object CustomPaymentFormTheme {
              */
             paymentFormComponents = DefaultPaymentFormTheme.providePaymentFormComponents(
                 cardNumber = cardNumber,
+                cardHolderName = cardHolderName,
                 addressLineOne = addressLineOne,
                 addressLineTwo = addressLineTwo,
                 addBillingSummaryButton = addBillingSummaryButton,

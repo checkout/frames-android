@@ -40,11 +40,13 @@ internal class PaymentFormStateManagerTest {
     @ParameterizedTest(
         name = "When reset of payment state is requested with: " +
                 "isCvvValid = {0} and isBillingAddressValid = {1}; " +
-                "Then default cvv isValid state = {0}, address isValid state = {1} and address isEnabled state = {2}"
+                "Then default cvv isValid state = {0}, cardholderName isValid state = {1} " +
+                "address isValid state = {2} and address isEnabled state = {3}"
     )
     @MethodSource("resetArguments")
     fun `when reset of payment state is requested then payment state is returned to a default state`(
         isCvvValid: Boolean,
+        isCardHolderNameValid: Boolean,
         isBillingAddressValid: Boolean,
         isBillingAddressEnabled: Boolean,
     ) {
@@ -66,11 +68,18 @@ internal class PaymentFormStateManagerTest {
         paymentFormStateManager.visitedCountryPicker.value = true
 
         // When
-        paymentFormStateManager.resetPaymentState(isCvvValid, isBillingAddressValid, isBillingAddressEnabled)
+        paymentFormStateManager.resetPaymentState(
+            isCvvValid,
+            isCardHolderNameValid,
+            isBillingAddressValid,
+            isBillingAddressEnabled
+        )
 
         // Then
         Assertions.assertEquals(paymentFormStateManager.cvv.value, "")
         Assertions.assertEquals(paymentFormStateManager.isCvvValid.value, isCvvValid)
+        Assertions.assertEquals(paymentFormStateManager.isCardHolderNameValid.value, isCardHolderNameValid)
+        Assertions.assertEquals(paymentFormStateManager.cardHolderName.value, "")
         Assertions.assertEquals(paymentFormStateManager.cardNumber.value, "")
         Assertions.assertEquals(paymentFormStateManager.isCardNumberValid.value, false)
         Assertions.assertEquals(paymentFormStateManager.expiryDate.value, "")
@@ -86,14 +95,14 @@ internal class PaymentFormStateManagerTest {
         @RequiresApi(Build.VERSION_CODES.N)
         @JvmStatic
         fun resetArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of(false, false, true),
-            Arguments.of(true, false, true),
-            Arguments.of(false, true, true),
-            Arguments.of(true, true, true),
-            Arguments.of(false, false, false),
-            Arguments.of(true, false, false),
-            Arguments.of(false, true, false),
-            Arguments.of(true, true, false),
+            Arguments.of(false, false, false, true),
+            Arguments.of(true, true, false, true),
+            Arguments.of(false, false, true, true),
+            Arguments.of(true, true, true, true),
+            Arguments.of(false, false, false, false),
+            Arguments.of(true, true, false, false),
+            Arguments.of(false, false, true, false),
+            Arguments.of(true, true, true, false),
         )
     }
 }

@@ -11,7 +11,8 @@ public object DefaultCardHolderNameComponentStyle {
         val style = DefaultLightStyle.inputComponentStyle(
             titleTextId = R.string.cko_card_holder_name_title,
             infoTextId = R.string.cko_input_field_optional_info,
-            margin = Margin(bottom = marginBottom)
+            margin = Margin(bottom = marginBottom),
+            isFieldOptional = true
         )
         return CardHolderNameComponentStyle(style)
     }

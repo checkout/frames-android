@@ -34,4 +34,5 @@
     <string name="cko_billing_form_input_field_postcode">Postleitzahl</string>
     <string name="cko_billing_form_input_field_phone_country_error">Fehlendes Land</string>
     <string name="cko_card_holder_name_title">Name der Karteninhaberin / des Karteninhabers</string>
+    <string name="cko_cardholder_name_error">Fehlender Name</string>
 </resources>

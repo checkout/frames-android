@@ -134,24 +134,24 @@ internal class PaymentDetailsViewModelTest {
     }
 
     @ParameterizedTest(
-        name = "When view model initialised with: " +
-                "cvvComponentStyle is null = {0}, " +
-                "addressSummaryComponentStyle is null = {1} " +
-                "and addressSummaryComponentStyle is optional = {2}; " +
-                "Then payment state is reset with: " +
+        name = "When view model initialised with: cvvComponentStyle is null = {0}, " +
+                "CardHolderNameComponentStyle is null = {0}, addressSummaryComponentStyle is null = {1} " +
+                "and addressSummaryComponentStyle is optional = {2}; " + "Then payment state is reset with: " +
                 "isCvvValid = {3} and isBillingAddressValid = {4}"
     )
     @MethodSource("resetArguments")
     fun `when view model is initialised then payment state is reset with correct values`(
         isCvvStyleNull: Boolean,
+        isCardHolderNameStyleNull: Boolean,
         isAddressStyleNull: Boolean,
         isAddressOptional: Boolean,
         isCvvValid: Boolean,
-        isBillingAddressValid: Boolean
+        isBillingAddressValid: Boolean,
     ) {
         // Given
         val style = PaymentDetailsStyle().apply {
             if (isCvvStyleNull) cvvStyle = null
+            if (isCardHolderNameStyleNull) cardHolderNameStyle = null
             addressSummaryStyle =
                 if (isAddressStyleNull) null else addressSummaryStyle?.copy(isOptional = isAddressOptional)
         }
@@ -161,7 +161,11 @@ internal class PaymentDetailsViewModelTest {
 
         // Then
         val isBillingAddressEnabled = !isAddressStyleNull
-        verify { mockPaymentStateManager.resetPaymentState(isCvvValid, isBillingAddressValid, isBillingAddressEnabled) }
+        verify {
+            mockPaymentStateManager.resetPaymentState(
+                isCvvValid, isCardHolderNameStyleNull, isBillingAddressValid, isBillingAddressEnabled
+            )
+        }
     }
 
     private fun initViewModel(style: PaymentDetailsStyle) {
@@ -189,10 +193,10 @@ internal class PaymentDetailsViewModelTest {
         @RequiresApi(Build.VERSION_CODES.N)
         @JvmStatic
         fun resetArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of(false, false, false, false, false),
-            Arguments.of(true, false, false, true, false),
-            Arguments.of(true, true, false, true, true),
-            Arguments.of(true, false, true, true, true)
+            Arguments.of(false, false, false, false, false, false),
+            Arguments.of(true, true, false, false, true, false),
+            Arguments.of(true, true, true, false, true, true),
+            Arguments.of(true, false, false, true, true, true)
         )
     }
 }

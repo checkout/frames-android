@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="false">Frames Checkout Example</string>
     <string name="mobile_sdk" translatable="false">Mobile SDK</string>
     <string name="sample_app" translatable="false">Sample App</string>
@@ -17,4 +17,5 @@
     <string name="paste_valid_link" translatable="false">Please paste valid url to test the 3DS flow.</string>
     <string name="authentication_success" translatable="false">Authentication success</string>
     <string name="enter_3ds_redirection_url" translatable="false">Enter 3DS redirection URL</string>
+    <string name="mandatory_label" translatable="false">Mandatory</string>
 </resources>

@@ -34,4 +34,5 @@
     <string name="cko_billing_form_input_field_postcode">Código postal</string>
     <string name="cko_billing_form_input_field_phone_country_error">Selecciona tu país</string>
     <string name="cko_card_holder_name_title">Nombre del titular</string>
+    <string name="cko_cardholder_name_error">"Introduce tu nombre"</string>
 </resources>

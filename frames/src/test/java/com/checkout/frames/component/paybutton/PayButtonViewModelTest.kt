@@ -125,6 +125,7 @@ internal class PayButtonViewModelTest {
         // When
         spyPaymentStateManager.isCardNumberValid.value = true
         spyPaymentStateManager.isCvvValid.value = true
+        spyPaymentStateManager.isCardHolderNameValid.value = true
         spyPaymentStateManager.isExpiryDateValid.value = true
         spyPaymentStateManager.isBillingAddressValid.value = true
 

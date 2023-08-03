@@ -24,6 +24,12 @@ public object DefaultPaymentFormTheme {
         .setPaymentFormField(PaymentFormComponentField.CardNumber)
         .build()
 
+    private val cardHolderName = PaymentFormComponentBuilder()
+        .setIsFieldOptional(true)
+        .setIsFieldHidden(false)
+        .setPaymentFormField(PaymentFormComponentField.CardHolderName)
+        .build()
+
     private val expiryDate = PaymentFormComponentBuilder()
         .setIsFieldOptional(false)
         .setIsFieldHidden(false)
@@ -128,6 +134,7 @@ public object DefaultPaymentFormTheme {
         paymentHeaderTitle: PaymentFormComponent = this.paymentHeaderTitle,
         cardScheme: PaymentFormComponent = this.cardScheme,
         cardNumber: PaymentFormComponent = this.cardNumber,
+        cardHolderName: PaymentFormComponent = this.cardHolderName,
         expiryDate: PaymentFormComponent = this.expiryDate,
         cvv: PaymentFormComponent = this.cvv,
         billingSummaryTextStyle: PaymentFormComponent = this.billingSummaryHeader,
@@ -149,6 +156,7 @@ public object DefaultPaymentFormTheme {
         return listOf(
             paymentHeaderTitle,
             cardScheme,
+            cardHolderName,
             cardNumber,
             expiryDate,
             cvv,

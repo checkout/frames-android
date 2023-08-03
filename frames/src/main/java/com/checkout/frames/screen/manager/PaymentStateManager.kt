@@ -17,6 +17,9 @@ internal interface PaymentStateManager {
     val cvv: MutableStateFlow<String>
     val isCvvValid: MutableStateFlow<Boolean>
 
+    val cardHolderName: MutableStateFlow<String>
+    val isCardHolderNameValid: MutableStateFlow<Boolean>
+
     val supportedCardSchemeList: List<CardScheme>
 
     val billingAddress: MutableStateFlow<BillingAddress>
@@ -30,6 +33,7 @@ internal interface PaymentStateManager {
 
     fun resetPaymentState(
         isCvvValid: Boolean,
+        isCardHolderNameValid: Boolean,
         isBillingAddressValid: Boolean,
         isBillingAddressEnabled: Boolean,
     )
