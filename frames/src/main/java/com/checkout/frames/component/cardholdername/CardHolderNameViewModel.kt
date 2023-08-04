@@ -27,7 +27,6 @@ internal class CardHolderNameViewModel @Inject constructor(
 
     val componentState = provideViewState(style)
     val componentStyle = provideViewStyle(style.inputStyle)
-    val isInputFieldOptional = componentStyle.isInputFieldOptional
 
     // Flag to determine that component has been already focused before
     // Needed to prevent validation on focus switch for initial component state
@@ -51,14 +50,14 @@ internal class CardHolderNameViewModel @Inject constructor(
     }
 
     private fun handleValidationResult(cardHolderName: String) {
-        if (cardHolderName.isEmpty() && !isInputFieldOptional) {
+        if (cardHolderName.isEmpty() && !componentStyle.isInputFieldOptional) {
             showValidationError()
         } else {
             hideValidationError()
         }
     }
 
-    fun onCardHolderNameChange(text: String) = with(text.replace(nameRegex, "").trim()) {
+    fun onCardHolderNameChange(text: String) = with(text.replace(nameRegex, "").trimEnd()) {
         componentState.cardHolderName.value = this
         paymentStateManager.cardHolderName.update { this }
         hideValidationError()

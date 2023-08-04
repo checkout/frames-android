@@ -46,10 +46,11 @@ internal class CardHolderNameViewModelTest {
     private lateinit var viewModel: CardHolderNameViewModel
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
+    lateinit var spyPaymentStateManager: PaymentStateManager
 
     init {
         initMappers()
+        initPaymentStateManager()
     }
 
     @BeforeEach
@@ -137,6 +138,7 @@ internal class CardHolderNameViewModelTest {
     fun `when valid cardHolderName entered then error is hidden`() {
         // Given
         val testCardHolderName = "TestName"
+        viewModel.componentState.showError(R.string.cko_cardholder_name_error)
 
         // When
         viewModel.onCardHolderNameChange(testCardHolderName)
@@ -153,6 +155,7 @@ internal class CardHolderNameViewModelTest {
         // Given
         val testCardHolderName = ""
         viewModel.componentState.cardHolderName.value = testCardHolderName
+        viewModel.componentState.hideError()
 
         // When
         viewModel.onFocusChanged(true)
@@ -171,6 +174,7 @@ internal class CardHolderNameViewModelTest {
         // Given
         val testCardHolderName = "TestName"
         viewModel.componentState.cardHolderName.value = testCardHolderName
+        viewModel.componentState.showError(R.string.cko_cardholder_name_error)
 
         // When
         viewModel.onFocusChanged(true)
@@ -209,6 +213,10 @@ internal class CardHolderNameViewModelTest {
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
             TextLabelStyleToStateMapper(imageMapper), InputFieldStyleToInputFieldStateMapper(imageMapper)
         )
+    }
+
+    private fun initPaymentStateManager() {
+        spyPaymentStateManager = PaymentFormStateManager(emptyList())
     }
 
     private companion object {
