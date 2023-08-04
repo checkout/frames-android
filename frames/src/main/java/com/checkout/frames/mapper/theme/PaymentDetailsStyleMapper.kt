@@ -33,6 +33,7 @@ import com.checkout.frames.utils.constants.ContainerConstants
 import com.checkout.frames.utils.extensions.provideOutLinedButtonStyle
 import com.checkout.frames.utils.extensions.provideContainerStyle
 import com.checkout.frames.utils.extensions.provideErrorMessageStyle
+import com.checkout.frames.utils.extensions.provideInfoStyle
 import com.checkout.frames.utils.extensions.provideInputFieldStyle
 import com.checkout.frames.utils.extensions.provideSolidButtonStyle
 import com.checkout.frames.utils.extensions.provideSubTitleStyle
@@ -46,7 +47,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
     override fun map(from: PaymentFormTheme) = PaymentDetailsStyle(
         paymentDetailsHeaderStyle = providePaymentDetailsHeaderStyle(from),
         cardSchemeStyle = provideCardSchemeStyle(from),
-        cardHolderNameComponentStyle = provideCardHolderNameStyle(from),
+        cardHolderNameStyle = provideCardHolderNameStyle(from),
         cardNumberStyle = provideCardNumberStyle(from),
         expiryDateStyle = provideExpiryDateStyle(from),
         cvvStyle = provideCVVStyle(from),
@@ -87,6 +88,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                     this.copy(
                         titleStyle = titleStyle.provideTitleStyle(component, from),
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
+                        infoStyle = infoStyle.provideInfoStyle(component, from),
                         inputFieldStyle = this.provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
                         isInputFieldOptional = component.isFieldOptional
@@ -207,6 +209,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                     this.copy(
                         titleStyle = titleStyle.provideTitleStyle(component, from),
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
+                        infoStyle = infoStyle.provideInfoStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
                         isInputFieldOptional = component.isFieldOptional
@@ -217,17 +220,20 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
         return cvvComponentStyle
     }
 
-    private fun provideCardHolderNameStyle(from: PaymentFormTheme): CardHolderNameComponentStyle {
+    private fun provideCardHolderNameStyle(from: PaymentFormTheme): CardHolderNameComponentStyle? {
         var cardHolderNameStyle = DefaultCardHolderNameComponentStyle.light()
         val paymentFormComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.CardHolderName.name == it.paymentFormComponentField.name
         }
         paymentFormComponent?.let { component ->
+            if (component.isFieldHidden) return null
+
             cardHolderNameStyle = cardHolderNameStyle.copy(
                 inputStyle = with(cardHolderNameStyle.inputStyle) {
                     this.copy(
                         titleStyle = titleStyle.provideTitleStyle(component, from),
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
+                        infoStyle = infoStyle.provideInfoStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
                         isInputFieldOptional = component.isFieldOptional
@@ -250,6 +256,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                     this.copy(
                         titleStyle = titleStyle.provideTitleStyle(component, from),
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
+                        infoStyle = infoStyle.provideInfoStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
                         isInputFieldOptional = component.isFieldOptional

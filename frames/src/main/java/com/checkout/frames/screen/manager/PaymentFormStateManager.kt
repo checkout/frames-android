@@ -24,6 +24,9 @@ internal class PaymentFormStateManager(
     override val cvv: MutableStateFlow<String> = MutableStateFlow("")
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
+    override val cardHolderName: MutableStateFlow<String> = MutableStateFlow("")
+    override val isCardHolderNameValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())
     override val isBillingAddressValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isBillingAddressEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -35,16 +38,19 @@ internal class PaymentFormStateManager(
 
     override fun resetPaymentState(
         isCvvValid: Boolean,
+        isCardHolderNameValid: Boolean,
         isBillingAddressValid: Boolean,
         isBillingAddressEnabled: Boolean,
     ) {
         cardNumber.value = ""
+        cardHolderName.value = ""
         cardScheme.value = CardScheme.UNKNOWN
         isCardNumberValid.value = false
         expiryDate.value = ""
         isExpiryDateValid.value = false
         cvv.value = ""
         this.isCvvValid.value = isCvvValid
+        this.isCardHolderNameValid.value = isCardHolderNameValid
         billingAddress.value = BillingAddress()
         visitedCountryPicker.value = false
         this.isBillingAddressValid.value = isBillingAddressValid
@@ -59,6 +65,7 @@ internal class PaymentFormStateManager(
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
         isCardNumberValid,
         isExpiryDateValid,
+        isCardHolderNameValid,
         isCvvValid,
         isBillingAddressValid
     ) { values -> values.all { it } }

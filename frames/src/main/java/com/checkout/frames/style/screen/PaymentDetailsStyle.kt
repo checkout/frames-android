@@ -26,7 +26,7 @@ public data class PaymentDetailsStyle @JvmOverloads constructor(
         imageId = R.drawable.cko_ic_arrow_back
     ),
     public var cardSchemeStyle: CardSchemeComponentStyle = DefaultLightStyle.cardSchemeComponentStyle(),
-    public var cardHolderNameComponentStyle: CardHolderNameComponentStyle = DefaultCardHolderNameComponentStyle.light(),
+    public var cardHolderNameStyle: CardHolderNameComponentStyle? = DefaultCardHolderNameComponentStyle.light(),
     public var cardNumberStyle: CardNumberComponentStyle = DefaultCardNumberComponentStyle.light(),
     public var expiryDateStyle: ExpiryDateComponentStyle = DefaultExpiryDateComponentStyle.light(),
     public var cvvStyle: CvvComponentStyle? = DefaultCvvComponentStyle.light(),

@@ -50,10 +50,12 @@ internal class PaymentDetailsViewModel @Inject constructor(
 
     init {
         val isCvvValidByDefault = style.cvvStyle == null
+        val isCardHolderNameValidByDefault = style.cardHolderNameStyle == null
         val isBillingAddressValidByDefault = style.addressSummaryStyle?.isOptional ?: true
         val isBillingAddressValidEnabled = style.addressSummaryStyle != null
         paymentStateManager.resetPaymentState(
             isCvvValidByDefault,
+            isCardHolderNameValidByDefault,
             isBillingAddressValidByDefault,
             isBillingAddressValidEnabled
         )

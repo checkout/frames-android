@@ -33,6 +33,7 @@
     <string name="cko_content_description_image" translatable="false">Image</string>
     <string name="cko_content_description_dynamic_image" translatable="false">Dynamic image</string>
 
+    <string name="cko_cardholder_name_error" translatable="true">Missing Name</string>
     <!--Billing form screen-->
     <string name="cko_billing_form_button_save" translatable="true">Done</string>
     <string name="cko_billing_form_input_field_address_line_one" translatable="true">Address line 1</string>

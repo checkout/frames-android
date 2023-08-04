@@ -18,6 +18,7 @@ internal fun CardHolderNameComponent(
     InputComponent(
         style = viewModel.componentStyle,
         state = viewModel.componentState.inputState,
+        onFocusChanged = viewModel::onFocusChanged,
         onValueChange = viewModel::onCardHolderNameChange
     )
 }
