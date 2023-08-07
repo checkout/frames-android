@@ -97,7 +97,7 @@ internal class BillingAddressDetailsViewModelTest {
 
     private val style: BillingAddressDetailsStyle = BillingAddressDetailsStyle(
         DefaultBillingAddressDetailsStyle.headerComponentStyle(),
-        DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle()
+        DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle(isRequestedCardHolderName = true)
     )
 
     private lateinit var viewModel: BillingAddressDetailsViewModel
@@ -256,13 +256,14 @@ internal class BillingAddressDetailsViewModelTest {
     @Test
     fun `when user open the edit billing address details then initial data loading correctly`() = runTest {
         // Given (user save the billing address details while coming from the add billing address details button)
-        viewModel.onAddressFieldTextChange(0, "Test address one")
-        viewModel.onAddressFieldTextChange(1, "Test address two")
-        viewModel.onAddressFieldTextChange(2, "city")
-        viewModel.onAddressFieldTextChange(3, "state")
-        viewModel.onAddressFieldTextChange(4, "postcode")
-        viewModel.onAddressFieldTextChange(5, "12345")
-        viewModel.updateCountryComponentState(viewModel.inputComponentsStateList[6], Country.UNITED_KINGDOM)
+        viewModel.onAddressFieldTextChange(0, "test name")
+        viewModel.onAddressFieldTextChange(1, "Test address one")
+        viewModel.onAddressFieldTextChange(2, "Test address two")
+        viewModel.onAddressFieldTextChange(3, "city")
+        viewModel.onAddressFieldTextChange(4, "state")
+        viewModel.onAddressFieldTextChange(5, "postcode")
+        viewModel.onAddressFieldTextChange(6, "12345")
+        viewModel.updateCountryComponentState(viewModel.inputComponentsStateList[7], Country.UNITED_KINGDOM)
         val expectedBillingAddress =
             viewModel.inputComponentsStateList.provideBillingAddressDetails(Country.from(Locale.getDefault().country))
         viewModel.onTapDoneButton()
@@ -275,26 +276,30 @@ internal class BillingAddressDetailsViewModelTest {
         assertEquals(viewModel.screenButtonState.isEnabled.value, true)
         assertEquals(
             viewModel.inputComponentsStateList[0].addressFieldText.value,
-            expectedBillingAddress.address?.addressLine1
+            expectedBillingAddress.name
         )
         assertEquals(
             viewModel.inputComponentsStateList[1].addressFieldText.value,
-            expectedBillingAddress.address?.addressLine2
+            expectedBillingAddress.address?.addressLine1
         )
         assertEquals(
             viewModel.inputComponentsStateList[2].addressFieldText.value,
-            expectedBillingAddress.address?.city
+            expectedBillingAddress.address?.addressLine2
         )
         assertEquals(
             viewModel.inputComponentsStateList[3].addressFieldText.value,
-            expectedBillingAddress.address?.state
+            expectedBillingAddress.address?.city
         )
         assertEquals(
             viewModel.inputComponentsStateList[4].addressFieldText.value,
-            expectedBillingAddress.address?.zip
+            expectedBillingAddress.address?.state
         )
         assertEquals(
             viewModel.inputComponentsStateList[5].addressFieldText.value,
+            expectedBillingAddress.address?.zip
+        )
+        assertEquals(
+            viewModel.inputComponentsStateList[6].addressFieldText.value,
             expectedBillingAddress.phone?.number
         )
     }
@@ -314,7 +319,7 @@ internal class BillingAddressDetailsViewModelTest {
         with(viewModel.inputComponentsStateList[givenPosition].inputComponentState) {
             assertTrue(inputFieldState.isError.value)
             assertTrue(errorState.isVisible.value)
-            assertEquals(errorState.textId.value, R.string.cko_billing_form_input_field_address_line_one_error)
+            assertEquals(errorState.textId.value, R.string.cko_cardholder_name_error)
         }
     }
 
@@ -340,13 +345,13 @@ internal class BillingAddressDetailsViewModelTest {
     @Test
     fun `when onAddressFieldTextChange invoked for phone then correct clean text should be set to  text field state`() {
         // Given
-        val givenPosition = 5
+        val givenPosition = 6
         val cleanedText = "12345"
         val expectedIsAddressFieldValid =
             viewModel.inputComponentsStateList[givenPosition].isInputFieldOptional || cleanedText.isNotBlank()
 
         // When
-        viewModel.onAddressFieldTextChange(5, "1234,...,5")
+        viewModel.onAddressFieldTextChange(6, "1234,...,5")
 
         // Then
         assertEquals(viewModel.inputComponentsStateList[givenPosition].addressFieldText.value, cleanedText)

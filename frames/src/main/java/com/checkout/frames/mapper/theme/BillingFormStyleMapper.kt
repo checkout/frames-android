@@ -40,10 +40,22 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
 
     @Suppress("LongMethod")
     private fun provideInputComponentsContainerStyle(from: PaymentFormTheme): InputComponentsContainerStyle {
-        var inputComponentsContainerStyle = DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle()
+        var inputComponentsContainerStyle = DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle(
+            isRequestedCardHolderName = true
+        )
         val defaultComponentStylesValues = inputComponentsContainerStyle.inputComponentStyleValues
 
         val componentStylesValues: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
+
+        val cardHolderNameComponent = from.paymentFormComponents.find {
+            PaymentFormComponentField.BillingFormCardHolderName.name == it.paymentFormComponentField.name
+        }
+        val cardHolderNameInputStyle = defaultComponentStylesValues[BillingFormFields.CardHolderName]
+        cardHolderNameComponent?.let { component ->
+            provideComponentStyle(component, cardHolderNameInputStyle, from)?.let { inputComponentStyle ->
+                componentStylesValues[BillingFormFields.CardHolderName] = inputComponentStyle
+            }
+        }
 
         val addressLineOneComponent = from.paymentFormComponents.find {
             PaymentFormComponentField.AddressLineOne.name == it.paymentFormComponentField.name

@@ -32,10 +32,6 @@ internal class CardHolderNameViewModel @Inject constructor(
     // Needed to prevent validation on focus switch for initial component state
     private var wasFocused = false
 
-    private companion object {
-        val nameRegex = "[^a-zA-Z'\\s-]".toRegex()
-    }
-
     /**
      * Make full card number validation, when focus switched to another view.
      */
@@ -57,7 +53,7 @@ internal class CardHolderNameViewModel @Inject constructor(
         }
     }
 
-    fun onCardHolderNameChange(text: String) = with(text.replace(nameRegex, "").trimEnd()) {
+    fun onCardHolderNameChange(text: String) = with(text) {
         componentState.cardHolderName.value = this
         paymentStateManager.cardHolderName.update { this }
         hideValidationError()

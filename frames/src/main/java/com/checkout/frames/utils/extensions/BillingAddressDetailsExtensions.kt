@@ -19,6 +19,10 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
         it.addressFieldName == BillingFormFields.AddressLineOne.name
     }
 
+    val cardHolderNameComponentState = this.find {
+        it.addressFieldName == BillingFormFields.CardHolderName.name
+    }
+
     val addressLineTwoInputComponentState = this.find {
         it.addressFieldName == BillingFormFields.AddressLineTwo.name
     }
@@ -39,6 +43,9 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
         number = phoneInputComponentState?.addressFieldText?.value ?: "",
         country = country
     )
+
+    billingAddress.name = cardHolderNameComponentState?.addressFieldText?.value?.trimEnd() ?: ""
+
     billingAddress.address?.let { address ->
         address.country = country
         address.addressLine1 = addressLineOneInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
@@ -54,6 +61,9 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
 @StringRes
 internal fun BillingAddressInputComponentState.getErrorMessage(): Int {
     return when (this.addressFieldName) {
+        BillingFormFields.CardHolderName.name -> {
+            R.string.cko_cardholder_name_error
+        }
         BillingFormFields.AddressLineOne.name -> {
             R.string.cko_billing_form_input_field_address_line_one_error
         }
@@ -82,6 +92,9 @@ internal fun BillingAddress.provideAddressFieldText(
     addressFieldName: String
 ): String {
     return when (addressFieldName) {
+        BillingFormFields.CardHolderName.name -> {
+            this.name ?: ""
+        }
         BillingFormFields.AddressLineOne.name -> {
             this.address?.addressLine1 ?: ""
         }

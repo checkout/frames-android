@@ -17,6 +17,7 @@ public enum class PaymentFormComponentField {
     PaymentDetailsButton,
     BillingDetailsHeader,
     BillingDetailsHeaderButton,
+    BillingFormCardHolderName,
     AddressLineOne,
     AddressLineTwo,
     City,

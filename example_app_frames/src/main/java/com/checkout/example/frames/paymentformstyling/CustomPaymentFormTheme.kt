@@ -31,6 +31,15 @@ object CustomPaymentFormTheme {
     private val cardHolderName = PaymentFormComponentBuilder()
         .setPaymentFormField(PaymentFormComponentField.CardHolderName)
         .setIsFieldOptional(false)
+        .setIsFieldHidden(false)
+        .setTitleTextId(R.string.cko_card_holder_name_title)
+        .setInfoTextId(R.string.mandatory_label)
+        .build()
+
+    private val billingFormCardHolderName = PaymentFormComponentBuilder()
+        .setPaymentFormField(PaymentFormComponentField.BillingFormCardHolderName)
+        .setIsFieldOptional(false)
+        .setIsFieldHidden(true)
         .setTitleTextId(R.string.cko_card_holder_name_title)
         .setInfoTextId(R.string.mandatory_label)
         .build()
@@ -69,6 +78,7 @@ object CustomPaymentFormTheme {
             paymentFormComponents = DefaultPaymentFormTheme.providePaymentFormComponents(
                 cardNumber = cardNumber,
                 cardHolderName = cardHolderName,
+                billingFormCardHolderName = billingFormCardHolderName,
                 addressLineOne = addressLineOne,
                 addressLineTwo = addressLineTwo,
                 addBillingSummaryButton = addBillingSummaryButton,

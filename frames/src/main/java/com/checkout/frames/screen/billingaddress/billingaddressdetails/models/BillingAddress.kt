@@ -5,7 +5,7 @@ import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
 
 internal data class BillingAddress(
-    val name: String? = null,
+    var name: String? = null,
     val address: Address? = null,
     var phone: Phone? = null
 ) {
