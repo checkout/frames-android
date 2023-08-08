@@ -14,6 +14,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 internal object BillingAddressDetailsTestData {
     fun fetchInputComponentStateList(): List<BillingAddressInputComponentState> {
         val inputComponentStateList: MutableList<BillingAddressInputComponentState> = mutableListOf()
+
+        val cardHolderNameState = BillingAddressInputComponentState(
+            addressFieldName = BillingFormFields.CardHolderName.name,
+            isAddressFieldValid = MutableStateFlow(false),
+            inputComponentState = InputComponentState()
+        )
+
         val addressLineOneState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.AddressLineOne.name,
             isAddressFieldValid = MutableStateFlow(false),
@@ -56,6 +63,7 @@ internal object BillingAddressDetailsTestData {
             inputComponentState = InputComponentState()
         )
 
+        inputComponentStateList.add(cardHolderNameState)
         inputComponentStateList.add(addressLineOneState)
         inputComponentStateList.add(addressLineTwoState)
         inputComponentStateList.add(cityState)
@@ -69,6 +77,19 @@ internal object BillingAddressDetailsTestData {
 
     fun fetchInputComponentStyleList(): List<BillingAddressInputComponentViewStyle> {
         val inputComponentStyleList: MutableList<BillingAddressInputComponentViewStyle> = mutableListOf()
+
+        val cardHolderNameViewStyle = BillingAddressInputComponentViewStyle(
+            addressFieldName = BillingFormFields.CardHolderName.name,
+            inputComponentViewStyle = InputComponentViewStyle(
+                isInputFieldOptional = false,
+                errorMessageStyle = TextLabelViewStyle(),
+                infoStyle = TextLabelViewStyle(),
+                inputFieldStyle = InputFieldViewStyle(),
+                subtitleStyle = TextLabelViewStyle(),
+                titleStyle = TextLabelViewStyle()
+            )
+        )
+
         val addressLineOneViewStyle = BillingAddressInputComponentViewStyle(
             addressFieldName = BillingFormFields.AddressLineOne.name,
             inputComponentViewStyle = InputComponentViewStyle(
@@ -105,6 +126,7 @@ internal object BillingAddressDetailsTestData {
             )
         )
 
+        inputComponentStyleList.add(cardHolderNameViewStyle)
         inputComponentStyleList.add(addressLineOneViewStyle)
         inputComponentStyleList.add(addressLineTwoViewStyle)
         inputComponentStyleList.add(phoneViewStyle)
@@ -113,9 +135,10 @@ internal object BillingAddressDetailsTestData {
     }
 
     @Suppress("LongMethod")
-    public fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
+    fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
         val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
 
+        inputComponentsStyles[BillingFormFields.CardHolderName] = InputComponentStyle()
         inputComponentsStyles[BillingFormFields.AddressLineOne] = InputComponentStyle()
         inputComponentsStyles[BillingFormFields.AddressLineTwo] = InputComponentStyle()
         inputComponentsStyles[BillingFormFields.City] = InputComponentStyle()
@@ -127,7 +150,7 @@ internal object BillingAddressDetailsTestData {
         return inputComponentsStyles
     }
 
-    public fun inputComponentsContainerStyle(): InputComponentsContainerStyle = InputComponentsContainerStyle(
+    fun inputComponentsContainerStyle(): InputComponentsContainerStyle = InputComponentsContainerStyle(
         fetchInputComponentStyleValues()
     )
 }

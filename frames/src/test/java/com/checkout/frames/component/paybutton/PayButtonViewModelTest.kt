@@ -160,10 +160,11 @@ internal class PayButtonViewModelTest {
     }
 
     @Test
-    fun `Card should include address if the billing address is enabled and edited`() = runTest {
+    fun `Card should include address including name if the billing address is enabled, edited and cardHolderName from payment form is empty`() = runTest {
         // Given
         spyPaymentStateManager.isBillingAddressEnabled.value = true
         spyPaymentStateManager.billingAddress.value = EDITED_BILLING_ADDRESS
+        spyPaymentStateManager.cardHolderName.value = ""
 
         // When
         viewModel.pay()
@@ -178,7 +179,58 @@ internal class PayButtonViewModelTest {
     }
 
     @Test
-    fun `Card should include not include name, phone and address if the billing address is disabled`() = runTest {
+    fun `Card should not include name if the billing address is disabled and cardHolderName from payment form is empty`() = runTest {
+        // Given
+        spyPaymentStateManager.isBillingAddressEnabled.value = false
+        spyPaymentStateManager.cardHolderName.value = ""
+
+        // When
+        viewModel.pay()
+
+        // Then
+        testScheduler.advanceUntilIdle()
+        with(capturedTokenRequest.captured.card) {
+            assertNull(name)
+        }
+    }
+
+    @Test
+    fun `Card should include name if the billing address is disabled and cardHolderName from payment form is not empty`() = runTest {
+        // Given
+        spyPaymentStateManager.isBillingAddressEnabled.value = false
+        spyPaymentStateManager.cardHolderName.value = "Test Name"
+
+        // When
+        viewModel.pay()
+
+        // Then
+        testScheduler.advanceUntilIdle()
+        with(capturedTokenRequest.captured.card) {
+            assertEquals(name, spyPaymentStateManager.cardHolderName.value)
+        }
+    }
+
+    @Test
+    fun `Card should include name from payment form if cardHolderName component were added at both place payment and billing forms`() = runTest {
+        // Given
+        spyPaymentStateManager.isBillingAddressEnabled.value = false
+        spyPaymentStateManager.cardHolderName.value = "Test Name"
+
+        spyPaymentStateManager.isBillingAddressEnabled.value = true
+        spyPaymentStateManager.billingAddress.value = EDITED_BILLING_ADDRESS
+
+        // When
+        viewModel.pay()
+
+        // Then
+        testScheduler.advanceUntilIdle()
+        with(capturedTokenRequest.captured.card) {
+            assertEquals(name, spyPaymentStateManager.cardHolderName.value)
+        }
+    }
+
+    @Test
+    fun `Card should not include phone and address if the billing address is disabled`() = runTest {
         // Given
         spyPaymentStateManager.isBillingAddressEnabled.value = false
 
@@ -189,13 +241,12 @@ internal class PayButtonViewModelTest {
         testScheduler.advanceUntilIdle()
         with(capturedTokenRequest.captured.card) {
             assertNull(billingAddress)
-            assertNull(name)
             assertNull(phone)
         }
     }
 
     @Test
-    fun `Card should include not include name, phone and  address if the billing address is not edited`() = runTest {
+    fun `Card should include not include phone and address if the billing address is not edited`() = runTest {
         // Given
         spyPaymentStateManager.isBillingAddressEnabled.value = true
         spyPaymentStateManager.billingAddress.value = BillingAddress()
@@ -207,7 +258,6 @@ internal class PayButtonViewModelTest {
         testScheduler.advanceUntilIdle()
         with(capturedTokenRequest.captured.card) {
             assertNull(billingAddress)
-            assertNull(name)
             assertNull(phone)
         }
     }

@@ -66,9 +66,12 @@ internal class PayButtonViewModel @Inject constructor(
         // Get the BillingAddress value only if "the billing address is enabled" and "the address is edited".
         val address = billingAddress.value.takeIf { isBillingAddressEnabled.value && it.isEdited() }
 
+        // Get the cardholder name from payment form and if it is empty take it from the Billing address
+        val name = cardHolderName.value.ifEmpty { address?.name }
+
         Card(
             expiryDate.value.toExpiryDate(),
-            address?.name,
+            name,
             cardNumber.value,
             cvv.value,
             address?.address,

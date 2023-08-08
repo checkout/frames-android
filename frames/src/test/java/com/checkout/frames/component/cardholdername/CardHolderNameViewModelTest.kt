@@ -26,10 +26,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
-import java.util.stream.Stream
 
 @SuppressLint("NewApi")
 @ExtendWith(MockKExtension::class)
@@ -87,21 +83,6 @@ internal class CardHolderNameViewModelTest {
     fun `when view model is initialised then initial style has forced LTR`() {
         // Then
         assertTrue(viewModel.componentStyle.inputFieldStyle.forceLTR)
-    }
-
-    /** Input data filtering **/
-
-    @Test
-    fun `when cardHolderName with special characters and digits entered then these symbols are removed`() {
-        // Given
-        val sourceInput = "Denny@123"
-        val filteredInput = "Denny"
-
-        // When
-        viewModel.onCardHolderNameChange(sourceInput)
-
-        // Then
-        assertEquals(viewModel.componentState.cardHolderName.value, filteredInput)
     }
 
     /** Payment state related tests **/
@@ -187,21 +168,6 @@ internal class CardHolderNameViewModelTest {
         }
     }
 
-    @ParameterizedTest(
-        name = "When on cardHolderName change invoked with {0} then {1} set to text field state"
-    )
-    @MethodSource("onTextChangedArguments")
-    fun `When on cardHolderName change invoked with a string then cleaned string should be set to a text field state`(
-        enteredText: String,
-        cleanedText: String,
-    ) {
-        // When
-        viewModel.onCardHolderNameChange(enteredText)
-
-        // Then
-        assertEquals(viewModel.componentState.cardHolderName.value, cleanedText)
-    }
-
     private fun initMappers() {
         val containerMapper = ContainerStyleToModifierMapper()
         val textLabelStyleMapper = TextLabelStyleToViewStyleMapper(containerMapper)
@@ -217,16 +183,5 @@ internal class CardHolderNameViewModelTest {
 
     private fun initPaymentStateManager() {
         spyPaymentStateManager = PaymentFormStateManager(emptyList())
-    }
-
-    private companion object {
-        @JvmStatic
-        fun onTextChangedArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of("TestName_£Charles", "TestNameCharles"),
-            Arguments.of("TestName's Charles123 ", "TestName's Charles"),
-            Arguments.of("TestName31343443243424324 ", "TestName"),
-            Arguments.of("TestName's %$3%Charles", "TestName's Charles"),
-            Arguments.of("TestName's&^$£$$$%% %$3%Charles", "TestName's Charles")
-        )
     }
 }

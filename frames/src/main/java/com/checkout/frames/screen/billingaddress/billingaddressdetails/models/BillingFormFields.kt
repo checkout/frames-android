@@ -3,7 +3,7 @@ package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 /**
  * Enum representing BillingFormFields for BillingFormScreen.
  *
- *     FullName - Not mandatory and can be optional field
+ *     CardHolderName - Not mandatory and can be optional field
  *     AddressLineOne - Not mandatory and can be optional field
  *     AddressLineTwo - Not mandatory and can be optional field
  *     City - Not mandatory and can be optional field
@@ -13,7 +13,7 @@ package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
  *     Phone - Mandatory and can not be optional field
  */
 public enum class BillingFormFields(internal var isFieldOptional: Boolean = false) {
-    FullName,
+    CardHolderName,
     AddressLineOne,
     AddressLineTwo,
     City,
@@ -29,7 +29,7 @@ public enum class BillingFormFields(internal var isFieldOptional: Boolean = fals
             .apply {
                 addAll(
                     listOf(
-                        FullName.withOptional(false),
+                        CardHolderName.withOptional(false),
                         AddressLineOne.withOptional(false),
                         AddressLineTwo.withOptional(true),
                         City.withOptional(false),

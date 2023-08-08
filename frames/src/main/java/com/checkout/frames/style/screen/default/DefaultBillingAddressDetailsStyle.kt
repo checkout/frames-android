@@ -20,9 +20,24 @@ import com.checkout.frames.utils.constants.LightStyleConstants
 public object DefaultBillingAddressDetailsStyle {
 
     @Suppress("LongMethod")
-    public fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
+    public fun fetchInputComponentStyleValues(isRequestedCardHolderName: Boolean = false):
+            LinkedHashMap<BillingFormFields, InputComponentStyle> {
         val defaultKeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
+
+        if (isRequestedCardHolderName) {
+            inputComponentsStyles[BillingFormFields.CardHolderName] = DefaultLightStyle.inputComponentStyle(
+                titleTextId = R.string.cko_card_holder_name_title,
+                infoTextId = R.string.cko_input_field_optional_info,
+                padding = Padding(
+                    start = LightStyleConstants.inputComponentLeftPadding,
+                    end = LightStyleConstants.inputComponentRightPadding,
+                    bottom = LightStyleConstants.inputComponentBottomPadding
+                ),
+                isFieldOptional = true,
+                keyboardOptions = defaultKeyboardOptions
+            )
+        }
 
         inputComponentsStyles[BillingFormFields.AddressLineOne] = DefaultLightStyle.inputComponentStyle(
             titleTextId = R.string.cko_billing_form_input_field_address_line_one,
@@ -136,7 +151,12 @@ public object DefaultBillingAddressDetailsStyle {
         )
     )
 
-    public fun inputComponentsContainerStyle(): InputComponentsContainerStyle = InputComponentsContainerStyle(
-        fetchInputComponentStyleValues()
+    /*
+    Added isRequestedCardHolderName to receive cardholder name from the default billing form fields when
+    requested
+     */
+    public fun inputComponentsContainerStyle(isRequestedCardHolderName: Boolean = false):
+            InputComponentsContainerStyle = InputComponentsContainerStyle(
+        fetchInputComponentStyleValues(isRequestedCardHolderName)
     )
 }

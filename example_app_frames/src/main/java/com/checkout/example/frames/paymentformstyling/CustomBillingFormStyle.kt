@@ -133,6 +133,18 @@ object CustomBillingFormStyle {
     private fun fetchInputComponentStyleValues(): LinkedHashMap<BillingFormFields, InputComponentStyle> {
         val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
 
+        inputComponentsStyles[BillingFormFields.CardHolderName] = provideInputComponentStyle(
+            placeholderTextId = R.string.cko_card_holder_name_title,
+            isFieldOptional = true,
+            infoTextId = R.string.cko_input_field_optional_info,
+            keyboardOptions = defaultKeyboardOptions,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            )
+        )
+
         inputComponentsStyles[BillingFormFields.AddressLineOne] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_address_line_one,
             isFieldOptional = false,

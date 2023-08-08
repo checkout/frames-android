@@ -16,7 +16,6 @@ import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Shape
 import com.checkout.frames.model.font.FontWeight
-import com.checkout.frames.style.component.CardHolderNameComponentStyle
 import com.checkout.frames.style.component.CardNumberComponentStyle
 import com.checkout.frames.style.component.CvvComponentStyle
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
@@ -40,8 +39,8 @@ object CustomPaymentDetailsStyle {
     fun providePaymentDetailsStyle() = PaymentDetailsStyle(
         paymentDetailsHeaderStyle = provideHeaderStyle(),
         cardSchemeStyle = provideCardSchemeStyle(),
+        cardHolderNameStyle = null,
         cardNumberStyle = provideCardNumberStyle(),
-        cardHolderNameStyle = provideCardHolderNameStyle(),
         expiryDateStyle = provideExpiryDateStyle(),
         cvvStyle = provideCVVStyle(),
         addressSummaryStyle = provideAddressSummaryStyle(),
@@ -103,32 +102,10 @@ object CustomPaymentDetailsStyle {
         val inputStyle = DefaultLightStyle.inputComponentStyle(
             placeholderResourceTextId = R.string.cko_card_number_title,
             withLeadingIcon = false,
-            margin = Margin(top = 2)
         )
         return CardNumberComponentStyle(
-            inputStyle.copy(
-                errorMessageStyle = provideErrorMessageStyle(),
-                inputFieldStyle = inputStyle.inputFieldStyle.copy(
-                    containerStyle = provideContainerStyle(CornerRadius()),
-                    indicatorStyle = provideIndicatorStyle(),
-                    placeholderStyle = inputStyle.inputFieldStyle.placeholderStyle.copy(
-                        color = placeHolderTextColor
-                    )
-                )
-            )
-        )
-    }
-
-    private fun provideCardHolderNameStyle(): CardHolderNameComponentStyle {
-        val inputStyle = DefaultLightStyle.inputComponentStyle(
-            placeholderResourceTextId = R.string.cko_card_holder_name_title,
-            margin = Margin(top = 2),
-            infoTextId = R.string.cko_input_field_optional_info
-        )
-        return CardHolderNameComponentStyle(
             inputStyle = inputStyle.copy(
                 errorMessageStyle = provideErrorMessageStyle(),
-                isInputFieldOptional = true,
                 inputFieldStyle = inputStyle.inputFieldStyle.copy(
                     containerStyle = provideContainerStyle(inputFieldCornerRadius.copy(bottomStart = 0, bottomEnd = 0)),
                     indicatorStyle = provideIndicatorStyle(),

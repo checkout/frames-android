@@ -46,7 +46,7 @@ internal class BillingAddressInputComponentStateUseCaseTest {
     @BeforeEach
     fun setUp() {
         every { mockBillingAddressInputComponentStateMapper.map(any()) } returns BillingAddressInputComponentState(
-            addressFieldName = BillingFormFields.AddressLineOne.name,
+            addressFieldName = BillingFormFields.CardHolderName.name,
             inputComponentState = InputComponentState(),
             isAddressFieldValid = MutableStateFlow(false)
         )
