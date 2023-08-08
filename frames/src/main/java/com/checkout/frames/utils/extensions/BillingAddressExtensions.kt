@@ -20,7 +20,7 @@ internal fun BillingAddress.summary(): String = if (this.isValid()) {
     }
     // Phone
     if (this.phone?.number?.isNotEmpty() == true)
-        strBuilder.append("\n+${this.phone?.country?.dialingCode} ${this.phone?.number}")
+        strBuilder.append("\n+${this.phone.country.dialingCode} ${this.phone.number}")
 
     strBuilder.toString().trim()
 } else ""

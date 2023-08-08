@@ -6,11 +6,10 @@ import com.checkout.frames.R
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentState
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
+import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
 
 internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetails(country: Country): BillingAddress {
-    val billingAddress = BillingAddress()
-
     val phoneInputComponentState = this.find {
         it.addressFieldName == BillingFormFields.Phone.name
     }
@@ -39,23 +38,21 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
         it.addressFieldName == BillingFormFields.PostCode.name
     }
 
-    billingAddress.phone = Phone(
-        number = phoneInputComponentState?.addressFieldText?.value ?: "",
-        country = country
+    return BillingAddress(
+        name = cardHolderNameComponentState?.addressFieldText?.value?.trimEnd() ?: "",
+        address = Address(
+            country = country,
+            addressLine1 = addressLineOneInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
+            addressLine2 = addressLineTwoInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
+            state = stateInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
+            city = cityInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
+            zip = zipInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
+        ),
+        phone = Phone(
+            number = phoneInputComponentState?.addressFieldText?.value ?: "",
+            country = country
+        )
     )
-
-    billingAddress.name = cardHolderNameComponentState?.addressFieldText?.value?.trimEnd() ?: ""
-
-    billingAddress.address?.let { address ->
-        address.country = country
-        address.addressLine1 = addressLineOneInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
-        address.addressLine2 = addressLineTwoInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
-        address.state = stateInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
-        address.city = cityInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
-        address.zip = zipInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
-    }
-
-    return billingAddress
 }
 
 @StringRes

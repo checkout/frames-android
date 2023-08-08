@@ -3,7 +3,7 @@ package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 /**
  * Enum representing BillingFormFields for BillingFormScreen.
  *
- *     FullName - Not mandatory and can be optional field
+ *     CardHolderName - Not mandatory and can be optional field
  *     AddressLineOne - Not mandatory and can be optional field
  *     AddressLineTwo - Not mandatory and can be optional field
  *     City - Not mandatory and can be optional field
