@@ -1,10 +1,19 @@
 ## Issue
 
-Issue ticket number and link.
+_Issue ticket number and link._
 
 ## Proposed changes
 
-Describe the big picture of your changes here to communicate to the maintainers why we should accept this pull request. If it fixes a bug or resolves a feature request, be sure to link to that issue.
+_Describe the big picture of your changes here to communicate to the maintainers why we should accept this pull request. If it fixes a bug or resolves a feature request, be sure to link to that issue._
+
+## Test Steps
+
+_If there's any functionality change, please list a step by step guide of how to verify the changes, and/or upload a screen recording for any visible changes._ 
+
+> For instance:
+> 1. Go to the main screen
+> 2. Tap on primary button
+> 3. Verify the image is shown on the screen
 
 ## Checklist
 
@@ -18,4 +27,4 @@ _Put an `x` in the boxes that apply. You can also fill these out after creating 
 
 ## Further comments
 
-If this is a relatively large or complex change, kick off the discussion by explaining why you choose the solution you did and what alternatives you considered, etc...
+_If this is a relatively large or complex change, kick off the discussion by explaining why you choose the solution you did and what alternatives you considered, etc..._
