@@ -296,6 +296,29 @@ internal class ExpiryDateViewModelTest {
         Assertions.assertEquals(viewModel.componentState.expiryDateMaxLength.value, EXPIRY_DATE_MAXIMUM_LENGTH_THREE)
     }
 
+    @Test
+    fun `when incomplete expiry date entered on expiry date change then expiry date state in payment state manager is updated and no error is visible`() {
+        // Given
+        val testExpiryDate = "23"
+        viewModel.componentState.expiryDate.value = testExpiryDate
+        val smartExpiryDateValidationRequest = SmartExpiryDateValidationRequest(true, testExpiryDate)
+
+        every {
+            mockSmartExpiryDateValidationUseCase.execute(eq(smartExpiryDateValidationRequest))
+        } returns ValidationResult.Success(testExpiryDate)
+
+        // When
+        viewModel.onExpiryDateInputChange(testExpiryDate)
+
+        // Then
+        verify(exactly = 1) { mockSmartExpiryDateValidationUseCase.execute(eq(smartExpiryDateValidationRequest)) }
+        with(viewModel.componentState.inputState) {
+            Assertions.assertFalse(inputFieldState.isError.value)
+            Assertions.assertFalse(errorState.isVisible.value)
+        }
+        Assertions.assertFalse(spyPaymentStateManager.isExpiryDateValid.value)
+    }
+
     @ParameterizedTest(
         name = "When on expiry date change invoked with {0} then {1} validation (maxLength = {2}) set to field state"
     )

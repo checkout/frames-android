@@ -40,16 +40,17 @@ internal class CardHolderNameViewModel @Inject constructor(
 
         if (!isFocused && wasFocused) {
             val cardHolderName = componentState.cardHolderName.value
-            componentState.cardHolderName.value = cardHolderName
-            handleValidationResult(cardHolderName)
+            handleValidationResult(cardHolderName, true)
         }
     }
 
-    private fun handleValidationResult(cardHolderName: String) {
+    private fun handleValidationResult(cardHolderName: String, isRequiredToHandleError: Boolean) {
         if (cardHolderName.isEmpty() && !componentStyle.isInputFieldOptional) {
-            showValidationError()
+            paymentStateManager.isCardHolderNameValid.update { false }
+            if (isRequiredToHandleError) showValidationError()
         } else {
-            hideValidationError()
+            paymentStateManager.isCardHolderNameValid.update { true }
+            if (isRequiredToHandleError) hideValidationError()
         }
     }
 
@@ -57,6 +58,7 @@ internal class CardHolderNameViewModel @Inject constructor(
         componentState.cardHolderName.value = this
         paymentStateManager.cardHolderName.update { this }
         hideValidationError()
+        handleValidationResult(componentState.cardHolderName.value, false)
     }
 
     private fun provideViewState(style: CardHolderNameComponentStyle): CardHolderNameComponentState {
@@ -78,12 +80,10 @@ internal class CardHolderNameViewModel @Inject constructor(
 
     private fun showValidationError() {
         componentState.showError(R.string.cko_cardholder_name_error)
-        paymentStateManager.isCardHolderNameValid.update { false }
     }
 
     private fun hideValidationError() {
         componentState.hideError()
-        paymentStateManager.isCardHolderNameValid.update { true }
     }
 
     internal class Factory(

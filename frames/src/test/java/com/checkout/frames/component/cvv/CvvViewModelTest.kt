@@ -146,6 +146,53 @@ internal class CvvViewModelTest {
     }
 
     @Test
+    fun `when valid cvv updated then cvv state in payment state manager is updated and error is hidden`() {
+        // Given
+        val testCvv = "123"
+        val testCardScheme = CardScheme.VISA
+        spyPaymentStateManager.cardScheme.value = testCardScheme
+        every {
+            mockCardValidator.validateCvv(eq(testCvv), eq(testCardScheme))
+        } returns ValidationResult.Success(Unit)
+        viewModel.componentState.showError(R.string.cko_cvv_component_error)
+
+        // When
+        viewModel.onFocusChanged(true)
+        viewModel.onCvvChange(testCvv)
+
+        // Then
+        verify(exactly = 1) { mockCardValidator.validateCvv(any(), any()) }
+        assertTrue(spyPaymentStateManager.isCvvValid.value)
+        with(viewModel.componentState.inputState) {
+            assertFalse(inputFieldState.isError.value)
+            assertFalse(errorState.isVisible.value)
+        }
+    }
+
+    @Test
+    fun `when invalid cvv updated then cvv state in payment state manager is updated and error is not shown`() {
+        // Given
+        val testCvv = "12"
+        val testCardScheme = CardScheme.VISA
+        spyPaymentStateManager.cardScheme.value = testCardScheme
+        every {
+            mockCardValidator.validateCvv(eq(testCvv), eq(testCardScheme))
+        } returns ValidationResult.Failure(CheckoutError(""))
+        viewModel.componentState.showError(R.string.cko_cvv_component_error)
+
+        // When
+        viewModel.onCvvChange(testCvv)
+
+        // Then
+        verify(exactly = 0) { mockCardValidator.validateCvv(any(), any()) }
+        assertFalse(spyPaymentStateManager.isCvvValid.value)
+        with(viewModel.componentState.inputState) {
+            assertFalse(inputFieldState.isError.value)
+            assertFalse(errorState.isVisible.value)
+        }
+    }
+
+    @Test
     fun `when focus change triggered more than once then cvv state in payment state manager is updated`() {
         // Given
         val testCvv = "123"
