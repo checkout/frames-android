@@ -134,6 +134,7 @@ internal class CardNumberViewModelTest {
         // Then
         assertEquals(spyPaymentStateManager.cardNumber.value, testCardNumber)
         assertEquals(spyPaymentStateManager.cardScheme.value, expectedCardScheme)
+        assertTrue(spyPaymentStateManager.isCardSchemeUpdated.value)
     }
 
     @Test
@@ -151,6 +152,7 @@ internal class CardNumberViewModelTest {
 
         // Then
         assertTrue(spyPaymentStateManager.isCardNumberValid.value)
+        assertTrue(spyPaymentStateManager.isCardSchemeUpdated.value)
     }
 
     @Test
@@ -193,6 +195,7 @@ internal class CardNumberViewModelTest {
         verify(exactly = 1) { mockCardValidator.eagerValidateCardNumber(eq(testCardNumber)) }
         verify(exactly = 1) { mockCardValidator.validateCardNumber(eq(testCardNumber)) }
         assertFalse(spyPaymentStateManager.isCardNumberValid.value)
+        assertFalse(spyPaymentStateManager.isCardSchemeUpdated.value)
         with(viewModel.componentState.inputState) {
             assertFalse(inputFieldState.isError.value)
             assertFalse(errorState.isVisible.value)
@@ -342,6 +345,7 @@ internal class CardNumberViewModelTest {
             assertTrue(errorState.isVisible.value)
             assertEquals(errorState.textId.value, R.string.cko_base_invalid_card_number_error)
         }
+        assertFalse(spyPaymentStateManager.isCardSchemeUpdated.value)
     }
 
     @Test
@@ -363,6 +367,7 @@ internal class CardNumberViewModelTest {
             assertFalse(inputFieldState.isError.value)
             assertFalse(errorState.isVisible.value)
         }
+        assertTrue(spyPaymentStateManager.isCardSchemeUpdated.value)
         assertEquals(viewModel.componentState.cardScheme.value, CardScheme.VISA)
         assertEquals(viewModel.componentState.cardNumberLength.value, CardScheme.VISA.maxNumberLength)
     }
@@ -405,6 +410,7 @@ internal class CardNumberViewModelTest {
 
         // Then
         verify(exactly = 1) { mockCardValidator.eagerValidateCardNumber(eq(testCardNumber)) }
+        assertFalse(spyPaymentStateManager.isCardSchemeUpdated.value)
         with(viewModel.componentState.inputState) {
             assertTrue(inputFieldState.isError.value)
             assertTrue(errorState.isVisible.value)

@@ -46,7 +46,7 @@ internal class CvvViewModel @Inject constructor(
     fun prepare() {
         viewModelScope.launch {
             paymentStateManager.cardScheme.collect {
-                validateCvv(true)
+                validateCvv()
                 componentState.cvvLength.value = it.cvvLength.max()
             }
         }
@@ -58,7 +58,7 @@ internal class CvvViewModel @Inject constructor(
     fun onFocusChanged(isFocused: Boolean) {
         if (isFocused) wasFocused = isFocused
 
-        if (!isFocused && wasFocused) validateCvv(true)
+        if (!isFocused && wasFocused) validateCvv()
     }
 
     /**
@@ -68,25 +68,21 @@ internal class CvvViewModel @Inject constructor(
         componentState.cvv.value = this
         paymentStateManager.cvv.update { this }
         componentState.hideError()
-        if (componentState.cvv.value.length == paymentStateManager.cardScheme.value.cvvLength.min()) {
-            validateCvv(false)
-        } else {
-            paymentStateManager.isCvvValid.update { false }
-        }
+        validateCvv()
     }
 
     /**
      * Validate cvv only when it has been already focused before
      */
-    private fun validateCvv(isRequiredToHandleError: Boolean) {
-        if (wasFocused) {
-            val validationResult = cardValidator.validateCvv(
-                componentState.cvv.value,
-                paymentStateManager.cardScheme.value
-            )
+    private fun validateCvv() {
+        with(paymentStateManager) {
+            if (wasFocused || isCardSchemeUpdated.value) {
+                val validationResult = cardValidator.validateCvv(componentState.cvv.value, cardScheme.value)
 
-            paymentStateManager.isCvvValid.update { validationResult.isValid() }
-            if (isRequiredToHandleError) handleValidationResult(validationResult)
+                isCvvValid.update { validationResult.isValid() }
+
+                if (wasFocused) handleValidationResult(validationResult)
+            }
         }
     }
 

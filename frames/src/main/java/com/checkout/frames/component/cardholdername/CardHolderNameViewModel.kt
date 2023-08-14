@@ -36,29 +36,27 @@ internal class CardHolderNameViewModel @Inject constructor(
      * Make full card number validation, when focus switched to another view.
      */
     fun onFocusChanged(isFocused: Boolean) {
-        if (isFocused) wasFocused = isFocused
-
-        if (!isFocused && wasFocused) {
+        if (isFocused) {
+            wasFocused = true
+        } else if (wasFocused) {
             val cardHolderName = componentState.cardHolderName.value
-            handleValidationResult(cardHolderName, true)
+            handleValidationResult(cardHolderName)
         }
     }
 
-    private fun handleValidationResult(cardHolderName: String, isRequiredToHandleError: Boolean) {
-        if (cardHolderName.isEmpty() && !componentStyle.isInputFieldOptional) {
-            paymentStateManager.isCardHolderNameValid.update { false }
-            if (isRequiredToHandleError) showValidationError()
-        } else {
-            paymentStateManager.isCardHolderNameValid.update { true }
-            if (isRequiredToHandleError) hideValidationError()
-        }
+    private fun handleValidationResult(cardHolderName: String) {
+        val isValid = cardHolderName.isNotBlank() || componentStyle.isInputFieldOptional
+        paymentStateManager.isCardHolderNameValid.update { isValid }
+
+        if (wasFocused && isValid) componentState.hideError()
+        else componentState.showError(R.string.cko_cardholder_name_error)
     }
 
     fun onCardHolderNameChange(text: String) = with(text) {
         componentState.cardHolderName.value = this
         paymentStateManager.cardHolderName.update { this }
-        hideValidationError()
-        handleValidationResult(componentState.cardHolderName.value, false)
+        handleValidationResult(componentState.cardHolderName.value)
+        componentState.hideError()
     }
 
     private fun provideViewState(style: CardHolderNameComponentStyle): CardHolderNameComponentState {
@@ -76,14 +74,6 @@ internal class CardHolderNameViewModel @Inject constructor(
         )
 
         return viewStyle
-    }
-
-    private fun showValidationError() {
-        componentState.showError(R.string.cko_cardholder_name_error)
-    }
-
-    private fun hideValidationError() {
-        componentState.hideError()
     }
 
     internal class Factory(

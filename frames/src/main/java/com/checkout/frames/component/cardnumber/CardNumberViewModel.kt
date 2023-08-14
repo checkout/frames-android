@@ -75,7 +75,7 @@ internal class CardNumberViewModel @Inject constructor(
         // Run full card validation only when CVV and expiry date is valid to update state of isCardNumberValid
         if (paymentStateManager.isCvvValid.value && paymentStateManager.isExpiryDateValid.value) {
             handleValidationResult(
-                cardValidator.validateCardNumber(this),
+                result = cardValidator.validateCardNumber(this),
                 isEagerCheck = false,
                 isRequiredToHandleError = false
             )
@@ -89,6 +89,8 @@ internal class CardNumberViewModel @Inject constructor(
         isRequiredToHandleError: Boolean
     ) = when (result) {
         is ValidationResult.Success -> with(result.value) {
+            paymentStateManager.isCardSchemeUpdated.update { true }
+
             if (isEagerCheck) {
                 componentState.cardScheme.value = this
                 componentState.cardNumberLength.value = this.maxNumberLength
@@ -103,8 +105,11 @@ internal class CardNumberViewModel @Inject constructor(
             }
         }
 
-        is ValidationResult.Failure -> if (isRequiredToHandleError) showValidationError()
-         else paymentStateManager.isCardNumberValid.update { false }
+        is ValidationResult.Failure -> {
+            paymentStateManager.isCardSchemeUpdated.update { false }
+            if (isRequiredToHandleError) showValidationError()
+            else paymentStateManager.isCardNumberValid.update { false }
+        }
     }
 
     private fun showValidationError() {
