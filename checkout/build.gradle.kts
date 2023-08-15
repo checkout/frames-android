@@ -3,6 +3,7 @@ import com.checkout.buildsrc.applyCommonLibConfigurations
 import com.checkout.buildsrc.applyAndroidJUnit4Configuration
 import com.checkout.buildsrc.applyNetworkConfigurations
 import com.checkout.buildsrc.BuildConfigFieldName
+import com.checkout.buildsrc.applyJacocoTestReport
 
 plugins {
     id("com.android.library")
@@ -16,6 +17,7 @@ applyAndroidJUnit5Configuration()
 applyAndroidJUnit4Configuration()
 applyCommonLibConfigurations()
 applyNetworkConfigurations()
+applyJacocoTestReport()
 
 android {
     resourcePrefix = "cko_"

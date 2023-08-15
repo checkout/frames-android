@@ -25,6 +25,8 @@ fun Project.applyAndroidJUnit5Configuration() {
             junitPlatform {
                 // Don't raise errors about incorrect configuration of JUnit 5 instrumentation tests
                 instrumentationTests.integrityCheckEnabled = false
+                // Avoid junit5 interfering the [JacocoTestReport] task
+                jacocoOptions.taskGenerationEnabled = false
             }
         }
     }

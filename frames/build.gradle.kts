@@ -4,6 +4,7 @@ import com.checkout.buildsrc.applyCommonLibConfigurations
 import com.checkout.buildsrc.applyDeclarativeUIConfigurations
 import com.checkout.buildsrc.applyDIConfigurations
 import com.checkout.buildsrc.BuildConfigFieldName
+import com.checkout.buildsrc.applyJacocoTestReport
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
@@ -20,6 +21,7 @@ applyAndroidJUnit4Configuration()
 applyCommonLibConfigurations()
 applyDeclarativeUIConfigurations()
 applyDIConfigurations()
+applyJacocoTestReport()
 
 android {
     resourcePrefix = "cko_"
