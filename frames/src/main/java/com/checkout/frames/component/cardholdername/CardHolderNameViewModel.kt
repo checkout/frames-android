@@ -36,27 +36,27 @@ internal class CardHolderNameViewModel @Inject constructor(
      * Make full card number validation, when focus switched to another view.
      */
     fun onFocusChanged(isFocused: Boolean) {
-        if (isFocused) wasFocused = isFocused
-
-        if (!isFocused && wasFocused) {
+        if (isFocused) {
+            wasFocused = true
+        } else if (wasFocused) {
             val cardHolderName = componentState.cardHolderName.value
-            componentState.cardHolderName.value = cardHolderName
             handleValidationResult(cardHolderName)
         }
     }
 
     private fun handleValidationResult(cardHolderName: String) {
-        if (cardHolderName.isEmpty() && !componentStyle.isInputFieldOptional) {
-            showValidationError()
-        } else {
-            hideValidationError()
-        }
+        val isValid = cardHolderName.isNotBlank() || componentStyle.isInputFieldOptional
+        paymentStateManager.isCardHolderNameValid.update { isValid }
+
+        if (wasFocused && isValid) componentState.hideError()
+        else componentState.showError(R.string.cko_cardholder_name_error)
     }
 
     fun onCardHolderNameChange(text: String) = with(text) {
         componentState.cardHolderName.value = this
         paymentStateManager.cardHolderName.update { this }
-        hideValidationError()
+        handleValidationResult(componentState.cardHolderName.value)
+        componentState.hideError()
     }
 
     private fun provideViewState(style: CardHolderNameComponentStyle): CardHolderNameComponentState {
@@ -74,16 +74,6 @@ internal class CardHolderNameViewModel @Inject constructor(
         )
 
         return viewStyle
-    }
-
-    private fun showValidationError() {
-        componentState.showError(R.string.cko_cardholder_name_error)
-        paymentStateManager.isCardHolderNameValid.update { false }
-    }
-
-    private fun hideValidationError() {
-        componentState.hideError()
-        paymentStateManager.isCardHolderNameValid.update { true }
     }
 
     internal class Factory(

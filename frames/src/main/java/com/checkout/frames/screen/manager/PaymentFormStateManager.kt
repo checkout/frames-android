@@ -15,6 +15,7 @@ internal class PaymentFormStateManager(
 ) : PaymentStateManager {
 
     override val cardNumber: MutableStateFlow<String> = MutableStateFlow("")
+    override val isCardSchemeUpdated: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val cardScheme: MutableStateFlow<CardScheme> = MutableStateFlow(CardScheme.UNKNOWN)
     override val isCardNumberValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -46,6 +47,7 @@ internal class PaymentFormStateManager(
         cardHolderName.value = ""
         cardScheme.value = CardScheme.UNKNOWN
         isCardNumberValid.value = false
+        isCardSchemeUpdated.value = false
         expiryDate.value = ""
         isExpiryDateValid.value = false
         cvv.value = ""

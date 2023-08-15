@@ -16,6 +16,8 @@ import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
+import com.checkout.frames.style.component.default.DefaultCardHolderNameComponentStyle
+import com.checkout.frames.style.component.default.DefaultLightStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.view.TextLabelState
@@ -135,23 +137,32 @@ internal class PaymentDetailsViewModelTest {
 
     @ParameterizedTest(
         name = "When view model initialised with: cvvComponentStyle is null = {0}, " +
-                "CardHolderNameComponentStyle is null = {0}, addressSummaryComponentStyle is null = {1} " +
-                "and addressSummaryComponentStyle is optional = {2}; " + "Then payment state is reset with: " +
-                "isCvvValid = {3} and isBillingAddressValid = {4}"
+                "CardHolderNameComponentStyle is null = {1}, \"CardHolderNameComponentStyle is optional = {2} " +
+                "addressSummaryComponentStyle is null = {3} " + "and addressSummaryComponentStyle is optional = {4}; " +
+                "Then payment state is reset with: " +
+                "isCvvValid = {5} isBillingAddressValid = {6} and isCardHolderNameValid = {7}"
     )
     @MethodSource("resetArguments")
     fun `when view model is initialised then payment state is reset with correct values`(
         isCvvStyleNull: Boolean,
         isCardHolderNameStyleNull: Boolean,
+        isCardHolderNameOptional: Boolean,
         isAddressStyleNull: Boolean,
         isAddressOptional: Boolean,
         isCvvValid: Boolean,
         isBillingAddressValid: Boolean,
+        isCardHolderNameValid: Boolean
     ) {
         // Given
         val style = PaymentDetailsStyle().apply {
             if (isCvvStyleNull) cvvStyle = null
             if (isCardHolderNameStyleNull) cardHolderNameStyle = null
+            cardHolderNameStyle = if (isCardHolderNameStyleNull) null else DefaultCardHolderNameComponentStyle.light()
+                .copy(
+                    inputStyle = DefaultLightStyle.inputComponentStyle().copy(
+                        isInputFieldOptional = isCardHolderNameOptional
+                    )
+                )
             addressSummaryStyle =
                 if (isAddressStyleNull) null else addressSummaryStyle?.copy(isOptional = isAddressOptional)
         }
@@ -163,7 +174,7 @@ internal class PaymentDetailsViewModelTest {
         val isBillingAddressEnabled = !isAddressStyleNull
         verify {
             mockPaymentStateManager.resetPaymentState(
-                isCvvValid, isCardHolderNameStyleNull, isBillingAddressValid, isBillingAddressEnabled
+                isCvvValid, isCardHolderNameValid, isBillingAddressValid, isBillingAddressEnabled
             )
         }
     }
@@ -193,10 +204,10 @@ internal class PaymentDetailsViewModelTest {
         @RequiresApi(Build.VERSION_CODES.N)
         @JvmStatic
         fun resetArguments(): Stream<Arguments> = Stream.of(
-            Arguments.of(false, false, false, false, false, false),
-            Arguments.of(true, true, false, false, true, false),
-            Arguments.of(true, true, true, false, true, true),
-            Arguments.of(true, false, false, true, true, true)
+            Arguments.of(false, false, false, false, false, false, false, false),
+            Arguments.of(true, true, true, false, false, true, false, true),
+            Arguments.of(true, false, true, true, false, true, true, true),
+            Arguments.of(true, true, false, false, true, true, true, true)
         )
     }
 }

@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 internal interface PaymentStateManager {
 
     val cardNumber: MutableStateFlow<String>
+
+    // To notify result of CVV validation on each card scheme update or reset
+    val isCardSchemeUpdated: MutableStateFlow<Boolean>
+
     val cardScheme: MutableStateFlow<CardScheme>
     val isCardNumberValid: MutableStateFlow<Boolean>
 

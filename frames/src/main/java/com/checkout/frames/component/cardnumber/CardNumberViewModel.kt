@@ -54,7 +54,11 @@ internal class CardNumberViewModel @Inject constructor(
 
         if (!isFocused && wasFocused) {
             val cardNumber = componentState.cardNumber.value
-            handleValidationResult(cardValidator.validateCardNumber(cardNumber), false)
+            handleValidationResult(
+                cardValidator.validateCardNumber(cardNumber),
+                isEagerCheck = false,
+                isRequiredToHandleError = true
+            )
         }
     }
 
@@ -66,21 +70,46 @@ internal class CardNumberViewModel @Inject constructor(
         val validationResult = cardValidator.eagerValidateCardNumber(this)
         componentState.cardNumber.value = this
         paymentStateManager.cardNumber.update { this }
-        handleValidationResult(validationResult, true)
+        handleValidationResult(validationResult, isEagerCheck = true, isRequiredToHandleError = true)
+
+        // Run full card validation only when CVV and expiry date is valid to update state of isCardNumberValid
+        if (paymentStateManager.isCvvValid.value && paymentStateManager.isExpiryDateValid.value) {
+            handleValidationResult(
+                result = cardValidator.validateCardNumber(this),
+                isEagerCheck = false,
+                isRequiredToHandleError = false
+            )
+        }
     }
 
-    private fun handleValidationResult(result: ValidationResult<CardScheme>, isEagerCheck: Boolean) = when (result) {
+    @Suppress("NestedBlockDepth")
+    private fun handleValidationResult(
+        result: ValidationResult<CardScheme>,
+        isEagerCheck: Boolean,
+        isRequiredToHandleError: Boolean
+    ) = when (result) {
         is ValidationResult.Success -> with(result.value) {
+            paymentStateManager.isCardSchemeUpdated.update { true }
+
             if (isEagerCheck) {
                 componentState.cardScheme.value = this
                 componentState.cardNumberLength.value = this.maxNumberLength
                 paymentStateManager.cardScheme.update { this }
             }
 
-            if (this in paymentStateManager.supportedCardSchemeList) hideValidationError()
-            else showValidationError()
+            if (isRequiredToHandleError) {
+                if (this in paymentStateManager.supportedCardSchemeList) hideValidationError()
+                else showValidationError()
+            } else {
+                paymentStateManager.isCardNumberValid.update { true }
+            }
         }
-        is ValidationResult.Failure -> showValidationError()
+
+        is ValidationResult.Failure -> {
+            paymentStateManager.isCardSchemeUpdated.update { false }
+            if (isRequiredToHandleError) showValidationError()
+            else paymentStateManager.isCardNumberValid.update { false }
+        }
     }
 
     private fun showValidationError() {

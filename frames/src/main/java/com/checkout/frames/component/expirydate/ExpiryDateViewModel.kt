@@ -32,7 +32,7 @@ internal class ExpiryDateViewModel @Inject constructor(
     private val smartExpiryDateValidationUseCase: UseCase<SmartExpiryDateValidationRequest, ValidationResult<String>>,
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
-    private val style: ExpiryDateComponentStyle,
+    style: ExpiryDateComponentStyle,
 ) : ViewModel() {
 
     internal companion object {
@@ -88,8 +88,12 @@ internal class ExpiryDateViewModel @Inject constructor(
             componentState.expiryDate.value = result.value
             componentState.hideError()
             paymentStateManager.expiryDate.value = result.value
-            paymentStateManager.isExpiryDateValid.update { true }
             wasInvalidPastExpiryDate = false
+            if (!isFocused || componentState.expiryDate.value.length == componentState.expiryDateMaxLength.value) {
+                paymentStateManager.isExpiryDateValid.update { true }
+            } else {
+                paymentStateManager.isExpiryDateValid.update { false }
+            }
         }
 
         is ValidationResult.Failure -> {

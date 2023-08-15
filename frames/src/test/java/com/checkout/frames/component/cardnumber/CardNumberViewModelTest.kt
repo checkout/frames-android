@@ -134,6 +134,7 @@ internal class CardNumberViewModelTest {
         // Then
         assertEquals(spyPaymentStateManager.cardNumber.value, testCardNumber)
         assertEquals(spyPaymentStateManager.cardScheme.value, expectedCardScheme)
+        assertTrue(spyPaymentStateManager.isCardSchemeUpdated.value)
     }
 
     @Test
@@ -151,6 +152,54 @@ internal class CardNumberViewModelTest {
 
         // Then
         assertTrue(spyPaymentStateManager.isCardNumberValid.value)
+        assertTrue(spyPaymentStateManager.isCardSchemeUpdated.value)
+    }
+
+    @Test
+    fun `when on card number change triggered and expiry date and cvv are valid then card number state in payment state manager is updated`() {
+        // Given
+        val testCardNumber = "123123123123123"
+        viewModel.componentState.cardNumber.value = testCardNumber
+        every {
+            mockCardValidator.validateCardNumber(eq(testCardNumber))
+        } returns ValidationResult.Success(CardScheme.MADA)
+        spyPaymentStateManager.isCvvValid.value = true
+        spyPaymentStateManager.isExpiryDateValid.value = true
+
+        // When
+        viewModel.onCardNumberChange(testCardNumber)
+
+        // Then
+        assertTrue(spyPaymentStateManager.isCardNumberValid.value)
+    }
+
+    @Test
+    fun `when on card number change triggered with incomplete card number and expiry date and cvv are valid then then card number state in payment state manager is updated and no error shown`() {
+        // Given
+        val testCardNumber = "4242"
+        val expectedCardScheme = CardScheme.VISA
+        viewModel.componentState.cardNumber.value = testCardNumber
+        every {
+            mockCardValidator.eagerValidateCardNumber(eq(testCardNumber))
+        } returns ValidationResult.Success(expectedCardScheme)
+        every {
+            mockCardValidator.validateCardNumber(eq(testCardNumber))
+        } returns ValidationResult.Failure(CheckoutError("123"))
+        spyPaymentStateManager.isCvvValid.value = true
+        spyPaymentStateManager.isExpiryDateValid.value = true
+
+        // When
+        viewModel.onCardNumberChange(testCardNumber)
+
+        // Then
+        verify(exactly = 1) { mockCardValidator.eagerValidateCardNumber(eq(testCardNumber)) }
+        verify(exactly = 1) { mockCardValidator.validateCardNumber(eq(testCardNumber)) }
+        assertFalse(spyPaymentStateManager.isCardNumberValid.value)
+        assertFalse(spyPaymentStateManager.isCardSchemeUpdated.value)
+        with(viewModel.componentState.inputState) {
+            assertFalse(inputFieldState.isError.value)
+            assertFalse(errorState.isVisible.value)
+        }
     }
 
     /** Input data filtering **/
@@ -188,6 +237,21 @@ internal class CardNumberViewModelTest {
         // When
         viewModel.onFocusChanged(true)
         viewModel.onFocusChanged(false)
+
+        // Then
+        verify(exactly = 1) { mockCardValidator.validateCardNumber(testCardNumber) }
+    }
+
+    @Test
+    fun `when on card number change triggered and expiry date and cvv valid then full card validation is invoked`() {
+        // Given
+        val testCardNumber = "123123123123123"
+        viewModel.componentState.cardNumber.value = testCardNumber
+        spyPaymentStateManager.isCvvValid.value = true
+        spyPaymentStateManager.isExpiryDateValid.value = true
+
+        // When
+        viewModel.onCardNumberChange(testCardNumber)
 
         // Then
         verify(exactly = 1) { mockCardValidator.validateCardNumber(testCardNumber) }
@@ -281,6 +345,7 @@ internal class CardNumberViewModelTest {
             assertTrue(errorState.isVisible.value)
             assertEquals(errorState.textId.value, R.string.cko_base_invalid_card_number_error)
         }
+        assertFalse(spyPaymentStateManager.isCardSchemeUpdated.value)
     }
 
     @Test
@@ -302,6 +367,7 @@ internal class CardNumberViewModelTest {
             assertFalse(inputFieldState.isError.value)
             assertFalse(errorState.isVisible.value)
         }
+        assertTrue(spyPaymentStateManager.isCardSchemeUpdated.value)
         assertEquals(viewModel.componentState.cardScheme.value, CardScheme.VISA)
         assertEquals(viewModel.componentState.cardNumberLength.value, CardScheme.VISA.maxNumberLength)
     }
@@ -344,6 +410,7 @@ internal class CardNumberViewModelTest {
 
         // Then
         verify(exactly = 1) { mockCardValidator.eagerValidateCardNumber(eq(testCardNumber)) }
+        assertFalse(spyPaymentStateManager.isCardSchemeUpdated.value)
         with(viewModel.componentState.inputState) {
             assertTrue(inputFieldState.isError.value)
             assertTrue(errorState.isVisible.value)

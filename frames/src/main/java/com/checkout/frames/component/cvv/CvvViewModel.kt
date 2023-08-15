@@ -68,20 +68,21 @@ internal class CvvViewModel @Inject constructor(
         componentState.cvv.value = this
         paymentStateManager.cvv.update { this }
         componentState.hideError()
+        validateCvv()
     }
 
     /**
      * Validate cvv only when it has been already focused before
      */
     private fun validateCvv() {
-        if (wasFocused) {
-            val validationResult = cardValidator.validateCvv(
-                componentState.cvv.value,
-                paymentStateManager.cardScheme.value
-            )
+        with(paymentStateManager) {
+            if (wasFocused || isCardSchemeUpdated.value) {
+                val validationResult = cardValidator.validateCvv(componentState.cvv.value, cardScheme.value)
 
-            paymentStateManager.isCvvValid.update { validationResult.isValid() }
-            handleValidationResult(validationResult)
+                isCvvValid.update { validationResult.isValid() }
+
+                if (wasFocused) handleValidationResult(validationResult)
+            }
         }
     }
 
