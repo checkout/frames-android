@@ -12,5 +12,6 @@ public data class PaymentFormConfig @JvmOverloads constructor(
     public val environment: Environment,
     public var style: PaymentFormStyle,
     public val paymentFlowHandler: PaymentFlowHandler,
-    public var supportedCardSchemeList: List<CardScheme> = emptyList()
+    public var supportedCardSchemeList: List<CardScheme> = emptyList(),
+    public val cardHolderName: String? = null
 )

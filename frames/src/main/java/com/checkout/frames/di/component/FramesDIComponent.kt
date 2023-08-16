@@ -64,6 +64,9 @@ internal abstract class FramesDIComponent {
         @BindsInstance
         fun supportedCardSchemes(supportedCardSchemeList: List<CardScheme>): Builder
 
+        @BindsInstance
+        fun cardHolderName(cardHolderName: String): Builder
+
         fun build(): FramesDIComponent
     }
 }

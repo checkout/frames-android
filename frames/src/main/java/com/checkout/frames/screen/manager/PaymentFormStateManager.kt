@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 internal class PaymentFormStateManager(
-    private val supportedCardSchemes: List<CardScheme>
+    private val supportedCardSchemes: List<CardScheme>,
+    paymentFormCardHolderName: String
 ) : PaymentStateManager {
 
     override val cardNumber: MutableStateFlow<String> = MutableStateFlow("")
@@ -25,7 +26,7 @@ internal class PaymentFormStateManager(
     override val cvv: MutableStateFlow<String> = MutableStateFlow("")
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    override val cardHolderName: MutableStateFlow<String> = MutableStateFlow("")
+    override val cardHolderName = MutableStateFlow(paymentFormCardHolderName.ifEmpty { "" })
     override val isCardHolderNameValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())
@@ -44,7 +45,6 @@ internal class PaymentFormStateManager(
         isBillingAddressEnabled: Boolean,
     ) {
         cardNumber.value = ""
-        cardHolderName.value = ""
         cardScheme.value = CardScheme.UNKNOWN
         isCardNumberValid.value = false
         isCardSchemeUpdated.value = false

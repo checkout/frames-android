@@ -113,6 +113,19 @@ internal class CardHolderNameViewModelTest {
         assertTrue(spyPaymentStateManager.isCardHolderNameValid.value)
     }
 
+    @Test
+    fun `when cardHolderName is already updated in paymentStateManager then cardHolderName in componentState is updated`() {
+        // Given
+        val expectedCardHolderName = "TestName"
+        spyPaymentStateManager.cardHolderName.value = expectedCardHolderName
+
+        // When
+        viewModel.prepare()
+
+        // Then
+        assertEquals(expectedCardHolderName, viewModel.componentState.cardHolderName.value)
+    }
+
     /** Validation related tests **/
 
     @Test
@@ -182,6 +195,9 @@ internal class CardHolderNameViewModelTest {
     }
 
     private fun initPaymentStateManager() {
-        spyPaymentStateManager = PaymentFormStateManager(emptyList())
+        spyPaymentStateManager = PaymentFormStateManager(
+            supportedCardSchemes = emptyList(),
+            paymentFormCardHolderName = ""
+        )
     }
 }

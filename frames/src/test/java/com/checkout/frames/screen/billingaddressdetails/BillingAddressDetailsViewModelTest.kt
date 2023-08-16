@@ -75,7 +75,10 @@ internal class BillingAddressDetailsViewModelTest {
     lateinit var mockLogger: Logger<LoggingEvent>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        paymentFormCardHolderName = ""
+    )
 
     @SpyK
     lateinit var spyTextLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>

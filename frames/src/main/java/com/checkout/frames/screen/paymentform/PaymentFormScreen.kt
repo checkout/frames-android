@@ -20,11 +20,12 @@ internal fun PaymentFormScreen(config: PaymentFormConfig) {
     val navController = rememberAnimatedNavController()
     val viewModel: PaymentFormViewModel = viewModel(
         factory = PaymentFormViewModel.Factory(
-            config.publicKey,
-            config.context,
-            config.environment,
-            config.paymentFlowHandler,
-            config.supportedCardSchemeList
+            publicKey = config.publicKey,
+            context = config.context,
+            environment = config.environment,
+            paymentFlowHandler = config.paymentFlowHandler,
+            supportedCardSchemes = config.supportedCardSchemeList,
+            cardHolderName = config.cardHolderName ?: ""
         )
     )
 

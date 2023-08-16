@@ -71,7 +71,8 @@ fun Navigator(
 
     val customThemingPaymentFormMediator = PaymentFormMediator(
         defaultPaymentFormConfig.copy(
-            style = PaymentFormStyleProvider.provide(CustomPaymentFormTheme.providePaymentFormTheme())
+            style = PaymentFormStyleProvider.provide(CustomPaymentFormTheme.providePaymentFormTheme()),
+            cardHolderName = "Test user"
         )
     )
 

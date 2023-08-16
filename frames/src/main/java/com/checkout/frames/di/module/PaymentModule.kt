@@ -36,8 +36,9 @@ internal class PaymentModule {
         @Provides
         @Singleton
         fun paymentStateManager(
-            supportedCardSchemes: List<CardScheme>
+            supportedCardSchemes: List<CardScheme>,
+            cardHolderName: String
         ): PaymentStateManager =
-            PaymentFormStateManager(supportedCardSchemes)
+            PaymentFormStateManager(supportedCardSchemes, cardHolderName)
     }
 }

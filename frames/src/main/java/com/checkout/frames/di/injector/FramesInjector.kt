@@ -54,7 +54,8 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             context: Context,
             environment: Environment,
             paymentFlowHandler: PaymentFlowHandler,
-            supportedCardSchemeList: List<CardScheme> = emptyList()
+            supportedCardSchemeList: List<CardScheme> = emptyList(),
+            cardHolderName: String = ""
         ): Injector {
             val logger = EventLoggerProvider.provide().apply {
                 setup(context, environment, BuildConfig.LOGGING_IDENTIFIER, BuildConfig.PRODUCT_VERSION)
@@ -73,6 +74,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
                     .cardTokenizationUseCase(cardTokenizationUseCase)
                     .closePaymentFlowUseCase(closePaymentFlowUseCase)
                     .supportedCardSchemes(supportedCardSchemeList)
+                    .cardHolderName(cardHolderName)
                     .build()
             )
         }
