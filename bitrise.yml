@@ -61,6 +61,7 @@ workflows:
         is_always_run: true
         title: Gradle Runner - Build Android Test
     after_run:
+    - steps-sonar
     - steps-finish
     description: |2-
 
@@ -177,6 +178,30 @@ workflows:
        - Unit Tests
     before_run:
     - steps-start
+  steps-sonar:
+    description: |
+      Runs SonarQube analysis using [SonarQube Scan]
+    steps:
+      - gradle-runner@2:
+          title: Build Jacoco Test Report for Checkout
+          inputs:
+            - gradle_task: :checkout:jacocoTestReport
+      - gradle-runner@2:
+          title: Build Jacoco Test Report for Frames
+          inputs:
+            - gradle_task: :frames:jacocoTestReport
+      - script@1:
+          inputs:
+            - content: |
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+                
+                # Run sonarqube script
+                ./scripts/sonar.sh
+          title: Script - Sonarqube
 app:
   envs:
   - opts:
