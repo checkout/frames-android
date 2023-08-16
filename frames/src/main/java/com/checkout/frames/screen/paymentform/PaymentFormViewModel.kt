@@ -1,6 +1,7 @@
 package com.checkout.frames.screen.paymentform
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.checkout.base.model.CardScheme
@@ -9,6 +10,7 @@ import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.injector.FramesInjector
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.screen.paymentform.model.PrefillData
 import javax.inject.Inject
 
 internal class PaymentFormViewModel @Inject internal constructor() : ViewModel() {
@@ -21,18 +23,19 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         private val environment: Environment,
         private val paymentFlowHandler: PaymentFlowHandler,
         private val supportedCardSchemes: List<CardScheme> = emptyList(),
-        private val cardHolderName: String = ""
+        private val prefillData: PrefillData? = null
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject
         lateinit var viewModel: PaymentFormViewModel
 
-        private lateinit var injector: Injector
+        @VisibleForTesting
+        lateinit var injector: Injector
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             injector = FramesInjector.create(
-                publicKey, context, environment, paymentFlowHandler, supportedCardSchemes, cardHolderName
+                publicKey, context, environment, paymentFlowHandler, supportedCardSchemes, prefillData
             )
 
             injector.inject(this)

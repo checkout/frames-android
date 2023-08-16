@@ -3,6 +3,7 @@ package com.checkout.frames.screen.manager
 import androidx.annotation.VisibleForTesting
 import com.checkout.base.model.CardScheme
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
+import com.checkout.frames.screen.paymentform.model.PrefillData
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 
 internal class PaymentFormStateManager(
     private val supportedCardSchemes: List<CardScheme>,
-    paymentFormCardHolderName: String
+    paymentFormPrefillData: PrefillData? = null
 ) : PaymentStateManager {
 
     override val cardNumber: MutableStateFlow<String> = MutableStateFlow("")
@@ -26,7 +27,7 @@ internal class PaymentFormStateManager(
     override val cvv: MutableStateFlow<String> = MutableStateFlow("")
     override val isCvvValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    override val cardHolderName = MutableStateFlow(paymentFormCardHolderName.ifEmpty { "" })
+    override val cardHolderName = MutableStateFlow(paymentFormPrefillData?.cardHolderName ?: "")
     override val isCardHolderNameValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())

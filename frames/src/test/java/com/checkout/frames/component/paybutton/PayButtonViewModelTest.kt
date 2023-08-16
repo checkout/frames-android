@@ -62,10 +62,7 @@ internal class PayButtonViewModelTest {
     private lateinit var spyButtonStateMapper: Mapper<ButtonStyle, InternalButtonState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
-        supportedCardSchemes = emptyList(),
-        paymentFormCardHolderName = ""
-    )
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
 
     private val dispatcher = StandardTestDispatcher()
     private val capturedEvent = slot<LoggingEvent>()

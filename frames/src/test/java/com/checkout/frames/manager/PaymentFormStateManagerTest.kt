@@ -6,6 +6,7 @@ import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Country
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.manager.PaymentFormStateManager
+import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.tokenization.model.Phone
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -22,8 +23,7 @@ internal class PaymentFormStateManagerTest {
     fun `when custom supported card schemes is provided then supportedCardSchemeList should updated correctly `() {
         // Given
         paymentFormStateManager = PaymentFormStateManager(
-            supportedCardSchemes = listOf(CardScheme.AMERICAN_EXPRESS, CardScheme.MADA),
-            paymentFormCardHolderName = ""
+            supportedCardSchemes = listOf(CardScheme.AMERICAN_EXPRESS, CardScheme.MADA)
         )
         val expectedSupportedSchemes = listOf(CardScheme.AMERICAN_EXPRESS, CardScheme.MADA)
 
@@ -34,7 +34,10 @@ internal class PaymentFormStateManagerTest {
     @Test
     fun `when payment form cardHolderName is provided then cardHolderName should updated correctly`() {
         // Given
-        paymentFormStateManager = PaymentFormStateManager(emptyList(), paymentFormCardHolderName = "Test Name")
+        paymentFormStateManager = PaymentFormStateManager(
+            emptyList(),
+            paymentFormPrefillData = PrefillData("Test Name")
+        )
         val expectedTestName = "Test Name"
 
         // Then
@@ -44,10 +47,7 @@ internal class PaymentFormStateManagerTest {
     @Test
     fun `when custom supported card schemes isn't provided then checkout's all supportedCardSchemes should updated`() {
         // Given
-        paymentFormStateManager = PaymentFormStateManager(
-            supportedCardSchemes = emptyList(),
-            paymentFormCardHolderName = ""
-        )
+        paymentFormStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
         val expectedSupportedSchemes = CardScheme.fetchAllSupportedCardSchemes()
         // Then
         Assertions.assertEquals(paymentFormStateManager.supportedCardSchemeList, expectedSupportedSchemes)
@@ -69,10 +69,7 @@ internal class PaymentFormStateManagerTest {
         // Given
         val supportedSchemes = listOf(CardScheme.VISA, CardScheme.DISCOVER)
         val cardHolderName = ""
-        paymentFormStateManager = PaymentFormStateManager(
-            supportedCardSchemes = supportedSchemes,
-            paymentFormCardHolderName = cardHolderName
-        )
+        paymentFormStateManager = PaymentFormStateManager(supportedCardSchemes = supportedSchemes)
         paymentFormStateManager.cvv.value = "123"
         paymentFormStateManager.isCvvValid.value = !isCvvValid
         paymentFormStateManager.cardNumber.value = "23423423423423423"

@@ -32,7 +32,7 @@ internal class CardHolderNameViewModel @Inject constructor(
     // Needed to prevent validation on focus switch for initial component state
     private var wasFocused = false
 
-    fun prepare() {
+    init {
         componentState.cardHolderName.value = paymentStateManager.cardHolderName.value
     }
 

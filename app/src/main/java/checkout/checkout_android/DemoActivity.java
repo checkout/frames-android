@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.checkout.frames.api.PaymentFormMediator;
 import com.checkout.frames.api.PaymentFlowHandler;
-import com.checkout.frames.screen.paymentform.PaymentFormConfig;
+import com.checkout.frames.screen.paymentform.model.PaymentFormConfig;
 import com.checkout.frames.style.screen.PaymentFormStyle;
 import com.checkout.threedsecure.model.ThreeDSRequest;
 import com.checkout.threedsecure.model.ThreeDSResult;

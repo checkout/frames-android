@@ -53,10 +53,7 @@ internal class ExpiryDateViewModelTest {
     lateinit var spyInputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
-        supportedCardSchemes = emptyList(),
-        paymentFormCardHolderName = ""
-    )
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
 
     private var style: ExpiryDateComponentStyle = ExpiryDateComponentStyle(InputComponentStyle())
 

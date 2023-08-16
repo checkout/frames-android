@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.frames.screen.billingaddress.billingaddressform.BillingAddressFormScreen
 import com.checkout.frames.screen.navigation.Screen
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsScreen
+import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -25,7 +26,7 @@ internal fun PaymentFormScreen(config: PaymentFormConfig) {
             environment = config.environment,
             paymentFlowHandler = config.paymentFlowHandler,
             supportedCardSchemes = config.supportedCardSchemeList,
-            cardHolderName = config.cardHolderName ?: ""
+            prefillData = config.prefillData
         )
     )
 

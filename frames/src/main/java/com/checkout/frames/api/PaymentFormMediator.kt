@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.checkout.frames.screen.paymentform.PaymentFormConfig
+import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.PaymentFormScreen
 import com.checkout.logging.EventLoggerProvider
 import com.checkout.threedsecure.Executor
