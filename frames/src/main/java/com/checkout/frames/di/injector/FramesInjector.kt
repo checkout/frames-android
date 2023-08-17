@@ -23,6 +23,7 @@ import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
 import com.checkout.frames.api.PaymentFlowHandler
 import com.checkout.frames.component.cardholdername.CardHolderNameViewModel
+import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.frames.usecase.CardTokenizationUseCase
 import com.checkout.frames.usecase.ClosePaymentFlowUseCase
 import com.checkout.frames.utils.extensions.logEvent
@@ -54,7 +55,8 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             context: Context,
             environment: Environment,
             paymentFlowHandler: PaymentFlowHandler,
-            supportedCardSchemeList: List<CardScheme> = emptyList()
+            supportedCardSchemeList: List<CardScheme> = emptyList(),
+            prefillData: PrefillData? = null
         ): Injector {
             val logger = EventLoggerProvider.provide().apply {
                 setup(context, environment, BuildConfig.LOGGING_IDENTIFIER, BuildConfig.PRODUCT_VERSION)
@@ -73,6 +75,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
                     .cardTokenizationUseCase(cardTokenizationUseCase)
                     .closePaymentFlowUseCase(closePaymentFlowUseCase)
                     .supportedCardSchemes(supportedCardSchemeList)
+                    .prefillData(prefillData)
                     .build()
             )
         }

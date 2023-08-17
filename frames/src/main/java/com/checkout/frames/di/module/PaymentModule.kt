@@ -13,6 +13,7 @@ import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
+import com.checkout.frames.screen.paymentform.model.PrefillData
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -36,8 +37,9 @@ internal class PaymentModule {
         @Provides
         @Singleton
         fun paymentStateManager(
-            supportedCardSchemes: List<CardScheme>
+            supportedCardSchemes: List<CardScheme>,
+            prefillData: PrefillData?
         ): PaymentStateManager =
-            PaymentFormStateManager(supportedCardSchemes)
+            PaymentFormStateManager(supportedCardSchemes, prefillData)
     }
 }

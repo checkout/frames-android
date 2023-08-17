@@ -51,10 +51,7 @@ internal class CardHolderNameViewModelTest {
 
     @BeforeEach
     fun setUp() {
-        viewModel = CardHolderNameViewModel(
-            spyPaymentStateManager,
-            spyInputComponentStyleMapper, spyInputComponentStateMapper, style
-        )
+        initViewModel()
     }
 
     /** Initial state tests **/
@@ -111,6 +108,19 @@ internal class CardHolderNameViewModelTest {
 
         // Then
         assertTrue(spyPaymentStateManager.isCardHolderNameValid.value)
+    }
+
+    @Test
+    fun `when cardHolderName is already updated in paymentStateManager then cardHolderName in componentState is updated`() {
+        // Given
+        val expectedCardHolderName = "TestName"
+        spyPaymentStateManager.cardHolderName.value = expectedCardHolderName
+
+        // When
+        initViewModel()
+
+        // Then
+        assertEquals(expectedCardHolderName, viewModel.componentState.cardHolderName.value)
     }
 
     /** Validation related tests **/
@@ -182,6 +192,12 @@ internal class CardHolderNameViewModelTest {
     }
 
     private fun initPaymentStateManager() {
-        spyPaymentStateManager = PaymentFormStateManager(emptyList())
+        spyPaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    }
+
+    private fun initViewModel() {
+        viewModel = CardHolderNameViewModel(
+            spyPaymentStateManager, spyInputComponentStyleMapper, spyInputComponentStateMapper, style
+        )
     }
 }

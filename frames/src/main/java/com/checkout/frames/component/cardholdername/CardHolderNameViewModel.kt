@@ -32,6 +32,10 @@ internal class CardHolderNameViewModel @Inject constructor(
     // Needed to prevent validation on focus switch for initial component state
     private var wasFocused = false
 
+    init {
+        componentState.cardHolderName.value = paymentStateManager.cardHolderName.value
+    }
+
     /**
      * Make full card number validation, when focus switched to another view.
      */

@@ -16,10 +16,11 @@ import com.checkout.example.frames.paymentformstyling.CustomPaymentFormTheme
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.R
-import com.checkout.frames.screen.paymentform.PaymentFormConfig
+import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.frames.style.theme.paymentform.PaymentFormStyleProvider
 import com.checkout.tokenization.model.TokenDetails
 
@@ -71,7 +72,8 @@ fun Navigator(
 
     val customThemingPaymentFormMediator = PaymentFormMediator(
         defaultPaymentFormConfig.copy(
-            style = PaymentFormStyleProvider.provide(CustomPaymentFormTheme.providePaymentFormTheme())
+            style = PaymentFormStyleProvider.provide(CustomPaymentFormTheme.providePaymentFormTheme()),
+            prefillData = PrefillData(cardHolderName = "Test Name")
         )
     )
 

@@ -19,6 +19,7 @@ import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
 import com.checkout.frames.model.request.InternalCardTokenRequest
+import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
 import dagger.BindsInstance
@@ -63,6 +64,9 @@ internal abstract class FramesDIComponent {
 
         @BindsInstance
         fun supportedCardSchemes(supportedCardSchemeList: List<CardScheme>): Builder
+
+        @BindsInstance
+        fun prefillData(cardHolderName: PrefillData?): Builder
 
         fun build(): FramesDIComponent
     }
