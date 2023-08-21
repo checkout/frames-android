@@ -12,13 +12,19 @@ internal class PhoneEntityToPhoneDataMapperTest {
 
     @BeforeEach
     fun setUp() {
-        phoneEntityToPhoneDataMapper = PhoneEntityToPhoneDataMapper()
+        phoneEntityToPhoneDataMapper = PhoneEntityToPhoneDataMapper("GB")
     }
 
     @Test
     fun `mapping of PhoneEntity to Phone data`() {
         // Given
-        val expectedPhoneData = Phone("4155552671", Country.getCountryFromDialingCode("44"))
+        val expectedPhoneData = Phone(
+            number = "4155552671",
+            country = Country.getCountry(
+                dialingCode = "44",
+                iso3166Alpha2 = "GB"
+            )
+        )
 
         // When
         val actualPhoneData = phoneEntityToPhoneDataMapper.map(CardTokenTestData.phoneEntity)

@@ -38,7 +38,7 @@ internal class CardTokenizationNetworkDataMapper : TokenizationNetworkDataMapper
             productId = result.productId,
             productType = result.productType,
             billingAddress = result.billingAddress?.let { AddressEntityToAddressDataMapper().map(it) },
-            phone = result.phone?.let { PhoneEntityToPhoneDataMapper().map(it) },
+            phone = result.phone?.let { PhoneEntityToPhoneDataMapper(result.billingAddress?.country).map(it) },
             name = result.name
         )
 }
