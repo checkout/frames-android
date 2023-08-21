@@ -8,10 +8,10 @@ import com.checkout.tokenization.entity.PhoneEntity
 /**
  * Mapping of [PhoneEntity] to [Phone]
  */
-internal class PhoneEntityToPhoneDataMapper : Mapper<PhoneEntity, Phone> {
+internal class PhoneEntityToPhoneDataMapper(private val iso3166Alpha2: String? = null) : Mapper<PhoneEntity, Phone> {
 
     override fun map(from: PhoneEntity): Phone = Phone(
         from.number,
-        Country.getCountryFromDialingCode(from.countryCode),
+        Country.getCountry(from.countryCode, iso3166Alpha2)
     )
 }

@@ -270,9 +270,10 @@ public enum class Country(
             return country ?: INVALID_COUNTRY
         }
 
-        internal fun getCountryFromDialingCode(dialingCode: String): Country {
-            val country: Country? = values().firstOrNull {
-                it.dialingCode.equals(dialingCode, true)
+        internal fun getCountry(dialingCode: String, iso3166Alpha2: String?): Country {
+            val country: Country? = values().firstOrNull { country ->
+                country.dialingCode.equals(dialingCode, true) &&
+                        country.iso3166Alpha2.equals(iso3166Alpha2, true)
             }
 
             return country ?: INVALID_COUNTRY
