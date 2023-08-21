@@ -2,6 +2,7 @@ package com.checkout.frames.component.cardscheme
 
 import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
@@ -36,7 +37,10 @@ internal class CardSchemeViewModelTest {
     lateinit var spyImageStyleToComposableImageMapper: ImageStyleToComposableImageMapper
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+    )
 
     private var style: CardSchemeComponentStyle = CardSchemeComponentStyle()
 

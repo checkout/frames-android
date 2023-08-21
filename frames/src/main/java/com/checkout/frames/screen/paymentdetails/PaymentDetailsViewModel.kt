@@ -16,11 +16,13 @@ import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
 import com.checkout.frames.logging.PaymentFormEventType
 import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
 import com.checkout.frames.model.request.ImageStyleToClickableImageRequest
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
+import com.checkout.frames.utils.extensions.isValid
 import com.checkout.frames.utils.extensions.logEvent
 import com.checkout.frames.utils.extensions.logEventWithLocale
 import com.checkout.frames.view.TextLabelState
@@ -39,7 +41,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
     private val clickableImageStyleMapper: ImageStyleToClickableComposableImageMapper,
     @Named(CLOSE_PAYMENT_FLOW_DI)
     private val closePaymentFlowUseCase: UseCase<Unit, Unit>,
-    paymentStateManager: PaymentStateManager,
+    private val paymentStateManager: PaymentStateManager,
     private val logger: Logger<LoggingEvent>,
     private val style: PaymentDetailsStyle
 ) : ViewModel() {
@@ -51,8 +53,8 @@ internal class PaymentDetailsViewModel @Inject constructor(
     init {
         val isCvvValidByDefault = style.cvvStyle == null
         val isCardHolderNameValidByDefault = style.cardHolderNameStyle?.inputStyle?.isInputFieldOptional ?: true
-        val isBillingAddressValidByDefault = style.addressSummaryStyle?.isOptional ?: true
         val isBillingAddressValidEnabled = style.addressSummaryStyle != null
+        val isBillingAddressValidByDefault = provideIsBillingAddressValid()
         paymentStateManager.resetPaymentState(
             isCvvValidByDefault,
             isCardHolderNameValidByDefault,
@@ -60,6 +62,15 @@ internal class PaymentDetailsViewModel @Inject constructor(
             isBillingAddressValidEnabled
         )
         logger.logEventWithLocale(PaymentFormEventType.PRESENTED)
+    }
+
+    internal fun provideIsBillingAddressValid(): Boolean {
+        val isBillingAddressPrefilled =
+            style.addressSummaryStyle != null &&
+                    paymentStateManager.billingAddress.value.isEdited() &&
+                    paymentStateManager.billingAddress.value.isValid()
+
+        return if (isBillingAddressPrefilled) true else style.addressSummaryStyle?.isOptional ?: true
     }
 
     @VisibleForTesting

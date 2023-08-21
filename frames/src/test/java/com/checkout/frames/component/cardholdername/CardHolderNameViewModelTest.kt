@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
@@ -192,7 +193,10 @@ internal class CardHolderNameViewModelTest {
     }
 
     private fun initPaymentStateManager() {
-        spyPaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+        spyPaymentStateManager = PaymentFormStateManager(
+            supportedCardSchemes = emptyList(),
+            billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        )
     }
 
     private fun initViewModel() {

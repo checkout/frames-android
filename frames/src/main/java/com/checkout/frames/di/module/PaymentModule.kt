@@ -11,6 +11,7 @@ import com.checkout.frames.di.component.CountryViewModelSubComponent
 import com.checkout.frames.di.component.CvvViewModelSubComponent
 import com.checkout.frames.di.component.ExpiryDateViewModelSubComponent
 import com.checkout.frames.di.screen.PaymentDetailsViewModelSubComponent
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.screen.paymentform.model.PrefillData
@@ -32,6 +33,7 @@ import javax.inject.Singleton
         AddressSummaryViewModelSubComponent::class
     ]
 )
+
 internal class PaymentModule {
     companion object {
         @Provides
@@ -40,6 +42,6 @@ internal class PaymentModule {
             supportedCardSchemes: List<CardScheme>,
             prefillData: PrefillData?
         ): PaymentStateManager =
-            PaymentFormStateManager(supportedCardSchemes, prefillData)
+            PaymentFormStateManager(supportedCardSchemes, prefillData, BillingFormAddressToBillingAddressMapper())
     }
 }

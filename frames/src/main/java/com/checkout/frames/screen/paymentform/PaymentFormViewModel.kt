@@ -1,7 +1,6 @@
 package com.checkout.frames.screen.paymentform
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.checkout.base.model.CardScheme
@@ -29,7 +28,6 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         @Inject
         lateinit var viewModel: PaymentFormViewModel
 
-        @VisibleForTesting
         lateinit var injector: Injector
 
         @Suppress("UNCHECKED_CAST")

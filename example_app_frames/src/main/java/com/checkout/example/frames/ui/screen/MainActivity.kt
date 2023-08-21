@@ -15,6 +15,7 @@ import com.checkout.example.frames.paymentformstyling.CustomPaymentDetailsStyle
 import com.checkout.example.frames.paymentformstyling.CustomPaymentFormTheme
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
+import com.checkout.example.frames.ui.utils.PrefillDataHelper
 import com.checkout.frames.R
 import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.api.PaymentFormMediator
@@ -37,6 +38,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 fun Navigator(
     context: Context,
@@ -66,7 +68,8 @@ fun Navigator(
             CardScheme.MASTERCARD,
             CardScheme.MAESTRO,
             CardScheme.AMERICAN_EXPRESS
-        )
+        ),
+        prefillData = PrefillDataHelper.prefillData
     )
     val defaultPaymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
 
@@ -87,6 +90,11 @@ fun Navigator(
                 CardScheme.VISA,
                 CardScheme.MASTERCARD,
                 CardScheme.AMERICAN_EXPRESS
+            ),
+            prefillData = PrefillDataHelper.prefillData.copy(
+                billingFormAddress = PrefillDataHelper.prefillData.billingFormAddress?.copy(
+                    name = "Test name"
+                )
             )
         )
     )

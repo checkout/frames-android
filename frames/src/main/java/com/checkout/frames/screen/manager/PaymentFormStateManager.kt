@@ -1,8 +1,10 @@
 package com.checkout.frames.screen.manager
 
 import androidx.annotation.VisibleForTesting
+import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.CardScheme
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
+import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 import com.checkout.frames.screen.paymentform.model.PrefillData
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +15,8 @@ import kotlinx.coroutines.flow.stateIn
 
 internal class PaymentFormStateManager(
     private val supportedCardSchemes: List<CardScheme>,
-    paymentFormPrefillData: PrefillData? = null
+    private val paymentFormPrefillData: PrefillData? = null,
+    private val billingFormAddressToBillingAddressMapper: Mapper<BillingFormAddress?, BillingAddress>
 ) : PaymentStateManager {
 
     override val cardNumber: MutableStateFlow<String> = MutableStateFlow("")
@@ -30,7 +33,8 @@ internal class PaymentFormStateManager(
     override val cardHolderName = MutableStateFlow(paymentFormPrefillData?.cardHolderName ?: "")
     override val isCardHolderNameValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(BillingAddress())
+    override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(provideBillingFormAddress())
+
     override val isBillingAddressValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isBillingAddressEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val visitedCountryPicker: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -54,7 +58,6 @@ internal class PaymentFormStateManager(
         cvv.value = ""
         this.isCvvValid.value = isCvvValid
         this.isCardHolderNameValid.value = isCardHolderNameValid
-        billingAddress.value = BillingAddress()
         visitedCountryPicker.value = false
         this.isBillingAddressValid.value = isBillingAddressValid
         this.isBillingAddressEnabled.value = isBillingAddressEnabled
@@ -65,12 +68,11 @@ internal class PaymentFormStateManager(
         CardScheme.fetchAllSupportedCardSchemes()
     }
 
+    private fun provideBillingFormAddress() = paymentFormPrefillData?.billingFormAddress?.let {
+        billingFormAddressToBillingAddressMapper.map(it)
+    } ?: BillingAddress()
+
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
-        isCardNumberValid,
-        isExpiryDateValid,
-        isCardHolderNameValid,
-        isCvvValid,
-        isBillingAddressValid
-    ) { values -> values.all { it } }
-        .stateIn(MainScope(), SharingStarted.Lazily, false)
+        isCardNumberValid, isExpiryDateValid, isCardHolderNameValid, isCvvValid, isBillingAddressValid
+    ) { values -> values.all { it } }.stateIn(MainScope(), SharingStarted.Lazily, false)
 }

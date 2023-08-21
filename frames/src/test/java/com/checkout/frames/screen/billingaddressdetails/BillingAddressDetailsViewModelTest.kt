@@ -10,6 +10,7 @@ import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentState
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.logging.BillingFormEventType
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
@@ -75,7 +76,10 @@ internal class BillingAddressDetailsViewModelTest {
     lateinit var mockLogger: Logger<LoggingEvent>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+    )
 
     @SpyK
     lateinit var spyTextLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>

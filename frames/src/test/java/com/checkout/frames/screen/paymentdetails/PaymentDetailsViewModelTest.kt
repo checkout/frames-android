@@ -13,6 +13,9 @@ import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mock.PaymentFormConfigTestData
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
@@ -20,6 +23,7 @@ import com.checkout.frames.style.component.default.DefaultCardHolderNameComponen
 import com.checkout.frames.style.component.default.DefaultLightStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
+import com.checkout.frames.utils.extensions.isValid
 import com.checkout.frames.view.TextLabelState
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
@@ -81,6 +85,7 @@ internal class PaymentDetailsViewModelTest {
     fun setUp() {
         every { mockLogger.log(capture(capturedEvent)) } returns Unit
         every { mockClosePaymentFlowUseCase.execute(Unit) } returns Unit
+        every { mockPaymentStateManager.billingAddress.value } returns BillingAddress()
 
         initViewModel(style)
     }
@@ -133,6 +138,28 @@ internal class PaymentDetailsViewModelTest {
         // Then
         verify(exactly = 1) { mockClosePaymentFlowUseCase.execute(Unit) }
         assertEquals(PaymentFormEventType.CANCELED.eventId, capturedEvent.captured.typeIdentifier)
+    }
+
+    @Test
+    fun `when view model is initialised then provideIsBillingAddressValid function should provide correct values`() {
+        // Given
+        val expectedIsBillingAddressEdited = true
+        val expectedIsBillingAddressValid = true
+        val expectedIsBillingAddressValidByDefault = true
+        every { mockPaymentStateManager.billingAddress.value } returns BillingAddress(
+            address = PaymentFormConfigTestData.address,
+            name = "Test name",
+            phone = PaymentFormConfigTestData.phone
+        )
+
+        // When
+        initViewModel(style)
+
+        // Then
+        assertEquals(expectedIsBillingAddressEdited, mockPaymentStateManager.billingAddress.value.isEdited())
+        assertEquals(expectedIsBillingAddressValid, mockPaymentStateManager.billingAddress.value.isValid())
+        assertEquals(true, style.addressSummaryStyle != null)
+        assertEquals(expectedIsBillingAddressValidByDefault, viewModel.provideIsBillingAddressValid())
     }
 
     @ParameterizedTest(

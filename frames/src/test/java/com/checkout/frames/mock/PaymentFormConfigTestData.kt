@@ -13,7 +13,8 @@ import com.checkout.tokenization.model.TokenDetails
 internal object PaymentFormConfigTestData {
 
     private val country = Country.from(iso3166Alpha2 = "GB")
-    private val address = Address(
+
+    val address = Address(
         addressLine1 = "Checkout.com",
         addressLine2 = "90 Tottenham Court Road",
         city = "London",
@@ -21,7 +22,8 @@ internal object PaymentFormConfigTestData {
         zip = "W1T 4TJ",
         country = country
     )
-    private val phone = Phone("4155552671", country)
+
+    val phone = Phone("4155552671", country)
     private val billingFormAddress = BillingFormAddress(
         name = "Test Billing Address name", address = address, phone = phone
     )

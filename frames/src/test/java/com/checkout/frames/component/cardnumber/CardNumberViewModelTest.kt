@@ -7,6 +7,7 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.CardScheme
 import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
@@ -57,7 +58,10 @@ internal class CardNumberViewModelTest {
     lateinit var spyDynamicImageMapper: ImageStyleToDynamicComposableImageMapper
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+    )
 
     private var style: CardNumberComponentStyle = CardNumberComponentStyle()
 
