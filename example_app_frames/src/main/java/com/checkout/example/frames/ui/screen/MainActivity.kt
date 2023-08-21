@@ -9,23 +9,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.checkout.base.model.CardScheme
-import com.checkout.base.model.Country
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.paymentformstyling.CustomBillingFormStyle
 import com.checkout.example.frames.paymentformstyling.CustomPaymentDetailsStyle
 import com.checkout.example.frames.paymentformstyling.CustomPaymentFormTheme
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
+import com.checkout.example.frames.ui.utils.PrefillDataHelper
 import com.checkout.frames.R
 import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.api.PaymentFlowHandler
-import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.frames.style.theme.paymentform.PaymentFormStyleProvider
-import com.checkout.tokenization.model.Address
-import com.checkout.tokenization.model.Phone
 import com.checkout.tokenization.model.TokenDetails
 
 class MainActivity : ComponentActivity() {
@@ -72,20 +69,7 @@ fun Navigator(
             CardScheme.MAESTRO,
             CardScheme.AMERICAN_EXPRESS
         ),
-        prefillData = PrefillData(
-            cardHolderName = "Test Name",
-            billingFormAddress = BillingFormAddress(
-                address = Address(
-                    addressLine1 = "Checkout.com",
-                    addressLine2 = "90 Tottenham Court Road",
-                    city = "London",
-                    state = "London",
-                    zip = "W1T 4TJ",
-                    country = Country.from(iso3166Alpha2 = "GB")
-                ),
-                phone = Phone("7405987323", Country.UNITED_KINGDOM)
-            )
-        )
+        prefillData = PrefillDataHelper.prefillData
     )
     val defaultPaymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
 
@@ -107,18 +91,9 @@ fun Navigator(
                 CardScheme.MASTERCARD,
                 CardScheme.AMERICAN_EXPRESS
             ),
-            prefillData = PrefillData(
-                billingFormAddress = BillingFormAddress(
-                    name = "Test name",
-                    address = Address(
-                        addressLine1 = "Checkout.com",
-                        addressLine2 = "90 Tottenham Court Road",
-                        city = "London",
-                        state = "London",
-                        zip = "W1T 4TJ",
-                        country = Country.from(iso3166Alpha2 = "GB")
-                    ),
-                    phone = Phone("7405987323", Country.UNITED_KINGDOM)
+            prefillData = PrefillDataHelper.prefillData.copy(
+                billingFormAddress = PrefillDataHelper.prefillData.billingFormAddress?.copy(
+                    name = "Test name"
                 )
             )
         )
