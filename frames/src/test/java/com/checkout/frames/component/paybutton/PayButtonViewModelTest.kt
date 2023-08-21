@@ -5,6 +5,7 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.logging.PaymentFormEventType
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
@@ -62,7 +63,10 @@ internal class PayButtonViewModelTest {
     private lateinit var spyButtonStateMapper: Mapper<ButtonStyle, InternalButtonState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+    )
 
     private val dispatcher = StandardTestDispatcher()
     private val capturedEvent = slot<LoggingEvent>()

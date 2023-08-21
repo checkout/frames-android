@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
 import com.checkout.frames.component.base.InputComponentState
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
@@ -46,7 +47,10 @@ internal class CountryViewModelTest {
     lateinit var spyInputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+    )
 
     private lateinit var viewModel: CountryViewModel
     private var style = CountryComponentStyle()

@@ -8,6 +8,7 @@ import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.component.expirydate.model.SmartExpiryDateValidationRequest
 import com.checkout.frames.component.expirydate.usecase.SmartExpiryDateValidationUseCase
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
@@ -53,7 +54,10 @@ internal class ExpiryDateViewModelTest {
     lateinit var spyInputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+    )
 
     private var style: ExpiryDateComponentStyle = ExpiryDateComponentStyle(InputComponentStyle())
 

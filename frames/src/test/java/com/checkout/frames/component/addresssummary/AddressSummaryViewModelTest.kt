@@ -3,6 +3,7 @@ package com.checkout.frames.component.addresssummary
 import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
@@ -14,8 +15,10 @@ import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToS
 import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummarySectionStyleToViewStyleMapper
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
+import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
@@ -44,7 +47,10 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class AddressSummaryViewModelTest {
 
     @SpyK
-    var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    private lateinit var spyBillingFormAddressToBillingAddressMapper: Mapper<BillingFormAddress?, BillingAddress>
+
+    @SpyK
+    private var spyPaymentStateManager: PaymentStateManager
 
     @SpyK
     lateinit var spyComponentStateMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState>
@@ -58,6 +64,10 @@ internal class AddressSummaryViewModelTest {
 
     init {
         initMappers()
+        spyPaymentStateManager = PaymentFormStateManager(
+            supportedCardSchemes = emptyList(),
+            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper
+        )
     }
 
     @BeforeEach
@@ -102,6 +112,8 @@ internal class AddressSummaryViewModelTest {
     fun `when address in payment state manager is changed then address summary is updated`() = runTest {
         // Given
         val country = Country.UNITED_KINGDOM
+        val isBillingAddressEdited = true
+        spyPaymentStateManager.isBillingAddressEnabled.value = true
         val testAddress = BillingAddress(
             address = Address(
                 "LINE 1",
@@ -114,19 +126,35 @@ internal class AddressSummaryViewModelTest {
             phone = Phone("123", country)
         )
         val expectedAddressPreview = "LINE 1\nLINE 2\nssdfsdf\nUnited Kingdom\n+44 123"
-
-        viewModel.prepare()
+        spyPaymentStateManager.billingAddress.value = testAddress
 
         // When
-        spyPaymentStateManager.billingAddress.value = testAddress
-        spyPaymentStateManager.isBillingAddressValid.value = true
+        viewModel.prepare()
         testScheduler.advanceUntilIdle()
 
         // Then
+        assertEquals(isBillingAddressEdited, spyPaymentStateManager.billingAddress.value.isEdited())
+        assertEquals(expectedAddressPreview, viewModel.componentState.addressPreviewState.text.value)
+    }
+
+    @Test
+    fun `when address in payment state manager is not changed then address summary should be blank`() = runTest {
+        // Given
+        val isBillingAddressEdited = false
+        val expectedAddressPreview = ""
+        spyPaymentStateManager.isBillingAddressEnabled.value = false
+
+        // When
+        viewModel.prepare()
+        testScheduler.advanceUntilIdle()
+
+        // Then
+        assertEquals(isBillingAddressEdited, spyPaymentStateManager.billingAddress.value.isEdited())
         assertEquals(expectedAddressPreview, viewModel.componentState.addressPreviewState.text.value)
     }
 
     private fun initMappers() {
+        spyBillingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
         val textLabelStateMapper = TextLabelStyleToStateMapper(ImageStyleToComposableImageMapper())
         val containerMapper = ContainerStyleToModifierMapper()
         val textLabelStyleMapper = TextLabelStyleToViewStyleMapper(containerMapper)

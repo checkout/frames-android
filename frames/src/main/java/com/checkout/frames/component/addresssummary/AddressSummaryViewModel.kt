@@ -7,6 +7,7 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.frames.di.base.InjectionClient
 import com.checkout.frames.di.base.Injector
 import com.checkout.frames.di.component.AddressSummaryViewModelSubComponent
+import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
 import com.checkout.frames.style.view.addresssummary.AddressSummaryComponentViewStyle
@@ -16,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 internal class AddressSummaryViewModel @Inject constructor(
-    private val style: AddressSummaryComponentStyle,
+    style: AddressSummaryComponentStyle,
     private val paymentStateManager: PaymentStateManager,
     private val componentStateMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState>,
     private val componentStyleMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentViewStyle>
@@ -28,7 +29,11 @@ internal class AddressSummaryViewModel @Inject constructor(
     fun prepare() = viewModelScope.launch {
         paymentStateManager.billingAddress.collect { billingAddress ->
             componentState.addressPreviewState.text.value =
-                if (paymentStateManager.isBillingAddressValid.value) billingAddress.summary() else ""
+                if (paymentStateManager.billingAddress.value.isEdited() &&
+                    paymentStateManager.isBillingAddressEnabled.value
+                )
+                    billingAddress.summary()
+                else ""
         }
     }
 

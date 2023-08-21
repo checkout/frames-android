@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
+import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
@@ -29,7 +30,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -58,7 +58,10 @@ internal class CountryPickerViewModelTest {
     lateinit var spyDynamicImageMapper: ImageStyleToDynamicComposableImageMapper
 
     @SpyK
-    var paymentStateManager: PaymentStateManager = PaymentFormStateManager(supportedCardSchemes = emptyList())
+    var paymentStateManager: PaymentStateManager = PaymentFormStateManager(
+        supportedCardSchemes = emptyList(),
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+    )
 
     private val style: CountryPickerStyle = CountryPickerStyle()
     private lateinit var viewModel: CountryPickerViewModel
