@@ -42,6 +42,8 @@ internal class PaymentModule {
             supportedCardSchemes: List<CardScheme>,
             prefillData: PrefillData?
         ): PaymentStateManager =
-            PaymentFormStateManager(supportedCardSchemes, prefillData, BillingFormAddressToBillingAddressMapper())
+            PaymentFormStateManager(
+                supportedCardSchemes, prefillData, BillingFormAddressToBillingAddressMapper.INSTANCE
+            )
     }
 }

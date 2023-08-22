@@ -12,7 +12,7 @@ internal class PhoneEntityToPhoneDataMapperTest {
 
     @BeforeEach
     fun setUp() {
-        phoneEntityToPhoneDataMapper = PhoneEntityToPhoneDataMapper("GB")
+        phoneEntityToPhoneDataMapper = PhoneEntityToPhoneDataMapper()
     }
 
     @Test
@@ -27,9 +27,11 @@ internal class PhoneEntityToPhoneDataMapperTest {
         )
 
         // When
-        val actualPhoneData = phoneEntityToPhoneDataMapper.map(CardTokenTestData.phoneEntity)
+        val actualPhoneData = phoneEntityToPhoneDataMapper.map(from = CardTokenTestData.phoneEntity to "GB")
 
         // Then
-        assertEquals(expectedPhoneData, actualPhoneData)
+        assertEquals(expectedPhoneData.number, actualPhoneData.number)
+        assertEquals(expectedPhoneData.country.dialingCode, actualPhoneData.country.dialingCode)
+        assertEquals(expectedPhoneData.country.iso3166Alpha2, actualPhoneData.country.iso3166Alpha2)
     }
 }

@@ -52,7 +52,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
 
     init {
         val isCvvValidByDefault = style.cvvStyle == null
-        val isCardHolderNameValidByDefault = style.cardHolderNameStyle?.inputStyle?.isInputFieldOptional ?: true
+        val isCardHolderNameValidByDefault = provideIsCardHolderNameValid()
         val isBillingAddressValidEnabled = style.addressSummaryStyle != null
         val isBillingAddressValidByDefault = provideIsBillingAddressValid()
         paymentStateManager.resetPaymentState(
@@ -62,6 +62,13 @@ internal class PaymentDetailsViewModel @Inject constructor(
             isBillingAddressValidEnabled
         )
         logger.logEventWithLocale(PaymentFormEventType.PRESENTED)
+    }
+
+    internal fun provideIsCardHolderNameValid(): Boolean {
+        val isCardHolderNamePrefilled =
+            paymentStateManager.cardHolderName.value.isNotBlank() && style.cardHolderNameStyle != null
+        return if (isCardHolderNamePrefilled) true else style.cardHolderNameStyle?.inputStyle?.isInputFieldOptional
+            ?: true
     }
 
     internal fun provideIsBillingAddressValid(): Boolean {
