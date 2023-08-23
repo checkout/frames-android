@@ -20,7 +20,6 @@ import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.default.DefaultCardHolderNameComponentStyle
-import com.checkout.frames.style.component.default.DefaultLightStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.utils.extensions.isValid
@@ -35,7 +34,6 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.amshove.kluent.internal.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -86,6 +84,7 @@ internal class PaymentDetailsViewModelTest {
         every { mockLogger.log(capture(capturedEvent)) } returns Unit
         every { mockClosePaymentFlowUseCase.execute(Unit) } returns Unit
         every { mockPaymentStateManager.billingAddress.value } returns BillingAddress()
+        every { mockPaymentStateManager.cardHolderName.value } returns ""
 
         initViewModel(style)
     }
@@ -162,6 +161,41 @@ internal class PaymentDetailsViewModelTest {
         assertEquals(expectedIsBillingAddressValidByDefault, viewModel.provideIsBillingAddressValid())
     }
 
+    @Test
+    fun `when view model is initialised with default style then provideIsCardHolderNameValid function should provide correct values`() {
+        // Given
+        val expectedIsCardHolderNameNotBlank = true
+        val expectedIsCardHolderNameValidByDefault = true
+        every { mockPaymentStateManager.cardHolderName.value } returns "Test name"
+
+        // When
+        initViewModel(style)
+
+        // Then
+        assertEquals(expectedIsCardHolderNameNotBlank, mockPaymentStateManager.cardHolderName.value.isNotBlank())
+        assertEquals(true, style.cardHolderNameStyle != null)
+        assertEquals(expectedIsCardHolderNameValidByDefault, viewModel.provideIsCardHolderNameValid())
+    }
+
+    @Test
+    fun `when view model is initialised with mandatory cardHolderName style then provideIsCardHolderNameValid function should provide correct values`() {
+        // Given
+        val expectedIsCardHolderNameNotBlank = false
+        val expectedIsCardHolderNameValidByDefault = false
+        every { mockPaymentStateManager.cardHolderName.value } returns ""
+        val style = PaymentDetailsStyle().apply {
+            cardHolderNameStyle = DefaultCardHolderNameComponentStyle.light(isOptional = false)
+        }
+
+        // When
+        initViewModel(style)
+
+        // Then
+        assertEquals(expectedIsCardHolderNameNotBlank, mockPaymentStateManager.cardHolderName.value.isNotBlank())
+        assertEquals(true, style.cardHolderNameStyle != null)
+        assertEquals(expectedIsCardHolderNameValidByDefault, viewModel.provideIsCardHolderNameValid())
+    }
+
     @ParameterizedTest(
         name = "When view model initialised with: cvvComponentStyle is null = {0}, " +
                 "CardHolderNameComponentStyle is null = {1}, \"CardHolderNameComponentStyle is optional = {2} " +
@@ -183,13 +217,10 @@ internal class PaymentDetailsViewModelTest {
         // Given
         val style = PaymentDetailsStyle().apply {
             if (isCvvStyleNull) cvvStyle = null
-            if (isCardHolderNameStyleNull) cardHolderNameStyle = null
-            cardHolderNameStyle = if (isCardHolderNameStyleNull) null else DefaultCardHolderNameComponentStyle.light()
-                .copy(
-                    inputStyle = DefaultLightStyle.inputComponentStyle().copy(
-                        isInputFieldOptional = isCardHolderNameOptional
-                    )
-                )
+
+            cardHolderNameStyle = if (isCardHolderNameStyleNull) null
+            else DefaultCardHolderNameComponentStyle.light(isOptional = isCardHolderNameOptional)
+
             addressSummaryStyle =
                 if (isAddressStyleNull) null else addressSummaryStyle?.copy(isOptional = isAddressOptional)
         }

@@ -93,8 +93,9 @@ internal class CardTokenizationNetworkDataMapperTest {
                 productId = "F",
                 productType = "CLASSIC",
                 billingAddress = AddressEntityToAddressDataMapper().map(CardTokenTestData.addressEntity),
-                phone = PhoneEntityToPhoneDataMapper(CardTokenTestData.addressEntity.country)
-                    .map(CardTokenTestData.phoneEntity),
+                phone = PhoneEntityToPhoneDataMapper().map(
+                    from = CardTokenTestData.phoneEntity to CardTokenTestData.addressEntity.country
+                ),
                 name = "Bruce Wayne"
             )
 

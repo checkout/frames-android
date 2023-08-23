@@ -9,7 +9,9 @@ import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
 import io.mockk.junit5.MockKExtension
 import org.amshove.kluent.internal.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -39,6 +41,15 @@ internal class BillingFormAddressToBillingAddressMapperTest {
 
         // Then
         assertEquals(expectedBillingAddress, actualBillingAddress)
+    }
+
+    @Test
+    fun `test lazy initialization of BillingFormAddressToBillingAddressMapper`() {
+        // When
+        val mapperInstance = BillingFormAddressToBillingAddressMapper.INSTANCE
+
+        // Then
+        assertNotNull(mapperInstance)
     }
 
     companion object {

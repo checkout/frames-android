@@ -9,4 +9,8 @@ internal class BillingFormAddressToBillingAddressMapper : Mapper<BillingFormAddr
     override fun map(from: BillingFormAddress?) = BillingAddress(
         name = from?.name, phone = from?.phone, address = from?.address ?: BillingAddress().address
     )
+
+    internal companion object {
+        internal val INSTANCE by lazy { BillingFormAddressToBillingAddressMapper() }
+    }
 }
