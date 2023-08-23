@@ -67,8 +67,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
     internal fun provideIsCardHolderNameValid(): Boolean {
         val isCardHolderNamePrefilled =
             paymentStateManager.cardHolderName.value.isNotBlank() && style.cardHolderNameStyle != null
-        return if (isCardHolderNamePrefilled) true else style.cardHolderNameStyle?.inputStyle?.isInputFieldOptional
-            ?: true
+         return isCardHolderNamePrefilled || style.cardHolderNameStyle?.inputStyle?.isInputFieldOptional ?: true
     }
 
     internal fun provideIsBillingAddressValid(): Boolean {

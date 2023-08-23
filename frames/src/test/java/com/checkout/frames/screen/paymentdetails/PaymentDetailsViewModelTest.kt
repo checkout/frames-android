@@ -162,10 +162,10 @@ internal class PaymentDetailsViewModelTest {
     }
 
     @Test
-    fun `when view model is initialised then provideIsCardHolderNameValid function should provide correct values`() {
+    fun `when view model is initialised with default style then provideIsCardHolderNameValid function should provide correct values`() {
         // Given
         val expectedIsCardHolderNameNotBlank = true
-        val expectedIsCardHolderNameDefault = true
+        val expectedIsCardHolderNameValidByDefault = true
         every { mockPaymentStateManager.cardHolderName.value } returns "Test name"
 
         // When
@@ -174,7 +174,26 @@ internal class PaymentDetailsViewModelTest {
         // Then
         assertEquals(expectedIsCardHolderNameNotBlank, mockPaymentStateManager.cardHolderName.value.isNotBlank())
         assertEquals(true, style.cardHolderNameStyle != null)
-        assertEquals(expectedIsCardHolderNameDefault, viewModel.provideIsCardHolderNameValid())
+        assertEquals(expectedIsCardHolderNameValidByDefault, viewModel.provideIsCardHolderNameValid())
+    }
+
+    @Test
+    fun `when view model is initialised with mandatory cardHolderName style then provideIsCardHolderNameValid function should provide correct values`() {
+        // Given
+        val expectedIsCardHolderNameNotBlank = false
+        val expectedIsCardHolderNameValidByDefault = false
+        every { mockPaymentStateManager.cardHolderName.value } returns ""
+        val style = PaymentDetailsStyle().apply {
+            cardHolderNameStyle = DefaultCardHolderNameComponentStyle.light(isOptional = false)
+        }
+
+        // When
+        initViewModel(style)
+
+        // Then
+        assertEquals(expectedIsCardHolderNameNotBlank, mockPaymentStateManager.cardHolderName.value.isNotBlank())
+        assertEquals(true, style.cardHolderNameStyle != null)
+        assertEquals(expectedIsCardHolderNameValidByDefault, viewModel.provideIsCardHolderNameValid())
     }
 
     @ParameterizedTest(

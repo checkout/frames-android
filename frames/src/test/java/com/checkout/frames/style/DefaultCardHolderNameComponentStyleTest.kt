@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class DefaultCardHolderNameComponentStyleTest {
 
-    lateinit var style: CardHolderNameComponentStyle
+   private lateinit var style: CardHolderNameComponentStyle
 
     @Test
     fun `when DefaultCardHolderNameComponentStyle is requested with isOptional true then correct style data should load`() {
