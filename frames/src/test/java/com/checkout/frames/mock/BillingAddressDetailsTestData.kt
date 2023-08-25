@@ -39,7 +39,7 @@ internal object BillingAddressDetailsTestData {
             inputComponentState = InputComponentState()
         )
 
-        val countyState = BillingAddressInputComponentState(
+        val provinceState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.State.name,
             isAddressFieldValid = MutableStateFlow(false),
             inputComponentState = InputComponentState()
@@ -63,11 +63,20 @@ internal object BillingAddressDetailsTestData {
             inputComponentState = InputComponentState()
         )
 
+        // update state text
+        cardHolderNameState.addressFieldText.value = "Cardholder name"
+        addressLineOneState.addressFieldText.value = "address line one"
+        addressLineTwoState.addressFieldText.value = "address line two"
+        cityState.addressFieldText.value = "city"
+        provinceState.addressFieldText.value = "dummy state"
+        postCodeState.addressFieldText.value = "post code"
+        phoneState.addressFieldText.value = "9426979314"
+
         inputComponentStateList.add(cardHolderNameState)
         inputComponentStateList.add(addressLineOneState)
         inputComponentStateList.add(addressLineTwoState)
         inputComponentStateList.add(cityState)
-        inputComponentStateList.add(countyState)
+        inputComponentStateList.add(provinceState)
         inputComponentStateList.add(postCodeState)
         inputComponentStateList.add(phoneState)
         inputComponentStateList.add(countryState)

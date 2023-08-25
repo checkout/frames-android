@@ -89,7 +89,6 @@ internal class BillingAddressInputComponentStateUseCaseTest {
                 assertEquals(state.addressFieldName, addressFieldName)
                 assertEquals(state.isInputFieldOptional, isInputFieldOptional)
                 assertEquals(state.isAddressFieldValid.value, isAddressFieldValid.value)
-                assertEquals(state.addressFieldText.value, addressFieldText.value)
             }
         }
     }

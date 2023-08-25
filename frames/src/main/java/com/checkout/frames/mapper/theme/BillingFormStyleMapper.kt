@@ -117,11 +117,10 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
             }
         }
 
-        val countryComponent = from.paymentFormComponents.find {
+        from.paymentFormComponents.find {
             PaymentFormComponentField.Country.name == it.paymentFormComponentField.name
-        }
-        val countryInputStyle = defaultComponentStylesValues[BillingFormFields.Country]
-        countryComponent?.let { component ->
+        }?.let { component ->
+            val countryInputStyle = defaultComponentStylesValues[BillingFormFields.Country]
             provideComponentStyle(component, countryInputStyle, from)?.let { inputComponentStyle ->
                 componentStylesValues[BillingFormFields.Country] = inputComponentStyle
             }

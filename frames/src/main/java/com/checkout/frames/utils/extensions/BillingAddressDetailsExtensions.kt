@@ -9,7 +9,9 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.Bi
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
 
-internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetails(country: Country?): BillingAddress {
+internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetails(
+    country: Country? = null
+): BillingAddress {
     val phoneInputComponentState = this.find {
         it.addressFieldName == BillingFormFields.Phone.name
     }
@@ -38,8 +40,6 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
         it.addressFieldName == BillingFormFields.PostCode.name
     }
 
-    val phone = providePhone(phoneInputComponentState?.addressFieldText?.value, country)
-
     return BillingAddress(
         name = cardHolderNameComponentState?.addressFieldText?.value?.trimEnd() ?: "",
         address = Address(
@@ -50,12 +50,12 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
             city = cityInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
             zip = zipInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
         ),
-        phone = phone
+        phone = phoneInputComponentState?.let { componentState ->
+            componentState.addressFieldText.value.takeIf { it.isNotEmpty() }
+                ?.let { Phone(componentState.addressFieldText.value, country) }
+        }
     )
 }
-
-internal fun providePhone(number: String?, country: Country?): Phone? =
-    number?.takeIf { it.isNotEmpty() }?.let { Phone(number, country) }
 
 @StringRes
 internal fun BillingAddressInputComponentState.getErrorMessage(): Int {
