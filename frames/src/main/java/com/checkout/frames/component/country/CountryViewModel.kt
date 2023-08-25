@@ -30,20 +30,19 @@ internal class CountryViewModel @Inject constructor(
     val componentState = provideViewState(style.inputStyle)
     val componentStyle = provideViewStyle(style.inputStyle)
 
-    fun prepare(onCountryUpdated: (country: Country?) -> Unit) {
+    fun prepare(onCountryUpdated: (country: Country) -> Unit) {
         viewModelScope.launch {
             paymentStateManager.billingAddress.collect { billingAddress ->
-                billingAddress.address?.country?.let { country ->
-                    val name = country.iso3166Alpha2.let {
-                        Locale(Locale.getDefault().language, it).displayCountry
-                    }
-                    val emojiFlag = country.emojiFlag()
-
-                    componentState.inputFieldState.text.value = "$emojiFlag    $name"
-
-                    onCountryUpdated(country)
-                    maybeShowErrorMessage(country)
+                val country = billingAddress.address?.country
+                val name = country?.iso3166Alpha2?.let {
+                    Locale(Locale.getDefault().language, it).displayCountry
                 }
+                val emojiFlag = country?.emojiFlag()
+
+                componentState.inputFieldState.text.value = "$emojiFlag    $name"
+
+                onCountryUpdated(country ?: Country.INVALID_COUNTRY)
+                maybeShowErrorMessage(country)
             }
         }
     }
@@ -51,7 +50,7 @@ internal class CountryViewModel @Inject constructor(
     private fun maybeShowErrorMessage(country: Country?) {
         if (paymentStateManager.visitedCountryPicker.value) {
             with(componentState.errorState) {
-                if (country == null) {
+                if (country == Country.INVALID_COUNTRY) {
                     isVisible.value = true
                     textId.value = R.string.cko_billing_form_input_field_phone_country_error
                 } else {

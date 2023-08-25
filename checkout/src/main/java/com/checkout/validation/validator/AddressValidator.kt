@@ -64,6 +64,10 @@ internal class AddressValidator : Validator<AddressValidationRequest, Address> {
                 ValidationError.INVALID_ZIP_LENGTH,
                 "Zipcode exceeding minimum length of characters"
             )
+            address.country.iso3166Alpha2.isBlank() -> throw ValidationError(
+                ValidationError.INVALID_COUNTRY,
+                "Invalid country found"
+            )
         }
     }
 }

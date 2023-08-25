@@ -118,14 +118,10 @@ public object DefaultPaymentFormTheme {
         .build()
 
     private val country = PaymentFormComponentBuilder()
-        .setIsFieldOptional(false)
-        .setIsFieldHidden(false)
         .setPaymentFormField(PaymentFormComponentField.Country)
         .build()
 
     private val countryPicker = PaymentFormComponentBuilder()
-        .setIsFieldOptional(false)
-        .setIsFieldHidden(false)
         .setPaymentFormField(PaymentFormComponentField.CountryPicker)
         .build()
 

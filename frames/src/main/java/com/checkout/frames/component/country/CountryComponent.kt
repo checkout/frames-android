@@ -14,7 +14,7 @@ import com.checkout.frames.style.component.CountryComponentStyle
 internal fun CountryComponent(
     style: CountryComponentStyle,
     injector: Injector,
-    onCountryUpdated: (country: Country?) -> Unit,
+    onCountryUpdated: (country: Country) -> Unit,
     goToCountryPicker: () -> Unit,
 ) {
     val viewModel: CountryViewModel = viewModel(

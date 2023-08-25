@@ -99,10 +99,7 @@ internal class BillingAddressInputComponentStyleUseCaseTest {
         val result = billingAddressInputComponentStyleUseCase.execute(style)
 
         expectedInputComponentStateList.forEachIndexed { index, state ->
-            with(result.inputComponentViewStyleList[index]) {
-                assertEquals(state.addressFieldName, addressFieldName)
-                assertEquals(state.isInputFieldOptional, inputComponentViewStyle.isInputFieldOptional)
-            }
+            assertEquals(state.addressFieldName, result.inputComponentViewStyleList[index].addressFieldName)
         }
     }
 

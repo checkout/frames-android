@@ -116,13 +116,13 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     // Update the country component state if the country is different from current value
     internal fun updateCountryComponentState(
         state: BillingAddressInputComponentState,
-        country: Country?,
+        country: Country,
     ) {
-        country?.let {
-            with(state) {
-                isAddressFieldValid.value = true
-                if (addressFieldText.value != country.name) addressFieldText.value = country.name
-            }
+        with(state) {
+            val isCountryValid = country != Country.INVALID_COUNTRY
+            if (isAddressFieldValid.value != isCountryValid)
+                isAddressFieldValid.value = isCountryValid
+            if (addressFieldText.value != country.name) addressFieldText.value = country.name
         }
     }
 
@@ -208,7 +208,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     }
 
     private fun updateBillingAddress() {
-        val country = paymentStateManager.billingAddress.value.address?.country
+        val country = paymentStateManager.billingAddress.value.address?.country ?: Country.INVALID_COUNTRY
         paymentStateManager.billingAddress.value = inputComponentsStateList.provideBillingAddressDetails(country)
         paymentStateManager.isBillingAddressValid.value = true
     }

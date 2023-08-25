@@ -105,8 +105,8 @@ internal class ValidateTokenizationDataUseCaseTest {
         assertEquals(mockRequest.billingAddress?.state, captureAddress.captured.state)
         assertEquals(mockRequest.billingAddress?.city, captureAddress.captured.city)
         assertEquals(mockRequest.billingAddress?.zip, captureAddress.captured.zip)
-        assertEquals(mockRequest.billingAddress?.country?.iso3166Alpha2, captureAddress.captured.country?.iso3166Alpha2)
-        assertEquals(mockRequest.billingAddress?.country?.dialingCode, captureAddress.captured.country?.dialingCode)
+        assertEquals(mockRequest.billingAddress?.country?.iso3166Alpha2, captureAddress.captured.country.iso3166Alpha2)
+        assertEquals(mockRequest.billingAddress?.country?.dialingCode, captureAddress.captured.country.dialingCode)
 
         assertEquals(mockRequest.phone?.number, capturePhone.captured.number)
         assertEquals(mockRequest.phone?.country, capturePhone.captured.country)

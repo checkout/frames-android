@@ -130,7 +130,7 @@ internal class CountryPickerViewModelTest {
     fun `when view model is initialised then country picker shows all countries`() {
         // Then
         assertEquals(
-            Country.values().size,
+            Country.values().filter { it != Country.INVALID_COUNTRY }.size,
             viewModel.searchCountries.value.size
         )
     }

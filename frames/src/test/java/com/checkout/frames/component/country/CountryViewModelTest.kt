@@ -107,7 +107,7 @@ internal class CountryViewModelTest {
         // Given
         spyPaymentStateManager.billingAddress.value.address?.country = Country.UNITED_KINGDOM
 
-        fun assertUpdatedCountry(expectedCountry: Country, actualCountry: Country?) {
+        fun assertUpdatedCountry(expectedCountry: Country, actualCountry: Country) {
             assertEquals(expectedCountry, actualCountry)
         }
         // When
