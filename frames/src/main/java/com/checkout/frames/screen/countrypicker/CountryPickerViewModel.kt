@@ -141,8 +141,7 @@ internal class CountryPickerViewModel @Inject constructor(
             emojiFlag = it.emojiFlag(),
             iso2 = it.iso3166Alpha2
         )
-    // Filter out [INVALID_COUNTRY] in the selectable options
-    }.filter { it.name.isNotEmpty() }
+    }
 
     internal class Factory(
         private val injector: Injector,

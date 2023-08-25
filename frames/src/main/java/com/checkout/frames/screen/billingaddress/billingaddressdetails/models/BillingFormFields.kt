@@ -40,17 +40,6 @@ public enum class BillingFormFields(internal var isFieldOptional: Boolean = fals
                     )
                 )
             }
-
-        @JvmStatic
-        public fun fetchAllMandatoryBillingFormFields(): List<BillingFormFields> = mutableListOf<BillingFormFields>()
-            .apply {
-                addAll(
-                    listOf(
-                        Country.withOptional(false),
-                        Phone.withOptional(false)
-                    )
-                )
-            }
     }
 }
 

@@ -61,14 +61,14 @@ internal class BillingAddressInputComponentStateUseCaseTest {
         // Given
         val expectedInputComponentStateList = BillingAddressDetailsTestData.fetchInputComponentStateList()
 
-            BillingAddressDetailsTestData.fetchInputComponentStyleValues().forEach {
+        BillingAddressDetailsTestData.fetchInputComponentStyleValues().forEach {
             every {
                 mockBillingAddressInputComponentStateMapper.map(
-                BillingAddressInputComponentStyle(
-                    it.key.name,
-                    it.value
+                    BillingAddressInputComponentStyle(
+                        it.key.name,
+                        it.value
+                    )
                 )
-            )
             } returns BillingAddressInputComponentState(
                 addressFieldName = it.key.name,
                 inputComponentState = InputComponentState(),
@@ -85,7 +85,11 @@ internal class BillingAddressInputComponentStateUseCaseTest {
         val result = billingAddressInputComponentStateUseCase.execute(style)
 
         expectedInputComponentStateList.forEachIndexed { index, state ->
-            assertEquals(state.addressFieldName, result.inputComponentStateList[index].addressFieldName)
+            with(result.inputComponentStateList[index]) {
+                assertEquals(state.addressFieldName, addressFieldName)
+                assertEquals(state.isInputFieldOptional, isInputFieldOptional)
+                assertEquals(state.isAddressFieldValid.value, isAddressFieldValid.value)
+            }
         }
     }
 

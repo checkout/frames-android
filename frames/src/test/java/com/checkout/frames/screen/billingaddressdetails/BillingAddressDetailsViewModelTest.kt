@@ -50,9 +50,9 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.amshove.kluent.internal.assertFalse
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -420,17 +420,18 @@ internal class BillingAddressDetailsViewModelTest {
     }
 
     @Test
-    fun `updateCountryComponentState should make the state invalid if passing in an invalid country`() {
+    fun `updateCountryComponentState should not change the country state if selection is none`() {
         // Given
         val state = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.Country.name,
-            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.DENMARK.name })
+            inputComponentState = InputComponentState(InputFieldState().apply { text.value = "" })
         )
+
         // When
-        viewModel.updateCountryComponentState(state, Country.INVALID_COUNTRY)
+        viewModel.updateCountryComponentState(state, null)
 
         // Then
-        assertEquals(Country.INVALID_COUNTRY.name, state.addressFieldText.value)
+        assertEquals("", state.addressFieldText.value)
         assertFalse(state.isAddressFieldValid.value)
     }
 

@@ -31,7 +31,7 @@ internal class PhoneEntityToPhoneDataMapperTest {
 
         // Then
         assertEquals(expectedPhoneData.number, actualPhoneData.number)
-        assertEquals(expectedPhoneData.country.dialingCode, actualPhoneData.country.dialingCode)
-        assertEquals(expectedPhoneData.country.iso3166Alpha2, actualPhoneData.country.iso3166Alpha2)
+        assertEquals(expectedPhoneData.country?.dialingCode, actualPhoneData.country?.dialingCode)
+        assertEquals(expectedPhoneData.country?.iso3166Alpha2, actualPhoneData.country?.iso3166Alpha2)
     }
 }

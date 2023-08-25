@@ -18,5 +18,5 @@ internal data class PhoneEntity internal constructor(
      * The international country calling code.
      */
     @Json(name = "country_code")
-    val countryCode: String,
+    val countryCode: String?,
 )
