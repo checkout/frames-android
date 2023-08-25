@@ -14,5 +14,5 @@ public data class Phone constructor(
     /**
      * The international country calling code. (Required for some risk checks)
      */
-    val country: Country,
+    val country: Country?
 )

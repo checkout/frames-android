@@ -119,7 +119,7 @@ internal class BillingAddressExtensionsTest {
                         city = "",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.INVALID_COUNTRY
+                        country = null
                     )
                 ),
                 false,

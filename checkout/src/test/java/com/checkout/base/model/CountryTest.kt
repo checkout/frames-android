@@ -1,6 +1,7 @@
 package com.checkout.base.model
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 internal class CountryTest {
@@ -18,15 +19,12 @@ internal class CountryTest {
     }
 
     @Test
-    fun `given blank country Iso3166Alpha2 code returns Invalid country`() {
-        // Given
-        val expectedCountry = Country.INVALID_COUNTRY
-
+    fun `given blank country Iso3166Alpha2 code returns null`() {
         // When
         val actualCountry = Country.from("")
 
         // Then
-        assertEquals(expectedCountry, actualCountry)
+        assertNull(actualCountry)
     }
 
     @Test
@@ -42,29 +40,20 @@ internal class CountryTest {
     }
 
     @Test
-    fun `given country details should returns invalid country`() {
-        // Given
-        val expectedCountry = Country.INVALID_COUNTRY
-
+    fun `given country details should returns null`() {
         // When
         val actualCountry = Country.getCountry("44", null)
 
         // Then
-        assertEquals(expectedCountry, actualCountry)
+        assertNull(actualCountry)
     }
 
     @Test
-    fun `given invalid country Iso3166Alpha2 code returns Invalid country`() {
-        // Given
-        val expectedCountry = Country.INVALID_COUNTRY
-
+    fun `given invalid country Iso3166Alpha2 code returns null`() {
         // When
         val actualCountry = Country.from("TYTYTYTYTTYTTYYYY")
 
         // Then
-        org.amshove.kluent.internal.assertEquals(
-            expectedCountry,
-            actualCountry
-        )
+        assertNull(actualCountry)
     }
 }

@@ -1,6 +1,5 @@
 package com.checkout.frames.screen.billingaddress.billingaddressdetails.models
 
-import com.checkout.base.model.Country
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
 
@@ -11,7 +10,7 @@ internal data class BillingAddress(
 ) {
     internal constructor() : this(
         "",
-        Address("", "", "", "", "", Country.INVALID_COUNTRY)
+        Address("", "", "", "", "")
     )
 
     internal companion object {

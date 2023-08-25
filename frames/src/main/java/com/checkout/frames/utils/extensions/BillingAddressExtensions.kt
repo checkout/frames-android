@@ -1,6 +1,5 @@
 package com.checkout.frames.utils.extensions
 
-import com.checkout.base.model.Country
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import java.util.Locale
 
@@ -16,18 +15,30 @@ internal fun BillingAddress.summary(): String {
         if (it.city.isNotEmpty()) strBuilder.append("\n${it.city}")
         if (it.state.isNotEmpty()) strBuilder.append("\n${it.state}")
         if (it.zip.isNotEmpty()) strBuilder.append("\n${it.zip}")
-        strBuilder.append("\n${Locale("", it.country.iso3166Alpha2).displayCountry}")
+        it.country?.let { country ->
+            strBuilder.append("\n${Locale("", country.iso3166Alpha2).displayCountry}")
+        }
     }
+
     // Phone
-    if (this.phone?.number?.isNotEmpty() == true)
-        strBuilder.append("\n+${this.phone.country.dialingCode} ${this.phone.number}")
+    this.phone?.let { phone ->
+        if (phone.number.isNotEmpty()) {
+            strBuilder.append(
+                if (phone.country?.dialingCode?.isNotEmpty() == true) {
+                    "\n+${phone.country?.dialingCode} ${phone.number}"
+                } else {
+                    "\n${phone.number}"
+                }
+            )
+        }
+    }
 
     return strBuilder.toString().trim()
 }
 
 internal fun BillingAddress.isValid(): Boolean = when {
     this.address == null -> false
-    this.address.country == Country.INVALID_COUNTRY -> false
+    this.address.country == null -> false
     this.phone == null -> false
     else -> true
 }

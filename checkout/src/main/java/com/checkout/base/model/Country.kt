@@ -254,29 +254,28 @@ public enum class Country(
     WESTERN_SAHARA("EH", "2125288"),
     YEMEN("YE", "967"),
     ZAMBIA("ZM", "260"),
-    ZIMBABWE("ZW", "263"),
-    INVALID_COUNTRY("", "");
+    ZIMBABWE("ZW", "263");
 
     public companion object {
 
         @JvmStatic
-        public fun from(iso3166Alpha2: String): Country {
+        public fun from(iso3166Alpha2: String?): Country? {
 
             val country: Country? = values().firstOrNull {
                 it.iso3166Alpha2.equals(iso3166Alpha2, true)
             }
 
             // When Iso3166Alpha2 code is not identified, consider it as a INVALID_COUNTRY
-            return country ?: INVALID_COUNTRY
+            return country
         }
 
-        internal fun getCountry(dialingCode: String, iso3166Alpha2: String?): Country {
+        internal fun getCountry(dialingCode: String?, iso3166Alpha2: String?): Country? {
             val country: Country? = values().firstOrNull { country ->
                 country.dialingCode.equals(dialingCode, true) &&
                         country.iso3166Alpha2.equals(iso3166Alpha2, true)
             }
 
-            return country ?: INVALID_COUNTRY
+            return country
         }
     }
 }

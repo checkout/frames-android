@@ -211,6 +211,17 @@ object CustomBillingFormStyle {
             )
         )
 
+        inputComponentsStyles[BillingFormFields.Country] = DefaultLightStyle.inputComponentStyle(
+            titleTextId = R.string.cko_country_picker_screen_title,
+            isFieldOptional = true,
+            infoTextId = R.string.cko_input_field_optional_info,
+            padding = Padding(
+                start = LightStyleConstants.inputComponentLeftPadding,
+                end = LightStyleConstants.inputComponentRightPadding,
+                bottom = LightStyleConstants.inputComponentBottomPadding
+            )
+        )
+
         return inputComponentsStyles
     }
 

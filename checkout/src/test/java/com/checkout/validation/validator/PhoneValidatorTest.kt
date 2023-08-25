@@ -31,7 +31,7 @@ internal class PhoneValidatorTest {
     )
     fun `Validation of given phone returns correct validation result`(
         testNumber: String,
-        testCountry: Country,
+        testCountry: Country?,
         expectedResult: ValidationResult<Phone>
     ) {
         // Given
@@ -46,8 +46,8 @@ internal class PhoneValidatorTest {
         // Then
         when (expectedResult) {
             is ValidationResult.Success -> {
-                val resultScheme = (result as? ValidationResult.Success<Phone>)?.value
-                Assertions.assertEquals(expectedResult.value, resultScheme)
+                val resultPhoneValidation = (result as? ValidationResult.Success<Phone>)?.value
+                Assertions.assertEquals(expectedResult.value, resultPhoneValidation)
             }
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedResult.error.errorCode,

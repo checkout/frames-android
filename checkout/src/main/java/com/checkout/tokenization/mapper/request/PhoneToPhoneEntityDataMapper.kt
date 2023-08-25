@@ -11,6 +11,6 @@ internal class PhoneToPhoneEntityDataMapper : Mapper<Phone, PhoneEntity> {
 
     override fun map(from: Phone): PhoneEntity = PhoneEntity(
         from.number,
-        from.country.dialingCode,
+        from.country?.dialingCode,
     )
 }

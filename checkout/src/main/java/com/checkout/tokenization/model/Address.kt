@@ -35,5 +35,5 @@ public data class Address constructor(
     /**
      * Billing address country [Country]
      */
-    var country: Country
+    var country: Country? = null
 )

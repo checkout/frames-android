@@ -43,5 +43,5 @@ internal data class AddressEntity internal constructor(
      * Billing address country code (iso3166Alpha2)
      */
     @Json(name = "country")
-    val country: String
+    val country: String?
 )

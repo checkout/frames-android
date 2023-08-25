@@ -15,6 +15,6 @@ internal class AddressToAddressEntityDataMapper : Mapper<Address, AddressEntity>
         from.city,
         from.state,
         from.zip,
-        from.country.iso3166Alpha2
+        from.country?.iso3166Alpha2
     )
 }
