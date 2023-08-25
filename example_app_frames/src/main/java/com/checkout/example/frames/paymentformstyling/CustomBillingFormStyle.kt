@@ -202,7 +202,8 @@ object CustomBillingFormStyle {
 
         inputComponentsStyles[BillingFormFields.Phone] = provideInputComponentStyle(
             placeholderTextId = R.string.cko_billing_form_input_field_phone_title,
-            isFieldOptional = false,
+            isFieldOptional = true,
+            infoTextId = R.string.cko_input_field_optional_info,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,

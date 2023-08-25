@@ -33,8 +33,7 @@ internal class CountryViewModel @Inject constructor(
     fun prepare(onCountryUpdated: (country: Country?) -> Unit) {
         viewModelScope.launch {
             paymentStateManager.billingAddress.collect { billingAddress ->
-                val country = billingAddress.address?.country
-                country?.let {
+                billingAddress.address?.country?.let { country ->
                     val name = country.iso3166Alpha2.let {
                         Locale(Locale.getDefault().language, it).displayCountry
                     }

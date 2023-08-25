@@ -40,7 +40,7 @@ internal class CountryTest {
     }
 
     @Test
-    fun `given country details should returns null`() {
+    fun `given iso3166Alpha2 in getCountry should returns null country`() {
         // When
         val actualCountry = Country.getCountry("44", null)
 
@@ -49,7 +49,7 @@ internal class CountryTest {
     }
 
     @Test
-    fun `given invalid country Iso3166Alpha2 code returns null`() {
+    fun `given iso3166Alpha2 in getCountry function returns null country`() {
         // When
         val actualCountry = Country.from("TYTYTYTYTTYTTYYYY")
 

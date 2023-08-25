@@ -47,7 +47,7 @@ internal class BillingAddressTest {
         assertTrue(BillingAddress(address = buildBillingAddress(country = Country.ANGOLA)).isEdited())
 
     @Test
-    fun `Default BillingAddress country is INVALID_COUNTRY`() {
+    fun `Default BillingAddress country is null`() {
         assertNull(BillingAddress().address!!.country)
     }
 

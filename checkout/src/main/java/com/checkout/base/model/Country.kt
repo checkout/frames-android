@@ -265,7 +265,6 @@ public enum class Country(
                 it.iso3166Alpha2.equals(iso3166Alpha2, true)
             }
 
-            // When Iso3166Alpha2 code is not identified, consider it as a INVALID_COUNTRY
             return country
         }
 

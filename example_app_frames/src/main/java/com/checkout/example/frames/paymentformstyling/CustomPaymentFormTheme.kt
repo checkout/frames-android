@@ -58,6 +58,13 @@ object CustomPaymentFormTheme {
         .setIsFieldHidden(true)
         .build()
 
+    private val country = PaymentFormComponentBuilder()
+        .setPaymentFormField(PaymentFormComponentField.Country)
+        .setIsFieldHidden(false)
+        .setInfoTextId(R.string.cko_input_field_optional_info)
+        .setIsFieldOptional(true)
+        .build()
+
     private val addBillingSummaryButton = PaymentFormComponentBuilder()
         .setPaymentFormField(PaymentFormComponentField.AddBillingSummaryButton)
         .setIsFieldOptional(false)
@@ -82,7 +89,8 @@ object CustomPaymentFormTheme {
                 addressLineOne = addressLineOne,
                 addressLineTwo = addressLineTwo,
                 addBillingSummaryButton = addBillingSummaryButton,
-                editBillingSummaryButton = editBillingSummaryButton
+                editBillingSummaryButton = editBillingSummaryButton,
+                country = country
             ),
             /**
              * option 2: Use default components

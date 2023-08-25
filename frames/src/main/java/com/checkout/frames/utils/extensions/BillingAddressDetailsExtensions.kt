@@ -54,14 +54,8 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
     )
 }
 
-internal fun providePhone(number: String?, country: Country?): Phone? {
-    return if (number?.isNotEmpty() == true)
-        Phone(
-            number = number,
-            country = country
-        )
-    else null
-}
+internal fun providePhone(number: String?, country: Country?): Phone? =
+    number?.takeIf { it.isNotEmpty() }?.let { Phone(number, country) }
 
 @StringRes
 internal fun BillingAddressInputComponentState.getErrorMessage(): Int {

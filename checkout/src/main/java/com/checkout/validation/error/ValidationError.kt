@@ -2,8 +2,6 @@ package com.checkout.validation.error
 
 import androidx.annotation.RestrictTo
 import com.checkout.base.error.CheckoutError
-import com.checkout.base.util.canBeCaught
-
 /**
  * Exception used to indicate validation errors
  */
@@ -45,7 +43,6 @@ public class ValidationError(
         public const val ADDRESS_LINE1_INCORRECT_LENGTH: String = "ValidationError:1012"
         public const val ADDRESS_LINE2_INCORRECT_LENGTH: String = "ValidationError:1013"
         public const val INVALID_CITY_LENGTH: String = "ValidationError:1014"
-        public const val INVALID_COUNTRY: String = "ValidationError:1015"
         public const val INVALID_STATE_LENGTH: String = "ValidationError:1016"
         public const val INVALID_ZIP_LENGTH: String = "ValidationError:1017"
 
@@ -54,20 +51,4 @@ public class ValidationError(
          */
         public const val NUMBER_INCORRECT_LENGTH: String = "ValidationError:1018"
     }
-}
-
-internal fun Exception.asValidationError(
-    errorCode: String? = null,
-    message: String? = null
-): ValidationError = if (canBeCaught) {
-    when (this) {
-        is ValidationError -> this
-        else -> ValidationError(
-            errorCode = errorCode ?: ValidationError.UNEXPECTED_VALIDATION_ERROR,
-            message = message,
-            throwable = this
-        )
-    }
-} else {
-    throw this
 }

@@ -118,8 +118,8 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
         state: BillingAddressInputComponentState,
         country: Country?,
     ) {
-        with(state) {
-            country?.let {
+        country?.let {
+            with(state) {
                 isAddressFieldValid.value = true
                 if (addressFieldText.value != country.name) addressFieldText.value = country.name
             }
