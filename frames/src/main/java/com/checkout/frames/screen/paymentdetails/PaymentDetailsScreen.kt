@@ -8,12 +8,17 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.checkout.frames.di.base.Injector
@@ -34,6 +39,29 @@ internal fun PaymentDetailsScreen(
     val viewModel: PaymentDetailsViewModel = viewModel(
         factory = PaymentDetailsViewModel.Factory(injector, style)
     )
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    // Observe the lifecycle of the Composable
+    val lifecycle = rememberUpdatedState(lifecycleOwner.lifecycle)
+
+    // Create a DefaultLifecycleObserver to handle ON_RESUME
+    val observer = rememberUpdatedState(
+        object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                super.onResume(owner)
+               viewModel.resetCountrySelection()
+            }
+        }
+    )
+
+    DisposableEffect(lifecycleOwner) {
+        lifecycle.value.addObserver(observer.value)
+
+        onDispose {
+            lifecycle.value.removeObserver(observer.value)
+        }
+    }
 
     Column(
         modifier = Modifier.clickable(

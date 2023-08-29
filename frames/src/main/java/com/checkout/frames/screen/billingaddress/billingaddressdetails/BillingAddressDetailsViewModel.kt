@@ -208,8 +208,10 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     }
 
     private fun updateBillingAddress() {
-        val country = paymentStateManager.billingAddress.value.address?.country
-        paymentStateManager.billingAddress.value = inputComponentsStateList.provideBillingAddressDetails(country)
+        val selectedCountry = paymentStateManager.selectedCountry.value
+        paymentStateManager.billingAddress.value.address?.country = selectedCountry
+        paymentStateManager.billingAddress.value =
+            inputComponentsStateList.provideBillingAddressDetails(selectedCountry)
         paymentStateManager.isBillingAddressValid.value = true
     }
 

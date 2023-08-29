@@ -105,7 +105,7 @@ internal class CountryViewModelTest {
     @Test
     fun `when country field data is updated it should call onCountryUpdated`() = runTest {
         // Given
-        spyPaymentStateManager.billingAddress.value.address?.country = Country.UNITED_KINGDOM
+        spyPaymentStateManager.selectedCountry.value = Country.UNITED_KINGDOM
 
         fun assertUpdatedCountry(expectedCountry: Country, actualCountry: Country?) {
             assertEquals(expectedCountry, actualCountry)
@@ -122,12 +122,10 @@ internal class CountryViewModelTest {
         // Given
         val testCountry = Country.UNITED_STATES_OF_AMERICA
         val expectedCountryFieldText = "\uD83C\uDDFA\uD83C\uDDF8    United States"
-
-        spyPaymentStateManager.billingAddress.value.address?.country = Country.UNITED_KINGDOM
         viewModel.prepare { }
 
         // When
-        spyPaymentStateManager.billingAddress.value.address?.country = testCountry
+        spyPaymentStateManager.selectedCountry.value = testCountry
         testScheduler.advanceUntilIdle()
 
         // Then
