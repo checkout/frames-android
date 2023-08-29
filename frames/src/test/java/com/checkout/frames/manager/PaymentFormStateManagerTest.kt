@@ -61,6 +61,21 @@ internal class PaymentFormStateManagerTest {
     }
 
     @Test
+    fun `when country is prefilled then selectedCountry in the payment state manager should updated correctly`() {
+        // Given
+        val givenPrefilledBillingFormAddress = BillingFormAddress(address = PaymentFormConfigTestData.address)
+        paymentFormStateManager = PaymentFormStateManager(
+            emptyList(),
+            paymentFormPrefillData = PrefillData(billingFormAddress = givenPrefilledBillingFormAddress),
+            spyBillingFormAddressToBillingAddressMapper
+        )
+        val expectedCountry = Country.UNITED_KINGDOM
+
+        // Then
+        Assertions.assertEquals(paymentFormStateManager.selectedCountry.value, expectedCountry)
+    }
+
+    @Test
     fun `when custom supported card schemes isn't provided then checkout's all supportedCardSchemes should updated`() {
         // Given
         paymentFormStateManager = PaymentFormStateManager(
@@ -174,6 +189,7 @@ internal class PaymentFormStateManagerTest {
         Assertions.assertEquals(paymentFormStateManager.visitedCountryPicker.value, false)
         Assertions.assertEquals(paymentFormStateManager.supportedCardSchemeList, supportedSchemes)
         Assertions.assertEquals(paymentFormStateManager.cardHolderName.value, cardHolderName)
+        Assertions.assertEquals(paymentFormStateManager.selectedCountry.value, null)
     }
 
     companion object {

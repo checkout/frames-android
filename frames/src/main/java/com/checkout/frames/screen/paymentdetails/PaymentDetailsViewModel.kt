@@ -99,6 +99,14 @@ internal class PaymentDetailsViewModel @Inject constructor(
         ).apply { leadingIcon.value = clickableImageStyleMapper.map(imageRequest) }
     }
 
+    fun resetCountrySelection() {
+        with(paymentStateManager) {
+            if (selectedCountry.value != billingAddress.value.address?.country) {
+                selectedCountry.value = billingAddress.value.address?.country
+            }
+        }
+    }
+
     internal class Factory(
         private val injector: Injector,
         private val style: PaymentDetailsStyle

@@ -3,6 +3,7 @@ package com.checkout.frames.screen.manager
 import androidx.annotation.VisibleForTesting
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.CardScheme
+import com.checkout.base.model.Country
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 import com.checkout.frames.screen.paymentform.model.PrefillData
@@ -35,6 +36,10 @@ internal class PaymentFormStateManager(
 
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(provideBillingFormAddress())
 
+    override val selectedCountry: MutableStateFlow<Country?> = MutableStateFlow(
+        paymentFormPrefillData?.billingFormAddress?.address?.country
+    )
+
     override val isBillingAddressValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isBillingAddressEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val visitedCountryPicker: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -61,6 +66,7 @@ internal class PaymentFormStateManager(
         visitedCountryPicker.value = false
         this.isBillingAddressValid.value = isBillingAddressValid
         this.isBillingAddressEnabled.value = isBillingAddressEnabled
+        this.selectedCountry.value = null
     }
 
     @VisibleForTesting

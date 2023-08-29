@@ -254,6 +254,10 @@ internal class BillingAddressDetailsViewModelTest {
 
         // Then
         testScheduler.advanceUntilIdle()
+        assertEquals(spyPaymentStateManager.selectedCountry.value, expectedBillingAddress.address?.country)
+        assertEquals(
+            spyPaymentStateManager.selectedCountry.value, spyPaymentStateManager.billingAddress.value.address?.country
+        )
         assertEquals(spyPaymentStateManager.billingAddress.value, expectedBillingAddress)
     }
 

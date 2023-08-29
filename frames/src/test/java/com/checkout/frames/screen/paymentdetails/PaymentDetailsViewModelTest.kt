@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.ui.Modifier
 import com.checkout.base.mapper.Mapper
+import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.provider.ComponentProvider
 import com.checkout.frames.logging.PaymentFormEventType
@@ -34,6 +35,7 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.amshove.kluent.internal.assertEquals
+import org.amshove.kluent.internal.assertNotEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -137,6 +139,24 @@ internal class PaymentDetailsViewModelTest {
         // Then
         verify(exactly = 1) { mockClosePaymentFlowUseCase.execute(Unit) }
         assertEquals(PaymentFormEventType.CANCELED.eventId, capturedEvent.captured.typeIdentifier)
+    }
+
+    @Test
+    fun `when resetCountrySelection is invoked then SelectedCountry should be updated from the billing address`() {
+        // Given
+        val givenSelectedCountry = Country.UKRAINE
+        mockPaymentStateManager.selectedCountry.value = givenSelectedCountry
+        mockPaymentStateManager.billingAddress.value = BillingAddress(
+            address = PaymentFormConfigTestData.address,
+            name = "Test name",
+            phone = PaymentFormConfigTestData.phone
+        )
+
+        // When
+        viewModel.resetCountrySelection()
+
+        // Then
+        assertNotEquals(givenSelectedCountry, mockPaymentStateManager.selectedCountry.value)
     }
 
     @Test

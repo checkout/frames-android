@@ -1,6 +1,7 @@
 package com.checkout.frames.screen.manager
 
 import com.checkout.base.model.CardScheme
+import com.checkout.base.model.Country
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +28,7 @@ internal interface PaymentStateManager {
     val supportedCardSchemeList: List<CardScheme>
 
     val billingAddress: MutableStateFlow<BillingAddress>
+    val selectedCountry: MutableStateFlow<Country?>
     val isBillingAddressValid: MutableStateFlow<Boolean>
     // Whether the billing address form is enabled or set to null
     val isBillingAddressEnabled: MutableStateFlow<Boolean>
