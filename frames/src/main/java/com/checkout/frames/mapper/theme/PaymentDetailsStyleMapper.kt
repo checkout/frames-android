@@ -233,7 +233,7 @@ internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetai
                     this.copy(
                         titleStyle = titleStyle.provideTitleStyle(component, from),
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
-                        infoStyle = infoStyle.provideInfoStyle(component, from),
+                        infoStyle = component.infoTextId?.let { infoStyle.provideInfoStyle(component, from) },
                         inputFieldStyle = provideInputFieldStyle(from),
                         errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
                         isInputFieldOptional = component.isFieldOptional
