@@ -25,7 +25,7 @@ com.checkout.frames.error
 com.checkout.frames.model
 com.checkout.frames.model.font
 com.checkout.frames.screen.billingaddress.billingaddressdetails.models
-com.checkout.frames.screen.paymentform
+com.checkout.frames.screen.paymentform.model
 com.checkout.frames.style.component
 com.checkout.frames.style.component.addresssummary
 com.checkout.frames.style.component.base
