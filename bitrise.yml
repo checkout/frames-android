@@ -3,15 +3,8 @@ format_version: '9'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 trigger_map:
-- push_branch: release/4.0.0
-  workflow: verification-full-extra-lint
 - push_branch: master
   workflow: verification-full
-- push_branch: "*"
-  workflow: verification-quick
-- pull_request_source_branch: "*"
-  pull_request_target_branch: release/4.0.0
-  workflow: verification-full-extra-lint
 - pull_request_source_branch: "*"
   workflow: verification-full
 workflows:
@@ -69,113 +62,10 @@ workflows:
 
       The following checks are performed
        - Build
-       - Lint Checks
+       - Lint Checks (if PR is ready for review)
        - Unit Tests
-       - Instrumentation Tests
-    before_run:
-    - steps-start
-  verification-full-extra-lint:
-    steps:
-    - android-lint@0:
-        inputs:
-        - variant: "$VARIANT"
-        is_always_run: true
-    - android-unit-test@1:
-        inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - variant: "$VARIANT"
-        is_always_run: true
-    - gradle-runner@2:
-        inputs:
-        - gradle_task: assembleAndroidTest
-        is_always_run: true
-        title: Gradle Runner - Build Android Test
-    - script@1:
-        title: Lint
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            # fail if any commands fails
-            set -e
-            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
-            set -o pipefail
-            # debug log
-            set -x
-
-            # write your script here
-            ./gradlew clean lint
-
-            # or run a script from your repository, like:
-            # bash ./path/to/script.sh
-            # not just bash, e.g.:
-            # ruby ./path/to/script.rb
-    - script@1:
-        title: Detekt
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            # fail if any commands fails
-            set -e
-            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
-            set -o pipefail
-            # debug log
-            set -x
-
-            # write your script here
-            ./gradlew detekt
-
-            # or run a script from your repository, like:
-            # bash ./path/to/script.sh
-            # not just bash, e.g.:
-            # ruby ./path/to/script.rb
-    - script@1:
-        title: Ktlint
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            # fail if any commands fails
-            set -e
-            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
-            set -o pipefail
-            # debug log
-            set -x
-
-            # write your script here
-            ./gradlew ktlint
-
-            # or run a script from your repository, like:
-            # bash ./path/to/script.sh
-            # not just bash, e.g.:
-            # ruby ./path/to/script.rb
-    after_run:
-    - steps-finish
-    description: |2-
-
-      ## Performs all validation checks
-
-      The following checks are performed
-       - Build
-       - Lint Checks
-       - Unit Tests
-       - Instrumentation Tests
-    before_run:
-    - steps-start
-  verification-quick:
-    steps:
-    - android-unit-test@1:
-        inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - variant: "$VARIANT"
-        is_always_run: true
-    after_run:
-    - steps-finish
-    description: |2-
-
-      ## Performs validation checks to match the current implementation on CircelCi
-
-      The following checks are performed
-       - Build
-       - Unit Tests
+       - Instrumentation Tests (if PR is ready for review)
+       - SonarQube Analysis (if PR is ready for review)
     before_run:
     - steps-start
   steps-sonar:
