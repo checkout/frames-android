@@ -102,17 +102,43 @@ val paymentFlowHandler = object : PaymentFlowHandler {
 }
 ```
 
-### Step 2: Create a configuration object for your Payment form
+### Step 2: Prepare your object responsible for the Frames configuration
 ```kotlin
+/*
+  PrefillData is purely optional. However, if you provide these details for your user you can
+        - make their checkout experience easier by prefilling fields they may need to do
+        - improve acceptance success for card tokenization
+ */
+val userPrefillData = PrefillData(
+    cardHolderName = "Test Name",        // represent the cardHolderName in PaymentDetail form
+    billingFormAddress = BillingFormAddress(
+        name = "UserName",               // represent the cardHolderName in Billing form
+        address = Address(
+            addressLine1 = "Hill road",
+            addressLine2 = "90 Tottenham Court Road",
+            city = "London",
+            state = "England",
+            zip = "W1T 4PY",
+            country = Country.from(iso3166Alpha2 = "GB")
+        ),
+        phone = Phone("7405987323", Country.UNITED_KINGDOM)
+    )
+)
+
+// Create a configuration object for your Payment form
 val paymentFormConfig = PaymentFormConfig(
     publicKey = PUBLIC_KEY,                     // set your public key
     context = context,                          // set context
     environment = Environment.SANDBOX,          // set the environment
     paymentFlowHandler = paymentFlowHandler,    // set the callback
     style = PaymentFormStyle(),                 // set the style
-    supportedCardSchemeList = emptyList()       // set supported card schemes, by default uses all schemes
+    supportedCardSchemeList = emptyList(),      // set supported card schemes, by default uses all schemes
+    prefillData = userPrefillData               // set prefill data for user to improve their checkout experience
 )
 ```
+
+#### Note for `cardHolderName` and `name` in `PrefillData`
+##### If `cardholderName` in the PaymentDetail form and `name` in the Billing form are pre-filled, then in the tokenization request, `cardHolderName` from the PaymentDetail form would be considered. Additionally, although the `cardHolderName` and `name` are pre-filled and fields are hidden in PaymentDetail form and Billing form, it will still be considering to pass in a tokenization request from the `PrefillData`.
 
 ### Step 3: Create a Payment mediator
 ```kotlin
