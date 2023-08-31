@@ -106,8 +106,6 @@ val paymentFlowHandler = object : PaymentFlowHandler {
 ```kotlin
 /*
   Providing PrefillData is optional. However, using this can increase the speed of the checkout experience for your users by pre-filling non-sensitive information.
-        - make their checkout experience easier by prefilling fields they may need to do
-        - improve acceptance success for card tokenization
  */
 val userPrefillData = PrefillData(
     cardHolderName = "Test Name",        // represent the cardHolderName in PaymentDetail form
