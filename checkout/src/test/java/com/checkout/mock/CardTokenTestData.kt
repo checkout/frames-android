@@ -5,9 +5,9 @@ import com.checkout.network.response.ErrorResponse
 import com.checkout.tokenization.entity.AddressEntity
 import com.checkout.tokenization.entity.PhoneEntity
 import com.checkout.tokenization.model.Address
-import com.checkout.tokenization.model.Phone
-import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.tokenization.model.Card
+import com.checkout.tokenization.model.ExpiryDate
+import com.checkout.tokenization.model.Phone
 import com.checkout.tokenization.response.TokenDetailsResponse
 import com.checkout.validation.model.AddressValidationRequest
 

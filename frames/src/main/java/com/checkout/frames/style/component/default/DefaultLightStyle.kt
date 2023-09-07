@@ -11,17 +11,17 @@ import com.checkout.frames.model.font.Font
 import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.ScreenHeaderStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.ImageContainerStyle
+import com.checkout.frames.style.component.base.ImageStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.TextStyle
-import com.checkout.frames.style.component.base.ImageStyle
-import com.checkout.frames.style.component.base.ImageContainerStyle
-import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
-import com.checkout.frames.style.component.base.InputComponentStyle
-import com.checkout.frames.style.component.base.InputFieldStyle
-import com.checkout.frames.utils.constants.LightStyleConstants
 import com.checkout.frames.utils.constants.CardSchemeConstants
 import com.checkout.frames.utils.constants.HeaderTitleConstants
+import com.checkout.frames.utils.constants.LightStyleConstants
 
 @Suppress("TooManyFunctions", "LongParameterList")
 public object DefaultLightStyle {

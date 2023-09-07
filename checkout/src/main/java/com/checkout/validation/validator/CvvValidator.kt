@@ -4,7 +4,6 @@ import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.CvvValidationRequest
 import com.checkout.validation.model.ValidationResult
 import com.checkout.validation.validator.contract.Validator
-import kotlin.jvm.Throws
 
 /**
  * Class used to validate cvv number.

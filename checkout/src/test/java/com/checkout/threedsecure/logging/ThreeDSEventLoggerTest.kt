@@ -9,11 +9,9 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.slot
 import io.mockk.verify
 import org.amshove.kluent.internal.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.lang.NullPointerException
 
 @ExtendWith(MockKExtension::class)
 internal class ThreeDSEventLoggerTest {

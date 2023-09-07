@@ -4,16 +4,16 @@ import android.annotation.SuppressLint
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import com.google.common.truth.Truth.assertThat
 import io.mockk.junit5.MockKExtension
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Test
 
 @SuppressLint("NewApi")
 @ExtendWith(MockKExtension::class)

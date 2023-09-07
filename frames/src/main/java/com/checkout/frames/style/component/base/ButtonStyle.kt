@@ -1,11 +1,11 @@
 package com.checkout.frames.style.component.base
 
 import androidx.annotation.ColorLong
-import com.checkout.frames.model.Shape
-import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.model.ButtonElevation
+import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Padding
+import com.checkout.frames.model.Shape
 
 public data class ButtonStyle @JvmOverloads constructor(
     /** The 32-bit ARGB container color of this Button when enabled. */

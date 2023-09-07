@@ -4,12 +4,12 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.checkout.frames.model.font.Font.Default
-import com.checkout.frames.model.font.Font.Serif
-import com.checkout.frames.model.font.Font.SansSerif
-import com.checkout.frames.model.font.Font.Monospace
 import com.checkout.frames.model.font.Font.Cursive
 import com.checkout.frames.model.font.Font.Custom
+import com.checkout.frames.model.font.Font.Default
+import com.checkout.frames.model.font.Font.Monospace
+import com.checkout.frames.model.font.Font.SansSerif
+import com.checkout.frames.model.font.Font.Serif
 
 internal fun com.checkout.frames.model.font.Font.toFontFamily(): FontFamily = when (this) {
     is Default -> FontFamily.Default

@@ -4,9 +4,9 @@ import androidx.annotation.RestrictTo
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
-import com.checkout.logging.utils.putErrorAttributes
 import com.checkout.logging.utils.SUCCESS
 import com.checkout.logging.utils.TOKEN_ID
+import com.checkout.logging.utils.putErrorAttributes
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class ThreeDSEventLogger(

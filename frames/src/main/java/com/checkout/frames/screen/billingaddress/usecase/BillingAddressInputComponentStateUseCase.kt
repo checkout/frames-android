@@ -2,8 +2,8 @@ package com.checkout.frames.screen.billingaddress.usecase
 
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.usecase.UseCase
-import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentState
+import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.style.component.billingformdetails.BillingAddressInputComponentStyle
 import com.checkout.frames.style.screen.BillingAddressDetailsStyle
 

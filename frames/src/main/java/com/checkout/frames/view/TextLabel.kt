@@ -29,22 +29,22 @@ internal fun TextLabel(
     with(style) {
         state.leadingIcon.value?.let { it() }
         Text(
-            text,
-            if (textMaxWidth) Modifier.weight(1F) else Modifier,
-            color,
-            fontSize,
-            fontStyle,
-            fontWeight,
-            fontFamily,
-            letterSpacing,
-            textDecoration,
-            textAlign,
-            lineHeight,
-            overflow,
-            softWrap,
-            maxLines,
-            onTextLayout,
-            this.style ?: LocalTextStyle.current
+            text = text,
+            modifier = if (textMaxWidth) Modifier.weight(1F) else Modifier,
+            color = color,
+            fontSize = fontSize,
+            fontStyle = fontStyle,
+            fontWeight = fontWeight,
+            fontFamily = fontFamily,
+            letterSpacing = letterSpacing,
+            textDecoration = textDecoration,
+            textAlign = textAlign,
+            lineHeight = lineHeight,
+            overflow = overflow,
+            softWrap = softWrap,
+            maxLines = maxLines,
+            onTextLayout = onTextLayout,
+            style = this.style ?: LocalTextStyle.current
         )
         state.trailingIcon.value?.let { it() }
     }

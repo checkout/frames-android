@@ -6,7 +6,6 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import com.checkout.base.model.CardScheme
-import java.lang.StringBuilder
 
 internal class CardNumberTransformation(
     private val separator: Char,

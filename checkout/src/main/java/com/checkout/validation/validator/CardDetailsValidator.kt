@@ -1,15 +1,15 @@
 package com.checkout.validation.validator
 
-import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.base.model.CardScheme
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
+import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.logging.ValidationEventType
-import com.checkout.validation.model.CvvValidationRequest
-import com.checkout.validation.model.ValidationResult
-import com.checkout.validation.model.ExpiryDateValidationRequest
 import com.checkout.validation.model.CardNumberValidationRequest
+import com.checkout.validation.model.CvvValidationRequest
+import com.checkout.validation.model.ExpiryDateValidationRequest
+import com.checkout.validation.model.ValidationResult
 import com.checkout.validation.validator.contract.Validator
 
 internal class CardDetailsValidator(

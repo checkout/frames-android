@@ -1,5 +1,6 @@
 package com.checkout.example.frames.paymentformstyling
 
+import com.checkout.example.frames.R
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.backIconSize
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.backgroundColor
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.inputFieldBorderShape
@@ -10,7 +11,6 @@ import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.margi
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.marginTop
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.placeHolderTextColor
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.textColor
-import com.checkout.frames.R
 import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
@@ -24,14 +24,15 @@ import com.checkout.frames.style.component.addresssummary.AddressSummaryComponen
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
-import com.checkout.frames.style.component.default.DefaultButtonStyle
 import com.checkout.frames.style.component.default.DefaultAddressSummaryComponentStyle
-import com.checkout.frames.style.component.default.DefaultLightStyle
+import com.checkout.frames.style.component.default.DefaultButtonStyle
 import com.checkout.frames.style.component.default.DefaultImageStyle
+import com.checkout.frames.style.component.default.DefaultLightStyle
 import com.checkout.frames.style.component.default.DefaultTextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.utils.constants.ErrorConstants
 import com.checkout.frames.utils.constants.PaymentButtonConstants
+import com.checkout.frames.R as FramesR
 
 @Suppress("TooManyFunctions")
 object CustomPaymentDetailsStyle {
@@ -56,7 +57,7 @@ object CustomPaymentDetailsStyle {
 
     private fun providePayButtonStyle(): PayButtonComponentStyle {
         val buttonStyle = DefaultButtonStyle.lightSolid(
-            textId = R.string.cko_pay,
+            textId = FramesR.string.cko_pay,
             contentColor = inputFieldColor,
             containerColor = textColor,
             disabledContentColor = PaymentButtonConstants.disabledContentColor,
@@ -80,14 +81,14 @@ object CustomPaymentDetailsStyle {
             subTitleStyle = null,
             containerStyle = containerStyle,
             addAddressButtonStyle = DefaultButtonStyle.lightSolid(
-                textId = R.string.cko_add_billing_address,
+                textId = FramesR.string.cko_add_billing_address,
                 trailingIconStyle = DefaultImageStyle.buttonTrailingImageStyle(tinColor = textColor),
                 fontWeight = FontWeight.SemiBold,
                 contentColor = textColor
             ),
             summarySectionStyle = style.summarySectionStyle.copy(
                 editAddressButtonStyle = DefaultButtonStyle.lightSolid(
-                    textId = R.string.cko_edit_billing_address,
+                    textId = FramesR.string.cko_edit_billing_address,
                     trailingIconStyle = DefaultImageStyle.buttonTrailingImageStyle(tinColor = textColor),
                     fontWeight = FontWeight.SemiBold,
                     contentColor = textColor
@@ -100,7 +101,7 @@ object CustomPaymentDetailsStyle {
 
     private fun provideCardNumberStyle(): CardNumberComponentStyle {
         val inputStyle = DefaultLightStyle.inputComponentStyle(
-            placeholderResourceTextId = R.string.cko_card_number_title,
+            placeholderResourceTextId = FramesR.string.cko_card_number_title,
             withLeadingIcon = false,
         )
         return CardNumberComponentStyle(
@@ -119,7 +120,7 @@ object CustomPaymentDetailsStyle {
 
     private fun provideExpiryDateStyle(): ExpiryDateComponentStyle {
         val inputStyle = DefaultLightStyle.inputComponentStyle(
-            placeholderResourceTextId = R.string.cko_expiry_date_component_title,
+            placeholderResourceTextId = FramesR.string.cko_expiry_date_component_title,
             margin = Margin(top = 2)
         )
         return ExpiryDateComponentStyle(
@@ -138,7 +139,7 @@ object CustomPaymentDetailsStyle {
 
     private fun provideCVVStyle(): CvvComponentStyle {
         val inputStyle = DefaultLightStyle.inputComponentStyle(
-            placeholderResourceTextId = R.string.cko_cvv_component_title,
+            placeholderResourceTextId = FramesR.string.cko_cvv_component_title,
             margin = Margin(top = 2, bottom = margin)
         )
         return CvvComponentStyle(
@@ -189,7 +190,7 @@ object CustomPaymentDetailsStyle {
         )
 
     private fun provideHeaderStyle() = DefaultLightStyle.screenHeader(
-        textId = R.string.cko_payment_details_title,
+        textId = FramesR.string.cko_payment_details_title,
         imageId = R.drawable.ic_back_arrow,
         leadingIconSize = backIconSize,
         textColor = textColor,

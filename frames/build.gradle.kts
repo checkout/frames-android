@@ -1,16 +1,15 @@
+import com.checkout.buildsrc.BuildConfigFieldName
 import com.checkout.buildsrc.applyAndroidJUnit4Configuration
 import com.checkout.buildsrc.applyAndroidJUnit5Configuration
 import com.checkout.buildsrc.applyCommonLibConfigurations
-import com.checkout.buildsrc.applyDeclarativeUIConfigurations
 import com.checkout.buildsrc.applyDIConfigurations
-import com.checkout.buildsrc.BuildConfigFieldName
+import com.checkout.buildsrc.applyDeclarativeUIConfigurations
 import com.checkout.buildsrc.applyJacocoTestReport
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("android.extensions")
     kotlin("kapt")
     id("org.jetbrains.dokka")
     id("maven-publish")
@@ -25,6 +24,8 @@ applyJacocoTestReport()
 
 android {
     resourcePrefix = "cko_"
+
+    namespace = "com.checkout.frames"
 
     defaultConfig {
         buildConfigField(
@@ -56,6 +57,7 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
     composeOptions {

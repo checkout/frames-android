@@ -2,7 +2,7 @@
 
 object Dependencies {
     //std lib
-    val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 
     // Android
     const val kotlinCoroutines =

@@ -3,10 +3,10 @@ package com.checkout.frames.screen.billingaddressdetails.usecase
 import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.usecase.UseCase
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.billingaddressdetails.BillingAddressInputComponentStyleToViewStyleMapper
 import com.checkout.frames.mock.BillingAddressDetailsTestData
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields

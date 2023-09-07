@@ -2,8 +2,8 @@ package com.checkout.tokenization.mapper.response
 
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
-import com.checkout.tokenization.model.Phone
 import com.checkout.tokenization.entity.PhoneEntity
+import com.checkout.tokenization.model.Phone
 
 /**
  * Mapping of [PhoneEntity] to [Phone]

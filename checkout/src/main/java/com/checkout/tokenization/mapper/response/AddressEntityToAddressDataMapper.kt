@@ -1,9 +1,9 @@
 package com.checkout.tokenization.mapper.response
 
 import com.checkout.base.mapper.Mapper
-import com.checkout.tokenization.model.Address
 import com.checkout.base.model.Country
 import com.checkout.tokenization.entity.AddressEntity
+import com.checkout.tokenization.model.Address
 
 /**
  * Mapping of [AddressEntity] to [Address]

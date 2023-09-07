@@ -1,15 +1,16 @@
 package com.checkout.example.frames.paymentformstyling
 
-import com.checkout.frames.R
+import com.checkout.example.frames.R
 import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Shape
-import com.checkout.frames.style.theme.PaymentFormThemeColors
+import com.checkout.frames.style.theme.DefaultPaymentFormTheme
 import com.checkout.frames.style.theme.PaymentFormComponentBuilder
 import com.checkout.frames.style.theme.PaymentFormComponentField
-import com.checkout.frames.style.theme.PaymentFormTheme
-import com.checkout.frames.style.theme.DefaultPaymentFormTheme
-import com.checkout.frames.style.theme.PaymentFormShape
 import com.checkout.frames.style.theme.PaymentFormCornerRadius
+import com.checkout.frames.style.theme.PaymentFormShape
+import com.checkout.frames.style.theme.PaymentFormTheme
+import com.checkout.frames.style.theme.PaymentFormThemeColors
+import com.checkout.frames.R as FramesR
 
 object CustomPaymentFormTheme {
     private val paymentFormThemeColors = PaymentFormThemeColors(
@@ -24,7 +25,7 @@ object CustomPaymentFormTheme {
 
     private val cardNumber = PaymentFormComponentBuilder()
         .setPaymentFormField(PaymentFormComponentField.CardNumber)
-        .setTitleTextId(R.string.cko_card_number_title)
+        .setTitleTextId(FramesR.string.cko_card_number_title)
         .setSubTitleText("Card number is required")
         .build()
 
@@ -32,23 +33,23 @@ object CustomPaymentFormTheme {
         .setPaymentFormField(PaymentFormComponentField.CardHolderName)
         .setIsFieldOptional(false)
         .setIsFieldHidden(false)
-        .setTitleTextId(R.string.cko_card_holder_name_title)
-        .setInfoTextId(R.string.mandatory_label)
+        .setTitleTextId(FramesR.string.cko_card_holder_name_title)
+        .setInfoTextId(com.checkout.example.frames.R.string.mandatory_label)
         .build()
 
     private val billingFormCardHolderName = PaymentFormComponentBuilder()
         .setPaymentFormField(PaymentFormComponentField.BillingFormCardHolderName)
         .setIsFieldOptional(false)
         .setIsFieldHidden(true)
-        .setTitleTextId(R.string.cko_card_holder_name_title)
+        .setTitleTextId(FramesR.string.cko_card_holder_name_title)
         .setInfoTextId(R.string.mandatory_label)
         .build()
 
     private val addressLineOne = PaymentFormComponentBuilder()
         .setPaymentFormField(PaymentFormComponentField.AddressLineOne)
-        .setTitleTextId(R.string.cko_billing_form_input_field_address_line_one)
+        .setTitleTextId(FramesR.string.cko_billing_form_input_field_address_line_one)
         .setSubTitleText("Eg. street address, apartment number")
-        .setInfoTextId(R.string.cko_input_field_optional_info)
+        .setInfoTextId(FramesR.string.cko_input_field_optional_info)
         .setIsFieldOptional(true)
         .setIsFieldHidden(false)
         .build()
@@ -61,7 +62,7 @@ object CustomPaymentFormTheme {
     private val country = PaymentFormComponentBuilder()
         .setPaymentFormField(PaymentFormComponentField.Country)
         .setIsFieldHidden(false)
-        .setInfoTextId(R.string.cko_input_field_optional_info)
+        .setInfoTextId(FramesR.string.cko_input_field_optional_info)
         .setIsFieldOptional(true)
         .build()
 

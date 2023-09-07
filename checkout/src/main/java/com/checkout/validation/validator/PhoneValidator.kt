@@ -1,8 +1,8 @@
 package com.checkout.validation.validator
 
-import com.checkout.tokenization.model.Phone
 import com.checkout.base.util.PHONE_MAX_LENGTH
 import com.checkout.base.util.PHONE_MIN_LENGTH
+import com.checkout.tokenization.model.Phone
 import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.PhoneValidationRequest
 import com.checkout.validation.model.ValidationResult

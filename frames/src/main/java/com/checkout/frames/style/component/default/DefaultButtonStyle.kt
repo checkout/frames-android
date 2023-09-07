@@ -2,11 +2,11 @@ package com.checkout.frames.style.component.default
 
 import androidx.annotation.ColorLong
 import androidx.annotation.StringRes
-import com.checkout.frames.model.Shape
-import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.BorderStroke
-import com.checkout.frames.model.Padding
+import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Margin
+import com.checkout.frames.model.Padding
+import com.checkout.frames.model.Shape
 import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.component.base.ContainerStyle

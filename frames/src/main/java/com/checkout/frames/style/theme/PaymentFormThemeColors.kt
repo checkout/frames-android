@@ -1,13 +1,13 @@
 package com.checkout.frames.style.theme
 
 import androidx.annotation.ColorLong
-import com.checkout.frames.style.theme.colors.PaymentFormColors
-import com.checkout.frames.style.theme.colors.PaymentFormButtonColors
 import com.checkout.frames.style.theme.colors.CursorColors
 import com.checkout.frames.style.theme.colors.DividerColor
 import com.checkout.frames.style.theme.colors.ImageColors
-import com.checkout.frames.style.theme.colors.TextColors
 import com.checkout.frames.style.theme.colors.InputFieldColors
+import com.checkout.frames.style.theme.colors.PaymentFormButtonColors
+import com.checkout.frames.style.theme.colors.PaymentFormColors
+import com.checkout.frames.style.theme.colors.TextColors
 
 public data class PaymentFormThemeColors(
     val paymentFormColors: PaymentFormColors,

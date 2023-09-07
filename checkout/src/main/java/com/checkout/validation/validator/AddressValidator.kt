@@ -1,12 +1,12 @@
 package com.checkout.validation.validator
 
-import com.checkout.tokenization.model.Address
 import com.checkout.base.util.ADDRESS_LINE1_LENGTH
 import com.checkout.base.util.ADDRESS_LINE2_LENGTH
 import com.checkout.base.util.CITY_LENGTH
-import com.checkout.base.util.ZIP_LENGTH
 import com.checkout.base.util.STATE_LENGTH
+import com.checkout.base.util.ZIP_LENGTH
 import com.checkout.tokenization.mapper.request.AddressValidationRequestToAddressDataMapper
+import com.checkout.tokenization.model.Address
 import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.AddressValidationRequest
 import com.checkout.validation.model.ValidationResult

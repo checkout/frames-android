@@ -6,8 +6,8 @@ import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.model.Margin
 import com.checkout.frames.model.Padding
 import com.checkout.frames.style.component.CardHolderNameComponentStyle
-import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.CardNumberComponentStyle
+import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.CvvComponentStyle
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
 import com.checkout.frames.style.component.PayButtonComponentStyle
@@ -15,32 +15,33 @@ import com.checkout.frames.style.component.ScreenHeaderStyle
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
-import com.checkout.frames.style.component.default.DefaultCvvComponentStyle
 import com.checkout.frames.style.component.default.DefaultAddressSummaryComponentStyle
 import com.checkout.frames.style.component.default.DefaultCardHolderNameComponentStyle
 import com.checkout.frames.style.component.default.DefaultCardNumberComponentStyle
+import com.checkout.frames.style.component.default.DefaultCvvComponentStyle
 import com.checkout.frames.style.component.default.DefaultExpiryDateComponentStyle
-import com.checkout.frames.style.component.default.DefaultPayButtonComponentStyle
 import com.checkout.frames.style.component.default.DefaultLightStyle
+import com.checkout.frames.style.component.default.DefaultPayButtonComponentStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.style.theme.PaymentFormComponent
 import com.checkout.frames.style.theme.PaymentFormComponentField
 import com.checkout.frames.style.theme.PaymentFormTheme
-import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 import com.checkout.frames.utils.constants.AddressSummaryConstants
 import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.utils.constants.ContainerConstants
-import com.checkout.frames.utils.extensions.provideOutLinedButtonStyle
+import com.checkout.frames.utils.constants.PaymentDetailsScreenConstants
 import com.checkout.frames.utils.extensions.provideContainerStyle
 import com.checkout.frames.utils.extensions.provideErrorMessageStyle
 import com.checkout.frames.utils.extensions.provideInfoStyle
 import com.checkout.frames.utils.extensions.provideInputFieldStyle
+import com.checkout.frames.utils.extensions.provideOutLinedButtonStyle
 import com.checkout.frames.utils.extensions.provideSolidButtonStyle
 import com.checkout.frames.utils.extensions.provideSubTitleStyle
 import com.checkout.frames.utils.extensions.provideText
 import com.checkout.frames.utils.extensions.provideTextId
 import com.checkout.frames.utils.extensions.provideTitleStyle
 import com.checkout.frames.utils.extensions.provideTitleTextStyle
+
 @Suppress("TooManyFunctions")
 internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetailsStyle> {
 

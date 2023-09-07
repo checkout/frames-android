@@ -1,14 +1,14 @@
 package com.checkout.frames.style.component.default
 
 import com.checkout.frames.R
-import com.checkout.frames.model.Margin
-import com.checkout.frames.model.CornerRadius
-import com.checkout.frames.model.Shape
 import com.checkout.frames.model.BorderStroke
+import com.checkout.frames.model.CornerRadius
+import com.checkout.frames.model.Margin
+import com.checkout.frames.model.Shape
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
 import com.checkout.frames.style.component.addresssummary.AddressSummarySectionStyle
-import com.checkout.frames.style.component.base.DividerStyle
 import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.DividerStyle
 import com.checkout.frames.utils.constants.AddressSummaryConstants
 import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.utils.constants.LightStyleConstants

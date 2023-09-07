@@ -5,12 +5,12 @@ import com.checkout.base.model.Environment
 import com.checkout.logging.EventLoggerProvider
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
-import io.mockk.mockkObject
 import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

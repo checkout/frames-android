@@ -5,7 +5,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -65,7 +64,7 @@ import com.checkout.frames.model.InputFieldColors
  * in focused state.
  * @param forceLTR force LTR usage even for RTL layout direction.
  */
-internal data class InputFieldViewStyle @OptIn(ExperimentalMaterial3Api::class) constructor(
+internal data class InputFieldViewStyle constructor(
     var modifier: Modifier = Modifier.fillMaxWidth(),
     val enabled: Boolean = true,
     val readOnly: Boolean = false,
@@ -80,7 +79,7 @@ internal data class InputFieldViewStyle @OptIn(ExperimentalMaterial3Api::class) 
     val containerShape: Shape? = null,
     val borderShape: Shape? = null,
     val colors: InputFieldColors? = null,
-    val focusedBorderThickness: Dp = TextFieldDefaults.FocusedBorderThickness,
-    val unfocusedBorderThickness: Dp = TextFieldDefaults.UnfocusedBorderThickness,
+    val focusedBorderThickness: Dp = TextFieldDefaults.FocusedIndicatorThickness,
+    val unfocusedBorderThickness: Dp = TextFieldDefaults.UnfocusedIndicatorThickness,
     var forceLTR: Boolean = false
 )

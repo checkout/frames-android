@@ -2,6 +2,8 @@ plugins {
     id("precompiled-android-app")
 }
 
+android.namespace = "com.checkout.example.frames"
+
 android {
     defaultConfig {
         applicationId = ExampleAppFramesConfig.id
@@ -15,6 +17,14 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro")
         }
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.compose_compiler_ext
     }
 
     packagingOptions {

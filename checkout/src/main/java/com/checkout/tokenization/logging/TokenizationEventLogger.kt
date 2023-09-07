@@ -3,16 +3,16 @@ package com.checkout.tokenization.logging
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
-import com.checkout.logging.utils.TOKEN_TYPE
-import com.checkout.logging.utils.PUBLIC_KEY
+import com.checkout.logging.utils.ERROR_CODES
 import com.checkout.logging.utils.ERROR_TYPE
 import com.checkout.logging.utils.HTTP_STATUS_CODE
-import com.checkout.logging.utils.SCHEME
-import com.checkout.logging.utils.ERROR_CODES
-import com.checkout.logging.utils.putErrorAttributes
-import com.checkout.logging.utils.TOKEN_ID
-import com.checkout.logging.utils.SERVER_ERROR
+import com.checkout.logging.utils.PUBLIC_KEY
 import com.checkout.logging.utils.REQUEST_ID
+import com.checkout.logging.utils.SCHEME
+import com.checkout.logging.utils.SERVER_ERROR
+import com.checkout.logging.utils.TOKEN_ID
+import com.checkout.logging.utils.TOKEN_TYPE
+import com.checkout.logging.utils.putErrorAttributes
 import com.checkout.network.response.ErrorResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
 

@@ -1,14 +1,13 @@
+import com.checkout.buildsrc.BuildConfigFieldName
+import com.checkout.buildsrc.applyAndroidJUnit4Configuration
 import com.checkout.buildsrc.applyAndroidJUnit5Configuration
 import com.checkout.buildsrc.applyCommonLibConfigurations
-import com.checkout.buildsrc.applyAndroidJUnit4Configuration
-import com.checkout.buildsrc.applyNetworkConfigurations
-import com.checkout.buildsrc.BuildConfigFieldName
 import com.checkout.buildsrc.applyJacocoTestReport
+import com.checkout.buildsrc.applyNetworkConfigurations
 
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("android.extensions")
     id("org.jetbrains.dokka")
     id("maven-publish")
 }
@@ -21,6 +20,8 @@ applyJacocoTestReport()
 
 android {
     resourcePrefix = "cko_"
+
+    namespace = "com.checkout"
 
     defaultConfig {
         buildConfigField(
@@ -61,6 +62,10 @@ android {
                 BuildConfigFieldName.defaultLogcatMonitoring,
                 "true"
             )
+        }
+
+        buildFeatures {
+            viewBinding = true
         }
     }
 }

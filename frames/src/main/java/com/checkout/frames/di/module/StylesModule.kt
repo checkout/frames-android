@@ -25,11 +25,11 @@ import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
+import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.component.base.InputFieldStyle
-import com.checkout.frames.style.component.base.ButtonStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle

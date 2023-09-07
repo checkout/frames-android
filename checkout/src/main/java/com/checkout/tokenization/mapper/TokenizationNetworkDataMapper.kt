@@ -1,13 +1,13 @@
 package com.checkout.tokenization.mapper
 
 import com.checkout.base.error.CheckoutError
-import com.checkout.tokenization.model.TokenResult
 import com.checkout.network.error.NetworkError
 import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.error.TokenizationError
 import com.checkout.tokenization.error.TokenizationError.Companion.INVALID_KEY
 import com.checkout.tokenization.error.TokenizationError.Companion.INVALID_TOKEN_REQUEST
 import com.checkout.tokenization.error.TokenizationError.Companion.TOKENIZATION_API_RESPONSE_PROCESSING_ERROR
+import com.checkout.tokenization.model.TokenResult
 
 /**
  * Base implementation of mapping from data object to domain classes.

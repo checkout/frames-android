@@ -1,8 +1,8 @@
 package com.checkout.validation.validator
 
 import android.annotation.SuppressLint
-import com.checkout.tokenization.model.Address
 import com.checkout.base.model.Country
+import com.checkout.tokenization.model.Address
 import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.AddressValidationRequest
 import com.checkout.validation.model.ValidationResult

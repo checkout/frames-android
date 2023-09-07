@@ -12,22 +12,20 @@ import com.checkout.threedsecure.model.ThreeDSRequest
 import com.checkout.threedsecure.model.ThreeDSResult
 import com.checkout.threedsecure.model.ThreeDSResultHandler
 import com.checkout.threedsecure.webview.ThreeDSWebView
+import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.spyk
-import io.mockk.every
 import io.mockk.verify
-import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.junit5.MockKExtension
 import org.amshove.kluent.internal.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.lang.ClassCastException
 import java.util.stream.Stream
 
 @ExtendWith(MockKExtension::class)

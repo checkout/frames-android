@@ -1,9 +1,9 @@
 package com.checkout.frames.style.theme
 
-import com.checkout.frames.style.component.base.TextStyle
-import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.TextStyle
 
 internal data class PaymentFormThemeStyle(
     val titleTextStyle: TextStyle? = null,

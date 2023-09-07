@@ -8,12 +8,12 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:7.2.1")
+    implementation("com.android.tools.build:gradle:8.1.0")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.property("kotlinVersion")}")
     implementation("de.mannodermaus.gradle.plugins:android-junit5:${project.property("mannodermausAndroidJunit5Version")}")
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:${project.property("dokkaVersion")}")

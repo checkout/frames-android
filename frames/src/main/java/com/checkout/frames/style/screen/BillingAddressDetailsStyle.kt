@@ -2,8 +2,8 @@ package com.checkout.frames.style.screen
 
 import com.checkout.frames.style.component.CountryComponentStyle
 import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.billingformdetails.InputComponentsContainerStyle
 import com.checkout.frames.style.component.billingformdetails.HeaderComponentStyle
+import com.checkout.frames.style.component.billingformdetails.InputComponentsContainerStyle
 import com.checkout.frames.style.component.default.DefaultCountryComponentStyle
 import com.checkout.frames.style.screen.default.DefaultBillingAddressDetailsStyle
 

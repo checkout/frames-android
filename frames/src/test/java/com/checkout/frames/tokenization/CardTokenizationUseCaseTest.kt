@@ -3,8 +3,8 @@ package com.checkout.frames.tokenization
 import android.annotation.SuppressLint
 import com.checkout.api.CheckoutApiService
 import com.checkout.base.usecase.UseCase
-import com.checkout.frames.usecase.CardTokenizationUseCase
 import com.checkout.frames.model.request.InternalCardTokenRequest
+import com.checkout.frames.usecase.CardTokenizationUseCase
 import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.ExpiryDate
@@ -15,9 +15,8 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
-
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

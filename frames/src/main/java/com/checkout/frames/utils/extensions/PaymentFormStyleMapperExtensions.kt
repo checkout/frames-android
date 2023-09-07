@@ -2,15 +2,16 @@
 package com.checkout.frames.utils.extensions
 
 import com.checkout.frames.model.Padding
+import com.checkout.frames.style.component.base.ButtonStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.TextStyle
-import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
-import com.checkout.frames.style.component.base.InputComponentStyle
-import com.checkout.frames.style.component.base.InputFieldStyle
-import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.theme.PaymentFormComponent
 import com.checkout.frames.style.theme.PaymentFormTheme
+
 /**
  * TextLabelStyle extensions
  */

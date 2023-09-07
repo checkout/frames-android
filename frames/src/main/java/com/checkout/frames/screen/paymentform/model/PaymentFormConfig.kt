@@ -3,8 +3,8 @@ package com.checkout.frames.screen.paymentform.model
 import android.content.Context
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
-import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.style.screen.PaymentFormStyle
 
 /**
  * @param publicKey - used for client-side authentication in the SDK

@@ -12,10 +12,10 @@ import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.utils.constants.ErrorConstants
-import com.checkout.frames.utils.constants.TitleConstants
-import com.checkout.frames.utils.constants.SubtitleConstants
 import com.checkout.frames.utils.constants.HeaderTitleConstants
+import com.checkout.frames.utils.constants.SubtitleConstants
 import com.checkout.frames.utils.constants.TextConstants
+import com.checkout.frames.utils.constants.TitleConstants
 
 public object DefaultTextLabelStyle {
 

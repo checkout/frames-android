@@ -1,10 +1,10 @@
 package com.checkout.tokenization.mapper.response
 
 import com.checkout.base.error.CheckoutError
-import com.checkout.tokenization.model.TokenDetails
-import com.checkout.tokenization.mapper.TokenizationNetworkDataMapper
-import com.checkout.tokenization.response.GetTokenDetailsResponse
 import com.checkout.tokenization.error.TokenizationError.Companion.TOKENIZATION_API_MALFORMED_JSON
+import com.checkout.tokenization.mapper.TokenizationNetworkDataMapper
+import com.checkout.tokenization.model.TokenDetails
+import com.checkout.tokenization.response.GetTokenDetailsResponse
 
 /**
  * An implementation of mapping from [GetTokenDetailsResponse] data object to [TokenDetails].

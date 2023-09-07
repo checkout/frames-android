@@ -4,25 +4,24 @@ import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Start
@@ -37,8 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.Environment
-import com.checkout.example.frames.ui.utils.PromptUtils
-import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
+import com.checkout.example.frames.R
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.ui.component.ButtonComponent
 import com.checkout.example.frames.ui.component.TextComponent
@@ -47,10 +45,10 @@ import com.checkout.example.frames.ui.theme.ButtonBorder
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme
 import com.checkout.example.frames.ui.theme.GrayColor
-import com.checkout.frames.R
+import com.checkout.example.frames.ui.utils.PromptUtils
+import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
 import com.checkout.tokenization.model.GooglePayTokenRequest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("MagicNumber", "LongMethod")
 @Composable
 fun HomeScreen(navController: NavController) {

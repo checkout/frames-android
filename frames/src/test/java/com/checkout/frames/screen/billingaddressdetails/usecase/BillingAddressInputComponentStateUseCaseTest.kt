@@ -8,8 +8,8 @@ import com.checkout.frames.component.billingaddressfields.BillingAddressInputCom
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.billingaddressdetails.BillingAddressInputComponentStyleToStateMapper
 import com.checkout.frames.mock.BillingAddressDetailsTestData
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields

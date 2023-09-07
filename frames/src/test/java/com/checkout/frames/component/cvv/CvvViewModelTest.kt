@@ -9,13 +9,13 @@ import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
+import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CvvComponentStyle
@@ -39,7 +39,6 @@ import org.amshove.kluent.internal.assertEquals
 import org.amshove.kluent.internal.assertFalse
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertTrue
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

@@ -9,11 +9,11 @@ import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.provider.ComponentProvider
 import com.checkout.frames.logging.PaymentFormEventType
-import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
+import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mock.PaymentFormConfigTestData
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited

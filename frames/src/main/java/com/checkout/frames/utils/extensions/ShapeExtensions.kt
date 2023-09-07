@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Shape.Circle
-import com.checkout.frames.model.Shape.RoundCorner
 import com.checkout.frames.model.Shape.CutCorner
+import com.checkout.frames.model.Shape.RoundCorner
 
 internal fun com.checkout.frames.model.Shape.toComposeShape(cornerRadius: CornerRadius): Shape = when (this) {
     Circle -> CircleShape

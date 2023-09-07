@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,25 +15,27 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.Surface
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TextFieldDefaults.ContainerBox
+import androidx.compose.material3.TextFieldDefaults.contentPaddingWithLabel
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
-import androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors
-import androidx.compose.material3.TextFieldDefaults.textFieldColors
+import androidx.compose.material3.TextFieldDefaults.shape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -44,8 +46,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.checkout.frames.model.InputFieldColors
-import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.style.view.InputFieldViewStyle
+import com.checkout.frames.utils.constants.BorderConstants
 import com.checkout.frames.utils.extensions.clearFocusOnKeyboardDismiss
 
 @Composable
@@ -134,44 +136,53 @@ private fun DecorationBox(
     focusedBorderThickness: Dp,
     unfocusedBorderThickness: Dp
 ) {
-    if (borderShape == null) TextFieldDefaults.TextFieldDecorationBox(
+    if (borderShape == null) TextFieldDefaults.DecorationBox(
         value = value,
-        visualTransformation = visualTransformation,
         innerTextField = innerTextField,
-        placeholder = placeholder,
+        enabled = enabled,
+        singleLine = singleLine,
+        visualTransformation = visualTransformation,
+        interactionSource = interactionSource,
+        isError = isError,
         label = null,
+        placeholder = placeholder,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        singleLine = singleLine,
-        enabled = enabled,
-        isError = isError,
-        interactionSource = interactionSource,
-        colors = colors
-    )
-    else TextFieldDefaults.OutlinedTextFieldDecorationBox(
-        value = value,
-        visualTransformation = visualTransformation,
-        innerTextField = innerTextField,
-        placeholder = placeholder,
-        label = null,
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
-        singleLine = singleLine,
-        enabled = enabled,
-        isError = isError,
-        interactionSource = interactionSource,
+        prefix = null,
+        suffix = null,
+        supportingText = null,
+        shape = shape,
         colors = colors,
+        contentPadding = contentPaddingWithLabel(),
         container = {
-            TextFieldDefaults.OutlinedBorderContainerBox(
-                enabled,
-                isError,
-                interactionSource,
-                colors,
-                borderShape,
+            ContainerBox(enabled, isError, interactionSource, colors, shape)
+        },
+    )
+    else OutlinedTextFieldDefaults.DecorationBox(
+        value = value,
+        innerTextField = innerTextField,
+        enabled = enabled,
+        singleLine = singleLine,
+        visualTransformation = visualTransformation,
+        interactionSource = interactionSource,
+        isError = isError,
+        label = null,
+        placeholder = placeholder,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        colors = colors,
+        contentPadding = OutlinedTextFieldDefaults.contentPadding(),
+        container = {
+            OutlinedTextFieldDefaults.ContainerBox(
+                enabled = enabled,
+                isError = isError,
+                interactionSource = interactionSource,
+                colors = colors,
+                shape = borderShape,
                 focusedBorderThickness = focusedBorderThickness,
-                unfocusedBorderThickness = unfocusedBorderThickness
+                unfocusedBorderThickness = unfocusedBorderThickness,
             )
-        }
+        },
     )
 }
 
@@ -194,24 +205,30 @@ private fun provideInputFieldColors(
     val errorCursorColor =
         colors?.errorCursorColor ?: colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor)
 
-    return if (withBorder) outlinedTextFieldColors(
-        textColor = textColor,
-        placeholderColor = placeholderColor,
+    return if (withBorder) OutlinedTextFieldDefaults.colors(
+        focusedTextColor = textColor,
+        unfocusedTextColor = textColor,
+        focusedPlaceholderColor = placeholderColor,
+        unfocusedPlaceholderColor = placeholderColor,
         focusedBorderColor = focusedIndicatorColor,
         unfocusedBorderColor = unfocusedIndicatorColor,
         disabledBorderColor = disabledIndicatorColor,
         errorBorderColor = errorIndicatorColor,
-        containerColor = containerColor,
+        focusedContainerColor = containerColor,
+        unfocusedContainerColor = containerColor,
         cursorColor = cursorColor,
         errorCursorColor = errorCursorColor
-    ) else textFieldColors(
-        textColor = textColor,
-        placeholderColor = placeholderColor,
+    ) else TextFieldDefaults.colors(
+        focusedTextColor = textColor,
+        unfocusedTextColor = textColor,
+        focusedPlaceholderColor = placeholderColor,
+        unfocusedPlaceholderColor = placeholderColor,
         focusedIndicatorColor = if (withContainerShape) Color.Transparent else focusedIndicatorColor,
         unfocusedIndicatorColor = if (withContainerShape) Color.Transparent else unfocusedIndicatorColor,
         disabledIndicatorColor = if (withContainerShape) Color.Transparent else disabledIndicatorColor,
         errorIndicatorColor = if (withContainerShape) Color.Transparent else errorIndicatorColor,
-        containerColor = if (withContainerShape) Color.Transparent else containerColor,
+        focusedContainerColor = if (withContainerShape) Color.Transparent else containerColor,
+        unfocusedContainerColor = if (withContainerShape) Color.Transparent else containerColor,
         cursorColor = cursorColor,
         errorCursorColor = errorCursorColor
     )

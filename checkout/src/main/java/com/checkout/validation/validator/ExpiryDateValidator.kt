@@ -7,7 +7,6 @@ import com.checkout.validation.model.ValidationResult
 import com.checkout.validation.validator.contract.Validator
 import java.util.Calendar
 import java.util.Date
-import kotlin.jvm.Throws
 
 /**
  * Class used to validate expiry date.

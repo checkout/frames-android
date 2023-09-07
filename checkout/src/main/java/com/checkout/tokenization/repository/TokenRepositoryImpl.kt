@@ -10,21 +10,21 @@ import com.checkout.tokenization.entity.GooglePayEntity
 import com.checkout.tokenization.error.TokenizationError
 import com.checkout.tokenization.logging.TokenizationLogger
 import com.checkout.tokenization.mapper.TokenizationNetworkDataMapper
-import com.checkout.tokenization.model.GooglePayTokenRequest
+import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
+import com.checkout.tokenization.model.GooglePayTokenRequest
 import com.checkout.tokenization.model.TokenDetails
 import com.checkout.tokenization.model.TokenResult
-import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.request.GooglePayTokenNetworkRequest
 import com.checkout.tokenization.request.TokenRequest
 import com.checkout.tokenization.response.TokenDetailsResponse
 import com.checkout.tokenization.utils.TokenizationConstants
 import com.checkout.validation.model.ValidationResult
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.CoroutineScope
 import org.json.JSONException
 import org.json.JSONObject
 
