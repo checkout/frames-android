@@ -2,9 +2,8 @@ plugins {
     id("precompiled-android-app")
 }
 
-android.namespace = "com.checkout.example.frames"
-
 android {
+    namespace = "com.checkout.example.frames"
     defaultConfig {
         applicationId = ExampleAppFramesConfig.id
         versionCode = ExampleAppFramesConfig.versionCode
