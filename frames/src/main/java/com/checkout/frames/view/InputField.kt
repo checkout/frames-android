@@ -22,7 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.ContainerBox
-import androidx.compose.material3.TextFieldDefaults.contentPaddingWithLabel
+import androidx.compose.material3.TextFieldDefaults.contentPaddingWithoutLabel
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.material3.TextFieldDefaults.shape
 import androidx.compose.runtime.Composable
@@ -153,7 +153,7 @@ private fun DecorationBox(
         supportingText = null,
         shape = shape,
         colors = colors,
-        contentPadding = contentPaddingWithLabel(),
+        contentPadding = contentPaddingWithoutLabel(),
         container = {
             ContainerBox(enabled, isError, interactionSource, colors, shape)
         },
