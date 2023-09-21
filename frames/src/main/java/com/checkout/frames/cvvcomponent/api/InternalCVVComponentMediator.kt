@@ -8,7 +8,7 @@ import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
 import com.checkout.frames.cvvcomponent.CvvInputComponent
 import com.checkout.tokenization.model.CVVTokenRequest
 
-internal class InternalComponentMediator(private val cvvComponentConfig: CVVComponentConfig) : ComponentMediator {
+internal class InternalCVVComponentMediator(private val cvvComponentConfig: CVVComponentConfig) : CVVComponentMediator {
 
     @Composable
     override fun CVVComponent() {

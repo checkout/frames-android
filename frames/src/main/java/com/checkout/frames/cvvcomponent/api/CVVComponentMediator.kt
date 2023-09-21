@@ -6,9 +6,9 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.checkout.tokenization.model.CVVTokenRequest
 
 /**
- * Component Mediator
+ * CVVComponent Mediator provides capabilities to load CVV component along with tokenization
  */
-public interface ComponentMediator {
+public interface CVVComponentMediator {
 
     /**
      * Load component in compose UI
@@ -16,7 +16,8 @@ public interface ComponentMediator {
     @Composable
     public fun CVVComponent()
 
-    /** To Add CVV Component in XML/Dynamic layouts
+    /**
+     *  To Add CVV Component in XML/Dynamic layouts
      *
      * @param container - provide a view container to add cvvComponent
      * @param strategy - A strategy for managing the underlying Composition of Compose UI Views
@@ -29,7 +30,7 @@ public interface ComponentMediator {
     /**
      * Creates token for CVV
      *
-     * @param request - [CVVTokenRequest] contains result handlers.
+     * @param request - [CVVTokenRequest] contains result handlers
      */
     public fun createToken(request: CVVTokenRequest)
 }
