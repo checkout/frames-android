@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.checkout.CheckoutApiServiceFactory
+import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
 import com.checkout.example.frames.ui.utils.PromptUtils
 import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
@@ -47,7 +48,10 @@ import com.checkout.example.frames.ui.theme.ButtonBorder
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme
 import com.checkout.example.frames.ui.theme.GrayColor
+import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.R
+import com.checkout.frames.cvvcomponent.CVVComponentApiFactory
+import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
 import com.checkout.tokenization.model.GooglePayTokenRequest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -142,6 +146,26 @@ fun HomeScreen(navController: NavController) {
                         navController.navigate(Screen.CustomUI.route)
                     }
                 }
+
+                Spacer(Modifier.height(35.dp))
+
+                TextComponent(
+                    titleResourceId = R.string.cvv_component,
+                    fontSize = 20,
+                    fontWeight = FontWeight.SemiBold,
+                    paddingValues = PaddingValues(start = 24.dp, bottom = 14.dp),
+                    textColor = DarkBlue
+                )
+                val cvvComponentApi = CVVComponentApiFactory.create(PUBLIC_KEY, Environment.SANDBOX, context)
+
+                val cvvComponentConfig = CVVComponentConfig(
+                    CardScheme.fetchCardScheme(cardSchemeValue = "Visa"), onCVVValueChange = { isValidCVV ->
+                        println(isValidCVV)
+                    }
+                )
+                val mediator = cvvComponentApi.createComponentMediator(cvvComponentConfig)
+
+                mediator.CVVComponent()
 
                 Spacer(Modifier.height(35.dp))
 

@@ -5,6 +5,7 @@
     <string name="payment_experience" translatable="false">Payment Experience</string>
     <string name="simulate_wallet" translatable="false">Simulate APMS and Wallets</string>
     <string name="threed_secure" translatable="false">3DS</string>
+    <string name="cvv_component" translatable="false">CVV Component</string>
     <string name="custom_ui_theme" translatable="false">Theme UI</string>
     <string name="custom_ui" translatable="false">Custom UI</string>
     <string name="default_ui" translatable="false">Default UI</string>

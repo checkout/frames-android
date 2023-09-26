@@ -53,8 +53,8 @@ import com.checkout.frames.utils.extensions.clearFocusOnKeyboardDismiss
 internal fun InputField(
     style: InputFieldViewStyle,
     state: InputFieldState,
-    onFocusChanged: ((Boolean) -> Unit)? = null,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onFocusChanged: ((Boolean) -> Unit)? = null
 ) = with(style) {
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val textStyle = provideTextStyle(this)
@@ -272,8 +272,9 @@ private fun InputFieldPreview() {
                 colors = InputFieldColors(containerColor = Color.Transparent),
                 placeholder = { Text(text = "Test placeholder") }
             ),
-            InputFieldState(text)
-        ) { text.value = it }
+            InputFieldState(text),
+            { text.value = it }
+        )
     }
 }
 
@@ -302,8 +303,9 @@ private fun RoundInputFieldPreview() {
                 placeholder = { Text(text = "Test placeholder") },
                 containerShape = RoundedCornerShape(12.dp)
             ),
-            InputFieldState(text)
-        ) { text.value = it }
+            InputFieldState(text),
+            { text.value = it }
+        )
     }
 }
 
@@ -327,8 +329,9 @@ private fun CustomOutlineInputFieldPreview() {
                 placeholder = { Text(text = "Test placeholder Outline") },
                 borderShape = RectangleShape
             ),
-            InputFieldState(text)
-        ) { text.value = it }
+            InputFieldState(text),
+            { text.value = it }
+        )
     }
 }
 
@@ -354,8 +357,9 @@ private fun CutCornerOutlineInputFieldPreview() {
                 borderShape = CutCornerShape(16.dp),
                 unfocusedBorderThickness = 4.dp
             ),
-            InputFieldState(text)
-        ) { text.value = it }
+            InputFieldState(text),
+            { text.value = it }
+        )
     }
 }
 
@@ -381,7 +385,8 @@ private fun CircleOutlineInputFieldPreview() {
                 borderShape = CircleShape,
                 unfocusedBorderThickness = 2.dp
             ),
-            InputFieldState(text)
-        ) { text.value = it }
+            InputFieldState(text),
+            { text.value = it }
+        )
     }
 }

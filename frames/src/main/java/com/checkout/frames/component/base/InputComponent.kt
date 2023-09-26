@@ -39,7 +39,7 @@ internal fun InputComponent(
             }
         }
         // Input field
-        InputField(style.inputFieldStyle, inputFieldState, onFocusChanged, onValueChange)
+        InputField(style.inputFieldStyle, inputFieldState, onValueChange, onFocusChanged)
         // Error message
         if (errorState.isVisible.value) TextLabel(style.errorMessageStyle, errorState)
     }

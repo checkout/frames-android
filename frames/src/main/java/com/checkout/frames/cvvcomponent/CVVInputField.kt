@@ -1,16 +1,35 @@
 package com.checkout.frames.cvvcomponent
 
 import androidx.compose.runtime.Composable
-import com.checkout.frames.style.view.InputFieldViewStyle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.checkout.CardValidatorFactory
+import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
+import com.checkout.frames.cvvcomponent.viewmodel.CVVComponentViewModel
+import com.checkout.frames.cvvcomponent.viewmodel.CVVComponentViewModelFactory
+import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.view.InputField
-import com.checkout.frames.view.InputFieldState
 
 @Composable
 internal fun CVVInputField(
-    cvvFieldStyle: InputFieldViewStyle,
-    cvvFieldState: InputFieldState,
-    onFocusChanged: (Boolean) -> Unit,
-    onValueChange: (String) -> Unit,
+    config: CVVComponentConfig,
 ) {
-    InputField(cvvFieldStyle, cvvFieldState, onFocusChanged, onValueChange)
+
+    val viewModel: CVVComponentViewModel = viewModel(
+        factory = CVVComponentViewModelFactory(
+            config,
+            CardValidatorFactory.create(),
+            InputFieldStyleToInputFieldStateMapper(ImageStyleToComposableImageMapper()),
+            InputFieldStyleToViewStyleMapper(
+                TextLabelStyleToViewStyleMapper(
+                    ContainerStyleToModifierMapper()
+                )
+            )
+        )
+    )
+
+    InputField(viewModel.cvvInputFieldStyle, viewModel.cvvInputFieldState, viewModel::onCvvChange)
 }
