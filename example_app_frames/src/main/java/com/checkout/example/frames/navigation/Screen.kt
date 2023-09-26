@@ -8,4 +8,6 @@ sealed class Screen(val route: String) {
     object CustomThemingUI : Screen(CUSTOM_THEMING_UI_SCREEN)
 
     object CustomUI : Screen(CUSTOM_UI_SCREEN)
+
+    object CVVTokenization : Screen(CVV_TOKENIZATION)
 }

@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Icon
@@ -36,7 +35,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.checkout.CheckoutApiServiceFactory
-import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
 import com.checkout.example.frames.ui.utils.PromptUtils
 import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
@@ -48,13 +46,9 @@ import com.checkout.example.frames.ui.theme.ButtonBorder
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme
 import com.checkout.example.frames.ui.theme.GrayColor
-import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.R
-import com.checkout.frames.cvvcomponent.CVVComponentApiFactory
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
 import com.checkout.tokenization.model.GooglePayTokenRequest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("MagicNumber", "LongMethod")
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -135,37 +129,29 @@ fun HomeScreen(navController: NavController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 24.dp, end = 24.dp),
+                        .padding(start = 24.dp, end = 24.dp, bottom = 14.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     ButtonComponent(
                         buttonTitleId = R.string.custom_ui,
                         imageResourceID = R.drawable.ic_ui_type,
-                        Modifier.size(width = Dp.Unspecified, height = 80.dp)
+                        Modifier
+                            .weight(1F)
+                            .size(width = Dp.Unspecified, height = 80.dp)
                     ) {
                         navController.navigate(Screen.CustomUI.route)
                     }
-                }
-
-                Spacer(Modifier.height(35.dp))
-
-                TextComponent(
-                    titleResourceId = R.string.cvv_component,
-                    fontSize = 20,
-                    fontWeight = FontWeight.SemiBold,
-                    paddingValues = PaddingValues(start = 24.dp, bottom = 14.dp),
-                    textColor = DarkBlue
-                )
-                val cvvComponentApi = CVVComponentApiFactory.create(PUBLIC_KEY, Environment.SANDBOX, context)
-
-                val cvvComponentConfig = CVVComponentConfig(
-                    CardScheme.fetchCardScheme(cardSchemeValue = "Visa"), onCVVValueChange = { isValidCVV ->
-                        println(isValidCVV)
+                    ButtonComponent(
+                        buttonTitleId = R.string.cvv_component,
+                        imageResourceID = R.drawable.ic_ui_type,
+                        Modifier
+                            .weight(1F)
+                            .padding(start = 8.dp)
+                            .size(width = Dp.Unspecified, height = 80.dp)
+                    ) {
+                        navController.navigate(Screen.CVVTokenization.route)
                     }
-                )
-                val mediator = cvvComponentApi.createComponentMediator(cvvComponentConfig)
-
-                mediator.CVVComponent()
+                }
 
                 Spacer(Modifier.height(35.dp))
 

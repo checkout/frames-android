@@ -24,6 +24,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.internal.assertEquals
+import org.amshove.kluent.internal.assertFalse
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -92,9 +93,9 @@ internal class CvvComponentViewModelTest {
     }
 
     @Test
-    fun `when view model is initialised then initial style has forced LTR`() {
+    fun `when view model is initialised then initial style has not forced LTR`() {
         // Then
-        assertTrue(viewModel.cvvInputFieldStyle.forceLTR)
+        assertFalse(viewModel.cvvInputFieldStyle.forceLTR)
     }
 
     @Test
@@ -103,21 +104,6 @@ internal class CvvComponentViewModelTest {
         assertEquals(
             viewModel.cvvInputFieldStyle.keyboardOptions.keyboardType, KeyboardType.Number
         )
-    }
-
-    /** Input data filtering **/
-
-    @Test
-    fun `when cvv with non digits entered then non digit symbols are removed`() {
-        // Given
-        val sourceInput = "1.2"
-        val filteredInput = "12"
-
-        // When
-        viewModel.onCvvChange(sourceInput)
-
-        // Then
-        assertEquals(viewModel.cvvInputFieldState.text.value, filteredInput)
     }
 
     private fun initMappers() {

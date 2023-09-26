@@ -3,6 +3,7 @@ package com.checkout.frames.cvvcomponent.viewmodel
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
@@ -19,28 +20,23 @@ internal class CVVComponentViewModel internal constructor(
     val cardValidator: CardValidator,
 ) : ViewModel() {
 
-    internal companion object {
-        val onlyDigitsRegex = "[^0-9]".toRegex()
-    }
-
     val cvvInputFieldState = inputFieldStateMapper.map(cvvComponentConfig.cvvInputFieldStyle)
     val cvvInputFieldStyle = provideViewStyle(cvvComponentConfig.cvvInputFieldStyle)
 
     /**
      * Update mutable state of input field value.
      */
-    fun onCvvChange(text: String) = with(text.replace(onlyDigitsRegex, "")) {
-        cvvInputFieldState.text.value = this
+    fun onCvvChange(text: String) {
+        if (text.isDigitsOnly()) {
+            cvvInputFieldState.text.value = text
+        }
     }
 
-    private fun provideViewStyle(inputStyle: InputFieldStyle): InputFieldViewStyle {
-        var viewStyle = inputFieldStyleMapper.map(inputStyle)
-        val keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
-
-        viewStyle = viewStyle.copy(
-            keyboardOptions = keyboardOptions, forceLTR = true
+    private fun provideViewStyle(inputStyle: InputFieldStyle): InputFieldViewStyle =
+        inputFieldStyleMapper.map(inputStyle).copy(
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number, imeAction = ImeAction.Done
+            ),
+            forceLTR = false
         )
-
-        return viewStyle
-    }
 }

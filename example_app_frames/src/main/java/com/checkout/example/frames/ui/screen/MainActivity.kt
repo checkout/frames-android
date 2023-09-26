@@ -101,6 +101,7 @@ fun Navigator(
 
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }
+        composable(route = Screen.CVVTokenization.route) { CVVTokenizationScreen(navController) }
         composable(route = Screen.DefaultUI.route) { defaultPaymentFormMediator.PaymentForm() }
         composable(route = Screen.CustomThemingUI.route) { customThemingPaymentFormMediator.PaymentForm() }
         composable(route = Screen.CustomUI.route) { customPaymentFormMediator.PaymentForm() }
