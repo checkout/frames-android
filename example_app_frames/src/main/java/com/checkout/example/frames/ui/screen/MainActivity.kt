@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.checkout.base.model.CardScheme
+import com.checkout.base.model.Environment
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.paymentformstyling.CustomBillingFormStyle
 import com.checkout.example.frames.paymentformstyling.CustomPaymentDetailsStyle
@@ -21,6 +22,9 @@ import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.cvvcomponent.CVVComponentApiFactory
+import com.checkout.frames.cvvcomponent.api.CVVComponentMediator
+import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
 import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.frames.style.theme.paymentform.PaymentFormStyleProvider
 import com.checkout.tokenization.model.TokenDetails
@@ -101,8 +105,24 @@ fun Navigator(
 
     NavHost(navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) { HomeScreen(navController) }
+        composable(route = Screen.CVVTokenization.route) {
+            CVVTokenizationScreen(navController, createMediator(context))
+        }
         composable(route = Screen.DefaultUI.route) { defaultPaymentFormMediator.PaymentForm() }
         composable(route = Screen.CustomThemingUI.route) { customThemingPaymentFormMediator.PaymentForm() }
         composable(route = Screen.CustomUI.route) { customPaymentFormMediator.PaymentForm() }
     }
+}
+
+fun createMediator(context: Context): CVVComponentMediator {
+    val cvvComponentApi = CVVComponentApiFactory.create(PUBLIC_KEY, Environment.SANDBOX, context)
+
+    val cvvComponentConfig = CVVComponentConfig(
+        cardScheme = CardScheme.fromString(cardSchemeValue = "Visa"),
+        onCVVValueChange = { isValidCVV ->
+            println(isValidCVV)
+        }
+    )
+
+    return cvvComponentApi.createComponentMediator(cvvComponentConfig)
 }

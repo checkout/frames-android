@@ -52,7 +52,7 @@ internal fun ButtonComponent(buttonTitleId: Int, imageResourceID: Int, modifier:
             Text(
                 text = stringResource(id = buttonTitleId),
                 modifier = Modifier.padding(start = 8.dp),
-                fontSize = 14.sp
+                fontSize = 12.sp
             )
         }
     }

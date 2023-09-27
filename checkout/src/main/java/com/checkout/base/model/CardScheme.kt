@@ -137,5 +137,12 @@ public enum class CardScheme(
             addAll(values())
             remove(UNKNOWN)
         }
+
+        @JvmStatic
+        public fun fromString(cardSchemeValue: String): CardScheme = CardScheme.values().find { cardScheme ->
+            cardScheme.name.contains(
+                cardSchemeValue.uppercase().substringBefore("_").substringBefore(" ")
+            )
+        } ?: UNKNOWN
     }
 }

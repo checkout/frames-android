@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Icon
@@ -50,7 +49,6 @@ import com.checkout.example.frames.ui.theme.GrayColor
 import com.checkout.frames.R
 import com.checkout.tokenization.model.GooglePayTokenRequest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("MagicNumber", "LongMethod")
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -131,15 +129,27 @@ fun HomeScreen(navController: NavController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 24.dp, end = 24.dp),
+                        .padding(start = 24.dp, end = 24.dp, bottom = 14.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     ButtonComponent(
                         buttonTitleId = R.string.custom_ui,
                         imageResourceID = R.drawable.ic_ui_type,
-                        Modifier.size(width = Dp.Unspecified, height = 80.dp)
+                        Modifier
+                            .weight(1F)
+                            .size(width = Dp.Unspecified, height = 80.dp)
                     ) {
                         navController.navigate(Screen.CustomUI.route)
+                    }
+                    ButtonComponent(
+                        buttonTitleId = R.string.cvv_component,
+                        imageResourceID = R.drawable.ic_ui_type,
+                        Modifier
+                            .weight(1F)
+                            .padding(start = 8.dp)
+                            .size(width = Dp.Unspecified, height = 80.dp)
+                    ) {
+                        navController.navigate(Screen.CVVTokenization.route)
                     }
                 }
 

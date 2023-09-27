@@ -74,7 +74,7 @@ private fun HeaderComponent(
 ) {
     Column {
         TextLabel(style = screenTitleStyle, state = screenTitleState)
-        InputField(searchFieldStyle, searchFieldState, onSearchFocusChange, onSearchValueChange)
+        InputField(searchFieldStyle, searchFieldState, onSearchValueChange, onSearchFocusChange)
     }
 }
 
