@@ -10,7 +10,7 @@ internal class CardSchemeTest {
         val expectedCardScheme = CardScheme.VISA
 
         // When
-        val actualCardScheme = CardScheme.fetchCardScheme("Visa")
+        val actualCardScheme = CardScheme.fromString("Visa")
 
         // Then
         Assertions.assertEquals(expectedCardScheme, actualCardScheme)
@@ -22,7 +22,19 @@ internal class CardSchemeTest {
         val expectedCardScheme = CardScheme.DINERS_CLUB
 
         // When
-        val actualCardScheme = CardScheme.fetchCardScheme("Diners Club International")
+        val actualCardScheme = CardScheme.fromString("Diners Club International")
+
+        // Then
+        Assertions.assertEquals(expectedCardScheme, actualCardScheme)
+    }
+
+    @Test
+    fun `given scheme string containing uppercase along with underscore value returns correct result`() {
+        // Given
+        val expectedCardScheme = CardScheme.DINERS_CLUB
+
+        // When
+        val actualCardScheme = CardScheme.fromString("DINERS_CLUB_INTERNATIONAL")
 
         // Then
         Assertions.assertEquals(expectedCardScheme, actualCardScheme)
@@ -34,7 +46,7 @@ internal class CardSchemeTest {
         val expectedCardScheme = CardScheme.AMERICAN_EXPRESS
 
         // When
-        val actualCardScheme = CardScheme.fetchCardScheme("AMERICAN EXPRESS")
+        val actualCardScheme = CardScheme.fromString("AMERICAN EXPRESS")
 
         // Then
         Assertions.assertEquals(expectedCardScheme, actualCardScheme)
@@ -46,7 +58,7 @@ internal class CardSchemeTest {
         val expectedCardScheme = CardScheme.UNKNOWN
 
         // When
-        val actualCardScheme = CardScheme.fetchCardScheme("TEST CARD SCHEME")
+        val actualCardScheme = CardScheme.fromString("TEST CARD SCHEME")
 
         // Then
         Assertions.assertEquals(expectedCardScheme, actualCardScheme)

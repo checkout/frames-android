@@ -10,14 +10,14 @@ import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
 import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.view.InputFieldState
-import com.checkout.validation.api.CardValidator
+import com.checkout.validation.api.CVVComponentValidator
 
 @Suppress("UnusedPrivateMember")
 internal class CVVComponentViewModel internal constructor(
     val inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>,
     val inputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>,
     val cvvComponentConfig: CVVComponentConfig,
-    val cardValidator: CardValidator,
+    val cvvComponentValidator: CVVComponentValidator,
 ) : ViewModel() {
 
     val cvvInputFieldState = inputFieldStateMapper.map(cvvComponentConfig.cvvInputFieldStyle)

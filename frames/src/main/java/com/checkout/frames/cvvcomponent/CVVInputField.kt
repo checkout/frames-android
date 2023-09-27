@@ -2,7 +2,7 @@ package com.checkout.frames.cvvcomponent
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.checkout.CardValidatorFactory
+import com.checkout.CVVComponentValidatorFactory
 import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
 import com.checkout.frames.cvvcomponent.viewmodel.CVVComponentViewModel
 import com.checkout.frames.cvvcomponent.viewmodel.CVVComponentViewModelFactory
@@ -20,10 +20,10 @@ internal fun CVVInputField(
 
     val viewModel: CVVComponentViewModel = viewModel(
         factory = CVVComponentViewModelFactory(
-            config,
-            CardValidatorFactory.create(),
-            InputFieldStyleToInputFieldStateMapper(ImageStyleToComposableImageMapper()),
-            InputFieldStyleToViewStyleMapper(
+            config = config,
+            cvvComponentValidator = CVVComponentValidatorFactory.create(),
+            inputFieldStateMapper = InputFieldStyleToInputFieldStateMapper(ImageStyleToComposableImageMapper()),
+            inputFieldStyleMapper = InputFieldStyleToViewStyleMapper(
                 TextLabelStyleToViewStyleMapper(
                     ContainerStyleToModifierMapper()
                 )

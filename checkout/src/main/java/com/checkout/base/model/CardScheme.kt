@@ -139,7 +139,7 @@ public enum class CardScheme(
         }
 
         @JvmStatic
-        public fun fetchCardScheme(cardSchemeValue: String): CardScheme = CardScheme.values().find { cardScheme ->
+        public fun fromString(cardSchemeValue: String): CardScheme = CardScheme.values().find { cardScheme ->
             cardScheme.name.contains(
                 cardSchemeValue.uppercase().substringBefore("_").substringBefore(" ")
             )

@@ -16,28 +16,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.checkout.base.model.CardScheme
-import com.checkout.base.model.Environment
 import com.checkout.example.frames.ui.component.ClickableImage
 import com.checkout.example.frames.ui.component.TextComponent
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme
-import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.frames.R
-import com.checkout.frames.cvvcomponent.CVVComponentApiFactory
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
+import com.checkout.frames.cvvcomponent.api.CVVComponentMediator
 
 @Suppress("MagicNumber", "LongMethod")
 @Composable
-fun CVVTokenizationScreen(navController: NavHostController) {
-    val context = LocalContext.current
+fun CVVTokenizationScreen(navController: NavHostController, mediator: CVVComponentMediator) {
     FramesTheme {
-        // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
         ) {
@@ -73,17 +66,6 @@ fun CVVTokenizationScreen(navController: NavHostController) {
                 }
 
                 Spacer(Modifier.height(20.dp))
-
-                val cvvComponentApi = CVVComponentApiFactory.create(PUBLIC_KEY, Environment.SANDBOX, context)
-
-                val cvvComponentConfig = CVVComponentConfig(
-                    cardScheme = CardScheme.fetchCardScheme(cardSchemeValue = "Visa"),
-                    onCVVValueChange = { isValidCVV ->
-                        println(isValidCVV)
-                    }
-                )
-
-                val mediator = cvvComponentApi.createComponentMediator(cvvComponentConfig)
 
                 mediator.CVVComponent()
             }

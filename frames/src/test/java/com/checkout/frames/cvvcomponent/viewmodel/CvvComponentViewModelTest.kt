@@ -13,7 +13,7 @@ import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.view.InputFieldState
-import com.checkout.validation.api.CardValidator
+import com.checkout.validation.api.CVVComponentValidator
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
@@ -37,13 +37,13 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class CvvComponentViewModelTest {
 
     @RelaxedMockK
-    lateinit var mockCardValidator: CardValidator
+    private lateinit var cvvComponentValidator: CVVComponentValidator
 
     @SpyK
-    lateinit var spyInputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>
+    private lateinit var spyInputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>
 
     @SpyK
-    lateinit var spyInputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>
+    private lateinit var spyInputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>
 
     private lateinit var viewModel: CVVComponentViewModel
 
@@ -61,7 +61,7 @@ internal class CvvComponentViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         viewModel = CVVComponentViewModel(
-            spyInputFieldStateMapper, spyInputFieldStyleMapper, cvvComponentConfig, mockCardValidator
+            spyInputFieldStateMapper, spyInputFieldStyleMapper, cvvComponentConfig, cvvComponentValidator
         )
     }
 
