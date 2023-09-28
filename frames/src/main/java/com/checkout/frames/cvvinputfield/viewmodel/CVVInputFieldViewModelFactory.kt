@@ -1,16 +1,16 @@
-package com.checkout.frames.cvvcomponent.viewmodel
+package com.checkout.frames.cvvinputfield.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.checkout.base.mapper.Mapper
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.view.InputFieldState
 import com.checkout.validation.api.CVVComponentValidator
 
 @Suppress("UNCHECKED_CAST")
-internal class CVVComponentViewModelFactory(
+internal class CVVInputFieldViewModelFactory(
     private val config: CVVComponentConfig,
     private val cvvComponentValidator: CVVComponentValidator,
     private val inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>,
@@ -18,8 +18,8 @@ internal class CVVComponentViewModelFactory(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CVVComponentViewModel::class.java)) {
-            return CVVComponentViewModel(
+        if (modelClass.isAssignableFrom(CVVInputFieldViewModel::class.java)) {
+            return CVVInputFieldViewModel(
                 inputFieldStateMapper,
                 inputFieldStyleMapper,
                 cvvComponentConfig = config,

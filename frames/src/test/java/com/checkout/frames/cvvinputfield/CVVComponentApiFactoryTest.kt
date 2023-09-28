@@ -1,8 +1,8 @@
-package com.checkout.frames.cvvcomponent
+package com.checkout.frames.cvvinputfield
 
 import android.content.Context
 import com.checkout.base.model.Environment
-import com.checkout.frames.cvvcomponent.api.InternalCVVComponentApi
+import com.checkout.frames.cvvinputfield.api.InternalCVVComponentApi
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before

@@ -17,5 +17,5 @@ public interface CVVComponentValidator {
      * @param cardScheme - The card scheme represented as [CardScheme].
      * @return [ValidationResult] with [ValidationResult.Success] or [ValidationResult.Failure].
      */
-    public fun validateCvv(cvv: String, cardScheme: CardScheme): ValidationResult<Unit>
+    public fun validate(cvv: String, cardScheme: CardScheme): ValidationResult<Unit>
 }

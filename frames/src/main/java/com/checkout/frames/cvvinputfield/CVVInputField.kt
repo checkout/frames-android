@@ -1,11 +1,11 @@
-package com.checkout.frames.cvvcomponent
+package com.checkout.frames.cvvinputfield
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.CVVComponentValidatorFactory
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
-import com.checkout.frames.cvvcomponent.viewmodel.CVVComponentViewModel
-import com.checkout.frames.cvvcomponent.viewmodel.CVVComponentViewModelFactory
+import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.viewmodel.CVVInputFieldViewModel
+import com.checkout.frames.cvvinputfield.viewmodel.CVVInputFieldViewModelFactory
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
@@ -18,8 +18,8 @@ internal fun CVVInputField(
     config: CVVComponentConfig,
 ) {
 
-    val viewModel: CVVComponentViewModel = viewModel(
-        factory = CVVComponentViewModelFactory(
+    val viewModel: CVVInputFieldViewModel = viewModel(
+        factory = CVVInputFieldViewModelFactory(
             config = config,
             cvvComponentValidator = CVVComponentValidatorFactory.create(),
             inputFieldStateMapper = InputFieldStyleToInputFieldStateMapper(ImageStyleToComposableImageMapper()),
@@ -31,5 +31,5 @@ internal fun CVVInputField(
         )
     )
 
-    InputField(viewModel.cvvInputFieldStyle, viewModel.cvvInputFieldState, viewModel::onCvvChange)
+    InputField(viewModel.cvvInputFieldStyle, viewModel.cvvInputFieldState.inputFieldState, viewModel::onCvvChange)
 }

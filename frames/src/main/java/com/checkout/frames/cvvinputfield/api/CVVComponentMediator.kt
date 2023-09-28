@@ -1,4 +1,4 @@
-package com.checkout.frames.cvvcomponent.api
+package com.checkout.frames.cvvinputfield.api
 
 import android.view.View
 import androidx.compose.runtime.Composable

@@ -1,8 +1,8 @@
-package com.checkout.frames.cvvcomponent.viewmodel
+package com.checkout.frames.cvvinputfield.viewmodel
 
 import com.checkout.CVVComponentValidatorFactory
 import com.checkout.base.model.CardScheme
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
@@ -17,12 +17,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
-internal class CVVComponentViewModelFactoryTest {
+internal class CVVInputFieldViewModelFactoryTest {
     private lateinit var config: CVVComponentConfig
 
     private lateinit var cvvComponentValidator: CVVComponentValidator
 
-    private lateinit var factory: CVVComponentViewModelFactory
+    private lateinit var factory: CVVInputFieldViewModelFactory
 
     private lateinit var inputFieldStyleMapper: InputFieldStyleToViewStyleMapper
 
@@ -41,17 +41,17 @@ internal class CVVComponentViewModelFactoryTest {
     }
 
     @Test
-    fun testCreateCVVComponentViewModel() {
+    fun testCreateCVVInputFieldViewModel() {
         // Given
-        factory = CVVComponentViewModelFactory(
+        factory = CVVInputFieldViewModelFactory(
             config, cvvComponentValidator, inputFieldStateMapper, inputFieldStyleMapper
         )
 
         // When
-        val viewModel = factory.create(CVVComponentViewModel::class.java)
+        val viewModel = factory.create(CVVInputFieldViewModel::class.java)
 
         // Then
-        assertEquals(CVVComponentViewModel::class.java, viewModel.javaClass)
+        assertEquals(CVVInputFieldViewModel::class.java, viewModel.javaClass)
         assertEquals(viewModel.cvvComponentConfig, config)
         assertEquals(viewModel.cvvComponentValidator, cvvComponentValidator)
         assertEquals(viewModel.inputFieldStateMapper, inputFieldStateMapper)

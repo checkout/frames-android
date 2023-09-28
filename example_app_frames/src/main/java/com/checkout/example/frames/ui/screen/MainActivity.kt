@@ -22,9 +22,9 @@ import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.api.PaymentFlowHandler
-import com.checkout.frames.cvvcomponent.CVVComponentApiFactory
-import com.checkout.frames.cvvcomponent.api.CVVComponentMediator
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.CVVComponentApiFactory
+import com.checkout.frames.cvvinputfield.api.CVVComponentMediator
+import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.frames.style.theme.paymentform.PaymentFormStyleProvider
 import com.checkout.tokenization.model.TokenDetails

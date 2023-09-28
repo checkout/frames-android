@@ -25,7 +25,7 @@ import com.checkout.example.frames.ui.component.TextComponent
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme
 import com.checkout.frames.R
-import com.checkout.frames.cvvcomponent.api.CVVComponentMediator
+import com.checkout.frames.cvvinputfield.api.CVVComponentMediator
 
 @Suppress("MagicNumber", "LongMethod")
 @Composable

@@ -1,11 +1,11 @@
-package com.checkout.frames.cvvcomponent
+package com.checkout.frames.cvvinputfield
 
 import android.content.Context
 import com.checkout.base.model.Environment
-import com.checkout.frames.cvvcomponent.api.CVVComponentApi
-import com.checkout.frames.cvvcomponent.api.InternalCVVComponentApi
-import com.checkout.frames.cvvcomponent.api.InternalCVVComponentMediator
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.api.CVVComponentApi
+import com.checkout.frames.cvvinputfield.api.InternalCVVComponentApi
+import com.checkout.frames.cvvinputfield.api.InternalCVVComponentMediator
+import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 import io.mockk.mockk
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.BeforeEach
