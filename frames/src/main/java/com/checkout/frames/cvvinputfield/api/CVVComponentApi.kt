@@ -1,6 +1,6 @@
-package com.checkout.frames.cvvcomponent.api
+package com.checkout.frames.cvvinputfield.api
 
-import com.checkout.frames.cvvcomponent.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 
 /**
  * Provides functionality for creating CVVComponentMediator

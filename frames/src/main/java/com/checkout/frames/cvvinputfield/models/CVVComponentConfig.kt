@@ -1,4 +1,4 @@
-package com.checkout.frames.cvvcomponent.models
+package com.checkout.frames.cvvinputfield.models
 
 import com.checkout.base.model.CardScheme
 import com.checkout.frames.style.component.base.InputFieldStyle

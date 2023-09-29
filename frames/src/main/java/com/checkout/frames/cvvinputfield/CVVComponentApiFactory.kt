@@ -1,9 +1,9 @@
-package com.checkout.frames.cvvcomponent
+package com.checkout.frames.cvvinputfield
 
 import android.content.Context
 import com.checkout.base.model.Environment
-import com.checkout.frames.cvvcomponent.api.CVVComponentApi
-import com.checkout.frames.cvvcomponent.api.InternalCVVComponentApi
+import com.checkout.frames.cvvinputfield.api.CVVComponentApi
+import com.checkout.frames.cvvinputfield.api.InternalCVVComponentApi
 
 /**
  * CVVComponentApiFactory provides [CVVComponentApi]

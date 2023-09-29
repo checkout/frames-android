@@ -32,7 +32,7 @@ internal class CVVComponentDetailsValidatorTest {
         val expected = CvvValidationRequest("123", CardScheme.JCB)
 
         // When
-        cvvComponentValidator.validateCvv(mockCvv, mockCardScheme)
+        cvvComponentValidator.validate(mockCvv, mockCardScheme)
 
         // Then
         verify { mockCvvValidator.validate(eq(expected)) }
