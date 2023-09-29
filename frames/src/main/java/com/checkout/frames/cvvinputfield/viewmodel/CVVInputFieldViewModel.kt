@@ -49,10 +49,8 @@ internal class CVVInputFieldViewModel internal constructor(
             forceLTR = false
         )
 
-    private fun provideViewState(inputFieldStyle: InputFieldStyle): CVVInputFieldState {
-        val cvvInputFieldState = CVVInputFieldState(inputFieldStateMapper.map(inputFieldStyle))
-        cvvInputFieldState.cvvLength.value = cvvComponentConfig.cardScheme.cvvLength.max()
-
-        return cvvInputFieldState
-    }
+    private fun provideViewState(inputFieldStyle: InputFieldStyle): CVVInputFieldState =
+        CVVInputFieldState(inputFieldStateMapper.map(inputFieldStyle)).apply {
+            cvvLength.value = cvvComponentConfig.cardScheme.cvvLength.max()
+        }
 }
