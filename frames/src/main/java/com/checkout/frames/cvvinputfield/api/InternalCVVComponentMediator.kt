@@ -16,11 +16,15 @@ internal class InternalCVVComponentMediator(
     private val publicKey: String,
     private val environment: Environment,
     private val context: Context,
+    var isCVVComponentCalled: Boolean = false,
 ) : CVVComponentMediator {
 
     @Composable
     override fun CVVComponent() {
-        CVVInputField(cvvComponentConfig)
+        if (!isCVVComponentCalled) {
+            CVVInputField(cvvComponentConfig)
+            isCVVComponentCalled = true
+        }
     }
 
     override fun createToken(request: CVVTokenRequest) {
@@ -29,10 +33,14 @@ internal class InternalCVVComponentMediator(
 
     override fun provideCvvComponentContent(
         container: View,
-        strategy: ViewCompositionStrategy
-    ): View = ComposeView(container.context).apply {
-        // Dispose of the Composition when the view's LifecycleOwner is destroyed
-        setViewCompositionStrategy(strategy)
-        setContent { CVVInputField(cvvComponentConfig) }
+        strategy: ViewCompositionStrategy,
+    ): View? = if (!isCVVComponentCalled) {
+        ComposeView(container.context).apply {
+            // Dispose of the Composition when the view's LifecycleOwner is destroyed
+            setViewCompositionStrategy(strategy)
+            setContent { CVVInputField(cvvComponentConfig) }
+        }
+    } else {
+        null
     }
 }

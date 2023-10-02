@@ -12,6 +12,7 @@ import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.view.InputField
+import java.util.Random
 
 @Composable
 internal fun CVVInputField(
@@ -19,6 +20,7 @@ internal fun CVVInputField(
 ) {
 
     val viewModel: CVVInputFieldViewModel = viewModel(
+        key = "${System.currentTimeMillis()}_${Random().nextInt()}",
         factory = CVVInputFieldViewModelFactory(
             config = config,
             cvvComponentValidator = CVVComponentValidatorFactory.create(),

@@ -25,7 +25,7 @@ public interface CVVComponentMediator {
     public fun provideCvvComponentContent(
         container: View,
         strategy: ViewCompositionStrategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
-    ): View
+    ): View?
 
     /**
      * Creates token for CVV

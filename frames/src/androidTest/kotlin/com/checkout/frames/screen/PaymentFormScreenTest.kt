@@ -1,4 +1,4 @@
-package com.checkout.frames.screen.paymentform
+package com.checkout.frames.screen
 
 import android.content.Context
 import androidx.compose.material3.MaterialTheme
@@ -9,6 +9,7 @@ import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Country
 import com.checkout.base.model.Environment
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.screen.paymentform.PaymentFormScreen
 import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.model.PrefillData
@@ -43,18 +44,15 @@ internal class PaymentFormScreenTest {
             override fun onBackPressed() {}
         },
         prefillData = PrefillData(
-            cardHolderName = "Test Name",
-            billingFormAddress = BillingFormAddress(
-                name = "Test Billing Address name",
-                address = Address(
+            cardHolderName = "Test Name", billingFormAddress = BillingFormAddress(
+                name = "Test Billing Address name", address = Address(
                     addressLine1 = "Checkout.com",
                     addressLine2 = "90 Tottenham Court Road",
                     city = "London",
                     state = "London",
                     zip = "W1T 4TJ",
                     country = Country.from(iso3166Alpha2 = "GB")
-                ),
-                phone = Phone(
+                ), phone = Phone(
                     number = "4155552671", country = Country.from(iso3166Alpha2 = "GB")
                 )
             )
