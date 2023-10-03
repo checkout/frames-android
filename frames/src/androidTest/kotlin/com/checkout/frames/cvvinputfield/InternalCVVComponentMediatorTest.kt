@@ -36,7 +36,7 @@ internal class InternalCVVComponentMediatorTest {
     @Test
     fun isCVVComponentCalledValueShouldUpdateWhenCVVComponentInvoked() {
         // Given
-        cvvComponentMediator.isCVVComponentCalled = false
+        cvvComponentMediator.setIsCVVComponentCalled(false)
 
         // When
         composeTestRule.setContent {
@@ -44,13 +44,13 @@ internal class InternalCVVComponentMediatorTest {
         }
 
         // Then
-        assertTrue(cvvComponentMediator.isCVVComponentCalled)
+        assertTrue(cvvComponentMediator.getIsCVVComponentCalled())
     }
 
     @Test
     fun isCVVComponentCalledValueShouldNotUpdateWhenCVVComponentAlreadyInvoked() {
         // Given
-        cvvComponentMediator.isCVVComponentCalled = true
+        cvvComponentMediator.setIsCVVComponentCalled(true)
 
         // When
         composeTestRule.setContent {
@@ -58,6 +58,6 @@ internal class InternalCVVComponentMediatorTest {
         }
 
         // Then
-        assertTrue(cvvComponentMediator.isCVVComponentCalled)
+        assertTrue(cvvComponentMediator.getIsCVVComponentCalled())
     }
 }

@@ -44,15 +44,18 @@ internal class PaymentFormScreenTest {
             override fun onBackPressed() {}
         },
         prefillData = PrefillData(
-            cardHolderName = "Test Name", billingFormAddress = BillingFormAddress(
-                name = "Test Billing Address name", address = Address(
+            cardHolderName = "Test Name",
+            billingFormAddress = BillingFormAddress(
+                name = "Test Billing Address name",
+                address = Address(
                     addressLine1 = "Checkout.com",
                     addressLine2 = "90 Tottenham Court Road",
                     city = "London",
                     state = "London",
                     zip = "W1T 4TJ",
                     country = Country.from(iso3166Alpha2 = "GB")
-                ), phone = Phone(
+                ),
+                phone = Phone(
                     number = "4155552671", country = Country.from(iso3166Alpha2 = "GB")
                 )
             )

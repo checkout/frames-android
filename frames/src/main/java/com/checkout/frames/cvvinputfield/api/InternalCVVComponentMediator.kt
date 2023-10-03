@@ -2,6 +2,7 @@ package com.checkout.frames.cvvinputfield.api
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -16,7 +17,7 @@ internal class InternalCVVComponentMediator(
     private val publicKey: String,
     private val environment: Environment,
     private val context: Context,
-    var isCVVComponentCalled: Boolean = false,
+    private var isCVVComponentCalled: Boolean = false,
 ) : CVVComponentMediator {
 
     @Composable
@@ -42,5 +43,13 @@ internal class InternalCVVComponentMediator(
         }
     } else {
         null
+    }
+
+    @VisibleForTesting
+    internal fun getIsCVVComponentCalled() = isCVVComponentCalled
+
+    @VisibleForTesting
+    internal fun setIsCVVComponentCalled(shouldCVVComponentCall: Boolean) {
+        isCVVComponentCalled = shouldCVVComponentCall
     }
 }
