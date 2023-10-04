@@ -1,4 +1,4 @@
-package com.checkout.frames.screen.paymentform
+package com.checkout.frames.screen
 
 import android.content.Context
 import androidx.compose.material3.MaterialTheme
@@ -9,6 +9,7 @@ import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Country
 import com.checkout.base.model.Environment
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.screen.paymentform.PaymentFormScreen
 import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.model.PrefillData

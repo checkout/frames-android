@@ -194,6 +194,23 @@ internal class CVVInputFieldViewModelTest {
     }
 
     @Test
+    fun `when input cvv is valid for Maestro scheme with zero length then onCvvChange should call onCVVValueChange with false`() {
+        // Given
+        val validCVV = ""
+        val testCardScheme = CardScheme.MAESTRO
+        every { cvvComponentConfig.cardScheme } returns CardScheme.MAESTRO
+        every {
+            mockCVVComponentValidator.validate(eq(validCVV), eq(testCardScheme))
+        } returns ValidationResult.Success(Unit)
+
+        // When
+        viewModel.onCvvChange(validCVV)
+
+        // Then
+        verify { cvvComponentConfig.onCVVValueChange(false) }
+    }
+
+    @Test
     fun `when input cvv is updating from valid to invalid value onCvvChange should call onCVVValueChange with true`() {
         // Given
         val invalidCVV = "1"

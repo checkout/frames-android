@@ -35,7 +35,14 @@ internal class CVVInputFieldViewModel internal constructor(
     private fun validate() {
         with(cvvComponentConfig) {
             when (cvvComponentValidator.validate(cvvInputFieldState.cvv.value, cardScheme)) {
-                is ValidationResult.Success -> onCVVValueChange(true)
+                is ValidationResult.Success -> {
+                    if (cvvInputFieldState.cvv.value.isNotEmpty()) {
+                        onCVVValueChange(true)
+                    } else {
+                        onCVVValueChange(false)
+                    }
+                }
+
                 is ValidationResult.Failure -> onCVVValueChange(false)
             }
         }
