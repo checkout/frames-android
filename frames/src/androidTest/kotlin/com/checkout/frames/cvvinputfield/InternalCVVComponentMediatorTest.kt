@@ -29,7 +29,6 @@ internal class InternalCVVComponentMediatorTest {
             cvvComponentConfig = cvvComponentConfig, publicKey = "",
             environment = Environment.SANDBOX,
             context = context,
-            isCVVComponentCalled = false
         )
     }
 
@@ -44,7 +43,7 @@ internal class InternalCVVComponentMediatorTest {
         }
 
         // Then
-        assertTrue(cvvComponentMediator.getIsCVVComponentCalled())
+        assertTrue(cvvComponentMediator.getIsCVVComponentCalled().value)
     }
 
     @Test
@@ -58,6 +57,6 @@ internal class InternalCVVComponentMediatorTest {
         }
 
         // Then
-        assertTrue(cvvComponentMediator.getIsCVVComponentCalled())
+        assertTrue(cvvComponentMediator.getIsCVVComponentCalled().value)
     }
 }

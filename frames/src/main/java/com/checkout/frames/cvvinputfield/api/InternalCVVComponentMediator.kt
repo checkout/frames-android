@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.checkout.base.model.Environment
@@ -16,15 +18,16 @@ internal class InternalCVVComponentMediator(
     private val cvvComponentConfig: CVVComponentConfig,
     private val publicKey: String,
     private val environment: Environment,
-    private val context: Context,
-    private var isCVVComponentCalled: Boolean = false,
+    private val context: Context
 ) : CVVComponentMediator {
+
+    private val isCVVComponentCalled: MutableState<Boolean> = mutableStateOf(false)
 
     @Composable
     override fun CVVComponent() {
-        if (!isCVVComponentCalled) {
+        if (!isCVVComponentCalled.value) {
             CVVInputField(cvvComponentConfig)
-            isCVVComponentCalled = true
+            isCVVComponentCalled.value = true
         }
     }
 
@@ -35,7 +38,7 @@ internal class InternalCVVComponentMediator(
     override fun provideCvvComponentContent(
         container: View,
         strategy: ViewCompositionStrategy,
-    ): View? = if (!isCVVComponentCalled) {
+    ): View? = if (!isCVVComponentCalled.value) {
         ComposeView(container.context).apply {
             // Dispose of the Composition when the view's LifecycleOwner is destroyed
             setViewCompositionStrategy(strategy)
@@ -50,6 +53,6 @@ internal class InternalCVVComponentMediator(
 
     @VisibleForTesting
     internal fun setIsCVVComponentCalled(shouldCVVComponentCall: Boolean) {
-        isCVVComponentCalled = shouldCVVComponentCall
+        isCVVComponentCalled.value = shouldCVVComponentCall
     }
 }
