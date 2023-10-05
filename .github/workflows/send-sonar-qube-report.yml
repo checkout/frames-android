@@ -42,4 +42,5 @@ jobs:
           set -x
 
           # Run sonarqube script
-          ./scripts/sonar.sh|
+          ./scripts/sonar.sh
+          |
