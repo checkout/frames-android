@@ -20,7 +20,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Setup Environment
-        uses: .github/actions/setup-env.yml
+        uses: ./.github/actions/setup-env.yml
       - name: Build Jacoco Test Report for :checkout
         run: ./gradlew :checkout:jacocoTestReport
       - name: Build Jacoco Test Report for :frames

@@ -20,7 +20,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Setup Environment
-        uses: .github/actions/setup-env.yml
+        uses: ./.github/actions/setup-env.yml
       - name: Run Ktlint
         run: ./gradlew ktlintCheck
       - name: Run Android Lint
@@ -34,7 +34,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Setup Environment
-        uses: .github/actions/setup-env.yml
+        uses: ./.github/actions/setup-env.yml
       - name: Build with Gradle
         run: ./gradlew build
 
@@ -46,6 +46,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Setup Environment
-        uses: .github/actions/setup-env.yml
+        uses: ./.github/actions/setup-env.yml
       - name: Run unit tests
         run: ./gradlew test
