@@ -17,15 +17,13 @@ jobs:
     name: Build Jacoco Test Report for :checkout
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Environment
-        uses: ./.github/workflows/setup-env.yml
-
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - uses: ./.github/workflows/setup-env.yml
       - name: Build Jacoco Test Report for :checkout
         run: ./gradlew :checkout:jacocoTestReport
-
       - name: Build Jacoco Test Report for :frames
         run: ./gradlew :frames:jacocoTestReport
-
       - name: Send SonarQube Report
         run: |
           #!/usr/bin/env bash
