@@ -16,6 +16,8 @@ jobs:
   lint:
     name: Code Lint
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -29,6 +31,8 @@ jobs:
   build:
     name: Build the App
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     needs: lint
     steps:
       - name: Checkout Code
@@ -41,6 +45,8 @@ jobs:
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     needs: lint
     steps:
       - name: Checkout Code

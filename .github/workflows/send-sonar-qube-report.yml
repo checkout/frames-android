@@ -16,6 +16,8 @@ jobs:
   build:
     name: Build Jacoco Test Report for :checkout
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
