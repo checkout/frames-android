@@ -6,6 +6,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.checkout.base.model.Environment
@@ -25,7 +26,13 @@ internal class InternalCVVComponentMediator(
 
     @Composable
     override fun CVVComponent() {
-        if (!isCVVComponentCalled.value) {
+        InternalCVVComponent()
+    }
+
+    @Composable
+    private fun InternalCVVComponent() {
+        val isCVVComponentAlreadyLoaded = remember { isCVVComponentCalled.value }
+        if (!isCVVComponentAlreadyLoaded) {
             CVVInputField(cvvComponentConfig)
             isCVVComponentCalled.value = true
         }
@@ -38,14 +45,10 @@ internal class InternalCVVComponentMediator(
     override fun provideCvvComponentContent(
         container: View,
         strategy: ViewCompositionStrategy,
-    ): View? = if (!isCVVComponentCalled.value) {
-        ComposeView(container.context).apply {
-            // Dispose of the Composition when the view's LifecycleOwner is destroyed
-            setViewCompositionStrategy(strategy)
-            setContent { CVVInputField(cvvComponentConfig) }
-        }
-    } else {
-        null
+    ): View = ComposeView(container.context).apply {
+        // Dispose of the Composition when the view's LifecycleOwner is destroyed
+        setViewCompositionStrategy(strategy)
+        setContent { InternalCVVComponent() }
     }
 
     @VisibleForTesting

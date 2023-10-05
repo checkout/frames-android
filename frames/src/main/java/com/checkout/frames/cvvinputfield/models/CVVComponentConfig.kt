@@ -1,6 +1,7 @@
 package com.checkout.frames.cvvinputfield.models
 
 import com.checkout.base.model.CardScheme
+import com.checkout.frames.cvvinputfield.style.DefaultCVVInputFieldStyle
 import com.checkout.frames.style.component.base.InputFieldStyle
 
 /**
@@ -14,5 +15,5 @@ import com.checkout.frames.style.component.base.InputFieldStyle
 public data class CVVComponentConfig(
     public val cardScheme: CardScheme = CardScheme.UNKNOWN,
     public val onCVVValueChange: (isEnteredCVVValid: Boolean) -> Unit,
-    public var cvvInputFieldStyle: InputFieldStyle = InputFieldStyle(),
+    public var cvvInputFieldStyle: InputFieldStyle = DefaultCVVInputFieldStyle.create(),
 )
