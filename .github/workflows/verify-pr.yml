@@ -1,0 +1,49 @@
+name: Verify Pull Request
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    types: [ opened, synchronize, reopened ]
+    branches: [ master, "bugfix/*", "feature/*", "release/*" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Code Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Environment
+        uses: ./.github/workflows/setup-env.yml
+
+      - name: Run Ktlint
+        run: ./gradlew ktlintCheck
+
+      - name: Run Android Lint
+        run: ./gradlew lint
+
+  build:
+    name: Build the App
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Setup Environment
+        uses: ./.github/workflows/setup-env.yml
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Setup Environment
+        uses: ./.github/workflows/setup-env.yml
+
+      - name: Run unit tests
+        run: ./gradlew test

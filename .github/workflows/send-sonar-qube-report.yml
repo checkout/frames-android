@@ -1,0 +1,38 @@
+name: Send SonarQube Report
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    types: [ opened, synchronize, reopened ]
+    branches: [ master, "bugfix/*", "feature/*", "release/*" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Jacoco Test Report for :checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Environment
+        uses: ./.github/workflows/setup-env.yml
+
+      - name: Build Jacoco Test Report for :checkout
+        run: ./gradlew :checkout:jacocoTestReport
+
+      - name: Build Jacoco Test Report for :frames
+        run: ./gradlew :frames:jacocoTestReport
+
+      - name: Send SonarQube Report
+        run: |
+          #!/usr/bin/env bash
+          # fail if any commands fails
+          set -e
+          # debug log
+          set -x
+
+          # Run sonarqube script
+          ./scripts/sonar.sh|

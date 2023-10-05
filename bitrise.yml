@@ -39,33 +39,19 @@ workflows:
     description: First steps to initialise the workflow
   verification-full:
     steps:
-    - android-lint@0:
-        inputs:
-        - variant: "$VARIANT"
-        is_always_run: true
-    - android-unit-test@1:
-        inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - variant: "$VARIANT"
-        is_always_run: true
     - gradle-runner@2:
         inputs:
         - gradle_task: assembleAndroidTest
         is_always_run: true
         title: Gradle Runner - Build Android Test
     after_run:
-    - steps-sonar
     - steps-finish
     description: |2-
 
       ## Performs all validation checks
 
       The following checks are performed
-       - Build
-       - Lint Checks (if PR is ready for review)
-       - Unit Tests
        - Instrumentation Tests (if PR is ready for review)
-       - SonarQube Analysis (if PR is ready for review)
     before_run:
     - steps-start
   steps-sonar:
