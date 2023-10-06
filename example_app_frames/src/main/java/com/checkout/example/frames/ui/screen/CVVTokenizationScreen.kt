@@ -34,14 +34,14 @@ fun CVVTokenizationScreen(navController: NavHostController) {
         enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredVisaCVVValid
     )
 
-    val maestroSecond = createMediator(
+    val maestroMediator = createMediator(
         cvvComponentApi = cvvComponentApi,
         schemeValue = "Maestro",
         inputFieldStyle = CustomCVVInputFieldStyle.create(),
         enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredMaestroCVVValid
     )
 
-    LoadCVVComponentsContents(navController, cvvTokenizationViewModel, visaMediator, maestroSecond)
+    LoadCVVComponentsContents(navController, cvvTokenizationViewModel, visaMediator, maestroMediator)
 }
 
 fun createMediator(

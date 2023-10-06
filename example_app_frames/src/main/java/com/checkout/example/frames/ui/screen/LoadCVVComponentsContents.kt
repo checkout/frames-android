@@ -35,7 +35,7 @@ fun LoadCVVComponentsContents(
     navController: NavHostController,
     cvvTokenizationViewModel: CVVTokenizationViewModel,
     visaMediator: CVVComponentMediator,
-    maestroSecond: CVVComponentMediator,
+    maestroMediator: CVVComponentMediator,
 ) {
     FramesTheme {
         Surface(
@@ -93,7 +93,7 @@ fun LoadCVVComponentsContents(
                 Row(
                     modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start
                 ) {
-                    maestroSecond.CVVComponent()
+                    maestroMediator.CVVComponent()
 
                     CustomButton(isCVVValid = cvvTokenizationViewModel.isEnteredMaestroCVVValid)
                 }
