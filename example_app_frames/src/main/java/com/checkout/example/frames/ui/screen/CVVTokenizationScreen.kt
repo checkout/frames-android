@@ -1,74 +1,60 @@
 package com.checkout.example.frames.ui.screen
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Surface
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment.Companion.Start
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.MutableState
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.checkout.example.frames.ui.component.ClickableImage
-import com.checkout.example.frames.ui.component.TextComponent
-import com.checkout.example.frames.ui.theme.DarkBlue
-import com.checkout.example.frames.ui.theme.FramesTheme
-import com.checkout.frames.R
+import com.checkout.base.model.CardScheme
+import com.checkout.base.model.Environment
+import com.checkout.example.frames.styling.CustomCVVInputFieldStyle
+import com.checkout.example.frames.ui.utils.PUBLIC_KEY
+import com.checkout.example.frames.ui.viewmodel.CVVTokenizationViewModel
+import com.checkout.frames.cvvinputfield.CVVComponentApiFactory
+import com.checkout.frames.cvvinputfield.api.CVVComponentApi
 import com.checkout.frames.cvvinputfield.api.CVVComponentMediator
+import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.style.DefaultCVVInputFieldStyle
+import com.checkout.frames.model.Margin
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
 
 @Suppress("MagicNumber", "LongMethod")
 @Composable
-fun CVVTokenizationScreen(navController: NavHostController, mediator: CVVComponentMediator) {
-    FramesTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(state = rememberScrollState()),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Start
-            ) {
+fun CVVTokenizationScreen(navController: NavHostController) {
+    val cvvTokenizationViewModel: CVVTokenizationViewModel = viewModel()
+    val cvvComponentApi = CVVComponentApiFactory.create(PUBLIC_KEY, Environment.SANDBOX, LocalContext.current)
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, end = 24.dp, bottom = 14.dp),
-                    horizontalArrangement = Arrangement.Start
-                ) {
+    val visaMediator = createMediator(
+        cvvComponentApi = cvvComponentApi,
+        schemeValue = "Visa",
+        inputFieldStyle = DefaultCVVInputFieldStyle.create().copy(
+            containerStyle = ContainerStyle(width = 290, margin = Margin(end = 10))
+        ),
+        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredVisaCVVValid
+    )
 
-                    ClickableImage(
-                        painter = painterResource(id = R.drawable.ic_back_arrow),
-                        contentDescription = "My Image",
-                        onClick = { navController.popBackStack() },
-                        paddingValues = PaddingValues(top = 20.dp, bottom = 14.dp),
-                    )
+    val maestroMediator = createMediator(
+        cvvComponentApi = cvvComponentApi,
+        schemeValue = "Maestro",
+        inputFieldStyle = CustomCVVInputFieldStyle.create(),
+        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredMaestroCVVValid
+    )
 
-                    TextComponent(
-                        titleResourceId = R.string.cvv_component,
-                        fontSize = 20,
-                        fontWeight = FontWeight.SemiBold,
-                        paddingValues = PaddingValues(top = 20.dp, start = 10.dp, bottom = 14.dp),
-                        textColor = DarkBlue
-                    )
-                }
+    LoadCVVComponentsContents(navController, cvvTokenizationViewModel, visaMediator, maestroMediator)
+}
 
-                Spacer(Modifier.height(20.dp))
+fun createMediator(
+    cvvComponentApi: CVVComponentApi,
+    schemeValue: String,
+    inputFieldStyle: InputFieldStyle,
+    enteredVisaCVVUpdated: MutableState<Boolean>,
+): CVVComponentMediator {
+    val cvvComponentConfig = CVVComponentConfig(
+        cardScheme = CardScheme.fromString(cardSchemeValue = schemeValue), onCVVValueChange = { isValidCVV ->
+            enteredVisaCVVUpdated.value = isValidCVV
+        }, cvvInputFieldStyle = inputFieldStyle
+    )
 
-                mediator.CVVComponent()
-            }
-        }
-    }
+    return cvvComponentApi.createComponentMediator(cvvComponentConfig)
 }

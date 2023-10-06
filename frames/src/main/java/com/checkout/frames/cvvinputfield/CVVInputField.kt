@@ -1,6 +1,7 @@
 package com.checkout.frames.cvvinputfield
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.checkout.CVVComponentValidatorFactory
 import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
@@ -18,9 +19,10 @@ import java.util.Random
 internal fun CVVInputField(
     config: CVVComponentConfig,
 ) {
+    val uniqueKey = remember { "${System.currentTimeMillis()}_${Random().nextInt()}" }
 
     val viewModel: CVVInputFieldViewModel = viewModel(
-        key = "${System.currentTimeMillis()}_${Random().nextInt()}",
+        key = uniqueKey,
         factory = CVVInputFieldViewModelFactory(
             config = config,
             cvvComponentValidator = CVVComponentValidatorFactory.create(),

@@ -19,4 +19,5 @@
     <string name="authentication_success" translatable="false">Authentication success</string>
     <string name="enter_3ds_redirection_url" translatable="false">Enter 3DS redirection URL</string>
     <string name="mandatory_label" translatable="false">Mandatory</string>
+    <string name="enter_cvv_here" translatable="false">Enter cvv here</string>
 </resources>
