@@ -18,9 +18,9 @@ import java.util.Random
 @Composable
 internal fun CVVInputField(
     config: CVVComponentConfig,
+    onValueChange: (String) -> Unit,
 ) {
     val uniqueKey = remember { "${System.currentTimeMillis()}_${Random().nextInt()}" }
-
     val viewModel: CVVInputFieldViewModel = viewModel(
         key = uniqueKey,
         factory = CVVInputFieldViewModelFactory(
@@ -34,6 +34,8 @@ internal fun CVVInputField(
             )
         )
     )
+
+    onValueChange(viewModel.cvvInputFieldState.inputFieldState.text.value)
 
     InputField(viewModel.cvvInputFieldStyle, viewModel.cvvInputFieldState.inputFieldState, viewModel::onCvvChange)
 }

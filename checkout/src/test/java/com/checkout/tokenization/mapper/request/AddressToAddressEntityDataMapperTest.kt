@@ -1,6 +1,6 @@
 package com.checkout.tokenization.mapper.request
 
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.tokenization.entity.AddressEntity
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -27,7 +27,7 @@ internal class AddressToAddressEntityDataMapperTest {
         )
 
         // When
-        val actualAddressEntityData = addressToAddressEntityDataMapper.map(CardTokenTestData.address)
+        val actualAddressEntityData = addressToAddressEntityDataMapper.map(TokenizationRequestTestData.address)
 
         // Then
         assertEquals(expectedAddressEntityData, actualAddressEntityData)

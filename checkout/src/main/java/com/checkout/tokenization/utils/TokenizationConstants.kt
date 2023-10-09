@@ -7,5 +7,6 @@ internal object TokenizationConstants {
 
     // tokenization types
     const val CARD = "card"
+    const val CVV = "cvv"
     const val GOOGLE_PAY = "googlepay"
 }

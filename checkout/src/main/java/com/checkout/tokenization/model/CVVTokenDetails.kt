@@ -5,6 +5,11 @@ package com.checkout.tokenization.model
  */
 public data class CVVTokenDetails(
     /**
+     * The type of tokenization
+     */
+    val type: String,
+
+    /**
      * The reference token
      */
     val token: String,

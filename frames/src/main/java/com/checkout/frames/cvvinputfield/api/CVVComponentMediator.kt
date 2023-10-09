@@ -1,9 +1,10 @@
 package com.checkout.frames.cvvinputfield.api
 
 import android.view.View
+import androidx.annotation.UiThread
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import com.checkout.tokenization.model.CVVTokenRequest
+import com.checkout.tokenization.model.CVVTokenizationResultHandler
 
 /**
  * CVVComponent Mediator provides capabilities to load CVV component along with tokenization
@@ -28,9 +29,10 @@ public interface CVVComponentMediator {
     ): View
 
     /**
-     * Creates token for CVV
+     * Creates a CVV token and invokes the provided [resultHandler] with the tokenization result.
      *
-     * @param request - [CVVTokenRequest] contains result handlers
+     * @param resultHandler - A lambda function that takes a [CVVTokenizationResultHandler] parameter.
      */
-    public fun createToken(request: CVVTokenRequest)
+    @UiThread
+    public fun createToken(resultHandler: (CVVTokenizationResultHandler) -> Unit)
 }

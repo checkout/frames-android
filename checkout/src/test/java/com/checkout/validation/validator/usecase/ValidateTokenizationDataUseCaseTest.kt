@@ -3,7 +3,7 @@ package com.checkout.validation.validator.usecase
 import com.checkout.base.error.CheckoutError
 import com.checkout.base.model.CardScheme
 import com.checkout.base.usecase.UseCase
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.tokenization.mapper.request.AddressToAddressValidationRequestDataMapper
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Card
@@ -72,16 +72,17 @@ internal class ValidateTokenizationDataUseCaseTest {
 
         every {
             addressToAddressValidationRequestDataMapper.map(any())
-        } returns CardTokenTestData.addressValidationRequest
+        } returns TokenizationRequestTestData.addressValidationRequest
 
-        every { mockAddressValidator.validate(any()) } returns ValidationResult.Success(CardTokenTestData.address)
-        every { mockPhoneValidator.validate(any()) } returns ValidationResult.Success(CardTokenTestData.phone)
+        every { mockAddressValidator.validate(any()) } returns
+                ValidationResult.Success(TokenizationRequestTestData.address)
+        every { mockPhoneValidator.validate(any()) } returns ValidationResult.Success(TokenizationRequestTestData.phone)
     }
 
     @Test
     fun `when valid card data is requested then return success result`() {
         // Given
-        val mockRequest = CardTokenTestData.card
+        val mockRequest = TokenizationRequestTestData.card
         val captureAddress = slot<AddressValidationRequest>()
         val capturePhone = slot<PhoneValidationRequest>()
 
@@ -116,7 +117,7 @@ internal class ValidateTokenizationDataUseCaseTest {
     @Test
     fun `when valid card data with empty cvv number is requested then return success result`() {
         // Given
-        val mockRequest = CardTokenTestData.card.copy(cvv = "")
+        val mockRequest = TokenizationRequestTestData.card.copy(cvv = "")
         every { mockCardValidator.validateCvv(any(), any()) } returns ValidationResult.Failure(CheckoutError("1"))
 
         // When
@@ -206,7 +207,7 @@ internal class ValidateTokenizationDataUseCaseTest {
         // Given
         val mockRequest = mockk<Card>()
         val expectedResult = ValidationResult.Failure(CheckoutError("123"))
-        val address = CardTokenTestData.invalidAddress
+        val address = TokenizationRequestTestData.invalidAddress
 
         every { mockRequest.number } returns "mockNumber"
         every { mockRequest.cvv } returns "cvv"
@@ -230,12 +231,12 @@ internal class ValidateTokenizationDataUseCaseTest {
         // Given
         val mockRequest = mockk<Card>()
         val expectedResult = ValidationResult.Failure(CheckoutError("123"))
-        val phone = CardTokenTestData.inValidPhone
+        val phone = TokenizationRequestTestData.inValidPhone
 
         every { mockRequest.number } returns "mockNumber"
         every { mockRequest.cvv } returns "cvv"
         every { mockRequest.expiryDate } returns ExpiryDate(10, 25)
-        every { mockRequest.billingAddress } returns CardTokenTestData.address
+        every { mockRequest.billingAddress } returns TokenizationRequestTestData.address
         every { mockRequest.phone } returns phone
 
         every {

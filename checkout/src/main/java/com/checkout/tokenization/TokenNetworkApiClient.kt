@@ -3,8 +3,10 @@ package com.checkout.tokenization
 import com.checkout.network.extension.executeHttpRequest
 import com.checkout.network.response.ErrorResponse
 import com.checkout.network.response.NetworkApiResponse
+import com.checkout.tokenization.request.CVVTokenNetworkRequest
 import com.checkout.tokenization.request.GooglePayTokenNetworkRequest
 import com.checkout.tokenization.request.TokenRequest
+import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
 import com.checkout.tokenization.utils.TokenizationConstants
 import com.squareup.moshi.Moshi
@@ -38,6 +40,27 @@ internal class TokenNetworkApiClient(
         return okHttpClient.executeHttpRequest(
             request,
             moshiClient.adapter(TokenDetailsResponse::class.java),
+            moshiClient.adapter(ErrorResponse::class.java)
+        )
+    }
+
+    override suspend fun sendCVVTokenRequest(
+        cvvTokenNetworkRequest: CVVTokenNetworkRequest
+    ): NetworkApiResponse<CVVTokenDetailsResponse> {
+
+        val jsonTokenRequestAdapter = moshiClient.adapter(CVVTokenNetworkRequest::class.java)
+
+        val requestBody =
+            jsonTokenRequestAdapter.toJson(cvvTokenNetworkRequest).toRequestBody(TokenizationConstants.jsonMediaType)
+
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        return okHttpClient.executeHttpRequest(
+            request,
+            moshiClient.adapter(CVVTokenDetailsResponse::class.java),
             moshiClient.adapter(ErrorResponse::class.java)
         )
     }

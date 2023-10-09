@@ -16,10 +16,13 @@ import com.checkout.threedsecure.usecase.ProcessThreeDSUseCase
 import com.checkout.tokenization.TokenNetworkApiClient
 import com.checkout.tokenization.logging.TokenizationEventLogger
 import com.checkout.tokenization.mapper.request.AddressToAddressValidationRequestDataMapper
+import com.checkout.tokenization.mapper.request.CVVToTokenNetworkRequestMapper
 import com.checkout.tokenization.mapper.request.CardToTokenRequestMapper
+import com.checkout.tokenization.mapper.response.CVVTokenizationNetworkDataMapper
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
 import com.checkout.tokenization.repository.TokenRepository
 import com.checkout.tokenization.repository.TokenRepositoryImpl
+import com.checkout.tokenization.usecase.ValidateCVVTokenizationDataUseCase
 import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
 import com.checkout.validation.validator.AddressValidator
 import com.checkout.validation.validator.PhoneValidator
@@ -48,17 +51,20 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment
     ): TokenRepository = TokenRepositoryImpl(
-        provideNetworkApiClient(publicKey, environment.url),
-        CardToTokenRequestMapper(),
-        CardTokenizationNetworkDataMapper(),
-        ValidateTokenizationDataUseCase(
+        networkApiClient = provideNetworkApiClient(publicKey, environment.url),
+        cardToTokenRequestMapper = CardToTokenRequestMapper(),
+        cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
+        cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
+        validateTokenizationDataUseCase = ValidateTokenizationDataUseCase(
             CardValidatorFactory.createInternal(),
             AddressValidator(),
             PhoneValidator(),
             AddressToAddressValidationRequestDataMapper()
         ),
-        TokenizationEventLogger(EventLoggerProvider.provide()),
-        publicKey
+        validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(CVVComponentValidatorFactory.create()),
+        logger = TokenizationEventLogger(EventLoggerProvider.provide()),
+        publicKey = publicKey,
+        cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper()
     )
 
     private fun provideNetworkApiClient(

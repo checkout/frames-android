@@ -29,13 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.checkout.example.frames.ui.extension.showAlertDialog
 import com.checkout.example.frames.ui.screen.ThreedSecureActivity
 import com.checkout.example.frames.ui.theme.ButtonBorder
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.GrayColor
 import com.checkout.example.frames.ui.utils.CORNER_RADIUS_PERCENT
-import com.checkout.example.frames.ui.utils.PromptUtils
-import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
 import com.checkout.example.frames.ui.utils.URL_IDENTIFIER
 import com.checkout.frames.R
 
@@ -78,8 +77,8 @@ fun ThreedComponent(context: Context) {
                     intent.putExtra(URL_IDENTIFIER, textValue.text)
                     context.startActivity(intent)
                 } else {
-                    showAlertDialog(
-                        context, context.getString(R.string.empty_url), context.getString(R.string.paste_valid_link)
+                    context.showAlertDialog(
+                         context.getString(R.string.empty_url), context.getString(R.string.paste_valid_link)
                     )
                 }
             },
@@ -96,14 +95,4 @@ fun ThreedComponent(context: Context) {
             )
         }
     }
-}
-
-fun showAlertDialog(context: Context, title: String, message: String) {
-    PromptUtils.alertDialog(context) {
-        setTitle(title)
-        setMessage(message)
-        neutralButton {
-            it.dismiss()
-        }
-    }.show()
 }

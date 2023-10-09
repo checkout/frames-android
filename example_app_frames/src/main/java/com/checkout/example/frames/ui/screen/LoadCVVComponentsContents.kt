@@ -15,14 +15,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.checkout.example.frames.ui.component.ClickableImage
-import com.checkout.example.frames.ui.component.CustomButton
+import com.checkout.example.frames.ui.component.LoadCVVComponent
 import com.checkout.example.frames.ui.component.TextComponent
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme
@@ -36,6 +35,8 @@ fun LoadCVVComponentsContents(
     cvvTokenizationViewModel: CVVTokenizationViewModel,
     visaMediator: CVVComponentMediator,
     maestroMediator: CVVComponentMediator,
+    amexMediator: CVVComponentMediator,
+    unknownMediator: CVVComponentMediator,
 ) {
     FramesTheme {
         Surface(
@@ -47,7 +48,6 @@ fun LoadCVVComponentsContents(
                     .verticalScroll(state = rememberScrollState())
                     .padding(start = 10.dp, end = 24.dp, bottom = 14.dp),
                 verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.Start
             ) {
 
                 Row(
@@ -72,31 +72,35 @@ fun LoadCVVComponentsContents(
 
                 Spacer(Modifier.height(15.dp))
 
-                Text("Default CVV Component")
+                Text("Default CVV Component (Visa scheme along with pay button validation)")
 
                 Spacer(Modifier.height(15.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start
-                ) {
-                    visaMediator.CVVComponent()
+                LoadCVVComponent(visaMediator, cvvTokenizationViewModel.isEnteredVisaCVVValid)
 
-                    CustomButton(isCVVValid = cvvTokenizationViewModel.isEnteredVisaCVVValid)
-                }
+                Spacer(Modifier.height(30.dp))
+
+                Text("Custom CVV Component (Maestro scheme along with pay button validation)")
 
                 Spacer(Modifier.height(15.dp))
 
-                Text("Custom CVV Component")
+                LoadCVVComponent(maestroMediator, cvvTokenizationViewModel.isEnteredMaestroCVVValid)
+
+                Spacer(Modifier.height(30.dp))
+
+                Text("Custom CVV Component (AMEX scheme along with pay button validation)")
 
                 Spacer(Modifier.height(15.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start
-                ) {
-                    maestroMediator.CVVComponent()
+                LoadCVVComponent(amexMediator, cvvTokenizationViewModel.isEnteredAmexCVVValid)
 
-                    CustomButton(isCVVValid = cvvTokenizationViewModel.isEnteredMaestroCVVValid)
-                }
+                Spacer(Modifier.height(30.dp))
+
+                Text("Custom CVV Component (unknown scheme without pay button validation)")
+
+                Spacer(Modifier.height(15.dp))
+
+                LoadCVVComponent(unknownMediator)
             }
         }
     }

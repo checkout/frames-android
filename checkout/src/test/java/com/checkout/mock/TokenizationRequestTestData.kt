@@ -1,17 +1,19 @@
 package com.checkout.mock
 
+import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Country
 import com.checkout.network.response.ErrorResponse
 import com.checkout.tokenization.entity.AddressEntity
 import com.checkout.tokenization.entity.PhoneEntity
 import com.checkout.tokenization.model.Address
+import com.checkout.tokenization.model.CVVTokenizationRequest
 import com.checkout.tokenization.model.Phone
 import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.response.TokenDetailsResponse
 import com.checkout.validation.model.AddressValidationRequest
 
-internal object CardTokenTestData {
+internal object TokenizationRequestTestData {
 
     val addressEntity = AddressEntity(
         "Checkout.com",
@@ -42,6 +44,8 @@ internal object CardTokenTestData {
         "W1T 4TJ",
         country
     )
+
+    val cvvTokenizationRequest = CVVTokenizationRequest(cvv = "123", cardScheme = CardScheme.VISA, resultHandler = { })
 
     val phoneEntity = PhoneEntity("4155552671", "44")
 

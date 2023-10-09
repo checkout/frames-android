@@ -1,8 +1,10 @@
 package com.checkout.frames.cvvinputfield.api
 
 import android.content.Context
+import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.Environment
 import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
+import com.checkout.frames.cvvinputfield.usecase.CVVTokenizationUseCase
 
 internal class InternalCVVComponentApi(
     private val publicKey: String,
@@ -11,6 +13,11 @@ internal class InternalCVVComponentApi(
 ) : CVVComponentApi {
 
     override fun createComponentMediator(cvvComponentConfig: CVVComponentConfig) = InternalCVVComponentMediator(
-        cvvComponentConfig = cvvComponentConfig, publicKey = publicKey, environment = environment, context = context
+        cvvComponentConfig = cvvComponentConfig,
+        cvvTokenizationUseCase = CVVTokenizationUseCase(
+            checkoutApiService = CheckoutApiServiceFactory.create(
+                publicKey = publicKey, environment = environment, context = context
+            )
+        )
     )
 }

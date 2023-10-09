@@ -5,6 +5,7 @@ import com.checkout.logging.EventLoggerProvider
 import com.checkout.logging.model.LoggingEvent
 import com.checkout.threedsecure.Executor
 import com.checkout.threedsecure.model.ThreeDSRequest
+import com.checkout.tokenization.model.CVVTokenizationRequest
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.GooglePayTokenRequest
 import com.checkout.tokenization.repository.TokenRepository
@@ -22,6 +23,8 @@ internal class CheckoutApiClient(
     override fun createToken(request: CardTokenRequest) = tokenRepository.sendCardTokenRequest(request)
 
     override fun createToken(request: GooglePayTokenRequest) = tokenRepository.sendGooglePayTokenRequest(request)
+
+    override fun createToken(request: CVVTokenizationRequest) = tokenRepository.sendCVVTokenizationRequest(request)
 
     override fun handleThreeDS(request: ThreeDSRequest) = threeDSExecutor.execute(request)
 }

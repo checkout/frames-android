@@ -3,7 +3,7 @@ package com.checkout.tokenization.logging
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.tokenization.error.TokenizationError
 import com.checkout.tokenization.utils.TokenizationConstants
 import io.mockk.impl.annotations.RelaxedMockK
@@ -142,7 +142,11 @@ internal class TokenizationEventLoggerTest {
         val capturedEvent = slot<LoggingEvent>()
 
         // When
-        tokenizationEventLogger.logTokenResponseEvent(tokenType, "test_key", CardTokenTestData.tokenDetailsResponse())
+        tokenizationEventLogger.logTokenResponseEvent(
+            tokenType = tokenType,
+            publicKey = "test_key",
+            tokenDetails = TokenizationRequestTestData.tokenDetailsResponse()
+        )
 
         // Then
         verify { mockLogger.log(capture(capturedEvent)) }
@@ -178,7 +182,7 @@ internal class TokenizationEventLoggerTest {
             "test_key",
             null,
             501,
-            CardTokenTestData.errorResponse()
+            TokenizationRequestTestData.errorResponse()
         )
 
         // Then

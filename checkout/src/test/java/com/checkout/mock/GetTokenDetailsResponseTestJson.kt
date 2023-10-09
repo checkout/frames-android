@@ -47,6 +47,14 @@ internal object GetTokenDetailsResponseTestJson {
                     }
                      """.trimIndent()
 
+    val cvvTokenDetailsResponse = """
+                    {
+                      "type": "cvv",
+                      "token": "tok_ubfj2q76miwundwlk72vxt2i7q",
+                      "expires_on": "2019-08-24T14:15:22Z"
+                    }
+                      """.trimIndent()
+
     val googlePayTokenDetailsResponse = """
                       {
                       "type": "googlepay",
@@ -73,6 +81,16 @@ internal object GetTokenDetailsResponseTestJson {
                           "error_codes": [
                               "card_number_invalid",
                               "cvv_invalid"
+                          ]
+                      }
+                     """.trimIndent()
+
+    val cvvTokenDetailsErrorResponse = """
+                      {
+                          "request_id": "745f1863-e67f-451d-ae3e-cb2050fc4640",
+                          "error_type": "request_invalid",
+                          "error_codes": [
+                             "cvv_invalid"
                           ]
                       }
                      """.trimIndent()

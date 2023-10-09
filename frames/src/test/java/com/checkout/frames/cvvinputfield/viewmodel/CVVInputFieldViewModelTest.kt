@@ -201,7 +201,7 @@ internal class CVVInputFieldViewModelTest {
         every { cvvComponentConfig.cardScheme } returns CardScheme.MAESTRO
         every {
             mockCVVComponentValidator.validate(eq(validCVV), eq(testCardScheme))
-        } returns ValidationResult.Success(Unit)
+        } returns ValidationResult.Failure(CheckoutError("Test Error code"))
 
         // When
         viewModel.onCvvChange(validCVV)
