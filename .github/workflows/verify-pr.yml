@@ -31,6 +31,8 @@ jobs:
         run: chmod +x gradlew
       - name: Run Android Lint
         run: ./gradlew lint
+      - name: Run KtLint
+        run: ./gradlew ktlint
 
   test:
     name: Unit Tests
