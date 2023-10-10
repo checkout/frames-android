@@ -14,5 +14,5 @@ import androidx.compose.ui.unit.dp
 internal data class FlowRowViewStyle(
     val mainAxisSpacing: Dp = 0.dp,
     val crossAxisSpacing: Dp = 0.dp,
-    val imagesContainerModifier: Modifier = Modifier
+    val imagesContainerModifier: Modifier = Modifier,
 )

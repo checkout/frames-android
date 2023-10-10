@@ -12,11 +12,14 @@ internal class ValidateCVVTokenizationDataUseCase(
 
     override fun execute(data: ValidateCVVTokenizationRequest): ValidationResult<Unit> {
         with(cvvComponentValidator.validate(data.cvv, data.cardScheme)) {
-            if (this is ValidationResult.Failure || data.cvv.isEmpty()) return ValidationResult.Failure(
-                ValidationError(
-                    errorCode = ValidationError.CVV_INVALID_LENGTH, message = "Please enter a valid security code"
+            if (this is ValidationResult.Failure || data.cvv.isEmpty()) {
+                return ValidationResult.Failure(
+                    ValidationError(
+                        errorCode = ValidationError.CVV_INVALID_LENGTH,
+                        message = "Please enter a valid security code",
+                    ),
                 )
-            )
+            }
         }
 
         return ValidationResult.Success(Unit)

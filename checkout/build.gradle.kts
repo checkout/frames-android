@@ -1,9 +1,9 @@
+import com.checkout.buildsrc.BuildConfigFieldName
+import com.checkout.buildsrc.applyAndroidJUnit4Configuration
 import com.checkout.buildsrc.applyAndroidJUnit5Configuration
 import com.checkout.buildsrc.applyCommonLibConfigurations
-import com.checkout.buildsrc.applyAndroidJUnit4Configuration
-import com.checkout.buildsrc.applyNetworkConfigurations
-import com.checkout.buildsrc.BuildConfigFieldName
 import com.checkout.buildsrc.applyJacocoTestReport
+import com.checkout.buildsrc.applyNetworkConfigurations
 
 plugins {
     id("com.android.library")
@@ -26,19 +26,19 @@ android {
         buildConfigField(
             "String",
             BuildConfigFieldName.productVersion,
-            "\"${CheckoutConfig.version}\""
+            "\"${CheckoutConfig.version}\"",
         )
 
         buildConfigField(
             "String",
             BuildConfigFieldName.productName,
-            "\"${CheckoutConfig.pomName}\""
+            "\"${CheckoutConfig.pomName}\"",
         )
 
         buildConfigField(
             "String",
             BuildConfigFieldName.productIdentifier,
-            "\"${CheckoutConfig.groupId}.${CheckoutConfig.artifactId}\""
+            "\"${CheckoutConfig.groupId}.${CheckoutConfig.artifactId}\"",
         )
 
         consumerProguardFiles("consumer-rules.pro")
@@ -51,7 +51,7 @@ android {
             buildConfigField(
                 "Boolean",
                 BuildConfigFieldName.defaultLogcatMonitoring,
-                "false"
+                "false",
             )
         }
 
@@ -59,7 +59,7 @@ android {
             buildConfigField(
                 "Boolean",
                 BuildConfigFieldName.defaultLogcatMonitoring,
-                "true"
+                "true",
             )
         }
     }

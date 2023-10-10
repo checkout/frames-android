@@ -15,12 +15,12 @@ import java.util.stream.Stream
 internal class StringExtensionsKtTest {
 
     @ParameterizedTest(
-        name = "When transformation of string {0} is requested then expiry date {1} is provided"
+        name = "When transformation of string {0} is requested then expiry date {1} is provided",
     )
     @MethodSource("testArguments")
     fun `Create expiry date data object from string`(
         inputString: String,
-        expectedResult: ExpiryDate
+        expectedResult: ExpiryDate,
     ) {
         // When
         val result = inputString.toExpiryDate()
@@ -37,7 +37,7 @@ internal class StringExtensionsKtTest {
             Arguments.of("0123", ExpiryDate(1, 23)),
             Arguments.of("0103", ExpiryDate(1, 3)),
             Arguments.of("01033", ExpiryDate(0, 0)),
-            Arguments.of("01", ExpiryDate(0, 0))
+            Arguments.of("01", ExpiryDate(0, 0)),
         )
     }
 }

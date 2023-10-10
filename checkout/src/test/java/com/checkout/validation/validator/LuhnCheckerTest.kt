@@ -23,7 +23,7 @@ internal class LuhnCheckerTest {
     @MethodSource("testArguments")
     fun `given month or year is not valid returns failure`(
         cardNumber: String,
-        expectedResult: Boolean
+        expectedResult: Boolean,
     ) {
         // When
         val result = luhnChecker.check(cardNumber)
@@ -77,7 +77,7 @@ internal class LuhnCheckerTest {
             Arguments.of("371673901387168", false),
             Arguments.of("6501111111111117", false),
             Arguments.of("4000056655665", false),
-            Arguments.of("a492993918735559", false)
+            Arguments.of("a492993918735559", false),
         )
     }
 }

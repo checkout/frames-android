@@ -5,5 +5,5 @@ public enum class Shape {
     Circle,
     RoundCorner,
     CutCorner,
-    None
+    None,
 }

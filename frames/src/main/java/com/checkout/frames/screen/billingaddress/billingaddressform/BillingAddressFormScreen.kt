@@ -19,19 +19,19 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 internal fun BillingAddressFormScreen(
     style: BillingFormStyle,
     injector: Injector,
-    onClose: () -> Unit
+    onClose: () -> Unit,
 ) {
     val animationDuration = 250
     val childNavController = rememberAnimatedNavController()
 
     AnimatedNavHost(childNavController, startDestination = Screen.BillingFormDetails.route) {
         composable(
-            Screen.BillingFormDetails.route
+            Screen.BillingFormDetails.route,
         ) {
             BillingAddressDetailsScreen(
                 style.billingAddressDetailsStyle,
                 injector,
-                childNavController
+                childNavController,
             ) { onClose() }
         }
         composable(
@@ -41,11 +41,11 @@ internal fun BillingAddressFormScreen(
             },
             exitTransition = {
                 slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, tween(animationDuration))
-            }
+            },
         ) {
             CountryPickerScreen(
                 style.countryPickerStyle,
-                injector
+                injector,
             ) {
                 childNavController.navigateUp()
             }

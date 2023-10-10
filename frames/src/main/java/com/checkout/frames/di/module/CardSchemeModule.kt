@@ -20,13 +20,13 @@ internal class CardSchemeModule {
         @Provides
         fun provideCardSchemeComponentStyleMapper(
             textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
-            containerMapper: Mapper<ContainerStyle, Modifier>
+            containerMapper: Mapper<ContainerStyle, Modifier>,
         ): Mapper<CardSchemeComponentStyle, CardSchemeComponentViewStyle> =
             CardSchemeComponentStyleToViewStyleMapper(textLabelStyleMapper, containerMapper)
 
         @Provides
         fun provideCardSchemeComponentStateMapper(
-            textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>
+            textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>,
         ): Mapper<CardSchemeComponentStyle, CardSchemeComponentState> =
             CardSchemeComponentStyleToStateMapper(textLabelMapper)
     }

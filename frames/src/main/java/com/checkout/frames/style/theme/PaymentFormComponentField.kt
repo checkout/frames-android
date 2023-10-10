@@ -26,5 +26,5 @@ public enum class PaymentFormComponentField {
     Country,
     Phone,
     CountryPicker,
-    UNKNOWN;
+    UNKNOWN,
 }

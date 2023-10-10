@@ -13,7 +13,7 @@ internal class CardTokenizationUseCase(
     /** Success callback from merchant. */
     private val onSuccess: (tokenDetails: TokenDetails) -> Unit,
     /** Failure callback from merchant. */
-    private val onFailure: (errorMessage: String) -> Unit
+    private val onFailure: (errorMessage: String) -> Unit,
 ) : UseCase<InternalCardTokenRequest, Unit> {
 
     override fun execute(data: InternalCardTokenRequest) {
@@ -23,8 +23,8 @@ internal class CardTokenizationUseCase(
             CardTokenRequest(
                 card = data.card,
                 onSuccess = { handleSuccess(it, data.onSuccess) },
-                onFailure = { handleFailure(it, data.onFailure) }
-            )
+                onFailure = { handleFailure(it, data.onFailure) },
+            ),
         )
     }
 

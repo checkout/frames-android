@@ -35,8 +35,10 @@ internal class InternalCVVComponentApiTest {
         // Given
         val internalCVVComponentApi = spyk(
             InternalCVVComponentApi(
-                publicKey = "your_public_key", environment = Environment.SANDBOX, context = mockContext
-            )
+                publicKey = "your_public_key",
+                environment = Environment.SANDBOX,
+                context = mockContext,
+            ),
         )
 
         // When

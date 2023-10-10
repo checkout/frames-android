@@ -16,5 +16,5 @@ internal data class TextLabelState(
     val textId: MutableState<Int?> = mutableStateOf(null),
     val leadingIcon: MutableState<@Composable (() -> Unit)?> = mutableStateOf(null),
     val trailingIcon: MutableState<@Composable (() -> Unit)?> = mutableStateOf(null),
-    val isVisible: MutableState<Boolean> = mutableStateOf(false)
+    val isVisible: MutableState<Boolean> = mutableStateOf(false),
 )

@@ -9,5 +9,5 @@ public data class TextLabelStyle @JvmOverloads constructor(
     var textStyle: TextStyle = TextStyle(),
     var leadingIconStyle: ImageStyle? = null,
     var trailingIconStyle: ImageStyle? = null,
-    var containerStyle: ContainerStyle = ContainerStyle()
+    var containerStyle: ContainerStyle = ContainerStyle(),
 )

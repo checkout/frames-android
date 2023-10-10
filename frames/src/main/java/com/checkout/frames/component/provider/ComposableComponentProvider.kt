@@ -18,12 +18,12 @@ import com.checkout.frames.style.component.PayButtonComponentStyle
 import com.checkout.frames.style.component.addresssummary.AddressSummaryComponentStyle
 
 internal class ComposableComponentProvider(
-    private val injector: Injector
+    private val injector: Injector,
 ) : ComponentProvider {
 
     @Composable
     override fun CardScheme(style: CardSchemeComponentStyle) {
-      CardSchemeComponent(style, injector)
+        CardSchemeComponent(style, injector)
     }
 
     @Composable

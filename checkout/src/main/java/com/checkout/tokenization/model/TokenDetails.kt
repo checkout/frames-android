@@ -35,5 +35,5 @@ public data class TokenDetails(
 
     val phone: Phone? = null,
 
-    val name: String?
+    val name: String?,
 )

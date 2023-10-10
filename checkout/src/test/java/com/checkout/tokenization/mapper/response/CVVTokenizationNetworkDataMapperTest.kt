@@ -42,7 +42,7 @@ internal class CVVTokenizationNetworkDataMapperTest {
             // When
             val mappedResult =
                 cvvTokenizationNetworkDataMapper.toTokenResult(
-                    NetworkApiResponse.Success(mockGetCVVTokenDetailsResponse)
+                    NetworkApiResponse.Success(mockGetCVVTokenDetailsResponse),
                 )
 
             // Then
@@ -66,11 +66,13 @@ internal class CVVTokenizationNetworkDataMapperTest {
             mappedResult `should be instance of` TokenResult.Failure::class
 
             (mappedResult as TokenResult.Failure).error.message `should be equal to`
-                    "${CVVTokenizationRequest::class.java.name} cannot be mapped to a CVVTokenDetails"
+                "${CVVTokenizationRequest::class.java.name} cannot be mapped to a CVVTokenDetails"
         }
 
         private fun expectedCVVTokenDetails(): CVVTokenDetails = CVVTokenDetails(
-            type = "CVV", token = "tok_test", expiresOn = "2019-08-24T14:15:22Z"
+            type = "CVV",
+            token = "tok_test",
+            expiresOn = "2019-08-24T14:15:22Z",
         )
 
         private fun setupMockResponses(
@@ -104,7 +106,7 @@ internal class CVVTokenizationNetworkDataMapperTest {
             // Then
             mappedResult `should be instance of` TokenResult.Failure::class
             (mappedResult as TokenResult.Failure).error.message `should be equal to`
-                    "Token request failed - testErrorType (HttpStatus: 400)"
+                "Token request failed - testErrorType (HttpStatus: 400)"
         }
 
         @Test

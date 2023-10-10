@@ -28,14 +28,14 @@ internal class CardNumberTransformationTest {
     }
 
     @ParameterizedTest(
-        name = "When visual transformation receives {0} then {1} is received"
+        name = "When visual transformation receives {0} then {1} is received",
     )
     @MethodSource("cardNumberTransformationArguments")
     fun `when visual transformation receives a string then correctly formatted string is provided`(
         separator: Char,
         cardScheme: CardScheme,
         enteredNumber: String,
-        transformedNumber: String
+        transformedNumber: String,
     ) {
         // Given
         setUpVisualTransformation(separator)
@@ -73,7 +73,7 @@ internal class CardNumberTransformationTest {
             Arguments.of(' ', CardScheme.MASTERCARD, "12341234123", "1234 1234 123"),
             Arguments.of(' ', CardScheme.VISA, "1234123412341111", "1234 1234 1234 1111 "),
             Arguments.of(' ', CardScheme.VISA, "12341234123", "1234 1234 123"),
-            Arguments.of(' ', CardScheme.VISA, "4000001234562345678", "4000 0012 3456 2345 678")
+            Arguments.of(' ', CardScheme.VISA, "4000001234562345678", "4000 0012 3456 2345 678"),
         )
     }
 }

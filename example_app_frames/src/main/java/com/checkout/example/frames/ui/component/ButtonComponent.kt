@@ -34,25 +34,30 @@ internal fun ButtonComponent(buttonTitleId: Int, imageResourceID: Int, modifier:
         shape = RoundedCornerShape(CORNER_RADIUS_PERCENT),
         border = BorderStroke(width = 1.dp, color = ButtonBorder),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent, contentColor = DarkBlue
+            containerColor = Color.Transparent,
+            contentColor = DarkBlue,
         ),
     ) {
         Row(
-            horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = painterResource(id = imageResourceID),
                 modifier = Modifier
                     .size(44.dp)
                     .background(
-                        color = LightBlue, shape = CircleShape
+                        color = LightBlue,
+                        shape = CircleShape,
                     ),
-                contentScale = ContentScale.Inside, alignment = Alignment.Center, contentDescription = null
+                contentScale = ContentScale.Inside,
+                alignment = Alignment.Center,
+                contentDescription = null,
             )
             Text(
                 text = stringResource(id = buttonTitleId),
                 modifier = Modifier.padding(start = 8.dp),
-                fontSize = 12.sp
+                fontSize = 12.sp,
             )
         }
     }

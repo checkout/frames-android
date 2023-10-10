@@ -32,14 +32,16 @@ fun LoadCVVComponent(
                     is CVVTokenizationResultHandler.Success -> {
                         val tokenDetails = result.tokenDetails
                         context.showAlertDialog(
-                            title = context.getString(R.string.token_generated), message = tokenDetails.token
+                            title = context.getString(R.string.token_generated),
+                            message = tokenDetails.token,
                         )
                     }
 
                     is CVVTokenizationResultHandler.Failure -> {
                         val errorMessage = result.errorMessage
                         context.showAlertDialog(
-                            title = context.getString(R.string.token_generated_failed), message = errorMessage
+                            title = context.getString(R.string.token_generated_failed),
+                            message = errorMessage,
                         )
                     }
                 }

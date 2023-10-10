@@ -44,13 +44,14 @@ internal class PaymentFormConfigTest {
                         city = "London",
                         state = "London",
                         zip = "W1T 4TJ",
-                        country = Country.from(iso3166Alpha2 = "GB")
+                        country = Country.from(iso3166Alpha2 = "GB"),
                     ),
                     phone = Phone(
-                        number = "4155552671", country = Country.from(iso3166Alpha2 = "GB")
-                    )
-                )
-            )
+                        number = "4155552671",
+                        country = Country.from(iso3166Alpha2 = "GB"),
+                    ),
+                ),
+            ),
         )
 
         // Then
@@ -66,36 +67,38 @@ internal class PaymentFormConfigTest {
                 assertEquals(PaymentFormConfigTestData.prefillData.billingFormAddress?.name, billingFormAddress?.name)
                 assertEquals(
                     PaymentFormConfigTestData.prefillData.billingFormAddress?.phone?.country,
-                    billingFormAddress?.phone?.country
+                    billingFormAddress?.phone?.country,
                 )
                 assertEquals(
                     PaymentFormConfigTestData.prefillData.billingFormAddress?.phone?.number,
-                    billingFormAddress?.phone?.number
+                    billingFormAddress?.phone?.number,
                 )
 
                 val actualAddress = billingFormAddress?.address
                 assertEquals(
                     PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.addressLine1,
-                    actualAddress?.addressLine1
+                    actualAddress?.addressLine1,
                 )
                 assertEquals(
                     PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.addressLine2,
-                    actualAddress?.addressLine2
+                    actualAddress?.addressLine2,
                 )
                 assertEquals(
                     PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.country?.name,
-                    actualAddress?.country?.name
+                    actualAddress?.country?.name,
                 )
                 assertEquals(
                     PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.country?.iso3166Alpha2,
-                    actualAddress?.country?.iso3166Alpha2
+                    actualAddress?.country?.iso3166Alpha2,
                 )
                 assertEquals(PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.zip, actualAddress?.zip)
                 assertEquals(
-                    PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.city, actualAddress?.city
+                    PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.city,
+                    actualAddress?.city,
                 )
                 assertEquals(
-                    PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.state, actualAddress?.state
+                    PaymentFormConfigTestData.prefillData.billingFormAddress?.address?.state,
+                    actualAddress?.state,
                 )
             }
         }

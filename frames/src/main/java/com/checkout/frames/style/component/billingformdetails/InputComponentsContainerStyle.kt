@@ -6,5 +6,5 @@ import com.checkout.frames.style.component.base.InputComponentStyle
 
 public data class InputComponentsContainerStyle @JvmOverloads constructor(
     val inputComponentStyleValues: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf(),
-    var containerStyle: ContainerStyle = ContainerStyle()
+    var containerStyle: ContainerStyle = ContainerStyle(),
 )

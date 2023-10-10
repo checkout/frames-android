@@ -4,5 +4,5 @@ import androidx.annotation.ColorLong
 
 public data class DividerColor(
     @ColorLong
-    public val color: Long
+    public val color: Long,
 )

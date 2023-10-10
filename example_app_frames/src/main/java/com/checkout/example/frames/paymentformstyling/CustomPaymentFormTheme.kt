@@ -3,13 +3,13 @@ package com.checkout.example.frames.paymentformstyling
 import com.checkout.frames.R
 import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Shape
-import com.checkout.frames.style.theme.PaymentFormThemeColors
+import com.checkout.frames.style.theme.DefaultPaymentFormTheme
 import com.checkout.frames.style.theme.PaymentFormComponentBuilder
 import com.checkout.frames.style.theme.PaymentFormComponentField
-import com.checkout.frames.style.theme.PaymentFormTheme
-import com.checkout.frames.style.theme.DefaultPaymentFormTheme
-import com.checkout.frames.style.theme.PaymentFormShape
 import com.checkout.frames.style.theme.PaymentFormCornerRadius
+import com.checkout.frames.style.theme.PaymentFormShape
+import com.checkout.frames.style.theme.PaymentFormTheme
+import com.checkout.frames.style.theme.PaymentFormThemeColors
 
 object CustomPaymentFormTheme {
     private val paymentFormThemeColors = PaymentFormThemeColors(
@@ -19,7 +19,7 @@ object CustomPaymentFormTheme {
         backgroundColor = 0xFF17201E,
         fieldBackgroundColor = 0XFF24302D,
         enabledButtonColor = 0xFFFFFFFF,
-        disabledButtonColor = 0XFF003300
+        disabledButtonColor = 0XFF003300,
     )
 
     private val cardNumber = PaymentFormComponentBuilder()
@@ -90,7 +90,7 @@ object CustomPaymentFormTheme {
                 addressLineTwo = addressLineTwo,
                 addBillingSummaryButton = addBillingSummaryButton,
                 editBillingSummaryButton = editBillingSummaryButton,
-                country = country
+                country = country,
             ),
             /**
              * option 2: Use default components
@@ -98,12 +98,13 @@ object CustomPaymentFormTheme {
              */
             paymentFormShape = PaymentFormShape(
                 inputFieldShape = Shape.RoundCorner,
-                addressSummaryShape = Shape.Rectangle, buttonShape = Shape.Circle
+                addressSummaryShape = Shape.Rectangle,
+                buttonShape = Shape.Circle,
             ),
             paymentFormCornerRadius = PaymentFormCornerRadius(
                 inputFieldCornerRadius = CornerRadius(INPUT_FIELD_CORNER_RADIUS),
-                addressSummaryCornerRadius = CornerRadius(INPUT_FIELD_CORNER_RADIUS)
-            )
+                addressSummaryCornerRadius = CornerRadius(INPUT_FIELD_CORNER_RADIUS),
+            ),
         )
     }
 }

@@ -42,7 +42,7 @@ internal class InternalCVVComponentMediator(
         val internalCVVTokenRequest = InternalCVVTokenRequest(
             cvv = cvvInputFieldTextValue.value,
             cardScheme = cvvComponentConfig.cardScheme,
-            resultHandler = resultHandler
+            resultHandler = resultHandler,
         )
 
         cvvTokenizationUseCase.execute(internalCVVTokenRequest)

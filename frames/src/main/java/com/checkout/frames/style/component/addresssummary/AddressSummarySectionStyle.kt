@@ -9,5 +9,5 @@ public data class AddressSummarySectionStyle @JvmOverloads constructor(
     val addressTextStyle: TextLabelStyle,
     val dividerStyle: DividerStyle? = null,
     val editAddressButtonStyle: ButtonStyle,
-    val containerStyle: ContainerStyle
+    val containerStyle: ContainerStyle,
 )

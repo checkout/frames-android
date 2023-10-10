@@ -14,14 +14,14 @@ public object DefaultImageStyle {
         tinColor: Long? = LightStyleConstants.focusedBorderColor,
         height: Int? = ButtonStyleConstants.trailingIconHeight,
         width: Int? = null,
-        padding: Padding? = ButtonStyleConstants.trailingIconPadding
+        padding: Padding? = ButtonStyleConstants.trailingIconPadding,
     ): ImageStyle {
         return ImageStyle(
             image = image,
             tinColor = tinColor,
             height = height,
             width = width,
-            padding = padding
+            padding = padding,
         )
     }
 }

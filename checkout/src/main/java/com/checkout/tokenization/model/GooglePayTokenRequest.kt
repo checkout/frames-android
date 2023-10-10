@@ -10,5 +10,5 @@ package com.checkout.tokenization.model
 public data class GooglePayTokenRequest(
     val tokenJsonPayload: String,
     val onSuccess: (tokenDetails: TokenDetails) -> Unit,
-    val onFailure: (errorMessage: String) -> Unit
+    val onFailure: (errorMessage: String) -> Unit,
 )

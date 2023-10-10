@@ -10,7 +10,7 @@ public object AddressSummaryConstants {
         start = 24,
         end = 24,
         bottom = 16,
-        top = 16
+        top = 16,
     )
 
     /** Default line height of address summary text in dp. **/
@@ -22,6 +22,7 @@ public object AddressSummaryConstants {
 
     /** Default margin before summary section in dp. **/
     public const val marginBeforeSummarySection: Int = 8
+
     /** Default margin after summary section in dp. **/
     public const val marginAfterSummarySection: Int = 8
 }

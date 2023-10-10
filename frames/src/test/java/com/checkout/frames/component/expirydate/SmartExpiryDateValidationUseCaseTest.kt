@@ -27,7 +27,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
     lateinit var mockCardValidator: CardValidator
 
     private lateinit var expiryDateValidationUseCase:
-            UseCase<SmartExpiryDateValidationRequest, ValidationResult<String>>
+        UseCase<SmartExpiryDateValidationRequest, ValidationResult<String>>
 
     private lateinit var fakeExpiryDate: ExpiryDate
 
@@ -38,7 +38,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
     }
 
     @ParameterizedTest(
-        name = "Expected success validation result {0} received for OnFocus when valid {1} expiry date requested"
+        name = "Expected success validation result {0} received for OnFocus when valid {1} expiry date requested",
     )
     @MethodSource("validateSuccessExpiryDateOnFocusBehaviourArguments")
     fun `when valid expiry date is requested then return success result for On Focus behaviour`(
@@ -49,7 +49,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
     }
 
     @ParameterizedTest(
-        name = "Expected failed validation result {0} received for OnFocus\" + \"when invalid {1} expiry date requested"
+        name = "Expected failed validation result {0} received for OnFocus\" + \"when invalid {1} expiry date requested",
     )
     @MethodSource("validateInvalidExpiryDateForOnFocusBehaviourArguments")
     fun `when invalid expiry date is requested then return failure result for On Focus behaviour`(
@@ -60,7 +60,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
     }
 
     @ParameterizedTest(
-        name = "Expected success validation result {0} received for OnFocusChanged when valid {1} expiry date requested"
+        name = "Expected success validation result {0} received for OnFocusChanged when valid {1} expiry date requested",
     )
     @MethodSource("validateSuccessExpiryDateOnFocusChangedBehaviourArguments")
     fun `when valid expiry date is requested then return success result for On Focus Changed behaviour`(
@@ -72,7 +72,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
 
     @ParameterizedTest(
         name = "Expected failed validation result {0} received" +
-                " for OnFocusChanged when invalid {1} expiry date requested"
+            " for OnFocusChanged when invalid {1} expiry date requested",
     )
     @MethodSource("validateInvalidExpiryDateOnFocusChangedBehaviourArguments")
     fun `when invalid expiry date is requested then return failure result for On Focus Changed behaviour`(
@@ -91,10 +91,11 @@ internal class SmartExpiryDateValidationUseCaseTest {
         every {
             mockCardValidator.validateExpiryDate(any() as String, any() as String)
         } returns
-                if (isVerifyingSuccessResult)
-                    ValidationResult.Success(fakeExpiryDate)
-                else
-                    ValidationResult.Failure(CheckoutError("errorCode"))
+            if (isVerifyingSuccessResult) {
+                ValidationResult.Success(fakeExpiryDate)
+            } else {
+                ValidationResult.Failure(CheckoutError("errorCode"))
+            }
 
         // When
         val result = expiryDateValidationUseCase.execute(inputRequest)
@@ -106,7 +107,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
             }
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedExpiryDate.error.message,
-                (result as? ValidationResult.Failure)?.error?.message
+                (result as? ValidationResult.Failure)?.error?.message,
             )
         }
     }
@@ -124,10 +125,11 @@ internal class SmartExpiryDateValidationUseCaseTest {
         every {
             mockCardValidator.validateExpiryDate(any() as String, any() as String)
         } returns
-                if (isVerifyingSuccessResult)
-                    ValidationResult.Success(fakeExpiryDate)
-                else
-                    ValidationResult.Failure(CheckoutError("errorCode"))
+            if (isVerifyingSuccessResult) {
+                ValidationResult.Success(fakeExpiryDate)
+            } else {
+                ValidationResult.Failure(CheckoutError("errorCode"))
+            }
 
         // When
         val result = expiryDateValidationUseCase.execute(inputRequest)
@@ -139,7 +141,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
             }
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedExpiryDate.error.message,
-                (result as? ValidationResult.Failure)?.error?.message
+                (result as? ValidationResult.Failure)?.error?.message,
             )
         }
     }
@@ -276,7 +278,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
             Arguments.of(SmartExpiryDateValidationRequest(false, "78"), provideFailure()),
             Arguments.of(SmartExpiryDateValidationRequest(false, "89"), provideFailure()),
             Arguments.of(SmartExpiryDateValidationRequest(false, "91"), provideFailure()),
-            Arguments.of(SmartExpiryDateValidationRequest(false, "95"), provideFailure())
+            Arguments.of(SmartExpiryDateValidationRequest(false, "95"), provideFailure()),
         )
 
         private fun provideSuccess(inputExpiryDate: String) = ValidationResult.Success(inputExpiryDate)

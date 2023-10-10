@@ -18,7 +18,7 @@ internal fun TextComponent(
     fontSize: Int,
     textColor: Color,
     fontWeight: FontWeight,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) = Text(
     text = stringResource(titleResourceId),
     fontSize = fontSize.sp,
@@ -27,5 +27,5 @@ internal fun TextComponent(
     modifier = Modifier
         .padding(paddingValues)
         .fillMaxWidth(),
-    textAlign = TextAlign.Start
+    textAlign = TextAlign.Start,
 )

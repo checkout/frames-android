@@ -16,7 +16,7 @@ import com.checkout.threedsecure.webview.ThreeDSWebViewClient
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class ThreeDSExecutor(
     private val processResultUseCase: UseCase<ProcessThreeDSRequest, ThreeDSResult?>,
-    private val logger: ThreeDSLogger
+    private val logger: ThreeDSLogger,
 ) : Executor<ThreeDSRequest> {
 
     override fun execute(request: ThreeDSRequest): Unit = request.container.addView(provideWebView(request))
@@ -27,7 +27,7 @@ public class ThreeDSExecutor(
             webViewClient = ThreeDSWebViewClient(
                 onResult = { handleResult(it, successUrl, failureUrl, resultHandler) },
                 onError = { handleError(it, resultHandler) },
-                logger
+                logger,
             )
             loadUrl(request.challengeUrl)
         }
@@ -38,7 +38,7 @@ public class ThreeDSExecutor(
         url: String?,
         successUrl: String,
         failureUrl: String,
-        resultHandler: ThreeDSResultHandler
+        resultHandler: ThreeDSResultHandler,
     ): Boolean {
         val threeDSResult = processResultUseCase.execute(ProcessThreeDSRequest(url, successUrl, failureUrl))
 
@@ -46,7 +46,7 @@ public class ThreeDSExecutor(
             logger.logCompletedEvent(
                 success = it is ThreeDSResult.Success,
                 token = (it as? ThreeDSResult.Success)?.token,
-                error = (it as? ThreeDSResult.Error)?.error
+                error = (it as? ThreeDSResult.Error)?.error,
             )
             resultHandler.invoke(it)
             return true

@@ -28,5 +28,5 @@ public data class TextStyle @JvmOverloads constructor(
     /** Optional maximum symbols limit. Applicable for editable text fields. */
     val maxLength: Int? = null,
     /** Line height in sp. **/
-    var lineHeight: Int? = null
+    var lineHeight: Int? = null,
 )

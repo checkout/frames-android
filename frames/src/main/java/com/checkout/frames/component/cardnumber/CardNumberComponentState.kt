@@ -7,7 +7,7 @@ import com.checkout.frames.component.base.InputComponentState
 
 internal data class CardNumberComponentState(
     val inputState: InputComponentState,
-    val cardScheme: MutableState<CardScheme> = mutableStateOf(CardScheme.UNKNOWN)
+    val cardScheme: MutableState<CardScheme> = mutableStateOf(CardScheme.UNKNOWN),
 ) {
     val cardNumber = inputState.inputFieldState.text
     val cardNumberLength = inputState.inputFieldState.maxLength

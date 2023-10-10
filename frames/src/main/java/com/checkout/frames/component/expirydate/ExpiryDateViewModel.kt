@@ -64,16 +64,22 @@ internal class ExpiryDateViewModel @Inject constructor(
          instantly invoked the onValueChange from the ExpiryDateComponent(without any user input) resulting in
          hiding/blinking the visible expiry date error.
          */
-        if (componentState.expiryDate.value == this && wasInvalidPastExpiryDate)
+        if (componentState.expiryDate.value == this && wasInvalidPastExpiryDate) {
             wasInvalidPastExpiryDate = false
-        else validateExpiryDate(this, true)
+        } else {
+            validateExpiryDate(this, true)
+        }
     }
 
     private fun updateExpiryDateMaxLength(smartLogicExpiryDateUseCase: ValidationResult.Success<String>) {
         componentState.expiryDateMaxLength.value = if (
             smartLogicExpiryDateUseCase.value.isNotEmpty() &&
             smartLogicExpiryDateUseCase.value.first() > EXPIRY_DATE_ZERO_POSITION_CHECK
-        ) EXPIRY_DATE_MAXIMUM_LENGTH_THREE else EXPIRY_DATE_MAXIMUM_LENGTH_FOUR
+        ) {
+            EXPIRY_DATE_MAXIMUM_LENGTH_THREE
+        } else {
+            EXPIRY_DATE_MAXIMUM_LENGTH_FOUR
+        }
     }
 
     private fun validateExpiryDate(expiryDate: String, isFocused: Boolean) {
@@ -122,8 +128,8 @@ internal class ExpiryDateViewModel @Inject constructor(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 keyboardOptions = keyboardOptions,
                 visualTransformation = ExpiryDateVisualTransformation(),
-                forceLTR = true
-            )
+                forceLTR = true,
+            ),
         )
 
         return viewStyle

@@ -4,13 +4,13 @@ import androidx.annotation.RestrictTo
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
-import com.checkout.logging.utils.putErrorAttributes
 import com.checkout.logging.utils.SUCCESS
 import com.checkout.logging.utils.TOKEN_ID
+import com.checkout.logging.utils.putErrorAttributes
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class ThreeDSEventLogger(
-    private val logger: Logger<LoggingEvent>
+    private val logger: Logger<LoggingEvent>,
 ) : ThreeDSLogger {
 
     override fun logPresentedEvent(): Unit = logEvent(ThreeDSEventType.PRESENTED)
@@ -25,14 +25,14 @@ public class ThreeDSEventLogger(
         eventType: ThreeDSEventType,
         success: Boolean? = null,
         error: Throwable? = null,
-        token: String? = null
+        token: String? = null,
     ) = logger.log(provideLoggingEvent(eventType, success, token, error))
 
     private fun provideLoggingEvent(
         eventType: ThreeDSEventType,
         success: Boolean?,
         token: String?,
-        error: Throwable?
+        error: Throwable?,
     ): LoggingEvent {
         val properties = hashMapOf<String, Any>()
 
@@ -43,7 +43,7 @@ public class ThreeDSEventLogger(
         return LoggingEvent(
             eventType,
             if (error == null) MonitoringLevel.INFO else MonitoringLevel.ERROR,
-            properties
+            properties,
         )
     }
 }

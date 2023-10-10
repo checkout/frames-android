@@ -3,14 +3,14 @@ package com.checkout.frames.screen.paymentdetails
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -32,12 +32,12 @@ import com.checkout.frames.view.TextLabel
 internal fun PaymentDetailsScreen(
     style: PaymentDetailsStyle,
     injector: Injector,
-    navController: NavController
+    navController: NavController,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val resetFocus = remember { mutableStateOf(false) }
     val viewModel: PaymentDetailsViewModel = viewModel(
-        factory = PaymentDetailsViewModel.Factory(injector, style)
+        factory = PaymentDetailsViewModel.Factory(injector, style),
     )
 
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -50,9 +50,9 @@ internal fun PaymentDetailsScreen(
         object : DefaultLifecycleObserver {
             override fun onResume(owner: LifecycleOwner) {
                 super.onResume(owner)
-               viewModel.resetCountrySelection()
+                viewModel.resetCountrySelection()
             }
-        }
+        },
     )
 
     DisposableEffect(lifecycleOwner) {
@@ -65,8 +65,9 @@ internal fun PaymentDetailsScreen(
 
     Column(
         modifier = Modifier.clickable(
-            interactionSource = interactionSource, indication = null
-        ) { resetFocus.value = true }
+            interactionSource = interactionSource,
+            indication = null,
+        ) { resetFocus.value = true },
     ) {
         TextLabel(style = viewModel.headerStyle, state = viewModel.headerState)
 
@@ -74,7 +75,7 @@ internal fun PaymentDetailsScreen(
             modifier = viewModel.fieldsContainerModifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             // Cards schemes
             viewModel.componentProvider.CardScheme(style = style.cardSchemeStyle)

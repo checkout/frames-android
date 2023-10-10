@@ -11,7 +11,7 @@ public object DefaultCardNumberComponentStyle {
         val style = DefaultLightStyle.inputComponentStyle(
             titleTextId = R.string.cko_card_number_title,
             withLeadingIcon = true,
-            margin = Margin(bottom = marginBottom)
+            margin = Margin(bottom = marginBottom),
         )
         return CardNumberComponentStyle(style)
     }

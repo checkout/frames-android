@@ -49,7 +49,7 @@ internal class CountryViewModelTest {
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
         supportedCardSchemes = emptyList(),
-        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
     )
 
     private lateinit var viewModel: CountryViewModel
@@ -68,7 +68,7 @@ internal class CountryViewModelTest {
             spyPaymentStateManager,
             spyInputComponentStyleMapper,
             spyInputComponentStateMapper,
-            style
+            style,
         )
     }
 
@@ -140,11 +140,11 @@ internal class CountryViewModelTest {
         spyInputComponentStyleMapper = InputComponentStyleToViewStyleMapper(
             textLabelStyleMapper,
             InputFieldStyleToViewStyleMapper(textLabelStyleMapper),
-            containerMapper
+            containerMapper,
         )
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
             TextLabelStyleToStateMapper(imageMapper),
-            InputFieldStyleToInputFieldStateMapper(imageMapper)
+            InputFieldStyleToInputFieldStateMapper(imageMapper),
         )
     }
 }

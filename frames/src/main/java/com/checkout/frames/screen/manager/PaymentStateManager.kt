@@ -30,6 +30,7 @@ internal interface PaymentStateManager {
     val billingAddress: MutableStateFlow<BillingAddress>
     val selectedCountry: MutableStateFlow<Country?>
     val isBillingAddressValid: MutableStateFlow<Boolean>
+
     // Whether the billing address form is enabled or set to null
     val isBillingAddressEnabled: MutableStateFlow<Boolean>
 

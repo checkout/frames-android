@@ -39,7 +39,7 @@ internal class CountryPickerViewModel @Inject constructor(
     private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
     containerMapper: Mapper<ContainerStyle, Modifier>,
     private val imageMapper: ImageStyleToDynamicComposableImageMapper,
-    style: CountryPickerStyle
+    style: CountryPickerStyle,
 ) : ViewModel() {
 
     val screenTitleStyle = textLabelStyleMapper.map(style.screenTitleStyle)
@@ -81,8 +81,11 @@ internal class CountryPickerViewModel @Inject constructor(
 
     @VisibleForTesting
     fun onClear() {
-        if (isInputFocused) onSearchChange("")
-        else onReset()
+        if (isInputFocused) {
+            onSearchChange("")
+        } else {
+            onReset()
+        }
     }
 
     @VisibleForTesting
@@ -99,8 +102,8 @@ internal class CountryPickerViewModel @Inject constructor(
             ImageStyleToDynamicImageRequest(
                 style.leadingIconStyle,
                 flowOf(R.drawable.cko_ic_cross_close),
-                flowOf { onLeaveScreen() }
-            )
+                flowOf { onLeaveScreen() },
+            ),
         )
 
         return state
@@ -113,13 +116,16 @@ internal class CountryPickerViewModel @Inject constructor(
             ImageStyleToDynamicImageRequest(
                 style.leadingIconStyle,
                 snapshotFlow { isSearchActive.value }.map {
-                    if (it) R.drawable.cko_ic_arrow_back
-                    else R.drawable.cko_ic_search
+                    if (it) {
+                        R.drawable.cko_ic_arrow_back
+                    } else {
+                        R.drawable.cko_ic_search
+                    }
                 },
                 snapshotFlow { isSearchActive.value }.map {
                     if (it) this::onReset else null
-                }
-            )
+                },
+            ),
         )
 
         viewState.trailingIcon.value = imageMapper.map(
@@ -128,8 +134,8 @@ internal class CountryPickerViewModel @Inject constructor(
                 snapshotFlow { viewState.text.value }.map {
                     if (it.isEmpty()) null else R.drawable.cko_ic_cross_clear
                 },
-                flowOf { onClear() }
-            )
+                flowOf { onClear() },
+            ),
         )
 
         return viewState
@@ -139,13 +145,13 @@ internal class CountryPickerViewModel @Inject constructor(
         CountryItem(
             name = Locale(Locale.getDefault().language, it.iso3166Alpha2).displayCountry,
             emojiFlag = it.emojiFlag(),
-            iso2 = it.iso3166Alpha2
+            iso2 = it.iso3166Alpha2,
         )
     }
 
     internal class Factory(
         private val injector: Injector,
-        private val style: CountryPickerStyle
+        private val style: CountryPickerStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

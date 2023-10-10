@@ -35,19 +35,19 @@ internal class CvvValidator : Validator<CvvValidationRequest, Unit> {
         when {
             cvv.any { !it.isDigit() } -> throw ValidationError(
                 ValidationError.CVV_CONTAINS_NON_DIGITS,
-                "CVV should contain only digits"
+                "CVV should contain only digits",
             )
 
             cvvLength.any { it == cvv.length } -> return
 
             cvv.length < cvvLength.min() || cvv.length < cvvLength.max() -> throw ValidationError(
                 ValidationError.CVV_INCOMPLETE_LENGTH,
-                "Incomplete CVV length, it should be $cvvLength"
+                "Incomplete CVV length, it should be $cvvLength",
             )
 
             else -> throw ValidationError(
                 ValidationError.CVV_INVALID_LENGTH,
-                "Invalid CVV length, it should be $cvvLength"
+                "Invalid CVV length, it should be $cvvLength",
             )
         }
     }

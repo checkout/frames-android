@@ -26,8 +26,10 @@ public object CountryPickerScreenConstants {
 
     @ColorLong
     public const val focusedBorderColor: Long = 0xFF000000
+
     @ColorLong
     public const val unfocusedBorderColor: Long = 0xFF8A8A8A
+
     /** Focused border thickness in dp. */
     public const val focusedBorderThickness: Int = 1
 }

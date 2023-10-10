@@ -13,5 +13,5 @@ public data class BorderStroke(
     val width: Int,
     /** The 32-bit ARGB border color. */
     @ColorLong
-    val color: Long
+    val color: Long,
 )

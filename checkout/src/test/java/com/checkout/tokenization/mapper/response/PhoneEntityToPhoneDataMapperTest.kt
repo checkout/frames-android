@@ -22,8 +22,8 @@ internal class PhoneEntityToPhoneDataMapperTest {
             number = "4155552671",
             country = Country.getCountry(
                 dialingCode = "44",
-                iso3166Alpha2 = "GB"
-            )
+                iso3166Alpha2 = "GB",
+            ),
         )
 
         // When

@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.PaymentFormScreen
+import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.logging.EventLoggerProvider
 import com.checkout.threedsecure.Executor
 import com.checkout.threedsecure.ThreeDSExecutor
@@ -17,7 +17,7 @@ import com.checkout.threedsecure.model.ThreeDSRequest
 import com.checkout.threedsecure.usecase.ProcessThreeDSUseCase
 
 public class PaymentFormMediator(
-    private val config: PaymentFormConfig
+    private val config: PaymentFormConfig,
 ) {
 
     /**
@@ -58,7 +58,7 @@ public class PaymentFormMediator(
     @JvmOverloads
     public fun provideFragmentContent(
         fragment: Fragment,
-        strategy: ViewCompositionStrategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+        strategy: ViewCompositionStrategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
     ): View = ComposeView(fragment.requireContext()).apply {
         // Dispose of the Composition when the view's LifecycleOwner is destroyed
         setViewCompositionStrategy(strategy)

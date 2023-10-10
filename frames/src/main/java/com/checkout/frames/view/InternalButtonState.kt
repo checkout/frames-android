@@ -5,5 +5,5 @@ import androidx.compose.runtime.mutableStateOf
 
 internal data class InternalButtonState(
     val isEnabled: MutableState<Boolean> = mutableStateOf(false),
-    val textState: TextLabelState
+    val textState: TextLabelState,
 )

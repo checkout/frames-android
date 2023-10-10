@@ -1,22 +1,22 @@
 package com.checkout.validation.validator
 
-import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.base.model.CardScheme
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
+import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.logging.ValidationEventType
-import com.checkout.validation.model.CvvValidationRequest
-import com.checkout.validation.model.ValidationResult
-import com.checkout.validation.model.ExpiryDateValidationRequest
 import com.checkout.validation.model.CardNumberValidationRequest
+import com.checkout.validation.model.CvvValidationRequest
+import com.checkout.validation.model.ExpiryDateValidationRequest
+import com.checkout.validation.model.ValidationResult
 import com.checkout.validation.validator.contract.Validator
 
 internal class CardDetailsValidator(
     private val expiryDateValidator: Validator<ExpiryDateValidationRequest, ExpiryDate>,
     private val cvvValidator: Validator<CvvValidationRequest, Unit>,
     private val cardNumberValidator: Validator<CardNumberValidationRequest, CardScheme>,
-    private val logger: Logger<LoggingEvent>? = null
+    private val logger: Logger<LoggingEvent>? = null,
 ) : CardValidator {
 
     init {
@@ -25,7 +25,7 @@ internal class CardDetailsValidator(
 
     override fun validateExpiryDate(
         expiryMonth: String,
-        expiryYear: String
+        expiryYear: String,
     ): ValidationResult<ExpiryDate> {
         logEvent(ValidationEventType.VALIDATE_EXPIRY_DATE_STRING)
         return expiryDateValidator.validate(ExpiryDateValidationRequest(expiryMonth, expiryYear))
@@ -33,7 +33,7 @@ internal class CardDetailsValidator(
 
     override fun validateExpiryDate(
         expiryMonth: Int,
-        expiryYear: Int
+        expiryYear: Int,
     ): ValidationResult<ExpiryDate> {
         logEvent(ValidationEventType.VALIDATE_EXPIRY_DATE_INT)
         return expiryDateValidator.validate(ExpiryDateValidationRequest(expiryMonth.toString(), expiryYear.toString()))
@@ -41,7 +41,7 @@ internal class CardDetailsValidator(
 
     override fun validateCvv(
         cvv: String,
-        cardScheme: CardScheme
+        cardScheme: CardScheme,
     ): ValidationResult<Unit> {
         logEvent(ValidationEventType.VALIDATE_CVV)
         return cvvValidator.validate(CvvValidationRequest(cvv, cardScheme))

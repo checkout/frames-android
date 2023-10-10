@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
-import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
-import com.checkout.frames.mapper.DividerStyleToViewStyleMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
+import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
+import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.DividerStyleToViewStyleMapper
+import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToStateMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummaryComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.addresssummary.AddressSummarySectionStyleToViewStyleMapper
@@ -66,7 +66,7 @@ internal class AddressSummaryViewModelTest {
         initMappers()
         spyPaymentStateManager = PaymentFormStateManager(
             supportedCardSchemes = emptyList(),
-            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper
+            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper,
         )
     }
 
@@ -75,7 +75,7 @@ internal class AddressSummaryViewModelTest {
         Dispatchers.setMain(dispatcher)
 
         viewModel = AddressSummaryViewModel(
-            style, spyPaymentStateManager, spyComponentStateMapper, spyComponentStyleMapper
+            style, spyPaymentStateManager, spyComponentStateMapper, spyComponentStyleMapper,
         )
     }
 
@@ -121,9 +121,9 @@ internal class AddressSummaryViewModelTest {
                 "",
                 "",
                 "ssdfsdf",
-                country
+                country,
             ),
-            phone = Phone("123", country)
+            phone = Phone("123", country),
         )
         val expectedAddressPreview = "LINE 1\nLINE 2\nssdfsdf\nUnited Kingdom\n+44 123"
         spyPaymentStateManager.billingAddress.value = testAddress
@@ -161,14 +161,17 @@ internal class AddressSummaryViewModelTest {
         val buttonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle> =
             ButtonStyleToInternalViewStyleMapper(containerMapper, textLabelStyleMapper)
         val addressSectionStyleMapper = AddressSummarySectionStyleToViewStyleMapper(
-            textLabelStyleMapper, DividerStyleToViewStyleMapper(), buttonStyleMapper, containerMapper
+            textLabelStyleMapper,
+            DividerStyleToViewStyleMapper(),
+            buttonStyleMapper,
+            containerMapper,
         )
 
         spyComponentStyleMapper = AddressSummaryComponentStyleToViewStyleMapper(
-            textLabelStyleMapper, buttonStyleMapper, addressSectionStyleMapper, containerMapper
+            textLabelStyleMapper, buttonStyleMapper, addressSectionStyleMapper, containerMapper,
         )
         spyComponentStateMapper = AddressSummaryComponentStyleToStateMapper(
-            textLabelStateMapper, ButtonStyleToInternalStateMapper(textLabelStateMapper)
+            textLabelStateMapper, ButtonStyleToInternalStateMapper(textLabelStateMapper),
         )
     }
 }

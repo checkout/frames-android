@@ -15,6 +15,6 @@ internal class AddressValidationRequestToAddressDataMapper : Mapper<AddressValid
         from.city,
         from.state,
         from.zip,
-        from.country
+        from.country,
     )
 }

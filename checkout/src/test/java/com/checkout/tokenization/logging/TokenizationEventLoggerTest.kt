@@ -44,7 +44,7 @@ internal class TokenizationEventLoggerTest {
         val mockTokenizationError = TokenizationError(
             "123",
             "testMessage",
-            NullPointerException()
+            NullPointerException(),
         )
 
         val expected = LoggingEvent(
@@ -55,15 +55,16 @@ internal class TokenizationEventLoggerTest {
                 "publicKey" to "test_key",
                 "errorCodes" to "123",
                 "message" to "testMessage",
-                "exception" to (mockTokenizationError).stackTraceToString()
-            )
+                "exception" to (mockTokenizationError).stackTraceToString(),
+            ),
         )
         val capturedEvent = slot<LoggingEvent>()
 
         // When
         tokenizationEventLogger.logErrorOnTokenRequestedEvent(
             TokenizationConstants.GOOGLE_PAY,
-            "test_key", error = mockTokenizationError
+            "test_key",
+            error = mockTokenizationError,
         )
 
         // Then
@@ -110,7 +111,7 @@ internal class TokenizationEventLoggerTest {
         val expected = LoggingEvent(
             TokenizationEventType.TOKEN_REQUESTED,
             MonitoringLevel.INFO,
-            mapOf("tokenType" to tokenType, "publicKey" to "test_key")
+            mapOf("tokenType" to tokenType, "publicKey" to "test_key"),
         )
         val capturedEvent = slot<LoggingEvent>()
 
@@ -135,8 +136,8 @@ internal class TokenizationEventLoggerTest {
                 "tokenType" to tokenType,
                 "publicKey" to "test_key",
                 "tokenID" to "tok_test",
-                "scheme" to "VISA"
-            )
+                "scheme" to "VISA",
+            ),
         )
 
         val capturedEvent = slot<LoggingEvent>()
@@ -145,7 +146,7 @@ internal class TokenizationEventLoggerTest {
         tokenizationEventLogger.logTokenResponseEvent(
             tokenType = tokenType,
             publicKey = "test_key",
-            tokenDetails = TokenizationRequestTestData.tokenDetailsResponse()
+            tokenDetails = TokenizationRequestTestData.tokenDetailsResponse(),
         )
 
         // Then
@@ -171,7 +172,7 @@ internal class TokenizationEventLoggerTest {
                     "errorCodes" to listOf("testErrorCodes"),
                 ),
                 "httpStatusCode" to 501,
-            )
+            ),
         )
 
         val capturedEvent = slot<LoggingEvent>()
@@ -182,7 +183,7 @@ internal class TokenizationEventLoggerTest {
             "test_key",
             null,
             501,
-            TokenizationRequestTestData.errorResponse()
+            TokenizationRequestTestData.errorResponse(),
         )
 
         // Then

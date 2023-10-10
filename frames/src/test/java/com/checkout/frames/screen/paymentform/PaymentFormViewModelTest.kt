@@ -28,7 +28,7 @@ internal class PaymentFormViewModelTest {
             environment = Environment.PRODUCTION,
             paymentFlowHandler = PaymentFormConfigTestData.paymentFlowHandler,
             supportedCardSchemes = PaymentFormConfigTestData.supportedCardSchemes,
-            prefillData = PaymentFormConfigTestData.prefillData
+            prefillData = PaymentFormConfigTestData.prefillData,
         )
 
         // When

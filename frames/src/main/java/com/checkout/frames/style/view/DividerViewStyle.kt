@@ -7,5 +7,5 @@ import androidx.compose.ui.unit.Dp
 internal data class DividerViewStyle(
     val thickness: Dp,
     val color: Color = Color.LightGray,
-    val modifier: Modifier = Modifier
+    val modifier: Modifier = Modifier,
 )

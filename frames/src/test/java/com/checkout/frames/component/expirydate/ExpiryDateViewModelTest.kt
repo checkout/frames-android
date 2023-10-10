@@ -10,13 +10,13 @@ import com.checkout.frames.component.expirydate.model.SmartExpiryDateValidationR
 import com.checkout.frames.component.expirydate.usecase.SmartExpiryDateValidationUseCase
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
-import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
+import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.ExpiryDateComponentStyle
@@ -56,7 +56,7 @@ internal class ExpiryDateViewModelTest {
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
         supportedCardSchemes = emptyList(),
-        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
     )
 
     private var style: ExpiryDateComponentStyle = ExpiryDateComponentStyle(InputComponentStyle())
@@ -74,7 +74,7 @@ internal class ExpiryDateViewModelTest {
             mockSmartExpiryDateValidationUseCase,
             spyInputComponentStyleMapper,
             spyInputComponentStateMapper,
-            style
+            style,
         )
     }
 
@@ -111,7 +111,7 @@ internal class ExpiryDateViewModelTest {
         // Then
         Assertions.assertEquals(
             viewModel.componentStyle.inputFieldStyle.keyboardOptions.keyboardType,
-            KeyboardType.Number
+            KeyboardType.Number,
         )
     }
 
@@ -324,13 +324,13 @@ internal class ExpiryDateViewModelTest {
     }
 
     @ParameterizedTest(
-        name = "When on expiry date change invoked with {0} then {1} validation (maxLength = {2}) set to field state"
+        name = "When on expiry date change invoked with {0} then {1} validation (maxLength = {2}) set to field state",
     )
     @MethodSource("onTextChangedArguments")
     fun `When expiryDate change called with valid input then expected text & maxLength should be set to componentState`(
         enteredText: String,
         expectedText: String,
-        expectedMaxLength: Int
+        expectedMaxLength: Int,
     ) {
         // Given
         val expectedExpiryDateValidationRequest = SmartExpiryDateValidationRequest(true, expectedText)
@@ -367,11 +367,11 @@ internal class ExpiryDateViewModelTest {
         spyInputComponentStyleMapper = InputComponentStyleToViewStyleMapper(
             textLabelStyleMapper,
             InputFieldStyleToViewStyleMapper(textLabelStyleMapper),
-            containerMapper
+            containerMapper,
         )
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
             TextLabelStyleToStateMapper(imageMapper),
-            InputFieldStyleToInputFieldStateMapper(imageMapper)
+            InputFieldStyleToInputFieldStateMapper(imageMapper),
         )
     }
 }

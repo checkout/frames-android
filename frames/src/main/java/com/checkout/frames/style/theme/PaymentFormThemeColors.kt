@@ -1,13 +1,13 @@
 package com.checkout.frames.style.theme
 
 import androidx.annotation.ColorLong
-import com.checkout.frames.style.theme.colors.PaymentFormColors
-import com.checkout.frames.style.theme.colors.PaymentFormButtonColors
 import com.checkout.frames.style.theme.colors.CursorColors
 import com.checkout.frames.style.theme.colors.DividerColor
 import com.checkout.frames.style.theme.colors.ImageColors
-import com.checkout.frames.style.theme.colors.TextColors
 import com.checkout.frames.style.theme.colors.InputFieldColors
+import com.checkout.frames.style.theme.colors.PaymentFormButtonColors
+import com.checkout.frames.style.theme.colors.PaymentFormColors
+import com.checkout.frames.style.theme.colors.TextColors
 
 public data class PaymentFormThemeColors(
     val paymentFormColors: PaymentFormColors,
@@ -16,7 +16,7 @@ public data class PaymentFormThemeColors(
     val dividerColor: DividerColor,
     val imageColors: ImageColors,
     val textColors: TextColors,
-    val inputFieldColors: InputFieldColors
+    val inputFieldColors: InputFieldColors,
 ) {
     public constructor(
         @ColorLong
@@ -32,7 +32,7 @@ public data class PaymentFormThemeColors(
         @ColorLong
         enabledButtonColor: Long,
         @ColorLong
-        disabledButtonColor: Long
+        disabledButtonColor: Long,
     ) : this(
         paymentFormColors = PaymentFormColors(background = backgroundColor),
         buttonColors = PaymentFormButtonColors(
@@ -45,7 +45,7 @@ public data class PaymentFormThemeColors(
             cursorColor = accentColor,
             errorCursorColor = errorColor,
             cursorHandleColor = accentColor,
-            cursorHighlightColor = backgroundColor
+            cursorHighlightColor = backgroundColor,
         ),
         dividerColor = DividerColor(color = backgroundColor),
         imageColors = ImageColors(tinColor = accentColor),
@@ -53,14 +53,14 @@ public data class PaymentFormThemeColors(
             titleColor = accentColor,
             subTitleColor = textColor,
             infoColor = textColor,
-            errorColor = errorColor
+            errorColor = errorColor,
         ),
         inputFieldColors = InputFieldColors(
             focusedBorderColor = accentColor,
             unfocusedBorderColor = textColor,
             disabledBorderColor = textColor,
             errorBorderColor = errorColor,
-            inputFieldBackgroundColor = fieldBackgroundColor
-        )
+            inputFieldBackgroundColor = fieldBackgroundColor,
+        ),
     )
 }

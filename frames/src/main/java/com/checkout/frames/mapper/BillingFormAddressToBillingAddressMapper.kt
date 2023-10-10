@@ -7,7 +7,9 @@ import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 internal class BillingFormAddressToBillingAddressMapper : Mapper<BillingFormAddress?, BillingAddress> {
 
     override fun map(from: BillingFormAddress?) = BillingAddress(
-        name = from?.name, phone = from?.phone, address = from?.address
+        name = from?.name,
+        phone = from?.phone,
+        address = from?.address,
     )
 
     internal companion object {

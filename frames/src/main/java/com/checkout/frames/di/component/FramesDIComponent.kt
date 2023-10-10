@@ -1,24 +1,24 @@
 package com.checkout.frames.di.component
 
 import com.checkout.base.model.CardScheme
-import com.checkout.frames.component.addresssummary.AddressSummaryViewModel
 import com.checkout.base.usecase.UseCase
+import com.checkout.frames.component.addresssummary.AddressSummaryViewModel
 import com.checkout.frames.component.cardholdername.CardHolderNameViewModel
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
 import com.checkout.frames.component.cardscheme.CardSchemeViewModel
 import com.checkout.frames.component.country.CountryViewModel
-import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
+import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.component.paybutton.PayButtonViewModel
 import com.checkout.frames.di.CLOSE_PAYMENT_FLOW_DI
 import com.checkout.frames.di.module.PaymentModule
-import com.checkout.frames.di.module.ValidationModule
 import com.checkout.frames.di.module.StylesModule
+import com.checkout.frames.di.module.ValidationModule
+import com.checkout.frames.model.request.InternalCardTokenRequest
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAddressDetailsViewModel
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
-import com.checkout.frames.model.request.InternalCardTokenRequest
 import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
@@ -56,7 +56,7 @@ internal abstract class FramesDIComponent {
         @BindsInstance
         fun closePaymentFlowUseCase(
             @Named(CLOSE_PAYMENT_FLOW_DI)
-            closePaymentFlowUseCase: UseCase<Unit, Unit>
+            closePaymentFlowUseCase: UseCase<Unit, Unit>,
         ): Builder
 
         @BindsInstance

@@ -17,12 +17,12 @@ import com.checkout.frames.style.theme.PaymentFormComponent
 import com.checkout.frames.style.theme.PaymentFormComponentField
 import com.checkout.frames.style.theme.PaymentFormTheme
 import com.checkout.frames.utils.extensions.provideContainerStyle
-import com.checkout.frames.utils.extensions.provideInfoStyle
 import com.checkout.frames.utils.extensions.provideErrorMessageStyle
 import com.checkout.frames.utils.extensions.provideIndicatorStyle
+import com.checkout.frames.utils.extensions.provideInfoStyle
 import com.checkout.frames.utils.extensions.provideInputFieldContainerStyle
-import com.checkout.frames.utils.extensions.provideSolidButtonStyle
 import com.checkout.frames.utils.extensions.provideInputFieldStyle
+import com.checkout.frames.utils.extensions.provideSolidButtonStyle
 import com.checkout.frames.utils.extensions.provideSubTitleStyle
 import com.checkout.frames.utils.extensions.provideTitleStyle
 
@@ -33,15 +33,15 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
             headerComponentStyle = provideHeaderComponentStyle(from),
             inputComponentsContainerStyle = provideInputComponentsContainerStyle(from),
             countryComponentStyle = provideCountryComponentStyle(from),
-            containerStyle = from.provideContainerStyle()
+            containerStyle = from.provideContainerStyle(),
         ),
-        countryPickerStyle = provideCountryPickerStyle(from)
+        countryPickerStyle = provideCountryPickerStyle(from),
     )
 
     @Suppress("LongMethod")
     private fun provideInputComponentsContainerStyle(from: PaymentFormTheme): InputComponentsContainerStyle {
         var inputComponentsContainerStyle = DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle(
-            isRequestedCardHolderName = true
+            isRequestedCardHolderName = true,
         )
         val defaultComponentStylesValues = inputComponentsContainerStyle.inputComponentStyleValues
 
@@ -128,7 +128,7 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
 
         if (!componentStylesValues.isEmpty()) {
             inputComponentsContainerStyle = inputComponentsContainerStyle.copy(
-                inputComponentStyleValues = componentStylesValues
+                inputComponentStyleValues = componentStylesValues,
             )
         }
 
@@ -139,8 +139,11 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         component: PaymentFormComponent,
         inputComponentStyle: InputComponentStyle?,
         from: PaymentFormTheme,
-    ) = if (!component.isFieldHidden)
-        provideInputComponentStyle(inputComponentStyle, component, from) else null
+    ) = if (!component.isFieldHidden) {
+        provideInputComponentStyle(inputComponentStyle, component, from)
+    } else {
+        null
+    }
 
     private fun provideInputComponentStyle(
         inputComponentStyle: InputComponentStyle?,
@@ -154,7 +157,7 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
                 infoStyle = infoStyle.provideInfoStyle(component, from),
                 inputFieldStyle = this.provideInputFieldStyle(from),
                 errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
-                isInputFieldOptional = component.isFieldOptional
+                isInputFieldOptional = component.isFieldOptional,
             )
         }
     }
@@ -174,19 +177,19 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
                             textStyle = searchFieldStyle.textStyle
                                 .copy(color = paymentFormThemeColors.textColors.titleColor),
                             placeholderStyle = searchFieldStyle.placeholderStyle.copy(
-                                color = paymentFormThemeColors.textColors.subTitleColor
+                                color = paymentFormThemeColors.textColors.subTitleColor,
                             ),
                             indicatorStyle = from.provideIndicatorStyle(),
                             leadingIconStyle = searchFieldStyle.leadingIconStyle?.copy(
-                                tinColor = paymentFormThemeColors.imageColors.tinColor
+                                tinColor = paymentFormThemeColors.imageColors.tinColor,
                             ),
                             trailingIconStyle = searchFieldStyle.trailingIconStyle?.copy(
-                                tinColor = paymentFormThemeColors.imageColors.tinColor
+                                tinColor = paymentFormThemeColors.imageColors.tinColor,
                             ),
-                            containerStyle = searchFieldStyle.containerStyle.provideInputFieldContainerStyle(from)
+                            containerStyle = searchFieldStyle.containerStyle.provideInputFieldContainerStyle(from),
                         ),
                         searchItemStyle = searchItemStyle.provideTitleStyle(component, from) ?: TextLabelStyle(),
-                        containerStyle = from.provideContainerStyle()
+                        containerStyle = from.provideContainerStyle(),
                     )
                 }
             }
@@ -208,8 +211,8 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
                         subtitleStyle = subtitleStyle.provideSubTitleStyle(component, from),
                         inputFieldStyle = provideInputFieldStyle(from),
                         infoStyle = infoStyle.provideInfoStyle(component, from),
-                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from)
-                    )
+                        errorMessageStyle = errorMessageStyle.provideErrorMessageStyle(from),
+                    ),
                 )
             }
         }
@@ -230,13 +233,13 @@ internal class BillingFormStyleMapper : Mapper<PaymentFormTheme, BillingFormStyl
         headerComponent?.let { component ->
             screenHeaderStyle = screenHeaderStyle.copy(
                 headerTitleStyle = screenHeaderStyle.headerTitleStyle.provideTitleStyle(component, from)
-                    ?: TextLabelStyle()
+                    ?: TextLabelStyle(),
             )
         }
 
         headerButtonComponent?.let { component ->
             screenHeaderStyle = screenHeaderStyle.copy(
-                headerButtonStyle = screenHeaderStyle.headerButtonStyle.provideSolidButtonStyle(from, component)
+                headerButtonStyle = screenHeaderStyle.headerButtonStyle.provideSolidButtonStyle(from, component),
             )
         }
 

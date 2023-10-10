@@ -20,15 +20,18 @@ internal object PaymentFormConfigTestData {
         city = "London",
         state = "London",
         zip = "W1T 4TJ",
-        country = country
+        country = country,
     )
 
     val phone = Phone("4155552671", country)
     private val billingFormAddress = BillingFormAddress(
-        name = "Test Billing Address name", address = address, phone = phone
+        name = "Test Billing Address name",
+        address = address,
+        phone = phone,
     )
     val prefillData = PrefillData(
-        cardHolderName = "Test Name", billingFormAddress = billingFormAddress
+        cardHolderName = "Test Name",
+        billingFormAddress = billingFormAddress,
     )
     val style = PaymentFormStyle()
     val supportedCardSchemes = listOf(CardScheme.VISA, CardScheme.MAESTRO)

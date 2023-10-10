@@ -52,7 +52,7 @@ object Versions {
     const val espresso = "3.3.0"
 
     // Static code analyze
-    const val ktlint = "0.45.2"
+    const val ktlint = "0.50.0"
     const val detect = "1.20.0"
 
     // Logger

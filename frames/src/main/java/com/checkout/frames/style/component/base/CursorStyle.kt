@@ -13,7 +13,7 @@ public data class CursorStyle(
     public val cursorHandleColor: Long,
     /** The 32-bit ARGB color for input field highlighted text. */
     @ColorLong
-    public val cursorHighlightColor: Long
+    public val cursorHighlightColor: Long,
 ) {
     public constructor(cursorColor: Long) : this(cursorColor, cursorColor, cursorColor, cursorColor)
 }

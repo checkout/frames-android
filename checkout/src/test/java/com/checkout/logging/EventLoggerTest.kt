@@ -9,16 +9,15 @@ import com.checkout.eventlogger.domain.model.Event
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.eventlogger.domain.model.RemoteProcessorMetadata
 import com.checkout.logging.model.LoggingEvent
-import io.mockk.spyk
-import io.mockk.mockk
-import io.mockk.verify
-import io.mockk.slot
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.spyk
+import io.mockk.verify
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -45,7 +44,7 @@ internal class EventLoggerTest {
             mockContext,
             "sandbox",
             BuildConfig.PRODUCT_IDENTIFIER,
-            BuildConfig.PRODUCT_VERSION
+            BuildConfig.PRODUCT_VERSION,
         )
 
         // When
@@ -55,7 +54,7 @@ internal class EventLoggerTest {
         verify {
             mockLogger.enableRemoteProcessor(
                 eq(com.checkout.eventlogger.Environment.SANDBOX),
-                eq(expectedMetadata)
+                eq(expectedMetadata),
             )
         }
     }

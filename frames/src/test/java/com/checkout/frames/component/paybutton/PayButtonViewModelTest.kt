@@ -65,7 +65,7 @@ internal class PayButtonViewModelTest {
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
         supportedCardSchemes = emptyList(),
-        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
     )
 
     private val dispatcher = StandardTestDispatcher()
@@ -88,7 +88,7 @@ internal class PayButtonViewModelTest {
 
         viewModel = PayButtonViewModel(
             style, spyPaymentStateManager, mockCardTokenizationUseCase,
-            spyButtonStyleMapper, spyButtonStateMapper, mockLogger
+            spyButtonStyleMapper, spyButtonStateMapper, mockLogger,
         )
     }
 
@@ -271,11 +271,11 @@ internal class PayButtonViewModelTest {
 
         spyButtonStyleMapper = ButtonStyleToInternalViewStyleMapper(
             containerMapper,
-            TextLabelStyleToViewStyleMapper(containerMapper)
+            TextLabelStyleToViewStyleMapper(containerMapper),
         )
 
         spyButtonStateMapper = ButtonStyleToInternalStateMapper(
-            TextLabelStyleToStateMapper(ImageStyleToComposableImageMapper())
+            TextLabelStyleToStateMapper(ImageStyleToComposableImageMapper()),
         )
     }
 
@@ -283,7 +283,7 @@ internal class PayButtonViewModelTest {
         private val EDITED_BILLING_ADDRESS = BillingAddress(
             name = "NAME",
             address = Address("ADDRESS_LINE_1", "ADDRESS_LINE_2", "", "", "", Country.UNITED_KINGDOM),
-            phone = Phone("1234", Country.AFGHANISTAN)
+            phone = Phone("1234", Country.AFGHANISTAN),
         )
     }
 }

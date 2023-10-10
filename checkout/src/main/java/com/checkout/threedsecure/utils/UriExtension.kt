@@ -24,6 +24,9 @@ private fun getQueryParameters(uri: Uri) = uri.query?.split("&")?.toSet() ?: set
 private fun getBase(uri: Uri): String {
     val query = uri.query ?: ""
 
-    return if (query.isBlank()) uri.toString()
-    else uri.toString().replace("?$query", "")
+    return if (query.isBlank()) {
+        uri.toString()
+    } else {
+        uri.toString().replace("?$query", "")
+    }
 }

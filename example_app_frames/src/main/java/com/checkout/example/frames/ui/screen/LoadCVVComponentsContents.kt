@@ -40,7 +40,8 @@ fun LoadCVVComponentsContents(
 ) {
     FramesTheme {
         Surface(
-            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background,
         ) {
             Column(
                 modifier = Modifier
@@ -49,11 +50,10 @@ fun LoadCVVComponentsContents(
                     .padding(start = 10.dp, end = 24.dp, bottom = 14.dp),
                 verticalArrangement = Arrangement.Top,
             ) {
-
                 Row(
-                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start,
                 ) {
-
                     ClickableImage(
                         painter = painterResource(id = R.drawable.ic_back_arrow),
                         contentDescription = "Back Arrow",
@@ -66,7 +66,7 @@ fun LoadCVVComponentsContents(
                         fontSize = 20,
                         fontWeight = FontWeight.SemiBold,
                         paddingValues = PaddingValues(top = 20.dp, start = 10.dp, bottom = 14.dp),
-                        textColor = DarkBlue
+                        textColor = DarkBlue,
                     )
                 }
 

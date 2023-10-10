@@ -9,7 +9,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
@@ -30,7 +29,7 @@ internal class ProcessThreeDSUseCaseTest {
         val mockRequest = ProcessThreeDSRequest(
             redirectUrl = "https://test.com/success?cko-payment-token=paymentToken&cko-session-id=sessionId",
             successUrl = "https://test.com/success",
-            failureUrl = "https://test.com/failure"
+            failureUrl = "https://test.com/failure",
         )
 
         // When
@@ -47,7 +46,7 @@ internal class ProcessThreeDSUseCaseTest {
         val mockRequest = ProcessThreeDSRequest(
             redirectUrl = "https://www.successUrl.com/test?cko-session-id=sessionId",
             successUrl = "https://www.successUrl.com/test",
-            failureUrl = "https://www.failure.com"
+            failureUrl = "https://www.failure.com",
         )
 
         // When
@@ -64,10 +63,10 @@ internal class ProcessThreeDSUseCaseTest {
         val mockRequest = ProcessThreeDSRequest(
             redirectUrl = "https://successUrl/test",
             successUrl = "https://successUrl/test",
-            failureUrl = "https://failure/test"
+            failureUrl = "https://failure/test",
         )
         val expected = ThreeDSResult.Error(
-            ThreeDSError(ThreeDSError.COULD_NOT_EXTRACT_TOKEN, "Url can't be null.")
+            ThreeDSError(ThreeDSError.COULD_NOT_EXTRACT_TOKEN, "Url can't be null."),
         )
 
         // When
@@ -84,7 +83,7 @@ internal class ProcessThreeDSUseCaseTest {
         val mockRequest = ProcessThreeDSRequest(
             redirectUrl = "https://failure/test",
             successUrl = "https://successUrl/test",
-            failureUrl = "https://failure/test"
+            failureUrl = "https://failure/test",
         )
 
         // When
@@ -100,7 +99,7 @@ internal class ProcessThreeDSUseCaseTest {
         val mockRequest = ProcessThreeDSRequest(
             redirectUrl = "https://www.test.for.test/unknown",
             successUrl = "https://successUrl/test",
-            failureUrl = "https://failure/test"
+            failureUrl = "https://failure/test",
         )
 
         // When

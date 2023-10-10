@@ -18,7 +18,7 @@ internal fun CountryComponent(
     goToCountryPicker: () -> Unit,
 ) {
     val viewModel: CountryViewModel = viewModel(
-        factory = CountryViewModel.Factory(injector, style)
+        factory = CountryViewModel.Factory(injector, style),
     )
 
     viewModel.prepare(onCountryUpdated)
@@ -26,13 +26,13 @@ internal fun CountryComponent(
     with(viewModel.componentStyle.inputFieldStyle) {
         modifier = modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
-            indication = null
+            indication = null,
         ) { goToCountryPicker() }
     }
 
     InputComponent(
         style = viewModel.componentStyle,
         state = viewModel.componentState,
-        onValueChange = {}
+        onValueChange = {},
     )
 }

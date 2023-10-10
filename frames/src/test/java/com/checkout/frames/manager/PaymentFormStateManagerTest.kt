@@ -40,7 +40,7 @@ internal class PaymentFormStateManagerTest {
         // Given
         paymentFormStateManager = PaymentFormStateManager(
             supportedCardSchemes = listOf(CardScheme.AMERICAN_EXPRESS, CardScheme.MADA),
-            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper
+            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper,
         )
         val expectedSupportedSchemes = listOf(CardScheme.AMERICAN_EXPRESS, CardScheme.MADA)
 
@@ -52,7 +52,7 @@ internal class PaymentFormStateManagerTest {
     fun `when payment form cardHolderName is provided then cardHolderName should updated correctly`() {
         // Given
         paymentFormStateManager = PaymentFormStateManager(
-            emptyList(), paymentFormPrefillData = PrefillData("Test Name"), spyBillingFormAddressToBillingAddressMapper
+            emptyList(), paymentFormPrefillData = PrefillData("Test Name"), spyBillingFormAddressToBillingAddressMapper,
         )
         val expectedTestName = "Test Name"
 
@@ -67,7 +67,7 @@ internal class PaymentFormStateManagerTest {
         paymentFormStateManager = PaymentFormStateManager(
             emptyList(),
             paymentFormPrefillData = PrefillData(billingFormAddress = givenPrefilledBillingFormAddress),
-            spyBillingFormAddressToBillingAddressMapper
+            spyBillingFormAddressToBillingAddressMapper,
         )
         val expectedCountry = Country.UNITED_KINGDOM
 
@@ -80,7 +80,7 @@ internal class PaymentFormStateManagerTest {
         // Given
         paymentFormStateManager = PaymentFormStateManager(
             supportedCardSchemes = emptyList(),
-            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper
+            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper,
         )
         val expectedSupportedSchemes = CardScheme.fetchAllSupportedCardSchemes()
         // Then
@@ -91,10 +91,10 @@ internal class PaymentFormStateManagerTest {
     fun `when BillingFormAddress is requested in PrefillData then billingAddress in payment state manager is updated correctly`() {
         // Given
         val expectedBillingFormAddress = BillingFormAddress(
-            address = PaymentFormConfigTestData.address
+            address = PaymentFormConfigTestData.address,
         )
         val expectedBillingAddress = BillingAddress(
-            address = PaymentFormConfigTestData.address
+            address = PaymentFormConfigTestData.address,
         )
 
         // When
@@ -103,9 +103,9 @@ internal class PaymentFormStateManagerTest {
             billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper,
             paymentFormPrefillData = PrefillData(
                 billingFormAddress = BillingFormAddress(
-                    address = PaymentFormConfigTestData.address
-                )
-            )
+                    address = PaymentFormConfigTestData.address,
+                ),
+            ),
         )
 
         // Then
@@ -117,7 +117,7 @@ internal class PaymentFormStateManagerTest {
     fun `when BillingFormAddress is not requested in PrefillData then default billingAddress in payment state manager is updated correctly`() {
         // Given
         val expectedBillingFormAddress = BillingFormAddress(
-            address = PaymentFormConfigTestData.address
+            address = PaymentFormConfigTestData.address,
         )
         val expectedBillingAddress = BillingAddress()
 
@@ -126,8 +126,8 @@ internal class PaymentFormStateManagerTest {
             supportedCardSchemes = emptyList(),
             billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper,
             paymentFormPrefillData = PrefillData(
-                cardHolderName = "Test Name"
-            )
+                cardHolderName = "Test Name",
+            ),
         )
 
         // Then
@@ -137,8 +137,8 @@ internal class PaymentFormStateManagerTest {
 
     @ParameterizedTest(
         name = "When reset of payment state is requested with: " + "isCvvValid = {0} and isBillingAddressValid = {1};" +
-                " " + "Then default cvv isValid state = {0}, cardholderName isValid state = {1}" +
-                " " + "address isValid state = {2} and address isEnabled state = {3}"
+            " " + "Then default cvv isValid state = {0}, cardholderName isValid state = {1}" +
+            " " + "address isValid state = {2} and address isEnabled state = {3}",
     )
     @MethodSource("resetArguments")
     fun `when reset of payment state is requested then payment state is returned to a default state`(
@@ -152,7 +152,7 @@ internal class PaymentFormStateManagerTest {
         val cardHolderName = ""
         paymentFormStateManager = PaymentFormStateManager(
             supportedCardSchemes = supportedSchemes,
-            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper
+            billingFormAddressToBillingAddressMapper = spyBillingFormAddressToBillingAddressMapper,
         )
         paymentFormStateManager.cvv.value = "123"
         paymentFormStateManager.isCvvValid.value = !isCvvValid
@@ -162,7 +162,7 @@ internal class PaymentFormStateManagerTest {
         paymentFormStateManager.isExpiryDateValid.value = true
         paymentFormStateManager.billingAddress.value = BillingAddress(
             name = "name",
-            phone = Phone("+4332452452345234", Country.UNITED_KINGDOM)
+            phone = Phone("+4332452452345234", Country.UNITED_KINGDOM),
         )
         paymentFormStateManager.isBillingAddressValid.value = !isBillingAddressValid
         paymentFormStateManager.isBillingAddressEnabled.value = !isBillingAddressEnabled
@@ -173,7 +173,7 @@ internal class PaymentFormStateManagerTest {
             isCvvValid,
             isCardHolderNameValid,
             isBillingAddressValid,
-            isBillingAddressEnabled
+            isBillingAddressEnabled,
         )
 
         // Then

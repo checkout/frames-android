@@ -25,11 +25,11 @@ import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
+import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.InputComponentStyle
 import com.checkout.frames.style.component.base.InputFieldStyle
-import com.checkout.frames.style.component.base.ButtonStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.view.InputComponentViewStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
@@ -51,8 +51,8 @@ import dagger.Provides
         CountryPickerViewModelSubComponent::class,
         BillingFormViewModelSubComponent::class,
         AddressSummaryViewModelSubComponent::class,
-        PayButtonViewModelSubComponent::class
-    ]
+        PayButtonViewModelSubComponent::class,
+    ],
 )
 internal abstract class StylesModule {
 
@@ -76,50 +76,51 @@ internal abstract class StylesModule {
 
         @Provides
         fun provideTextLabelStyleToStateMapper(
-            imageMapper: ImageStyleToComposableImageMapper
+            imageMapper: ImageStyleToComposableImageMapper,
         ): Mapper<TextLabelStyle?, TextLabelState> = TextLabelStyleToStateMapper(imageMapper)
 
         @Provides
         fun provideInputFieldStyleToStateMapper(
-            imageMapper: ImageStyleToComposableImageMapper
+            imageMapper: ImageStyleToComposableImageMapper,
         ): Mapper<InputFieldStyle, InputFieldState> = InputFieldStyleToInputFieldStateMapper(imageMapper)
 
         @Provides
         fun provideInputComponentStyleToStateMapper(
             textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>,
-            inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>
+            inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>,
         ): Mapper<InputComponentStyle, InputComponentState> =
             InputComponentStyleToStateMapper(textLabelMapper, inputFieldStateMapper)
 
         @Provides
         fun provideInputFieldStyleToViewStyleMapper(
-            textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>
+            textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
         ): Mapper<InputFieldStyle, InputFieldViewStyle> = InputFieldStyleToViewStyleMapper(textLabelStyleMapper)
 
         @Provides
         fun provideTextLabelStyleToViewStyleMapper(
-            containerMapper: Mapper<ContainerStyle, Modifier>
+            containerMapper: Mapper<ContainerStyle, Modifier>,
         ): Mapper<TextLabelStyle, TextLabelViewStyle> = TextLabelStyleToViewStyleMapper(containerMapper)
 
         @Provides
         fun provideInputComponentStyleMapper(
             textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
             inputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>,
-            containerMapper: Mapper<ContainerStyle, Modifier>
+            containerMapper: Mapper<ContainerStyle, Modifier>,
         ): Mapper<InputComponentStyle, InputComponentViewStyle> =
             InputComponentStyleToViewStyleMapper(textLabelStyleMapper, inputFieldStyleMapper, containerMapper)
 
         @Provides
         fun provideButtonStyleMapper(
             textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
-            containerMapper: Mapper<ContainerStyle, Modifier>
+            containerMapper: Mapper<ContainerStyle, Modifier>,
         ): Mapper<ButtonStyle, InternalButtonViewStyle> = ButtonStyleToInternalViewStyleMapper(
-            containerMapper, textLabelStyleMapper
+            containerMapper,
+            textLabelStyleMapper,
         )
 
         @Provides
         fun provideButtonStateMapper(
-            textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>
+            textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
         ): Mapper<ButtonStyle, InternalButtonState> = ButtonStyleToInternalStateMapper(textLabelStateMapper)
     }
 }

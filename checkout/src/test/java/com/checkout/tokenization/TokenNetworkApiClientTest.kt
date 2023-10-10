@@ -2,8 +2,8 @@ package com.checkout.tokenization
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.mock.GetTokenDetailsResponseTestJson
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.network.OkHttpProvider
 import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.entity.GooglePayEntity
@@ -22,13 +22,13 @@ import okhttp3.mockwebserver.SocketPolicy
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotBeNullOrEmpty
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
@@ -56,7 +56,7 @@ internal class TokenNetworkApiClientTest {
         tokenNetworkApiClient = TokenNetworkApiClient(
             serverBaseUrl,
             OkHttpProvider.createOkHttpClient("test_key"),
-            moshiClient
+            moshiClient,
         )
     }
 
@@ -91,12 +91,12 @@ internal class TokenNetworkApiClientTest {
             // Given
             enqueueMockResponse(
                 200,
-                GetTokenDetailsResponseTestJson.cardTokenDetailsResponse
+                GetTokenDetailsResponseTestJson.cardTokenDetailsResponse,
             )
 
             // When
             val response = tokenNetworkApiClient.sendCardTokenRequest(
-                CardToTokenRequestMapper().map(TokenizationRequestTestData.card)
+                CardToTokenRequestMapper().map(TokenizationRequestTestData.card),
             )
 
             launch {
@@ -137,12 +137,12 @@ internal class TokenNetworkApiClientTest {
             // Given
             enqueueMockResponse(
                 errorCode,
-                GetTokenDetailsResponseTestJson.cardTokenDetailsErrorResponse
+                GetTokenDetailsResponseTestJson.cardTokenDetailsErrorResponse,
             )
 
             // When
             val response = tokenNetworkApiClient.sendCardTokenRequest(
-                CardToTokenRequestMapper().map(TokenizationRequestTestData.card)
+                CardToTokenRequestMapper().map(TokenizationRequestTestData.card),
             )
 
             // Then
@@ -172,7 +172,7 @@ internal class TokenNetworkApiClientTest {
 
             // When
             val response = tokenNetworkApiClient.sendCardTokenRequest(
-                CardToTokenRequestMapper().map(TokenizationRequestTestData.card)
+                CardToTokenRequestMapper().map(TokenizationRequestTestData.card),
             )
 
             launch {
@@ -200,12 +200,12 @@ internal class TokenNetworkApiClientTest {
             // Given
             enqueueMockResponse(
                 200,
-                GetTokenDetailsResponseTestJson.cvvTokenDetailsResponse
+                GetTokenDetailsResponseTestJson.cvvTokenDetailsResponse,
             )
 
             // When
             val response = tokenNetworkApiClient.sendCVVTokenRequest(
-                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest)
+                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest),
             )
 
             launch {
@@ -232,12 +232,12 @@ internal class TokenNetworkApiClientTest {
             // Given
             enqueueMockResponse(
                 code = errorCode,
-                json = GetTokenDetailsResponseTestJson.cvvTokenDetailsErrorResponse
+                json = GetTokenDetailsResponseTestJson.cvvTokenDetailsErrorResponse,
             )
 
             // When
             val response = tokenNetworkApiClient.sendCVVTokenRequest(
-                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest)
+                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest),
             )
 
             // Then
@@ -267,7 +267,7 @@ internal class TokenNetworkApiClientTest {
 
             // When
             val response = tokenNetworkApiClient.sendCVVTokenRequest(
-                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest)
+                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest),
             )
 
             launch {
@@ -295,7 +295,7 @@ internal class TokenNetworkApiClientTest {
             // Given
             enqueueMockResponse(
                 200,
-                GetTokenDetailsResponseTestJson.googlePayTokenDetailsResponse
+                GetTokenDetailsResponseTestJson.googlePayTokenDetailsResponse,
             )
 
             // When
@@ -303,8 +303,8 @@ internal class TokenNetworkApiClientTest {
                 tokenNetworkApiClient.sendGooglePayTokenRequest(
                     GooglePayTokenNetworkRequest(
                         TokenizationConstants.GOOGLE_PAY,
-                        GooglePayEntity()
-                    )
+                        GooglePayEntity(),
+                    ),
                 )
 
             // Then
@@ -329,14 +329,14 @@ internal class TokenNetworkApiClientTest {
                 is NetworkApiResponse.NetworkError -> {
                     org.amshove.kluent.fail(
                         "Get googlePayToken details should be successful:" +
-                                " ${response.throwable.message}"
+                            " ${response.throwable.message}",
                     )
                 }
 
                 is NetworkApiResponse.ServerError -> {
                     org.amshove.kluent.fail(
                         "Get googlePayToken details should be successful: " +
-                                "${response.body?.errorCodes}"
+                            "${response.body?.errorCodes}",
                     )
                 }
                 is NetworkApiResponse.InternalError -> {
@@ -352,15 +352,15 @@ internal class TokenNetworkApiClientTest {
             // Given
             enqueueMockResponse(
                 errorCode,
-                GetTokenDetailsResponseTestJson.googlePayTokenDetailsErrorResponse
+                GetTokenDetailsResponseTestJson.googlePayTokenDetailsErrorResponse,
             )
 
             // When
             val response = tokenNetworkApiClient.sendGooglePayTokenRequest(
                 GooglePayTokenNetworkRequest(
                     TokenizationConstants.GOOGLE_PAY,
-                    GooglePayEntity()
-                )
+                    GooglePayEntity(),
+                ),
             )
 
             // Then
@@ -392,8 +392,8 @@ internal class TokenNetworkApiClientTest {
             val response = tokenNetworkApiClient.sendGooglePayTokenRequest(
                 GooglePayTokenNetworkRequest(
                     TokenizationConstants.GOOGLE_PAY,
-                    GooglePayEntity()
-                )
+                    GooglePayEntity(),
+                ),
             )
 
             launch {

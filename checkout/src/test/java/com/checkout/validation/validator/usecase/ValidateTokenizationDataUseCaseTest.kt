@@ -50,7 +50,7 @@ internal class ValidateTokenizationDataUseCaseTest {
             mockCardValidator,
             mockAddressValidator,
             mockPhoneValidator,
-            addressToAddressValidationRequestDataMapper
+            addressToAddressValidationRequestDataMapper,
         )
 
         every { mockCardValidator.validateCardNumber(any()) } returns ValidationResult.Success(CardScheme.VISA)
@@ -59,14 +59,14 @@ internal class ValidateTokenizationDataUseCaseTest {
         every {
             mockCardValidator.validateExpiryDate(
                 any<String>(),
-                any()
+                any(),
             )
         } returns ValidationResult.Success(ExpiryDate(20, 25))
 
         every {
             mockCardValidator.validateExpiryDate(
                 any<Int>(),
-                any()
+                any(),
             )
         } returns ValidationResult.Success(ExpiryDate(20, 25))
 
@@ -75,7 +75,7 @@ internal class ValidateTokenizationDataUseCaseTest {
         } returns TokenizationRequestTestData.addressValidationRequest
 
         every { mockAddressValidator.validate(any()) } returns
-                ValidationResult.Success(TokenizationRequestTestData.address)
+            ValidationResult.Success(TokenizationRequestTestData.address)
         every { mockPhoneValidator.validate(any()) } returns ValidationResult.Success(TokenizationRequestTestData.phone)
     }
 
@@ -95,7 +95,7 @@ internal class ValidateTokenizationDataUseCaseTest {
         verify {
             mockCardValidator.validateExpiryDate(
                 eq(mockRequest.expiryDate.expiryMonth),
-                eq(mockRequest.expiryDate.expiryYear)
+                eq(mockRequest.expiryDate.expiryYear),
             )
         }
         mockRequest.billingAddress?.let { verify { mockAddressValidator.validate(capture(captureAddress)) } }
@@ -138,7 +138,7 @@ internal class ValidateTokenizationDataUseCaseTest {
         every { mockRequest.number } returns mockNumber
 
         every { mockCardValidator.validateCardNumber(eq(mockNumber)) } returns
-                ValidationResult.Failure(CheckoutError("123"))
+            ValidationResult.Failure(CheckoutError("123"))
 
         // When
         val result = validateTokenizationDataUseCase.execute(mockRequest)
@@ -163,7 +163,7 @@ internal class ValidateTokenizationDataUseCaseTest {
         every {
             mockCardValidator.validateExpiryDate(
                 eq(expiryMonth),
-                eq(expiryYear)
+                eq(expiryYear),
             )
         } returns ValidationResult.Failure(CheckoutError("123"))
 
@@ -190,7 +190,7 @@ internal class ValidateTokenizationDataUseCaseTest {
         every {
             mockCardValidator.validateCvv(
                 eq(cvv),
-                eq(cardScheme)
+                eq(cardScheme),
             )
         } returns ValidationResult.Failure(CheckoutError("123"))
 

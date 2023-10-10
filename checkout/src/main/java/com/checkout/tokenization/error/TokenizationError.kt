@@ -5,11 +5,11 @@ import com.checkout.base.error.CheckoutError
 internal class TokenizationError(
     errorCode: String,
     message: String? = null,
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : CheckoutError(
     errorCode,
     message,
-    cause
+    cause,
 ) {
     companion object {
         const val INVALID_TOKEN_REQUEST = "TokenizationError.Server:3000"

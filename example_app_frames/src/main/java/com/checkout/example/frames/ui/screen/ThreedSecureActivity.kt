@@ -68,7 +68,9 @@ class ThreedSecureActivity : ComponentActivity() {
         val request = ThreeDSRequest(
             container = viewGroup, // Provide a ViewGroup container for 3DS WebView
             challengeUrl = url, // Provide a 3D Secure URL
-            successUrl = SUCCESS_URL, failureUrl = FAILURE_URL, resultHandler = threeDSResultHandler
+            successUrl = SUCCESS_URL,
+            failureUrl = FAILURE_URL,
+            resultHandler = threeDSResultHandler,
         )
 
         /**
@@ -85,13 +87,17 @@ class ThreedSecureActivity : ComponentActivity() {
                 showAlertDialog(this, getString(R.string.authentication_success), threeDSResult.token)
             }
             // Used when [ProcessThreeDSRequest.redirectUrl] contains [ThreeDSRequest.successUrl]
-            is ThreeDSResult.Failure -> { /* Handle failure result */
+            is ThreeDSResult.Failure -> {
+                /* Handle failure result */
                 showAlertDialog(this, this.getString(R.string.token_generated_failed), "")
             }
             // Used when [ProcessThreeDSRequest.redirectUrl] can't be parsed or when error received from 3DS WebView
-            is ThreeDSResult.Error -> { /* Handle success result */
+            is ThreeDSResult.Error -> {
+                /* Handle success result */
                 showAlertDialog(
-                    this, this.getString(R.string.token_generated_failed), threeDSResult.error.message.toString()
+                    this,
+                    this.getString(R.string.token_generated_failed),
+                    threeDSResult.error.message.toString(),
                 )
             }
         }

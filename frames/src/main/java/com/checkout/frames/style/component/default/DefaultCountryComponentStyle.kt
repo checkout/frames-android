@@ -16,7 +16,7 @@ public object DefaultCountryComponentStyle {
                     unfocusedBorderColor = LightStyleConstants.unfocusedBorderColor,
                     disabledBorderColor = LightStyleConstants.unfocusedBorderColor,
                 ),
-                trailingIconStyle = ImageStyle(image = R.drawable.cko_ic_caret_right)
+                trailingIconStyle = ImageStyle(image = R.drawable.cko_ic_caret_right),
             )
 
         return CountryComponentStyle(
@@ -25,10 +25,10 @@ public object DefaultCountryComponentStyle {
                 padding = Padding(
                     start = LightStyleConstants.inputComponentLeftPadding,
                     end = LightStyleConstants.inputComponentRightPadding,
-                    bottom = LightStyleConstants.inputComponentBottomPadding
-                )
+                    bottom = LightStyleConstants.inputComponentBottomPadding,
+                ),
             )
-                .copy(inputFieldStyle = inputFieldStyle)
+                .copy(inputFieldStyle = inputFieldStyle),
         )
     }
 }

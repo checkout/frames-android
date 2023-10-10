@@ -9,16 +9,16 @@ import com.checkout.frames.style.component.CardHolderNameComponentStyle
 @Composable
 internal fun CardHolderNameComponent(
     style: CardHolderNameComponentStyle,
-    injector: Injector
+    injector: Injector,
 ) {
     val viewModel: CardHolderNameViewModel = viewModel(
-        factory = CardHolderNameViewModel.Factory(injector, style)
+        factory = CardHolderNameViewModel.Factory(injector, style),
     )
 
     InputComponent(
         style = viewModel.componentStyle,
         state = viewModel.componentState.inputState,
         onFocusChanged = viewModel::onFocusChanged,
-        onValueChange = viewModel::onCardHolderNameChange
+        onValueChange = viewModel::onCardHolderNameChange,
     )
 }

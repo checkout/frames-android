@@ -12,7 +12,7 @@ import com.checkout.tokenization.repository.TokenRepository
 
 internal class CheckoutApiClient(
     private val tokenRepository: TokenRepository,
-    private val threeDSExecutor: Executor<ThreeDSRequest>
+    private val threeDSExecutor: Executor<ThreeDSRequest>,
 ) : CheckoutApiService {
 
     init {

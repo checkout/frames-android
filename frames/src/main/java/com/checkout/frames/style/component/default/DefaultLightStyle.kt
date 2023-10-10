@@ -11,17 +11,17 @@ import com.checkout.frames.model.font.Font
 import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.CardSchemeComponentStyle
 import com.checkout.frames.style.component.ScreenHeaderStyle
+import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.ImageContainerStyle
+import com.checkout.frames.style.component.base.ImageStyle
+import com.checkout.frames.style.component.base.InputComponentStyle
+import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.TextStyle
-import com.checkout.frames.style.component.base.ImageStyle
-import com.checkout.frames.style.component.base.ImageContainerStyle
-import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
-import com.checkout.frames.style.component.base.InputComponentStyle
-import com.checkout.frames.style.component.base.InputFieldStyle
-import com.checkout.frames.utils.constants.LightStyleConstants
 import com.checkout.frames.utils.constants.CardSchemeConstants
 import com.checkout.frames.utils.constants.HeaderTitleConstants
+import com.checkout.frames.utils.constants.LightStyleConstants
 
 @Suppress("TooManyFunctions", "LongParameterList")
 public object DefaultLightStyle {
@@ -42,7 +42,7 @@ public object DefaultLightStyle {
         height: Int = HeaderTitleConstants.height,
         maxLines: Int = HeaderTitleConstants.maxLines,
         leadingIconSize: Int = HeaderTitleConstants.leadingIconSize,
-        leadingIconPadding: Padding = Padding()
+        leadingIconPadding: Padding = Padding(),
     ): ScreenHeaderStyle = ScreenHeaderStyle(
         text = text,
         textId = textId,
@@ -51,21 +51,21 @@ public object DefaultLightStyle {
             color = textColor,
             font = font,
             fontWeight = fontWeight,
-            maxLines = maxLines
+            maxLines = maxLines,
         ),
         backIconStyle = ImageStyle(
             image = imageId,
             tinColor = textColor,
             height = leadingIconSize,
             width = leadingIconSize,
-            padding = leadingIconPadding
+            padding = leadingIconPadding,
         ),
-        containerStyle = ContainerStyle(height = height, padding = padding)
+        containerStyle = ContainerStyle(height = height, padding = padding),
     )
 
     @JvmOverloads
     public fun screenTitleTextLabelStyle(
-        padding: Padding = Padding()
+        padding: Padding = Padding(),
     ): TextLabelStyle = DefaultTextLabelStyle.headerTitle(padding = padding)
 
     public fun titleTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.title()
@@ -77,41 +77,41 @@ public object DefaultLightStyle {
     public fun leadingIconStyle(): ImageStyle = ImageStyle(
         padding = Padding(
             start = LightStyleConstants.leadingIconStartPadding,
-            end = LightStyleConstants.leadingIconEndPadding
+            end = LightStyleConstants.leadingIconEndPadding,
         ),
         height = LightStyleConstants.leadingIconHeight,
-        width = LightStyleConstants.leadingIconWidth
+        width = LightStyleConstants.leadingIconWidth,
     )
 
     public fun supportedCardSchemeIconStyle(): ImageStyle = ImageStyle(
         height = LightStyleConstants.leadingIconHeight,
-        width = LightStyleConstants.leadingIconWidth
+        width = LightStyleConstants.leadingIconWidth,
     )
 
     public fun supportedCardSchemeImageContainerStyle(): ImageContainerStyle = ImageContainerStyle(
         crossAxisSpacing = CardSchemeConstants.crossAxisSpacingPadding,
         mainAxisSpacing = CardSchemeConstants.mainAxisSpacingPadding,
-        containerStyle = ContainerStyle(margin = Margin(top = CardSchemeConstants.marginTop))
+        containerStyle = ContainerStyle(margin = Margin(top = CardSchemeConstants.marginTop)),
     )
 
     public fun inputFieldTextStyle(): TextStyle = TextStyle(
         size = LightStyleConstants.fontSize,
         color = LightStyleConstants.fontColor,
         font = LightStyleConstants.font,
-        maxLines = LightStyleConstants.maxLines
+        maxLines = LightStyleConstants.maxLines,
     )
 
     public fun indicatorStyle(): InputFieldIndicatorStyle = InputFieldIndicatorStyle.Border(
         unfocusedBorderColor = LightStyleConstants.unfocusedBorderColor,
         focusedBorderColor = LightStyleConstants.focusedBorderColor,
-        errorBorderColor = LightStyleConstants.errorBorderColor
+        errorBorderColor = LightStyleConstants.errorBorderColor,
     )
 
     public fun errorTextLabelStyle(): TextLabelStyle = DefaultTextLabelStyle.error()
 
     public fun inputFieldStyle(
         withLeadingIcon: Boolean = false,
-        keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+        keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     ): InputFieldStyle =
         InputFieldStyle(
             textStyle = inputFieldTextStyle(),
@@ -119,7 +119,7 @@ public object DefaultLightStyle {
             placeholderStyle = placeHolderTextStyle(),
             leadingIconStyle = if (withLeadingIcon) leadingIconStyle() else null,
             containerStyle = ContainerStyle(margin = Margin(top = LightStyleConstants.marginTop)),
-            keyboardOptions = keyboardOptions
+            keyboardOptions = keyboardOptions,
         )
 
     public fun inputComponentStyle(
@@ -139,7 +139,7 @@ public object DefaultLightStyle {
         padding: Padding = Padding(),
         margin: Margin = Margin(),
         isFieldOptional: Boolean = false,
-        keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+        keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     ): InputComponentStyle = InputComponentStyle(
         titleStyle = titleTextLabelStyle().apply {
             text = titleText
@@ -159,13 +159,13 @@ public object DefaultLightStyle {
         },
         errorMessageStyle = errorTextLabelStyle(),
         containerStyle = ContainerStyle(padding = padding, margin = margin),
-        isInputFieldOptional = isFieldOptional
+        isInputFieldOptional = isFieldOptional,
     )
 
     public fun cardSchemeComponentStyle(
         titleText: String = "",
         @StringRes
-        titleTextId: Int? = R.string.cko_accepted_cards_title
+        titleTextId: Int? = R.string.cko_accepted_cards_title,
     ): CardSchemeComponentStyle = CardSchemeComponentStyle(
         titleStyle = subtitleTextLabelStyle().apply {
             text = titleText
@@ -175,9 +175,9 @@ public object DefaultLightStyle {
         containerStyle = ContainerStyle(
             margin = Margin(
                 top = CardSchemeConstants.marginTop,
-                bottom = CardSchemeConstants.marginBottom
-            )
+                bottom = CardSchemeConstants.marginBottom,
+            ),
         ),
-        imageContainerStyle = supportedCardSchemeImageContainerStyle()
+        imageContainerStyle = supportedCardSchemeImageContainerStyle(),
     )
 }

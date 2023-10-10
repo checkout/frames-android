@@ -1,9 +1,9 @@
 package com.checkout.validation.validator
 
-import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.base.model.CardScheme
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
+import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.validation.api.CardValidator
 import com.checkout.validation.logging.ValidationEventType
 import com.checkout.validation.model.CardNumberValidationRequest
@@ -44,7 +44,7 @@ internal class CardDetailsValidatorTest {
             mockExpiryDateValidator,
             mockCvvValidator,
             mockCardNumberValidator,
-            mockLogger
+            mockLogger,
         )
         every { mockLogger.logOnce(capture(capturedEvent)) } returns Unit
     }

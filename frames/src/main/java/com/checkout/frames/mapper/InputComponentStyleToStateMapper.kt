@@ -10,7 +10,7 @@ import com.checkout.frames.view.TextLabelState
 
 internal class InputComponentStyleToStateMapper(
     private val textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>,
-    private val inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>
+    private val inputFieldStateMapper: Mapper<InputFieldStyle, InputFieldState>,
 ) : Mapper<InputComponentStyle, InputComponentState> {
 
     override fun map(from: InputComponentStyle): InputComponentState {
@@ -20,7 +20,7 @@ internal class InputComponentStyleToStateMapper(
             subtitleState = textLabelMapper.map(from.subtitleStyle),
             infoState = textLabelMapper.map(from.infoStyle),
             errorState = textLabelMapper.map(from.errorMessageStyle),
-            isInputFieldOptional = from.isInputFieldOptional
+            isInputFieldOptional = from.isInputFieldOptional,
         )
     }
 }

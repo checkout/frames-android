@@ -86,7 +86,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     }
 
     init {
-      prepare()
+        prepare()
     }
 
     fun onFocusChanged(position: Int, isFocused: Boolean) {
@@ -99,8 +99,11 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     }
 
     fun onAddressFieldTextChange(position: Int, text: String) = with(inputComponentsStateList[position]) {
-        val changedTextValue = if (addressFieldName == BillingFormFields.Phone.name)
-            text.replace(onlyDigitsRegex, "") else text
+        val changedTextValue = if (addressFieldName == BillingFormFields.Phone.name) {
+            text.replace(onlyDigitsRegex, "")
+        } else {
+            text
+        }
 
         addressFieldText.value = changedTextValue
         isAddressFieldValid.value = changedTextValue.isNotBlank() || isInputFieldOptional
@@ -145,11 +148,11 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     }
 
     private fun isReadyToSaveAddress(): StateFlow<Boolean> = combine(
-        inputComponentsStateList.map { it.isAddressFieldValid }
+        inputComponentsStateList.map { it.isAddressFieldValid },
     ) { values -> values.all { it } }.stateIn(MainScope(), SharingStarted.Lazily, false)
 
     private fun provideInputComponentViewStyleList(
-        billingAddressDetailsStyle: BillingAddressDetailsStyle
+        billingAddressDetailsStyle: BillingAddressDetailsStyle,
     ): List<BillingAddressInputComponentViewStyle> {
         return billingAddressDetailsComponentStyleUseCase
             .execute(billingAddressDetailsStyle)
@@ -157,7 +160,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
     }
 
     private fun provideInputComponentStateList(
-        billingAddressDetailsStyle: BillingAddressDetailsStyle
+        billingAddressDetailsStyle: BillingAddressDetailsStyle,
     ): List<BillingAddressInputComponentState> {
         val inputComponentStateList = billingAddressDetailsComponentStateUseCase
             .execute(billingAddressDetailsStyle)
@@ -169,8 +172,8 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
                 inputComponentStateList[index].inputComponentState =
                     inputComponentStateList[index].inputComponentState.copy(
                         inputFieldState = inputComponentStateList[index].inputComponentState.inputFieldState.copy(
-                            maxLength = mutableStateOf(BillingAddressDetailsConstants.defaultPhoneNumberMaxLength)
-                        )
+                            maxLength = mutableStateOf(BillingAddressDetailsConstants.defaultPhoneNumberMaxLength),
+                        ),
                     )
             }
         }
@@ -187,8 +190,8 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
             ImageStyleToDynamicImageRequest(
                 style.leadingIconStyle,
                 flowOf(R.drawable.cko_ic_cross_close),
-                flowOf { onClose() }
-            )
+                flowOf { onClose() },
+            ),
         )
 
         return state
@@ -217,7 +220,7 @@ internal class BillingAddressDetailsViewModel @Inject constructor(
 
     internal class Factory(
         private val injector: Injector,
-        private val style: BillingAddressDetailsStyle
+        private val style: BillingAddressDetailsStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

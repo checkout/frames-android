@@ -10,12 +10,12 @@ internal fun BillingAddressDynamicInputComponent(
     inputComponentViewStyle: BillingAddressInputComponentViewStyle,
     inputComponentState: BillingAddressInputComponentState,
     onFocusChanged: (Int, Boolean) -> Unit,
-    onValueChange: (Int, String) -> Unit
+    onValueChange: (Int, String) -> Unit,
 ) {
     InputComponent(
         style = inputComponentViewStyle.inputComponentViewStyle,
         state = inputComponentState.inputComponentState,
         onFocusChanged = { onFocusChanged(position, it) },
-        onValueChange = { onValueChange(position, it) }
+        onValueChange = { onValueChange(position, it) },
     )
 }

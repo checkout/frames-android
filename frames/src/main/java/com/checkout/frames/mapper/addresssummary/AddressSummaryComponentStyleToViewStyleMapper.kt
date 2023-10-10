@@ -16,7 +16,7 @@ internal class AddressSummaryComponentStyleToViewStyleMapper(
     private val textLabelMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
     private val buttonMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
     private val summarySectionMapper: Mapper<AddressSummarySectionStyle, AddressSummarySectionViewStyle>,
-    private val containerMapper: Mapper<ContainerStyle, Modifier>
+    private val containerMapper: Mapper<ContainerStyle, Modifier>,
 ) : Mapper<AddressSummaryComponentStyle, AddressSummaryComponentViewStyle> {
 
     override fun map(from: AddressSummaryComponentStyle): AddressSummaryComponentViewStyle = with(from) {
@@ -25,7 +25,7 @@ internal class AddressSummaryComponentStyleToViewStyleMapper(
             subTitleStyle = subTitleStyle?.let { textLabelMapper.map(it) },
             addAddressButtonStyle = buttonMapper.map(addAddressButtonStyle),
             summarySectionStyle = summarySectionMapper.map(summarySectionStyle),
-            modifier = containerMapper.map(containerStyle)
+            modifier = containerMapper.map(containerStyle),
         )
     }
 }

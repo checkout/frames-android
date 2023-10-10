@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 internal data class CardHolderNameComponentState(
     val inputState: InputComponentState,
-    val isCardHolderNameFieldValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isCardHolderNameFieldValid: MutableStateFlow<Boolean> = MutableStateFlow(false),
 ) {
     val cardHolderName by lazy { inputState.inputFieldState.text }
 

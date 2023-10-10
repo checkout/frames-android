@@ -6,5 +6,5 @@ package com.checkout.frames.screen.paymentform.model
  */
 public data class PrefillData @JvmOverloads constructor(
     public val cardHolderName: String? = null,
-    public val billingFormAddress: BillingFormAddress? = null
+    public val billingFormAddress: BillingFormAddress? = null,
 )

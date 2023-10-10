@@ -34,8 +34,8 @@ internal class CVVInputFieldViewModelFactoryTest {
         cvvComponentValidator = CVVComponentValidatorFactory.create()
         inputFieldStyleMapper = InputFieldStyleToViewStyleMapper(
             TextLabelStyleToViewStyleMapper(
-                ContainerStyleToModifierMapper()
-            )
+                ContainerStyleToModifierMapper(),
+            ),
         )
         inputFieldStateMapper = InputFieldStyleToInputFieldStateMapper(ImageStyleToComposableImageMapper())
     }
@@ -44,7 +44,7 @@ internal class CVVInputFieldViewModelFactoryTest {
     fun testCreateCVVInputFieldViewModel() {
         // Given
         factory = CVVInputFieldViewModelFactory(
-            config, cvvComponentValidator, inputFieldStateMapper, inputFieldStyleMapper
+            config, cvvComponentValidator, inputFieldStateMapper, inputFieldStyleMapper,
         )
 
         // When

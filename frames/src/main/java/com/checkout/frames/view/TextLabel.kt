@@ -20,10 +20,10 @@ import com.checkout.frames.style.view.TextLabelViewStyle
 @Composable
 internal fun TextLabel(
     style: TextLabelViewStyle,
-    state: TextLabelState
+    state: TextLabelState,
 ) = Row(
     modifier = style.modifier,
-    verticalAlignment = Alignment.CenterVertically
+    verticalAlignment = Alignment.CenterVertically,
 ) {
     val text = state.textId.value?.let { stringResource(id = it) } ?: state.text.value
     with(style) {
@@ -44,7 +44,7 @@ internal fun TextLabel(
             softWrap,
             maxLines,
             onTextLayout,
-            this.style ?: LocalTextStyle.current
+            this.style ?: LocalTextStyle.current,
         )
         state.trailingIcon.value?.let { it() }
     }
@@ -62,19 +62,19 @@ private fun TextLabelPreview() {
         tinColor = 0xFFFF00FF,
         height = 48,
         width = 48,
-        Padding(start = 8, end = 8)
+        Padding(start = 8, end = 8),
     )
 
     TextLabel(
         style = TextLabelViewStyle(
             style = TextStyle(
-                color = Color.Gray
-            )
+                color = Color.Gray,
+            ),
         ),
         state = TextLabelState(
             mutableStateOf("Test label text"),
             leadingIcon = mutableStateOf(imageMapper.map(imageStyle)),
-            trailingIcon = mutableStateOf(imageMapper.map(imageStyle))
-        )
+            trailingIcon = mutableStateOf(imageMapper.map(imageStyle)),
+        ),
     )
 }

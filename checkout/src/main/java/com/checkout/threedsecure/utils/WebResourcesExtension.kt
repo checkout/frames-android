@@ -9,4 +9,6 @@ internal fun WebResourceResponse.toThreeDSError() = ThreeDSError(this.statusCode
 
 internal fun WebResourceError.toThreeDSError() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     ThreeDSError(this.errorCode.toString(), this.description.toString())
-} else null
+} else {
+    null
+}

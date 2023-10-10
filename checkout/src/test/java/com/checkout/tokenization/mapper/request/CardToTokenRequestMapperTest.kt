@@ -26,7 +26,7 @@ internal class CardToTokenRequestMapperTest {
             "Bob martin",
             "123",
             AddressToAddressEntityDataMapper().map(TokenizationRequestTestData.address),
-            PhoneToPhoneEntityDataMapper().map(TokenizationRequestTestData.phone)
+            PhoneToPhoneEntityDataMapper().map(TokenizationRequestTestData.phone),
         )
 
         // When

@@ -20,7 +20,7 @@ internal abstract class ValidationModule {
 
         @Provides
         fun provideValidateExpiryDateUseCase(cardValidator: CardValidator):
-                UseCase<SmartExpiryDateValidationRequest, ValidationResult<String>> =
+            UseCase<SmartExpiryDateValidationRequest, ValidationResult<String>> =
             SmartExpiryDateValidationUseCase(cardValidator)
     }
 }

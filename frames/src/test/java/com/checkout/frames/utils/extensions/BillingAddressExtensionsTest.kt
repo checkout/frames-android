@@ -18,7 +18,7 @@ import java.util.stream.Stream
 internal class BillingAddressExtensionsTest {
 
     @ParameterizedTest(
-        name = "When summary of billing address {0} is requested then addressPreview {1} is provided"
+        name = "When summary of billing address {0} is requested then addressPreview {1} is provided",
     )
     @MethodSource("testBillingAddressSummaryArguments")
     fun `Requested billing address summary should provide correct address preview text`(
@@ -33,7 +33,7 @@ internal class BillingAddressExtensionsTest {
     }
 
     @ParameterizedTest(
-        name = "When summary of billing address {0} is requested then addressPreview {1} is provided"
+        name = "When summary of billing address {0} is requested then addressPreview {1} is provided",
     )
     @MethodSource("testIsBillingAddressValidArguments")
     fun `Requested to verify valid billing address should provide correct validation`(
@@ -58,18 +58,18 @@ internal class BillingAddressExtensionsTest {
                         city = "city",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
+                        country = Country.UNITED_KINGDOM,
                     ),
-                    phone = Phone("123", Country.UNITED_KINGDOM)
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 "LINE 1\nLINE 2\ncity\nstate\nzipcode\nUnited Kingdom\n+44 123",
                 BillingAddress(
                     name = "Test name",
-                    phone = Phone("123", Country.UNITED_KINGDOM)
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 "Test name\n+44 123",
                 BillingAddress(
-                    name = "Test name"
+                    name = "Test name",
                 ),
                 "Test name",
                 BillingAddress(
@@ -80,12 +80,12 @@ internal class BillingAddressExtensionsTest {
                         city = "",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
-                    )
+                        country = Country.UNITED_KINGDOM,
+                    ),
                 ),
                 "Test name\nstate\nzipcode\nUnited Kingdom",
-                BillingAddress(), ""
-            )
+                BillingAddress(), "",
+            ),
         )
 
         @JvmStatic
@@ -98,17 +98,18 @@ internal class BillingAddressExtensionsTest {
                         city = "city",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
+                        country = Country.UNITED_KINGDOM,
                     ),
-                    phone = Phone("123", Country.UNITED_KINGDOM)
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 true,
                 BillingAddress(
-                    name = "Test name", phone = Phone("123", Country.UNITED_KINGDOM)
+                    name = "Test name",
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 false,
                 BillingAddress(
-                    name = "Test name"
+                    name = "Test name",
                 ),
                 false,
                 BillingAddress(
@@ -119,8 +120,8 @@ internal class BillingAddressExtensionsTest {
                         city = "",
                         state = "state",
                         zip = "zipcode",
-                        country = null
-                    )
+                        country = null,
+                    ),
                 ),
                 false,
                 BillingAddress(
@@ -131,11 +132,11 @@ internal class BillingAddressExtensionsTest {
                         city = "",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
-                    )
+                        country = Country.UNITED_KINGDOM,
+                    ),
                 ),
-                false
-            )
+                false,
+            ),
         )
     }
 }

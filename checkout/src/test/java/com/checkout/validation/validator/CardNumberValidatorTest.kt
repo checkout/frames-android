@@ -79,18 +79,18 @@ internal class CardNumberValidatorTest {
     }
 
     @ParameterizedTest(
-        name = "Expected validation result {2} received " + "when card number {0} validation (isEager = {1}) requested"
+        name = "Expected validation result {2} received " + "when card number {0} validation (isEager = {1}) requested",
     )
     @MethodSource(
         "validationSuccessArguments",
         "validationFailureArguments",
         "eagerValidationSuccessArguments",
-        "eagerValidationFailureArguments"
+        "eagerValidationFailureArguments",
     )
     fun `Validation of given card number returns correct validation result`(
         cardNumber: String,
         isEager: Boolean,
-        expectedResult: ValidationResult<CardScheme>
+        expectedResult: ValidationResult<CardScheme>,
     ) {
         // Given
         val request = CardNumberValidationRequest(cardNumber, isEager)
@@ -106,7 +106,7 @@ internal class CardNumberValidatorTest {
             }
             is ValidationResult.Failure -> assertEquals(
                 expectedResult.error.errorCode,
-                (result as? ValidationResult.Failure)?.error?.errorCode
+                (result as? ValidationResult.Failure)?.error?.errorCode,
             )
         }
     }
@@ -158,7 +158,7 @@ internal class CardNumberValidatorTest {
             // With whitespaces
             Arguments.of("37828 22463 10005", false, provideSuccess(CardScheme.AMERICAN_EXPRESS)),
             Arguments.of("37828\n22463\n10005", false, provideSuccess(CardScheme.AMERICAN_EXPRESS)),
-            Arguments.of("\t37828\t22463\t10005", false, provideSuccess(CardScheme.AMERICAN_EXPRESS))
+            Arguments.of("\t37828\t22463\t10005", false, provideSuccess(CardScheme.AMERICAN_EXPRESS)),
         )
 
         @JvmStatic
@@ -170,7 +170,7 @@ internal class CardNumberValidatorTest {
             Arguments.of("529741qwe2542005689", false, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
             Arguments.of("6016607_ 0950586", false, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
             Arguments.of("223488 888888-8882", false, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
-            Arguments.of("2720333333333.", false, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS))
+            Arguments.of("2720333333333.", false, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
         )
 
         @JvmStatic
@@ -213,7 +213,7 @@ internal class CardNumberValidatorTest {
             // With whitespaces
             Arguments.of("37828 22", true, provideSuccess(CardScheme.AMERICAN_EXPRESS)),
             Arguments.of("37828\n22463\n10", true, provideSuccess(CardScheme.AMERICAN_EXPRESS)),
-            Arguments.of("\t37828\t2246", true, provideSuccess(CardScheme.AMERICAN_EXPRESS))
+            Arguments.of("\t37828\t2246", true, provideSuccess(CardScheme.AMERICAN_EXPRESS)),
         )
 
         @JvmStatic
@@ -225,7 +225,7 @@ internal class CardNumberValidatorTest {
             Arguments.of("529741qwe2542005689", true, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
             Arguments.of("6016607_ 0950586", true, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
             Arguments.of("223488 888888-8882", true, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
-            Arguments.of("272333333.", true, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS))
+            Arguments.of("272333333.", true, provideFailure(ValidationError.CARD_NUMBER_INVALID_CHARACTERS)),
         )
 
         private fun provideFailure(errorCode: String) = ValidationResult.Failure(ValidationError(errorCode))

@@ -8,6 +8,7 @@ object PaymentFormConstants {
     const val inputFieldColor: Long = 0XFFFFFFFF
     const val textColor: Long = 0XFF461E67
     const val placeHolderTextColor: Long = 0XFFACA2B4
+
     /** Screen padding in dp. */
     const val padding: Int = 16
     const val paddingTenDp: Int = 10

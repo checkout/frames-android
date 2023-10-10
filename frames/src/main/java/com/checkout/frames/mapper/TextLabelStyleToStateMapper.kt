@@ -8,7 +8,7 @@ import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.view.TextLabelState
 
 internal class TextLabelStyleToStateMapper(
-    private val imageMapper: Mapper<ImageStyle?, @Composable (() -> Unit)?>
+    private val imageMapper: Mapper<ImageStyle?, @Composable (() -> Unit)?>,
 ) : Mapper<TextLabelStyle?, TextLabelState> {
 
     override fun map(from: TextLabelStyle?): TextLabelState = TextLabelState(
@@ -16,6 +16,6 @@ internal class TextLabelStyleToStateMapper(
         textId = mutableStateOf(from?.textId),
         leadingIcon = mutableStateOf(imageMapper.map(from?.leadingIconStyle)),
         trailingIcon = mutableStateOf(imageMapper.map(from?.trailingIconStyle)),
-        isVisible = mutableStateOf(from?.text?.isNotBlank() == true || from?.textId != null)
+        isVisible = mutableStateOf(from?.text?.isNotBlank() == true || from?.textId != null),
     )
 }

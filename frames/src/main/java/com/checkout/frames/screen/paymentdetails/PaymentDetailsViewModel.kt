@@ -43,7 +43,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
     private val closePaymentFlowUseCase: UseCase<Unit, Unit>,
     private val paymentStateManager: PaymentStateManager,
     private val logger: Logger<LoggingEvent>,
-    private val style: PaymentDetailsStyle
+    private val style: PaymentDetailsStyle,
 ) : ViewModel() {
 
     val headerStyle: TextLabelViewStyle = provideHeaderViewStyle()
@@ -59,7 +59,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
             isCvvValidByDefault,
             isCardHolderNameValidByDefault,
             isBillingAddressValidByDefault,
-            isBillingAddressValidEnabled
+            isBillingAddressValidEnabled,
         )
         logger.logEventWithLocale(PaymentFormEventType.PRESENTED)
     }
@@ -67,14 +67,14 @@ internal class PaymentDetailsViewModel @Inject constructor(
     internal fun provideIsCardHolderNameValid(): Boolean {
         val isCardHolderNamePrefilled =
             paymentStateManager.cardHolderName.value.isNotBlank() && style.cardHolderNameStyle != null
-         return isCardHolderNamePrefilled || style.cardHolderNameStyle?.inputStyle?.isInputFieldOptional ?: true
+        return isCardHolderNamePrefilled || style.cardHolderNameStyle?.inputStyle?.isInputFieldOptional ?: true
     }
 
     internal fun provideIsBillingAddressValid(): Boolean {
         val isBillingAddressPrefilled =
             style.addressSummaryStyle != null &&
-                    paymentStateManager.billingAddress.value.isEdited() &&
-                    paymentStateManager.billingAddress.value.isValid()
+                paymentStateManager.billingAddress.value.isEdited() &&
+                paymentStateManager.billingAddress.value.isValid()
 
         return if (isBillingAddressPrefilled) true else style.addressSummaryStyle?.isOptional ?: true
     }
@@ -87,7 +87,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
 
     private fun provideHeaderViewStyle(): TextLabelViewStyle = with(style.paymentDetailsHeaderStyle) {
         textLabelStyleMapper.map(
-            TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle)
+            TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle),
         ).apply { modifier = modifier.fillMaxWidth() }
     }
 
@@ -95,7 +95,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
         val imageRequest = ImageStyleToClickableImageRequest(backIconStyle) { onClose() }
 
         textLabelStateMapper.map(
-            TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle)
+            TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle),
         ).apply { leadingIcon.value = clickableImageStyleMapper.map(imageRequest) }
     }
 
@@ -109,7 +109,7 @@ internal class PaymentDetailsViewModel @Inject constructor(
 
     internal class Factory(
         private val injector: Injector,
-        private val style: PaymentDetailsStyle
+        private val style: PaymentDetailsStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

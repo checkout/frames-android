@@ -10,5 +10,5 @@ internal data class GooglePayTokenNetworkRequest(
     val type: String,
 
     @Json(name = "token_data")
-    val tokenData: GooglePayEntity
+    val tokenData: GooglePayEntity,
 )

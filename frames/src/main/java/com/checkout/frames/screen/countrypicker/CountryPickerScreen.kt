@@ -2,19 +2,19 @@ package com.checkout.frames.screen.countrypicker
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.checkout.frames.di.base.Injector
-import com.checkout.frames.style.screen.CountryPickerStyle
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.checkout.frames.di.base.Injector
+import com.checkout.frames.style.screen.CountryPickerStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.view.InputField
@@ -27,10 +27,10 @@ import com.checkout.frames.view.TextLabelState
 internal fun CountryPickerScreen(
     style: CountryPickerStyle,
     injector: Injector,
-    onClose: () -> Unit
+    onClose: () -> Unit,
 ) {
     val viewModel: CountryPickerViewModel = viewModel(
-        factory = CountryPickerViewModel.Factory(injector, style)
+        factory = CountryPickerViewModel.Factory(injector, style),
     )
 
     if (viewModel.goBack.value) {
@@ -45,7 +45,7 @@ internal fun CountryPickerScreen(
     Column(
         modifier = viewModel.screenModifier
             .fillMaxWidth()
-            .fillMaxHeight()
+            .fillMaxHeight(),
     ) {
         HeaderComponent(
             screenTitleStyle = viewModel.screenTitleStyle,
@@ -53,7 +53,7 @@ internal fun CountryPickerScreen(
             searchFieldStyle = viewModel.searchFieldStyle,
             searchFieldState = viewModel.searchFieldState,
             onSearchFocusChange = viewModel::onFocusChanged,
-            onSearchValueChange = viewModel::onSearchChange
+            onSearchValueChange = viewModel::onSearchChange,
         )
         LazyColumn {
             items(viewModel.searchCountries.value) { itemData ->
@@ -70,7 +70,7 @@ private fun HeaderComponent(
     searchFieldStyle: InputFieldViewStyle,
     searchFieldState: InputFieldState,
     onSearchFocusChange: (Boolean) -> Unit,
-    onSearchValueChange: (String) -> Unit
+    onSearchValueChange: (String) -> Unit,
 ) {
     Column {
         TextLabel(style = screenTitleStyle, state = screenTitleState)
@@ -82,7 +82,7 @@ private fun HeaderComponent(
 private fun CountryItemComponent(
     labelStyle: TextLabelViewStyle,
     data: CountryItem,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
 ) {
     val state = TextLabelState().apply {
         isVisible.value = true
@@ -92,7 +92,7 @@ private fun CountryItemComponent(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick(data.iso2) }
+            .clickable { onClick(data.iso2) },
     ) {
         TextLabel(style = labelStyle, state = state)
     }

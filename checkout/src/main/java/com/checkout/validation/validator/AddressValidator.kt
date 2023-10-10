@@ -1,12 +1,12 @@
 package com.checkout.validation.validator
 
-import com.checkout.tokenization.model.Address
 import com.checkout.base.util.ADDRESS_LINE1_LENGTH
 import com.checkout.base.util.ADDRESS_LINE2_LENGTH
 import com.checkout.base.util.CITY_LENGTH
-import com.checkout.base.util.ZIP_LENGTH
 import com.checkout.base.util.STATE_LENGTH
+import com.checkout.base.util.ZIP_LENGTH
 import com.checkout.tokenization.mapper.request.AddressValidationRequestToAddressDataMapper
+import com.checkout.tokenization.model.Address
 import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.AddressValidationRequest
 import com.checkout.validation.model.ValidationResult
@@ -46,23 +46,23 @@ internal class AddressValidator : Validator<AddressValidationRequest, Address> {
         when {
             address.addressLine1.length > ADDRESS_LINE1_LENGTH -> throw ValidationError(
                 ValidationError.ADDRESS_LINE1_INCORRECT_LENGTH,
-                "Address line 1 exceeding minimum length of characters"
+                "Address line 1 exceeding minimum length of characters",
             )
             address.addressLine2.length > ADDRESS_LINE2_LENGTH -> throw ValidationError(
                 ValidationError.ADDRESS_LINE2_INCORRECT_LENGTH,
-                "Address line 2 exceeding minimum length of characters"
+                "Address line 2 exceeding minimum length of characters",
             )
             address.city.length > CITY_LENGTH -> throw ValidationError(
                 ValidationError.INVALID_CITY_LENGTH,
-                "City exceeding minimum length of characters"
+                "City exceeding minimum length of characters",
             )
             address.state.length > STATE_LENGTH -> throw ValidationError(
                 ValidationError.INVALID_STATE_LENGTH,
-                "State exceeding minimum length of characters"
+                "State exceeding minimum length of characters",
             )
             address.zip.length > ZIP_LENGTH -> throw ValidationError(
                 ValidationError.INVALID_ZIP_LENGTH,
-                "Zipcode exceeding minimum length of characters"
+                "Zipcode exceeding minimum length of characters",
             )
         }
     }

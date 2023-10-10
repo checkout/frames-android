@@ -8,6 +8,7 @@ import com.checkout.frames.style.theme.PaymentFormTheme
 
 public object PaymentFormStyleProvider {
     public fun provide(theme: PaymentFormTheme): PaymentFormStyle = PaymentFormMapper(
-        PaymentDetailsStyleMapper(), BillingFormStyleMapper()
+        PaymentDetailsStyleMapper(),
+        BillingFormStyleMapper(),
     ).map(theme)
 }

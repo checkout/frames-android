@@ -3,10 +3,10 @@ package com.checkout.frames.screen.billingaddressdetails.usecase
 import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.usecase.UseCase
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
 import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.billingaddressdetails.BillingAddressInputComponentStyleToViewStyleMapper
 import com.checkout.frames.mock.BillingAddressDetailsTestData
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
@@ -34,11 +34,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class BillingAddressInputComponentStyleUseCaseTest {
 
     @SpyK
-    lateinit var mockBillingAddressInputComponentStyleMapper: Mapper<BillingAddressInputComponentStyle,
-            BillingAddressInputComponentViewStyle>
+    lateinit var mockBillingAddressInputComponentStyleMapper: Mapper<
+        BillingAddressInputComponentStyle,
+        BillingAddressInputComponentViewStyle,
+        >
 
-    private lateinit var billingAddressInputComponentStyleUseCase: UseCase<BillingAddressDetailsStyle,
-            BillingAddressInputComponentsViewContainerStyle>
+    private lateinit var billingAddressInputComponentStyleUseCase: UseCase<
+        BillingAddressDetailsStyle,
+        BillingAddressInputComponentsViewContainerStyle,
+        >
 
     init {
         initMappers()
@@ -54,12 +58,12 @@ internal class BillingAddressInputComponentStyleUseCaseTest {
                 infoStyle = TextLabelViewStyle(),
                 inputFieldStyle = InputFieldViewStyle(),
                 subtitleStyle = TextLabelViewStyle(),
-                titleStyle = TextLabelViewStyle()
-            )
+                titleStyle = TextLabelViewStyle(),
+            ),
         )
 
         billingAddressInputComponentStyleUseCase = BillingAddressInputComponentStyleUseCase(
-            mockBillingAddressInputComponentStyleMapper
+            mockBillingAddressInputComponentStyleMapper,
         )
     }
 
@@ -73,8 +77,8 @@ internal class BillingAddressInputComponentStyleUseCaseTest {
                 mockBillingAddressInputComponentStyleMapper.map(
                     BillingAddressInputComponentStyle(
                         it.key.name,
-                        it.value
-                    )
+                        it.value,
+                    ),
                 )
             } returns BillingAddressInputComponentViewStyle(
                 addressFieldName = it.key.name,
@@ -84,16 +88,16 @@ internal class BillingAddressInputComponentStyleUseCaseTest {
                     infoStyle = TextLabelViewStyle(),
                     inputFieldStyle = InputFieldViewStyle(),
                     subtitleStyle = TextLabelViewStyle(),
-                    titleStyle = TextLabelViewStyle()
-                )
+                    titleStyle = TextLabelViewStyle(),
+                ),
 
-            )
+                )
         }
 
         // When
         val style = BillingAddressDetailsStyle(
             HeaderComponentStyle(),
-            BillingAddressDetailsTestData.inputComponentsContainerStyle()
+            BillingAddressDetailsTestData.inputComponentsContainerStyle(),
         )
 
         val result = billingAddressInputComponentStyleUseCase.execute(style)
@@ -112,8 +116,8 @@ internal class BillingAddressInputComponentStyleUseCaseTest {
             InputComponentStyleToViewStyleMapper(
                 textLabelStyleMapper,
                 InputFieldStyleToViewStyleMapper(textLabelStyleMapper),
-                ContainerStyleToModifierMapper()
-            )
+                ContainerStyleToModifierMapper(),
+            ),
         )
     }
 }

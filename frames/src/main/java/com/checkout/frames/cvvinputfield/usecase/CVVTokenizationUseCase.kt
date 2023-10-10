@@ -10,6 +10,6 @@ internal class CVVTokenizationUseCase(
 ) : UseCase<InternalCVVTokenRequest, Unit> {
 
     override fun execute(data: InternalCVVTokenRequest) = checkoutApiService.createToken(
-           CVVTokenizationRequest(cvv = data.cvv, cardScheme = data.cardScheme, resultHandler = data.resultHandler)
-        )
+        CVVTokenizationRequest(cvv = data.cvv, cardScheme = data.cardScheme, resultHandler = data.resultHandler),
+    )
 }

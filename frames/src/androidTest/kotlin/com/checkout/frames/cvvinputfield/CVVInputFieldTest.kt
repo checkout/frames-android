@@ -18,7 +18,7 @@ internal class CVVInputFieldTest {
 
     @Test
     fun testCVVInputFieldTextChange() {
-       // When
+        // When
         var cvvText = ""
         composeTestRule.setContent {
             CVVInputField(

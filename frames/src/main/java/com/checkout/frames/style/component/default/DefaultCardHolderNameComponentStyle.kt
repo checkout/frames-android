@@ -12,7 +12,7 @@ public object DefaultCardHolderNameComponentStyle {
             titleTextId = R.string.cko_card_holder_name_title,
             infoTextId = if (isOptional) R.string.cko_input_field_optional_info else null,
             margin = Margin(bottom = marginBottom),
-            isFieldOptional = isOptional
+            isFieldOptional = isOptional,
         )
         return CardHolderNameComponentStyle(style)
     }

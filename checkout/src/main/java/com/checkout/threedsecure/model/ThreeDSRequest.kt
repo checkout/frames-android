@@ -7,7 +7,7 @@ public data class ThreeDSRequest(
     val challengeUrl: String,
     val successUrl: String,
     val failureUrl: String,
-    val resultHandler: ThreeDSResultHandler
+    val resultHandler: ThreeDSResultHandler,
 )
 
 public typealias ThreeDSResultHandler = (result: ThreeDSResult) -> Unit

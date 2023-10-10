@@ -16,7 +16,7 @@ internal class ValidateTokenizationDataUseCase(
     private val cardValidator: CardValidator,
     private val addressValidator: Validator<AddressValidationRequest, Address>,
     private val phoneValidator: Validator<PhoneValidationRequest, Phone>,
-    private val addressToAddressValidationRequestDataMapper: Mapper<Address, AddressValidationRequest>
+    private val addressToAddressValidationRequestDataMapper: Mapper<Address, AddressValidationRequest>,
 ) : UseCase<Card, ValidationResult<Unit>> {
 
     override fun execute(data: Card): ValidationResult<Unit> {

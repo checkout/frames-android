@@ -32,12 +32,12 @@ internal class PhoneValidatorTest {
     fun `Validation of given phone returns correct validation result`(
         testNumber: String,
         testCountry: Country?,
-        expectedResult: ValidationResult<Phone>
+        expectedResult: ValidationResult<Phone>,
     ) {
         // Given
         val phoneValidationRequest = PhoneValidationRequest(
             testNumber,
-            testCountry
+            testCountry,
         )
 
         // When
@@ -51,7 +51,7 @@ internal class PhoneValidatorTest {
             }
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedResult.error.errorCode,
-                (result as? ValidationResult.Failure)?.error?.errorCode
+                (result as? ValidationResult.Failure)?.error?.errorCode,
             )
         }
     }
@@ -62,13 +62,13 @@ internal class PhoneValidatorTest {
             Arguments.of(
                 "74049",
                 Country.from("GB"),
-                provideFailure(ValidationError.NUMBER_INCORRECT_LENGTH)
+                provideFailure(ValidationError.NUMBER_INCORRECT_LENGTH),
             ),
             Arguments.of(
                 "+44 7404953067462348736428472364",
                 Country.from("GB"),
-                provideFailure(ValidationError.NUMBER_INCORRECT_LENGTH)
-            )
+                provideFailure(ValidationError.NUMBER_INCORRECT_LENGTH),
+            ),
         )
 
         @JvmStatic
@@ -76,13 +76,13 @@ internal class PhoneValidatorTest {
             Arguments.of(
                 "+44 7404953067",
                 Country.from("GB"),
-                provideSuccess(Phone("+44 7404953067", Country.from("GB")))
+                provideSuccess(Phone("+44 7404953067", Country.from("GB"))),
             ),
             Arguments.of(
                 "7404953067",
                 Country.from(""),
-                provideSuccess(Phone("7404953067", Country.from("")))
-            )
+                provideSuccess(Phone("7404953067", Country.from(""))),
+            ),
         )
 
         private fun provideFailure(errorCode: String) = ValidationResult.Failure(ValidationError(errorCode))

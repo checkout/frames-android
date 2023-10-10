@@ -28,7 +28,7 @@ internal interface NetworkApiClient {
      *         It encapsulates the result as a [CVVTokenDetailsResponse] on success or an error message on failure.
      */
     suspend fun sendCVVTokenRequest(cvvTokenNetworkRequest: CVVTokenNetworkRequest):
-            NetworkApiResponse<CVVTokenDetailsResponse>
+        NetworkApiResponse<CVVTokenDetailsResponse>
 
     /** Sending GooglePayToken request
      *
@@ -36,6 +36,6 @@ internal interface NetworkApiClient {
      * @return response with its body parsed as a String
      */
     suspend fun sendGooglePayTokenRequest(
-        googlePayTokenNetworkRequest: GooglePayTokenNetworkRequest
+        googlePayTokenNetworkRequest: GooglePayTokenNetworkRequest,
     ): NetworkApiResponse<TokenDetailsResponse>
 }

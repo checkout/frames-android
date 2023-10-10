@@ -16,5 +16,5 @@ internal data class GooglePayEntity(
     var protocolVersion: String? = null,
 
     @Json(name = "signedMessage")
-    var signedMessage: String? = null
+    var signedMessage: String? = null,
 )

@@ -66,11 +66,11 @@ internal class BillingAddressDetailsViewModelTest {
 
     @RelaxedMockK
     lateinit var mockBillingAddressDetailsComponentStateUseCase:
-            UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsContainerState>
+        UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsContainerState>
 
     @RelaxedMockK
     lateinit var mockBillingAddressDetailsComponentStyleUseCase:
-            UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle>
+        UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle>
 
     @RelaxedMockK
     lateinit var mockLogger: Logger<LoggingEvent>
@@ -78,7 +78,7 @@ internal class BillingAddressDetailsViewModelTest {
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
         supportedCardSchemes = emptyList(),
-        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
     )
 
     @SpyK
@@ -101,7 +101,7 @@ internal class BillingAddressDetailsViewModelTest {
 
     private val style: BillingAddressDetailsStyle = BillingAddressDetailsStyle(
         DefaultBillingAddressDetailsStyle.headerComponentStyle(),
-        DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle(isRequestedCardHolderName = true)
+        DefaultBillingAddressDetailsStyle.inputComponentsContainerStyle(isRequestedCardHolderName = true),
     )
 
     private lateinit var viewModel: BillingAddressDetailsViewModel
@@ -137,7 +137,7 @@ internal class BillingAddressDetailsViewModelTest {
             spyButtonStyleMapper,
             spyButtonStateMapper,
             mockLogger,
-            style
+            style,
         )
     }
 
@@ -152,7 +152,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Then
         verify(exactly = 1) {
             spyButtonStateMapper.map(
-                style.headerComponentStyle.headerButtonStyle
+                style.headerComponentStyle.headerButtonStyle,
             )
         }
 
@@ -161,7 +161,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Then
         verify(exactly = 1) {
             spyTextLabelStateMapper.map(
-                style.headerComponentStyle.headerTitleStyle
+                style.headerComponentStyle.headerTitleStyle,
             )
         }
 
@@ -171,7 +171,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Then
         verify(exactly = 1) {
             spyButtonStyleMapper.map(
-                style.headerComponentStyle.headerButtonStyle
+                style.headerComponentStyle.headerButtonStyle,
             )
         }
 
@@ -180,7 +180,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Then
         verify(exactly = 1) {
             spyTextLabelStyleMapper.map(
-                style.headerComponentStyle.headerTitleStyle
+                style.headerComponentStyle.headerTitleStyle,
             )
         }
 
@@ -202,7 +202,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Then
         assertEquals(
             viewModel.screenButtonState.isEnabled.value,
-            false
+            false,
         )
     }
 
@@ -256,7 +256,8 @@ internal class BillingAddressDetailsViewModelTest {
         testScheduler.advanceUntilIdle()
         assertEquals(spyPaymentStateManager.selectedCountry.value, expectedBillingAddress.address?.country)
         assertEquals(
-            spyPaymentStateManager.selectedCountry.value, spyPaymentStateManager.billingAddress.value.address?.country
+            spyPaymentStateManager.selectedCountry.value,
+            spyPaymentStateManager.billingAddress.value.address?.country,
         )
         assertEquals(spyPaymentStateManager.billingAddress.value, expectedBillingAddress)
     }
@@ -284,31 +285,31 @@ internal class BillingAddressDetailsViewModelTest {
         assertEquals(viewModel.screenButtonState.isEnabled.value, true)
         assertEquals(
             viewModel.inputComponentsStateList[0].addressFieldText.value,
-            expectedBillingAddress.name
+            expectedBillingAddress.name,
         )
         assertEquals(
             viewModel.inputComponentsStateList[1].addressFieldText.value,
-            expectedBillingAddress.address?.addressLine1
+            expectedBillingAddress.address?.addressLine1,
         )
         assertEquals(
             viewModel.inputComponentsStateList[2].addressFieldText.value,
-            expectedBillingAddress.address?.addressLine2
+            expectedBillingAddress.address?.addressLine2,
         )
         assertEquals(
             viewModel.inputComponentsStateList[3].addressFieldText.value,
-            expectedBillingAddress.address?.city
+            expectedBillingAddress.address?.city,
         )
         assertEquals(
             viewModel.inputComponentsStateList[4].addressFieldText.value,
-            expectedBillingAddress.address?.state
+            expectedBillingAddress.address?.state,
         )
         assertEquals(
             viewModel.inputComponentsStateList[5].addressFieldText.value,
-            expectedBillingAddress.address?.zip
+            expectedBillingAddress.address?.zip,
         )
         assertEquals(
             viewModel.inputComponentsStateList[6].addressFieldText.value,
-            expectedBillingAddress.phone?.number
+            expectedBillingAddress.phone?.number,
         )
     }
 
@@ -346,7 +347,7 @@ internal class BillingAddressDetailsViewModelTest {
         assertEquals(viewModel.inputComponentsStateList[givenPosition].addressFieldText.value, expectedText)
         assertEquals(
             viewModel.inputComponentsStateList[givenPosition].isAddressFieldValid.value,
-            expectedIsAddressFieldValid
+            expectedIsAddressFieldValid,
         )
     }
 
@@ -365,7 +366,7 @@ internal class BillingAddressDetailsViewModelTest {
         assertEquals(viewModel.inputComponentsStateList[givenPosition].addressFieldText.value, cleanedText)
         assertEquals(
             viewModel.inputComponentsStateList[givenPosition].isAddressFieldValid.value,
-            expectedIsAddressFieldValid
+            expectedIsAddressFieldValid,
         )
     }
 
@@ -398,7 +399,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Given
         val state = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.Country.name,
-            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.JAMAICA.name })
+            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.JAMAICA.name }),
         )
         // When
         viewModel.updateCountryComponentState(state, Country.DENMARK)
@@ -413,7 +414,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Given
         val state = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.Country.name,
-            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.DENMARK.name })
+            inputComponentState = InputComponentState(InputFieldState().apply { text.value = Country.DENMARK.name }),
         )
         // When
         viewModel.updateCountryComponentState(state, Country.DENMARK)
@@ -428,7 +429,7 @@ internal class BillingAddressDetailsViewModelTest {
         // Given
         val state = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.Country.name,
-            inputComponentState = InputComponentState(InputFieldState().apply { text.value = "" })
+            inputComponentState = InputComponentState(InputFieldState().apply { text.value = "" }),
         )
 
         // When

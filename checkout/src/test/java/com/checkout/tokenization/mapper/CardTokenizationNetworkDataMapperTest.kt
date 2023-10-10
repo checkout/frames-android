@@ -44,7 +44,7 @@ internal class CardTokenizationNetworkDataMapperTest {
             // Given
             val expectedResult = expectedTokenDetails()
             setupMockResponses(
-                expectedResult
+                expectedResult,
             )
 
             // When
@@ -72,7 +72,7 @@ internal class CardTokenizationNetworkDataMapperTest {
             mappedResult `should be instance of` TokenResult.Failure::class
 
             (mappedResult as TokenResult.Failure).error.message `should be equal to`
-                    "${Card::class.java.name} cannot be mapped to a TokenDetails"
+                "${Card::class.java.name} cannot be mapped to a TokenDetails"
         }
 
         private fun expectedTokenDetails(): TokenDetails =
@@ -94,13 +94,13 @@ internal class CardTokenizationNetworkDataMapperTest {
                 productType = "CLASSIC",
                 billingAddress = AddressEntityToAddressDataMapper().map(TokenizationRequestTestData.addressEntity),
                 phone = PhoneEntityToPhoneDataMapper().map(
-                    from = TokenizationRequestTestData.phoneEntity to TokenizationRequestTestData.addressEntity.country
+                    from = TokenizationRequestTestData.phoneEntity to TokenizationRequestTestData.addressEntity.country,
                 ),
-                name = "Bruce Wayne"
+                name = "Bruce Wayne",
             )
 
         private fun setupMockResponses(
-            tokenDetails: TokenDetails
+            tokenDetails: TokenDetails,
         ) {
             every { mockGetTokenDetailsResponse.type } returns tokenDetails.type
             every { mockGetTokenDetailsResponse.token } returns tokenDetails.token
@@ -119,12 +119,12 @@ internal class CardTokenizationNetworkDataMapperTest {
             every { mockGetTokenDetailsResponse.productType } returns tokenDetails.productType
             every { mockGetTokenDetailsResponse.billingAddress } returns tokenDetails.billingAddress?.let {
                 AddressToAddressEntityDataMapper().map(
-                    it
+                    it,
                 )
             }
             every { mockGetTokenDetailsResponse.phone } returns tokenDetails.phone?.let {
                 PhoneToPhoneEntityDataMapper().map(
-                    it
+                    it,
                 )
             }
             every { mockGetTokenDetailsResponse.name } returns tokenDetails.name
@@ -153,7 +153,7 @@ internal class CardTokenizationNetworkDataMapperTest {
             // Then
             mappedResult `should be instance of` TokenResult.Failure::class
             (mappedResult as TokenResult.Failure).error.message `should be equal to`
-                    "Token request failed - testErrorType (HttpStatus: 400)"
+                "Token request failed - testErrorType (HttpStatus: 400)"
         }
 
         @Test

@@ -26,11 +26,12 @@ object CustomCVVInputFieldStyle {
             color = backgroundColor,
             padding = Padding(end = 2),
             shape = Shape.RoundCorner,
-            cornerRadius = CornerRadius(9)
+            cornerRadius = CornerRadius(9),
         ),
         cursorStyle = CursorStyle(0XFF00CC2D),
         indicatorStyle = InputFieldIndicatorStyle.Underline(
-            focusedUnderlineThickness = 0, unfocusedUnderlineThickness = 0
-        )
+            focusedUnderlineThickness = 0,
+            unfocusedUnderlineThickness = 0,
+        ),
     )
 }

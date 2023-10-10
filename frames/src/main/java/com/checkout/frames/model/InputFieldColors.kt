@@ -13,5 +13,5 @@ internal data class InputFieldColors(
     val cursorColor: Color? = null,
     val errorCursorColor: Color? = null,
     val cursorHandleColor: Color? = null,
-    val cursorHighlightColor: Color? = null
+    val cursorHighlightColor: Color? = null,
 )

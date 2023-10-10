@@ -25,7 +25,7 @@ internal class ValidateCVVTokenizationDataUseCaseTest {
     lateinit var mockCVVComponentValidator: CVVComponentValidator
 
     private lateinit var validateCVVTokenizationDataUseCase:
-            UseCase<ValidateCVVTokenizationRequest, ValidationResult<Unit>>
+        UseCase<ValidateCVVTokenizationRequest, ValidationResult<Unit>>
 
     @BeforeEach
     fun setUp() {
@@ -42,8 +42,9 @@ internal class ValidateCVVTokenizationDataUseCaseTest {
         val cardScheme = CardScheme.VISA
         val expectedResult = ValidationResult.Failure(
             CheckoutError(
-                errorCode = ValidationError.CVV_INVALID_LENGTH, message = "Please enter a valid security code"
-            )
+                errorCode = ValidationError.CVV_INVALID_LENGTH,
+                message = "Please enter a valid security code",
+            ),
         )
 
         every { mockRequest.cvv } returns cvv
@@ -51,12 +52,12 @@ internal class ValidateCVVTokenizationDataUseCaseTest {
 
         every {
             mockCVVComponentValidator.validate(
-                eq(cvv), eq(cardScheme)
+                eq(cvv), eq(cardScheme),
             )
         } returns ValidationResult.Failure(
             CheckoutError(
-                errorCode = ValidationError.CVV_INVALID_LENGTH, message = "Please enter a valid security code"
-            )
+                errorCode = ValidationError.CVV_INVALID_LENGTH, message = "Please enter a valid security code",
+            ),
         )
 
         // When
@@ -82,7 +83,7 @@ internal class ValidateCVVTokenizationDataUseCaseTest {
 
         every {
             mockCVVComponentValidator.validate(
-                eq(cvv), eq(cardScheme)
+                eq(cvv), eq(cardScheme),
             )
         } returns ValidationResult.Success(Unit)
 

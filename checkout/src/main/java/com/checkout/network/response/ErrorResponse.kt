@@ -15,5 +15,5 @@ internal data class ErrorResponse(
     val errorType: String?,
 
     @Json(name = "error_codes")
-    val errorCodes: List<String>?
+    val errorCodes: List<String>?,
 )

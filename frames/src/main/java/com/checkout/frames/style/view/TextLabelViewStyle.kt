@@ -63,5 +63,5 @@ internal data class TextLabelViewStyle(
     val maxLines: Int = Int.MAX_VALUE,
     val onTextLayout: (TextLayoutResult) -> Unit = {},
     val style: TextStyle? = null,
-    var textMaxWidth: Boolean = false
+    var textMaxWidth: Boolean = false,
 )

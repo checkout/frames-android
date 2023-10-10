@@ -25,7 +25,7 @@ internal class AddressEntityToAddressDataMapperTest {
             "London",
             "London",
             "W1T 4TJ",
-            Country.from("GB")
+            Country.from("GB"),
         )
 
         // When

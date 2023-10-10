@@ -17,11 +17,11 @@ import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.example.frames.ui.utils.PrefillDataHelper
 import com.checkout.frames.R
-import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
-import com.checkout.frames.api.PaymentFormMediator
-import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.api.PaymentFlowHandler
+import com.checkout.frames.api.PaymentFormMediator
+import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
 import com.checkout.frames.screen.paymentform.model.PrefillData
+import com.checkout.frames.style.screen.PaymentFormStyle
 import com.checkout.frames.style.theme.paymentform.PaymentFormStyleProvider
 import com.checkout.tokenization.model.TokenDetails
 
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
             Navigator(
                 this.applicationContext,
                 { showAlertDialog(this, getString(R.string.token_generated), it.token) },
-                { showAlertDialog(this, getString(R.string.token_generated_failed), it) }
+                { showAlertDialog(this, getString(R.string.token_generated_failed), it) },
             )
         }
     }
@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 fun Navigator(
     context: Context,
     onSuccess: (TokenDetails) -> Unit,
-    onFailure: (String) -> Unit
+    onFailure: (String) -> Unit,
 ) {
     val navController = rememberNavController()
     val defaultPaymentFormConfig = PaymentFormConfig(
@@ -67,36 +67,36 @@ fun Navigator(
             CardScheme.DISCOVER,
             CardScheme.MASTERCARD,
             CardScheme.MAESTRO,
-            CardScheme.AMERICAN_EXPRESS
+            CardScheme.AMERICAN_EXPRESS,
         ),
-        prefillData = PrefillDataHelper.prefillData
+        prefillData = PrefillDataHelper.prefillData,
     )
     val defaultPaymentFormMediator = PaymentFormMediator(defaultPaymentFormConfig)
 
     val customThemingPaymentFormMediator = PaymentFormMediator(
         defaultPaymentFormConfig.copy(
             style = PaymentFormStyleProvider.provide(CustomPaymentFormTheme.providePaymentFormTheme()),
-            prefillData = PrefillData(cardHolderName = "Test Name")
-        )
+            prefillData = PrefillData(cardHolderName = "Test Name"),
+        ),
     )
 
     val customPaymentFormMediator = PaymentFormMediator(
         defaultPaymentFormConfig.copy(
             style = PaymentFormStyle(
                 CustomPaymentDetailsStyle.providePaymentDetailsStyle(),
-                CustomBillingFormStyle.provideBillingFormStyle()
+                CustomBillingFormStyle.provideBillingFormStyle(),
             ),
             supportedCardSchemeList = listOf(
                 CardScheme.VISA,
                 CardScheme.MASTERCARD,
-                CardScheme.AMERICAN_EXPRESS
+                CardScheme.AMERICAN_EXPRESS,
             ),
             prefillData = PrefillDataHelper.prefillData.copy(
                 billingFormAddress = PrefillDataHelper.prefillData.billingFormAddress?.copy(
-                    name = "Test name"
-                )
-            )
-        )
+                    name = "Test name",
+                ),
+            ),
+        ),
     )
 
     NavHost(navController, startDestination = Screen.Home.route) {

@@ -35,13 +35,13 @@ internal class AddressSummaryModule {
             textLabelMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
             dividerMapper: Mapper<DividerStyle, DividerViewStyle>,
             buttonMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
-            containerMapper: Mapper<ContainerStyle, Modifier>
+            containerMapper: Mapper<ContainerStyle, Modifier>,
         ): Mapper<AddressSummarySectionStyle, AddressSummarySectionViewStyle> =
             AddressSummarySectionStyleToViewStyleMapper(
                 textLabelMapper,
                 dividerMapper,
                 buttonMapper,
-                containerMapper
+                containerMapper,
             )
 
         @Provides
@@ -49,23 +49,23 @@ internal class AddressSummaryModule {
             textLabelMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
             buttonMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
             summarySectionMapper: Mapper<AddressSummarySectionStyle, AddressSummarySectionViewStyle>,
-            containerMapper: Mapper<ContainerStyle, Modifier>
+            containerMapper: Mapper<ContainerStyle, Modifier>,
         ): Mapper<AddressSummaryComponentStyle, AddressSummaryComponentViewStyle> =
             AddressSummaryComponentStyleToViewStyleMapper(
                 textLabelMapper,
                 buttonMapper,
                 summarySectionMapper,
-                containerMapper
+                containerMapper,
             )
 
         @Provides
         fun provideAddressSummaryComponentStateMapper(
             textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
-            internalButtonStateMapper: Mapper<ButtonStyle, InternalButtonState>
+            internalButtonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
         ): Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState> =
             AddressSummaryComponentStyleToStateMapper(
                 textLabelStateMapper,
-                internalButtonStateMapper
+                internalButtonStateMapper,
             )
     }
 }

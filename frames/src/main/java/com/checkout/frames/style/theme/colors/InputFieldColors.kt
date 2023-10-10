@@ -22,5 +22,5 @@ public data class InputFieldColors @JvmOverloads constructor(
     @ColorLong
     val disabledUnderlineColor: Long = UnderlineConstants.disabledUnderlineColor,
     @ColorLong
-    val errorUnderlineColor: Long = UnderlineConstants.errorUnderlineColor
+    val errorUnderlineColor: Long = UnderlineConstants.errorUnderlineColor,
 )

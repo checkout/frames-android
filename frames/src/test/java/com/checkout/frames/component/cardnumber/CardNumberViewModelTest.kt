@@ -8,15 +8,15 @@ import com.checkout.base.model.CardScheme
 import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
-import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
+import com.checkout.frames.mapper.ImageStyleToDynamicComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
+import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardNumberComponentStyle
@@ -29,10 +29,9 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertEquals
-
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -60,7 +59,7 @@ internal class CardNumberViewModelTest {
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
         supportedCardSchemes = emptyList(),
-        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
     )
 
     private var style: CardNumberComponentStyle = CardNumberComponentStyle()
@@ -79,7 +78,7 @@ internal class CardNumberViewModelTest {
             spyInputComponentStyleMapper,
             spyInputComponentStateMapper,
             spyDynamicImageMapper,
-            style
+            style,
         )
 
         every { mockCardValidator.validateCardNumber(any()) } returns ValidationResult.Success(CardScheme.UNKNOWN)
@@ -423,12 +422,12 @@ internal class CardNumberViewModelTest {
     }
 
     @ParameterizedTest(
-        name = "When on card number change invoked with {0} then {1} set to text field state"
+        name = "When on card number change invoked with {0} then {1} set to text field state",
     )
     @MethodSource("onTextChangedArguments")
     fun `When on card number change invoked with a string then cleaned string should be set to a text field state`(
         enteredText: String,
-        cleanedText: String
+        cleanedText: String,
     ) {
         // When
         viewModel.onCardNumberChange(enteredText)
@@ -446,11 +445,11 @@ internal class CardNumberViewModelTest {
         spyInputComponentStyleMapper = InputComponentStyleToViewStyleMapper(
             textLabelStyleMapper,
             InputFieldStyleToViewStyleMapper(textLabelStyleMapper),
-            containerMapper
+            containerMapper,
         )
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
             TextLabelStyleToStateMapper(imageMapper),
-            InputFieldStyleToInputFieldStateMapper(imageMapper)
+            InputFieldStyleToInputFieldStateMapper(imageMapper),
         )
     }
 
@@ -462,7 +461,7 @@ internal class CardNumberViewModelTest {
             Arguments.of(" 123", "123"),
             Arguments.of("12 3", "123"),
             Arguments.of("123234werw", "123234"),
-            Arguments.of("42424.2424242_111,11", "42424242424211111")
+            Arguments.of("42424.2424242_111,11", "42424242424211111"),
         )
     }
 }

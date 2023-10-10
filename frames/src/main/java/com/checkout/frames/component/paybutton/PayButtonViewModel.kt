@@ -32,7 +32,7 @@ internal class PayButtonViewModel @Inject constructor(
     private val cardTokenizationUseCase: UseCase<InternalCardTokenRequest, Unit>,
     private val buttonStyleMapper: Mapper<ButtonStyle, InternalButtonViewStyle>,
     buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
-    private val logger: Logger<LoggingEvent>
+    private val logger: Logger<LoggingEvent>,
 ) : ViewModel() {
 
     val buttonStyle = provideButtonViewStyle()
@@ -51,7 +51,7 @@ internal class PayButtonViewModel @Inject constructor(
         val request = InternalCardTokenRequest(
             provideCardData(),
             onSuccess = onPaymentFinished,
-            onFailure = onPaymentFinished
+            onFailure = onPaymentFinished,
         )
 
         buttonState.isEnabled.value = false
@@ -75,13 +75,13 @@ internal class PayButtonViewModel @Inject constructor(
             cardNumber.value,
             cvv.value,
             address?.address,
-            address?.phone
+            address?.phone,
         )
     }
 
     internal class Factory(
         private val injector: Injector,
-        private val style: PayButtonComponentStyle
+        private val style: PayButtonComponentStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

@@ -8,11 +8,11 @@ import com.checkout.frames.style.theme.PaymentFormTheme
 
 internal class PaymentFormMapper(
     private val paymentDetailsStyleMapper: Mapper<PaymentFormTheme, PaymentDetailsStyle>,
-    private val billingFormStyleMapper: Mapper<PaymentFormTheme, BillingFormStyle>
+    private val billingFormStyleMapper: Mapper<PaymentFormTheme, BillingFormStyle>,
 ) : Mapper<PaymentFormTheme, PaymentFormStyle> {
 
     override fun map(from: PaymentFormTheme) = PaymentFormStyle(
         paymentDetailsStyleMapper.map(from),
-        billingFormStyleMapper.map(from)
+        billingFormStyleMapper.map(from),
     )
 }

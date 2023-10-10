@@ -23,12 +23,12 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
         context: Context,
         environment: Environment,
         identifier: String,
-        version: String
+        version: String,
     ) {
         if (needToSetup) {
             logger.enableRemoteProcessor(
                 environment.toLoggingEnvironment(),
-                provideProcessorMetadata(context, environment, identifier, version)
+                provideProcessorMetadata(context, environment, identifier, version),
             )
             resetSession()
             needToSetup = false
@@ -56,6 +56,6 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
         context,
         environment.toLoggingName(),
         identifier,
-        version
+        version,
     )
 }

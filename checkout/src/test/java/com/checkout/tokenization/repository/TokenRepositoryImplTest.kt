@@ -56,7 +56,7 @@ internal class TokenRepositoryImplTest {
 
     @RelaxedMockK
     private lateinit var mockValidateCVVTokenizationDataUseCase:
-            UseCase<ValidateCVVTokenizationRequest, ValidationResult<Unit>>
+        UseCase<ValidateCVVTokenizationRequest, ValidationResult<Unit>>
 
     @RelaxedMockK
     private lateinit var mockTokenizationLogger: TokenizationLogger
@@ -74,7 +74,7 @@ internal class TokenRepositoryImplTest {
             validateCVVTokenizationDataUseCase = mockValidateCVVTokenizationDataUseCase,
             logger = mockTokenizationLogger,
             publicKey = "test_key",
-            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper()
+            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
         )
     }
 
@@ -85,7 +85,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCardTokenRequest invoked with success response then success handler invoked`() {
             testCardTokenResultInvocation(
                 true,
-                NetworkApiResponse.Success(TokenizationRequestTestData.tokenDetailsResponse())
+                NetworkApiResponse.Success(TokenizationRequestTestData.tokenDetailsResponse()),
             )
         }
 
@@ -93,7 +93,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCardTokenRequest invoked with network error response then failure handler invoked`() {
             testCardTokenResultInvocation(
                 false,
-                NetworkApiResponse.NetworkError(NullPointerException())
+                NetworkApiResponse.NetworkError(NullPointerException()),
             )
         }
 
@@ -101,7 +101,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCardTokenRequest invoked with server error response then failure handler invoked`() {
             testCardTokenResultInvocation(
                 false,
-                NetworkApiResponse.ServerError(null, 123)
+                NetworkApiResponse.ServerError(null, 123),
             )
         }
 
@@ -113,9 +113,9 @@ internal class TokenRepositoryImplTest {
                     TokenizationError(
                         "dummy code",
                         "exception.message",
-                        null
-                    )
-                )
+                        null,
+                    ),
+                ),
             )
         }
 
@@ -147,8 +147,8 @@ internal class TokenRepositoryImplTest {
                 CardTokenRequest(
                     TokenizationRequestTestData.card,
                     onSuccess = { },
-                    onFailure = { }
-                )
+                    onFailure = { },
+                ),
             )
 
             // Then
@@ -156,100 +156,103 @@ internal class TokenRepositoryImplTest {
                 verify(exactly = 1) {
                     mockTokenizationLogger.logTokenRequestEvent(
                         TokenizationConstants.CARD,
-                        "test_key"
+                        "test_key",
                     )
                 }
             }
         }
     }
 
-        private fun testCardTokenResultInvocation(
-            successHandlerInvoked: Boolean,
-            response: NetworkApiResponse<TokenDetailsResponse>
-        ) =
-            runTest {
-                // Given
-                var isSuccess = false
+    private fun testCardTokenResultInvocation(
+        successHandlerInvoked: Boolean,
+        response: NetworkApiResponse<TokenDetailsResponse>,
+    ) =
+        runTest {
+            // Given
+            var isSuccess = false
 
-                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-                Dispatchers.setMain(testDispatcher)
+            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+            Dispatchers.setMain(testDispatcher)
 
-                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
 
-                coEvery { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
+            coEvery { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
 
-                coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
+            coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
 
-                // When
-                tokenRepositoryImpl.sendCardTokenRequest(
-                    CardTokenRequest(
-                        TokenizationRequestTestData.card,
-                        onSuccess = { isSuccess = true },
-                        onFailure = { isSuccess = false }
-                    )
-                )
+            // When
+            tokenRepositoryImpl.sendCardTokenRequest(
+                CardTokenRequest(
+                    TokenizationRequestTestData.card,
+                    onSuccess = { isSuccess = true },
+                    onFailure = { isSuccess = false },
+                ),
+            )
 
-                // Then
-                launch {
-                    if (successHandlerInvoked) assertTrue(isSuccess)
-                    else assertFalse(isSuccess)
+            // Then
+            launch {
+                if (successHandlerInvoked) {
+                    assertTrue(isSuccess)
+                } else {
+                    assertFalse(isSuccess)
                 }
             }
+        }
 
-        private fun testCardTokenEventInvocation(isSuccessResponse: Boolean) =
-            runTest {
-                // Given
-                val successBody = mockk<TokenDetailsResponse>()
-                val serverErrorBody = mockk<ErrorResponse>()
+    private fun testCardTokenEventInvocation(isSuccessResponse: Boolean) =
+        runTest {
+            // Given
+            val successBody = mockk<TokenDetailsResponse>()
+            val serverErrorBody = mockk<ErrorResponse>()
 
-                val response = if (isSuccessResponse) {
-                    NetworkApiResponse.Success(successBody)
-                } else {
-                    NetworkApiResponse.ServerError(serverErrorBody, 501)
-                }
+            val response = if (isSuccessResponse) {
+                NetworkApiResponse.Success(successBody)
+            } else {
+                NetworkApiResponse.ServerError(serverErrorBody, 501)
+            }
 
-                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-                Dispatchers.setMain(testDispatcher)
+            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+            Dispatchers.setMain(testDispatcher)
 
-                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
 
-                every { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
-                coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
+            every { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
+            coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
 
-                // When
-                tokenRepositoryImpl.sendCardTokenRequest(
-                    CardTokenRequest(
-                        TokenizationRequestTestData.card,
-                        onSuccess = { },
-                        onFailure = { }
-                    )
-                )
+            // When
+            tokenRepositoryImpl.sendCardTokenRequest(
+                CardTokenRequest(
+                    TokenizationRequestTestData.card,
+                    onSuccess = { },
+                    onFailure = { },
+                ),
+            )
 
-                // Then
-                launch {
-                    if (isSuccessResponse) {
-                        verify(exactly = 1) {
-                            mockTokenizationLogger.logTokenResponseEvent(
-                                eq(TokenizationConstants.CARD),
-                                eq("test_key"),
-                                eq(successBody)
-                            )
-                        }
-                    } else {
-                        verify(exactly = 1) {
-                            mockTokenizationLogger.logTokenResponseEvent(
-                                eq(TokenizationConstants.CARD),
-                                eq("test_key"),
-                                null,
-                                501,
-                                serverErrorBody
-                            )
-                        }
+            // Then
+            launch {
+                if (isSuccessResponse) {
+                    verify(exactly = 1) {
+                        mockTokenizationLogger.logTokenResponseEvent(
+                            eq(TokenizationConstants.CARD),
+                            eq("test_key"),
+                            eq(successBody),
+                        )
                     }
-
-                    verify(exactly = 1) { mockTokenizationLogger.resetSession() }
+                } else {
+                    verify(exactly = 1) {
+                        mockTokenizationLogger.logTokenResponseEvent(
+                            eq(TokenizationConstants.CARD),
+                            eq("test_key"),
+                            null,
+                            501,
+                            serverErrorBody,
+                        )
+                    }
                 }
-    }
+
+                verify(exactly = 1) { mockTokenizationLogger.resetSession() }
+            }
+        }
 
     @DisplayName("GooglePayToken Details invocation")
     @Nested
@@ -258,7 +261,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendGooglePayTokenRequest invoked with success response then success handler invoked`() {
             testGooglePayTokenResultInvocation(
                 true,
-                NetworkApiResponse.Success(TokenizationRequestTestData.tokenDetailsResponse())
+                NetworkApiResponse.Success(TokenizationRequestTestData.tokenDetailsResponse()),
             )
         }
 
@@ -266,7 +269,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendGooglePayTokenRequest invoked with network error response then failure handler invoked`() {
             testGooglePayTokenResultInvocation(
                 false,
-                NetworkApiResponse.NetworkError(Exception("Network connection lost"))
+                NetworkApiResponse.NetworkError(Exception("Network connection lost")),
             )
         }
 
@@ -274,7 +277,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendGooglePayTokenRequest invoked with server error response then failure handler invoked`() {
             testGooglePayTokenResultInvocation(
                 false,
-                NetworkApiResponse.ServerError(null, 123)
+                NetworkApiResponse.ServerError(null, 123),
             )
         }
 
@@ -286,9 +289,9 @@ internal class TokenRepositoryImplTest {
                     TokenizationError(
                         TokenizationError.GOOGLE_PAY_REQUEST_PARSING_ERROR,
                         "exception.message",
-                        null
-                    )
-                )
+                        null,
+                    ),
+                ),
             )
         }
 
@@ -299,9 +302,9 @@ internal class TokenRepositoryImplTest {
                     TokenizationError(
                         TokenizationError.GOOGLE_PAY_REQUEST_PARSING_ERROR,
                         "JSONObject[\"protocolVersion\"] not found.",
-                        null
-                    )
-                )
+                        null,
+                    ),
+                ),
             )
         }
 
@@ -323,7 +326,7 @@ internal class TokenRepositoryImplTest {
                     TokenizationError(
                         TokenizationError.GOOGLE_PAY_REQUEST_PARSING_ERROR,
                         "testMessage",
-                        java.lang.NullPointerException()
+                        java.lang.NullPointerException(),
                     )
                 val captureError = mutableListOf<Throwable?>()
 
@@ -341,8 +344,8 @@ internal class TokenRepositoryImplTest {
                     GooglePayTokenRequest(
                         "{protocolVersion: ECv1,signature: “test”,signedMessage: testSignedMessage}",
                         onSuccess = { },
-                        onFailure = { }
-                    )
+                        onFailure = { },
+                    ),
                 )
 
                 // Then
@@ -351,20 +354,20 @@ internal class TokenRepositoryImplTest {
                         mockTokenizationLogger.logErrorOnTokenRequestedEvent(
                             any(),
                             any(),
-                            captureNullable(captureError)
+                            captureNullable(captureError),
                         )
                     }
                     assertEquals(
                         expectedInternalErrorBody.errorCode,
-                        (captureError.firstOrNull() as? TokenizationError)?.errorCode
+                        (captureError.firstOrNull() as? TokenizationError)?.errorCode,
                     )
                     assertEquals(
                         expectedInternalErrorBody.message,
-                        (captureError.firstOrNull() as? TokenizationError)?.message
+                        (captureError.firstOrNull() as? TokenizationError)?.message,
                     )
                     assertEquals(
                         expectedInternalErrorBody.cause,
-                        (captureError.firstOrNull() as? TokenizationError)?.cause
+                        (captureError.firstOrNull() as? TokenizationError)?.cause,
                     )
                 }
             }
@@ -387,8 +390,8 @@ internal class TokenRepositoryImplTest {
                     GooglePayTokenRequest(
                         "{protocolVersion: ECv1,signature: “test”,signedMessage: testSignedMessage}",
                         onSuccess = { },
-                        onFailure = { }
-                    )
+                        onFailure = { },
+                    ),
                 )
 
                 // Then
@@ -401,7 +404,7 @@ internal class TokenRepositoryImplTest {
 
         private fun testGooglePayTokenResultInvocation(
             successHandlerInvoked: Boolean,
-            response: NetworkApiResponse<TokenDetailsResponse>
+            response: NetworkApiResponse<TokenDetailsResponse>,
         ) =
             runTest {
                 // Given
@@ -419,8 +422,8 @@ internal class TokenRepositoryImplTest {
                     GooglePayTokenRequest(
                         "{protocolVersion: ECv1,signature: “test”,signedMessage: testSignedMessage}",
                         onSuccess = { isSuccess = true },
-                        onFailure = { isSuccess = false }
-                    )
+                        onFailure = { isSuccess = false },
+                    ),
                 )
 
                 // Then
@@ -430,7 +433,7 @@ internal class TokenRepositoryImplTest {
             }
 
         private fun testGooglePayErrorHandlerInvocation(
-            response: NetworkApiResponse<TokenDetailsResponse>
+            response: NetworkApiResponse<TokenDetailsResponse>,
         ) = runTest {
             // Given
             var isSuccess: Boolean? = null
@@ -452,8 +455,8 @@ internal class TokenRepositoryImplTest {
                     onFailure = {
                         isSuccess = false
                         errorMessage = it
-                    }
-                )
+                    },
+                ),
             )
 
             // Then
@@ -487,8 +490,8 @@ internal class TokenRepositoryImplTest {
                     GooglePayTokenRequest(
                         "{protocolVersion: ECv1,signature: “test”,signedMessage: testSignedMessage}",
                         onSuccess = { },
-                        onFailure = { }
-                    )
+                        onFailure = { },
+                    ),
                 )
 
                 // Then
@@ -498,7 +501,7 @@ internal class TokenRepositoryImplTest {
                             mockTokenizationLogger.logTokenResponseEvent(
                                 eq(TokenizationConstants.GOOGLE_PAY),
                                 eq("test_key"),
-                                eq(successBody)
+                                eq(successBody),
                             )
                         }
                     } else {
@@ -508,7 +511,7 @@ internal class TokenRepositoryImplTest {
                                 eq("test_key"),
                                 null,
                                 501,
-                                serverErrorBody
+                                serverErrorBody,
                             )
                         }
                     }
@@ -528,9 +531,9 @@ internal class TokenRepositoryImplTest {
                     body = CVVTokenDetailsResponse(
                         type = "cvv",
                         token = "test_token",
-                        expiresOn = "2019-08-24T14:15:22Z"
-                    )
-                )
+                        expiresOn = "2019-08-24T14:15:22Z",
+                    ),
+                ),
             )
         }
 
@@ -538,7 +541,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCVVTokenizationRequest invoked with network error response then failure handler invoked`() {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = false,
-                response = NetworkApiResponse.NetworkError(Exception("Network connection lost"))
+                response = NetworkApiResponse.NetworkError(Exception("Network connection lost")),
             )
         }
 
@@ -546,7 +549,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCVVTokenizationRequest invoked with server error response then failure handler invoked`() {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = false,
-                response = NetworkApiResponse.ServerError(body = null, code = 123)
+                response = NetworkApiResponse.ServerError(body = null, code = 123),
             )
         }
 
@@ -558,15 +561,15 @@ internal class TokenRepositoryImplTest {
                     TokenizationError(
                         errorCode = "internal_error",
                         message = "exception.message",
-                        cause = null
-                    )
-                )
+                        cause = null,
+                    ),
+                ),
             )
         }
 
         private fun testCVVTokenResultInvocation(
             successHandlerInvoked: Boolean,
-            response: NetworkApiResponse<CVVTokenDetailsResponse>
+            response: NetworkApiResponse<CVVTokenDetailsResponse>,
         ) =
             runTest {
                 // Given
@@ -587,12 +590,12 @@ internal class TokenRepositoryImplTest {
                         cvv = "123",
                         cardScheme = CardScheme.VISA,
                         resultHandler = { result ->
-                        isSuccess = when (result) {
-                            is CVVTokenizationResultHandler.Success -> true
-                            is CVVTokenizationResultHandler.Failure -> false
-                        }
-                    }
-                    )
+                            isSuccess = when (result) {
+                                is CVVTokenizationResultHandler.Success -> true
+                                is CVVTokenizationResultHandler.Failure -> false
+                            }
+                        },
+                    ),
                 )
 
                 // Then

@@ -27,7 +27,7 @@ internal class ContainerStyleToModifierMapper : Mapper<ContainerStyle, Modifier>
 
         modifier = modifier.background(
             color = Color(color),
-            shape = composeShape
+            shape = composeShape,
         )
 
         borderStroke?.let { modifier = modifier.border(it.toComposeStroke(), composeShape) }

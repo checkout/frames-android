@@ -8,5 +8,5 @@ internal data class AddressSummaryComponentState(
     val subTitleState: TextLabelState,
     val addressPreviewState: TextLabelState,
     val editAddressButtonState: InternalButtonState,
-    val addAddressButtonState: InternalButtonState
+    val addAddressButtonState: InternalButtonState,
 )

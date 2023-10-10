@@ -19,25 +19,25 @@ public object DefaultCountryPickerStyle {
                 CountryPickerScreenConstants.titlePaddingTop,
                 CountryPickerScreenConstants.titlePaddingBottom,
                 CountryPickerScreenConstants.titlePaddingStart,
-                CountryPickerScreenConstants.titlePaddingEnd
-            )
+                CountryPickerScreenConstants.titlePaddingEnd,
+            ),
         )
         val searchFieldStyle = DefaultLightStyle.inputFieldStyle(true).copy(
             indicatorStyle = InputFieldIndicatorStyle.Border(
                 focusedBorderColor = CountryPickerScreenConstants.focusedBorderColor,
                 unfocusedBorderColor = CountryPickerScreenConstants.unfocusedBorderColor,
-                focusedBorderThickness = CountryPickerScreenConstants.focusedBorderThickness
+                focusedBorderThickness = CountryPickerScreenConstants.focusedBorderThickness,
             ),
             containerStyle = ContainerStyle(
                 margin = Margin(
                     start = CountryPickerScreenConstants.margin,
                     end = CountryPickerScreenConstants.margin,
-                    bottom = CountryPickerScreenConstants.margin
-                )
+                    bottom = CountryPickerScreenConstants.margin,
+                ),
             ),
             placeholderTextId = R.string.cko_search_county_placeholder,
             leadingIconStyle = ImageStyle(),
-            trailingIconStyle = ImageStyle()
+            trailingIconStyle = ImageStyle(),
         )
         val searchItemStyle = DefaultTextLabelStyle.title(
             fontSize = CountryPickerScreenConstants.searchItemFontSize,
@@ -46,14 +46,14 @@ public object DefaultCountryPickerStyle {
                 CountryPickerScreenConstants.searchItemPaddingTop,
                 CountryPickerScreenConstants.searchItemPaddingBottom,
                 CountryPickerScreenConstants.searchItemPaddingStart,
-                CountryPickerScreenConstants.searchItemPaddingEnd
+                CountryPickerScreenConstants.searchItemPaddingEnd,
             ),
         )
 
         return CountryPickerStyle(
             screenTitleStyle = screenTitleStyle,
             searchFieldStyle = searchFieldStyle,
-            searchItemStyle = searchItemStyle
+            searchItemStyle = searchItemStyle,
         )
     }
 }

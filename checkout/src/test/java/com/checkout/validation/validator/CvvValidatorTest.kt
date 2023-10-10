@@ -6,14 +6,12 @@ import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.CvvValidationRequest
 import com.checkout.validation.model.ValidationResult
 import com.checkout.validation.validator.contract.Validator
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertEquals
-
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-
 import java.util.stream.Stream
 
 @SuppressLint("NewApi")
@@ -30,12 +28,12 @@ internal class CvvValidatorTest {
     @MethodSource(
         "invalidCvvArguments",
         "validCvvArguments",
-        "invalidCardSchemeArguments"
+        "invalidCardSchemeArguments",
     )
     fun `Validation of given cvv and card scheme returns correct validation result`(
         cvv: String,
         cardScheme: CardScheme,
-        expectedResult: ValidationResult<Unit>
+        expectedResult: ValidationResult<Unit>,
     ) {
         // When
         val result = cvvValidator.validate(CvvValidationRequest(cvv, cardScheme))
@@ -45,7 +43,7 @@ internal class CvvValidatorTest {
             is ValidationResult.Success -> assertTrue(result is ValidationResult.Success<Unit>)
             is ValidationResult.Failure -> assertEquals(
                 expectedResult.error.errorCode,
-                (result as ValidationResult.Failure).error.errorCode
+                (result as ValidationResult.Failure).error.errorCode,
             )
         }
     }
@@ -98,7 +96,7 @@ internal class CvvValidatorTest {
             Arguments.of("1234", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_INVALID_LENGTH)),
             Arguments.of("12", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_INCOMPLETE_LENGTH)),
             Arguments.of("12 ", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
-            Arguments.of("12q", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS))
+            Arguments.of("12q", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
         )
 
@@ -115,7 +113,7 @@ internal class CvvValidatorTest {
             Arguments.of("567", CardScheme.VISA, provideSuccess()),
             Arguments.of("", CardScheme.UNKNOWN, provideSuccess()),
             Arguments.of("123", CardScheme.UNKNOWN, provideSuccess()),
-            Arguments.of("1234", CardScheme.UNKNOWN, provideSuccess())
+            Arguments.of("1234", CardScheme.UNKNOWN, provideSuccess()),
         )
 
         @JvmStatic

@@ -4,5 +4,5 @@ import androidx.annotation.ColorLong
 
 public data class ImageColors(
     @ColorLong
-    val tinColor: Long? = null
+    val tinColor: Long? = null,
 )

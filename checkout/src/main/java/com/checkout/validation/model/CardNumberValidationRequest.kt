@@ -11,5 +11,5 @@ internal data class CardNumberValidationRequest(
     /**
      * The eager validation flag representing as an [Boolean], false by default
      */
-    val isEagerValidation: Boolean = false
+    val isEagerValidation: Boolean = false,
 )

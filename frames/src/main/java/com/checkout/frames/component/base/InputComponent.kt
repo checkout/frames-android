@@ -15,14 +15,14 @@ internal fun InputComponent(
     style: InputComponentViewStyle,
     state: InputComponentState,
     onFocusChanged: ((Boolean) -> Unit)? = null,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) = with(state) {
     Column(modifier = style.containerModifier.wrapContentHeight()) {
         Row {
             Column(
                 modifier = Modifier
                     .weight(1F)
-                    .wrapContentHeight()
+                    .wrapContentHeight(),
             ) {
                 // Title label
                 if (titleState.isVisible.value) TextLabel(style.titleStyle, titleState)
@@ -32,7 +32,7 @@ internal fun InputComponent(
             Column(
                 Modifier
                     .align(Alignment.Bottom)
-                    .wrapContentHeight()
+                    .wrapContentHeight(),
             ) {
                 // Info label
                 if (infoState.isVisible.value) TextLabel(style.infoStyle, infoState)

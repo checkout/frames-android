@@ -25,7 +25,7 @@ internal class ThreeDSWebView constructor(context: Context) : WebView(context) {
         }
         layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
+            FrameLayout.LayoutParams.MATCH_PARENT,
         )
     }
 

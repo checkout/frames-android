@@ -11,5 +11,5 @@ internal data class ExpiryDateValidationRequest(
     /**
      * The expiry year representing as an [String] value YYYY format. (E.g. 2021)
      */
-    val expiryYear: String
+    val expiryYear: String,
 )

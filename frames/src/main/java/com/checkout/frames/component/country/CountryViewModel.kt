@@ -24,7 +24,7 @@ internal class CountryViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
-    style: CountryComponentStyle
+    style: CountryComponentStyle,
 ) : ViewModel() {
 
     val componentState = provideViewState(style.inputStyle)
@@ -70,8 +70,8 @@ internal class CountryViewModel @Inject constructor(
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 readOnly = true,
-                enabled = false
-            )
+                enabled = false,
+            ),
         )
 
         return viewStyle
@@ -79,7 +79,7 @@ internal class CountryViewModel @Inject constructor(
 
     internal class Factory(
         private val injector: Injector,
-        private val style: CountryComponentStyle
+        private val style: CountryComponentStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject
