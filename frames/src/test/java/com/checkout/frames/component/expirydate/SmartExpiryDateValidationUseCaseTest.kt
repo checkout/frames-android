@@ -49,7 +49,8 @@ internal class SmartExpiryDateValidationUseCaseTest {
     }
 
     @ParameterizedTest(
-        name = "Expected failed validation result {0} received for OnFocus\" + \"when invalid {1} expiry date requested",
+        name = "Expected failed validation result {0} received for OnFocus\" + \"when invalid {1} expiry date " +
+            "requested",
     )
     @MethodSource("validateInvalidExpiryDateForOnFocusBehaviourArguments")
     fun `when invalid expiry date is requested then return failure result for On Focus behaviour`(
@@ -60,7 +61,8 @@ internal class SmartExpiryDateValidationUseCaseTest {
     }
 
     @ParameterizedTest(
-        name = "Expected success validation result {0} received for OnFocusChanged when valid {1} expiry date requested",
+        name = "Expected success validation result {0} received for OnFocusChanged when valid {1} expiry date " +
+            "requested",
     )
     @MethodSource("validateSuccessExpiryDateOnFocusChangedBehaviourArguments")
     fun `when valid expiry date is requested then return success result for On Focus Changed behaviour`(

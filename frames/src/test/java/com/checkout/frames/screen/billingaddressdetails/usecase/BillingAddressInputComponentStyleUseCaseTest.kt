@@ -90,8 +90,7 @@ internal class BillingAddressInputComponentStyleUseCaseTest {
                     subtitleStyle = TextLabelViewStyle(),
                     titleStyle = TextLabelViewStyle(),
                 ),
-
-                )
+            )
         }
 
         // When
