@@ -41,12 +41,12 @@ workflows:
     steps:
     - android-lint@0:
         inputs:
-        - variant: "$VARIANT"
+          - variant: "$VARIANT"
         is_always_run: true
     - android-unit-test@1:
         inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - variant: "$VARIANT"
+          - project_location: "$PROJECT_LOCATION"
+          - variant: "$VARIANT"
         is_always_run: true
     - gradle-runner@2:
         inputs:
