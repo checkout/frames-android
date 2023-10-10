@@ -14,7 +14,7 @@ import com.checkout.frames.style.view.TextLabelViewStyle
 
 internal class CardSchemeComponentStyleToViewStyleMapper(
     private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
-    private val containerMapper: Mapper<ContainerStyle, Modifier>
+    private val containerMapper: Mapper<ContainerStyle, Modifier>,
 ) : Mapper<CardSchemeComponentStyle, CardSchemeComponentViewStyle> {
 
     override fun map(from: CardSchemeComponentStyle) = CardSchemeComponentViewStyle(
@@ -30,7 +30,7 @@ internal class CardSchemeComponentStyleToViewStyleMapper(
             FlowRowViewStyle(
                 mainAxisSpacing.dp,
                 crossAxisSpacing.dp,
-                containerMapper.map(containerStyle).fillMaxWidth()
+                containerMapper.map(containerStyle).fillMaxWidth(),
             )
         }
 }

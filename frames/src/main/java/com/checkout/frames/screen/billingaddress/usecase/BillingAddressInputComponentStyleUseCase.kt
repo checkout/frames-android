@@ -8,8 +8,10 @@ import com.checkout.frames.style.view.BillingAddressInputComponentViewStyle
 import com.checkout.frames.style.view.billingformdetails.BillingAddressInputComponentsViewContainerStyle
 
 internal class BillingAddressInputComponentStyleUseCase(
-    private val billingAddressInputComponentStyleMapper: Mapper<BillingAddressInputComponentStyle,
-            BillingAddressInputComponentViewStyle>
+    private val billingAddressInputComponentStyleMapper: Mapper<
+        BillingAddressInputComponentStyle,
+        BillingAddressInputComponentViewStyle,
+        >,
 ) : UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle> {
 
     override fun execute(data: BillingAddressDetailsStyle): BillingAddressInputComponentsViewContainerStyle {
@@ -19,8 +21,11 @@ internal class BillingAddressInputComponentStyleUseCase(
 
             inputComponentViewStyleList.add(
                 billingAddressInputComponentStyleMapper.map(
-                    BillingAddressInputComponentStyle(inputComponentStyleValue.key.name, inputComponentStyleValue.value)
-                )
+                    BillingAddressInputComponentStyle(
+                        inputComponentStyleValue.key.name,
+                        inputComponentStyleValue.value,
+                    ),
+                ),
             )
         }
 

@@ -5,10 +5,12 @@ import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
 import com.checkout.frames.BuildConfig
+import com.checkout.frames.api.PaymentFlowHandler
 import com.checkout.frames.component.addresssummary.AddressSummaryViewModel
+import com.checkout.frames.component.cardholdername.CardHolderNameViewModel
 import com.checkout.frames.component.cardnumber.CardNumberViewModel
-import com.checkout.frames.component.country.CountryViewModel
 import com.checkout.frames.component.cardscheme.CardSchemeViewModel
+import com.checkout.frames.component.country.CountryViewModel
 import com.checkout.frames.component.cvv.CvvViewModel
 import com.checkout.frames.component.expirydate.ExpiryDateViewModel
 import com.checkout.frames.component.paybutton.PayButtonViewModel
@@ -21,8 +23,6 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.BillingAd
 import com.checkout.frames.screen.countrypicker.CountryPickerViewModel
 import com.checkout.frames.screen.paymentdetails.PaymentDetailsViewModel
 import com.checkout.frames.screen.paymentform.PaymentFormViewModel
-import com.checkout.frames.api.PaymentFlowHandler
-import com.checkout.frames.component.cardholdername.CardHolderNameViewModel
 import com.checkout.frames.screen.paymentform.model.PrefillData
 import com.checkout.frames.usecase.CardTokenizationUseCase
 import com.checkout.frames.usecase.ClosePaymentFlowUseCase
@@ -56,7 +56,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             environment: Environment,
             paymentFlowHandler: PaymentFlowHandler,
             supportedCardSchemeList: List<CardScheme> = emptyList(),
-            prefillData: PrefillData? = null
+            prefillData: PrefillData? = null,
         ): Injector {
             val logger = EventLoggerProvider.provide().apply {
                 setup(context, environment, BuildConfig.LOGGING_IDENTIFIER, BuildConfig.PRODUCT_VERSION)
@@ -67,7 +67,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
                 CheckoutApiServiceFactory.create(publicKey, environment, context),
                 paymentFlowHandler::onSubmit,
                 paymentFlowHandler::onSuccess,
-                paymentFlowHandler::onFailure
+                paymentFlowHandler::onFailure,
             )
             return FramesInjector(
                 DaggerFramesDIComponent.builder()
@@ -76,7 +76,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
                     .closePaymentFlowUseCase(closePaymentFlowUseCase)
                     .supportedCardSchemes(supportedCardSchemeList)
                     .prefillData(prefillData)
-                    .build()
+                    .build(),
             )
         }
     }

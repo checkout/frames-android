@@ -13,10 +13,13 @@ internal class SmartExpiryDateValidationUseCase(private val cardValidator: CardV
 
     override fun execute(data: SmartExpiryDateValidationRequest): ValidationResult<String> {
         val isZeroPrefixExist = data.inputExpiryDate.isNotEmpty() &&
-                data.inputExpiryDate[0] > EXPIRY_DATE_ZERO_POSITION_CHECK
+            data.inputExpiryDate[0] > EXPIRY_DATE_ZERO_POSITION_CHECK
 
-        return if (data.isFocused) validateFocusedExpiryDate(data.inputExpiryDate, isZeroPrefixExist)
-        else validateExpiryDate(data.inputExpiryDate, isZeroPrefixExist)
+        return if (data.isFocused) {
+            validateFocusedExpiryDate(data.inputExpiryDate, isZeroPrefixExist)
+        } else {
+            validateExpiryDate(data.inputExpiryDate, isZeroPrefixExist)
+        }
     }
 
     private fun validateFocusedExpiryDate(

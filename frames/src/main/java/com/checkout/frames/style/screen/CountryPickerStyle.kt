@@ -9,5 +9,5 @@ public data class CountryPickerStyle @JvmOverloads constructor(
     var searchFieldStyle: InputFieldStyle = InputFieldStyle(),
     var searchItemStyle: TextLabelStyle = TextLabelStyle(),
     var containerStyle: ContainerStyle = ContainerStyle(color = 0xFFFFFFFF),
-    var withFlag: Boolean = true
+    var withFlag: Boolean = true,
 )

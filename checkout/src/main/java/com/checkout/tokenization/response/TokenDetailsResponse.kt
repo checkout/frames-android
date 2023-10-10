@@ -64,5 +64,5 @@ internal data class TokenDetailsResponse(
     val phone: PhoneEntity? = null,
 
     @Json(name = "name")
-    val name: String?
+    val name: String?,
 )

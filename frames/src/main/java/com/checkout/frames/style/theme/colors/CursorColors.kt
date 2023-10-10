@@ -10,7 +10,7 @@ public data class CursorColors(
     @ColorLong
     public val cursorHandleColor: Long,
     @ColorLong
-    public val cursorHighlightColor: Long
+    public val cursorHighlightColor: Long,
 ) {
     public constructor(cursorColor: Long) : this(cursorColor, cursorColor, cursorColor, cursorColor)
 }

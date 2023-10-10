@@ -10,5 +10,5 @@ internal data class CVVTokenNetworkRequest(
     val type: String,
 
     @Json(name = "token_data")
-    val tokenDataEntity: TokenDataEntity
+    val tokenDataEntity: TokenDataEntity,
 )

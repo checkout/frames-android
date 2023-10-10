@@ -9,5 +9,5 @@ public data class CardSchemeComponentStyle @JvmOverloads constructor(
     val titleStyle: TextLabelStyle = TextLabelStyle(),
     val imageStyle: ImageStyle? = null,
     val containerStyle: ContainerStyle = ContainerStyle(),
-    val imageContainerStyle: ImageContainerStyle = ImageContainerStyle()
+    val imageContainerStyle: ImageContainerStyle = ImageContainerStyle(),
 )

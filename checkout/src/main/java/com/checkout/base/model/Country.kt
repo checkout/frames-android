@@ -2,7 +2,7 @@ package com.checkout.base.model
 
 public enum class Country(
     public val iso3166Alpha2: String,
-    public val dialingCode: String
+    public val dialingCode: String,
 ) {
     AFGHANISTAN("AF", "93"),
     ALAND_ISLANDS("AX", "358"),
@@ -254,13 +254,13 @@ public enum class Country(
     WESTERN_SAHARA("EH", "2125288"),
     YEMEN("YE", "967"),
     ZAMBIA("ZM", "260"),
-    ZIMBABWE("ZW", "263");
+    ZIMBABWE("ZW", "263"),
+    ;
 
     public companion object {
 
         @JvmStatic
         public fun from(iso3166Alpha2: String?): Country? {
-
             val country: Country? = values().firstOrNull {
                 it.iso3166Alpha2.equals(iso3166Alpha2, true)
             }
@@ -271,7 +271,7 @@ public enum class Country(
         internal fun getCountry(dialingCode: String?, iso3166Alpha2: String?): Country? {
             val country: Country? = values().firstOrNull { country ->
                 country.dialingCode.equals(dialingCode, true) &&
-                        country.iso3166Alpha2.equals(iso3166Alpha2, true)
+                    country.iso3166Alpha2.equals(iso3166Alpha2, true)
             }
 
             return country

@@ -19,7 +19,9 @@ fun CustomButton(
         },
         enabled = isCVVValid.value,
         colors = ButtonDefaults.buttonColors(
-            contentColor = Color.White, containerColor = Color(0xFF0B5FF0), disabledContentColor = Color.Gray
+            contentColor = Color.White,
+            containerColor = Color(0xFF0B5FF0),
+            disabledContentColor = Color.Gray,
         ),
     ) {
         Text(text = "Pay")

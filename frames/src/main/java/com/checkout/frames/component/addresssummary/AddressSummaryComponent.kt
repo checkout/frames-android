@@ -17,10 +17,10 @@ import com.checkout.frames.view.TextLabelState
 internal fun AddressSummaryComponent(
     style: AddressSummaryComponentStyle,
     injector: Injector,
-    goToBillingAddressForm: () -> Unit
+    goToBillingAddressForm: () -> Unit,
 ) {
     val viewModel: AddressSummaryViewModel = viewModel(
-        factory = AddressSummaryViewModel.Factory(injector, style)
+        factory = AddressSummaryViewModel.Factory(injector, style),
     )
 
     viewModel.prepare()
@@ -39,14 +39,14 @@ internal fun AddressSummaryComponent(
             InternalButton(
                 style = viewModel.componentStyle.addAddressButtonStyle,
                 state = viewModel.componentState.addAddressButtonState,
-                onClick = goToBillingAddressForm
+                onClick = goToBillingAddressForm,
             )
         } else {
             AddressSummarySection(
                 style = viewModel.componentStyle.summarySectionStyle,
                 addressPreviewState = viewModel.componentState.addressPreviewState,
                 editAddressButtonState = viewModel.componentState.editAddressButtonState,
-                onEditButtonPress = goToBillingAddressForm
+                onEditButtonPress = goToBillingAddressForm,
             )
         }
     }
@@ -57,7 +57,7 @@ private fun AddressSummarySection(
     style: AddressSummarySectionViewStyle,
     addressPreviewState: TextLabelState,
     editAddressButtonState: InternalButtonState,
-    onEditButtonPress: () -> Unit
+    onEditButtonPress: () -> Unit,
 ) {
     Column(modifier = style.modifier) {
         // Address Preview
@@ -68,7 +68,7 @@ private fun AddressSummarySection(
         InternalButton(
             style = style.editAddressButtonStyle,
             state = editAddressButtonState,
-            onClick = onEditButtonPress
+            onClick = onEditButtonPress,
         )
     }
 }

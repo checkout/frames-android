@@ -34,13 +34,13 @@ internal fun BillingAddressDetailsScreen(
     style: BillingAddressDetailsStyle,
     injector: Injector,
     navController: NavHostController,
-    onClose: () -> Unit
+    onClose: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val resetFocus = remember { mutableStateOf(false) }
 
     val viewModel: BillingAddressDetailsViewModel = viewModel(
-        factory = BillingAddressDetailsViewModel.Factory(injector, style)
+        factory = BillingAddressDetailsViewModel.Factory(injector, style),
     )
 
     if (viewModel.goBack.value) onClose()
@@ -50,21 +50,22 @@ internal fun BillingAddressDetailsScreen(
             .fillMaxWidth()
             .fillMaxHeight()
             .clickable(
-                interactionSource = interactionSource, indication = null
-            ) { resetFocus.value = true }
+                interactionSource = interactionSource,
+                indication = null,
+            ) { resetFocus.value = true },
     ) {
         HeaderComponent(
             screenTitleStyle = viewModel.screenTitleStyle,
             screenTitleState = viewModel.screenTitleState,
             screenButtonStyle = viewModel.screenButtonStyle,
             screenButtonState = viewModel.screenButtonState,
-            onTapDoneButton = viewModel::onTapDoneButton
+            onTapDoneButton = viewModel::onTapDoneButton,
         )
 
         LazyColumn(
             modifier = viewModel.inputComponentsContainerModifier
                 .fillMaxWidth()
-                .fillMaxHeight()
+                .fillMaxHeight(),
         ) {
             itemsIndexed(items = viewModel.inputComponentsStateList) { index, state ->
                 if (state.addressFieldName == BillingFormFields.Country.name) {
@@ -80,7 +81,7 @@ internal fun BillingAddressDetailsScreen(
                         inputComponentViewStyle = viewModel.inputComponentViewStyleList[index],
                         inputComponentState = state,
                         onFocusChanged = viewModel::onFocusChanged,
-                        onValueChange = viewModel::onAddressFieldTextChange
+                        onValueChange = viewModel::onAddressFieldTextChange,
                     )
                 }
             }
@@ -99,7 +100,7 @@ private fun HeaderComponent(
     screenTitleState: TextLabelState,
     screenButtonStyle: InternalButtonViewStyle,
     screenButtonState: InternalButtonState,
-    onTapDoneButton: () -> Unit
+    onTapDoneButton: () -> Unit,
 ) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         TextLabel(style = screenTitleStyle, state = screenTitleState)

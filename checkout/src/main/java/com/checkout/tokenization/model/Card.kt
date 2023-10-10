@@ -32,6 +32,6 @@ public data class Card @JvmOverloads constructor(
     /**
      * Cardholder [Phone].
      */
-    val phone: Phone? = null
+    val phone: Phone? = null,
 
 )

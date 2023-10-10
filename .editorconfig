@@ -1,19 +1,16 @@
-# top-most EditorConfig file
 root = true
 
 [*.{kt,kts}]
-# true (recommended) / false
+indent_style = space
+indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
-# Comma-separated list of rules to disable (Since 0.34.0)
-# Note that rules in any ruleset other than the standard ruleset will need to be prefixed
-# by the ruleset identifier.
-disabled_rules = experimental:annotation, import-ordering, indent
-# Max symbols in line
 max_line_length = 120
+ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
+ij_any_method_parameters_wrap = normal
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
 
-# According to https://kotlinlang.org/docs/reference/coding-conventions.html#names-for-test-methods it is acceptable to write method names
-# in natural language. When using natural language, the description tends to be longer. Allow lines containing an identifier between
-# backticks to be longer than the maximum line length. (Since 0.41.0)
 [**/test/**.kt]
+max-line-length = 120
 ktlint_ignore_back_ticked_identifier = true

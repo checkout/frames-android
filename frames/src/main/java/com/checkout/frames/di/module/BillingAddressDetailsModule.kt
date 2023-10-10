@@ -3,8 +3,8 @@ package com.checkout.frames.di.module
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.base.InputComponentState
-import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentState
+import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.mapper.billingaddressdetails.BillingAddressInputComponentStyleToStateMapper
 import com.checkout.frames.mapper.billingaddressdetails.BillingAddressInputComponentStyleToViewStyleMapper
 import com.checkout.frames.screen.billingaddress.usecase.BillingAddressInputComponentStateUseCase
@@ -29,21 +29,21 @@ internal class BillingAddressDetailsModule {
 
         @Provides
         fun provideBillingAddressInputComponentsStateMapper(
-            inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>
+            inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
         ): Mapper<BillingAddressInputComponentStyle, BillingAddressInputComponentState> =
             BillingAddressInputComponentStyleToStateMapper(inputComponentStateMapper)
 
         @Provides
         fun provideBillingAddressInputComponentsStateUseCase(
             billingAddressInputComponentStateMapper:
-            Mapper<BillingAddressInputComponentStyle, BillingAddressInputComponentState>
+            Mapper<BillingAddressInputComponentStyle, BillingAddressInputComponentState>,
         ): UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsContainerState> =
             BillingAddressInputComponentStateUseCase(billingAddressInputComponentStateMapper)
 
         @Provides
         fun provideBillingAddressInputComponentsStyleUseCase(
             billingAddressInputComponentStyleMapper:
-            Mapper<BillingAddressInputComponentStyle, BillingAddressInputComponentViewStyle>
+            Mapper<BillingAddressInputComponentStyle, BillingAddressInputComponentViewStyle>,
         ): UseCase<BillingAddressDetailsStyle, BillingAddressInputComponentsViewContainerStyle> =
             BillingAddressInputComponentStyleUseCase(billingAddressInputComponentStyleMapper)
     }

@@ -13,16 +13,16 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 internal fun CardSchemeComponent(
     style: CardSchemeComponentStyle,
-    injector: Injector
+    injector: Injector,
 ) {
     val viewModel: CardSchemeViewModel = viewModel(
-        factory = CardSchemeViewModel.Factory(injector, style)
+        factory = CardSchemeViewModel.Factory(injector, style),
     )
 
     BasicCardSchemeComponent(
         viewModel.componentStyle,
         viewModel.componentState,
-        viewModel.componentSupportedCardSchemeIcons
+        viewModel.componentSupportedCardSchemeIcons,
     )
 }
 
@@ -30,7 +30,7 @@ internal fun CardSchemeComponent(
 private fun BasicCardSchemeComponent(
     style: CardSchemeComponentViewStyle,
     state: CardSchemeComponentState,
-    supportedCardSchemeIconList: List<@Composable (() -> Unit)?>
+    supportedCardSchemeIconList: List<@Composable (() -> Unit)?>,
 ) = with(style) {
     Column(modifier = style.containerModifier.wrapContentHeight()) {
         // Title label
@@ -41,7 +41,7 @@ private fun BasicCardSchemeComponent(
         FlowRow(
             modifier = flowRowViewStyle.imagesContainerModifier,
             mainAxisSpacing = flowRowViewStyle.mainAxisSpacing,
-            crossAxisSpacing = flowRowViewStyle.crossAxisSpacing
+            crossAxisSpacing = flowRowViewStyle.crossAxisSpacing,
         ) {
             supportedCardSchemeIconList.forEach { it?.invoke() }
         }

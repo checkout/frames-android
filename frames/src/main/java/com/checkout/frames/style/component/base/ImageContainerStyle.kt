@@ -6,5 +6,5 @@ public data class ImageContainerStyle @JvmOverloads constructor(
     /**  The cross axis spacing between the rows of the layout. */
     val crossAxisSpacing: Int = 0,
     /** supported images container style. */
-    val containerStyle: ContainerStyle = ContainerStyle()
+    val containerStyle: ContainerStyle = ContainerStyle(),
 )

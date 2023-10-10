@@ -16,8 +16,10 @@ internal class InternalCVVComponentApi(
         cvvComponentConfig = cvvComponentConfig,
         cvvTokenizationUseCase = CVVTokenizationUseCase(
             checkoutApiService = CheckoutApiServiceFactory.create(
-                publicKey = publicKey, environment = environment, context = context
-            )
-        )
+                publicKey = publicKey,
+                environment = environment,
+                context = context,
+            ),
+        ),
     )
 }

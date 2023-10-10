@@ -51,7 +51,7 @@ internal class CVVComponentDetailsValidatorTest {
         val expectedResult = ValidationResult.Failure(CheckoutError(CVV_INVALID_LENGTH))
         every {
             mockCvvValidator.validate(
-                CvvValidationRequest(mockCvv, mockCardScheme)
+                CvvValidationRequest(mockCvv, mockCardScheme),
             )
         } returns ValidationResult.Failure(CheckoutError(CVV_INVALID_LENGTH))
 

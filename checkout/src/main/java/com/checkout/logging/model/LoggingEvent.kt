@@ -10,7 +10,7 @@ import java.util.Date
 public class LoggingEvent constructor(
     internal val eventType: LoggingEventType,
     override val monitoringLevel: MonitoringLevel = MonitoringLevel.INFO,
-    override val properties: Map<String, Any> = emptyMap()
+    override val properties: Map<String, Any> = emptyMap(),
 ) : Event {
 
     override val time: Date = Date()

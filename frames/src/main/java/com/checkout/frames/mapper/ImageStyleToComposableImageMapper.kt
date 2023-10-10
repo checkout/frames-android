@@ -1,11 +1,11 @@
 package com.checkout.frames.mapper
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +36,7 @@ internal class ImageStyleToComposableImageMapper : Mapper<ImageStyle?, @Composab
             modifier = modifier,
             painter = image,
             contentDescription = stringResource(R.string.cko_content_description_image),
-            colorFilter = style.tinColor?.let { ColorFilter.tint(Color(it)) }
+            colorFilter = style.tinColor?.let { ColorFilter.tint(Color(it)) },
         )
     }
 }

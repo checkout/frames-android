@@ -12,8 +12,8 @@ public data class AddressSummaryComponentStyle @JvmOverloads constructor(
         TextLabelStyle(),
         null,
         ButtonStyle(),
-        ContainerStyle()
+        ContainerStyle(),
     ),
     val containerStyle: ContainerStyle = ContainerStyle(),
-    val isOptional: Boolean = false
+    val isOptional: Boolean = false,
 )

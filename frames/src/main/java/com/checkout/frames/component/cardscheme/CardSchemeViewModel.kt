@@ -20,7 +20,7 @@ internal class CardSchemeViewModel @Inject constructor(
     private val cardSchemeComponentStyleMapper: Mapper<CardSchemeComponentStyle, CardSchemeComponentViewStyle>,
     private val cardSchemeComponentStateMapper: Mapper<CardSchemeComponentStyle, CardSchemeComponentState>,
     private val imageMapper: ImageStyleToComposableImageMapper,
-    private val style: CardSchemeComponentStyle
+    private val style: CardSchemeComponentStyle,
 ) : ViewModel() {
 
     val componentState = provideViewState(style)
@@ -45,7 +45,7 @@ internal class CardSchemeViewModel @Inject constructor(
 
     internal class Factory(
         private val injector: Injector,
-        private val style: CardSchemeComponentStyle
+        private val style: CardSchemeComponentStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

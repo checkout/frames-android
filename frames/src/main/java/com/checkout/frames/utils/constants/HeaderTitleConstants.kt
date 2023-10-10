@@ -6,6 +6,7 @@ import com.checkout.frames.model.font.Font
 public object HeaderTitleConstants {
     @ColorLong
     public const val textColor: Long = 0xFF141414
+
     @ColorLong
     public const val backgroundColor: Long = 0xFFFFFFFF
 
@@ -19,6 +20,7 @@ public object HeaderTitleConstants {
 
     /** Leading icon size in dp. */
     public const val leadingIconSize: Int = 14
+
     /** Leading icon margin in dp. */
     public const val leadingIconPaddingEnd: Int = 8
     public const val leadingIconPaddingStart: Int = 8

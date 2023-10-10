@@ -23,7 +23,7 @@ public object CardValidatorFactory {
             ExpiryDateValidator(),
             CvvValidator(),
             CardNumberValidator(LuhnChecker()),
-            EventLoggerProvider.provide()
+            EventLoggerProvider.provide(),
         )
     }
 
@@ -35,7 +35,7 @@ public object CardValidatorFactory {
         return CardDetailsValidator(
             ExpiryDateValidator(),
             CvvValidator(),
-            CardNumberValidator(LuhnChecker())
+            CardNumberValidator(LuhnChecker()),
         )
     }
 }

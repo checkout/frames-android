@@ -3,7 +3,7 @@ package com.checkout.frames.component.cvv
 import com.checkout.frames.component.base.InputComponentState
 
 internal data class CvvComponentState(
-    val inputState: InputComponentState
+    val inputState: InputComponentState,
 ) {
 
     val cvv = inputState.inputFieldState.text

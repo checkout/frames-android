@@ -26,7 +26,7 @@ internal interface TokenizationLogger {
         publicKey: String,
         tokenDetails: TokenDetailsResponse? = null,
         code: Int? = null,
-        errorResponse: ErrorResponse? = null
+        errorResponse: ErrorResponse? = null,
     )
 
     /**

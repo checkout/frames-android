@@ -11,7 +11,7 @@ import com.checkout.validation.validator.contract.Validator
  * Class used to validate card number.
  */
 internal class CardNumberValidator(
-    private val checker: Checker<String>
+    private val checker: Checker<String>,
 ) : Validator<CardNumberValidationRequest, CardScheme> {
 
     /**
@@ -42,15 +42,19 @@ internal class CardNumberValidator(
     private fun validate(cardNumber: String): CardScheme {
         val cardScheme = provideCardScheme(cardNumber, false)
 
-        if (cardScheme == CardScheme.UNKNOWN) throw ValidationError(
-            ValidationError.CARD_NUMBER_SCHEME_UNRECOGNIZED,
-            "Card scheme not recognized"
-        )
+        if (cardScheme == CardScheme.UNKNOWN) {
+            throw ValidationError(
+                ValidationError.CARD_NUMBER_SCHEME_UNRECOGNIZED,
+                "Card scheme not recognized",
+            )
+        }
 
-        if (!checker.check(cardNumber)) throw ValidationError(
-            ValidationError.CARD_NUMBER_LUHN_CHECK_ERROR,
-            "Card number Luhn check error"
-        )
+        if (!checker.check(cardNumber)) {
+            throw ValidationError(
+                ValidationError.CARD_NUMBER_LUHN_CHECK_ERROR,
+                "Card number Luhn check error",
+            )
+        }
 
         return cardScheme
     }
@@ -66,10 +70,12 @@ internal class CardNumberValidator(
 
     @Throws(ValidationError::class)
     private fun provideCardScheme(cardNumber: String, isEager: Boolean): CardScheme {
-        if (cardNumber.any { !it.isDigit() }) throw ValidationError(
-            ValidationError.CARD_NUMBER_INVALID_CHARACTERS,
-            "Card number should contain only digits"
-        )
+        if (cardNumber.any { !it.isDigit() }) {
+            throw ValidationError(
+                ValidationError.CARD_NUMBER_INVALID_CHARACTERS,
+                "Card number should contain only digits",
+            )
+        }
 
         CardScheme.values().forEach {
             val regex = if (isEager) it.eagerRegex else it.regex

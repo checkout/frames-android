@@ -20,7 +20,8 @@ internal class CVVToTokenNetworkRequestMapperTest {
     fun `mapping of CVVTokenizationRequest to CVVTokenNetworkRequest data`() {
         // Given
         val expectedCVVTokenNetworkRequest = CVVTokenNetworkRequest(
-            TokenizationConstants.CVV, TokenDataEntity("123")
+            TokenizationConstants.CVV,
+            TokenDataEntity("123"),
         )
 
         val request = TokenizationRequestTestData.cvvTokenizationRequest

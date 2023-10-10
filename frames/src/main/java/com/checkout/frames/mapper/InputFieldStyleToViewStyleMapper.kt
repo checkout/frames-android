@@ -15,11 +15,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.model.InputFieldColors
-import com.checkout.frames.style.component.base.TextLabelStyle
-import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.component.base.ContainerStyle
-import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
+import com.checkout.frames.style.component.base.InputFieldStyle
+import com.checkout.frames.style.component.base.TextLabelStyle
+import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
 import com.checkout.frames.utils.extensions.disabledIndicatorColor
@@ -32,7 +32,7 @@ import com.checkout.frames.view.TextLabel
 import com.checkout.frames.view.TextLabelState
 
 internal class InputFieldStyleToViewStyleMapper(
-    private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>
+    private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
 ) : Mapper<InputFieldStyle, InputFieldViewStyle> {
 
     override fun map(from: InputFieldStyle): InputFieldViewStyle = InputFieldViewStyle(
@@ -45,7 +45,7 @@ internal class InputFieldStyleToViewStyleMapper(
         colors = provideColors(from),
         focusedBorderThickness = provideFocusedBorderThickness(from.indicatorStyle),
         unfocusedBorderThickness = provideUnfocusedBorderThickness(from.indicatorStyle),
-        keyboardOptions = from.keyboardOptions
+        keyboardOptions = from.keyboardOptions,
     )
 
     @SuppressLint("ModifierFactoryExtensionFunction")
@@ -63,7 +63,7 @@ internal class InputFieldStyleToViewStyleMapper(
     private fun providePlaceholder(
         placeholderText: String,
         placeholderTextId: Int?,
-        placeholderStyle: TextStyle
+        placeholderStyle: TextStyle,
     ): @Composable (() -> Unit) =
         @Composable {
             TextLabel(
@@ -71,14 +71,14 @@ internal class InputFieldStyleToViewStyleMapper(
                     TextLabelStyle(
                         placeholderText,
                         placeholderTextId,
-                        textStyle = placeholderStyle
-                    )
+                        textStyle = placeholderStyle,
+                    ),
                 ),
                 TextLabelState(
                     mutableStateOf(placeholderText),
                     mutableStateOf(placeholderTextId),
-                    isVisible = mutableStateOf(true)
-                )
+                    isVisible = mutableStateOf(true),
+                ),
             )
         }
 
@@ -108,6 +108,6 @@ internal class InputFieldStyleToViewStyleMapper(
         cursorColor = style.cursorStyle?.cursorColor?.let { Color(it) },
         errorCursorColor = style.cursorStyle?.errorCursorColor?.let { Color(it) },
         cursorHandleColor = style.cursorStyle?.cursorHandleColor?.let { Color(it) },
-        cursorHighlightColor = style.cursorStyle?.cursorHighlightColor?.let { Color(it) }
+        cursorHighlightColor = style.cursorStyle?.cursorHighlightColor?.let { Color(it) },
     )
 }

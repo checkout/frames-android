@@ -27,7 +27,7 @@ public sealed class InputFieldIndicatorStyle {
         val disabledBorderColor: Long = BorderConstants.disabledBorderColor,
         /** The 32-bit ARGB color to create an error border Color from. */
         @ColorLong
-        val errorBorderColor: Long = BorderConstants.errorBorderColor
+        val errorBorderColor: Long = BorderConstants.errorBorderColor,
     ) : InputFieldIndicatorStyle()
 
     public data class Underline @JvmOverloads constructor(
@@ -46,6 +46,6 @@ public sealed class InputFieldIndicatorStyle {
         val disabledUnderlineColor: Long = UnderlineConstants.disabledUnderlineColor,
         /** The 32-bit ARGB color to create an error border Color from. */
         @ColorLong
-        val errorUnderlineColor: Long = UnderlineConstants.errorUnderlineColor
+        val errorUnderlineColor: Long = UnderlineConstants.errorUnderlineColor,
     ) : InputFieldIndicatorStyle()
 }

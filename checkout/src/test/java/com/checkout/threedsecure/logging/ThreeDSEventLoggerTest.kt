@@ -9,7 +9,6 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.slot
 import io.mockk.verify
 import org.amshove.kluent.internal.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -70,7 +69,7 @@ internal class ThreeDSEventLoggerTest {
         val expected = LoggingEvent(
             ThreeDSEventType.COMPLETED,
             MonitoringLevel.INFO,
-            mapOf("success" to true, "tokenID" to "testToken")
+            mapOf("success" to true, "tokenID" to "testToken"),
         )
         val capturedEvent = slot<LoggingEvent>()
 
@@ -97,8 +96,8 @@ internal class ThreeDSEventLoggerTest {
                 "success" to false,
                 "errorCodes" to "123",
                 "message" to "testMessage",
-                "exception" to (mockError).stackTraceToString()
-            )
+                "exception" to (mockError).stackTraceToString(),
+            ),
         )
         val capturedEvent = slot<LoggingEvent>()
 

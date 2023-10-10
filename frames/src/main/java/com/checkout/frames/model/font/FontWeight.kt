@@ -6,5 +6,5 @@ public enum class FontWeight {
     Medium,
     SemiBold,
     Bold,
-    ExtraBold
+    ExtraBold,
 }

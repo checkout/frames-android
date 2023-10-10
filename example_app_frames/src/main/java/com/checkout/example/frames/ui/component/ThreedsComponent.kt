@@ -47,7 +47,7 @@ fun ThreedComponent(context: Context) {
             .fillMaxWidth()
             .padding(start = 24.dp, end = 24.dp, bottom = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         var textValue by remember { mutableStateOf(TextFieldValue("")) }
         OutlinedTextField(
@@ -58,9 +58,10 @@ fun ThreedComponent(context: Context) {
             shape = RoundedCornerShape(CORNER_RADIUS_PERCENT),
             placeholder = { Text(context.getString(R.string.enter_3ds_redirection_url)) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = ButtonBorder, placeholderColor = GrayColor
+                unfocusedBorderColor = ButtonBorder,
+                placeholderColor = GrayColor,
             ),
-            onValueChange = { textValue = it }
+            onValueChange = { textValue = it },
         )
 
         Card(
@@ -78,11 +79,12 @@ fun ThreedComponent(context: Context) {
                     context.startActivity(intent)
                 } else {
                     context.showAlertDialog(
-                         context.getString(R.string.empty_url), context.getString(R.string.paste_valid_link)
+                        context.getString(R.string.empty_url),
+                        context.getString(R.string.paste_valid_link),
                     )
                 }
             },
-            colors = CardDefaults.cardColors(containerColor = Color.Transparent, contentColor = DarkBlue)
+            colors = CardDefaults.cardColors(containerColor = Color.Transparent, contentColor = DarkBlue),
         ) {
             Image(
                 painter = painterResource(id = R.mipmap.cloud),
@@ -91,7 +93,7 @@ fun ThreedComponent(context: Context) {
                     .padding(top = 12.dp, bottom = 12.dp)
                     .align(CenterHorizontally),
                 alignment = Alignment.Center,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }

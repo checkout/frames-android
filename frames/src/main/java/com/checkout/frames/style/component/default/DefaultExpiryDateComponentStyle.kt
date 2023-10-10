@@ -11,7 +11,7 @@ public object DefaultExpiryDateComponentStyle {
             titleTextId = R.string.cko_expiry_date_component_title,
             subtitleTextId = R.string.cko_expiry_date_component_subtitle,
             placeholderResourceTextId = R.string.cko_expiry_date_component_placeholder,
-            margin = Margin(bottom = PaymentDetailsScreenConstants.marginBottom)
-        )
+            margin = Margin(bottom = PaymentDetailsScreenConstants.marginBottom),
+        ),
     )
 }

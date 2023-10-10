@@ -111,6 +111,6 @@ public class PaymentFormComponentBuilder : ObjectBuilder<PaymentFormComponent> {
         placeholderResourceTextId = placeholderResourceTextId,
         backIconImageResourceID = backIconImageID,
         trailingIconImageResourceID = trailingIconImageID,
-        leadingIconImageResourceID = leadingIconImageID
+        leadingIconImageResourceID = leadingIconImageID,
     )
 }

@@ -13,6 +13,6 @@ internal class CVVToTokenNetworkRequestMapper : Mapper<CVVTokenizationRequest, C
 
     override fun map(from: CVVTokenizationRequest): CVVTokenNetworkRequest = CVVTokenNetworkRequest(
         TokenizationConstants.CVV,
-        TokenDataEntity(from.cvv)
+        TokenDataEntity(from.cvv),
     )
 }

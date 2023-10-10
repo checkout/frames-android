@@ -9,11 +9,11 @@ import com.checkout.base.model.Country
 import com.checkout.base.usecase.UseCase
 import com.checkout.frames.component.provider.ComponentProvider
 import com.checkout.frames.logging.PaymentFormEventType
-import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.ImageStyleToClickableComposableImageMapper
+import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mock.PaymentFormConfigTestData
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress.Companion.isEdited
@@ -99,7 +99,7 @@ internal class PaymentDetailsViewModelTest {
             // Then
             verify(exactly = 1) {
                 spyTextLabelStyleMapper.map(
-                    eq(TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle))
+                    eq(TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle)),
                 )
             }
         }
@@ -112,7 +112,7 @@ internal class PaymentDetailsViewModelTest {
             // Then
             verify(exactly = 1) {
                 spyTextLabelStateMapper.map(
-                    eq(TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle))
+                    eq(TextLabelStyle(text, textId, textStyle, containerStyle = containerStyle)),
                 )
             }
         }
@@ -149,7 +149,7 @@ internal class PaymentDetailsViewModelTest {
         mockPaymentStateManager.billingAddress.value = BillingAddress(
             address = PaymentFormConfigTestData.address,
             name = "Test name",
-            phone = PaymentFormConfigTestData.phone
+            phone = PaymentFormConfigTestData.phone,
         )
 
         // When
@@ -168,7 +168,7 @@ internal class PaymentDetailsViewModelTest {
         every { mockPaymentStateManager.billingAddress.value } returns BillingAddress(
             address = PaymentFormConfigTestData.address,
             name = "Test name",
-            phone = PaymentFormConfigTestData.phone
+            phone = PaymentFormConfigTestData.phone,
         )
 
         // When
@@ -218,10 +218,10 @@ internal class PaymentDetailsViewModelTest {
 
     @ParameterizedTest(
         name = "When view model initialised with: cvvComponentStyle is null = {0}, " +
-                "CardHolderNameComponentStyle is null = {1}, \"CardHolderNameComponentStyle is optional = {2} " +
-                "addressSummaryComponentStyle is null = {3} " + "and addressSummaryComponentStyle is optional = {4}; " +
-                "Then payment state is reset with: " +
-                "isCvvValid = {5} isBillingAddressValid = {6} and isCardHolderNameValid = {7}"
+            "CardHolderNameComponentStyle is null = {1}, \"CardHolderNameComponentStyle is optional = {2} " +
+            "addressSummaryComponentStyle is null = {3} " + "and addressSummaryComponentStyle is optional = {4}; " +
+            "Then payment state is reset with: " +
+            "isCvvValid = {5} isBillingAddressValid = {6} and isCardHolderNameValid = {7}",
     )
     @MethodSource("resetArguments")
     fun `when view model is initialised then payment state is reset with correct values`(
@@ -232,14 +232,17 @@ internal class PaymentDetailsViewModelTest {
         isAddressOptional: Boolean,
         isCvvValid: Boolean,
         isBillingAddressValid: Boolean,
-        isCardHolderNameValid: Boolean
+        isCardHolderNameValid: Boolean,
     ) {
         // Given
         val style = PaymentDetailsStyle().apply {
             if (isCvvStyleNull) cvvStyle = null
 
-            cardHolderNameStyle = if (isCardHolderNameStyleNull) null
-            else DefaultCardHolderNameComponentStyle.light(isOptional = isCardHolderNameOptional)
+            cardHolderNameStyle = if (isCardHolderNameStyleNull) {
+                null
+            } else {
+                DefaultCardHolderNameComponentStyle.light(isOptional = isCardHolderNameOptional)
+            }
 
             addressSummaryStyle =
                 if (isAddressStyleNull) null else addressSummaryStyle?.copy(isOptional = isAddressOptional)
@@ -252,7 +255,10 @@ internal class PaymentDetailsViewModelTest {
         val isBillingAddressEnabled = !isAddressStyleNull
         verify {
             mockPaymentStateManager.resetPaymentState(
-                isCvvValid, isCardHolderNameValid, isBillingAddressValid, isBillingAddressEnabled
+                isCvvValid,
+                isCardHolderNameValid,
+                isBillingAddressValid,
+                isBillingAddressEnabled,
             )
         }
     }
@@ -267,7 +273,7 @@ internal class PaymentDetailsViewModelTest {
             mockClosePaymentFlowUseCase,
             mockPaymentStateManager,
             mockLogger,
-            style
+            style,
         )
     }
 
@@ -285,7 +291,7 @@ internal class PaymentDetailsViewModelTest {
             Arguments.of(false, false, false, false, false, false, false, false),
             Arguments.of(true, true, true, false, false, true, false, true),
             Arguments.of(true, false, true, true, false, true, true, true),
-            Arguments.of(true, true, false, false, true, true, true, true)
+            Arguments.of(true, true, false, false, true, true, true, true),
         )
     }
 }

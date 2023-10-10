@@ -11,5 +11,5 @@ public data class ScreenHeaderStyle @JvmOverloads constructor(
     var textId: Int? = null,
     var textStyle: TextStyle = TextStyle(),
     public var backIconStyle: ImageStyle = ImageStyle(),
-    public var containerStyle: ContainerStyle = ContainerStyle()
+    public var containerStyle: ContainerStyle = ContainerStyle(),
 )

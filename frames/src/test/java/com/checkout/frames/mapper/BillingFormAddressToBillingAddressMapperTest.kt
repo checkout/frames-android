@@ -29,7 +29,7 @@ internal class BillingFormAddressToBillingAddressMapperTest {
     }
 
     @ParameterizedTest(
-        name = "When summary of billing address {0} is requested then addressPreview {1} is provided"
+        name = "When summary of billing address {0} is requested then addressPreview {1} is provided",
     )
     @MethodSource("testBillingAddressSummaryArguments")
     fun `mapping of BillingFormAddress to BillingAddress data should return correct data`(
@@ -63,9 +63,9 @@ internal class BillingFormAddressToBillingAddressMapperTest {
                         city = "city",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
+                        country = Country.UNITED_KINGDOM,
                     ),
-                    phone = Phone("123", Country.UNITED_KINGDOM)
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 BillingAddress(
                     address = Address(
@@ -74,15 +74,17 @@ internal class BillingFormAddressToBillingAddressMapperTest {
                         city = "city",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
+                        country = Country.UNITED_KINGDOM,
                     ),
-                    phone = Phone("123", Country.UNITED_KINGDOM)
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 BillingFormAddress(
-                    name = "Test name", phone = Phone("123", Country.UNITED_KINGDOM)
+                    name = "Test name",
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 BillingAddress(
-                    name = "Test name", phone = Phone("123", Country.UNITED_KINGDOM)
+                    name = "Test name",
+                    phone = Phone("123", Country.UNITED_KINGDOM),
                 ),
                 BillingFormAddress(name = "Test name"), BillingAddress(name = "Test name"),
                 BillingFormAddress(
@@ -93,8 +95,8 @@ internal class BillingFormAddressToBillingAddressMapperTest {
                         city = "",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
-                    )
+                        country = Country.UNITED_KINGDOM,
+                    ),
                 ),
                 BillingAddress(
                     name = "Test name",
@@ -104,13 +106,13 @@ internal class BillingFormAddressToBillingAddressMapperTest {
                         city = "",
                         state = "state",
                         zip = "zipcode",
-                        country = Country.UNITED_KINGDOM
-                    )
+                        country = Country.UNITED_KINGDOM,
+                    ),
                 ),
                 BillingFormAddress(), BillingAddress(),
                 BillingFormAddress(name = "Test name", address = null),
-                BillingAddress(name = "Test name", address = BillingAddress().address)
-            )
+                BillingAddress(name = "Test name", address = BillingAddress().address),
+            ),
         )
     }
 }

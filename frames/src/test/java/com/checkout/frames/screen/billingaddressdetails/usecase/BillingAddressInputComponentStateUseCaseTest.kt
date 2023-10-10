@@ -8,8 +8,8 @@ import com.checkout.frames.component.billingaddressfields.BillingAddressInputCom
 import com.checkout.frames.component.billingaddressfields.BillingAddressInputComponentsContainerState
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.billingaddressdetails.BillingAddressInputComponentStyleToStateMapper
 import com.checkout.frames.mock.BillingAddressDetailsTestData
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
@@ -33,11 +33,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class BillingAddressInputComponentStateUseCaseTest {
 
     @SpyK
-    lateinit var mockBillingAddressInputComponentStateMapper: Mapper<BillingAddressInputComponentStyle,
-            BillingAddressInputComponentState>
+    lateinit var mockBillingAddressInputComponentStateMapper: Mapper<
+        BillingAddressInputComponentStyle,
+        BillingAddressInputComponentState,
+        >
 
-    private lateinit var billingAddressInputComponentStateUseCase: UseCase<BillingAddressDetailsStyle,
-            BillingAddressInputComponentsContainerState>
+    private lateinit var billingAddressInputComponentStateUseCase: UseCase<
+        BillingAddressDetailsStyle,
+        BillingAddressInputComponentsContainerState,
+        >
 
     init {
         initMappers()
@@ -48,11 +52,11 @@ internal class BillingAddressInputComponentStateUseCaseTest {
         every { mockBillingAddressInputComponentStateMapper.map(any()) } returns BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.CardHolderName.name,
             inputComponentState = InputComponentState(),
-            isAddressFieldValid = MutableStateFlow(false)
+            isAddressFieldValid = MutableStateFlow(false),
         )
 
         billingAddressInputComponentStateUseCase = BillingAddressInputComponentStateUseCase(
-            mockBillingAddressInputComponentStateMapper
+            mockBillingAddressInputComponentStateMapper,
         )
     }
 
@@ -66,20 +70,20 @@ internal class BillingAddressInputComponentStateUseCaseTest {
                 mockBillingAddressInputComponentStateMapper.map(
                     BillingAddressInputComponentStyle(
                         it.key.name,
-                        it.value
-                    )
+                        it.value,
+                    ),
                 )
             } returns BillingAddressInputComponentState(
                 addressFieldName = it.key.name,
                 inputComponentState = InputComponentState(),
-                isAddressFieldValid = MutableStateFlow(false)
+                isAddressFieldValid = MutableStateFlow(false),
             )
         }
 
         // When
         val style = BillingAddressDetailsStyle(
             HeaderComponentStyle(),
-            BillingAddressDetailsTestData.inputComponentsContainerStyle()
+            BillingAddressDetailsTestData.inputComponentsContainerStyle(),
         )
 
         val result = billingAddressInputComponentStateUseCase.execute(style)
@@ -98,8 +102,8 @@ internal class BillingAddressInputComponentStateUseCaseTest {
         mockBillingAddressInputComponentStateMapper = BillingAddressInputComponentStyleToStateMapper(
             InputComponentStyleToStateMapper(
                 TextLabelStyleToStateMapper(imageStyleToComposableImageMapper),
-                InputFieldStyleToInputFieldStateMapper(imageStyleToComposableImageMapper)
-            )
+                InputFieldStyleToInputFieldStateMapper(imageStyleToComposableImageMapper),
+            ),
         )
     }
 }

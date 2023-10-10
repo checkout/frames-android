@@ -65,7 +65,9 @@ import com.checkout.frames.model.InputFieldColors
  * in focused state.
  * @param forceLTR force LTR usage even for RTL layout direction.
  */
-internal data class InputFieldViewStyle @OptIn(ExperimentalMaterial3Api::class) constructor(
+internal data class InputFieldViewStyle
+@OptIn(ExperimentalMaterial3Api::class)
+constructor(
     var modifier: Modifier = Modifier.fillMaxWidth(),
     val enabled: Boolean = true,
     val readOnly: Boolean = false,
@@ -82,5 +84,5 @@ internal data class InputFieldViewStyle @OptIn(ExperimentalMaterial3Api::class) 
     val colors: InputFieldColors? = null,
     val focusedBorderThickness: Dp = TextFieldDefaults.FocusedBorderThickness,
     val unfocusedBorderThickness: Dp = TextFieldDefaults.UnfocusedBorderThickness,
-    var forceLTR: Boolean = false
+    var forceLTR: Boolean = false,
 )

@@ -8,13 +8,13 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.view.TextLabelViewStyle
-import com.checkout.frames.utils.extensions.toComposeFontWeight
 import com.checkout.frames.utils.extensions.toComposeFontStyle
+import com.checkout.frames.utils.extensions.toComposeFontWeight
 import com.checkout.frames.utils.extensions.toComposeTextAlign
 import com.checkout.frames.utils.extensions.toFontFamily
 
 internal class TextLabelStyleToViewStyleMapper(
-    private val containerMapper: Mapper<ContainerStyle, Modifier>
+    private val containerMapper: Mapper<ContainerStyle, Modifier>,
 ) : Mapper<TextLabelStyle, TextLabelViewStyle> {
 
     override fun map(from: TextLabelStyle): TextLabelViewStyle = TextLabelViewStyle(
@@ -26,6 +26,6 @@ internal class TextLabelStyleToViewStyleMapper(
         fontStyle = from.textStyle.fontStyle.toComposeFontStyle(),
         fontWeight = from.textStyle.fontWeight.toComposeFontWeight(),
         maxLines = from.textStyle.maxLines,
-        lineHeight = from.textStyle.lineHeight?.sp ?: TextUnit.Unspecified
+        lineHeight = from.textStyle.lineHeight?.sp ?: TextUnit.Unspecified,
     )
 }

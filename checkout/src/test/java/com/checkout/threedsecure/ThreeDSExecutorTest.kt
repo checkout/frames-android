@@ -12,15 +12,14 @@ import com.checkout.threedsecure.model.ThreeDSRequest
 import com.checkout.threedsecure.model.ThreeDSResult
 import com.checkout.threedsecure.model.ThreeDSResultHandler
 import com.checkout.threedsecure.webview.ThreeDSWebView
+import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.spyk
-import io.mockk.every
 import io.mockk.verify
-import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.junit5.MockKExtension
 import org.amshove.kluent.internal.assertEquals
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -66,7 +65,7 @@ internal class ThreeDSExecutorTest {
             challengeUrl = "https://www.test.com",
             successUrl = "https://success",
             failureUrl = "https://failure",
-            resultHandler = {}
+            resultHandler = {},
         )
 
         // When
@@ -104,7 +103,7 @@ internal class ThreeDSExecutorTest {
 
     @ParameterizedTest(
         name = "when handle result is invoked with {0} " +
-                "then complete event with success = {1}, error = {2} and token {3} is logged"
+            "then complete event with success = {1}, error = {2} and token {3} is logged",
     )
     @MethodSource("resultArguments")
     fun `when handle result is invoked then complete event with correct data is logged`(
@@ -169,7 +168,7 @@ internal class ThreeDSExecutorTest {
         fun resultArguments(): Stream<Arguments> = Stream.of(
             Arguments.of(ThreeDSResult.Success("token"), true),
             Arguments.of(ThreeDSResult.Error(ThreeDSError("123", "test")), false),
-            Arguments.of(ThreeDSResult.Failure, false)
+            Arguments.of(ThreeDSResult.Failure, false),
         )
     }
 }

@@ -7,7 +7,7 @@ import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.view.TextLabelState
 
 internal class CardSchemeComponentStyleToStateMapper(
-    private val textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>
+    private val textLabelMapper: Mapper<TextLabelStyle?, TextLabelState>,
 ) : Mapper<CardSchemeComponentStyle, CardSchemeComponentState> {
 
     override fun map(from: CardSchemeComponentStyle): CardSchemeComponentState {

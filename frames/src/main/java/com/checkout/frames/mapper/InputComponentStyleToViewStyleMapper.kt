@@ -14,7 +14,7 @@ import com.checkout.frames.style.view.TextLabelViewStyle
 internal class InputComponentStyleToViewStyleMapper(
     private val textLabelStyleMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
     private val inputFieldStyleMapper: Mapper<InputFieldStyle, InputFieldViewStyle>,
-    private val containerMapper: Mapper<ContainerStyle, Modifier>
+    private val containerMapper: Mapper<ContainerStyle, Modifier>,
 ) : Mapper<InputComponentStyle, InputComponentViewStyle> {
 
     override fun map(from: InputComponentStyle) = InputComponentViewStyle(
@@ -24,6 +24,6 @@ internal class InputComponentStyleToViewStyleMapper(
         errorMessageStyle = from.errorMessageStyle?.let { textLabelStyleMapper.map(it) } ?: TextLabelViewStyle(),
         inputFieldStyle = inputFieldStyleMapper.map(from.inputFieldStyle),
         containerModifier = containerMapper.map(from.containerStyle).fillMaxWidth(),
-        isInputFieldOptional = from.isInputFieldOptional
+        isInputFieldOptional = from.isInputFieldOptional,
     )
 }

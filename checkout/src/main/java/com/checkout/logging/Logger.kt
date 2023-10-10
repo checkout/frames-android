@@ -23,7 +23,7 @@ public interface Logger<T> {
         context: Context,
         environment: Environment,
         identifier: String = BuildConfig.PRODUCT_IDENTIFIER,
-        version: String = BuildConfig.PRODUCT_VERSION
+        version: String = BuildConfig.PRODUCT_VERSION,
     )
 
     /**

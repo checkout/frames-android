@@ -35,7 +35,7 @@ public object CheckoutApiServiceFactory {
     public fun create(
         publicKey: String,
         environment: Environment,
-        context: Context
+        context: Context,
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
 
@@ -43,13 +43,13 @@ public object CheckoutApiServiceFactory {
 
         return CheckoutApiClient(
             provideTokenRepository(publicKey, environment),
-            provideThreeDSExecutor(logger)
+            provideThreeDSExecutor(logger),
         )
     }
 
     private fun provideTokenRepository(
         publicKey: String,
-        environment: Environment
+        environment: Environment,
     ): TokenRepository = TokenRepositoryImpl(
         networkApiClient = provideNetworkApiClient(publicKey, environment.url),
         cardToTokenRequestMapper = CardToTokenRequestMapper(),
@@ -59,25 +59,25 @@ public object CheckoutApiServiceFactory {
             CardValidatorFactory.createInternal(),
             AddressValidator(),
             PhoneValidator(),
-            AddressToAddressValidationRequestDataMapper()
+            AddressToAddressValidationRequestDataMapper(),
         ),
         validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(CVVComponentValidatorFactory.create()),
         logger = TokenizationEventLogger(EventLoggerProvider.provide()),
         publicKey = publicKey,
-        cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper()
+        cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
     )
 
     private fun provideNetworkApiClient(
         publicKey: String,
-        url: String
+        url: String,
     ) = TokenNetworkApiClient(
         url,
         OkHttpProvider.createOkHttpClient(publicKey),
-        Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+        Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build(),
     )
 
     private fun provideThreeDSExecutor(logger: Logger<LoggingEvent>): Executor<ThreeDSRequest> = ThreeDSExecutor(
         ProcessThreeDSUseCase(),
-        ThreeDSEventLogger(logger)
+        ThreeDSEventLogger(logger),
     )
 }

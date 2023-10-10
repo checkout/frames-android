@@ -22,14 +22,17 @@ import okhttp3.Response
 internal inline fun <reified S : Any> OkHttpClient.executeHttpRequest(
     request: Request,
     successAdapter: JsonAdapter<S>,
-    errorAdapter: JsonAdapter<ErrorResponse>
+    errorAdapter: JsonAdapter<ErrorResponse>,
 ): NetworkApiResponse<S> {
     return try {
         newCall(request)
             .execute()
             .use {
-                if (it.isSuccessful) provideSuccessResult(it, successAdapter)
-                else provideErrorResult(it, errorAdapter)
+                if (it.isSuccessful) {
+                    provideSuccessResult(it, successAdapter)
+                } else {
+                    provideErrorResult(it, errorAdapter)
+                }
             }
     } catch (e: Throwable) {
         NetworkApiResponse.NetworkError(e)
@@ -39,20 +42,20 @@ internal inline fun <reified S : Any> OkHttpClient.executeHttpRequest(
 @Throws(CheckoutError::class)
 private inline fun <reified S : Any> provideSuccessResult(
     result: Response,
-    adapter: JsonAdapter<S>
+    adapter: JsonAdapter<S>,
 ): NetworkApiResponse<S> = result.body?.source()?.let {
     adapter.fromJson(it)?.let { successResponse ->
         NetworkApiResponse.Success(successResponse)
     }
 } ?: throw CheckoutError(
     errorCode = RESPONSE_PARSING_ERROR,
-    message = "Success response is null, can not be parsed"
+    message = "Success response is null, can not be parsed",
 )
 
 private fun provideErrorResult(
     result: Response,
-    errorAdapter: JsonAdapter<ErrorResponse>
+    errorAdapter: JsonAdapter<ErrorResponse>,
 ) = NetworkApiResponse.ServerError(
     result.body?.source()?.let { errorAdapter.fromJson(it) },
-    result.code
+    result.code,
 )

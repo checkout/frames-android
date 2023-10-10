@@ -8,5 +8,5 @@ internal fun Padding.toPaddingValues() = PaddingValues(
     start = this.start.dp,
     top = this.top.dp,
     end = this.end.dp,
-    bottom = this.bottom.dp
+    bottom = this.bottom.dp,
 )

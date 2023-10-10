@@ -6,23 +6,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.checkout.frames.R
-import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalStateMapper
 import com.checkout.frames.mapper.ButtonStyleToInternalViewStyleMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
 import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
-import com.checkout.frames.model.Shape
-import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.BorderStroke
-import com.checkout.frames.model.Padding
 import com.checkout.frames.model.ButtonElevation
+import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Margin
+import com.checkout.frames.model.Padding
+import com.checkout.frames.model.Shape
 import com.checkout.frames.model.font.Font
 import com.checkout.frames.style.component.base.ButtonStyle
-import com.checkout.frames.style.component.base.TextStyle
-import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.ContainerStyle
+import com.checkout.frames.style.component.base.ImageStyle
+import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.style.component.default.DefaultTextLabelStyle
 import com.checkout.frames.style.view.InternalButtonViewStyle
 
@@ -30,7 +30,7 @@ import com.checkout.frames.style.view.InternalButtonViewStyle
 internal fun InternalButton(
     style: InternalButtonViewStyle,
     state: InternalButtonState,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) = with(style) {
     style.textStyle.color = Color.Unspecified
 
@@ -42,7 +42,7 @@ internal fun InternalButton(
         shape = shape,
         border = border,
         colors = provideColors(style),
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
     ) {
         TextLabel(style = style.textStyle, state = state.textState)
     }
@@ -53,7 +53,7 @@ private fun provideButtonElevation(style: InternalButtonViewStyle) = ButtonDefau
     style.defaultElevation,
     style.pressedElevation,
     style.focusedElevation,
-    style.hoveredElevation
+    style.hoveredElevation,
 )
 
 @Composable
@@ -61,7 +61,7 @@ private fun provideColors(style: InternalButtonViewStyle) = ButtonDefaults.butto
     containerColor = style.containerColor,
     contentColor = style.contentColor,
     disabledContainerColor = style.disabledContainerColor,
-    disabledContentColor = style.disabledContentColor
+    disabledContentColor = style.disabledContentColor,
 )
 
 @SuppressWarnings("MagicNumber")
@@ -71,12 +71,12 @@ private fun OutlineButtonPreview() {
     val containerMapper = ContainerStyleToModifierMapper()
     val styleMapper = ButtonStyleToInternalViewStyleMapper(
         containerMapper,
-        TextLabelStyleToViewStyleMapper(containerMapper)
+        TextLabelStyleToViewStyleMapper(containerMapper),
     )
     val stateMapper = ButtonStyleToInternalStateMapper(
         TextLabelStyleToStateMapper(
-            imageMapper = ImageStyleToComposableImageMapper()
-        )
+            imageMapper = ImageStyleToComposableImageMapper(),
+        ),
     )
 
     val style = ButtonStyle(
@@ -95,17 +95,17 @@ private fun OutlineButtonPreview() {
                 image = R.drawable.cko_ic_caret_right,
                 tinColor = 0xFF0B5FF0,
                 height = 12,
-                padding = Padding(start = 12)
-            )
+                padding = Padding(start = 12),
+            ),
         ),
-        containerStyle = ContainerStyle(margin = Margin(16))
+        containerStyle = ContainerStyle(margin = Margin(16)),
     )
 
     val state = stateMapper.map(style)
 
     InternalButton(
         styleMapper.map(style).apply { textStyle.textMaxWidth = true },
-        state
+        state,
     ) { state.isEnabled.value = !state.isEnabled.value }
 }
 
@@ -116,12 +116,12 @@ private fun ButtonPreview() {
     val containerMapper = ContainerStyleToModifierMapper()
     val styleMapper = ButtonStyleToInternalViewStyleMapper(
         containerMapper,
-        TextLabelStyleToViewStyleMapper(containerMapper)
+        TextLabelStyleToViewStyleMapper(containerMapper),
     )
     val stateMapper = ButtonStyleToInternalStateMapper(
         TextLabelStyleToStateMapper(
-            imageMapper = ImageStyleToComposableImageMapper()
-        )
+            imageMapper = ImageStyleToComposableImageMapper(),
+        ),
     )
 
     val style = ButtonStyle(
@@ -134,16 +134,16 @@ private fun ButtonPreview() {
         contentPadding = Padding(start = 16, end = 16, top = 8, bottom = 8),
         textStyle = DefaultTextLabelStyle.title().copy(
             textStyle = TextStyle(size = 15, font = Font.SansSerif),
-            text = "Save"
+            text = "Save",
         ),
         buttonElevation = ButtonElevation(defaultElevation = 8),
-        containerStyle = ContainerStyle(margin = Margin(16))
+        containerStyle = ContainerStyle(margin = Margin(16)),
     )
 
     val state = stateMapper.map(style)
 
     InternalButton(
         styleMapper.map(style),
-        state
+        state,
     ) { state.isEnabled.value = !state.isEnabled.value }
 }

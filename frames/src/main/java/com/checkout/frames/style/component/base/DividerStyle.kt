@@ -9,5 +9,5 @@ public data class DividerStyle @JvmOverloads constructor(
     /** The 32-bit ARGB color for divider. */
     @ColorLong
     val color: Long,
-    val margin: Margin? = null
+    val margin: Margin? = null,
 )

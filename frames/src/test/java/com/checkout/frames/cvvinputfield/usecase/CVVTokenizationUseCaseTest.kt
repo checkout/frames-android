@@ -11,10 +11,10 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import io.mockk.verify
 
 @ExtendWith(MockKExtension::class)
 internal class CVVTokenizationUseCaseTest {

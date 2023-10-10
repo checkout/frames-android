@@ -10,7 +10,7 @@ import java.lang.StringBuilder
 
 internal class CardNumberTransformation(
     private val separator: Char,
-    private val cardScheme: MutableState<CardScheme>
+    private val cardScheme: MutableState<CardScheme>,
 ) : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText = defaultCardNumberFormat(text)

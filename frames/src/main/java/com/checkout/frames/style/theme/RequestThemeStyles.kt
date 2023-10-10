@@ -7,5 +7,5 @@ import com.checkout.frames.style.component.base.InputComponentStyle
 internal data class RequestThemeStyles(
     val inputComponentStyle: InputComponentStyle? = null,
     val addressSummaryComponentStyle: AddressSummaryComponentStyle = AddressSummaryComponentStyle(),
-    val buttonStyle: ButtonStyle = ButtonStyle()
+    val buttonStyle: ButtonStyle = ButtonStyle(),
 )

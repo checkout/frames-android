@@ -29,10 +29,10 @@ internal fun CVVInputField(
             inputFieldStateMapper = InputFieldStyleToInputFieldStateMapper(ImageStyleToComposableImageMapper()),
             inputFieldStyleMapper = InputFieldStyleToViewStyleMapper(
                 TextLabelStyleToViewStyleMapper(
-                    ContainerStyleToModifierMapper()
-                )
-            )
-        )
+                    ContainerStyleToModifierMapper(),
+                ),
+            ),
+        ),
     )
 
     onValueChange(viewModel.cvvInputFieldState.inputFieldState.text.value)

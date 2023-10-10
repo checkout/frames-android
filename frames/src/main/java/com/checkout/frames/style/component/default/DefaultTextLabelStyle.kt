@@ -12,10 +12,10 @@ import com.checkout.frames.style.component.base.ImageStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.utils.constants.ErrorConstants
-import com.checkout.frames.utils.constants.TitleConstants
-import com.checkout.frames.utils.constants.SubtitleConstants
 import com.checkout.frames.utils.constants.HeaderTitleConstants
+import com.checkout.frames.utils.constants.SubtitleConstants
 import com.checkout.frames.utils.constants.TextConstants
+import com.checkout.frames.utils.constants.TitleConstants
 
 public object DefaultTextLabelStyle {
 
@@ -28,21 +28,21 @@ public object DefaultTextLabelStyle {
         leadingIconSize: Int = ErrorConstants.leadingIconSize,
         @DrawableRes
         leadingIconId: Int = R.drawable.cko_ic_error,
-        padding: Padding = Padding(top = ErrorConstants.errorMessageTopPadding)
+        padding: Padding = Padding(top = ErrorConstants.errorMessageTopPadding),
     ): TextLabelStyle = TextLabelStyle(
         textStyle = TextStyle(
             size = fontSize,
             color = color,
-            font = font
+            font = font,
         ),
         leadingIconStyle = ImageStyle(
             image = leadingIconId,
             tinColor = color,
             height = leadingIconSize,
             width = leadingIconSize,
-            padding = Padding(end = ErrorConstants.leadingIconEndPadding)
+            padding = Padding(end = ErrorConstants.leadingIconEndPadding),
         ),
-        containerStyle = ContainerStyle(padding = padding)
+        containerStyle = ContainerStyle(padding = padding),
     )
 
     @JvmOverloads
@@ -59,7 +59,7 @@ public object DefaultTextLabelStyle {
         maxLines: Int = TitleConstants.maxLines,
         lineHeight: Int? = null,
         leadingIconStyle: ImageStyle? = null,
-        trailingIconStyle: ImageStyle? = null
+        trailingIconStyle: ImageStyle? = null,
     ): TextLabelStyle = TextLabelStyle(
         text = text,
         textId = textId,
@@ -69,11 +69,11 @@ public object DefaultTextLabelStyle {
             font = font,
             fontWeight = fontWeight,
             maxLines = maxLines,
-            lineHeight = lineHeight
+            lineHeight = lineHeight,
         ),
         leadingIconStyle = leadingIconStyle,
         trailingIconStyle = trailingIconStyle,
-        containerStyle = ContainerStyle(padding = padding)
+        containerStyle = ContainerStyle(padding = padding),
     )
 
     @JvmOverloads
@@ -87,15 +87,18 @@ public object DefaultTextLabelStyle {
         color: Long = SubtitleConstants.color,
         padding: Padding = Padding(),
         maxLines: Int = Int.MAX_VALUE,
-        lineHeight: Int? = null
+        lineHeight: Int? = null,
     ): TextLabelStyle = TextLabelStyle(
         text = text,
         textId = textId,
         textStyle = TextStyle(
-            size = fontSize, color = color, font = font, maxLines = maxLines,
-            lineHeight = lineHeight
+            size = fontSize,
+            color = color,
+            font = font,
+            maxLines = maxLines,
+            lineHeight = lineHeight,
         ),
-        containerStyle = ContainerStyle(padding = padding)
+        containerStyle = ContainerStyle(padding = padding),
     )
 
     @JvmOverloads
@@ -108,22 +111,22 @@ public object DefaultTextLabelStyle {
         padding: Padding = Padding(),
         maxLines: Int = HeaderTitleConstants.maxLines,
         leadingIconSize: Int = HeaderTitleConstants.leadingIconSize,
-        leadingIconPadding: Padding = Padding()
+        leadingIconPadding: Padding = Padding(),
     ): TextLabelStyle = TextLabelStyle(
         textStyle = TextStyle(
             size = fontSize,
             color = color,
             font = font,
             fontWeight = fontWeight,
-            maxLines = maxLines
+            maxLines = maxLines,
         ),
         leadingIconStyle = ImageStyle(
             tinColor = color,
             height = leadingIconSize,
             width = leadingIconSize,
-            padding = leadingIconPadding
+            padding = leadingIconPadding,
         ),
-        containerStyle = ContainerStyle(padding = padding)
+        containerStyle = ContainerStyle(padding = padding),
     )
 
     @JvmOverloads
@@ -137,7 +140,7 @@ public object DefaultTextLabelStyle {
         color: Long = TextConstants.color,
         padding: Padding = Padding(),
         maxLines: Int = Int.MAX_VALUE,
-        lineHeight: Int? = null
+        lineHeight: Int? = null,
     ): TextLabelStyle = TextLabelStyle(
         text = text,
         textId = textId,
@@ -146,8 +149,8 @@ public object DefaultTextLabelStyle {
             color = color,
             font = font,
             maxLines = maxLines,
-            lineHeight = lineHeight
+            lineHeight = lineHeight,
         ),
-        containerStyle = ContainerStyle(padding = padding)
+        containerStyle = ContainerStyle(padding = padding),
     )
 }

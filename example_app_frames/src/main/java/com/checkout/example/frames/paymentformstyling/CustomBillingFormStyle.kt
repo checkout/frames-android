@@ -41,7 +41,7 @@ object CustomBillingFormStyle {
 
     fun provideBillingFormStyle() = BillingFormStyle(
         billingAddressDetailsStyle = provideBillingAddressDetailsStyle(),
-        countryPickerStyle = provideCountryPickerStyle()
+        countryPickerStyle = provideCountryPickerStyle(),
     )
 
     private fun provideCountryPickerStyle(): CountryPickerStyle {
@@ -50,10 +50,10 @@ object CustomBillingFormStyle {
         style = style.copy(
             screenTitleStyle = style.screenTitleStyle.copy(
                 textStyle = style.screenTitleStyle.textStyle.copy(color = textColor),
-                leadingIconStyle = style.screenTitleStyle.leadingIconStyle?.copy(tinColor = textColor)
+                leadingIconStyle = style.screenTitleStyle.leadingIconStyle?.copy(tinColor = textColor),
             ),
             containerStyle = style.containerStyle.copy(
-                color = backgroundColor
+                color = backgroundColor,
             ),
             searchFieldStyle = with(style.searchFieldStyle) {
                 copy(
@@ -61,24 +61,24 @@ object CustomBillingFormStyle {
                         margin = Margin(
                             start = CountryPickerScreenConstants.margin,
                             end = CountryPickerScreenConstants.margin,
-                            bottom = CountryPickerScreenConstants.margin
-                        )
+                            bottom = CountryPickerScreenConstants.margin,
+                        ),
                     ),
                     indicatorStyle = provideIndicatorStyle(),
                     placeholderStyle = placeholderStyle.copy(color = PaymentFormConstants.placeHolderTextColor),
                     leadingIconStyle = leadingIconStyle?.copy(
-                        tinColor = textColor
+                        tinColor = textColor,
                     ),
                     trailingIconStyle = trailingIconStyle?.copy(
-                        tinColor = textColor
-                    )
+                        tinColor = textColor,
+                    ),
                 )
             },
             searchItemStyle = style.searchItemStyle.copy(
                 textStyle = style.searchItemStyle.textStyle.copy(
-                    color = textColor
-                )
-            )
+                    color = textColor,
+                ),
+            ),
         )
         return style
     }
@@ -87,7 +87,7 @@ object CustomBillingFormStyle {
         headerComponentStyle = provideHeaderComponentStyle(),
         inputComponentsContainerStyle = InputComponentsContainerStyle(fetchInputComponentStyleValues()),
         countryComponentStyle = provideCountryComponentStyle(),
-        containerStyle = ContainerStyle(color = backgroundColor)
+        containerStyle = ContainerStyle(color = backgroundColor),
     )
 
     private fun provideCountryComponentStyle(): CountryComponentStyle {
@@ -98,12 +98,12 @@ object CustomBillingFormStyle {
             inputFieldStyle = provideInputFieldStyle(inputStyle.inputFieldStyle),
             titleStyle = inputStyle.titleStyle?.copy(
                 textStyle = inputStyle.titleStyle?.textStyle?.copy(color = textColor) ?: TextStyle(),
-                containerStyle = ContainerStyle(padding = Padding(start = cornerRadius, bottom = paddingTenDp))
-            )
+                containerStyle = ContainerStyle(padding = Padding(start = cornerRadius, bottom = paddingTenDp)),
+            ),
         )
 
         style = style.copy(
-            inputStyle = inputStyle
+            inputStyle = inputStyle,
         )
 
         return style
@@ -114,16 +114,16 @@ object CustomBillingFormStyle {
         style = style.copy(
             headerTitleStyle = style.headerTitleStyle.copy(
                 textStyle = style.headerTitleStyle.textStyle.copy(
-                    color = textColor, fontWeight = FontWeight.Bold
+                    color = textColor, fontWeight = FontWeight.Bold,
                 ),
             ),
             headerButtonStyle = style.headerButtonStyle
                 .copy(
-                contentColor = inputFieldColor,
-                containerColor = textColor,
-                shape = Shape.Circle,
-                cornerRadius = inputFieldCornerRadius
-            )
+                    contentColor = inputFieldColor,
+                    containerColor = textColor,
+                    shape = Shape.Circle,
+                    cornerRadius = inputFieldCornerRadius,
+                ),
         )
 
         return style
@@ -141,8 +141,8 @@ object CustomBillingFormStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            )
+                bottom = LightStyleConstants.inputComponentBottomPadding,
+            ),
         )
 
         inputComponentsStyles[BillingFormFields.AddressLineOne] = provideInputComponentStyle(
@@ -152,7 +152,7 @@ object CustomBillingFormStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-            )
+            ),
         )
 
         inputComponentsStyles[BillingFormFields.AddressLineTwo] = provideInputComponentStyle(
@@ -163,8 +163,8 @@ object CustomBillingFormStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            )
+                bottom = LightStyleConstants.inputComponentBottomPadding,
+            ),
         )
 
         inputComponentsStyles[BillingFormFields.City] = provideInputComponentStyle(
@@ -173,8 +173,8 @@ object CustomBillingFormStyle {
             keyboardOptions = defaultKeyboardOptions,
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
-                end = LightStyleConstants.inputComponentRightPadding
-            )
+                end = LightStyleConstants.inputComponentRightPadding,
+            ),
         )
 
         inputComponentsStyles[BillingFormFields.State] = provideInputComponentStyle(
@@ -185,8 +185,8 @@ object CustomBillingFormStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            )
+                bottom = LightStyleConstants.inputComponentBottomPadding,
+            ),
         )
 
         inputComponentsStyles[BillingFormFields.PostCode] = provideInputComponentStyle(
@@ -196,8 +196,8 @@ object CustomBillingFormStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            )
+                bottom = LightStyleConstants.inputComponentBottomPadding,
+            ),
         )
 
         inputComponentsStyles[BillingFormFields.Phone] = provideInputComponentStyle(
@@ -208,8 +208,8 @@ object CustomBillingFormStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = paddingTenDp
-            )
+                bottom = paddingTenDp,
+            ),
         )
 
         inputComponentsStyles[BillingFormFields.Country] = DefaultLightStyle.inputComponentStyle(
@@ -219,8 +219,8 @@ object CustomBillingFormStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
-            )
+                bottom = LightStyleConstants.inputComponentBottomPadding,
+            ),
         )
 
         return inputComponentsStyles
@@ -231,25 +231,25 @@ object CustomBillingFormStyle {
         @StringRes infoTextId: Int? = null,
         isFieldOptional: Boolean = false,
         keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-        padding: Padding = Padding()
+        padding: Padding = Padding(),
     ): InputComponentStyle {
         var style = DefaultLightStyle.inputComponentStyle(
             placeholderResourceTextId = placeholderTextId,
             infoTextId = infoTextId,
             padding = padding,
             isFieldOptional = isFieldOptional,
-            keyboardOptions = keyboardOptions
+            keyboardOptions = keyboardOptions,
         )
 
         style = style.copy(
             infoStyle = style.infoStyle?.copy(
                 containerStyle = ContainerStyle(
                     padding = Padding(
-                        top = paddingSixDp, bottom = paddingSixDp, end = cornerRadius
-                    )
-                )
+                        top = paddingSixDp, bottom = paddingSixDp, end = cornerRadius,
+                    ),
+                ),
             ),
-            inputFieldStyle = provideInputFieldStyle(style.inputFieldStyle)
+            inputFieldStyle = provideInputFieldStyle(style.inputFieldStyle),
         )
 
         return style
@@ -260,21 +260,24 @@ object CustomBillingFormStyle {
             containerStyle = provideContainerStyle(),
             indicatorStyle = provideIndicatorStyle(),
             placeholderStyle = inputFieldStyle.placeholderStyle.copy(
-                color = PaymentFormConstants.placeHolderTextColor
+                color = PaymentFormConstants.placeHolderTextColor,
             ),
             trailingIconStyle = inputFieldStyle.trailingIconStyle?.copy(
-                tinColor = textColor
-            )
+                tinColor = textColor,
+            ),
         )
     }
 
     private fun provideIndicatorStyle(): InputFieldIndicatorStyle = InputFieldIndicatorStyle.Underline(
-        focusedUnderlineThickness = 0, unfocusedUnderlineThickness = 0
+        focusedUnderlineThickness = 0,
+        unfocusedUnderlineThickness = 0,
     )
 
     private fun provideContainerStyle(): ContainerStyle {
         return ContainerStyle(
-            shape = inputFieldBorderShape, color = inputFieldColor, cornerRadius = inputFieldCornerRadius
+            shape = inputFieldBorderShape,
+            color = inputFieldColor,
+            cornerRadius = inputFieldCornerRadius,
         )
     }
 }

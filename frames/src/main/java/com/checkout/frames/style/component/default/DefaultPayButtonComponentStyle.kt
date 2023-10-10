@@ -15,7 +15,7 @@ public object DefaultPayButtonComponentStyle {
             disabledContainerColor = PaymentButtonConstants.disabledContainerColor,
             contentPadding = PaymentButtonConstants.contentPadding,
             fontWeight = PaymentButtonConstants.fontWeight,
-            margin = PaymentButtonConstants.buttonMargin
-        )
+            margin = PaymentButtonConstants.buttonMargin,
+        ),
     )
 }

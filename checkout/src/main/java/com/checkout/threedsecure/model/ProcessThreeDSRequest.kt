@@ -6,5 +6,5 @@ import androidx.annotation.RestrictTo
 public data class ProcessThreeDSRequest(
     val redirectUrl: String?,
     val successUrl: String,
-    val failureUrl: String
+    val failureUrl: String,
 )

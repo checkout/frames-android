@@ -44,9 +44,10 @@ internal class CVVInputFieldViewModel internal constructor(
     private fun provideViewStyle(inputStyle: InputFieldStyle): InputFieldViewStyle =
         inputFieldStyleMapper.map(inputStyle).copy(
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number, imeAction = ImeAction.Done
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done,
             ),
-            forceLTR = false
+            forceLTR = false,
         )
 
     private fun provideViewState(inputFieldStyle: InputFieldStyle): CVVInputFieldState =

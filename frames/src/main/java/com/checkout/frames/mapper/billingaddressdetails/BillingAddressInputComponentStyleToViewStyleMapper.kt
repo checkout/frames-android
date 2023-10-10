@@ -12,6 +12,6 @@ internal class BillingAddressInputComponentStyleToViewStyleMapper(
 
     override fun map(from: BillingAddressInputComponentStyle) = BillingAddressInputComponentViewStyle(
         addressFieldName = from.addressFieldName,
-        inputComponentViewStyle = inputComponentStyleMapper.map(from.inputComponentStyle)
+        inputComponentViewStyle = inputComponentStyleMapper.map(from.inputComponentStyle),
     )
 }

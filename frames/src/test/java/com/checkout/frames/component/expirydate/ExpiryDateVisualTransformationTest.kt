@@ -4,16 +4,16 @@ import android.annotation.SuppressLint
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import com.google.common.truth.Truth.assertThat
 import io.mockk.junit5.MockKExtension
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Test
 
 @SuppressLint("NewApi")
 @ExtendWith(MockKExtension::class)
@@ -31,7 +31,7 @@ internal class ExpiryDateVisualTransformationTest {
     }
 
     @ParameterizedTest(
-        name = "When visual transformation receives for expiry date {0} then {1} is received"
+        name = "When visual transformation receives for expiry date {0} then {1} is received",
     )
     @MethodSource("expiryDateVisualTransformationArguments")
     fun `when visual transformation receives a string then correctly formatted string is provided`(
@@ -44,21 +44,25 @@ internal class ExpiryDateVisualTransformationTest {
         // Then
         assertEquals(transformedExpiryDate, result)
     }
+
     @Test
     fun `verify offsetMapping for 123`() {
         val result = expiryDateVisualTransformation.filter(AnnotatedString("123"))
         assertCorrectMapping(original = "123", result)
     }
+
     @Test
     fun `verify offsetMapping for 143`() {
         val result = expiryDateVisualTransformation.filter(AnnotatedString("143"))
         assertCorrectMapping(original = "143", result)
     }
+
     @Test
     fun `verify offsetMapping for 093`() {
         val result = expiryDateVisualTransformation.filter(AnnotatedString("093"))
         assertCorrectMapping(original = "093", result)
     }
+
     @Test
     fun `verify offsetMapping for 53`() {
         val result = expiryDateVisualTransformation.filter(AnnotatedString("53"))

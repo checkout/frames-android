@@ -18,49 +18,49 @@ internal object BillingAddressDetailsTestData {
         val cardHolderNameState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.CardHolderName.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         val addressLineOneState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.AddressLineOne.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         val addressLineTwoState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.AddressLineTwo.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         val cityState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.City.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         val provinceState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.State.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         val postCodeState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.PostCode.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         val phoneState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.Phone.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         val countryState = BillingAddressInputComponentState(
             addressFieldName = BillingFormFields.Country.name,
             isAddressFieldValid = MutableStateFlow(false),
-            inputComponentState = InputComponentState()
+            inputComponentState = InputComponentState(),
         )
 
         // update state text
@@ -95,8 +95,8 @@ internal object BillingAddressDetailsTestData {
                 infoStyle = TextLabelViewStyle(),
                 inputFieldStyle = InputFieldViewStyle(),
                 subtitleStyle = TextLabelViewStyle(),
-                titleStyle = TextLabelViewStyle()
-            )
+                titleStyle = TextLabelViewStyle(),
+            ),
         )
 
         val addressLineOneViewStyle = BillingAddressInputComponentViewStyle(
@@ -107,8 +107,8 @@ internal object BillingAddressDetailsTestData {
                 infoStyle = TextLabelViewStyle(),
                 inputFieldStyle = InputFieldViewStyle(),
                 subtitleStyle = TextLabelViewStyle(),
-                titleStyle = TextLabelViewStyle()
-            )
+                titleStyle = TextLabelViewStyle(),
+            ),
         )
 
         val addressLineTwoViewStyle = BillingAddressInputComponentViewStyle(
@@ -119,8 +119,8 @@ internal object BillingAddressDetailsTestData {
                 infoStyle = TextLabelViewStyle(),
                 inputFieldStyle = InputFieldViewStyle(),
                 subtitleStyle = TextLabelViewStyle(),
-                titleStyle = TextLabelViewStyle()
-            )
+                titleStyle = TextLabelViewStyle(),
+            ),
         )
 
         val phoneViewStyle = BillingAddressInputComponentViewStyle(
@@ -131,8 +131,8 @@ internal object BillingAddressDetailsTestData {
                 infoStyle = TextLabelViewStyle(),
                 inputFieldStyle = InputFieldViewStyle(),
                 subtitleStyle = TextLabelViewStyle(),
-                titleStyle = TextLabelViewStyle()
-            )
+                titleStyle = TextLabelViewStyle(),
+            ),
         )
 
         inputComponentStyleList.add(cardHolderNameViewStyle)
@@ -160,6 +160,6 @@ internal object BillingAddressDetailsTestData {
     }
 
     fun inputComponentsContainerStyle(): InputComponentsContainerStyle = InputComponentsContainerStyle(
-        fetchInputComponentStyleValues()
+        fetchInputComponentStyleValues(),
     )
 }

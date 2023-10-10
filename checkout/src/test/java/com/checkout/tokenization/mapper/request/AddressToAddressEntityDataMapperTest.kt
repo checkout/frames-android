@@ -23,7 +23,7 @@ internal class AddressToAddressEntityDataMapperTest {
             "London",
             "London",
             "W1T 4TJ",
-            "GB"
+            "GB",
         )
 
         // When

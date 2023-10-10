@@ -15,5 +15,5 @@ public data class ImageStyle @JvmOverloads constructor(
     val height: Int? = null,
     /** Width in dp. */
     val width: Int? = null,
-    val padding: Padding? = null
+    val padding: Padding? = null,
 )

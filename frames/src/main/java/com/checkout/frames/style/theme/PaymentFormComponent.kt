@@ -14,5 +14,5 @@ public data class PaymentFormComponent @JvmOverloads constructor(
     val placeholderResourceTextId: Int? = null,
     val backIconImageResourceID: Int? = null,
     val leadingIconImageResourceID: Int? = null,
-    val trailingIconImageResourceID: Int? = null
+    val trailingIconImageResourceID: Int? = null,
 )

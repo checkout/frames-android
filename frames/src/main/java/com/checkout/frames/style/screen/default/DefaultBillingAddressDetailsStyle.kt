@@ -10,10 +10,10 @@ import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Shape
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingFormFields
 import com.checkout.frames.style.component.base.InputComponentStyle
-import com.checkout.frames.style.component.billingformdetails.InputComponentsContainerStyle
-import com.checkout.frames.style.component.default.DefaultLightStyle
 import com.checkout.frames.style.component.billingformdetails.HeaderComponentStyle
+import com.checkout.frames.style.component.billingformdetails.InputComponentsContainerStyle
 import com.checkout.frames.style.component.default.DefaultButtonStyle
+import com.checkout.frames.style.component.default.DefaultLightStyle
 import com.checkout.frames.utils.constants.BillingAddressDetailsConstants
 import com.checkout.frames.utils.constants.LightStyleConstants
 
@@ -21,7 +21,7 @@ public object DefaultBillingAddressDetailsStyle {
 
     @Suppress("LongMethod")
     public fun fetchInputComponentStyleValues(isRequestedCardHolderName: Boolean = false):
-            LinkedHashMap<BillingFormFields, InputComponentStyle> {
+        LinkedHashMap<BillingFormFields, InputComponentStyle> {
         val defaultKeyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         val inputComponentsStyles: LinkedHashMap<BillingFormFields, InputComponentStyle> = linkedMapOf()
 
@@ -32,10 +32,10 @@ public object DefaultBillingAddressDetailsStyle {
                 padding = Padding(
                     start = LightStyleConstants.inputComponentLeftPadding,
                     end = LightStyleConstants.inputComponentRightPadding,
-                    bottom = LightStyleConstants.inputComponentBottomPadding
+                    bottom = LightStyleConstants.inputComponentBottomPadding,
                 ),
                 isFieldOptional = true,
-                keyboardOptions = defaultKeyboardOptions
+                keyboardOptions = defaultKeyboardOptions,
             )
         }
 
@@ -44,10 +44,10 @@ public object DefaultBillingAddressDetailsStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
+                bottom = LightStyleConstants.inputComponentBottomPadding,
             ),
             isFieldOptional = false,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
         )
 
         inputComponentsStyles[BillingFormFields.AddressLineTwo] = DefaultLightStyle.inputComponentStyle(
@@ -56,10 +56,10 @@ public object DefaultBillingAddressDetailsStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
+                bottom = LightStyleConstants.inputComponentBottomPadding,
             ),
             isFieldOptional = true,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
         )
 
         inputComponentsStyles[BillingFormFields.City] = DefaultLightStyle.inputComponentStyle(
@@ -67,10 +67,10 @@ public object DefaultBillingAddressDetailsStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
+                bottom = LightStyleConstants.inputComponentBottomPadding,
             ),
             isFieldOptional = false,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
         )
 
         inputComponentsStyles[BillingFormFields.State] = DefaultLightStyle.inputComponentStyle(
@@ -79,10 +79,10 @@ public object DefaultBillingAddressDetailsStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
+                bottom = LightStyleConstants.inputComponentBottomPadding,
             ),
             isFieldOptional = true,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
         )
 
         inputComponentsStyles[BillingFormFields.PostCode] = DefaultLightStyle.inputComponentStyle(
@@ -90,10 +90,10 @@ public object DefaultBillingAddressDetailsStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
+                bottom = LightStyleConstants.inputComponentBottomPadding,
             ),
             isFieldOptional = false,
-            keyboardOptions = defaultKeyboardOptions
+            keyboardOptions = defaultKeyboardOptions,
         )
 
         inputComponentsStyles[BillingFormFields.Phone] = DefaultLightStyle.inputComponentStyle(
@@ -102,10 +102,10 @@ public object DefaultBillingAddressDetailsStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
+                bottom = LightStyleConstants.inputComponentBottomPadding,
             ),
             isFieldOptional = false,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
         )
 
         inputComponentsStyles[BillingFormFields.Country] = DefaultLightStyle.inputComponentStyle(
@@ -113,9 +113,9 @@ public object DefaultBillingAddressDetailsStyle {
             padding = Padding(
                 start = LightStyleConstants.inputComponentLeftPadding,
                 end = LightStyleConstants.inputComponentRightPadding,
-                bottom = LightStyleConstants.inputComponentBottomPadding
+                bottom = LightStyleConstants.inputComponentBottomPadding,
             ),
-            isFieldOptional = false
+            isFieldOptional = false,
         )
 
         return inputComponentsStyles
@@ -127,8 +127,8 @@ public object DefaultBillingAddressDetailsStyle {
                 BillingAddressDetailsConstants.titlePaddingTop,
                 BillingAddressDetailsConstants.titlePaddingBottom,
                 BillingAddressDetailsConstants.titlePaddingStart,
-                BillingAddressDetailsConstants.titlePaddingEnd
-            )
+                BillingAddressDetailsConstants.titlePaddingEnd,
+            ),
         ),
         DefaultButtonStyle.lightSolid(
             textId = R.string.cko_billing_form_button_save,
@@ -142,13 +142,13 @@ public object DefaultBillingAddressDetailsStyle {
                 start = BillingAddressDetailsConstants.buttonContentStartPadding,
                 top = BillingAddressDetailsConstants.buttonContentTopPadding,
                 bottom = BillingAddressDetailsConstants.buttonContentBottomPadding,
-                end = BillingAddressDetailsConstants.buttonContentEndPadding
+                end = BillingAddressDetailsConstants.buttonContentEndPadding,
             ),
             margin = Margin(
                 top = BillingAddressDetailsConstants.buttonContainerTopPadding,
-                end = BillingAddressDetailsConstants.buttonContainerEndPadding
-            )
-        )
+                end = BillingAddressDetailsConstants.buttonContainerEndPadding,
+            ),
+        ),
     )
 
     /*
@@ -156,7 +156,7 @@ public object DefaultBillingAddressDetailsStyle {
     requested
      */
     public fun inputComponentsContainerStyle(isRequestedCardHolderName: Boolean = false):
-            InputComponentsContainerStyle = InputComponentsContainerStyle(
-        fetchInputComponentStyleValues(isRequestedCardHolderName)
+        InputComponentsContainerStyle = InputComponentsContainerStyle(
+        fetchInputComponentStyleValues(isRequestedCardHolderName),
     )
 }

@@ -20,13 +20,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 internal class TokenNetworkApiClient(
     private val url: String,
     private val okHttpClient: OkHttpClient,
-    private val moshiClient: Moshi
+    private val moshiClient: Moshi,
 ) : NetworkApiClient {
 
     override suspend fun sendCardTokenRequest(
-        cardTokenRequest: TokenRequest
+        cardTokenRequest: TokenRequest,
     ): NetworkApiResponse<TokenDetailsResponse> {
-
         val jsonTokenRequestAdapter = moshiClient.adapter(TokenRequest::class.java)
 
         val requestBody =
@@ -40,14 +39,13 @@ internal class TokenNetworkApiClient(
         return okHttpClient.executeHttpRequest(
             request,
             moshiClient.adapter(TokenDetailsResponse::class.java),
-            moshiClient.adapter(ErrorResponse::class.java)
+            moshiClient.adapter(ErrorResponse::class.java),
         )
     }
 
     override suspend fun sendCVVTokenRequest(
-        cvvTokenNetworkRequest: CVVTokenNetworkRequest
+        cvvTokenNetworkRequest: CVVTokenNetworkRequest,
     ): NetworkApiResponse<CVVTokenDetailsResponse> {
-
         val jsonTokenRequestAdapter = moshiClient.adapter(CVVTokenNetworkRequest::class.java)
 
         val requestBody =
@@ -61,18 +59,18 @@ internal class TokenNetworkApiClient(
         return okHttpClient.executeHttpRequest(
             request,
             moshiClient.adapter(CVVTokenDetailsResponse::class.java),
-            moshiClient.adapter(ErrorResponse::class.java)
+            moshiClient.adapter(ErrorResponse::class.java),
         )
     }
 
     override suspend fun sendGooglePayTokenRequest(
-        googlePayTokenNetworkRequest: GooglePayTokenNetworkRequest
+        googlePayTokenNetworkRequest: GooglePayTokenNetworkRequest,
     ): NetworkApiResponse<TokenDetailsResponse> {
         val jsonGooglePayTokenRequestAdapter = moshiClient.adapter(GooglePayTokenNetworkRequest::class.java)
 
         val requestBody =
             jsonGooglePayTokenRequestAdapter.toJson(
-                googlePayTokenNetworkRequest
+                googlePayTokenNetworkRequest,
             ).toRequestBody(TokenizationConstants.jsonMediaType)
 
         val request = Request.Builder()
@@ -83,7 +81,7 @@ internal class TokenNetworkApiClient(
         return okHttpClient.executeHttpRequest(
             request,
             moshiClient.adapter(TokenDetailsResponse::class.java),
-            moshiClient.adapter(ErrorResponse::class.java)
+            moshiClient.adapter(ErrorResponse::class.java),
         )
     }
 }

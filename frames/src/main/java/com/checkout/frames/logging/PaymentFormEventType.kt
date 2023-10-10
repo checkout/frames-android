@@ -6,5 +6,5 @@ internal enum class PaymentFormEventType(override val eventId: String) : Logging
     INITIALISED("payment_form_initialised"),
     PRESENTED("payment_form_presented"),
     SUBMITTED("payment_form_submitted"),
-    CANCELED("payment_form_cancelled")
+    CANCELED("payment_form_cancelled"),
 }

@@ -9,10 +9,10 @@ import com.checkout.frames.view.InternalButton
 @Composable
 internal fun PayButtonComponent(
     style: PayButtonComponentStyle,
-    injector: Injector
+    injector: Injector,
 ) {
     val viewModel: PayButtonViewModel = viewModel(
-        factory = PayButtonViewModel.Factory(injector, style)
+        factory = PayButtonViewModel.Factory(injector, style),
     )
 
     viewModel.prepare()

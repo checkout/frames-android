@@ -9,5 +9,5 @@ internal data class AddressSummarySectionViewStyle(
     val addressTextStyle: TextLabelViewStyle,
     val dividerStyle: DividerViewStyle? = null,
     val editAddressButtonStyle: InternalButtonViewStyle,
-    val modifier: Modifier
+    val modifier: Modifier,
 )

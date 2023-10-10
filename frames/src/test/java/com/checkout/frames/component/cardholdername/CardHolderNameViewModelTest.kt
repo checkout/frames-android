@@ -6,13 +6,13 @@ import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
+import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardHolderNameComponentStyle
@@ -22,8 +22,8 @@ import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import org.amshove.kluent.internal.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -185,23 +185,23 @@ internal class CardHolderNameViewModelTest {
         val imageMapper = ImageStyleToComposableImageMapper()
 
         spyInputComponentStyleMapper = InputComponentStyleToViewStyleMapper(
-            textLabelStyleMapper, InputFieldStyleToViewStyleMapper(textLabelStyleMapper), containerMapper
+            textLabelStyleMapper, InputFieldStyleToViewStyleMapper(textLabelStyleMapper), containerMapper,
         )
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
-            TextLabelStyleToStateMapper(imageMapper), InputFieldStyleToInputFieldStateMapper(imageMapper)
+            TextLabelStyleToStateMapper(imageMapper), InputFieldStyleToInputFieldStateMapper(imageMapper),
         )
     }
 
     private fun initPaymentStateManager() {
         spyPaymentStateManager = PaymentFormStateManager(
             supportedCardSchemes = emptyList(),
-            billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+            billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
         )
     }
 
     private fun initViewModel() {
         viewModel = CardHolderNameViewModel(
-            spyPaymentStateManager, spyInputComponentStyleMapper, spyInputComponentStateMapper, style
+            spyPaymentStateManager, spyInputComponentStyleMapper, spyInputComponentStateMapper, style,
         )
     }
 }

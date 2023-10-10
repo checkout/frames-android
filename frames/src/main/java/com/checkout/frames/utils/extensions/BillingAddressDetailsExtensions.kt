@@ -10,7 +10,7 @@ import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
 
 internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetails(
-    country: Country? = null
+    country: Country? = null,
 ): BillingAddress {
     val phoneInputComponentState = this.find {
         it.addressFieldName == BillingFormFields.Phone.name
@@ -48,12 +48,12 @@ internal fun List<BillingAddressInputComponentState>.provideBillingAddressDetail
             addressLine2 = addressLineTwoInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
             state = stateInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
             city = cityInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
-            zip = zipInputComponentState?.addressFieldText?.value?.trimEnd() ?: ""
+            zip = zipInputComponentState?.addressFieldText?.value?.trimEnd() ?: "",
         ),
         phone = phoneInputComponentState?.let { componentState ->
             componentState.addressFieldText.value.takeIf { it.isNotEmpty() }
                 ?.let { Phone(componentState.addressFieldText.value, country) }
-        }
+        },
     )
 }
 
@@ -88,7 +88,7 @@ internal fun BillingAddressInputComponentState.getErrorMessage(): Int {
 }
 
 internal fun BillingAddress.provideAddressFieldText(
-    addressFieldName: String
+    addressFieldName: String,
 ): String {
     return when (addressFieldName) {
         BillingFormFields.CardHolderName.name -> {

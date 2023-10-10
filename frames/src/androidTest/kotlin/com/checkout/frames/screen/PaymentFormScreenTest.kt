@@ -53,13 +53,14 @@ internal class PaymentFormScreenTest {
                     city = "London",
                     state = "London",
                     zip = "W1T 4TJ",
-                    country = Country.from(iso3166Alpha2 = "GB")
+                    country = Country.from(iso3166Alpha2 = "GB"),
                 ),
                 phone = Phone(
-                    number = "4155552671", country = Country.from(iso3166Alpha2 = "GB")
-                )
-            )
-        )
+                    number = "4155552671",
+                    country = Country.from(iso3166Alpha2 = "GB"),
+                ),
+            ),
+        ),
     )
 
     @Test

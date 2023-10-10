@@ -20,7 +20,7 @@ internal class AddressSummaryViewModel @Inject constructor(
     style: AddressSummaryComponentStyle,
     private val paymentStateManager: PaymentStateManager,
     private val componentStateMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState>,
-    private val componentStyleMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentViewStyle>
+    private val componentStyleMapper: Mapper<AddressSummaryComponentStyle, AddressSummaryComponentViewStyle>,
 ) : ViewModel() {
 
     val componentState = provideState(style)
@@ -31,9 +31,11 @@ internal class AddressSummaryViewModel @Inject constructor(
             componentState.addressPreviewState.text.value =
                 if (paymentStateManager.billingAddress.value.isEdited() &&
                     paymentStateManager.isBillingAddressEnabled.value
-                )
+                ) {
                     billingAddress.summary()
-                else ""
+                } else {
+                    ""
+                }
         }
     }
 
@@ -54,7 +56,7 @@ internal class AddressSummaryViewModel @Inject constructor(
 
     internal class Factory(
         private val injector: Injector,
-        private val style: AddressSummaryComponentStyle
+        private val style: AddressSummaryComponentStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

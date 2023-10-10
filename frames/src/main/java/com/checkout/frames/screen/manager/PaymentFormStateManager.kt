@@ -8,16 +8,16 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.Bi
 import com.checkout.frames.screen.paymentform.model.BillingFormAddress
 import com.checkout.frames.screen.paymentform.model.PrefillData
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 internal class PaymentFormStateManager(
     private val supportedCardSchemes: List<CardScheme>,
     private val paymentFormPrefillData: PrefillData? = null,
-    private val billingFormAddressToBillingAddressMapper: Mapper<BillingFormAddress?, BillingAddress>
+    private val billingFormAddressToBillingAddressMapper: Mapper<BillingFormAddress?, BillingAddress>,
 ) : PaymentStateManager {
 
     override val cardNumber: MutableStateFlow<String> = MutableStateFlow("")
@@ -37,7 +37,7 @@ internal class PaymentFormStateManager(
     override val billingAddress: MutableStateFlow<BillingAddress> = MutableStateFlow(provideBillingFormAddress())
 
     override val selectedCountry: MutableStateFlow<Country?> = MutableStateFlow(
-        paymentFormPrefillData?.billingFormAddress?.address?.country
+        paymentFormPrefillData?.billingFormAddress?.address?.country,
     )
 
     override val isBillingAddressValid: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -79,6 +79,10 @@ internal class PaymentFormStateManager(
     } ?: BillingAddress()
 
     private fun provideIsReadyTokenizeFlow(): StateFlow<Boolean> = combine(
-        isCardNumberValid, isExpiryDateValid, isCardHolderNameValid, isCvvValid, isBillingAddressValid
+        isCardNumberValid,
+        isExpiryDateValid,
+        isCardHolderNameValid,
+        isCvvValid,
+        isBillingAddressValid,
     ) { values -> values.all { it } }.stateIn(MainScope(), SharingStarted.Lazily, false)
 }

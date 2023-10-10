@@ -7,10 +7,10 @@ import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.CardScheme
 import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.view.InputFieldViewStyle
 import com.checkout.frames.view.InputFieldState
@@ -69,7 +69,7 @@ internal class CVVInputFieldViewModelTest {
         every { cvvComponentConfig.cvvInputFieldStyle } returns InputFieldStyle()
 
         viewModel = CVVInputFieldViewModel(
-            spyInputFieldStateMapper, spyInputFieldStyleMapper, cvvComponentConfig, mockCVVComponentValidator
+            spyInputFieldStateMapper, spyInputFieldStyleMapper, cvvComponentConfig, mockCVVComponentValidator,
         )
     }
 
@@ -116,7 +116,8 @@ internal class CVVInputFieldViewModelTest {
     fun `when view model is initialised then initial style has correct keyboard type`() {
         // Then
         assertEquals(
-            viewModel.cvvInputFieldStyle.keyboardOptions.keyboardType, KeyboardType.Number
+            viewModel.cvvInputFieldStyle.keyboardOptions.keyboardType,
+            KeyboardType.Number,
         )
     }
 
@@ -236,8 +237,8 @@ internal class CVVInputFieldViewModelTest {
         val containerMapper = ContainerStyleToModifierMapper()
         spyInputFieldStyleMapper = InputFieldStyleToViewStyleMapper(
             TextLabelStyleToViewStyleMapper(
-                containerMapper
-            )
+                containerMapper,
+            ),
         )
         spyInputFieldStateMapper = InputFieldStyleToInputFieldStateMapper(ImageStyleToComposableImageMapper())
     }

@@ -31,8 +31,8 @@ internal class InternalCVVComponentMediatorUITest {
             cvvComponentConfig = cvvComponentConfig,
             cvvTokenizationUseCase = CVVTokenizationUseCase(
                 CheckoutApiServiceFactory.create(
-                    publicKey = "", environment = Environment.SANDBOX, context = context
-                )
+                    publicKey = "", environment = Environment.SANDBOX, context = context,
+                ),
             ),
         )
     }

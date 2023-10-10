@@ -9,6 +9,6 @@ public object DefaultTextStyle {
         size = PlaceHolderConstants.fontSize,
         color = PlaceHolderConstants.fontColor,
         font = PlaceHolderConstants.font,
-        maxLines = PlaceHolderConstants.maxLines
+        maxLines = PlaceHolderConstants.maxLines,
     )
 }

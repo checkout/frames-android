@@ -1,4 +1,5 @@
 @file:Suppress("MagicNumber")
+
 package com.checkout.example.frames.ui.theme
 
 import androidx.compose.ui.graphics.Color

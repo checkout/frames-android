@@ -10,7 +10,7 @@ public object DefaultCvvComponentStyle {
         DefaultLightStyle.inputComponentStyle(
             titleTextId = R.string.cko_cvv_component_title,
             subtitleTextId = R.string.cko_cvv_component_subtitle,
-            margin = Margin(bottom = PaymentDetailsScreenConstants.marginBottom)
-        )
+            margin = Margin(bottom = PaymentDetailsScreenConstants.marginBottom),
+        ),
     )
 }

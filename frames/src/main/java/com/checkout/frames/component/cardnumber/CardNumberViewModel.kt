@@ -32,7 +32,7 @@ internal class CardNumberViewModel @Inject constructor(
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
     private val imageMapper: ImageStyleToDynamicComposableImageMapper,
-    private val style: CardNumberComponentStyle
+    private val style: CardNumberComponentStyle,
 ) : ViewModel() {
 
     val componentState = provideViewState(style)
@@ -57,7 +57,7 @@ internal class CardNumberViewModel @Inject constructor(
             handleValidationResult(
                 cardValidator.validateCardNumber(cardNumber),
                 isEagerCheck = false,
-                isRequiredToHandleError = true
+                isRequiredToHandleError = true,
             )
         }
     }
@@ -77,7 +77,7 @@ internal class CardNumberViewModel @Inject constructor(
             handleValidationResult(
                 result = cardValidator.validateCardNumber(this),
                 isEagerCheck = false,
-                isRequiredToHandleError = false
+                isRequiredToHandleError = false,
             )
         }
     }
@@ -86,7 +86,7 @@ internal class CardNumberViewModel @Inject constructor(
     private fun handleValidationResult(
         result: ValidationResult<CardScheme>,
         isEagerCheck: Boolean,
-        isRequiredToHandleError: Boolean
+        isRequiredToHandleError: Boolean,
     ) = when (result) {
         is ValidationResult.Success -> with(result.value) {
             paymentStateManager.isCardSchemeUpdated.update { true }
@@ -98,8 +98,11 @@ internal class CardNumberViewModel @Inject constructor(
             }
 
             if (isRequiredToHandleError) {
-                if (this in paymentStateManager.supportedCardSchemeList) hideValidationError()
-                else showValidationError()
+                if (this in paymentStateManager.supportedCardSchemeList) {
+                    hideValidationError()
+                } else {
+                    showValidationError()
+                }
             } else {
                 paymentStateManager.isCardNumberValid.update { true }
             }
@@ -107,8 +110,11 @@ internal class CardNumberViewModel @Inject constructor(
 
         is ValidationResult.Failure -> {
             paymentStateManager.isCardSchemeUpdated.update { false }
-            if (isRequiredToHandleError) showValidationError()
-            else paymentStateManager.isCardNumberValid.update { false }
+            if (isRequiredToHandleError) {
+                showValidationError()
+            } else {
+                paymentStateManager.isCardNumberValid.update { false }
+            }
         }
     }
 
@@ -128,8 +134,8 @@ internal class CardNumberViewModel @Inject constructor(
         viewState.inputState.inputFieldState.leadingIcon.value = imageMapper.map(
             ImageStyleToDynamicImageRequest(
                 style.inputStyle.inputFieldStyle.leadingIconStyle,
-                snapshotFlow { viewState.cardScheme.value }.map { it.imageId }
-            )
+                snapshotFlow { viewState.cardScheme.value }.map { it.imageId },
+            ),
         )
 
         return viewState
@@ -143,8 +149,8 @@ internal class CardNumberViewModel @Inject constructor(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 keyboardOptions = keyboardOptions,
                 visualTransformation = CardNumberTransformation(style.cardNumberSeparator, componentState.cardScheme),
-                forceLTR = true
-            )
+                forceLTR = true,
+            ),
         )
 
         return viewStyle
@@ -152,7 +158,7 @@ internal class CardNumberViewModel @Inject constructor(
 
     internal class Factory(
         private val injector: Injector,
-        private val style: CardNumberComponentStyle
+        private val style: CardNumberComponentStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject

@@ -22,7 +22,7 @@ internal class CardHolderNameViewModel @Inject constructor(
     private val paymentStateManager: PaymentStateManager,
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
-    style: CardHolderNameComponentStyle
+    style: CardHolderNameComponentStyle,
 ) : ViewModel() {
 
     val componentState = provideViewState(style)
@@ -52,8 +52,11 @@ internal class CardHolderNameViewModel @Inject constructor(
         val isValid = cardHolderName.isNotBlank() || componentStyle.isInputFieldOptional
         paymentStateManager.isCardHolderNameValid.update { isValid }
 
-        if (wasFocused && isValid) componentState.hideError()
-        else componentState.showError(R.string.cko_cardholder_name_error)
+        if (wasFocused && isValid) {
+            componentState.hideError()
+        } else {
+            componentState.showError(R.string.cko_cardholder_name_error)
+        }
     }
 
     fun onCardHolderNameChange(text: String) = with(text) {
@@ -73,8 +76,8 @@ internal class CardHolderNameViewModel @Inject constructor(
 
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
-                keyboardOptions = keyboardOptions, forceLTR = true
-            )
+                keyboardOptions = keyboardOptions, forceLTR = true,
+            ),
         )
 
         return viewStyle

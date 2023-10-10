@@ -9,13 +9,13 @@ import com.checkout.frames.R
 import com.checkout.frames.component.base.InputComponentState
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
 import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
-import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
 import com.checkout.frames.mapper.InputComponentStyleToStateMapper
+import com.checkout.frames.mapper.InputComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.InputFieldStyleToInputFieldStateMapper
+import com.checkout.frames.mapper.InputFieldStyleToViewStyleMapper
 import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CvvComponentStyle
@@ -39,7 +39,6 @@ import org.amshove.kluent.internal.assertEquals
 import org.amshove.kluent.internal.assertFalse
 import org.junit.After
 import org.junit.jupiter.api.Assertions.assertTrue
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -65,7 +64,7 @@ internal class CvvViewModelTest {
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
         supportedCardSchemes = emptyList(),
-        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
     )
 
     private var style: CvvComponentStyle = CvvComponentStyle()
@@ -87,7 +86,7 @@ internal class CvvViewModelTest {
             mockCardValidator,
             spyInputComponentStyleMapper,
             spyInputComponentStateMapper,
-            style
+            style,
         )
     }
 
@@ -129,7 +128,7 @@ internal class CvvViewModelTest {
         // Then
         assertEquals(
             viewModel.componentStyle.inputFieldStyle.keyboardOptions.keyboardType,
-            KeyboardType.Number
+            KeyboardType.Number,
         )
     }
 
@@ -341,12 +340,12 @@ internal class CvvViewModelTest {
         }
 
     @ParameterizedTest(
-        name = "When card scheme is updated to {0} then {1} max length is set for cvv and validation invoked"
+        name = "When card scheme is updated to {0} then {1} max length is set for cvv and validation invoked",
     )
     @MethodSource("onCardSchemeChangedArguments")
     fun `when card scheme state in payment state manager is changed then cvv validation is not invoked`(
         cardScheme: CardScheme,
-        maxCvvLength: Int
+        maxCvvLength: Int,
     ) = runTest {
         // Given
         val testCvv = "123"
@@ -378,11 +377,11 @@ internal class CvvViewModelTest {
         spyInputComponentStyleMapper = InputComponentStyleToViewStyleMapper(
             textLabelStyleMapper,
             InputFieldStyleToViewStyleMapper(textLabelStyleMapper),
-            containerMapper
+            containerMapper,
         )
         spyInputComponentStateMapper = InputComponentStyleToStateMapper(
             TextLabelStyleToStateMapper(imageMapper),
-            InputFieldStyleToInputFieldStateMapper(imageMapper)
+            InputFieldStyleToInputFieldStateMapper(imageMapper),
         )
     }
 
@@ -396,7 +395,7 @@ internal class CvvViewModelTest {
             Arguments.of(CardScheme.MADA, CardScheme.MADA.cvvLength.max()),
             Arguments.of(CardScheme.MAESTRO, CardScheme.MAESTRO.cvvLength.max()),
             Arguments.of(CardScheme.MASTERCARD, CardScheme.MASTERCARD.cvvLength.max()),
-            Arguments.of(CardScheme.VISA, CardScheme.VISA.cvvLength.max())
+            Arguments.of(CardScheme.VISA, CardScheme.VISA.cvvLength.max()),
         )
     }
 }

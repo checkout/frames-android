@@ -18,7 +18,7 @@ internal class DividerStyleToViewStyleMapper : Mapper<DividerStyle, DividerViewS
             color = Color(color),
             modifier = Modifier
                 .withMargin(margin)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
     }
 

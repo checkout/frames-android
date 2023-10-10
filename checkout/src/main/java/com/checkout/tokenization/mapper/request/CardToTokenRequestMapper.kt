@@ -18,6 +18,6 @@ internal class CardToTokenRequestMapper : Mapper<Card, TokenRequest> {
         from.name,
         from.cvv,
         from.billingAddress?.let { AddressToAddressEntityDataMapper().map(it) },
-        from.phone?.let { PhoneToPhoneEntityDataMapper().map(it) }
+        from.phone?.let { PhoneToPhoneEntityDataMapper().map(it) },
     )
 }

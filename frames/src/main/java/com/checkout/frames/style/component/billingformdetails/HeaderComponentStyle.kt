@@ -7,5 +7,5 @@ import com.checkout.frames.style.component.base.TextLabelStyle
 public data class HeaderComponentStyle @JvmOverloads constructor(
     val headerTitleStyle: TextLabelStyle = TextLabelStyle(),
     val headerButtonStyle: ButtonStyle = ButtonStyle(),
-    val headerContainerStyle: ContainerStyle = ContainerStyle()
+    val headerContainerStyle: ContainerStyle = ContainerStyle(),
 )

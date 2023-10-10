@@ -30,9 +30,9 @@ internal class BillingAddressDetailsExtensionsTest {
                 city = "city",
                 country = country,
                 state = "dummy state",
-                zip = "post code"
+                zip = "post code",
             ),
-            phone = Phone("9426979314", country)
+            phone = Phone("9426979314", country),
         )
 
         // When
@@ -43,14 +43,13 @@ internal class BillingAddressDetailsExtensionsTest {
     }
 
     @ParameterizedTest(
-        name = "When getErrorMessage {0} is requested then error message {1} is provided"
+        name = "When getErrorMessage {0} is requested then error message {1} is provided",
     )
     @MethodSource("testGetErrorMessageArguments")
     fun `when getErrorMessage is requested then correct error message should return`(
         inputComponentState: BillingAddressInputComponentState,
         expectedErrorMessageResourceId: Int,
     ) {
-
         // When
         val actualErrorMessageResourceId = inputComponentState.getErrorMessage()
 
@@ -77,7 +76,7 @@ internal class BillingAddressDetailsExtensionsTest {
                 R.string.cko_billing_form_input_field_post_code_error,
                 BillingAddressDetailsTestData.fetchInputComponentStateList()[6],
                 R.string.cko_billing_form_input_field_phone_number_error,
-            )
+            ),
         )
     }
 }

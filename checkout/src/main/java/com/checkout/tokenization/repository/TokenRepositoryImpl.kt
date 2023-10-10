@@ -13,11 +13,11 @@ import com.checkout.tokenization.mapper.TokenizationNetworkDataMapper
 import com.checkout.tokenization.model.CVVTokenDetails
 import com.checkout.tokenization.model.CVVTokenizationRequest
 import com.checkout.tokenization.model.CVVTokenizationResultHandler
-import com.checkout.tokenization.model.GooglePayTokenRequest
+import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
+import com.checkout.tokenization.model.GooglePayTokenRequest
 import com.checkout.tokenization.model.TokenDetails
 import com.checkout.tokenization.model.TokenResult
-import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.ValidateCVVTokenizationRequest
 import com.checkout.tokenization.request.CVVTokenNetworkRequest
 import com.checkout.tokenization.request.GooglePayTokenNetworkRequest
@@ -27,10 +27,10 @@ import com.checkout.tokenization.response.TokenDetailsResponse
 import com.checkout.tokenization.utils.TokenizationConstants
 import com.checkout.validation.model.ValidationResult
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.CoroutineScope
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -50,8 +50,8 @@ internal class TokenRepositoryImpl(
     @VisibleForTesting
     var networkCoroutineScope = CoroutineScope(
         CoroutineName(BuildConfig.PRODUCT_IDENTIFIER) +
-                Dispatchers.IO +
-                NonCancellable
+            Dispatchers.IO +
+            NonCancellable,
     )
 
     @Suppress("TooGenericExceptionCaught")
@@ -70,7 +70,7 @@ internal class TokenRepositoryImpl(
                     logger.logTokenRequestEvent(TokenizationConstants.CARD, publicKey)
 
                     response = networkApiClient.sendCardTokenRequest(
-                        cardToTokenRequestMapper.map(cardTokenRequest.card)
+                        cardToTokenRequestMapper.map(cardTokenRequest.card),
                     )
 
                     logResponse(response, TokenizationConstants.CARD)
@@ -91,7 +91,8 @@ internal class TokenRepositoryImpl(
         with(cvvTokenizationRequest) {
             networkCoroutineScope.launch {
                 val validateCVVRequest = ValidateCVVTokenizationRequest(
-                    cvv = cvv, cardScheme = cardScheme
+                    cvv = cvv,
+                    cardScheme = cardScheme,
                 )
 
                 val validationTokenizationDataResult = validateCVVTokenizationDataUseCase.execute(validateCVVRequest)
@@ -103,7 +104,7 @@ internal class TokenRepositoryImpl(
 
                     is ValidationResult.Success -> {
                         networkApiClient.sendCVVTokenRequest(
-                            cvvToTokenNetworkRequestMapper.map(from = cvvTokenizationRequest)
+                            cvvToTokenNetworkRequestMapper.map(from = cvvTokenizationRequest),
                         )
                     }
                 }
@@ -135,7 +136,7 @@ internal class TokenRepositoryImpl(
             try {
                 val request = GooglePayTokenNetworkRequest(
                     TokenizationConstants.GOOGLE_PAY,
-                    creatingTokenData(googlePayTokenRequest.tokenJsonPayload)
+                    creatingTokenData(googlePayTokenRequest.tokenJsonPayload),
                 )
 
                 logger.logTokenRequestEvent(TokenizationConstants.GOOGLE_PAY, publicKey)
@@ -148,14 +149,14 @@ internal class TokenRepositoryImpl(
                 val error = TokenizationError(
                     TokenizationError.GOOGLE_PAY_REQUEST_PARSING_ERROR,
                     exception.message,
-                    exception.cause
+                    exception.cause,
                 )
                 response = NetworkApiResponse.InternalError(error)
                 logger.logErrorOnTokenRequestedEvent(TokenizationConstants.GOOGLE_PAY, publicKey, error)
             }
 
             val tokenResult = cardTokenizationNetworkDataMapper.toTokenResult(
-                response
+                response,
             )
 
             launch(Dispatchers.Main) {
@@ -171,14 +172,14 @@ internal class TokenRepositoryImpl(
         return GooglePayEntity(
             tokenDataJsonObject.getString("signature"),
             tokenDataJsonObject.getString("protocolVersion"),
-            tokenDataJsonObject.getString("signedMessage")
+            tokenDataJsonObject.getString("signedMessage"),
         )
     }
 
     private fun handleResponse(
         tokenResult: TokenResult<TokenDetails>,
         success: (tokenDetails: TokenDetails) -> Unit,
-        failure: (errorMessage: String) -> Unit
+        failure: (errorMessage: String) -> Unit,
     ) {
         when (tokenResult) {
             is TokenResult.Success -> {
@@ -198,7 +199,7 @@ internal class TokenRepositoryImpl(
                 publicKey,
                 null,
                 response.code,
-                response.body
+                response.body,
             )
 
             is NetworkApiResponse.Success -> logger.logTokenResponseEvent(tokenType, publicKey, response.body)

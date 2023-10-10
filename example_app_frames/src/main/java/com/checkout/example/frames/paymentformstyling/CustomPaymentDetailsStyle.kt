@@ -24,10 +24,10 @@ import com.checkout.frames.style.component.addresssummary.AddressSummaryComponen
 import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.InputFieldIndicatorStyle
 import com.checkout.frames.style.component.base.TextLabelStyle
-import com.checkout.frames.style.component.default.DefaultButtonStyle
 import com.checkout.frames.style.component.default.DefaultAddressSummaryComponentStyle
-import com.checkout.frames.style.component.default.DefaultLightStyle
+import com.checkout.frames.style.component.default.DefaultButtonStyle
 import com.checkout.frames.style.component.default.DefaultImageStyle
+import com.checkout.frames.style.component.default.DefaultLightStyle
 import com.checkout.frames.style.component.default.DefaultTextLabelStyle
 import com.checkout.frames.style.screen.PaymentDetailsStyle
 import com.checkout.frames.utils.constants.ErrorConstants
@@ -49,9 +49,9 @@ object CustomPaymentDetailsStyle {
             color = backgroundColor,
             padding = Padding(
                 start = PaymentFormConstants.padding,
-                end = PaymentFormConstants.padding
-            )
-        )
+                end = PaymentFormConstants.padding,
+            ),
+        ),
     )
 
     private fun providePayButtonStyle(): PayButtonComponentStyle {
@@ -65,7 +65,7 @@ object CustomPaymentDetailsStyle {
             fontWeight = FontWeight.Bold,
             margin = Margin(top = marginBottom),
             shape = Shape.Circle,
-            cornerRadius = inputFieldCornerRadius
+            cornerRadius = inputFieldCornerRadius,
         )
         return PayButtonComponentStyle(buttonStyle = buttonStyle)
     }
@@ -83,17 +83,17 @@ object CustomPaymentDetailsStyle {
                 textId = R.string.cko_add_billing_address,
                 trailingIconStyle = DefaultImageStyle.buttonTrailingImageStyle(tinColor = textColor),
                 fontWeight = FontWeight.SemiBold,
-                contentColor = textColor
+                contentColor = textColor,
             ),
             summarySectionStyle = style.summarySectionStyle.copy(
                 editAddressButtonStyle = DefaultButtonStyle.lightSolid(
                     textId = R.string.cko_edit_billing_address,
                     trailingIconStyle = DefaultImageStyle.buttonTrailingImageStyle(tinColor = textColor),
                     fontWeight = FontWeight.SemiBold,
-                    contentColor = textColor
+                    contentColor = textColor,
                 ),
-                containerStyle = containerStyle
-            )
+                containerStyle = containerStyle,
+            ),
         )
         return style
     }
@@ -110,17 +110,17 @@ object CustomPaymentDetailsStyle {
                     containerStyle = provideContainerStyle(inputFieldCornerRadius.copy(bottomStart = 0, bottomEnd = 0)),
                     indicatorStyle = provideIndicatorStyle(),
                     placeholderStyle = inputStyle.inputFieldStyle.placeholderStyle.copy(
-                        color = placeHolderTextColor
-                    )
-                )
-            )
+                        color = placeHolderTextColor,
+                    ),
+                ),
+            ),
         )
     }
 
     private fun provideExpiryDateStyle(): ExpiryDateComponentStyle {
         val inputStyle = DefaultLightStyle.inputComponentStyle(
             placeholderResourceTextId = R.string.cko_expiry_date_component_title,
-            margin = Margin(top = 2)
+            margin = Margin(top = 2),
         )
         return ExpiryDateComponentStyle(
             inputStyle.copy(
@@ -129,17 +129,17 @@ object CustomPaymentDetailsStyle {
                     containerStyle = provideContainerStyle(CornerRadius()),
                     indicatorStyle = provideIndicatorStyle(),
                     placeholderStyle = inputStyle.inputFieldStyle.placeholderStyle.copy(
-                        color = placeHolderTextColor
-                    )
-                )
-            )
+                        color = placeHolderTextColor,
+                    ),
+                ),
+            ),
         )
     }
 
     private fun provideCVVStyle(): CvvComponentStyle {
         val inputStyle = DefaultLightStyle.inputComponentStyle(
             placeholderResourceTextId = R.string.cko_cvv_component_title,
-            margin = Margin(top = 2, bottom = margin)
+            margin = Margin(top = 2, bottom = margin),
         )
         return CvvComponentStyle(
             inputStyle.copy(
@@ -148,10 +148,10 @@ object CustomPaymentDetailsStyle {
                     containerStyle = provideContainerStyle(inputFieldCornerRadius.copy(topStart = 0, topEnd = 0)),
                     indicatorStyle = provideIndicatorStyle(),
                     placeholderStyle = inputStyle.inputFieldStyle.placeholderStyle.copy(
-                        color = placeHolderTextColor
-                    )
-                )
-            )
+                        color = placeHolderTextColor,
+                    ),
+                ),
+            ),
         )
     }
 
@@ -159,20 +159,20 @@ object CustomPaymentDetailsStyle {
         DefaultTextLabelStyle.error(
             padding = Padding(
                 top = ErrorConstants.errorMessageTopPadding,
-                bottom = ErrorConstants.errorMessageTopPadding
-            )
+                bottom = ErrorConstants.errorMessageTopPadding,
+            ),
         )
 
     private fun provideIndicatorStyle(): InputFieldIndicatorStyle = InputFieldIndicatorStyle.Underline(
         focusedUnderlineThickness = 0,
-        unfocusedUnderlineThickness = 0
+        unfocusedUnderlineThickness = 0,
     )
 
     private fun provideContainerStyle(cornerRadius: CornerRadius): ContainerStyle {
         return ContainerStyle(
             shape = inputFieldBorderShape,
             color = inputFieldColor,
-            cornerRadius = cornerRadius
+            cornerRadius = cornerRadius,
         )
     }
 
@@ -181,11 +181,11 @@ object CustomPaymentDetailsStyle {
             containerStyle = ContainerStyle(
                 margin = Margin(
                     top = marginTop,
-                    bottom = marginBottom
-                )
+                    bottom = marginBottom,
+                ),
             ),
             titleStyle = DefaultTextLabelStyle.subtitle(textId = R.string.accepted_card_schemes, color = textColor),
-            imageStyle = null
+            imageStyle = null,
         )
 
     private fun provideHeaderStyle() = DefaultLightStyle.screenHeader(
@@ -193,8 +193,8 @@ object CustomPaymentDetailsStyle {
         imageId = R.drawable.ic_back_arrow,
         leadingIconSize = backIconSize,
         textColor = textColor,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
     ).copy(
-        containerStyle = ContainerStyle(color = backgroundColor)
+        containerStyle = ContainerStyle(color = backgroundColor),
     )
 }

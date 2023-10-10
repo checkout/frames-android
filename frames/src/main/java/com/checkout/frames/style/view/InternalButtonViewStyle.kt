@@ -27,5 +27,5 @@ internal data class InternalButtonViewStyle(
     val shape: Shape,
     val border: BorderStroke? = null,
     val contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-    val textStyle: TextLabelViewStyle
+    val textStyle: TextLabelViewStyle,
 )

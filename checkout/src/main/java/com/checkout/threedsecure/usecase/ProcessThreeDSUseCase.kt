@@ -23,8 +23,11 @@ public class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSResul
             Uri.parse(successUrl).matches(redirectUri) -> {
                 val token = provideToken(redirectUrl)
 
-                if (token == null) provideError(ThreeDSError.COULD_NOT_EXTRACT_TOKEN, "Url can't be null.")
-                else ThreeDSResult.Success(token)
+                if (token == null) {
+                    provideError(ThreeDSError.COULD_NOT_EXTRACT_TOKEN, "Url can't be null.")
+                } else {
+                    ThreeDSResult.Success(token)
+                }
             }
             Uri.parse(failureUrl).matches(redirectUri) -> ThreeDSResult.Failure
             else -> null

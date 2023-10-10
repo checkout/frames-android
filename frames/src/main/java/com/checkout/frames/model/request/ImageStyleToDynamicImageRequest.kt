@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.flowOf
 internal data class ImageStyleToDynamicImageRequest(
     val style: ImageStyle?,
     val dynamicImageId: Flow<Int?>,
-    val onImageClick: Flow<(() -> Unit)?> = flowOf(null)
+    val onImageClick: Flow<(() -> Unit)?> = flowOf(null),
 )

@@ -3,17 +3,17 @@ package com.checkout.mock
 internal object GetTokenDetailsResponseTestJson {
 
     const val addressJson = "{\n" +
-            "                        \"address_line1\": \"Checkout.com\",\n" +
-            "                        \"address_line2\": \"90 Tottenham Court Road\",\n" +
-            "                        \"city\": \"London\",\n" +
-            "                        \"state\": \"London\",\n" +
-            "                        \"zip\": \"W1T 4TJ\",\n" +
-            "                        \"country\": \"GB\"\n" +
-            "                      }"
+        "                        \"address_line1\": \"Checkout.com\",\n" +
+        "                        \"address_line2\": \"90 Tottenham Court Road\",\n" +
+        "                        \"city\": \"London\",\n" +
+        "                        \"state\": \"London\",\n" +
+        "                        \"zip\": \"W1T 4TJ\",\n" +
+        "                        \"country\": \"GB\"\n" +
+        "                      }"
     const val phoneJson = "{\n" +
-            "                        \"number\": \"4155552671\",\n" +
-            "                        \"country_code\": \"44\"\n" +
-            "                      }"
+        "                        \"number\": \"4155552671\",\n" +
+        "                        \"country_code\": \"44\"\n" +
+        "                      }"
 
     val cardTokenDetailsResponse = """
                     {
@@ -45,7 +45,7 @@ internal object GetTokenDetailsResponseTestJson {
                       },
                       "name": "Bruce Wayne"
                     }
-                     """.trimIndent()
+    """.trimIndent()
 
     val cvvTokenDetailsResponse = """
                     {
@@ -53,7 +53,7 @@ internal object GetTokenDetailsResponseTestJson {
                       "token": "tok_ubfj2q76miwundwlk72vxt2i7q",
                       "expires_on": "2019-08-24T14:15:22Z"
                     }
-                      """.trimIndent()
+    """.trimIndent()
 
     val googlePayTokenDetailsResponse = """
                       {
@@ -72,7 +72,7 @@ internal object GetTokenDetailsResponseTestJson {
                       "product_id": "F",
                       "product_type": "CLASSIC"
                       }
-                     """.trimIndent()
+    """.trimIndent()
 
     val cardTokenDetailsErrorResponse = """
                       {
@@ -83,7 +83,7 @@ internal object GetTokenDetailsResponseTestJson {
                               "cvv_invalid"
                           ]
                       }
-                     """.trimIndent()
+    """.trimIndent()
 
     val cvvTokenDetailsErrorResponse = """
                       {
@@ -93,7 +93,7 @@ internal object GetTokenDetailsResponseTestJson {
                              "cvv_invalid"
                           ]
                       }
-                     """.trimIndent()
+    """.trimIndent()
 
     val googlePayTokenDetailsErrorResponse = """
                         {
@@ -103,5 +103,5 @@ internal object GetTokenDetailsResponseTestJson {
                               "token_data_invalid"
                            ]
                         }
-                     """.trimIndent()
+    """.trimIndent()
 }

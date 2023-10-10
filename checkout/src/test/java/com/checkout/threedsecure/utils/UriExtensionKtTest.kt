@@ -9,13 +9,13 @@ import org.robolectric.ParameterizedRobolectricTestRunner
 internal class UriExtensionKtTest(
     private val expectedUrl: String,
     private val targetUrl: String,
-    private val result: Boolean
+    private val result: Boolean,
 ) {
 
     companion object {
         @JvmStatic
         @ParameterizedRobolectricTestRunner.Parameters(
-            name = "When expected Url {0} compared with target Url {1} then {2} is returned"
+            name = "When expected Url {0} compared with target Url {1} then {2} is returned",
         )
         fun data() = listOf(
             arrayOf("www.example.com/Success", "https://www.example.com/Success", false),
@@ -30,13 +30,13 @@ internal class UriExtensionKtTest(
             arrayOf(
                 "https://www.example.com/test?q=Success",
                 "https://www.example.com/test?q=Success&cko-session-id=wrongValue",
-                true
+                true,
             ),
             arrayOf(
                 "https://www.example.com/test?q=Success&hello=world",
                 "https://www.example.com/test?hello=world&q=Success",
-                true
-            )
+                true,
+            ),
         )
     }
 

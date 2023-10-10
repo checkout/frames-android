@@ -13,5 +13,5 @@ internal data class CvvValidationRequest(
     /**
      * The card scheme representing as an [CardScheme]
      */
-    val cardScheme: CardScheme
+    val cardScheme: CardScheme,
 )

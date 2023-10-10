@@ -23,7 +23,7 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
     override fun validate(data: ExpiryDateValidationRequest): ValidationResult<ExpiryDate> = try {
         val expiryDate = ExpiryDate(
             provideValidatedMonth(data.expiryMonth),
-            provideValidated4DigitYear(data.expiryYear)
+            provideValidated4DigitYear(data.expiryYear),
         )
 
         validateExpiryDate(expiryDate)
@@ -43,11 +43,11 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
     private fun provideValidatedMonth(value: String): Int = when (val month = value.toIntOrNull()) {
         null -> throw ValidationError(
             ValidationError.INVALID_MONTH_STRING,
-            "Invalid value provided for month: $month"
+            "Invalid value provided for month: $month",
         )
         !in MONTH_RANGE -> throw ValidationError(
             ValidationError.INVALID_MONTH,
-            "Month must be >= ${MONTH_RANGE.first} && <= ${MONTH_RANGE.last}"
+            "Month must be >= ${MONTH_RANGE.first} && <= ${MONTH_RANGE.last}",
         )
         else -> month
     }
@@ -67,18 +67,18 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
         return when {
             year == null -> throw ValidationError(
                 ValidationError.INVALID_YEAR_STRING,
-                "Invalid value provided for year: $value"
+                "Invalid value provided for year: $value",
             )
             year < 0 -> throw ValidationError(
                 ValidationError.INVALID_YEAR,
-                "Year cannot be a negative value: $value"
+                "Year cannot be a negative value: $value",
             )
             (value.length == 1 && value.first() < referenceYear.first()) || value.length == YEAR_SHORT_FORMAT ->
                 year + YEAR_LONG_DELTA // Convert 2 digit year to 4 digit year
             value.length == YEAR_LONG_FORMAT -> year
             else -> throw ValidationError(
                 ValidationError.INVALID_YEAR,
-                "Unexpected year value detected: $value"
+                "Unexpected year value detected: $value",
             )
         }
     }
@@ -98,7 +98,7 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
         if (year < referenceYear || (year == referenceYear && month < referenceMonth)) {
             throw ValidationError(
                 ValidationError.EXPIRY_DATE_IN_PAST,
-                "Expiry month $month & year $year should be in the future"
+                "Expiry month $month & year $year should be in the future",
             )
         }
     }

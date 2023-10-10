@@ -28,7 +28,7 @@ internal fun BillingAddress.summary(): String {
                     "\n+${phone.country?.dialingCode} ${phone.number}"
                 } else {
                     "\n${phone.number}"
-                }
+                },
             )
         }
     }

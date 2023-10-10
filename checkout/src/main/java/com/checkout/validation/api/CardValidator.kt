@@ -1,7 +1,7 @@
 package com.checkout.validation.api
 
-import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.base.model.CardScheme
+import com.checkout.tokenization.model.ExpiryDate
 import com.checkout.validation.model.ValidationResult
 
 /**

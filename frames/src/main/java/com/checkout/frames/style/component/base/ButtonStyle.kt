@@ -1,11 +1,11 @@
 package com.checkout.frames.style.component.base
 
 import androidx.annotation.ColorLong
-import com.checkout.frames.model.Shape
-import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.model.ButtonElevation
+import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Padding
+import com.checkout.frames.model.Shape
 
 public data class ButtonStyle @JvmOverloads constructor(
     /** The 32-bit ARGB container color of this Button when enabled. */
@@ -33,5 +33,5 @@ public data class ButtonStyle @JvmOverloads constructor(
     /** The text label style. Can be used to set leading and trailing icons. */
     val textStyle: TextLabelStyle = TextLabelStyle(),
     /** Top level button container style. */
-    val containerStyle: ContainerStyle = ContainerStyle()
+    val containerStyle: ContainerStyle = ContainerStyle(),
 )

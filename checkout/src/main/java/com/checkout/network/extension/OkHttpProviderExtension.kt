@@ -27,11 +27,11 @@ private fun createNetworkApiRequestInterceptor(publicKey: String) = Interceptor 
     with(requestBuilder) {
         addHeader(
             HEADER_AUTHORIZATION,
-            publicKey
+            publicKey,
         )
         addHeader(
             HEADER_USER_AGENT_NAME,
-            HEADER_USER_AGENT_VALUE
+            HEADER_USER_AGENT_VALUE,
         )
     }
     chain.proceed(requestBuilder.build())
@@ -39,7 +39,7 @@ private fun createNetworkApiRequestInterceptor(publicKey: String) = Interceptor 
 
 internal fun buildConnectionSpecs(): List<ConnectionSpec> = listOf(
     ConnectionSpec.RESTRICTED_TLS,
-    ConnectionSpec.CLEARTEXT // Allow ClearText in debugBuilds
+    ConnectionSpec.CLEARTEXT, // Allow ClearText in debugBuilds
 )
 
 private fun httpLoggingInterceptor() = HttpLoggingInterceptor { message ->

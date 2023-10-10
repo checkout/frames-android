@@ -11,5 +11,5 @@ public data class ExpiryDate(
     /**
      * The expiry year representing as an [Int] value YYYY format. (E.g. 2021)
      */
-    val expiryYear: Int
+    val expiryYear: Int,
 )

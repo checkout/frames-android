@@ -26,8 +26,8 @@ internal fun PaymentFormScreen(config: PaymentFormConfig) {
             environment = config.environment,
             paymentFlowHandler = config.paymentFlowHandler,
             supportedCardSchemes = config.supportedCardSchemeList,
-            prefillData = config.prefillData
-        )
+            prefillData = config.prefillData,
+        ),
     )
 
     AnimatedNavHost(navController, startDestination = Screen.PaymentDetails.route) {
@@ -35,7 +35,7 @@ internal fun PaymentFormScreen(config: PaymentFormConfig) {
             PaymentDetailsScreen(
                 config.style.paymentDetailsStyle,
                 viewModel.injector,
-                navController
+                navController,
             )
         }
 
@@ -46,11 +46,11 @@ internal fun PaymentFormScreen(config: PaymentFormConfig) {
             },
             exitTransition = {
                 slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, tween(animationDuration))
-            }
+            },
         ) {
             BillingAddressFormScreen(
                 config.style.billingFormStyle,
-                viewModel.injector
+                viewModel.injector,
             ) {
                 navController.navigateUp()
             }

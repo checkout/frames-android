@@ -1,8 +1,8 @@
 package com.checkout.validation.validator
 
-import com.checkout.tokenization.model.Phone
 import com.checkout.base.util.PHONE_MAX_LENGTH
 import com.checkout.base.util.PHONE_MIN_LENGTH
+import com.checkout.tokenization.model.Phone
 import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.PhoneValidationRequest
 import com.checkout.validation.model.ValidationResult
@@ -22,7 +22,7 @@ internal class PhoneValidator : Validator<PhoneValidationRequest, Phone> {
     override fun validate(data: PhoneValidationRequest): ValidationResult<Phone> = try {
         val phone = Phone(
             data.number,
-            data.country
+            data.country,
         )
         validatePhone(phone)
 
@@ -44,7 +44,7 @@ internal class PhoneValidator : Validator<PhoneValidationRequest, Phone> {
         when {
             phone.number.length < PHONE_MIN_LENGTH || phone.number.length > PHONE_MAX_LENGTH -> throw ValidationError(
                 ValidationError.NUMBER_INCORRECT_LENGTH,
-                "Invalid length of phone number"
+                "Invalid length of phone number",
             )
         }
     }

@@ -9,5 +9,5 @@ internal data class AddressSummaryComponentViewStyle(
     val subTitleStyle: TextLabelViewStyle?,
     val addAddressButtonStyle: InternalButtonViewStyle,
     val summarySectionStyle: AddressSummarySectionViewStyle,
-    val modifier: Modifier
+    val modifier: Modifier,
 )

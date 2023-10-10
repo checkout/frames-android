@@ -16,9 +16,9 @@ internal object PrefillDataHelper {
                 city = "London",
                 state = "London",
                 zip = "W1T 4TJ",
-                country = Country.from(iso3166Alpha2 = "GB")
+                country = Country.from(iso3166Alpha2 = "GB"),
             ),
-            phone = Phone("7405987323", Country.UNITED_KINGDOM)
-        )
+            phone = Phone("7405987323", Country.UNITED_KINGDOM),
+        ),
     )
 }

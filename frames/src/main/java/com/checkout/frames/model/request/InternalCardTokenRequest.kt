@@ -13,5 +13,5 @@ import com.checkout.tokenization.model.Card
 internal data class InternalCardTokenRequest(
     val card: Card,
     val onSuccess: () -> Unit,
-    val onFailure: () -> Unit
+    val onFailure: () -> Unit,
 )

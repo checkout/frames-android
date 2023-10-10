@@ -20,7 +20,8 @@ public enum class BillingFormFields(internal var isFieldOptional: Boolean = fals
     State,
     PostCode,
     Country,
-    Phone;
+    Phone,
+    ;
 
     public companion object {
 
@@ -36,8 +37,8 @@ public enum class BillingFormFields(internal var isFieldOptional: Boolean = fals
                         State.withOptional(true),
                         PostCode.withOptional(false),
                         Country.withOptional(false),
-                        Phone.withOptional(false)
-                    )
+                        Phone.withOptional(false),
+                    ),
                 )
             }
     }

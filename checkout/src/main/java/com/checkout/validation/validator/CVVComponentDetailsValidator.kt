@@ -13,8 +13,9 @@ internal class CVVComponentDetailsValidator(private val cvvValidator: Validator<
     override fun validate(cvv: String, cardScheme: CardScheme): ValidationResult<Unit> = if (cvv.isEmpty()) {
         ValidationResult.Failure(
             ValidationError(
-                errorCode = ValidationError.CVV_INVALID_LENGTH, message = "Please enter a valid security code"
-            )
+                errorCode = ValidationError.CVV_INVALID_LENGTH,
+                message = "Please enter a valid security code",
+            ),
         )
     } else {
         cvvValidator.validate(CvvValidationRequest(cvv, cardScheme))

@@ -2,11 +2,11 @@ package com.checkout.frames.style.component.default
 
 import androidx.annotation.ColorLong
 import androidx.annotation.StringRes
-import com.checkout.frames.model.Shape
-import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.BorderStroke
-import com.checkout.frames.model.Padding
+import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Margin
+import com.checkout.frames.model.Padding
+import com.checkout.frames.model.Shape
 import com.checkout.frames.model.font.FontWeight
 import com.checkout.frames.style.component.base.ButtonStyle
 import com.checkout.frames.style.component.base.ContainerStyle
@@ -34,13 +34,13 @@ public object DefaultButtonStyle {
         cornerRadius: CornerRadius = CornerRadius(BorderConstants.radius),
         borderStroke: BorderStroke? = BorderStroke(
             BorderConstants.unfocusedBorderThickness,
-            ButtonStyleConstants.outlineStrokeColor
+            ButtonStyleConstants.outlineStrokeColor,
         ),
         contentPadding: Padding = ButtonStyleConstants.outlineContentPadding,
         leadingIconStyle: ImageStyle? = null,
         trailingIconStyle: ImageStyle? = null,
         margin: Margin? = null,
-        fontWeight: FontWeight = FontWeight.Normal
+        fontWeight: FontWeight = FontWeight.Normal,
     ): ButtonStyle = ButtonStyle(
         contentColor = contentColor,
         containerColor = containerColor,
@@ -55,9 +55,9 @@ public object DefaultButtonStyle {
             textId = textId,
             leadingIconStyle = leadingIconStyle,
             trailingIconStyle = trailingIconStyle,
-            fontWeight = fontWeight
+            fontWeight = fontWeight,
         ),
-        containerStyle = ContainerStyle(margin = margin)
+        containerStyle = ContainerStyle(margin = margin),
     )
 
     @Suppress("LongParameterList")
@@ -80,7 +80,7 @@ public object DefaultButtonStyle {
         leadingIconStyle: ImageStyle? = null,
         trailingIconStyle: ImageStyle? = null,
         margin: Margin? = null,
-        fontWeight: FontWeight = FontWeight.Normal
+        fontWeight: FontWeight = FontWeight.Normal,
     ): ButtonStyle = lightOutline(
         text = text,
         textId = textId,
@@ -95,6 +95,6 @@ public object DefaultButtonStyle {
         leadingIconStyle = leadingIconStyle,
         trailingIconStyle = trailingIconStyle,
         margin = margin,
-        fontWeight = fontWeight
+        fontWeight = fontWeight,
     )
 }

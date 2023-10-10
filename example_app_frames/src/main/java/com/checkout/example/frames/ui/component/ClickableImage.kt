@@ -14,7 +14,7 @@ fun ClickableImage(
     painter: Painter,
     contentDescription: String,
     onClick: () -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     Image(
         painter = painter,
@@ -22,6 +22,6 @@ fun ClickableImage(
         modifier = Modifier
             .defaultMinSize()
             .padding(paddingValues)
-            .clickable { onClick() }
+            .clickable { onClick() },
     )
 }

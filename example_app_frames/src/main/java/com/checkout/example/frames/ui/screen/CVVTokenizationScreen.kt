@@ -33,23 +33,23 @@ fun CVVTokenizationScreen(navController: NavHostController) {
     val cvvComponentApi = CVVComponentApiFactory.create(
         publicKey = PUBLIC_KEY_CVV_TOKENIZATION,
         environment = Environment.SANDBOX,
-        context = LocalContext.current
+        context = LocalContext.current,
     )
 
     val visaMediator = createMediator(
         cvvComponentApi = cvvComponentApi,
         schemeValue = "Visa",
         inputFieldStyle = DefaultCVVInputFieldStyle.create().copy(
-            containerStyle = ContainerStyle(width = 250, padding = Padding(end = 10))
+            containerStyle = ContainerStyle(width = 250, padding = Padding(end = 10)),
         ),
-        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredVisaCVVValid
+        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredVisaCVVValid,
     )
 
     val maestroMediator = createMediator(
         cvvComponentApi = cvvComponentApi,
         schemeValue = "Maestro",
         inputFieldStyle = CustomCVVInputFieldStyle.create(),
-        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredMaestroCVVValid
+        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredMaestroCVVValid,
     )
 
     val amexMediator = createMediator(
@@ -61,11 +61,11 @@ fun CVVTokenizationScreen(navController: NavHostController) {
                 color = 0XFF24302D,
                 shape = Shape.Rectangle,
                 padding = Padding(end = 2),
-                cornerRadius = CornerRadius(9)
+                cornerRadius = CornerRadius(9),
             ),
-            textStyle = TextStyle(16, color = 0XFF00CC2D, font = Font.Serif)
+            textStyle = TextStyle(16, color = 0XFF00CC2D, font = Font.Serif),
         ),
-        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredAmexCVVValid
+        enteredVisaCVVUpdated = cvvTokenizationViewModel.isEnteredAmexCVVValid,
     )
 
     val unknownMediator = createMediator(
@@ -77,8 +77,8 @@ fun CVVTokenizationScreen(navController: NavHostController) {
                 padding = Padding(end = 2),
                 color = PaymentFormConstants.backgroundColor,
                 shape = Shape.Circle,
-                cornerRadius = CornerRadius(9)
-            )
+                cornerRadius = CornerRadius(9),
+            ),
         ),
     )
 
@@ -88,7 +88,7 @@ fun CVVTokenizationScreen(navController: NavHostController) {
         visaMediator = visaMediator,
         maestroMediator = maestroMediator,
         amexMediator = amexMediator,
-        unknownMediator = unknownMediator
+        unknownMediator = unknownMediator,
     )
 }
 
@@ -99,9 +99,11 @@ fun createMediator(
     enteredVisaCVVUpdated: MutableState<Boolean> = mutableStateOf(true),
 ): CVVComponentMediator {
     val cvvComponentConfig = CVVComponentConfig(
-        cardScheme = CardScheme.fromString(cardSchemeValue = schemeValue), onCVVValueChange = { isValidCVV ->
+        cardScheme = CardScheme.fromString(cardSchemeValue = schemeValue),
+        onCVVValueChange = { isValidCVV ->
             enteredVisaCVVUpdated.value = isValidCVV
-        }, cvvInputFieldStyle = inputFieldStyle
+        },
+        cvvInputFieldStyle = inputFieldStyle,
     )
 
     return cvvComponentApi.createComponentMediator(cvvComponentConfig)

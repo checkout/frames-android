@@ -1,8 +1,8 @@
 package com.checkout.validation.validator
 
 import android.annotation.SuppressLint
-import com.checkout.tokenization.model.Address
 import com.checkout.base.model.Country
+import com.checkout.tokenization.model.Address
 import com.checkout.validation.error.ValidationError
 import com.checkout.validation.model.AddressValidationRequest
 import com.checkout.validation.model.ValidationResult
@@ -36,7 +36,7 @@ internal class AddressValidatorTest {
         testState: String,
         testZip: String,
         testCountry: Country,
-        expectedResult: ValidationResult<Address>
+        expectedResult: ValidationResult<Address>,
     ) {
         // Given
         val addressValidationRequest = AddressValidationRequest(
@@ -45,7 +45,7 @@ internal class AddressValidatorTest {
             testCity,
             testState,
             testZip,
-            testCountry
+            testCountry,
         )
 
         // When
@@ -59,7 +59,7 @@ internal class AddressValidatorTest {
             }
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedResult.error.errorCode,
-                (result as? ValidationResult.Failure)?.error?.errorCode
+                (result as? ValidationResult.Failure)?.error?.errorCode,
             )
         }
     }
@@ -69,26 +69,26 @@ internal class AddressValidatorTest {
         fun invalidAddressArguments(): Stream<Arguments> = Stream.of(
             Arguments.of(
                 "26  Eaton Road,Northampton,England, Lucas Green Nurseries, Lucas Green, West End, " +
-                        "Flat 2, 21 Harbour Road, Rushed\",NN10 0FS, 11 Headland Close, Portland,Flat 15," +
-                        " Milled Lodge, 275 Wake Green Road, Birmingham",
+                    "Flat 2, 21 Harbour Road, Rushed\",NN10 0FS, 11 Headland Close, Portland,Flat 15," +
+                    " Milled Lodge, 275 Wake Green Road, Birmingham",
                 "Lucas Green Nurseries, Lucas Green",
                 "City of London",
                 "England",
                 "SE1P",
                 Country.from("GB"),
-                provideFailure(ValidationError.ADDRESS_LINE1_INCORRECT_LENGTH)
+                provideFailure(ValidationError.ADDRESS_LINE1_INCORRECT_LENGTH),
             ),
 
             Arguments.of(
                 "26  Eaton Road",
                 "26  Eaton Road,Northampton,England, Lucas Green Nurseries," +
-                        " Lucas Green, West End, Flat 2, 21 Harbour Road, Rushed\",NN10 0FS, " +
-                        "11 Headland Close, Portland,Flat 15, Milled Lodge, 275 Wake Green Road, Birmingham",
+                    " Lucas Green, West End, Flat 2, 21 Harbour Road, Rushed\",NN10 0FS, " +
+                    "11 Headland Close, Portland,Flat 15, Milled Lodge, 275 Wake Green Road, Birmingham",
                 "City of London",
                 "England",
                 "SE1P",
                 Country.from("GB"),
-                provideFailure(ValidationError.ADDRESS_LINE2_INCORRECT_LENGTH)
+                provideFailure(ValidationError.ADDRESS_LINE2_INCORRECT_LENGTH),
             ),
 
             Arguments.of(
@@ -98,7 +98,7 @@ internal class AddressValidatorTest {
                 "England",
                 "SE1P",
                 Country.from("GB"),
-                provideFailure(ValidationError.INVALID_CITY_LENGTH)
+                provideFailure(ValidationError.INVALID_CITY_LENGTH),
             ),
 
             Arguments.of(
@@ -108,7 +108,7 @@ internal class AddressValidatorTest {
                 "Northern Ireland,Scotland, England and dummy state entries",
                 "SE1P",
                 Country.from("GB"),
-                provideFailure(ValidationError.INVALID_STATE_LENGTH)
+                provideFailure(ValidationError.INVALID_STATE_LENGTH),
             ),
 
             Arguments.of(
@@ -118,8 +118,8 @@ internal class AddressValidatorTest {
                 "Northern Ireland",
                 "SW1W 0NY, EC1–EC4, NW1W, SE1P, SW1 fake entries zip code",
                 Country.from("GB"),
-                provideFailure(ValidationError.INVALID_ZIP_LENGTH)
-            )
+                provideFailure(ValidationError.INVALID_ZIP_LENGTH),
+            ),
         )
 
         @JvmStatic
@@ -138,10 +138,10 @@ internal class AddressValidatorTest {
                         "Cordon",
                         "England",
                         "CR7 6DU",
-                        Country.from("GB")
-                    )
-                )
-            )
+                        Country.from("GB"),
+                    ),
+                ),
+            ),
         )
 
         private fun provideFailure(errorCode: String) = ValidationResult.Failure(ValidationError(errorCode))

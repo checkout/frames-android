@@ -15,7 +15,7 @@ import com.checkout.frames.utils.extensions.toPaddingValues
 
 internal class ButtonStyleToInternalViewStyleMapper(
     private val containerMapper: Mapper<ContainerStyle, Modifier>,
-    private val textLabelMapper: Mapper<TextLabelStyle, TextLabelViewStyle>
+    private val textLabelMapper: Mapper<TextLabelStyle, TextLabelViewStyle>,
 ) : Mapper<ButtonStyle, InternalButtonViewStyle> {
 
     override fun map(from: ButtonStyle): InternalButtonViewStyle = InternalButtonViewStyle(
@@ -32,6 +32,6 @@ internal class ButtonStyleToInternalViewStyleMapper(
         shape = from.shape.toComposeShape(from.cornerRadius),
         border = from.borderStroke?.toComposeStroke(),
         contentPadding = from.contentPadding.toPaddingValues(),
-        textStyle = textLabelMapper.map(from.textStyle)
+        textStyle = textLabelMapper.map(from.textStyle),
     )
 }

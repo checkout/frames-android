@@ -3,12 +3,12 @@ package com.checkout.frames.component.cardscheme
 import android.annotation.SuppressLint
 import com.checkout.base.mapper.Mapper
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
-import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
-import com.checkout.frames.mapper.ContainerStyleToModifierMapper
-import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
-import com.checkout.frames.mapper.TextLabelStyleToStateMapper
-import com.checkout.frames.mapper.CardSchemeComponentStyleToViewStyleMapper
 import com.checkout.frames.mapper.CardSchemeComponentStyleToStateMapper
+import com.checkout.frames.mapper.CardSchemeComponentStyleToViewStyleMapper
+import com.checkout.frames.mapper.ContainerStyleToModifierMapper
+import com.checkout.frames.mapper.ImageStyleToComposableImageMapper
+import com.checkout.frames.mapper.TextLabelStyleToStateMapper
+import com.checkout.frames.mapper.TextLabelStyleToViewStyleMapper
 import com.checkout.frames.screen.manager.PaymentFormStateManager
 import com.checkout.frames.screen.manager.PaymentStateManager
 import com.checkout.frames.style.component.CardSchemeComponentStyle
@@ -39,7 +39,7 @@ internal class CardSchemeViewModelTest {
     @SpyK
     var spyPaymentStateManager: PaymentStateManager = PaymentFormStateManager(
         supportedCardSchemes = emptyList(),
-        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper()
+        billingFormAddressToBillingAddressMapper = BillingFormAddressToBillingAddressMapper(),
     )
 
     private var style: CardSchemeComponentStyle = CardSchemeComponentStyle()
@@ -57,7 +57,7 @@ internal class CardSchemeViewModelTest {
             spyCardSchemeComponentStyleMapper,
             spyCardSchemeComponentStateMapper,
             spyImageStyleToComposableImageMapper,
-            style
+            style,
         )
     }
 
@@ -101,7 +101,7 @@ internal class CardSchemeViewModelTest {
         spyImageStyleToComposableImageMapper = ImageStyleToComposableImageMapper()
         spyCardSchemeComponentStyleMapper = CardSchemeComponentStyleToViewStyleMapper(
             textLabelStyleMapper,
-            containerMapper
+            containerMapper,
         )
         spyCardSchemeComponentStateMapper = CardSchemeComponentStyleToStateMapper(textLabelStateMapper)
     }

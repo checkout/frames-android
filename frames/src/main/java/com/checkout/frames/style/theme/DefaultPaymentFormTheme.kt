@@ -162,8 +162,8 @@ public object DefaultPaymentFormTheme {
         postCode: PaymentFormComponent = this.postCode,
         phone: PaymentFormComponent = this.phone,
         country: PaymentFormComponent = this.country,
-        countryPicker: PaymentFormComponent = this.countryPicker
-        ): List<PaymentFormComponent> {
+        countryPicker: PaymentFormComponent = this.countryPicker,
+    ): List<PaymentFormComponent> {
         return listOf(
             paymentHeaderTitle,
             cardScheme,
@@ -186,7 +186,7 @@ public object DefaultPaymentFormTheme {
             postCode,
             phone,
             country,
-            countryPicker
+            countryPicker,
         )
     }
 

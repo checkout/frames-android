@@ -8,7 +8,7 @@ public data class Padding(
     /** Start padding in dp. */
     val start: Int = 0,
     /** End padding in dp. */
-    val end: Int = 0
+    val end: Int = 0,
 ) {
     public constructor(padding: Int) : this(padding, padding, padding, padding)
 }

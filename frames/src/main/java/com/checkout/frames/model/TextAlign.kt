@@ -6,5 +6,5 @@ package com.checkout.frames.model
 public enum class TextAlign {
     Start,
     Center,
-    End
+    End,
 }

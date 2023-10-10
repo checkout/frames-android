@@ -10,7 +10,7 @@ import com.checkout.frames.view.TextLabelState
 
 internal class AddressSummaryComponentStyleToStateMapper(
     private val textLabelStateMapper: Mapper<TextLabelStyle?, TextLabelState>,
-    private val buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>
+    private val buttonStateMapper: Mapper<ButtonStyle, InternalButtonState>,
 ) : Mapper<AddressSummaryComponentStyle, AddressSummaryComponentState> {
 
     override fun map(from: AddressSummaryComponentStyle): AddressSummaryComponentState = with(from) {

@@ -12,13 +12,13 @@ internal fun ExpiryDateComponent(
     injector: Injector,
 ) {
     val viewModel: ExpiryDateViewModel = viewModel(
-        factory = ExpiryDateViewModel.Factory(injector, style)
+        factory = ExpiryDateViewModel.Factory(injector, style),
     )
 
     InputComponent(
         style = viewModel.componentStyle,
         state = viewModel.componentState.inputState,
         onFocusChanged = viewModel::onFocusChanged,
-        onValueChange = viewModel::onExpiryDateInputChange
+        onValueChange = viewModel::onExpiryDateInputChange,
     )
 }

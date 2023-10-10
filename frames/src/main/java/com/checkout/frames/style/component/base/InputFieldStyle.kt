@@ -14,5 +14,5 @@ public data class InputFieldStyle @JvmOverloads constructor(
     val leadingIconStyle: ImageStyle? = null,
     val trailingIconStyle: ImageStyle? = null,
     val cursorStyle: CursorStyle? = null,
-    val keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    val keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 )

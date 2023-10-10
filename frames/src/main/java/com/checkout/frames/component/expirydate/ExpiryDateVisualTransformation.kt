@@ -4,8 +4,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
-import com.checkout.frames.utils.constants.EXPIRY_DATE_ZERO_POSITION_CHECK
 import com.checkout.frames.utils.constants.EXPIRY_DATE_PREFIX_ZERO
+import com.checkout.frames.utils.constants.EXPIRY_DATE_ZERO_POSITION_CHECK
 
 internal class ExpiryDateVisualTransformation : VisualTransformation {
 

@@ -35,5 +35,5 @@ internal data class AddressValidationRequest internal constructor(
     /**
      * Billing address country
      */
-    val country: Country?
+    val country: Country?,
 )

@@ -12,5 +12,5 @@ internal fun com.checkout.frames.style.component.base.TextStyle.toComposeTextSty
     fontFamily = this.font.toFontFamily(),
     fontStyle = this.fontStyle.toComposeFontStyle(),
     fontWeight = this.fontWeight.toComposeFontWeight(),
-    lineHeight = this.lineHeight?.sp ?: TextUnit.Unspecified
+    lineHeight = this.lineHeight?.sp ?: TextUnit.Unspecified,
 )

@@ -31,8 +31,11 @@ internal class LuhnChecker : Checker<String> {
         for (i in reversedNumber.indices) {
             val digit = reversedNumber[i].digitToIntOrNull() ?: return false
 
-            if (i % 2 == 0) oddSum += digit
-            else evenSum += digit / 5 + 2 * digit % 10
+            if (i % 2 == 0) {
+                oddSum += digit
+            } else {
+                evenSum += digit / 5 + 2 * digit % 10
+            }
         }
 
         return (oddSum + evenSum) % 10 == 0

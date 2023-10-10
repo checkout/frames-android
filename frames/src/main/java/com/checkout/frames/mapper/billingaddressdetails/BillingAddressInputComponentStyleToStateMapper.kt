@@ -14,6 +14,6 @@ internal class BillingAddressInputComponentStyleToStateMapper(
     override fun map(from: BillingAddressInputComponentStyle) = BillingAddressInputComponentState(
         addressFieldName = from.addressFieldName,
         isAddressFieldValid = MutableStateFlow(from.inputComponentStyle.isInputFieldOptional),
-        inputComponentState = inputComponentStateMapper.map(from.inputComponentStyle)
+        inputComponentState = inputComponentStateMapper.map(from.inputComponentStyle),
     )
 }

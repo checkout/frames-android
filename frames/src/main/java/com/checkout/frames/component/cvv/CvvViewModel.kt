@@ -29,7 +29,7 @@ internal class CvvViewModel @Inject constructor(
     private val cardValidator: CardValidator,
     private val inputComponentStyleMapper: Mapper<InputComponentStyle, InputComponentViewStyle>,
     private val inputComponentStateMapper: Mapper<InputComponentStyle, InputComponentState>,
-    style: CvvComponentStyle
+    style: CvvComponentStyle,
 ) : ViewModel() {
 
     val componentState = provideViewState(style)
@@ -101,8 +101,8 @@ internal class CvvViewModel @Inject constructor(
         viewStyle = viewStyle.copy(
             inputFieldStyle = viewStyle.inputFieldStyle.copy(
                 keyboardOptions = keyboardOptions,
-                forceLTR = true
-            )
+                forceLTR = true,
+            ),
         )
 
         return viewStyle
@@ -110,7 +110,7 @@ internal class CvvViewModel @Inject constructor(
 
     internal class Factory(
         private val injector: Injector,
-        private val style: CvvComponentStyle
+        private val style: CvvComponentStyle,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject
