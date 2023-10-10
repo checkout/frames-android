@@ -17,14 +17,20 @@ internal class CVVInputFieldTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun testCVVInputField() {
+    fun testCVVInputFieldTextChange() {
        // When
+        var cvvText = ""
         composeTestRule.setContent {
-            CVVInputField(config = CVVComponentConfig(CardScheme.VISA, {}, InputFieldStyle()))
+            CVVInputField(
+                config = CVVComponentConfig(CardScheme.VISA, {}, InputFieldStyle()),
+            ) {
+                cvvText = it
+            }
         }
 
         // Then
         composeTestRule.onNodeWithText("").assertIsDisplayed().assertIsNotFocused().performTextInput("123")
         composeTestRule.onNodeWithText("123").assertIsDisplayed().assertIsFocused()
+        assert(cvvText == "123")
     }
 }

@@ -1,17 +1,24 @@
 package com.checkout.tokenization.repository
 
+import com.checkout.base.model.CardScheme
 import com.checkout.base.usecase.UseCase
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.network.response.ErrorResponse
 import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.TokenNetworkApiClient
 import com.checkout.tokenization.error.TokenizationError
 import com.checkout.tokenization.logging.TokenizationLogger
+import com.checkout.tokenization.mapper.request.CVVToTokenNetworkRequestMapper
 import com.checkout.tokenization.mapper.request.CardToTokenRequestMapper
+import com.checkout.tokenization.mapper.response.CVVTokenizationNetworkDataMapper
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
+import com.checkout.tokenization.model.CVVTokenizationRequest
+import com.checkout.tokenization.model.CVVTokenizationResultHandler
 import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.GooglePayTokenRequest
+import com.checkout.tokenization.model.ValidateCVVTokenizationRequest
+import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
 import com.checkout.tokenization.utils.TokenizationConstants
 import com.checkout.validation.model.ValidationResult
@@ -48,6 +55,10 @@ internal class TokenRepositoryImplTest {
     private lateinit var mockValidateTokenizationDataUseCase: UseCase<Card, ValidationResult<Unit>>
 
     @RelaxedMockK
+    private lateinit var mockValidateCVVTokenizationDataUseCase:
+            UseCase<ValidateCVVTokenizationRequest, ValidationResult<Unit>>
+
+    @RelaxedMockK
     private lateinit var mockTokenizationLogger: TokenizationLogger
 
     private lateinit var tokenRepositoryImpl: TokenRepositoryImpl
@@ -55,12 +66,15 @@ internal class TokenRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         tokenRepositoryImpl = TokenRepositoryImpl(
-            mockTokenNetworkApiClient,
-            CardToTokenRequestMapper(),
-            CardTokenizationNetworkDataMapper(),
-            mockValidateTokenizationDataUseCase,
-            mockTokenizationLogger,
-            "test_key"
+            networkApiClient = mockTokenNetworkApiClient,
+            cardToTokenRequestMapper = CardToTokenRequestMapper(),
+            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
+            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
+            validateTokenizationDataUseCase = mockValidateTokenizationDataUseCase,
+            validateCVVTokenizationDataUseCase = mockValidateCVVTokenizationDataUseCase,
+            logger = mockTokenizationLogger,
+            publicKey = "test_key",
+            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper()
         )
     }
 
@@ -71,7 +85,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCardTokenRequest invoked with success response then success handler invoked`() {
             testCardTokenResultInvocation(
                 true,
-                NetworkApiResponse.Success(CardTokenTestData.tokenDetailsResponse())
+                NetworkApiResponse.Success(TokenizationRequestTestData.tokenDetailsResponse())
             )
         }
 
@@ -131,7 +145,7 @@ internal class TokenRepositoryImplTest {
             // When
             tokenRepositoryImpl.sendCardTokenRequest(
                 CardTokenRequest(
-                    CardTokenTestData.card,
+                    TokenizationRequestTestData.card,
                     onSuccess = { },
                     onFailure = { }
                 )
@@ -169,7 +183,7 @@ internal class TokenRepositoryImplTest {
                 // When
                 tokenRepositoryImpl.sendCardTokenRequest(
                     CardTokenRequest(
-                        CardTokenTestData.card,
+                        TokenizationRequestTestData.card,
                         onSuccess = { isSuccess = true },
                         onFailure = { isSuccess = false }
                     )
@@ -205,7 +219,7 @@ internal class TokenRepositoryImplTest {
                 // When
                 tokenRepositoryImpl.sendCardTokenRequest(
                     CardTokenRequest(
-                        CardTokenTestData.card,
+                        TokenizationRequestTestData.card,
                         onSuccess = { },
                         onFailure = { }
                     )
@@ -244,7 +258,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendGooglePayTokenRequest invoked with success response then success handler invoked`() {
             testGooglePayTokenResultInvocation(
                 true,
-                NetworkApiResponse.Success(CardTokenTestData.tokenDetailsResponse())
+                NetworkApiResponse.Success(TokenizationRequestTestData.tokenDetailsResponse())
             )
         }
 
@@ -499,6 +513,91 @@ internal class TokenRepositoryImplTest {
                         }
                     }
                     verify(exactly = 1) { mockTokenizationLogger.resetSession() }
+                }
+            }
+    }
+
+    @DisplayName("CVVToken Details invocation")
+    @Nested
+    inner class GetCVVTokenNetworkRequestDetails {
+        @Test
+        fun `when sendCVVTokenizationRequest invoked with success response then success handler invoked`() {
+            testCVVTokenResultInvocation(
+                successHandlerInvoked = true,
+                response = NetworkApiResponse.Success(
+                    body = CVVTokenDetailsResponse(
+                        type = "cvv",
+                        token = "test_token",
+                        expiresOn = "2019-08-24T14:15:22Z"
+                    )
+                )
+            )
+        }
+
+        @Test
+        fun `when sendCVVTokenizationRequest invoked with network error response then failure handler invoked`() {
+            testCVVTokenResultInvocation(
+                successHandlerInvoked = false,
+                response = NetworkApiResponse.NetworkError(Exception("Network connection lost"))
+            )
+        }
+
+        @Test
+        fun `when sendCVVTokenizationRequest invoked with server error response then failure handler invoked`() {
+            testCVVTokenResultInvocation(
+                successHandlerInvoked = false,
+                response = NetworkApiResponse.ServerError(body = null, code = 123)
+            )
+        }
+
+        @Test
+        fun `when sendCVVTokenizationRequest invoked with internal error response then failure handler invoked`() {
+            testCVVTokenResultInvocation(
+                successHandlerInvoked = false,
+                response = NetworkApiResponse.InternalError(
+                    TokenizationError(
+                        errorCode = "internal_error",
+                        message = "exception.message",
+                        cause = null
+                    )
+                )
+            )
+        }
+
+        private fun testCVVTokenResultInvocation(
+            successHandlerInvoked: Boolean,
+            response: NetworkApiResponse<CVVTokenDetailsResponse>
+        ) =
+            runTest {
+                // Given
+                var isSuccess: Boolean? = null
+
+                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+                Dispatchers.setMain(testDispatcher)
+
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+
+                coEvery { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
+
+                coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
+
+                // When
+                tokenRepositoryImpl.sendCVVTokenizationRequest(
+                    CVVTokenizationRequest(
+                        cvv = "123",
+                        cardScheme = CardScheme.VISA,
+                        resultHandler = { result ->
+                        isSuccess = when (result) {
+                            is CVVTokenizationResultHandler.Success -> true
+                            is CVVTokenizationResultHandler.Failure -> false
+                        }
+                    }
+                    )
+                )
+
+                // Then
+                launch {
+                    assertEquals(isSuccess.toString(), successHandlerInvoked.toString())
                 }
             }
     }

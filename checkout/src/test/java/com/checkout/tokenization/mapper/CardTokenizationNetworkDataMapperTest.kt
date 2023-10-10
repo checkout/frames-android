@@ -1,6 +1,6 @@
 package com.checkout.tokenization.mapper
 
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.mapper.request.AddressToAddressEntityDataMapper
 import com.checkout.tokenization.mapper.request.PhoneToPhoneEntityDataMapper
@@ -62,7 +62,7 @@ internal class CardTokenizationNetworkDataMapperTest {
         @Test
         fun `unexpected response type is a failure`() {
             // Given
-            val unexpectedResponseObject = CardTokenTestData.card
+            val unexpectedResponseObject = TokenizationRequestTestData.card
 
             // When
             val mappedResult =
@@ -92,9 +92,9 @@ internal class CardTokenizationNetworkDataMapperTest {
                 issuerCountry = "US",
                 productId = "F",
                 productType = "CLASSIC",
-                billingAddress = AddressEntityToAddressDataMapper().map(CardTokenTestData.addressEntity),
+                billingAddress = AddressEntityToAddressDataMapper().map(TokenizationRequestTestData.addressEntity),
                 phone = PhoneEntityToPhoneDataMapper().map(
-                    from = CardTokenTestData.phoneEntity to CardTokenTestData.addressEntity.country
+                    from = TokenizationRequestTestData.phoneEntity to TokenizationRequestTestData.addressEntity.country
                 ),
                 name = "Bruce Wayne"
             )
@@ -145,7 +145,7 @@ internal class CardTokenizationNetworkDataMapperTest {
         fun `map ServerError response to TokenResult`() {
             // Given
             every { mockServerErrorResponse.code } returns 400
-            every { mockServerErrorResponse.body } returns CardTokenTestData.errorResponse()
+            every { mockServerErrorResponse.body } returns TokenizationRequestTestData.errorResponse()
 
             // When
             val mappedResult = cardTokenizationNetworkDataMapper.toTokenResult(mockServerErrorResponse)

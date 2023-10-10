@@ -1,6 +1,6 @@
 package com.checkout.tokenization.mapper.request
 
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.tokenization.request.TokenRequest
 import com.checkout.tokenization.utils.TokenizationConstants
 import org.amshove.kluent.internal.assertEquals
@@ -25,12 +25,12 @@ internal class CardToTokenRequestMapperTest {
             "25",
             "Bob martin",
             "123",
-            AddressToAddressEntityDataMapper().map(CardTokenTestData.address),
-            PhoneToPhoneEntityDataMapper().map(CardTokenTestData.phone)
+            AddressToAddressEntityDataMapper().map(TokenizationRequestTestData.address),
+            PhoneToPhoneEntityDataMapper().map(TokenizationRequestTestData.phone)
         )
 
         // When
-        val actualTokenRequestData = cardTokenRequestMapper.map(CardTokenTestData.card)
+        val actualTokenRequestData = cardTokenRequestMapper.map(TokenizationRequestTestData.card)
 
         // Then
         assertEquals(expectedTokenRequestData, actualTokenRequestData)

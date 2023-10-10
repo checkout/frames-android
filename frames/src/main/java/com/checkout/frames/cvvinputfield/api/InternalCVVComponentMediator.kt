@@ -1,6 +1,5 @@
 package com.checkout.frames.cvvinputfield.api
 
-import android.content.Context
 import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
@@ -9,20 +8,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import com.checkout.base.model.Environment
+import com.checkout.base.usecase.UseCase
 import com.checkout.frames.cvvinputfield.CVVInputField
 import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
-import com.checkout.tokenization.model.CVVTokenRequest
+import com.checkout.frames.cvvinputfield.models.InternalCVVTokenRequest
+import com.checkout.tokenization.model.CVVTokenizationResultHandler
 
-@Suppress("UnusedPrivateMember")
 internal class InternalCVVComponentMediator(
     private val cvvComponentConfig: CVVComponentConfig,
-    private val publicKey: String,
-    private val environment: Environment,
-    private val context: Context
+    private val cvvTokenizationUseCase: UseCase<InternalCVVTokenRequest, Unit>,
 ) : CVVComponentMediator {
 
     private val isCVVComponentCalled: MutableState<Boolean> = mutableStateOf(false)
+    private val cvvInputFieldTextValue: MutableState<String> = mutableStateOf("")
 
     @Composable
     override fun CVVComponent() {
@@ -33,13 +31,21 @@ internal class InternalCVVComponentMediator(
     private fun InternalCVVComponent() {
         val isCVVComponentAlreadyLoaded = remember { isCVVComponentCalled.value }
         if (!isCVVComponentAlreadyLoaded) {
-            CVVInputField(cvvComponentConfig)
+            CVVInputField(cvvComponentConfig) { onValueChange ->
+                cvvInputFieldTextValue.value = onValueChange
+            }
             isCVVComponentCalled.value = true
         }
     }
 
-    override fun createToken(request: CVVTokenRequest) {
-        // TODO; work in progress
+    override fun createToken(resultHandler: (CVVTokenizationResultHandler) -> Unit) {
+        val internalCVVTokenRequest = InternalCVVTokenRequest(
+            cvv = cvvInputFieldTextValue.value,
+            cardScheme = cvvComponentConfig.cardScheme,
+            resultHandler = resultHandler
+        )
+
+        cvvTokenizationUseCase.execute(internalCVVTokenRequest)
     }
 
     override fun provideCvvComponentContent(
@@ -57,5 +63,10 @@ internal class InternalCVVComponentMediator(
     @VisibleForTesting
     internal fun setIsCVVComponentCalled(shouldCVVComponentCall: Boolean) {
         isCVVComponentCalled.value = shouldCVVComponentCall
+    }
+
+    @VisibleForTesting
+    internal fun setCVVInputFieldTextValue(onValueChange: String) {
+        cvvInputFieldTextValue.value = onValueChange
     }
 }

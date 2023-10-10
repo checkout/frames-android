@@ -5,7 +5,7 @@ import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.place
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.textColor
 import com.checkout.frames.R
 import com.checkout.frames.model.CornerRadius
-import com.checkout.frames.model.Margin
+import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Shape
 import com.checkout.frames.model.font.Font
 import com.checkout.frames.style.component.base.ContainerStyle
@@ -22,9 +22,9 @@ object CustomCVVInputFieldStyle {
         textStyle = TextStyle(16, color = textColor, font = Font.Cursive),
         placeholderStyle = TextStyle(16, color = placeHolderTextColor, font = Font.Cursive),
         containerStyle = ContainerStyle(
-            width = 290,
-            margin = Margin(end = 10),
+            width = 250,
             color = backgroundColor,
+            padding = Padding(end = 2),
             shape = Shape.RoundCorner,
             cornerRadius = CornerRadius(9)
         ),

@@ -1,6 +1,6 @@
 package com.checkout.tokenization.mapper.request
 
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.tokenization.entity.PhoneEntity
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -20,7 +20,7 @@ internal class PhoneToPhoneEntityDataMapperTest {
         val expectedPhoneEntityData = PhoneEntity("4155552671", "44")
 
         // When
-        val actualPhoneEntityData = phoneToPhoneEntityDataMapper.map(CardTokenTestData.phone)
+        val actualPhoneEntityData = phoneToPhoneEntityDataMapper.map(TokenizationRequestTestData.phone)
 
         // Then
         assertEquals(expectedPhoneEntityData, actualPhoneEntityData)

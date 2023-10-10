@@ -7,6 +7,7 @@ import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
 import com.checkout.threedsecure.Executor
 import com.checkout.threedsecure.model.ThreeDSRequest
+import com.checkout.tokenization.model.CVVTokenizationRequest
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.GooglePayTokenRequest
 import com.checkout.tokenization.repository.TokenRepository
@@ -72,6 +73,18 @@ internal class CheckoutApiClientTest {
 
         // Then
         verify { mockTokenRepository.sendCardTokenRequest(eq(mockRequest)) }
+    }
+
+    @Test
+    fun `when create token requested then send cvv token request with correct data is invoked`() {
+        // Given
+        val mockRequest = mockk<CVVTokenizationRequest>()
+
+        // When
+        checkoutApiService.createToken(mockRequest)
+
+        // Then
+        verify { mockTokenRepository.sendCVVTokenizationRequest(eq(mockRequest)) }
     }
 
     @Test

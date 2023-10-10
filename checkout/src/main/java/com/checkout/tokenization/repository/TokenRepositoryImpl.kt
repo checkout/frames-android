@@ -10,13 +10,19 @@ import com.checkout.tokenization.entity.GooglePayEntity
 import com.checkout.tokenization.error.TokenizationError
 import com.checkout.tokenization.logging.TokenizationLogger
 import com.checkout.tokenization.mapper.TokenizationNetworkDataMapper
+import com.checkout.tokenization.model.CVVTokenDetails
+import com.checkout.tokenization.model.CVVTokenizationRequest
+import com.checkout.tokenization.model.CVVTokenizationResultHandler
 import com.checkout.tokenization.model.GooglePayTokenRequest
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.TokenDetails
 import com.checkout.tokenization.model.TokenResult
 import com.checkout.tokenization.model.Card
+import com.checkout.tokenization.model.ValidateCVVTokenizationRequest
+import com.checkout.tokenization.request.CVVTokenNetworkRequest
 import com.checkout.tokenization.request.GooglePayTokenNetworkRequest
 import com.checkout.tokenization.request.TokenRequest
+import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
 import com.checkout.tokenization.utils.TokenizationConstants
 import com.checkout.validation.model.ValidationResult
@@ -28,13 +34,17 @@ import kotlinx.coroutines.CoroutineScope
 import org.json.JSONException
 import org.json.JSONObject
 
+@Suppress("LongParameterList")
 internal class TokenRepositoryImpl(
     private val networkApiClient: NetworkApiClient,
     private val cardToTokenRequestMapper: Mapper<Card, TokenRequest>,
+    private val cvvToTokenNetworkRequestMapper: Mapper<CVVTokenizationRequest, CVVTokenNetworkRequest>,
     private val cardTokenizationNetworkDataMapper: TokenizationNetworkDataMapper<TokenDetails>,
     private val validateTokenizationDataUseCase: UseCase<Card, ValidationResult<Unit>>,
+    private val validateCVVTokenizationDataUseCase: UseCase<ValidateCVVTokenizationRequest, ValidationResult<Unit>>,
     private val logger: TokenizationLogger,
-    private val publicKey: String
+    private val publicKey: String,
+    private val cvvTokenizationNetworkDataMapper: TokenizationNetworkDataMapper<CVVTokenDetails>,
 ) : TokenRepository {
 
     @VisibleForTesting
@@ -72,6 +82,47 @@ internal class TokenRepositoryImpl(
 
             launch(Dispatchers.Main) {
                 handleResponse(tokenResult, cardTokenRequest.onSuccess, cardTokenRequest.onFailure)
+            }
+        }
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    override fun sendCVVTokenizationRequest(cvvTokenizationRequest: CVVTokenizationRequest) {
+        with(cvvTokenizationRequest) {
+            networkCoroutineScope.launch {
+                val validateCVVRequest = ValidateCVVTokenizationRequest(
+                    cvv = cvv, cardScheme = cardScheme
+                )
+
+                val validationTokenizationDataResult = validateCVVTokenizationDataUseCase.execute(validateCVVRequest)
+
+                val response: NetworkApiResponse<CVVTokenDetailsResponse> = when (validationTokenizationDataResult) {
+                    is ValidationResult.Failure -> {
+                        NetworkApiResponse.InternalError(validationTokenizationDataResult.error)
+                    }
+
+                    is ValidationResult.Success -> {
+                        networkApiClient.sendCVVTokenRequest(
+                            cvvToTokenNetworkRequestMapper.map(from = cvvTokenizationRequest)
+                        )
+                    }
+                }
+
+                val tokenResult = cvvTokenizationNetworkDataMapper.toTokenResult(response)
+
+                launch(Dispatchers.Main) {
+                    when (tokenResult) {
+                        is TokenResult.Success -> {
+                            resultHandler(CVVTokenizationResultHandler.Success(tokenResult.result))
+                        }
+
+                        is TokenResult.Failure -> {
+                            tokenResult.error.message?.let {
+                                resultHandler(CVVTokenizationResultHandler.Failure(it))
+                            }
+                        }
+                    }
+                }
             }
         }
     }

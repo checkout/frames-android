@@ -2,11 +2,12 @@ package com.checkout.tokenization
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.checkout.mock.CardTokenTestData
+import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.mock.GetTokenDetailsResponseTestJson
 import com.checkout.network.OkHttpProvider
 import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.entity.GooglePayEntity
+import com.checkout.tokenization.mapper.request.CVVToTokenNetworkRequestMapper
 import com.checkout.tokenization.mapper.request.CardToTokenRequestMapper
 import com.checkout.tokenization.request.GooglePayTokenNetworkRequest
 import com.checkout.tokenization.utils.TokenizationConstants
@@ -95,7 +96,7 @@ internal class TokenNetworkApiClientTest {
 
             // When
             val response = tokenNetworkApiClient.sendCardTokenRequest(
-                CardToTokenRequestMapper().map(CardTokenTestData.card)
+                CardToTokenRequestMapper().map(TokenizationRequestTestData.card)
             )
 
             launch {
@@ -116,8 +117,8 @@ internal class TokenNetworkApiClientTest {
                     issuerCountry.shouldBeEqualTo("US")
                     productId.shouldBeEqualTo("F")
                     productType.shouldBeEqualTo("CLASSIC")
-                    billingAddress.shouldBeEqualTo(CardTokenTestData.addressEntity)
-                    phone.shouldBeEqualTo(CardTokenTestData.phoneEntity)
+                    billingAddress.shouldBeEqualTo(TokenizationRequestTestData.addressEntity)
+                    phone.shouldBeEqualTo(TokenizationRequestTestData.phoneEntity)
                     name.shouldBeEqualTo("Bruce Wayne")
                 }
 
@@ -141,7 +142,7 @@ internal class TokenNetworkApiClientTest {
 
             // When
             val response = tokenNetworkApiClient.sendCardTokenRequest(
-                CardToTokenRequestMapper().map(CardTokenTestData.card)
+                CardToTokenRequestMapper().map(TokenizationRequestTestData.card)
             )
 
             // Then
@@ -171,7 +172,102 @@ internal class TokenNetworkApiClientTest {
 
             // When
             val response = tokenNetworkApiClient.sendCardTokenRequest(
-                CardToTokenRequestMapper().map(CardTokenTestData.card)
+                CardToTokenRequestMapper().map(TokenizationRequestTestData.card)
+            )
+
+            launch {
+                // Then
+                assertFalse(response is NetworkApiResponse.Success)
+
+                assertFalse(response is NetworkApiResponse.ServerError)
+
+                assertTrue(response is NetworkApiResponse.NetworkError)
+                with((response as NetworkApiResponse.NetworkError)) {
+                    throwable.shouldNotBeNull()
+                }
+
+                assertFalse(response is NetworkApiResponse.InternalError)
+            }
+        }
+    }
+
+    @DisplayName("Get CVVToken Details")
+    @Nested
+    inner class GetCVVTokenDetails {
+        @DisplayName("cvv token details: The information is extracted from the response")
+        @Test
+        fun informationExtractedFromResponse() = runTest {
+            // Given
+            enqueueMockResponse(
+                200,
+                GetTokenDetailsResponseTestJson.cvvTokenDetailsResponse
+            )
+
+            // When
+            val response = tokenNetworkApiClient.sendCVVTokenRequest(
+                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest)
+            )
+
+            launch {
+                // Then
+                assertTrue(response is NetworkApiResponse.Success)
+                with((response as NetworkApiResponse.Success).body) {
+                    type.shouldBeEqualTo("cvv")
+                    token.shouldBeEqualTo("tok_ubfj2q76miwundwlk72vxt2i7q")
+                    expiresOn.shouldBeEqualTo("2019-08-24T14:15:22Z")
+                }
+
+                assertFalse(response is NetworkApiResponse.ServerError)
+
+                assertFalse(response is NetworkApiResponse.NetworkError)
+
+                assertFalse(response is NetworkApiResponse.InternalError)
+            }
+        }
+
+        @DisplayName("Get CVVToken Details API failed")
+        @ParameterizedTest(name = "{index}: The token API responds with an error for errorCode:{0}")
+        @ValueSource(ints = [401, 422, 502, 404])
+        fun apiRespondsWithError(errorCode: Int) = runTest {
+            // Given
+            enqueueMockResponse(
+                code = errorCode,
+                json = GetTokenDetailsResponseTestJson.cvvTokenDetailsErrorResponse
+            )
+
+            // When
+            val response = tokenNetworkApiClient.sendCVVTokenRequest(
+                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest)
+            )
+
+            // Then
+            launch {
+                // Then
+                assertFalse(response is NetworkApiResponse.Success)
+
+                assertTrue(response is NetworkApiResponse.ServerError)
+                with((response as NetworkApiResponse.ServerError).body) {
+                    this?.requestId.shouldNotBeNull()
+                    this?.errorCodes.shouldNotBeNull()
+                    this?.errorType.shouldNotBeNull()
+                }
+
+                assertFalse(response is NetworkApiResponse.NetworkError)
+
+                assertFalse(response is NetworkApiResponse.InternalError)
+            }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        @Test
+        @DisplayName("Get CVVToken Details API does not respond and throw network error")
+        fun apiDoesNotRespond() = runTest {
+            // Given
+            enqueueNoResponse()
+
+            // When
+            val response = tokenNetworkApiClient.sendCVVTokenRequest(
+                CVVToTokenNetworkRequestMapper().map(TokenizationRequestTestData.cvvTokenizationRequest)
             )
 
             launch {
