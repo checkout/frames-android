@@ -45,13 +45,15 @@ workflows:
         is_always_run: true
         title: Gradle Runner - Build Android Test
     after_run:
-    - steps-finish
+      - steps-sonar
+      - steps-finish
     description: |2-
 
       ## Performs all validation checks
 
       The following checks are performed
        - Instrumentation Tests (if PR is ready for review)
+       - SonarQube Analysis (if PR is ready for review)
     before_run:
     - steps-start
   steps-sonar:
