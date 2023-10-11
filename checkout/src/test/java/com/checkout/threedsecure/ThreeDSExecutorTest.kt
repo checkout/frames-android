@@ -26,7 +26,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.lang.ClassCastException
 import java.util.stream.Stream
 
 @ExtendWith(MockKExtension::class)
@@ -131,10 +130,12 @@ internal class ThreeDSExecutorTest {
                 assertEquals(result.token, capturedToken.firstOrNull())
                 assertEquals(null, capturedError.firstOrNull())
             }
+
             is ThreeDSResult.Failure -> {
                 assertEquals(null, capturedToken.firstOrNull())
                 assertEquals(null, capturedError.firstOrNull())
             }
+
             is ThreeDSResult.Error -> {
                 assertEquals(null, capturedToken.firstOrNull())
                 assertEquals(result.error.errorCode, (capturedError.firstOrNull() as? ThreeDSError)?.errorCode)

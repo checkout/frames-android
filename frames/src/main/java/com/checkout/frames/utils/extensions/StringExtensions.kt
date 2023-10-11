@@ -12,10 +12,12 @@ internal fun String.toExpiryDate(): ExpiryDate {
             expiryMonth = this[0].toString().toInt(),
             expiryYear = this.substring(1..2).toInt(),
         )
+
         fullMonthDateLength -> ExpiryDate(
             expiryMonth = this.substring(0..1).toInt(),
             expiryYear = this.substring(2..3).toInt(),
         )
+
         else -> ExpiryDate(0, 0)
     }
 }

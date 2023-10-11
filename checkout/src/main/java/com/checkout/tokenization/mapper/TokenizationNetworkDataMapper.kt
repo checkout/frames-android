@@ -52,6 +52,7 @@ internal abstract class TokenizationNetworkDataMapper<S : Any> {
                 INVALID_KEY,
                 serverError.toErrorMessage("Invalid key"),
             )
+
             else -> TokenizationError(
                 INVALID_TOKEN_REQUEST,
                 serverError.toErrorMessage("Token request failed"),

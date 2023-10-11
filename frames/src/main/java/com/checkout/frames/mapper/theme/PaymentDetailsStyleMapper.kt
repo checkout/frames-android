@@ -41,6 +41,7 @@ import com.checkout.frames.utils.extensions.provideText
 import com.checkout.frames.utils.extensions.provideTextId
 import com.checkout.frames.utils.extensions.provideTitleStyle
 import com.checkout.frames.utils.extensions.provideTitleTextStyle
+
 @Suppress("TooManyFunctions")
 internal class PaymentDetailsStyleMapper : Mapper<PaymentFormTheme, PaymentDetailsStyle> {
 

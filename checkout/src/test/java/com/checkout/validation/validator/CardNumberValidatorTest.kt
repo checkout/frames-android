@@ -104,6 +104,7 @@ internal class CardNumberValidatorTest {
                 val resultScheme = (result as? ValidationResult.Success<CardScheme>)?.value
                 assertEquals(expectedResult.value, resultScheme)
             }
+
             is ValidationResult.Failure -> assertEquals(
                 expectedResult.error.errorCode,
                 (result as? ValidationResult.Failure)?.error?.errorCode,

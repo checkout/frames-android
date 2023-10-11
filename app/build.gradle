@@ -1,4 +1,4 @@
-plugins{
+plugins {
     id("com.android.application")
 }
 
@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    implementation'androidx.activity:activity:1.8.0'
+    implementation 'androidx.activity:activity:1.8.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.test:runner:1.5.2'

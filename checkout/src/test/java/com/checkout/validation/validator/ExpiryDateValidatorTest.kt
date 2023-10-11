@@ -47,6 +47,7 @@ internal class ExpiryDateValidatorTest {
                 expiryDateValidationResult.value.expiryMonth `should be equal to` 12
                 expiryDateValidationResult.value.expiryYear `should be equal to` Year.now().value
             }
+
             is ValidationResult.Failure -> {
                 fail(expiryDateValidationResult.error)
             }
@@ -88,6 +89,7 @@ internal class ExpiryDateValidatorTest {
             is ValidationResult.Success -> {
                 fail("Expected an error result but received ${expiryDateValidationResult.value}")
             }
+
             is ValidationResult.Failure -> {
                 expiryDateValidationResult.error.errorCode `should be equal to` expectedErrorCode
             }

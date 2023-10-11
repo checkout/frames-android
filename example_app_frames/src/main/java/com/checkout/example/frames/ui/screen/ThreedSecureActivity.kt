@@ -44,7 +44,9 @@ class ThreedSecureActivity : ComponentActivity() {
                         /*Intentionally left empty*/
                     }
 
-                    override fun onBackPressed() { finish() }
+                    override fun onBackPressed() {
+                        finish()
+                    }
                 },
                 style = PaymentFormStyle(),
             )

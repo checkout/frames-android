@@ -21,7 +21,9 @@ fun LoadCVVComponent(
 ) {
     val context = LocalContext.current
     Row(
-        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
         horizontalArrangement = Arrangement.SpaceAround,
     ) {
         cvvComponentMediator.CVVComponent()
