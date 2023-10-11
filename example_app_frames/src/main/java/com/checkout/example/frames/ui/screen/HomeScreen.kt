@@ -46,7 +46,7 @@ import com.checkout.example.frames.ui.theme.FramesTheme
 import com.checkout.example.frames.ui.theme.GrayColor
 import com.checkout.example.frames.ui.utils.PromptUtils
 import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
-import com.checkout.frames.R
+import com.checkout.example.frames.R
 import com.checkout.tokenization.model.GooglePayTokenRequest
 
 @Suppress("MagicNumber", "LongMethod")

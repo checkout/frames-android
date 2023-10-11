@@ -16,13 +16,15 @@ import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TextFieldDefaults.ContainerBox
+import androidx.compose.material3.TextFieldDefaults.contentPaddingWithoutLabel
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
-import androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors
-import androidx.compose.material3.TextFieldDefaults.textFieldColors
+import androidx.compose.material3.TextFieldDefaults.shape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
@@ -136,51 +138,56 @@ private fun DecorationBox(
     focusedBorderThickness: Dp,
     unfocusedBorderThickness: Dp,
 ) {
-    if (borderShape == null) {
-        TextFieldDefaults.TextFieldDecorationBox(
-            value = value,
-            visualTransformation = visualTransformation,
-            innerTextField = innerTextField,
-            placeholder = placeholder,
-            label = null,
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
-            singleLine = singleLine,
-            enabled = enabled,
-            isError = isError,
-            interactionSource = interactionSource,
-            colors = colors,
-        )
-    } else {
-        TextFieldDefaults.OutlinedTextFieldDecorationBox(
-            value = value,
-            visualTransformation = visualTransformation,
-            innerTextField = innerTextField,
-            placeholder = placeholder,
-            label = null,
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
-            singleLine = singleLine,
-            enabled = enabled,
-            isError = isError,
-            interactionSource = interactionSource,
-            colors = colors,
-            container = {
-                TextFieldDefaults.OutlinedBorderContainerBox(
-                    enabled,
-                    isError,
-                    interactionSource,
-                    colors,
-                    borderShape,
-                    focusedBorderThickness = focusedBorderThickness,
-                    unfocusedBorderThickness = unfocusedBorderThickness,
-                )
-            },
-        )
-    }
+    if (borderShape == null) TextFieldDefaults.DecorationBox(
+        value = value,
+        innerTextField = innerTextField,
+        enabled = enabled,
+        singleLine = singleLine,
+        visualTransformation = visualTransformation,
+        interactionSource = interactionSource,
+        isError = isError,
+        label = null,
+        placeholder = placeholder,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        prefix = null,
+        suffix = null,
+        supportingText = null,
+        shape = shape,
+        colors = colors,
+        contentPadding = contentPaddingWithoutLabel(),
+        container = {
+            ContainerBox(enabled, isError, interactionSource, colors, shape)
+        },
+    )
+    else OutlinedTextFieldDefaults.DecorationBox(
+        value = value,
+        innerTextField = innerTextField,
+        enabled = enabled,
+        singleLine = singleLine,
+        visualTransformation = visualTransformation,
+        interactionSource = interactionSource,
+        isError = isError,
+        label = null,
+        placeholder = placeholder,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        colors = colors,
+        contentPadding = OutlinedTextFieldDefaults.contentPadding(),
+        container = {
+            OutlinedTextFieldDefaults.ContainerBox(
+                enabled = enabled,
+                isError = isError,
+                interactionSource = interactionSource,
+                colors = colors,
+                shape = borderShape,
+                focusedBorderThickness = focusedBorderThickness,
+                unfocusedBorderThickness = unfocusedBorderThickness,
+            )
+        },
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @SuppressWarnings("NestedBlockDepth")
 private fun provideInputFieldColors(
@@ -199,31 +206,33 @@ private fun provideInputFieldColors(
     val errorCursorColor =
         colors?.errorCursorColor ?: colors?.errorIndicatorColor ?: Color(BorderConstants.errorBorderColor)
 
-    return if (withBorder) {
-        outlinedTextFieldColors(
-            textColor = textColor,
-            placeholderColor = placeholderColor,
-            focusedBorderColor = focusedIndicatorColor,
-            unfocusedBorderColor = unfocusedIndicatorColor,
-            disabledBorderColor = disabledIndicatorColor,
-            errorBorderColor = errorIndicatorColor,
-            containerColor = containerColor,
-            cursorColor = cursorColor,
-            errorCursorColor = errorCursorColor,
-        )
-    } else {
-        textFieldColors(
-            textColor = textColor,
-            placeholderColor = placeholderColor,
-            focusedIndicatorColor = if (withContainerShape) Color.Transparent else focusedIndicatorColor,
-            unfocusedIndicatorColor = if (withContainerShape) Color.Transparent else unfocusedIndicatorColor,
-            disabledIndicatorColor = if (withContainerShape) Color.Transparent else disabledIndicatorColor,
-            errorIndicatorColor = if (withContainerShape) Color.Transparent else errorIndicatorColor,
-            containerColor = if (withContainerShape) Color.Transparent else containerColor,
-            cursorColor = cursorColor,
-            errorCursorColor = errorCursorColor,
-        )
-    }
+    return if (withBorder) OutlinedTextFieldDefaults.colors(
+        focusedTextColor = textColor,
+        unfocusedTextColor = textColor,
+        focusedPlaceholderColor = placeholderColor,
+        unfocusedPlaceholderColor = placeholderColor,
+        focusedBorderColor = focusedIndicatorColor,
+        unfocusedBorderColor = unfocusedIndicatorColor,
+        disabledBorderColor = disabledIndicatorColor,
+        errorBorderColor = errorIndicatorColor,
+        focusedContainerColor = containerColor,
+        unfocusedContainerColor = containerColor,
+        cursorColor = cursorColor,
+        errorCursorColor = errorCursorColor
+    ) else TextFieldDefaults.colors(
+        focusedTextColor = textColor,
+        unfocusedTextColor = textColor,
+        focusedPlaceholderColor = placeholderColor,
+        unfocusedPlaceholderColor = placeholderColor,
+        focusedIndicatorColor = if (withContainerShape) Color.Transparent else focusedIndicatorColor,
+        unfocusedIndicatorColor = if (withContainerShape) Color.Transparent else unfocusedIndicatorColor,
+        disabledIndicatorColor = if (withContainerShape) Color.Transparent else disabledIndicatorColor,
+        errorIndicatorColor = if (withContainerShape) Color.Transparent else errorIndicatorColor,
+        focusedContainerColor = if (withContainerShape) Color.Transparent else containerColor,
+        unfocusedContainerColor = if (withContainerShape) Color.Transparent else containerColor,
+        cursorColor = cursorColor,
+        errorCursorColor = errorCursorColor
+    )
 }
 
 @Composable

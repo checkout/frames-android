@@ -1,9 +1,9 @@
 package com.checkout.example.frames.styling
 
+import com.checkout.example.frames.R
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.backgroundColor
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.placeHolderTextColor
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants.textColor
-import com.checkout.frames.R
 import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Shape

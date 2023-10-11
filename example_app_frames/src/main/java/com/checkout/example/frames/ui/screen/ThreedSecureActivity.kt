@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.checkout.example.frames.R
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.FAILURE_URL
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
@@ -11,7 +12,6 @@ import com.checkout.example.frames.ui.utils.PromptUtils
 import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
 import com.checkout.example.frames.ui.utils.SUCCESS_URL
 import com.checkout.example.frames.ui.utils.URL_IDENTIFIER
-import com.checkout.frames.R
 import com.checkout.frames.api.PaymentFlowHandler
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
