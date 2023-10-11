@@ -1,6 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
+
+<!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -10,7 +11,9 @@
     </style>
 
     <!-- Customise the theme.-->
-    <style name="CustomPaymentFormTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="CustomPaymentFormTheme"
+        parent="Theme.AppCompat.Light.DarkActionBar"
+        tools:supress="UnusedResources">
 
         <!-- TOOLBAR COLOR. -->
         <item name="colorPrimary">#000000</item>
