@@ -53,6 +53,7 @@ internal class BillingFormAddressToBillingAddressMapperTest {
     }
 
     companion object {
+        @Suppress("LongMethod")
         @JvmStatic
         fun testBillingAddressSummaryArguments(): Stream<Arguments> = Stream.of(
             Arguments.of(

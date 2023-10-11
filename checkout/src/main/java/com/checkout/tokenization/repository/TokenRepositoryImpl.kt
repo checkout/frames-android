@@ -88,8 +88,11 @@ internal class TokenRepositoryImpl(
 
     @Suppress("TooGenericExceptionCaught")
     override fun sendCVVTokenizationRequest(cvvTokenizationRequest: CVVTokenizationRequest) {
+        var response: NetworkApiResponse<CVVTokenDetailsResponse>
+
         with(cvvTokenizationRequest) {
             networkCoroutineScope.launch {
+                val tokenType = TokenizationConstants.CVV
                 val validateCVVRequest = ValidateCVVTokenizationRequest(
                     cvv = cvv,
                     cardScheme = cardScheme,
@@ -97,15 +100,20 @@ internal class TokenRepositoryImpl(
 
                 val validationTokenizationDataResult = validateCVVTokenizationDataUseCase.execute(validateCVVRequest)
 
-                val response: NetworkApiResponse<CVVTokenDetailsResponse> = when (validationTokenizationDataResult) {
+                when (validationTokenizationDataResult) {
                     is ValidationResult.Failure -> {
-                        NetworkApiResponse.InternalError(validationTokenizationDataResult.error)
+                        response = NetworkApiResponse.InternalError(validationTokenizationDataResult.error)
                     }
 
                     is ValidationResult.Success -> {
-                        networkApiClient.sendCVVTokenRequest(
+                        logger.logTokenRequestEvent(tokenType, publicKey)
+
+                        response = networkApiClient.sendCVVTokenRequest(
                             cvvToTokenNetworkRequestMapper.map(from = cvvTokenizationRequest),
                         )
+
+                        logCVVTokenizationResponse(response)
+                        logger.resetSession()
                     }
                 }
 
@@ -195,14 +203,41 @@ internal class TokenRepositoryImpl(
     private fun logResponse(response: NetworkApiResponse<TokenDetailsResponse>, tokenType: String) {
         when (response) {
             is NetworkApiResponse.ServerError -> logger.logTokenResponseEvent(
-                tokenType,
-                publicKey,
-                null,
-                response.code,
-                response.body,
+                tokenType = tokenType,
+                publicKey = publicKey,
+                tokenDetails = null,
+                cvvTokenDetailsResponse = null,
+                code = response.code,
+                errorResponse = response.body,
             )
 
-            is NetworkApiResponse.Success -> logger.logTokenResponseEvent(tokenType, publicKey, response.body)
+            is NetworkApiResponse.Success -> logger.logTokenResponseEvent(
+                tokenType = tokenType,
+                publicKey = publicKey,
+                tokenDetails = response.body,
+            )
+
+            else -> {}
+        }
+    }
+
+    private fun logCVVTokenizationResponse(response: NetworkApiResponse<CVVTokenDetailsResponse>) {
+        when (response) {
+            is NetworkApiResponse.ServerError -> logger.logTokenResponseEvent(
+                tokenType = TokenizationConstants.CVV,
+                publicKey = publicKey,
+                tokenDetails = null,
+                cvvTokenDetailsResponse = null,
+                code = response.code,
+                errorResponse = response.body,
+            )
+
+            is NetworkApiResponse.Success -> logger.logTokenResponseEvent(
+                tokenType = TokenizationConstants.CVV,
+                publicKey = publicKey,
+                tokenDetails = null,
+                cvvTokenDetailsResponse = response.body,
+            )
 
             else -> {}
         }

@@ -1,6 +1,7 @@
 package com.checkout.tokenization.logging
 
 import com.checkout.network.response.ErrorResponse
+import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
 
 /**
@@ -25,6 +26,7 @@ internal interface TokenizationLogger {
         tokenType: String,
         publicKey: String,
         tokenDetails: TokenDetailsResponse? = null,
+        cvvTokenDetailsResponse: CVVTokenDetailsResponse? = null,
         code: Int? = null,
         errorResponse: ErrorResponse? = null,
     )

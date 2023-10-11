@@ -14,6 +14,7 @@ import com.checkout.logging.utils.TOKEN_ID
 import com.checkout.logging.utils.TOKEN_TYPE
 import com.checkout.logging.utils.putErrorAttributes
 import com.checkout.network.response.ErrorResponse
+import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
 
 internal class TokenizationEventLogger(private val logger: Logger<LoggingEvent>) : TokenizationLogger {
@@ -29,9 +30,19 @@ internal class TokenizationEventLogger(private val logger: Logger<LoggingEvent>)
         tokenType: String,
         publicKey: String,
         tokenDetails: TokenDetailsResponse?,
+        cvvTokenDetailsResponse: CVVTokenDetailsResponse?,
         code: Int?,
         errorResponse: ErrorResponse?,
-    ) = logEvent(TokenizationEventType.TOKEN_RESPONSE, tokenType, publicKey, null, tokenDetails, code, errorResponse)
+    ) = logEvent(
+        tokenizationEventType = TokenizationEventType.TOKEN_RESPONSE,
+        tokenType = tokenType,
+        publicKey = publicKey,
+        error = null,
+        tokenDetails = tokenDetails,
+        cvvTokenDetailsResponse = cvvTokenDetailsResponse,
+        code = code,
+        errorResponse = errorResponse,
+    )
 
     override fun resetSession() = logger.resetSession()
 
@@ -41,17 +52,19 @@ internal class TokenizationEventLogger(private val logger: Logger<LoggingEvent>)
         publicKey: String,
         error: Throwable? = null,
         tokenDetails: TokenDetailsResponse? = null,
+        cvvTokenDetailsResponse: CVVTokenDetailsResponse? = null,
         code: Int? = null,
         errorResponse: ErrorResponse? = null,
     ) = logger.log(
         provideLoggingEvent(
-            tokenizationEventType,
-            tokenType,
-            publicKey,
-            error,
-            tokenDetails,
-            code,
-            errorResponse,
+            tokenizationEventType = tokenizationEventType,
+            tokenType = tokenType,
+            publicKey = publicKey,
+            error = error,
+            tokenDetails = tokenDetails,
+            cvvTokenDetails = cvvTokenDetailsResponse,
+            code = code,
+            errorResponse = errorResponse,
         ),
     )
 
@@ -61,6 +74,7 @@ internal class TokenizationEventLogger(private val logger: Logger<LoggingEvent>)
         publicKey: String,
         error: Throwable?,
         tokenDetails: TokenDetailsResponse?,
+        cvvTokenDetails: CVVTokenDetailsResponse?,
         code: Int?,
         errorResponse: ErrorResponse?,
     ): LoggingEvent {
@@ -73,6 +87,10 @@ internal class TokenizationEventLogger(private val logger: Logger<LoggingEvent>)
         tokenDetails?.let {
             properties[TOKEN_ID] = it.token
             properties[SCHEME] = it.scheme ?: ""
+        }
+
+        cvvTokenDetails?.let {
+            properties[TOKEN_ID] = it.token
         }
 
         code?.let {

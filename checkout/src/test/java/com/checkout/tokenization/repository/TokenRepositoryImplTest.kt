@@ -3,6 +3,7 @@ package com.checkout.tokenization.repository
 import com.checkout.base.model.CardScheme
 import com.checkout.base.usecase.UseCase
 import com.checkout.mock.TokenizationRequestTestData
+import com.checkout.mock.TokenizationRequestTestData.cvvTokenizationRequest
 import com.checkout.network.response.ErrorResponse
 import com.checkout.network.response.NetworkApiResponse
 import com.checkout.tokenization.TokenNetworkApiClient
@@ -241,11 +242,12 @@ internal class TokenRepositoryImplTest {
                 } else {
                     verify(exactly = 1) {
                         mockTokenizationLogger.logTokenResponseEvent(
-                            eq(TokenizationConstants.CARD),
-                            eq("test_key"),
-                            null,
-                            501,
-                            serverErrorBody,
+                            tokenType = eq(TokenizationConstants.CARD),
+                            publicKey = eq("test_key"),
+                            tokenDetails = null,
+                            cvvTokenDetailsResponse = null,
+                            code = 501,
+                            errorResponse = serverErrorBody,
                         )
                     }
                 }
@@ -507,11 +509,12 @@ internal class TokenRepositoryImplTest {
                     } else {
                         verify(exactly = 1) {
                             mockTokenizationLogger.logTokenResponseEvent(
-                                eq(TokenizationConstants.GOOGLE_PAY),
-                                eq("test_key"),
-                                null,
-                                501,
-                                serverErrorBody,
+                                tokenType = eq(TokenizationConstants.GOOGLE_PAY),
+                                publicKey = eq("test_key"),
+                                tokenDetails = null,
+                                cvvTokenDetailsResponse = null,
+                                code = 501,
+                                errorResponse = serverErrorBody,
                             )
                         }
                     }
@@ -567,6 +570,45 @@ internal class TokenRepositoryImplTest {
             )
         }
 
+        @Test
+        fun `when sendCVVTokenizationRequest invoked with success then log tokenResponseEvent along with resetSession`() {
+            testCVVTokenizationEventInvocation(true)
+        }
+
+        @Test
+        fun `when sendCVVTokenizationRequest invoked with servererror then log tokenResponseEvent along with resetSession`() {
+            testCVVTokenizationEventInvocation(false)
+        }
+
+        @Test
+        fun `when sendCVVTokenizationRequest invoked then send cvv token request with correct data is invoked`() = runTest {
+            // Given
+            val response = mockk<NetworkApiResponse<CVVTokenDetailsResponse>>()
+
+            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+            Dispatchers.setMain(testDispatcher)
+
+            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+
+            every { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
+            coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
+
+            // When
+            tokenRepositoryImpl.sendCVVTokenizationRequest(
+                cvvTokenizationRequest,
+            )
+
+            // Then
+            launch {
+                verify(exactly = 1) {
+                    mockTokenizationLogger.logTokenRequestEvent(
+                        TokenizationConstants.CVV,
+                        "test_key",
+                    )
+                }
+            }
+        }
+
         private fun testCVVTokenResultInvocation(
             successHandlerInvoked: Boolean,
             response: NetworkApiResponse<CVVTokenDetailsResponse>,
@@ -601,6 +643,60 @@ internal class TokenRepositoryImplTest {
                 // Then
                 launch {
                     assertEquals(isSuccess.toString(), successHandlerInvoked.toString())
+                }
+            }
+
+        private fun testCVVTokenizationEventInvocation(isSuccessResponse: Boolean) =
+            runTest {
+                // Given
+                val successBody = mockk<CVVTokenDetailsResponse>()
+                val serverErrorBody = mockk<ErrorResponse>()
+
+                val response = if (isSuccessResponse) {
+                    NetworkApiResponse.Success(successBody)
+                } else {
+                    NetworkApiResponse.ServerError(serverErrorBody, 501)
+                }
+
+                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+                Dispatchers.setMain(testDispatcher)
+
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+
+                every { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
+                coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
+
+                // When
+                tokenRepositoryImpl.sendCVVTokenizationRequest(
+                    cvvTokenizationRequest,
+                )
+
+                // Then
+                launch {
+                    if (isSuccessResponse) {
+                        verify(exactly = 1) {
+                            mockTokenizationLogger.logTokenResponseEvent(
+                                tokenType = eq(TokenizationConstants.CVV),
+                                publicKey = eq("test_key"),
+                                tokenDetails = null,
+                                cvvTokenDetailsResponse = eq(successBody),
+
+                            )
+                        }
+                    } else {
+                        verify(exactly = 1) {
+                            mockTokenizationLogger.logTokenResponseEvent(
+                                tokenType = eq(TokenizationConstants.CVV),
+                                publicKey = eq("test_key"),
+                                tokenDetails = null,
+                                cvvTokenDetailsResponse = null,
+                                code = 501,
+                                errorResponse = serverErrorBody,
+                            )
+                        }
+                    }
+
+                    verify(exactly = 1) { mockTokenizationLogger.resetSession() }
                 }
             }
     }

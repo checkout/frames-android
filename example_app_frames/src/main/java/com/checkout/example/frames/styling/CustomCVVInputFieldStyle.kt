@@ -20,7 +20,7 @@ object CustomCVVInputFieldStyle {
     fun create() = InputFieldStyle(
         placeholderTextId = R.string.enter_cvv_here,
         textStyle = TextStyle(16, color = textColor, font = Font.Cursive),
-        placeholderStyle = TextStyle(16, color = placeHolderTextColor, font = Font.Cursive),
+        placeholderStyle = TextStyle(16, color = placeHolderTextColor, font = Font.Monospace),
         containerStyle = ContainerStyle(
             width = 250,
             color = backgroundColor,

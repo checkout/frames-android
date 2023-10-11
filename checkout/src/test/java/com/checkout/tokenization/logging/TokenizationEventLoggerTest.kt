@@ -179,11 +179,12 @@ internal class TokenizationEventLoggerTest {
 
         // When
         tokenizationEventLogger.logTokenResponseEvent(
-            tokenType,
-            "test_key",
-            null,
-            501,
-            TokenizationRequestTestData.errorResponse(),
+            tokenType = tokenType,
+            publicKey = "test_key",
+            tokenDetails = null,
+            cvvTokenDetailsResponse = null,
+            code = 501,
+            errorResponse = TokenizationRequestTestData.errorResponse(),
         )
 
         // Then
