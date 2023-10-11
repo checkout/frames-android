@@ -47,6 +47,6 @@ private val FILE_FILTER by lazy {
         "**/BuildConfig.*",
         "**/Manifest*.*",
         "**/*Test*.*",
-        "**/androidTest/**"
+        "**/androidTest/**",
     )
 }

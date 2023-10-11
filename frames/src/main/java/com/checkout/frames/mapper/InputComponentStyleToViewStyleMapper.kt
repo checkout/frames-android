@@ -23,7 +23,9 @@ internal class InputComponentStyleToViewStyleMapper(
         infoStyle = from.infoStyle?.let { textLabelStyleMapper.map(it) } ?: TextLabelViewStyle(),
         errorMessageStyle = from.errorMessageStyle?.let { textLabelStyleMapper.map(it) } ?: TextLabelViewStyle(),
         inputFieldStyle = inputFieldStyleMapper.map(from.inputFieldStyle),
-        containerModifier = containerMapper.map(from.containerStyle).fillMaxWidth(),
+        containerModifier = containerMapper
+            .map(from.containerStyle)
+            .fillMaxWidth(),
         isInputFieldOptional = from.isInputFieldOptional,
     )
 }

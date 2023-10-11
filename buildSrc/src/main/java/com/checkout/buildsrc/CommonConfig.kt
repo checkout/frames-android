@@ -88,7 +88,7 @@ fun Project.applyCommonAppConfigurations() {
                 isMinifyEnabled = true
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                    "proguard-rules.pro",
                 )
             }
             getByName("debug") {
@@ -129,8 +129,8 @@ fun Project.applyCommonLibConfigurations() {
 
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs +
-                    "-opt-in=kotlin.contracts.ExperimentalContracts" +
-                    "-Xexplicit-api=strict"
+                "-opt-in=kotlin.contracts.ExperimentalContracts" +
+                "-Xexplicit-api=strict"
         }
 
         packagingOptions.resources {

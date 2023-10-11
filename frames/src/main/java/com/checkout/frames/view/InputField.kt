@@ -218,7 +218,7 @@ private fun provideInputFieldColors(
         focusedContainerColor = containerColor,
         unfocusedContainerColor = containerColor,
         cursorColor = cursorColor,
-        errorCursorColor = errorCursorColor
+        errorCursorColor = errorCursorColor,
     ) else TextFieldDefaults.colors(
         focusedTextColor = textColor,
         unfocusedTextColor = textColor,
@@ -231,7 +231,7 @@ private fun provideInputFieldColors(
         focusedContainerColor = if (withContainerShape) Color.Transparent else containerColor,
         unfocusedContainerColor = if (withContainerShape) Color.Transparent else containerColor,
         cursorColor = cursorColor,
-        errorCursorColor = errorCursorColor
+        errorCursorColor = errorCursorColor,
     )
 }
 

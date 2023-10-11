@@ -19,7 +19,7 @@ internal object CardTokenTestData {
         "London",
         "London",
         "W1T 4TJ",
-        "GB"
+        "GB",
     )
     private val country = Country.from("GB")
 
@@ -31,7 +31,7 @@ internal object CardTokenTestData {
         "London",
         "London",
         "W1T 4TJ",
-        country
+        country,
     )
 
     val addressValidationRequest = AddressValidationRequest(
@@ -40,7 +40,7 @@ internal object CardTokenTestData {
         "London",
         "London",
         "W1T 4TJ",
-        country
+        country,
     )
 
     val phoneEntity = PhoneEntity("4155552671", "44")
@@ -55,13 +55,13 @@ internal object CardTokenTestData {
         "4242424242424242",
         "123",
         address,
-        phone
+        phone,
     )
 
     fun errorResponse() = ErrorResponse(
         "testID",
         "testErrorType",
-        listOf("testErrorCodes")
+        listOf("testErrorCodes"),
     )
 
     fun tokenDetailsResponse() = TokenDetailsResponse(
@@ -82,37 +82,37 @@ internal object CardTokenTestData {
         productType = "CLASSIC",
         billingAddress = null,
         phone = null,
-        name = "Bruce Wayne"
+        name = "Bruce Wayne",
     )
 
     val invalidAddress = Address(
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem" +
-                " Ipsum has been the" +
-                " industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type" +
-                " and " +
-                "scrambled it to make a type specimen book. It has survived not only five centuries, but also" +
-                " the leap" +
-                " into electronic typesetting, remaining essentially unchanged. It was popularised" +
-                " in the 1960s with the" +
-                " release of Letraset sheets containing Lorem Ipsum passages, " +
-                "and more recently with desktop publishing" +
-                " software like Aldus PageMaker including versions of Lorem Ipsum.\n",
+            " Ipsum has been the" +
+            " industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type" +
+            " and " +
+            "scrambled it to make a type specimen book. It has survived not only five centuries, but also" +
+            " the leap" +
+            " into electronic typesetting, remaining essentially unchanged. It was popularised" +
+            " in the 1960s with the" +
+            " release of Letraset sheets containing Lorem Ipsum passages, " +
+            "and more recently with desktop publishing" +
+            " software like Aldus PageMaker including versions of Lorem Ipsum.\n",
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem\" +\n" +
-                "\" Ipsum has been the\" +\n" +
-                "\" industry's standard dummy text ever since the 1500s, when an unknown printer took a" +
-                " galley of type\" +\n" +
-                "\" and \" +\n" +
-                "\"scrambled it to make a type specimen book. It has survived not only five centuries, but also\" +\n" +
-                "\" the leap\" +\n" +
-                "\" into electronic typesetting, remaining essentially unchanged. It was popularised\" +\n" +
-                "\" in the 1960s with the\" +\n" +
-                "\" release of Letraset sheets containing Lorem Ipsum passages, \" +\n" +
-                "\"and more recently with desktop publishing\" +\n" +
-                "\" software like Aldus PageMaker including versions of Lorem Ipsum.\\n\"",
+            "\" Ipsum has been the\" +\n" +
+            "\" industry's standard dummy text ever since the 1500s, when an unknown printer took a" +
+            " galley of type\" +\n" +
+            "\" and \" +\n" +
+            "\"scrambled it to make a type specimen book. It has survived not only five centuries, but also\" +\n" +
+            "\" the leap\" +\n" +
+            "\" into electronic typesetting, remaining essentially unchanged. It was popularised\" +\n" +
+            "\" in the 1960s with the\" +\n" +
+            "\" release of Letraset sheets containing Lorem Ipsum passages, \" +\n" +
+            "\"and more recently with desktop publishing\" +\n" +
+            "\" software like Aldus PageMaker including versions of Lorem Ipsum.\\n\"",
         "dummyLongCity????????????????????????????????????????",
         "dummyLongCity???????????????????????????????????sdds",
         "dummyLongCity???????????????????????????????????sdds",
-        invalidCountry
+        invalidCountry,
     )
 
     val inValidPhone = Phone("412", invalidCountry)

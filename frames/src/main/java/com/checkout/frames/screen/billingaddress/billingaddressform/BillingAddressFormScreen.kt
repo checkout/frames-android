@@ -41,7 +41,7 @@ internal fun BillingAddressFormScreen(
             },
             exitTransition = {
                 slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down, tween(animationDuration))
-            }
+            },
         ) {
             CountryPickerScreen(
                 style.countryPickerStyle,

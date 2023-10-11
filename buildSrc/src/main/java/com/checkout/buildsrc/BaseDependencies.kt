@@ -1,8 +1,8 @@
 package com.checkout.buildsrc
 
 import Dependencies
-import com.checkout.buildsrc.utils.debugImplementation
 import com.checkout.buildsrc.utils.androidTestImplementation
+import com.checkout.buildsrc.utils.debugImplementation
 import com.checkout.buildsrc.utils.implementation
 import com.checkout.buildsrc.utils.kapt
 import com.checkout.buildsrc.utils.testImplementation

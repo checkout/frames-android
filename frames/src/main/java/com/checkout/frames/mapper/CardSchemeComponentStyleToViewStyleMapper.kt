@@ -30,7 +30,9 @@ internal class CardSchemeComponentStyleToViewStyleMapper(
             FlowRowViewStyle(
                 mainAxisSpacing.dp,
                 crossAxisSpacing.dp,
-                containerMapper.map(containerStyle).fillMaxWidth(),
+                containerMapper
+                    .map(containerStyle)
+                    .fillMaxWidth(),
             )
         }
 }

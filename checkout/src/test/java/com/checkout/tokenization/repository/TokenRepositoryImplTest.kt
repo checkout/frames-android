@@ -581,33 +581,34 @@ internal class TokenRepositoryImplTest {
         }
 
         @Test
-        fun `when sendCVVTokenizationRequest invoked then send cvv token request with correct data is invoked`() = runTest {
-            // Given
-            val response = mockk<NetworkApiResponse<CVVTokenDetailsResponse>>()
+        fun `when sendCVVTokenizationRequest invoked then send cvv token request with correct data is invoked`() =
+            runTest {
+                // Given
+                val response = mockk<NetworkApiResponse<CVVTokenDetailsResponse>>()
 
-            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-            Dispatchers.setMain(testDispatcher)
+                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+                Dispatchers.setMain(testDispatcher)
 
-            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
 
-            every { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
-            coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
+                every { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
+                coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
 
-            // When
-            tokenRepositoryImpl.sendCVVTokenizationRequest(
-                cvvTokenizationRequest,
-            )
+                // When
+                tokenRepositoryImpl.sendCVVTokenizationRequest(
+                    cvvTokenizationRequest,
+                )
 
-            // Then
-            launch {
-                verify(exactly = 1) {
-                    mockTokenizationLogger.logTokenRequestEvent(
-                        TokenizationConstants.CVV,
-                        "test_key",
-                    )
+                // Then
+                launch {
+                    verify(exactly = 1) {
+                        mockTokenizationLogger.logTokenRequestEvent(
+                            TokenizationConstants.CVV,
+                            "test_key",
+                        )
+                    }
                 }
             }
-        }
 
         private fun testCVVTokenResultInvocation(
             successHandlerInvoked: Boolean,
@@ -681,7 +682,7 @@ internal class TokenRepositoryImplTest {
                                 tokenDetails = null,
                                 cvvTokenDetailsResponse = eq(successBody),
 
-                            )
+                                )
                         }
                     } else {
                         verify(exactly = 1) {
