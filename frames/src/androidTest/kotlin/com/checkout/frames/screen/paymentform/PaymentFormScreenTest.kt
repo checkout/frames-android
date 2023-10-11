@@ -55,7 +55,8 @@ internal class PaymentFormScreenTest {
                     country = Country.from(iso3166Alpha2 = "GB"),
                 ),
                 phone = Phone(
-                    number = "4155552671", country = Country.from(iso3166Alpha2 = "GB"),
+                    number = "4155552671",
+                    country = Country.from(iso3166Alpha2 = "GB"),
                 ),
             ),
         ),

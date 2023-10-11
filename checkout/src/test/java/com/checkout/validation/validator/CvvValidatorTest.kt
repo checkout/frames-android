@@ -98,7 +98,7 @@ internal class CvvValidatorTest {
             Arguments.of("12 ", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
             Arguments.of("12q", CardScheme.MASTERCARD, provideFailure(ValidationError.CVV_CONTAINS_NON_DIGITS)),
 
-            )
+        )
 
         @JvmStatic
         fun validCvvArguments(): Stream<Arguments> = Stream.of(

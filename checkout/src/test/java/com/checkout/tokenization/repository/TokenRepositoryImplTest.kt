@@ -681,8 +681,7 @@ internal class TokenRepositoryImplTest {
                                 publicKey = eq("test_key"),
                                 tokenDetails = null,
                                 cvvTokenDetailsResponse = eq(successBody),
-
-                                )
+                            )
                         }
                     } else {
                         verify(exactly = 1) {
