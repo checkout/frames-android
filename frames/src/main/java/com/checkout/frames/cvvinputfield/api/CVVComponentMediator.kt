@@ -29,6 +29,15 @@ public interface CVVComponentMediator {
     ): View
 
     /**
+     *  To Add CVV Component in XML/Dynamic layouts
+     *
+     * @param container - provide a view container to add cvvComponent
+     */
+    public fun provideCvvComponentContent(
+        container: View,
+    ): View
+
+    /**
      * Creates a CVV token and invokes the provided [resultHandler] with the tokenization result.
      *
      * @param resultHandler - A lambda function that takes a [CVVTokenizationResultHandler] parameter.

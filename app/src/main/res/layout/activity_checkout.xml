@@ -44,19 +44,29 @@
 
         </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_xlarge">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_cvv_tokenization"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cvv_tokenization_label"
+                android:minWidth="@dimen/buy_button_min_width"/>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_marginTop="@dimen/margin_xlarge"
                 android:id="@+id/button_buy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/button_buy"
                 android:minWidth="@dimen/buy_button_min_width"/>
-        </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

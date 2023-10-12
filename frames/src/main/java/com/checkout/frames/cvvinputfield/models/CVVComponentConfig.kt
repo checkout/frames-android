@@ -12,7 +12,7 @@ import com.checkout.frames.style.component.base.InputFieldStyle
  * So, based on isEnteredCVVValid value developer can decide to hit the tokenization for CVV component
  * @param cvvInputFieldStyle - [InputFieldStyle] represent the input-field style for CVV Component
  */
-public data class CVVComponentConfig(
+public data class CVVComponentConfig @JvmOverloads constructor(
     public val cardScheme: CardScheme = CardScheme.UNKNOWN,
     public val onCVVValueChange: (isEnteredCVVValid: Boolean) -> Unit,
     public var cvvInputFieldStyle: InputFieldStyle = DefaultCVVInputFieldStyle.create(),

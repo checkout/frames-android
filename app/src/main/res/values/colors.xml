@@ -3,6 +3,8 @@
     <color name="colorPrimary">#000</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorGray">#808080</color>
+    <color name="colorWhite">#ffffff</color>
 
     <color name="jcolorPrimary">#711711</color>
     <color name="jcolorPrimaryDark">#303F9F</color>
