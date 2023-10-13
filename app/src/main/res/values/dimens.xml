@@ -2,5 +2,6 @@
 <resources>
     <dimen name="padding_small">5dp</dimen>
     <dimen name="margin_xlarge">30dp</dimen>
+    <dimen name="margin_extra_large">60dp</dimen>
     <dimen name="buy_button_min_width">200dp</dimen>
 </resources>

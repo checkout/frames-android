@@ -57,6 +57,13 @@ internal class InternalCVVComponentMediator(
         setContent { InternalCVVComponent() }
     }
 
+    override fun provideCvvComponentContent(
+        container: View,
+    ): View = provideCvvComponentContent(
+        container,
+        ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
+    )
+
     @VisibleForTesting
     internal fun getIsCVVComponentCalled() = isCVVComponentCalled
 

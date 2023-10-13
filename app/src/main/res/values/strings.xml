@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Checkout Frames</string>
-    <string name="button_buy">Buy</string>
+    <string name="button_buy">Buy (Card tokenization) - </string>
+    <string name="amex_scheme_cvv_tokenization" translatable="false">Custom CVV Component (AMEX scheme along with pay button validation)</string>
+    <string name="unknown_scheme_cvv_tokenization" translatable="false">Default CVV Component (unknown scheme along without pay button validation)</string>
+    <string name="default_cvv_tokenization_label" translatable="false">CVV Tokenization</string>
+    <string name="cvv_tokenization_label" translatable="false">CVV Tokenization</string>
+    <string name="button_pay" translatable="false">Pay</string>
 </resources>

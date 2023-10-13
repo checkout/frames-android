@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_xlarge"
+            android:text="@string/amex_scheme_cvv_tokenization" />
+
+        <LinearLayout
+            android:layout_marginRight="@dimen/margin_xlarge"
+            android:layout_marginLeft="@dimen/margin_xlarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/linearAMEXCustomCVVComponent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnAmexCVVTokenization"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xlarge"
+                android:layout_marginRight="@dimen/margin_xlarge"
+                android:layout_weight="0.5"
+                android:text="@string/button_pay"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_xlarge"
+            android:text="@string/unknown_scheme_cvv_tokenization" />
+
+        <LinearLayout
+            android:layout_marginRight="@dimen/margin_xlarge"
+            android:layout_marginLeft="@dimen/margin_xlarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/linearCVVComponent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnCVVTokenization"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xlarge"
+                android:layout_marginRight="@dimen/margin_xlarge"
+                android:layout_weight="0.5"
+                android:text="@string/button_pay"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+</LinearLayout>
