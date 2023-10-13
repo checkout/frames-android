@@ -91,15 +91,15 @@ public class CVVTokenizationActivity extends ComponentActivity {
 
 	private void createCVVComponentMediator(CVVComponentApi cvvComponentApi) {
 		// Create config for CVV component
-		CVVComponentConfig visaCVVComponentConfig = new CVVComponentConfig(
+		final CVVComponentConfig visaCVVComponentConfig = new CVVComponentConfig(
 				CardScheme.Companion.fromString("unknown"),
 				isEnteredCVVValid -> Unit.INSTANCE,
 				DefaultCVVInputFieldStyle.INSTANCE.create()
 		);
 
 		// Create CVVComponentMediator for CVV component
-		CVVComponentMediator defaultCVVComponentMediator = cvvComponentApi.createComponentMediator(visaCVVComponentConfig);
-		View defaultCVVComponentView = defaultCVVComponentMediator.provideCvvComponentContent(cvvComponentLinearLayout);
+		final CVVComponentMediator defaultCVVComponentMediator = cvvComponentApi.createComponentMediator(visaCVVComponentConfig);
+		final View defaultCVVComponentView = defaultCVVComponentMediator.provideCvvComponentContent(cvvComponentLinearLayout);
 
 		// Add defaultCVVComponent as view in parent layout
 		cvvComponentLinearLayout.addView(defaultCVVComponentView);
@@ -109,7 +109,7 @@ public class CVVTokenizationActivity extends ComponentActivity {
 
 
 	private void createAMEXCVVComponentMediator(CVVComponentApi cvvComponentApi) {
-		CVVComponentConfig visaCVVComponentConfig = new CVVComponentConfig(
+		final CVVComponentConfig visaCVVComponentConfig = new CVVComponentConfig(
 				CardScheme.Companion.fromString("American_express"),
 				isEnteredCVVValid -> {
 					cvvTokenizationViewModel.setIsAmexCVVValid(isEnteredCVVValid);
@@ -124,9 +124,9 @@ public class CVVTokenizationActivity extends ComponentActivity {
 				)
 		);
 
-		CVVComponentMediator amexCVVComponentMediator = cvvComponentApi.createComponentMediator(visaCVVComponentConfig);
+		final CVVComponentMediator amexCVVComponentMediator = cvvComponentApi.createComponentMediator(visaCVVComponentConfig);
 
-		View amexCVVComponentView = amexCVVComponentMediator.provideCvvComponentContent(amexCustomCVVComponentLinearLayout);
+		final View amexCVVComponentView = amexCVVComponentMediator.provideCvvComponentContent(amexCustomCVVComponentLinearLayout);
 		amexCustomCVVComponentLinearLayout.addView(amexCVVComponentView);
 
 		amexCVVTokenizationButton.setOnClickListener(v -> amexCVVComponentMediator.createToken(resultHandler));
