@@ -13,6 +13,7 @@ jobs:
   ui-test:
     name: UI Test
     runs-on: macos-latest
+    timeout-minutes: 5
     strategy:
       fail-fast: true
 
