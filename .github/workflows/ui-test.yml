@@ -11,9 +11,9 @@ concurrency:
 
 jobs:
   ui-test:
-    name: UI Test
+    name: Run UI Test
+    # Run on macOS because we need to run the emulator and the emulator is not supported on Linux
     runs-on: macos-latest
-    timeout-minutes: 5
     strategy:
       fail-fast: true
 
@@ -41,8 +41,8 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
 
-      - name: Install Android SDK Packages and Launch Emulator
-        run: chmod +x ./scripts/install-android-sdk-packages.sh && ./scripts/install-android-sdk-packages.sh
+      - name: Launch Emulator
+        run: chmod +x ./scripts/launch-emulator.sh && ./scripts/launch-emulator.sh
 
-      - name: UI Test
+      - name: Run UI Test
         run: ./gradlew :frames:connectedDebugAndroidTest
