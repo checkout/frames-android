@@ -10,8 +10,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ui-test:
-    name: Run UI Test
+  connected-check:
+    name: Run Connected Check
     # Run on macOS because we need to run the emulator and the emulator is not supported on Linux
     runs-on: macos-latest
     strategy:
@@ -45,4 +45,40 @@ jobs:
         run: chmod +x ./scripts/launch-emulator.sh && ./scripts/launch-emulator.sh
 
       - name: Run UI Test
-        run: ./gradlew connectedCheck
+        run: ./gradlew connectedCheck --stacktrace
+  frames-android-tests:
+    name: Run Frames Android Tests
+    # Run on macOS because we need to run the emulator and the emulator is not supported on Linux
+    runs-on: macos-latest
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+
+      - name: Launch Emulator
+        run: chmod +x ./scripts/launch-emulator.sh && ./scripts/launch-emulator.sh
+
+      - name: Run UI Test
+        run: ./gradlew connectedDebugAndroidTest --stacktrace
