@@ -22,9 +22,6 @@ import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class PaymentUtil {
-    private PaymentUtil() {
-    }
-
     private static final boolean LOGGING_ENABLED = true;
 
     public interface Callback {

@@ -21,12 +21,12 @@ object Versions {
     const val materialDesign = "1.4.0"
     const val lifeCycle = "2.5.1"
     const val compose_compiler_ext = "1.5.3"
-    const val compose_material3 = "1.1.1"
-    const val compose_version = "1.4.3"
-    const val compose_activity_version = "1.7.2"
+    const val compose_material3 = "1.1.2"
+    const val compose_version = "1.5.3"
+    const val compose_activity_version = "1.8.0"
     const val compose_customview_poolingcontainer = "1.0.0"
     const val compose_viewmodel = "2.6.2"
-    const val compose_navigation = "2.7.1"
+    const val compose_navigation = "2.7.4"
     const val compose_navigation_accompanist = "0.32.0"
     const val flow_layout = "0.26.4-beta"
 
@@ -40,7 +40,7 @@ object Versions {
     const val junit4 = "4.13.2"
     const val junitVintageEngine = "5.8.2"
     const val kluent = "1.68"
-    const val mockk = "1.13.7"
+    const val mockk = "1.13.8"
     const val robolectric = "4.8"
     const val truth = "1.1.5"
     const val jacoco = "0.8.10"
@@ -59,7 +59,7 @@ object Versions {
     const val eventLogger = "1.0.1"
 
     // Dependency injection
-    const val dagger = "2.48"
+    const val dagger = "2.48.1"
 }
 
 fun loadVersionProperty(): Properties {
