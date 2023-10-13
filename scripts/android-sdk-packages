@@ -1,0 +1,5 @@
+platform-tools
+platforms;android-29
+build-tools;29.0.3
+emulator
+system-images;android-29;google_apis;x86_64
