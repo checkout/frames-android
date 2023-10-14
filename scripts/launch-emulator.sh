@@ -7,5 +7,5 @@ yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --package_file=./scr
 $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd -n testingAVD -d pixel --package "system-images;android-29;google_apis;x86_64"
 
 # Start an emulator
-$ANDROID_SDK_ROOT/emulator/emulator -avd testingAVD -no-accel -no-window -no-audio -no-snapshot -no-boot-anim -camera-back none -camera-front none &
+$ANDROID_SDK_ROOT/emulator/emulator -avd testingAVD -partition-size 512 -no-window -no-audio -no-snapshot -no-boot-anim -camera-back none -camera-front none &
 
