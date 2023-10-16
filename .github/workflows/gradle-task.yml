@@ -17,7 +17,7 @@ on:
 jobs:
   task:
     name: ${{ inputs.task-name }}
-    runs-on: [ self-hosted, cko-mobile-default-runners-github-runners ]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
