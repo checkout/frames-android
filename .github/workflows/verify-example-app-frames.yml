@@ -1,0 +1,29 @@
+name: Verify Example App Frames
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    types: [ opened, synchronize, reopened ]
+    branches: [ master, "bugfix/*", "feature/*", "release/*" ]
+    paths:
+      - 'checkout/**'
+      - 'frames/**'
+      - 'example_app_frames/**'
+      - 'buildSrc/**'
+      - 'build.gradle.kt'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-app:
+    uses: ./.github/workflows/verification-flow.yml
+    with:
+      module: example_app_frames
+      run-android-lint: true
+      run-ktlint: true
+      run-assemble: true
+      run-unit-test: true

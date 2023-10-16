@@ -1,0 +1,14 @@
+on:
+  workflow_call:
+    inputs:
+      module:
+        description: 'Module to run'
+        required: true
+        type: string
+jobs:
+  android-lint:
+    uses: ./.github/workflows/gradle-task.yml
+    with:
+      module: ${{ inputs.module }}
+      task: lint
+      task-name: Run Android Lint Check

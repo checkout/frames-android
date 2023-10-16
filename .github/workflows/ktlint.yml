@@ -1,0 +1,14 @@
+on:
+  workflow_call:
+    inputs:
+      module:
+        description: 'Module to run'
+        required: true
+        type: string
+jobs:
+  ktlint:
+    uses: ./.github/workflows/gradle-task.yml
+    with:
+      module: ${{ inputs.module }}
+      task: ktlint
+      task-name: Run Ktlint Check

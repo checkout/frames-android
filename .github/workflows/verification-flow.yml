@@ -1,0 +1,77 @@
+name: Verification
+
+on:
+  workflow_call:
+    inputs:
+      module:
+        description: 'Module to run'
+        required: true
+        type: string
+      run-android-lint:
+        description: 'Should Run Android Lint'
+        required: false
+        type: boolean
+        default: false
+      run-ktlint:
+        description: 'Should Run Ktlint'
+        required: false
+        type: boolean
+        default: false
+      run-assemble:
+        description: 'Should Run Assemble'
+        required: false
+        type: boolean
+        default: false
+      assemble-variant:
+        description: 'Variant to Run Assemble'
+        required: false
+        type: string
+        default: ''
+      run-unit-test:
+        description: 'Should Run Unit Tests'
+        required: false
+        type: boolean
+        default: false
+      run-ui-test:
+        description: 'Should Run UI Tests'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android-lint:
+    if: ${{ inputs.run-android-lint }}
+    uses: ./.github/workflows/android-lint.yml
+    with:
+      module: ${{ inputs.module }}
+  ktlint:
+    if: ${{ inputs.run-ktlint }}
+    uses: ./.github/workflows/ktlint.yml
+    with:
+      module: ${{ inputs.module }}
+  assemble:
+    if: ${{ inputs.run-assemble }}
+    uses: ./.github/workflows/assemble-module.yml
+    # Add ktlint after ktlint is applied to all modules
+    needs: android-lint
+    with:
+      module: ${{ inputs.module }}
+      variant: ${{ inputs.assemble-variant }}
+  unit-test:
+    if: ${{ inputs.run-unit-test }}
+    uses: ./.github/workflows/unit-test.yml
+    # Add ktlint after ktlint is applied to all modules
+    needs: android-lint
+    with:
+      module: ${{ inputs.module }}
+  ui-test:
+    if: ${{ inputs.run-ui-test }}
+    uses: ./.github/workflows/ui-test.yml
+    # Add ktlint after ktlint is applied to all modules
+    needs: android-lint
+    with:
+      module: ${{ inputs.module }}
