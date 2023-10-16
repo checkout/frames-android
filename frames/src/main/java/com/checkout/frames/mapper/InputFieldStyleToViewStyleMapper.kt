@@ -2,6 +2,7 @@ package com.checkout.frames.mapper
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import com.checkout.frames.utils.extensions.disabledIndicatorColor
 import com.checkout.frames.utils.extensions.errorIndicatorColor
 import com.checkout.frames.utils.extensions.focusedIndicatorColor
 import com.checkout.frames.utils.extensions.toComposeShape
+import com.checkout.frames.utils.extensions.toComposeStroke
 import com.checkout.frames.utils.extensions.toComposeTextStyle
 import com.checkout.frames.utils.extensions.unfocusedIndicatorColor
 import com.checkout.frames.view.TextLabel
@@ -51,11 +53,13 @@ internal class InputFieldStyleToViewStyleMapper(
     @SuppressLint("ModifierFactoryExtensionFunction")
     private fun provideModifier(containerStyle: ContainerStyle): Modifier = with(containerStyle) {
         var modifier = Modifier.background(Color.Transparent)
-
+        val composeShape = shape.toComposeShape(cornerRadius)
         height?.let { modifier = modifier.height(it.dp) }
         modifier = width?.let { modifier.width(it.dp) } ?: modifier.fillMaxWidth()
         margin?.let { modifier = modifier.padding(it.start.dp, it.top.dp, it.end.dp, it.bottom.dp) }
         padding?.let { modifier = modifier.padding(it.start.dp, it.top.dp, it.end.dp, it.bottom.dp) }
+
+        borderStroke?.let { modifier = modifier.border(it.toComposeStroke(), composeShape) }
 
         return modifier
     }
