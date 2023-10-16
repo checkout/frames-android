@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  verify-app:
+  verify-module:
     uses: ./.github/workflows/verification-flow.yml
     with:
       module: checkout

@@ -1,4 +1,4 @@
-name: Verify App
+name: Verify Frames
 
 on:
   push:
@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  verify-app:
+  verify-module:
     uses: ./.github/workflows/verification-flow.yml
     with:
       module: app
