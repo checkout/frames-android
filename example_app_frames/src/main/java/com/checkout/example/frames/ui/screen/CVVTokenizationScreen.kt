@@ -17,6 +17,7 @@ import com.checkout.frames.cvvinputfield.api.CVVComponentApi
 import com.checkout.frames.cvvinputfield.api.CVVComponentMediator
 import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 import com.checkout.frames.cvvinputfield.style.DefaultCVVInputFieldStyle
+import com.checkout.frames.model.BorderStroke
 import com.checkout.frames.model.CornerRadius
 import com.checkout.frames.model.Padding
 import com.checkout.frames.model.Shape
@@ -25,7 +26,7 @@ import com.checkout.frames.style.component.base.ContainerStyle
 import com.checkout.frames.style.component.base.InputFieldStyle
 import com.checkout.frames.style.component.base.TextStyle
 
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "LongMethod")
 @Composable
 fun CVVTokenizationScreen(navController: NavHostController) {
     val cvvTokenizationViewModel: CVVTokenizationViewModel = viewModel()
@@ -78,6 +79,10 @@ fun CVVTokenizationScreen(navController: NavHostController) {
                 color = PaymentFormConstants.backgroundColor,
                 shape = Shape.Circle,
                 cornerRadius = CornerRadius(9),
+                borderStroke = BorderStroke(
+                    width = 2,
+                    color = 0XFF00CC2D,
+                ),
             ),
         ),
     )
