@@ -1,0 +1,47 @@
+name: UI Test
+
+on:
+  workflow_call:
+    inputs:
+      module:
+        description: 'Module to run'
+        required: true
+        type: string
+
+jobs:
+  connected-android-tests:
+    name: Run Connected Android Tests
+    # Run on macOS because we need to run the emulator and the emulator is not supported on Linux
+    runs-on: macos-latest
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+
+      - name: Launch Emulator
+        run: chmod +x ./scripts/launch-emulator.sh && ./scripts/launch-emulator.sh
+
+      - name: Run UI Test on ${{ inputs.module }}
+        run: ./gradlew :${{ inputs.module }}:connectedAndroidTest --stacktrace

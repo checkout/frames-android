@@ -1,0 +1,18 @@
+on:
+  workflow_call:
+    inputs:
+      module:
+        description: 'Module to run'
+        required: true
+        type: string
+      variant:
+        description: 'Variant to build'
+        required: true
+        type: string
+jobs:
+  assemble:
+    uses: ./.github/workflows/gradle-task.yml
+    with:
+      module: ${{ inputs.module }}
+      task: assemble${{inputs.variant}}
+      task-name: Assemble ${{inputs.module}} - ${{inputs.variant}}

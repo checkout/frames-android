@@ -1,0 +1,40 @@
+on:
+  workflow_call:
+    inputs:
+      module:
+        description: 'Module to run'
+        required: true
+        type: string
+      task:
+        description: 'Task to run'
+        required: true
+        type: string
+      task-name:
+        description: 'Task Name'
+        required: true
+        type: string
+
+jobs:
+  task:
+    name: ${{ inputs.task-name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+      - name: Run unit tests with Gradle
+        run: ./gradlew :${{ inputs.module }}:${{ inputs.task }}
