@@ -2,7 +2,7 @@
 
 object Dependencies {
     //std lib
-    val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
 
     // Android
     const val kotlinCoroutines =
@@ -20,15 +20,17 @@ object Dependencies {
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
 
     // Compose
-    const val compose_material3 =  "androidx.compose.material3:material3:${Versions.compose_material3}"
+    const val compose_material3 = "androidx.compose.material3:material3:${Versions.compose_material3}"
     const val compose_ui = "androidx.compose.ui:ui:${Versions.compose_version}"
     const val compose_ui_tooling = "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
-    const val compose_customview_poolingcontainer = "androidx.customview:customview-poolingcontainer:${Versions.compose_customview_poolingcontainer}"
+    const val compose_customview_poolingcontainer =
+        "androidx.customview:customview-poolingcontainer:${Versions.compose_customview_poolingcontainer}"
     const val compose_ui_tooling_preview = "androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
     const val compose_activity = "androidx.activity:activity-compose:${Versions.compose_activity_version}"
     const val compose_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.compose_viewmodel}"
     const val compose_navigation = "androidx.navigation:navigation-compose:${Versions.compose_navigation}"
-    const val compose_navigation_accompanist = "com.google.accompanist:accompanist-navigation-animation:${Versions.compose_navigation_accompanist}"
+    const val compose_navigation_accompanist =
+        "com.google.accompanist:accompanist-navigation-animation:${Versions.compose_navigation_accompanist}"
     const val flow_layout = "com.google.accompanist:accompanist-flowlayout:${Versions.flow_layout}"
 
     // Compose Test
@@ -62,7 +64,7 @@ object Dependencies {
     const val junit4 = "junit:junit:${Versions.junit4}"
 
     // junit vintage engine
-    const val junitVintageEngine =  "org.junit.vintage:junit-vintage-engine:${Versions.junitVintageEngine}"
+    const val junitVintageEngine = "org.junit.vintage:junit-vintage-engine:${Versions.junitVintageEngine}"
 
     // JUnit5
     const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5Jupiter}"

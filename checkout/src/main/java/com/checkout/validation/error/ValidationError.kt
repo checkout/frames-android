@@ -2,6 +2,7 @@ package com.checkout.validation.error
 
 import androidx.annotation.RestrictTo
 import com.checkout.base.error.CheckoutError
+
 /**
  * Exception used to indicate validation errors
  */

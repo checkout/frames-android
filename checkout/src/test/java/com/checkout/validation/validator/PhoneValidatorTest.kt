@@ -49,6 +49,7 @@ internal class PhoneValidatorTest {
                 val resultPhoneValidation = (result as? ValidationResult.Success<Phone>)?.value
                 Assertions.assertEquals(expectedResult.value, resultPhoneValidation)
             }
+
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedResult.error.errorCode,
                 (result as? ValidationResult.Failure)?.error?.errorCode,

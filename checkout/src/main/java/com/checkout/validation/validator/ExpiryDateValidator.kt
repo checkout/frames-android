@@ -7,7 +7,6 @@ import com.checkout.validation.model.ValidationResult
 import com.checkout.validation.validator.contract.Validator
 import java.util.Calendar
 import java.util.Date
-import kotlin.jvm.Throws
 
 /**
  * Class used to validate expiry date.
@@ -45,10 +44,12 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
             ValidationError.INVALID_MONTH_STRING,
             "Invalid value provided for month: $month",
         )
+
         !in MONTH_RANGE -> throw ValidationError(
             ValidationError.INVALID_MONTH,
             "Month must be >= ${MONTH_RANGE.first} && <= ${MONTH_RANGE.last}",
         )
+
         else -> month
     }
 
@@ -69,10 +70,12 @@ internal class ExpiryDateValidator : Validator<ExpiryDateValidationRequest, Expi
                 ValidationError.INVALID_YEAR_STRING,
                 "Invalid value provided for year: $value",
             )
+
             year < 0 -> throw ValidationError(
                 ValidationError.INVALID_YEAR,
                 "Year cannot be a negative value: $value",
             )
+
             (value.length == 1 && value.first() < referenceYear.first()) || value.length == YEAR_SHORT_FORMAT ->
                 year + YEAR_LONG_DELTA // Convert 2 digit year to 4 digit year
             value.length == YEAR_LONG_FORMAT -> year

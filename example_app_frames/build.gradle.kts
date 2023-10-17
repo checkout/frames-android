@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace = "com.checkout.example.frames"
     defaultConfig {
         applicationId = ExampleAppFramesConfig.id
         versionCode = ExampleAppFramesConfig.versionCode
@@ -17,6 +18,14 @@ android {
                 "proguard-rules.pro",
             )
         }
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.compose_compiler_ext
     }
 
     packagingOptions {

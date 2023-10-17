@@ -1,4 +1,5 @@
 package com.checkout.base.util
+
 /**
  * Constants for Address to verifying the requirement to not exceeding the minimum length characters
  */

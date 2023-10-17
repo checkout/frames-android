@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.Environment
+import com.checkout.example.frames.R
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.ui.component.ButtonComponent
 import com.checkout.example.frames.ui.component.TextComponent
@@ -46,7 +47,6 @@ import com.checkout.example.frames.ui.theme.FramesTheme
 import com.checkout.example.frames.ui.theme.GrayColor
 import com.checkout.example.frames.ui.utils.PromptUtils
 import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
-import com.checkout.frames.R
 import com.checkout.tokenization.model.GooglePayTokenRequest
 
 @Suppress("MagicNumber", "LongMethod")

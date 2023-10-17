@@ -164,74 +164,78 @@ internal class PayButtonViewModelTest {
     }
 
     @Test
-    fun `Card should include address including name if the billing address is enabled, edited and cardHolderName from payment form is empty`() = runTest {
-        // Given
-        spyPaymentStateManager.isBillingAddressEnabled.value = true
-        spyPaymentStateManager.billingAddress.value = EDITED_BILLING_ADDRESS
-        spyPaymentStateManager.cardHolderName.value = ""
+    fun `Card should include address including name if the billing address is enabled, edited and cardHolderName from payment form is empty`() =
+        runTest {
+            // Given
+            spyPaymentStateManager.isBillingAddressEnabled.value = true
+            spyPaymentStateManager.billingAddress.value = EDITED_BILLING_ADDRESS
+            spyPaymentStateManager.cardHolderName.value = ""
 
-        // When
-        viewModel.pay()
+            // When
+            viewModel.pay()
 
-        // Then
-        testScheduler.advanceUntilIdle()
-        with(capturedTokenRequest.captured.card) {
-            assertEquals(EDITED_BILLING_ADDRESS.address, billingAddress)
-            assertEquals(EDITED_BILLING_ADDRESS.name, name)
-            assertEquals(EDITED_BILLING_ADDRESS.phone, phone)
+            // Then
+            testScheduler.advanceUntilIdle()
+            with(capturedTokenRequest.captured.card) {
+                assertEquals(EDITED_BILLING_ADDRESS.address, billingAddress)
+                assertEquals(EDITED_BILLING_ADDRESS.name, name)
+                assertEquals(EDITED_BILLING_ADDRESS.phone, phone)
+            }
         }
-    }
 
     @Test
-    fun `Card should not include name if the billing address is disabled and cardHolderName from payment form is empty`() = runTest {
-        // Given
-        spyPaymentStateManager.isBillingAddressEnabled.value = false
-        spyPaymentStateManager.cardHolderName.value = ""
+    fun `Card should not include name if the billing address is disabled and cardHolderName from payment form is empty`() =
+        runTest {
+            // Given
+            spyPaymentStateManager.isBillingAddressEnabled.value = false
+            spyPaymentStateManager.cardHolderName.value = ""
 
-        // When
-        viewModel.pay()
+            // When
+            viewModel.pay()
 
-        // Then
-        testScheduler.advanceUntilIdle()
-        with(capturedTokenRequest.captured.card) {
-            assertNull(name)
+            // Then
+            testScheduler.advanceUntilIdle()
+            with(capturedTokenRequest.captured.card) {
+                assertNull(name)
+            }
         }
-    }
 
     @Test
-    fun `Card should include name if the billing address is disabled and cardHolderName from payment form is not empty`() = runTest {
-        // Given
-        spyPaymentStateManager.isBillingAddressEnabled.value = false
-        spyPaymentStateManager.cardHolderName.value = "Test Name"
+    fun `Card should include name if the billing address is disabled and cardHolderName from payment form is not empty`() =
+        runTest {
+            // Given
+            spyPaymentStateManager.isBillingAddressEnabled.value = false
+            spyPaymentStateManager.cardHolderName.value = "Test Name"
 
-        // When
-        viewModel.pay()
+            // When
+            viewModel.pay()
 
-        // Then
-        testScheduler.advanceUntilIdle()
-        with(capturedTokenRequest.captured.card) {
-            assertEquals(name, spyPaymentStateManager.cardHolderName.value)
+            // Then
+            testScheduler.advanceUntilIdle()
+            with(capturedTokenRequest.captured.card) {
+                assertEquals(name, spyPaymentStateManager.cardHolderName.value)
+            }
         }
-    }
 
     @Test
-    fun `Card should include name from payment form if cardHolderName component were added at both place payment and billing forms`() = runTest {
-        // Given
-        spyPaymentStateManager.isBillingAddressEnabled.value = false
-        spyPaymentStateManager.cardHolderName.value = "Test Name"
+    fun `Card should include name from payment form if cardHolderName component were added at both place payment and billing forms`() =
+        runTest {
+            // Given
+            spyPaymentStateManager.isBillingAddressEnabled.value = false
+            spyPaymentStateManager.cardHolderName.value = "Test Name"
 
-        spyPaymentStateManager.isBillingAddressEnabled.value = true
-        spyPaymentStateManager.billingAddress.value = EDITED_BILLING_ADDRESS
+            spyPaymentStateManager.isBillingAddressEnabled.value = true
+            spyPaymentStateManager.billingAddress.value = EDITED_BILLING_ADDRESS
 
-        // When
-        viewModel.pay()
+            // When
+            viewModel.pay()
 
-        // Then
-        testScheduler.advanceUntilIdle()
-        with(capturedTokenRequest.captured.card) {
-            assertEquals(name, spyPaymentStateManager.cardHolderName.value)
+            // Then
+            testScheduler.advanceUntilIdle()
+            with(capturedTokenRequest.captured.card) {
+                assertEquals(name, spyPaymentStateManager.cardHolderName.value)
+            }
         }
-    }
 
     @Test
     fun `Card should not include phone and address if the billing address is disabled`() = runTest {

@@ -20,13 +20,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.checkout.example.frames.R
 import com.checkout.example.frames.ui.component.ClickableImage
 import com.checkout.example.frames.ui.component.LoadCVVComponent
 import com.checkout.example.frames.ui.component.TextComponent
 import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.FramesTheme
 import com.checkout.example.frames.ui.viewmodel.CVVTokenizationViewModel
-import com.checkout.frames.R
 import com.checkout.frames.cvvinputfield.api.CVVComponentMediator
 
 @Composable

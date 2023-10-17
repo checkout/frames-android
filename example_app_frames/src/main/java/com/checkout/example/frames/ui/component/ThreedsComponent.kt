@@ -13,9 +13,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuDefaults.outlinedTextFieldColors
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.checkout.example.frames.R
 import com.checkout.example.frames.ui.extension.showAlertDialog
 import com.checkout.example.frames.ui.screen.ThreedSecureActivity
 import com.checkout.example.frames.ui.theme.ButtonBorder
@@ -36,7 +37,6 @@ import com.checkout.example.frames.ui.theme.DarkBlue
 import com.checkout.example.frames.ui.theme.GrayColor
 import com.checkout.example.frames.ui.utils.CORNER_RADIUS_PERCENT
 import com.checkout.example.frames.ui.utils.URL_IDENTIFIER
-import com.checkout.frames.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,9 +57,10 @@ fun ThreedComponent(context: Context) {
                 .weight(3F),
             shape = RoundedCornerShape(CORNER_RADIUS_PERCENT),
             placeholder = { Text(context.getString(R.string.enter_3ds_redirection_url)) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = outlinedTextFieldColors(
                 unfocusedBorderColor = ButtonBorder,
-                placeholderColor = GrayColor,
+                focusedPlaceholderColor = GrayColor,
+                unfocusedPlaceholderColor = GrayColor,
             ),
             onValueChange = { textValue = it },
         )

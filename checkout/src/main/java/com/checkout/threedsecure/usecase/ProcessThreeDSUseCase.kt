@@ -29,6 +29,7 @@ public class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSResul
                     ThreeDSResult.Success(token)
                 }
             }
+
             Uri.parse(failureUrl).matches(redirectUri) -> ThreeDSResult.Failure
             else -> null
         }

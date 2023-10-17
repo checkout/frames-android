@@ -107,6 +107,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
             is ValidationResult.Success -> {
                 Assertions.assertEquals(expectedExpiryDate.value, (result as? ValidationResult.Success<String>)?.value)
             }
+
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedExpiryDate.error.message,
                 (result as? ValidationResult.Failure)?.error?.message,
@@ -141,6 +142,7 @@ internal class SmartExpiryDateValidationUseCaseTest {
             is ValidationResult.Success -> {
                 Assertions.assertEquals(expectedExpiryDate.value, (result as? ValidationResult.Success<String>)?.value)
             }
+
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedExpiryDate.error.message,
                 (result as? ValidationResult.Failure)?.error?.message,

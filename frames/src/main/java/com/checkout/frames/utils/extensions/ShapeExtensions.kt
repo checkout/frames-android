@@ -19,11 +19,13 @@ internal fun com.checkout.frames.model.Shape.toComposeShape(cornerRadius: Corner
         cornerRadius.bottomEnd.dp,
         cornerRadius.bottomStart.dp,
     )
+
     CutCorner -> CutCornerShape(
         cornerRadius.topStart.dp,
         cornerRadius.topEnd.dp,
         cornerRadius.bottomEnd.dp,
         cornerRadius.bottomStart.dp,
     )
+
     else -> RectangleShape
 }

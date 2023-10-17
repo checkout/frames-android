@@ -22,8 +22,6 @@ import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class PaymentUtil {
-    private PaymentUtil() { }
-
     private static final boolean LOGGING_ENABLED = true;
 
     public interface Callback {
@@ -31,7 +29,7 @@ public class PaymentUtil {
     }
 
     public static OkHttpClient newClient() {
-        OkHttpClient.Builder okHttpBuilder =new OkHttpClient.Builder();
+        OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
 
         if (LOGGING_ENABLED) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Log.d("okhttp", message));
@@ -96,8 +94,7 @@ public class PaymentUtil {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                        }
-                        finally {
+                        } finally {
                             postResponse(result, redirectUrl);
                         }
                     }

@@ -48,18 +48,22 @@ internal class AddressValidator : Validator<AddressValidationRequest, Address> {
                 ValidationError.ADDRESS_LINE1_INCORRECT_LENGTH,
                 "Address line 1 exceeding minimum length of characters",
             )
+
             address.addressLine2.length > ADDRESS_LINE2_LENGTH -> throw ValidationError(
                 ValidationError.ADDRESS_LINE2_INCORRECT_LENGTH,
                 "Address line 2 exceeding minimum length of characters",
             )
+
             address.city.length > CITY_LENGTH -> throw ValidationError(
                 ValidationError.INVALID_CITY_LENGTH,
                 "City exceeding minimum length of characters",
             )
+
             address.state.length > STATE_LENGTH -> throw ValidationError(
                 ValidationError.INVALID_STATE_LENGTH,
                 "State exceeding minimum length of characters",
             )
+
             address.zip.length > ZIP_LENGTH -> throw ValidationError(
                 ValidationError.INVALID_ZIP_LENGTH,
                 "Zipcode exceeding minimum length of characters",

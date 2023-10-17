@@ -63,24 +63,31 @@ internal fun BillingAddressInputComponentState.getErrorMessage(): Int {
         BillingFormFields.CardHolderName.name -> {
             R.string.cko_cardholder_name_error
         }
+
         BillingFormFields.AddressLineOne.name -> {
             R.string.cko_billing_form_input_field_address_line_one_error
         }
+
         BillingFormFields.AddressLineTwo.name -> {
             R.string.cko_billing_form_input_field_address_line_two_error
         }
+
         BillingFormFields.City.name -> {
             R.string.cko_billing_form_input_field_city_error
         }
+
         BillingFormFields.State.name -> {
             R.string.cko_billing_form_input_field_state_error
         }
+
         BillingFormFields.PostCode.name -> {
             R.string.cko_billing_form_input_field_post_code_error
         }
+
         BillingFormFields.Phone.name -> {
             R.string.cko_billing_form_input_field_phone_number_error
         }
+
         else -> {
             0
         }
@@ -94,24 +101,31 @@ internal fun BillingAddress.provideAddressFieldText(
         BillingFormFields.CardHolderName.name -> {
             this.name ?: ""
         }
+
         BillingFormFields.AddressLineOne.name -> {
             this.address?.addressLine1 ?: ""
         }
+
         BillingFormFields.AddressLineTwo.name -> {
             this.address?.addressLine2 ?: ""
         }
+
         BillingFormFields.City.name -> {
             this.address?.city ?: ""
         }
+
         BillingFormFields.State.name -> {
             this.address?.state ?: ""
         }
+
         BillingFormFields.PostCode.name -> {
             this.address?.zip ?: ""
         }
+
         BillingFormFields.Phone.name -> {
             this.phone?.number ?: ""
         }
+
         else -> {
             ""
         }

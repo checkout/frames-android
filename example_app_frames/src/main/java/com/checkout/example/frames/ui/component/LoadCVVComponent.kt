@@ -9,8 +9,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.checkout.example.frames.R
 import com.checkout.example.frames.ui.extension.showAlertDialog
-import com.checkout.frames.R
 import com.checkout.frames.cvvinputfield.api.CVVComponentMediator
 import com.checkout.tokenization.model.CVVTokenizationResultHandler
 
@@ -21,7 +21,9 @@ fun LoadCVVComponent(
 ) {
     val context = LocalContext.current
     Row(
-        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
         horizontalArrangement = Arrangement.SpaceAround,
     ) {
         cvvComponentMediator.CVVComponent()

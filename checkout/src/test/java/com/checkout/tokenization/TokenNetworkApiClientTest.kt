@@ -339,6 +339,7 @@ internal class TokenNetworkApiClientTest {
                             "${response.body?.errorCodes}",
                     )
                 }
+
                 is NetworkApiResponse.InternalError -> {
                     response.throwable.cause?.message.shouldNotBeNullOrEmpty()
                 }

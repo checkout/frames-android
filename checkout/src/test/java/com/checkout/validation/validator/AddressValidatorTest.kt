@@ -57,6 +57,7 @@ internal class AddressValidatorTest {
                 val resultScheme = (result as? ValidationResult.Success<Address>)?.value
                 Assertions.assertEquals(expectedResult.value, resultScheme)
             }
+
             is ValidationResult.Failure -> Assertions.assertEquals(
                 expectedResult.error.errorCode,
                 (result as? ValidationResult.Failure)?.error?.errorCode,

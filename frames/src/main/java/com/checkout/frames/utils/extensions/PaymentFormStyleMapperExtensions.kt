@@ -12,6 +12,7 @@ import com.checkout.frames.style.component.base.TextLabelStyle
 import com.checkout.frames.style.component.base.TextStyle
 import com.checkout.frames.style.theme.PaymentFormComponent
 import com.checkout.frames.style.theme.PaymentFormTheme
+
 /**
  * TextLabelStyle extensions
  */
