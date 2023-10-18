@@ -21,6 +21,10 @@ com.checkout.validation.error
 com.checkout.validation.model
 module:frames
 com.checkout.frames.api
+com.checkout.frames.cvvinputfield
+com.checkout.frames.cvvinputfield.api
+com.checkout.frames.cvvinputfield.models
+com.checkout.frames.cvvinputfield.style
 com.checkout.frames.error
 com.checkout.frames.model
 com.checkout.frames.model.font

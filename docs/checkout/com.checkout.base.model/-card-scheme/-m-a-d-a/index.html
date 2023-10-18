@@ -1,154 +1,161 @@
 <!doctype html>
-<html>
+<html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>MADA</title>
-<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
-    <script>var pathToRoot = "../../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../../styles/style.css" rel="Stylesheet">
-<link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet">
 <link href="../../../../styles/main.css" rel="Stylesheet">
 <link href="../../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
 <script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../../scripts/main.js" defer></script>
-<script type="text/javascript" src="../../../../scripts/prism.js" async></script></head>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
-<div class="navigation-wrapper" id="navigation-wrapper">
-    <div id="leftToggler"><span class="icon-toggler"></span></div>
-    <div class="library-name">
-<a href="../../../../index.html">
-<span>Frames Android SDK by Checkout.com - v4.1.0</span>            </a>    </div>
-    <div>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../../index.html">
+                            Frames Android SDK by Checkout.com - v4.2.0
+                    </a>            </div>
+            <div class="library-version">4.2.0
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":checkout:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
     </div>
-    <div class="pull-right d-flex">
-        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
     </div>
-</div>
-<div id="container">
-    <div id="leftColumn">
-        <div id="sideMenu"></div>
-    </div>
-    <div id="main">
-<div class="main-content" id="content" pageids="checkout::com.checkout.base.model/CardScheme.MADA///PointingToDeclaration/{&quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&quot;:{&quot;key&quot;:&quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&quot;}}/753271501">
-  <div class="breadcrumbs"><a href="../../../index.html">checkout</a><span class="delimiter">/</span><a href="../../index.html">com.checkout.base.model</a><span class="delimiter">/</span><a href="../index.html">CardScheme</a><span class="delimiter">/</span><a href="index.html">MADA</a></div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="checkout::com.checkout.base.model/CardScheme.MADA///PointingToDeclaration/{&quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&quot;:{&quot;key&quot;:&quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&quot;}}/753271501">
+  <div class="breadcrumbs"><a href="../../../index.html">checkout</a><span class="delimiter">/</span><a href="../../index.html">com.checkout.base.model</a><span class="delimiter">/</span><a href="../index.html">CardScheme</a><span class="delimiter">/</span><span class="current">MADA</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>MADA</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><a href="index.html">MADA</a><span class="token punctuation">(</span>setOf(3)<span class="token punctuation">, </span>Regex(
-            "^(4(0(0861|1757|6996|7(197|395)|9201)|1(2565|0685|7633|9593)|2(281(7|8|9)|8(331|67(1|2|3)))" +
-                    "|3(1361|2328|4107|9954)|4(0(533|647|795)|5564|6(393|404|672))|5(5(036|708)|7865|7997|8456)" +
-                    "|6(2220|854(0|1|2|3))|8(301(0|1|2)|4783|609(4|5|6)|931(7|8|9))|93428)|5(0(4300|6968|8160)" +
-                    "|13213|2(0058|1076|4(130|514)|9(415|741))|3(0(060|906)|1(095|196)|2013|5(825|989)|6023|7767" +
-                    "|9931)|4(3(085|357)|9760)|5(4180|7606|8848)|8(5265|8(8(4(5|6|7|8|9)|5(0|1))|98(2|3))" +
-                    "|9(005|206)))|6(0(4906|5141)|36120)|9682(0(1|2|3|4|5|6|7|8|9)|1(0|1)))\\d{10}$"
-        )<span class="token punctuation">, </span>Regex(
-            "^(4(0(0861|1757|6996|7(197|395)|9201)|1(2565|0685|7633|9593)|2(281(7|8|9)|8(331|67(1|2|3)))" +
-                    "|3(1361|2328|4107|9954)|4(0(533|647|795)|5564|6(393|404|672))|5(5(036|708)|7865|7997|8456)" +
-                    "|6(2220|854(0|1|2|3))|8(301(0|1|2)|4783|609(4|5|6)|931(7|8|9))|93428)" +
-                    "|5(0(4300|6968|8160)|13213|2(0058|1076|4(130|514)|9(415|741))" +
-                    "|3(0(060|906)|1(095|196)|2013|5(825|989)|6023|7767|9931)|4(3(085|357)|9760)|5(4180|7606|8848)" +
-                    "|8(5265|8(8(4(5|6|7|8|9)|5(0|1))|98(2|3))|9(005|206)))|6(0(4906|5141)|36120)" +
-                    "|9682(0(1|2|3|4|5|6|7|8|9)|1(0|1)))\\d*$"
-        )<span class="token punctuation">, </span>R.drawable.cko_ic_scheme_mada<span class="token punctuation">)</span></div><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><a href="index.html">MADA</a></div></div></div></div>
   </div>
   <div class="tabbedcontent">
-    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
-      <h2 class="">Properties</h2>
-      <div class="table" data-togglable="Properties"><a data-name="1693703046%2FProperties%2F753271501" anchor-label="cvvLength" id="1693703046%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a>
-        <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="../cvv-length.html">cvvLength</a></div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1693703046%2FProperties%2F753271501" anchor-label="cvvLength" id="1693703046%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../cvv-length.html"><span>cvv</span><wbr><span><span>Length</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1693703046%2FProperties%2F753271501"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><a data-name="1693703046%2FProperties%2F753271501" anchor-label="cvvLength" id="1693703046%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../cvv-length.html">cvvLength</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1693703046%2FProperties%2F753271501" anchor-label="cvvLength" id="1693703046%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><p class="paragraph">Supported CVV length.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../cvv-length.html">cvvLength</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Supported CVV length.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-1234280455%2FProperties%2F753271501" anchor-label="imageId" id="-1234280455%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a>
-        <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="../image-id.html">imageId</a></div>
+          <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../image-id.html"><span>image</span><wbr><span><span>Id</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1234280455%2FProperties%2F753271501"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><a data-name="-1234280455%2FProperties%2F753271501" anchor-label="imageId" id="-1234280455%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../image-id.html">imageId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1234280455%2FProperties%2F753271501" anchor-label="imageId" id="-1234280455%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><p class="paragraph">Card scheme icon.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../image-id.html">imageId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Card scheme icon.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-404211364%2FProperties%2F753271501" anchor-label="maxNumberLength" id="-404211364%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a>
-        <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="../max-number-length.html">maxNumberLength</a></div>
+          <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../max-number-length.html"><span>max</span><wbr><span>Number</span><wbr><span><span>Length</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-404211364%2FProperties%2F753271501"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><a data-name="-404211364%2FProperties%2F753271501" anchor-label="maxNumberLength" id="-404211364%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../max-number-length.html">maxNumberLength</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">16</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-404211364%2FProperties%2F753271501" anchor-label="maxNumberLength" id="-404211364%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><p class="paragraph">Supported maximum card number length.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../max-number-length.html">maxNumberLength</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">16</span></div><div class="brief "><p class="paragraph">Supported maximum card number length.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-372974862%2FProperties%2F753271501" anchor-label="name" id="-372974862%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a>
-        <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="../../-environment/-p-r-o-d-u-c-t-i-o-n/index.html#-372974862%2FProperties%2F753271501">name</a></div>
+          <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../-environment/-s-a-n-d-b-o-x/index.html#-372974862%2FProperties%2F753271501"><span><span>name</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-372974862%2FProperties%2F753271501"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><a data-name="-372974862%2FProperties%2F753271501" anchor-label="name" id="-372974862%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../-environment/-p-r-o-d-u-c-t-i-o-n/index.html#-372974862%2FProperties%2F753271501">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../-environment/-s-a-n-d-b-o-x/index.html#-372974862%2FProperties%2F753271501">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-483179945%2FProperties%2F753271501" anchor-label="numberSeparatorPattern" id="-483179945%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a>
-        <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="../number-separator-pattern.html">numberSeparatorPattern</a></div>
+          <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../number-separator-pattern.html"><span>number</span><wbr><span>Separator</span><wbr><span><span>Pattern</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-483179945%2FProperties%2F753271501"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><a data-name="-483179945%2FProperties%2F753271501" anchor-label="numberSeparatorPattern" id="-483179945%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../number-separator-pattern.html">numberSeparatorPattern</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-483179945%2FProperties%2F753271501" anchor-label="numberSeparatorPattern" id="-483179945%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><p class="paragraph">Card number separator pattern. Contains indexes for separator in transformed card number.</p></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../number-separator-pattern.html">numberSeparatorPattern</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Card number separator pattern. Contains indexes for separator in transformed card number.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 <a data-name="-739389684%2FProperties%2F753271501" anchor-label="ordinal" id="-739389684%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a>
-        <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="../../-environment/-p-r-o-d-u-c-t-i-o-n/index.html#-739389684%2FProperties%2F753271501">ordinal</a></div>
+          <div class="table-row" data-filterable-current=":checkout:dokkaHtmlPartial/release" data-filterable-set=":checkout:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../-environment/-s-a-n-d-b-o-x/index.html#-739389684%2FProperties%2F753271501"><span><span>ordinal</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-739389684%2FProperties%2F753271501"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><a data-name="-739389684%2FProperties%2F753271501" anchor-label="ordinal" id="-739389684%2FProperties%2F753271501" data-filterable-set=":checkout:dokkaHtmlPartial/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../-environment/-p-r-o-d-u-c-t-i-o-n/index.html#-739389684%2FProperties%2F753271501">ordinal</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":checkout:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../-environment/-s-a-n-d-b-o-x/index.html#-739389684%2FProperties%2F753271501">ordinal</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -157,10 +164,12 @@ if(savedDarkMode === true){
     </div>
   </div>
 </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
         </div>
     </div>
-</div>
-
-</body></html>
+</body>
+</html>
 
