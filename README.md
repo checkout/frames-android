@@ -306,6 +306,69 @@ val request = GooglePayTokenRequest(
 checkoutApiClient.createToken(request)
 ```
 
+### Make a payment with a hosted CVV 
+Use our CVV component to make a compliant payment with a saved card in regions where sending a CVV is always mandatory. 
+
+Within this flow, we will securely tokenise the CVV and return a CVV token to your application layer, which you can then use to continue the payment flow with.
+
+#### Step 1: Create the CVVComponentApiFactory
+```kotlin
+// Create one time cvvComponentApi
+val cvvComponentApi = CVVComponentApiFactory.create(
+                    publicKey = "",
+                    environment = Environment.SANDBOX,
+                    context = context
+                    )
+```
+
+#### Step 2: Load the CVV component
+```kotlin
+@Composable
+public fun CVVComponent()
+```
+
+Or, for XML-based UIs:
+
+```java
+/**
+     * @param view - provide a view to add cvvComponent
+     * @param strategy - A strategy for managing the underlying Composition of Compose UI Views such as ComposeView and AbstractComposeView
+     */
+    public fun provideCvvComponentContent(
+        container: View,
+        strategy: ViewCompositionStrategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
+    ): View
+```
+
+#### Step 3: Configure the CVV component
+Here you should inject the card scheme in order for the SDK to validate the length of the CVV using `isEnteredCVVValid`. If you don't pass a scheme, we will treat it as an `UNKNOWN`. Within `CVVComponentConfig`, you can also configure the `cvvComponentStyle`, which has all the styling attributes of our existing UIs.
+
+```kotlin
+public data class CVVComponentConfig(
+    public val cardScheme: CardScheme? = CardScheme.UNKNOWN,
+    public val onCVVValueChange: (isEnteredCVVValid: Boolean) -> Unit,
+    public var cvvComponentStyle: InputFieldStyle = DefaultInputFieldStyle.light(),
+)
+```
+
+#### Step 4: Create a CVV token
+```kotlin
+@UiThread
+public fun createToken(resultHandler: (CVVTokenizationResultHandler) -> Unit)
+```
+
+For which you'll receive the following response (provided CVV validation is passed):
+
+```kotlin
+public data class CVVTokenDetails(
+    val type: String
+    val token: String,
+    val expiresOn: String
+)
+```
+
+You can then continue the payment flow with this `token`, which will have a type of `cvv`. 
+
 ## Migrating
 3DS and GooglePay processing remain unaffected so using them should still work the same.
 
