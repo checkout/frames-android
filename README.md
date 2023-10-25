@@ -34,6 +34,8 @@ Frames for Android tokenises consumer data for use within [Checkout.com](https:/
 
 - [Other features](#Other-features): _How we help with Google Pay & 3D Secure Challenges_
 
+- [Make a payment with a hosted CVV](#Make-a-payment-with-a-hosted-CVV): _Make a payment with saved card details using Hosted CVV tokenisation_
+
 - [Migrating](#Migrating): _If you have used 3.x.x version before_
 
 - [License](#License)
@@ -306,68 +308,74 @@ val request = GooglePayTokenRequest(
 checkoutApiClient.createToken(request)
 ```
 
-### Make a payment with a hosted CVV 
+## Make a payment with a hosted CVV 
 Use our CVV component to make a compliant payment with a saved card in regions where sending a CVV is always mandatory. 
 
 Within this flow, we will securely tokenise the CVV and return a CVV token to your application layer, which you can then use to continue the payment flow with.
 
-#### Step 1: Create the CVVComponentApiFactory
+### Step 1: Create the CVVComponentApi
+
 ```kotlin
 // Create one time cvvComponentApi
 val cvvComponentApi = CVVComponentApiFactory.create(
-                    publicKey = "",
-                    environment = Environment.SANDBOX,
-                    context = context
-                    )
-```
-
-#### Step 2: Load the CVV component
-```kotlin
-@Composable
-public fun CVVComponent()
-```
-
-Or, for XML-based UIs:
-
-```java
-/**
-     * @param view - provide a view to add cvvComponent
-     * @param strategy - A strategy for managing the underlying Composition of Compose UI Views such as ComposeView and AbstractComposeView
-     */
-    public fun provideCvvComponentContent(
-        container: View,
-        strategy: ViewCompositionStrategy = ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
-    ): View
-```
-
-#### Step 3: Configure the CVV component
-Here you should inject the card scheme in order for the SDK to validate the length of the CVV using `isEnteredCVVValid`. If you don't pass a scheme, we will treat it as an `UNKNOWN`. Within `CVVComponentConfig`, you can also configure the `cvvComponentStyle`, which has all the styling attributes of our existing UIs.
-
-```kotlin
-public data class CVVComponentConfig(
-    public val cardScheme: CardScheme? = CardScheme.UNKNOWN,
-    public val onCVVValueChange: (isEnteredCVVValid: Boolean) -> Unit,
-    public var cvvComponentStyle: InputFieldStyle = DefaultInputFieldStyle.light(),
+    publicKey = "PUBLIC_KEY",                     // set your public key
+    environment = Environment.SANDBOX,           // set context
+    context = context                           // set the environment
 )
+```
+
+### Step 2: Create the CVVComponentMediator using CVVComponentConfig responsible for the managing CVV component and Tokenisation
+
+Prepare you object responsible for the CVV component Configuration. Here you should inject the card scheme in order for the SDK to validate the length of the CVV using `isEnteredCVVValid`. If you don't pass a scheme, we will treat it as an `UNKNOWN`. Within `CVVComponentConfig`, you can also configure the `cvvComponentStyle`, which has all the styling attributes of our existing UIs.
+```kotlin
+val cvvComponentConfig = CVVComponentConfig(
+    cardScheme = CardScheme.fromString(cardSchemeValue = "your card scheme"),         // set your card scheme (optional)
+    onCVVValueChange = { isEnteredCVVValid ->                                         // Update your listener from the onCVVValueChange 
+        enteredVisaCVVUpdated.value = isEnteredCVVValid
+    },
+    cvvInputFieldStyle = inputFieldStyle,                                            // Set your cvvInputFieldStyle
+)
+```
+
+Create the CVVComponentMediator
+```kotlin
+val cvvComponentMediator = cvvComponentApi.createComponentMediator(cvvComponentConfig)
+```
+
+### Step 3: Load the CVV component
+
+For Compose based UI
+```kotlin
+cvvComponentMediator.CVVComponent()
+```
+
+For XML-based UIs:
+
+```kotlin
+// Access the LinearLayout by its Resource ID
+val linearLayout = findViewById<LinearLayout>(R.id.linearLayout)
+// Get the cvvComponentView 
+val cvvComponentView = cvvComponentMediator.provideCvvComponentContent(linearLayout)
+// Add the cvvComponentView into parent Layout
+linearLayout.addView(cvvComponentView)
 ```
 
 #### Step 4: Create a CVV token
 ```kotlin
-@UiThread
-public fun createToken(resultHandler: (CVVTokenizationResultHandler) -> Unit)
+ cvvComponentMediator.createToken { result ->
+    when (result) {
+        is CVVTokenizationResultHandler.Success -> {
+            /* Handle success result */ result.tokenDetails
+        }
+        is CVVTokenizationResultHandler.Failure -> {
+            /* Handle failure result */ result.errorMessage
+        } 
+    }
+}
 ```
 
-For which you'll receive the following response (provided CVV validation is passed):
-
-```kotlin
-public data class CVVTokenDetails(
-    val type: String
-    val token: String,
-    val expiresOn: String
-)
-```
-
-You can then continue the payment flow with this `token`, which will have a type of `cvv`. 
+You can then continue the payment flow with this `token` by passing into a field name as `cvv` in the payment request. 
+Note: SDK is not allowing tokenisation for empty CVV (CVV length is 0)
 
 ## Migrating
 3DS and GooglePay processing remain unaffected so using them should still work the same.
