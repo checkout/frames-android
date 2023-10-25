@@ -34,7 +34,7 @@ Frames for Android tokenises consumer data for use within [Checkout.com](https:/
 
 - [Other features](#Other-features): _How we help with Google Pay & 3D Secure Challenges_
 
-- [Make a payment with a hosted CVV](#Make-a-payment-with-a-hosted-CVV): _Make a payment with saved card details using Hosted CVV tokenisation_
+- [Make a hosted CVV payment](#Make-a-payment-with-a-hosted-CVV): _Make a compliant saved card payment with hosted CVV tokenisation_
 
 - [Migrating](#Migrating): _If you have used 3.x.x version before_
 
@@ -309,7 +309,7 @@ checkoutApiClient.createToken(request)
 ```
 
 ## Make a payment with a hosted CVV 
-Use our CVV component to make a compliant payment with a saved card in regions where sending a CVV is always mandatory. 
+Use our CVV component to make a compliant saved card payment in regions where sending a CVV is always mandatory. 
 
 Within this flow, we will securely tokenise the CVV and return a CVV token to your application layer, which you can then use to continue the payment flow with.
 
@@ -319,32 +319,38 @@ Within this flow, we will securely tokenise the CVV and return a CVV token to yo
 // Create one time cvvComponentApi
 val cvvComponentApi = CVVComponentApiFactory.create(
     publicKey = "PUBLIC_KEY",                     // set your public key
-    environment = Environment.SANDBOX,           // set context
-    context = context                           // set the environment
+    environment = Environment.SANDBOX,           // set the environment
+    context = context                           // set context
 )
 ```
 
-### Step 2: Create the CVVComponentMediator using CVVComponentConfig responsible for the managing CVV component and Tokenisation
+### Step 2: Create the CVVComponentMediator using CVVComponentConfig
 
-Prepare you object responsible for the CVV component Configuration. Here you should inject the card scheme in order for the SDK to validate the length of the CVV using `isEnteredCVVValid`. If you don't pass a scheme, we will treat it as an `UNKNOWN`. Within `CVVComponentConfig`, you can also configure the `cvvComponentStyle`, which has all the styling attributes of our existing UIs.
+Prepare the object responsible for the CVV component configuration. 
+
+Here you should inject the card scheme in order for the SDK to validate the length of the CVV using `isEnteredCVVValid`. If you don't pass a scheme, we will treat it as `UNKNOWN`. Within `CVVComponentConfig`, you can also configure the `cvvComponentStyle`, which has all the styling attributes of our existing UIs. 
+
+If the CVV is length 0, the SDK will throw a validation error when calling `createToken`.
+
 ```kotlin
 val cvvComponentConfig = CVVComponentConfig(
     cardScheme = CardScheme.fromString(cardSchemeValue = "your card scheme"),         // set your card scheme (optional)
-    onCVVValueChange = { isEnteredCVVValid ->                                         // Update your listener from the onCVVValueChange 
+    onCVVValueChange = { isEnteredCVVValid ->                                         // update your listener from the onCVVValueChange 
         enteredVisaCVVUpdated.value = isEnteredCVVValid
     },
-    cvvInputFieldStyle = inputFieldStyle,                                            // Set your cvvInputFieldStyle
+    cvvInputFieldStyle = inputFieldStyle,                                            // set your cvvInputFieldStyle
 )
 ```
 
-Create the CVVComponentMediator
+Once you've prepared the CVV component's config, then use the CVVComponentMediator.
 ```kotlin
 val cvvComponentMediator = cvvComponentApi.createComponentMediator(cvvComponentConfig)
 ```
 
 ### Step 3: Load the CVV component
 
-For Compose based UI
+For Compose based UIs:
+
 ```kotlin
 cvvComponentMediator.CVVComponent()
 ```
@@ -375,7 +381,6 @@ linearLayout.addView(cvvComponentView)
 ```
 
 You can then continue the payment flow with this `token` by passing into a field name as `cvv` in the payment request. 
-Note: SDK is not allowing tokenisation for empty CVV (CVV length is 0)
 
 ## Migrating
 3DS and GooglePay processing remain unaffected so using them should still work the same.
