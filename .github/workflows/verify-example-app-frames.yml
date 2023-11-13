@@ -21,6 +21,7 @@ concurrency:
 jobs:
   verify-module:
     uses: ./.github/workflows/verification-flow.yml
+    secrets: inherit
     with:
       module: example_app_frames
       run-android-lint: true
