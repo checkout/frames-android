@@ -26,7 +26,7 @@ on:
 jobs:
   slack:
     name: Slack Build Result for ${{ inputs.workflow }}
-    runs-on: [ self-hosted, cko-mobile-default-runners-github-runners ]
+    runs-on: ubuntu-latest
     steps:
       - name: Slack Build Result
         uses: slackapi/slack-github-action@v1.24.0
