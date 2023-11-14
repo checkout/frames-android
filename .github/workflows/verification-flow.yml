@@ -81,3 +81,4 @@ jobs:
       ktlint-result: ${{ needs.ktlint.result }}
       assemble-result: ${{ needs.assemble.result }}
       unit-test-result: ${{ needs.unit-test.result }}
+      ui-test-result: ${{ needs.ui-test.result }}
