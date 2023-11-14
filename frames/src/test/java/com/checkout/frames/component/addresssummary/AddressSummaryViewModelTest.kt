@@ -116,7 +116,7 @@ internal class AddressSummaryViewModelTest {
         spyPaymentStateManager.isBillingAddressEnabled.value = true
         val testAddress = BillingAddress(
             address = Address(
-                "LINE 3",
+                "LINE 1",
                 "LINE 2",
                 "",
                 "",
