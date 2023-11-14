@@ -86,7 +86,7 @@ internal class CardTokenizationUseCaseTest {
         )
         val capturedCardTokenRequest = slot<CardTokenRequest>()
         val expectedTokenDetails = TokenDetails(
-            "type", "token_token", "02/24", 2, 23,
+            "type", "token_token", "02/23", 2, 23,
             null, "", "", "", null, null, null, null,
             null, null, null, null, null,
         )
