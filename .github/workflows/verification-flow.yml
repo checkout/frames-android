@@ -71,3 +71,15 @@ jobs:
     needs: android-lint
     with:
       module: ${{ inputs.module }}
+  slack-build-result:
+    uses: ./.github/workflows/slack-build-result.yml
+    secrets: inherit
+    needs: [ android-lint, ktlint, assemble, unit-test, ui-test ]
+    if: always()
+    with:
+      workflow: ${{ github.workflow }}
+      android-lint-result: ${{ needs.android-lint.result }}
+      ktlint-result: ${{ needs.ktlint.result }}
+      assemble-result: ${{ needs.assemble.result }}
+      unit-test-result: ${{ needs.unit-test.result }}
+      ui-test-result: ${{ needs.ui-test.result }}

@@ -1,0 +1,127 @@
+name: Slack Build Result
+
+on:
+  workflow_call:
+    inputs:
+      workflow:
+        description: workflow name
+        required: true
+        type: string
+      android-lint-result:
+        description: android lint result
+        required: true
+        type: string
+      ktlint-result:
+        description: ktlint result
+        required: true
+        type: string
+      assemble-result:
+        description: assemble result
+        required: true
+        type: string
+      unit-test-result:
+        description: unit test result
+        required: true
+        type: string
+      ui-test-result:
+        description: ui test result
+        required: true
+        type: string
+jobs:
+  slack:
+    name: Slack Build Result for ${{ inputs.workflow }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Build Result
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          LINT_RESULT: ${{ inputs.android-lint-result == 'failure' && ':x:' || ':white_check_mark:'}}
+          KTLINT_RESULT: ${{ inputs.ktlint-result == 'failure' && ':x:' || ':white_check_mark:'}}
+          ASSEMBLE_RESULT: ${{ inputs.assemble-result == 'failure' && ':x:' || ':white_check_mark:'}}
+          UNIT_TEST_RESULT: ${{ inputs.unit-test-result == 'failure' && ':x:' || ':white_check_mark:'}}
+          UI_TEST_RESULT: ${{ inputs.ui-test-result == 'failure' && ':x:' || ':white_check_mark:'}}
+
+
+
+        with:
+          channel-id: 'C0116ARL2NN'
+          payload: |
+            {
+            	"blocks": [
+                    {
+            			"type": "header",
+            			"text": {
+            				"type": "plain_text",
+            				"text": ":android: Frame SDK build",
+                            "emoji": true 
+            			}
+            		},
+                    {
+            			"type": "divider"
+            		},
+            {
+            			"type": "section",
+            			"text": {
+            				"type": "mrkdwn",
+            				"text": "*See <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ inputs.workflow }} Full Results>*"
+            			}
+            		},
+                    {
+            			"type": "section",
+                         "text": {
+            				"type": "mrkdwn",
+            				"text": "*Branch* \n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|${{ github.event.pull_request.title }}>"
+            			}
+                    },
+            		{
+            			"type": "section",
+                         "text": {
+            				"type": "mrkdwn",
+            				"text": "${{ format('{0} {1} {2}', env.LINT_RESULT, inputs.android-lint-result, 'Android Lint') }}"
+            			}
+                    },
+                    {
+            			"type": "section",
+                         "text": {
+            				"type": "mrkdwn",
+            				"text": "${{ format('{0} {1} {2}', env.KTLINT_RESULT, inputs.ktlint-result, 'KTlint') }}"
+            			}
+                    },
+                    {
+            			"type": "section",
+                         "text": {
+            				"type": "mrkdwn",
+            				"text": "${{ format('{0} {1} {2}', env.ASSEMBLE_RESULT, inputs.assemble-result, 'Assemble') }}"
+            			}
+                    },
+                    {
+            			"type": "section",
+                         "text": {
+            				"type": "mrkdwn",
+                            "text": "${{ format('{0} {1} {2}', env.UNIT_TEST_RESULT, inputs.unit-test-result, 'Unit Test') }}"
+            			}
+                    },
+                    {
+            			"type": "section",
+                         "text": {
+            				"type": "mrkdwn",
+                            "text": "${{ format('{0} {1} {2}', env.UI_TEST_RESULT, inputs.ui-test-result, 'UI Test') }}"
+            			}
+                    },
+                    {
+            			"type": "context",
+                        "elements": [
+                          {
+            				"type": "plain_text",
+            				"text": "Author: ${{ github.actor }}",
+            				"emoji": true
+            			  }
+                        ]
+                    },
+                    {
+            			"type": "divider"
+            		}
+            	]
+            }
