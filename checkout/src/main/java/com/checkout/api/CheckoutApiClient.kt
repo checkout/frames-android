@@ -27,5 +27,4 @@ internal class CheckoutApiClient(
     override fun createToken(request: CVVTokenizationRequest) = tokenRepository.sendCVVTokenizationRequest(request)
 
     override fun handleThreeDS(request: ThreeDSRequest) = threeDSExecutor.execute(request)
-
 }
