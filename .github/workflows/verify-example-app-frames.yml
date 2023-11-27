@@ -24,7 +24,4 @@ jobs:
     secrets: inherit
     with:
       module: example_app_frames
-      run-android-lint: true
       run-ktlint: true
-      run-assemble: true
-      run-unit-test: true

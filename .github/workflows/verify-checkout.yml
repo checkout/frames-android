@@ -22,7 +22,4 @@ jobs:
     secrets: inherit
     with:
       module: checkout
-      run-android-lint: true
       run-ktlint: true
-      run-assemble: true
-      run-unit-test: true

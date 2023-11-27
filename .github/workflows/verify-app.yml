@@ -24,6 +24,3 @@ jobs:
     secrets: inherit
     with:
       module: app
-      run-android-lint: true
-      run-assemble: true
-      run-unit-test: true
