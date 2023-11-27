@@ -37,7 +37,6 @@ public class CheckoutActivity extends Activity {
 		});
 	}
 
-
 	private void initItemUI(String name, long price, @DrawableRes int imageResource, Button cvvToknizationButton) {
 		TextView itemName = findViewById(R.id.text_item_name);
 		ImageView itemImage = findViewById(R.id.image_item_image);
