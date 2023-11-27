@@ -1,0 +1,19 @@
+name: Generated APK Clean
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # Every Monday at 1am
+    - cron: '0 1 * * 1'
+
+jobs:
+  remove-old-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Clean all artifacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '60 seconds'
