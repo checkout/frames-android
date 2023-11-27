@@ -5,14 +5,16 @@ on:
         description: 'Module to run'
         required: true
         type: string
-      variant:
-        description: 'Variant to build'
-        required: true
-        type: string
+      push-apk:
+        description: 'Push artifact'
+        required: false
+        type: boolean
+        default: false
 jobs:
   assemble:
     uses: ./.github/workflows/gradle-task.yml
     with:
       module: ${{ inputs.module }}
-      task: assemble${{inputs.variant}}
-      task-name: Assemble ${{inputs.module}} - ${{inputs.variant}}
+      task: assemble
+      task-name: Assemble ${{inputs.module}}
+      push-apk: ${{ inputs.push-apk }}

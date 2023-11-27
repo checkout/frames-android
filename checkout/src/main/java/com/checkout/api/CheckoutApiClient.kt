@@ -20,7 +20,6 @@ internal class CheckoutApiClient(
         logger.log(LoggingEvent(ApiClientEventType.INITIALIZE))
     }
 
-
     override fun createToken(request: CardTokenRequest) = tokenRepository.sendCardTokenRequest(request)
 
     override fun createToken(request: GooglePayTokenRequest) = tokenRepository.sendGooglePayTokenRequest(request)

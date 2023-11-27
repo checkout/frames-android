@@ -12,18 +12,13 @@ on:
         required: false
         type: boolean
         default: false
-      assemble-variant:
-        description: 'Variant to Run Assemble'
-        required: false
-        type: string
-        default: ''
       run-ui-test:
         description: 'Should Run UI Tests'
         required: false
         type: boolean
         default: false
       push-apk:
-        description: 'Should Push apk on repo'
+        description: 'Should Push apk on github'
         required: false
         type: boolean
         default: false
@@ -44,7 +39,7 @@ jobs:
     needs: android-lint
     with:
       module: ${{ inputs.module }}
-      variant: ${{ inputs.assemble-variant }}
+      push-apk: ${{ inputs.push-apk}}
   unit-test:
     uses: ./.github/workflows/unit-test.yml
     # Add ktlint after ktlint is applied to all modules
@@ -58,12 +53,6 @@ jobs:
     needs: android-lint
     with:
       module: ${{ inputs.module }}
-  push-build:
-    if: ${{ inputs.push-apk }}
-    uses: ./.github/workflows/push-build.yml
-    needs: [ android-lint, assemble, unit-test]
-    with:
-      module: ${{ inputs.module}}
   slack-build-result:
     uses: ./.github/workflows/slack-build-result.yml
     secrets: inherit

@@ -36,6 +36,8 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+
+
       - name: Assemble Debug ${{ inputs.module }} with Gradle
         run: ./gradlew :${{ inputs.module }}:assembleDebug
 
