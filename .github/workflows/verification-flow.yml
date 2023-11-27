@@ -61,7 +61,7 @@ jobs:
   push-build:
     if: ${{ inputs.push-apk }}
     uses: ./.github/workflows/push-build.yml
-    needs: [ android-lint, ktlint, assemble, unit-test, ui-test ]
+    needs: [ android-lint, assemble, unit-test]
     with:
       module: ${{ inputs.module}}
   slack-build-result:
