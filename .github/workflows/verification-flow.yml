@@ -22,6 +22,11 @@ on:
         required: false
         type: boolean
         default: false
+      push-apk:
+        description: 'Should Push apk on repo'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   android-lint:
@@ -53,6 +58,12 @@ jobs:
     needs: android-lint
     with:
       module: ${{ inputs.module }}
+  push-build:
+    if: ${{ inputs.push-apk }}
+    uses: ./.github/workflows/push-build.yml
+    needs: [ android-lint, ktlint, assemble, unit-test, ui-test ]
+    with:
+      module: ${{ inputs.module}}
   slack-build-result:
     uses: ./.github/workflows/slack-build-result.yml
     secrets: inherit

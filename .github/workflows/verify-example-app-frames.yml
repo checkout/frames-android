@@ -25,3 +25,4 @@ jobs:
     with:
       module: example_app_frames
       run-ktlint: true
+      push-apk: true
