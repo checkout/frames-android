@@ -1,3 +1,5 @@
+name: Gradle task
+
 on:
   workflow_call:
     inputs:

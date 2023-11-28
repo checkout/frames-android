@@ -1,3 +1,5 @@
+name: Assemble module
+
 on:
   workflow_call:
     inputs:
