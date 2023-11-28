@@ -46,16 +46,16 @@ jobs:
 
       # Build Artifact Debug
       - name: Assemble Debug ${{ inputs.module }} with Gradle
-        if: ${{ inputs.push-apk}}
+        if: ${{ inputs.push-apk }}
         run: ./gradlew :${{ inputs.module }}:assembleDebug
       # Build Artifact Release
       - name: Assemble Release ${{ inputs.module }} with Gradle
-        if: ${{ inputs.push-apk}}
+        if: ${{ inputs.push-apk }}
         run: ./gradlew :${{ inputs.module }}:assembleRelease
       # Upload Artifact Build Debug
       # Noted For Output [main_project_module]/build/outputs/apk/debug/
       - name: Upload APK Debug - ${{ env.repository_name }}
-        if: ${{ inputs.push-apk}}
+        if: ${{ inputs.push-apk }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) debug generated
@@ -63,7 +63,7 @@ jobs:
       # Upload Artifact Build Release
       # Noted For Output [main_project_module]/build/outputs/apk/release/
       - name: Upload APK Release - ${{ env.repository_name }}
-        if: ${{ inputs.push-apk}}
+        if: ${{ inputs.push-apk }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) release generated
