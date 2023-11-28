@@ -32,9 +32,6 @@ jobs:
     name: Slack Build Result for ${{ inputs.workflow }}
     runs-on: ubuntu-latest
     steps:
-      - name: Get timestamp
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Slack Build Result
         uses: slackapi/slack-github-action@v1.24.0
         env:
@@ -118,7 +115,7 @@ jobs:
                         "elements": [
                           {
             				"type": "plain_text",
-            				"text": "Author: ${{ github.actor }} at ${{ steps.date.outputs.date}}",
+            				"text": "Author: ${{ github.actor }} at ${{ github.event.repository.updated_at}}}",
             				"emoji": true
             			  }
                         ]
