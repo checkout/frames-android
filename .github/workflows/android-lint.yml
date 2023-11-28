@@ -1,3 +1,5 @@
+name: Android Lint
+
 on:
   workflow_call:
     inputs:

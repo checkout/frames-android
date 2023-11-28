@@ -1,3 +1,5 @@
+name: Unit test
+
 on:
   workflow_call:
     inputs:

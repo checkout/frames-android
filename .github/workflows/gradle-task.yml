@@ -1,3 +1,5 @@
+name: Gradle task
+
 on:
   workflow_call:
     inputs:
@@ -13,6 +15,11 @@ on:
         description: 'Task Name'
         required: true
         type: string
+      push-apk:
+        description: 'Push artifact'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   task:
@@ -36,5 +43,31 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-      - name: Run unit tests with Gradle
+      - name: Run ${{ inputs.task }} with Gradle
         run: ./gradlew :${{ inputs.module }}:${{ inputs.task }}
+
+      # Build Artifact Debug
+      - name: Assemble Debug ${{ inputs.module }} with Gradle
+        if: ${{ inputs.push-apk }}
+        run: ./gradlew :${{ inputs.module }}:assembleDebug
+      # Build Artifact Release
+      - name: Assemble Release ${{ inputs.module }} with Gradle
+        if: ${{ inputs.push-apk }}
+        run: ./gradlew :${{ inputs.module }}:assembleRelease
+      # Upload Artifact Build Debug
+      # Noted For Output [main_project_module]/build/outputs/apk/debug/
+      - name: Upload APK Debug - ${{ env.repository_name }}
+        if: ${{ inputs.push-apk }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) debug generated
+          path: ${{ inputs.module }}/build/outputs/apk/debug/
+      # Upload Artifact Build Release
+      # Noted For Output [main_project_module]/build/outputs/apk/release/
+      - name: Upload APK Release - ${{ env.repository_name }}
+        if: ${{ inputs.push-apk }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) release generated
+          path: ${{ inputs.module }}/build/outputs/apk/release/
+

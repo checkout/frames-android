@@ -115,7 +115,7 @@ jobs:
                         "elements": [
                           {
             				"type": "plain_text",
-            				"text": "Author: ${{ github.actor }}",
+            				"text": "Author: ${{ github.actor }} at ${{ github.event.repository.updated_at}}}",
             				"emoji": true
             			  }
                         ]

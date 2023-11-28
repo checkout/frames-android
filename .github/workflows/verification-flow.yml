@@ -7,28 +7,8 @@ on:
         description: 'Module to run'
         required: true
         type: string
-      run-android-lint:
-        description: 'Should Run Android Lint'
-        required: false
-        type: boolean
-        default: false
       run-ktlint:
         description: 'Should Run Ktlint'
-        required: false
-        type: boolean
-        default: false
-      run-assemble:
-        description: 'Should Run Assemble'
-        required: false
-        type: boolean
-        default: false
-      assemble-variant:
-        description: 'Variant to Run Assemble'
-        required: false
-        type: string
-        default: ''
-      run-unit-test:
-        description: 'Should Run Unit Tests'
         required: false
         type: boolean
         default: false
@@ -37,10 +17,14 @@ on:
         required: false
         type: boolean
         default: false
+      push-apk:
+        description: 'Should Push apk on github'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   android-lint:
-    if: ${{ inputs.run-android-lint }}
     uses: ./.github/workflows/android-lint.yml
     with:
       module: ${{ inputs.module }}
@@ -50,15 +34,13 @@ jobs:
     with:
       module: ${{ inputs.module }}
   assemble:
-    if: ${{ inputs.run-assemble }}
     uses: ./.github/workflows/assemble-module.yml
     # Add ktlint after ktlint is applied to all modules
     needs: android-lint
     with:
       module: ${{ inputs.module }}
-      variant: ${{ inputs.assemble-variant }}
+      push-apk: ${{ inputs.push-apk}}
   unit-test:
-    if: ${{ inputs.run-unit-test }}
     uses: ./.github/workflows/unit-test.yml
     # Add ktlint after ktlint is applied to all modules
     needs: android-lint

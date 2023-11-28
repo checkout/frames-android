@@ -10,6 +10,7 @@ on:
 
 jobs:
   connected-android-tests:
+    timeout-minutes: 45
     name: Run Connected Android Tests
     # Run on macOS because we need to run the emulator and the emulator is not supported on Linux
     runs-on: macos-latest
