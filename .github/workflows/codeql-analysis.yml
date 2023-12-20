@@ -71,15 +71,6 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
-      - name: Set up Android SDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'android'
-          components: 'platform-tools,android-30,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository'
-
-      - name: Build assemble Gradle
-        run: ./gradlew assembleDebug
-
       - name: Run SonarCloud Analysis
         uses: sonarsource/sonarcloud-github-action@master
         with:
