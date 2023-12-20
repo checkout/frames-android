@@ -81,7 +81,7 @@ jobs:
         run: ./gradlew assembleDebug
 
       - name: Run SonarCloud Analysis
-        uses: sonarsource/sonarcloud-github-action@v1
+        uses: sonarsource/sonarcloud-github-action@latest
         with:
           organization: 'cko-mobile'
           token: ${{ secrets.SONAR_TOKEN }}
