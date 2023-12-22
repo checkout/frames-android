@@ -50,14 +50,14 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
 
-#      - name: Build with Gradle
-#        run: ./gradlew :app:build
-#
-#      - name: Build test coverage report for :checkout
-#        run: ./gradlew :checkout:jacocoTestReport
-#
-#      - name: Build test coverage report for :frames
-#        run: ./gradlew :frames:jacocoTestReport
+      - name: Build with Gradle
+        run: ./gradlew :app:build
+
+      - name: Build test coverage report for :checkout
+        run: ./gradlew :checkout:jacocoTestReport
+
+      - name: Build test coverage report for :frames
+        run: ./gradlew :frames:jacocoTestReport
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
@@ -66,8 +66,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-#            -Dsonar.organization=checkout-ltd
-#            -Dsonar.projectKey=checkout_frames-android
             -Dsonar.sources=.
             -Dsonar.coverage.jacoco.xmlReportPaths=**/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
             -Dsonar.exclusions=readme-docs/**,example_app_frames/**,docs/**,code_quality_tools/**,buildSrc/**,app/**,**/*.java,**/src/test/**,**/src/androidTest/**
+            -Dsonar.organization=checkout-ltd
+            -Dsonar.projectKey=checkout_frames-android
