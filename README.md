@@ -189,7 +189,7 @@ val customInputComponentStyle = DefaultLightStyle.inputComponentStyle(
 paymentFormStyle.paymentDetailsStyle.cardNumberStyle.inputStyle = customInputComponentStyle
 ```
 
-To disable the `cardHolderName` and `BillingFormAddress` in the Payment Form, pass null value to respective style property in `PaymentDetailsStyle`
+To disable `cardHolderName` and `BillingFormAddress` in the Payment Form, pass a null value to each respective style property in `PaymentDetailsStyle`
 
 ```kotlin
 val paymentFormStyle = PaymentFormStyle(
