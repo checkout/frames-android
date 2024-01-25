@@ -189,6 +189,17 @@ val customInputComponentStyle = DefaultLightStyle.inputComponentStyle(
 paymentFormStyle.paymentDetailsStyle.cardNumberStyle.inputStyle = customInputComponentStyle
 ```
 
+To disable `cardHolderName` and `BillingFormAddress` in the Payment Form, pass a null value to each respective style property in `PaymentDetailsStyle`
+
+```kotlin
+val paymentFormStyle = PaymentFormStyle(
+    paymentDetailsStyle =  PaymentDetailsStyle(
+        addressSummaryStyle = null,
+        cardHolderNameStyle = null
+    )
+)
+```
+
 ### Use Theme
 Detailed implementation of this approach can be found in `CustomPaymentFormTheme.kt`. With the Theme, we are aiming to give you a design system that you can use to create the full UI style by providing a small number of properties that we will share across to sub components. Since you might not fully agree with our mapping, you can still individually change each component afterwards (as in the Modify Default example).
 
