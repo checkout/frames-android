@@ -43,6 +43,9 @@ object Dependencies {
     const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
 
+    // Risk SDK
+    const val riskSdk = "com.github.checkout:checkout-risk-sdk-android:${Versions.riskSdk}"
+
     // Logging
     const val eventLogger = "com.checkout:checkout-sdk-event-logger-android:${Versions.eventLogger}"
 

@@ -58,6 +58,14 @@ fun Project.applyNetworkConfigurations() {
     }
 }
 
+fun Project.applyRiskSdkConfigurations() {
+    android {
+        dependencies.apply {
+            riskSdkDependencies()
+        }
+    }
+}
+
 fun Project.applyDeclarativeUIConfigurations() {
     android {
         dependencies.apply {

@@ -41,15 +41,18 @@ public object CheckoutApiServiceFactory {
         logger.setup(context, environment)
 
         return CheckoutApiClient(
-            provideTokenRepository(publicKey, environment),
+            provideTokenRepository(context, publicKey, environment),
             provideThreeDSExecutor(logger),
         )
     }
 
     private fun provideTokenRepository(
+        context: Context,
         publicKey: String,
         environment: Environment,
     ): TokenRepository = TokenRepositoryImpl(
+        context = context,
+        environment = environment,
         networkApiClient = provideNetworkApiClient(publicKey, environment.url),
         cardToTokenRequestMapper = CardToTokenRequestMapper(),
         cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),

@@ -54,6 +54,10 @@ fun DependencyHandler.networkingDependencies() {
     kapt(Dependencies.moshiCodeGen)
 }
 
+fun DependencyHandler.riskSdkDependencies() {
+    implementation(Dependencies.riskSdk)
+}
+
 /**
  * Logging dependencies
  */
