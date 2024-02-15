@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.checkout.base.model.Environment
 import com.checkout.eventlogger.CheckoutEventLogger
-import com.checkout.eventlogger.METADATA_CORRELATION_ID
+import com.checkout.eventlogger.domain.model.MetadataKey
 import com.checkout.eventlogger.domain.model.RemoteProcessorMetadata
 import com.checkout.logging.model.LoggingEvent
 import com.checkout.logging.utils.toLoggingEnvironment
@@ -37,7 +37,7 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
 
     override fun resetSession() {
         val correlationId = UUID.randomUUID().toString()
-        logger.addMetadata(METADATA_CORRELATION_ID, correlationId)
+        logger.addMetadata(MetadataKey.correlationId, correlationId)
         sentLogs.clear()
     }
 
