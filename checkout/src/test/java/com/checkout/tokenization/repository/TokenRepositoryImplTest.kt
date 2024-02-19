@@ -1,6 +1,8 @@
 package com.checkout.tokenization.repository
 
+import android.content.Context
 import com.checkout.base.model.CardScheme
+import com.checkout.base.model.Environment
 import com.checkout.base.usecase.UseCase
 import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.mock.TokenizationRequestTestData.cvvTokenizationRequest
@@ -66,6 +68,10 @@ internal class TokenRepositoryImplTest {
 
     @BeforeEach
     fun setUp() {
+
+        val mockContext = mockk<Context>()
+        val mockEnvironment = Environment.SANDBOX
+
         tokenRepositoryImpl = TokenRepositoryImpl(
             networkApiClient = mockTokenNetworkApiClient,
             cardToTokenRequestMapper = CardToTokenRequestMapper(),
@@ -76,6 +82,8 @@ internal class TokenRepositoryImplTest {
             logger = mockTokenizationLogger,
             publicKey = "test_key",
             cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+            context = mockContext,
+            environment = mockEnvironment,
         )
     }
 
