@@ -29,10 +29,6 @@ fun Project.applyCommonConfigurations() {
             jvmTarget = JavaVersion.VERSION_17.toString()
         }
 
-        lintOptions {
-            isAbortOnError = true
-        }
-
         testOptions {
             unitTests.isReturnDefaultValues = true
             unitTests.isIncludeAndroidResources = true
@@ -114,6 +110,10 @@ fun Project.applyCommonLibConfigurations() {
     android {
         require(this is LibraryExtension) {
             "Android library plugin has not been applied"
+        }
+
+        lint {
+            abortOnError = true
         }
 
         applyCommonConfigurations()
