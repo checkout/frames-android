@@ -142,13 +142,14 @@ fun Project.applyCommonLibConfigurations() {
         }
 
         packagingOptions.resources {
-            //excludes += "META-INF/*.kotlin_module" // Excluding metadata will break support for Kotlin extensions
-            excludes += listOf(
-                "META-INF/LICENSE*",
-                "META-INF/AL*",
-                "META-INF/LGPL*",
-                "**/attach_hotspot_windows.dll",
-            )
+            // excludes += "META-INF/*.kotlin_module" // Excluding metadata will break support for Kotlin extensions
+            excludes +=
+                listOf(
+                    "META-INF/LICENSE*",
+                    "META-INF/AL*",
+                    "META-INF/LGPL*",
+                    "**/attach_hotspot_windows.dll",
+                )
         }
     }
 }
