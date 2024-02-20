@@ -6,6 +6,7 @@ import com.checkout.base.model.Environment
 import com.checkout.eventlogger.CheckoutEventLogger
 import com.checkout.eventlogger.METADATA_CORRELATION_ID
 import com.checkout.eventlogger.domain.model.Event
+import com.checkout.eventlogger.domain.model.MetadataKey
 import com.checkout.eventlogger.domain.model.MonitoringLevel
 import com.checkout.eventlogger.domain.model.RemoteProcessorMetadata
 import com.checkout.logging.model.LoggingEvent
@@ -24,7 +25,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 internal class EventLoggerTest {
-
     @RelaxedMockK
     lateinit var mockLogger: CheckoutEventLogger
 
@@ -40,12 +40,13 @@ internal class EventLoggerTest {
         // Given
         val mockContext: Context = mockk(relaxed = true)
         val mockEnvironment = Environment.SANDBOX
-        val expectedMetadata = RemoteProcessorMetadata.from(
-            mockContext,
-            "sandbox",
-            BuildConfig.PRODUCT_IDENTIFIER,
-            BuildConfig.PRODUCT_VERSION,
-        )
+        val expectedMetadata =
+            RemoteProcessorMetadata.from(
+                mockContext,
+                "sandbox",
+                BuildConfig.PRODUCT_IDENTIFIER,
+                BuildConfig.PRODUCT_VERSION,
+            )
 
         // When
         eventLogger.setup(mockContext, mockEnvironment)
@@ -84,7 +85,7 @@ internal class EventLoggerTest {
 
         // Then
         verify(exactly = 0) { eventLogger.resetSession() }
-        verify(exactly = 0) { mockLogger.enableRemoteProcessor(any(), any()) }
+        verify(exactly = 0) { mockLogger.enableRemoteProcessor(environment = any(), any()) }
     }
 
     @Test
@@ -93,7 +94,7 @@ internal class EventLoggerTest {
         eventLogger.resetSession()
 
         // Then
-        verify { mockLogger.addMetadata(METADATA_CORRELATION_ID, any()) }
+        verify { mockLogger.addMetadata(MetadataKey.correlationId, any()) }
     }
 
     @Test
@@ -113,9 +114,10 @@ internal class EventLoggerTest {
     fun `when log event requested then a correct event is logged`() {
         // Given
         val mockID = "testID"
-        val mockEventType = object : LoggingEventType {
-            override val eventId: String = mockID
-        }
+        val mockEventType =
+            object : LoggingEventType {
+                override val eventId: String = mockID
+            }
         val mockMonitoringLevel = MonitoringLevel.INFO
         val mockProperties = mapOf("test" to "for test")
         val mockEvent = LoggingEvent(mockEventType, mockMonitoringLevel, mockProperties)
@@ -137,9 +139,10 @@ internal class EventLoggerTest {
     fun `when log event once requested and event wasn't sent before then event is logged`() {
         // Given
         val mockID = "test_ID"
-        val mockEventType = object : LoggingEventType {
-            override val eventId: String = mockID
-        }
+        val mockEventType =
+            object : LoggingEventType {
+                override val eventId: String = mockID
+            }
         val mockMonitoringLevel = MonitoringLevel.INFO
         val mockProperties = mapOf("test1" to "for test1")
         val mockEvent = LoggingEvent(mockEventType, mockMonitoringLevel, mockProperties)
@@ -157,9 +160,10 @@ internal class EventLoggerTest {
     fun `when log event once requested and event with such a type has been already sent then event is not logged`() {
         // Given
         val mockID = "test_ID"
-        val mockEventType = object : LoggingEventType {
-            override val eventId: String = mockID
-        }
+        val mockEventType =
+            object : LoggingEventType {
+                override val eventId: String = mockID
+            }
         val mockMonitoringLevel = MonitoringLevel.INFO
         val mockProperties = mapOf("test1" to "for test1")
         val mockEvent = LoggingEvent(mockEventType, mockMonitoringLevel, mockProperties)
