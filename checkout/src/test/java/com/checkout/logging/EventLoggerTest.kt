@@ -4,7 +4,6 @@ import android.content.Context
 import com.checkout.BuildConfig
 import com.checkout.base.model.Environment
 import com.checkout.eventlogger.CheckoutEventLogger
-import com.checkout.eventlogger.METADATA_CORRELATION_ID
 import com.checkout.eventlogger.domain.model.Event
 import com.checkout.eventlogger.domain.model.MetadataKey
 import com.checkout.eventlogger.domain.model.MonitoringLevel
@@ -106,7 +105,7 @@ internal class EventLoggerTest {
         eventLogger.resetSession()
 
         // Then
-        verify { mockLogger.addMetadata(METADATA_CORRELATION_ID, any()) }
+        verify { mockLogger.addMetadata(MetadataKey.correlationId, any()) }
         assertTrue((eventLogger as? EventLogger)?.sentLogs?.isEmpty() == true)
     }
 
