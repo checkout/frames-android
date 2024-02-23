@@ -41,7 +41,7 @@ object Versions {
     const val junitVintageEngine = "5.8.2"
     const val kluent = "1.68"
     const val mockk = "1.13.8"
-    const val robolectric = "4.8"
+    const val robolectric = "4.11-beta-2"
     const val truth = "1.1.5"
     const val jacoco = "0.8.10"
 
