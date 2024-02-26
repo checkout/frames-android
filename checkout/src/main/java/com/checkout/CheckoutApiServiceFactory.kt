@@ -22,6 +22,7 @@ import com.checkout.tokenization.mapper.response.CVVTokenizationNetworkDataMappe
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
 import com.checkout.tokenization.repository.TokenRepository
 import com.checkout.tokenization.repository.TokenRepositoryImpl
+import com.checkout.tokenization.request.TokenDetailsResponseJsonAdapter
 import com.checkout.tokenization.request.TokenRequestJsonAdapter
 import com.checkout.tokenization.usecase.ValidateCVVTokenizationDataUseCase
 import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
@@ -76,6 +77,7 @@ public object CheckoutApiServiceFactory {
         OkHttpProvider.createOkHttpClient(publicKey),
         Moshi.Builder()
             .add(TokenRequestJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
+            .add(TokenDetailsResponseJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
             .addLast(KotlinJsonAdapterFactory())
             .build(),
     )
