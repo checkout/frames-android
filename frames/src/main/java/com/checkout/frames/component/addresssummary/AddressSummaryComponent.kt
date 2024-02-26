@@ -25,6 +25,11 @@ internal fun AddressSummaryComponent(
 
     viewModel.prepare()
 
+
+
+
+
+
     Column(modifier = viewModel.componentStyle.modifier.fillMaxWidth()) {
         // Title
         viewModel.componentStyle.titleStyle?.let {
