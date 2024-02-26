@@ -22,10 +22,12 @@ import com.checkout.tokenization.mapper.response.CVVTokenizationNetworkDataMappe
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
 import com.checkout.tokenization.repository.TokenRepository
 import com.checkout.tokenization.repository.TokenRepositoryImpl
+import com.checkout.tokenization.request.AddressEntityJsonAdapter
 import com.checkout.tokenization.request.CVVTokenDetailsResponseJsonAdapter
 import com.checkout.tokenization.request.CVVTokenNetworkRequestJsonAdapter
 import com.checkout.tokenization.request.ErrorResponseJsonAdapter
 import com.checkout.tokenization.request.GooglePayTokenJsonAdapter
+import com.checkout.tokenization.request.PhonesEntityJsonAdapter
 import com.checkout.tokenization.request.TokenDataEntityJsonAdapter
 import com.checkout.tokenization.request.TokenDetailsResponseJsonAdapter
 import com.checkout.tokenization.request.TokenRequestJsonAdapter
@@ -88,6 +90,8 @@ public object CheckoutApiServiceFactory {
             .add(CVVTokenNetworkRequestJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
             .add(GooglePayTokenJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
             .add(TokenDataEntityJsonAdapter)
+            .add(PhonesEntityJsonAdapter)
+            .add(AddressEntityJsonAdapter)
             .addLast(KotlinJsonAdapterFactory())
             .build(),
     )
