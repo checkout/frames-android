@@ -51,6 +51,7 @@ fun DependencyHandler.networkingDependencies() {
     implementation(Dependencies.okhttp)
     implementation(Dependencies.loggingInterceptor)
     implementation(Dependencies.moshi)
+    implementation(Dependencies.kaptMoshi)
 }
 
 /**

@@ -41,6 +41,7 @@ object Dependencies {
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
     const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptor}"
     const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
+    const val kaptMoshi = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
 
     // Logging
     const val eventLogger = "com.checkout:checkout-sdk-event-logger-android:${Versions.eventLogger}"
