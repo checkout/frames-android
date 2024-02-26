@@ -26,6 +26,7 @@ import com.checkout.tokenization.request.AddressEntityJsonAdapter
 import com.checkout.tokenization.request.CVVTokenDetailsResponseJsonAdapter
 import com.checkout.tokenization.request.CVVTokenNetworkRequestJsonAdapter
 import com.checkout.tokenization.request.ErrorResponseJsonAdapter
+import com.checkout.tokenization.request.GooglePayEntityJsonAdapter
 import com.checkout.tokenization.request.GooglePayTokenJsonAdapter
 import com.checkout.tokenization.request.PhonesEntityJsonAdapter
 import com.checkout.tokenization.request.TokenDataEntityJsonAdapter
@@ -82,18 +83,21 @@ public object CheckoutApiServiceFactory {
     ) = TokenNetworkApiClient(
         url,
         OkHttpProvider.createOkHttpClient(publicKey),
-        Moshi.Builder()
-            .add(TokenRequestJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
-            .add(TokenDetailsResponseJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
-            .add(ErrorResponseJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
+        Moshi.Builder().add(
+            TokenRequestJsonAdapter(
+                Moshi.Builder().add(AddressEntityJsonAdapter).add(PhonesEntityJsonAdapter)
+                    .addLast(KotlinJsonAdapterFactory()).build(),
+            ),
+        ).add(
+            TokenDetailsResponseJsonAdapter(
+                Moshi.Builder().add(AddressEntityJsonAdapter).add(PhonesEntityJsonAdapter)
+                    .addLast(KotlinJsonAdapterFactory()).build(),
+            ),
+        ).add(ErrorResponseJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
             .add(CVVTokenDetailsResponseJsonAdapter)
-            .add(CVVTokenNetworkRequestJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
-            .add(GooglePayTokenJsonAdapter(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()))
-            .add(TokenDataEntityJsonAdapter)
-            .add(PhonesEntityJsonAdapter)
-            .add(AddressEntityJsonAdapter)
-            .addLast(KotlinJsonAdapterFactory())
-            .build(),
+            .add(CVVTokenNetworkRequestJsonAdapter(Moshi.Builder().add(TokenDataEntityJsonAdapter).addLast(KotlinJsonAdapterFactory()).build()))
+            .add(GooglePayTokenJsonAdapter(Moshi.Builder().add(GooglePayEntityJsonAdapter).addLast(KotlinJsonAdapterFactory()).build()))
+            .addLast(KotlinJsonAdapterFactory()).build(),
     )
 
     private fun provideThreeDSExecutor(logger: Logger<LoggingEvent>): Executor<ThreeDSRequest> = ThreeDSExecutor(
