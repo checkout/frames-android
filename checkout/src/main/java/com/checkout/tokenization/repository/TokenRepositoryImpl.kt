@@ -1,15 +1,10 @@
 package com.checkout.tokenization.repository
 
-import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.checkout.BuildConfig
 import com.checkout.base.mapper.Mapper
-import com.checkout.base.model.Environment
 import com.checkout.base.usecase.UseCase
 import com.checkout.network.response.NetworkApiResponse
-import com.checkout.risk.Risk
-import com.checkout.risk.RiskConfig
-import com.checkout.risk.RiskEnvironment
 import com.checkout.tokenization.NetworkApiClient
 import com.checkout.tokenization.entity.GooglePayEntity
 import com.checkout.tokenization.error.TokenizationError
@@ -41,8 +36,6 @@ import org.json.JSONObject
 
 @Suppress("LongParameterList")
 internal class TokenRepositoryImpl(
-    private val context: Context,
-    private val environment: Environment,
     private val networkApiClient: NetworkApiClient,
     private val cardToTokenRequestMapper: Mapper<Card, TokenRequest>,
     private val cvvToTokenNetworkRequestMapper: Mapper<CVVTokenizationRequest, CVVTokenNetworkRequest>,
@@ -52,6 +45,7 @@ internal class TokenRepositoryImpl(
     private val logger: TokenizationLogger,
     private val publicKey: String,
     private val cvvTokenizationNetworkDataMapper: TokenizationNetworkDataMapper<CVVTokenDetails>,
+    private val riskSdkUseCase: UseCase<TokenResult<TokenDetails>, Unit>,
 ) : TokenRepository {
     @VisibleForTesting
     var networkCoroutineScope =
@@ -67,25 +61,6 @@ internal class TokenRepositoryImpl(
 
         networkCoroutineScope.launch {
             val validationTokenizationDataResult = validateTokenizationDataUseCase.execute(cardTokenRequest.card)
-
-            val riskEnvironment =
-                when (environment) {
-                    Environment.PRODUCTION -> RiskEnvironment.PRODUCTION
-                    Environment.SANDBOX -> RiskEnvironment.SANDBOX
-                }
-            val riskInstance =
-                Risk.getInstance(
-                    context,
-                    RiskConfig(
-                        publicKey = publicKey,
-                        environment = riskEnvironment,
-                        framesMode = true,
-                    ),
-                ).let {
-                    it ?: run {
-                        null
-                    }
-                }
 
             when (validationTokenizationDataResult) {
                 is ValidationResult.Failure -> {
@@ -106,16 +81,13 @@ internal class TokenRepositoryImpl(
             }
 
             val tokenResult = cardTokenizationNetworkDataMapper.toTokenResult(response)
-            when (tokenResult) {
-                is TokenResult.Success -> {
-                    riskInstance?.publishData(cardToken = tokenResult.result.token)
-                }
-                is TokenResult.Failure -> {}
-            }
+
+            riskSdkUseCase.execute(tokenResult)
 
             launch(Dispatchers.Main) {
                 handleResponse(tokenResult, cardTokenRequest.onSuccess, cardTokenRequest.onFailure)
             }
+
         }
     }
 

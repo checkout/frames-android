@@ -22,6 +22,7 @@ import com.checkout.tokenization.mapper.response.CVVTokenizationNetworkDataMappe
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
 import com.checkout.tokenization.repository.TokenRepository
 import com.checkout.tokenization.repository.TokenRepositoryImpl
+import com.checkout.tokenization.usecase.RiskSdkUseCase
 import com.checkout.tokenization.usecase.ValidateCVVTokenizationDataUseCase
 import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
 import com.checkout.validation.validator.AddressValidator
@@ -51,8 +52,8 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment,
     ): TokenRepository = TokenRepositoryImpl(
-        context = context,
-        environment = environment,
+//        context = context,
+//        environment = environment,
         networkApiClient = provideNetworkApiClient(publicKey, environment.url),
         cardToTokenRequestMapper = CardToTokenRequestMapper(),
         cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
@@ -67,6 +68,7 @@ public object CheckoutApiServiceFactory {
         logger = TokenizationEventLogger(EventLoggerProvider.provide()),
         publicKey = publicKey,
         cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey),
     )
 
     private fun provideNetworkApiClient(

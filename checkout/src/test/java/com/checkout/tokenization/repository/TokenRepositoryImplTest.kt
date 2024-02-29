@@ -1,8 +1,6 @@
 package com.checkout.tokenization.repository
 
-import android.content.Context
 import com.checkout.base.model.CardScheme
-import com.checkout.base.model.Environment
 import com.checkout.base.usecase.UseCase
 import com.checkout.mock.TokenizationRequestTestData
 import com.checkout.mock.TokenizationRequestTestData.cvvTokenizationRequest
@@ -20,6 +18,8 @@ import com.checkout.tokenization.model.CVVTokenizationResultHandler
 import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.GooglePayTokenRequest
+import com.checkout.tokenization.model.TokenDetails
+import com.checkout.tokenization.model.TokenResult
 import com.checkout.tokenization.model.ValidateCVVTokenizationRequest
 import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
@@ -58,6 +58,9 @@ internal class TokenRepositoryImplTest {
     private lateinit var mockValidateTokenizationDataUseCase: UseCase<Card, ValidationResult<Unit>>
 
     @RelaxedMockK
+    private lateinit var mockRiskSdkUseCase: UseCase<TokenResult<TokenDetails>, Unit>
+
+    @RelaxedMockK
     private lateinit var mockValidateCVVTokenizationDataUseCase:
         UseCase<ValidateCVVTokenizationRequest, ValidationResult<Unit>>
 
@@ -68,9 +71,6 @@ internal class TokenRepositoryImplTest {
 
     @BeforeEach
     fun setUp() {
-        val mockContext = mockk<Context>()
-        val mockEnvironment = Environment.SANDBOX
-
         tokenRepositoryImpl =
             TokenRepositoryImpl(
                 networkApiClient = mockTokenNetworkApiClient,
@@ -82,8 +82,7 @@ internal class TokenRepositoryImplTest {
                 logger = mockTokenizationLogger,
                 publicKey = "test_key",
                 cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-                context = mockContext,
-                environment = mockEnvironment,
+                riskSdkUseCase = mockRiskSdkUseCase,
             )
     }
 
@@ -188,6 +187,8 @@ internal class TokenRepositoryImplTest {
         coEvery { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
 
         coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
+
+        coEvery { mockRiskSdkUseCase.execute(any()) } returns Unit
 
         // When
         tokenRepositoryImpl.sendCardTokenRequest(
