@@ -543,14 +543,14 @@ internal class TokenRepositoryImplTest {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = true,
                 response =
-                    NetworkApiResponse.Success(
-                        body =
-                            CVVTokenDetailsResponse(
-                                type = "cvv",
-                                token = "test_token",
-                                expiresOn = "2019-08-24T14:15:22Z",
-                            ),
+                NetworkApiResponse.Success(
+                    body =
+                    CVVTokenDetailsResponse(
+                        type = "cvv",
+                        token = "test_token",
+                        expiresOn = "2019-08-24T14:15:22Z",
                     ),
+                ),
             )
         }
 
@@ -575,13 +575,13 @@ internal class TokenRepositoryImplTest {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = false,
                 response =
-                    NetworkApiResponse.InternalError(
-                        TokenizationError(
-                            errorCode = "internal_error",
-                            message = "exception.message",
-                            cause = null,
-                        ),
+                NetworkApiResponse.InternalError(
+                    TokenizationError(
+                        errorCode = "internal_error",
+                        message = "exception.message",
+                        cause = null,
                     ),
+                ),
             )
         }
 

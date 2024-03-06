@@ -87,7 +87,6 @@ internal class TokenRepositoryImpl(
             launch(Dispatchers.Main) {
                 handleResponse(tokenResult, cardTokenRequest.onSuccess, cardTokenRequest.onFailure)
             }
-
         }
     }
 

@@ -3,7 +3,6 @@ package com.checkout.tokenization.usecase
 import android.content.Context
 import com.checkout.base.model.Environment
 import com.checkout.base.usecase.UseCase
-import com.checkout.risk.PublishDataResult
 import com.checkout.risk.Risk
 import com.checkout.risk.RiskConfig
 import com.checkout.risk.RiskEnvironment
