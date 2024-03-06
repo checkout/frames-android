@@ -15,6 +15,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -166,7 +167,7 @@ internal class TokenNetworkApiClientTest {
         @RequiresApi(Build.VERSION_CODES.O)
         @Test
         @DisplayName("Get CardToken Details API does not respond and throw network error")
-        fun apiDoesNotRespond() = runTest {
+        fun apiDoesNotRespond() = runTest(UnconfinedTestDispatcher()) {
             // Given
             enqueueNoResponse()
 
@@ -261,7 +262,7 @@ internal class TokenNetworkApiClientTest {
         @RequiresApi(Build.VERSION_CODES.O)
         @Test
         @DisplayName("Get CVVToken Details API does not respond and throw network error")
-        fun apiDoesNotRespond() = runTest {
+        fun apiDoesNotRespond() = runTest(UnconfinedTestDispatcher()) {
             // Given
             enqueueNoResponse()
 
@@ -385,7 +386,7 @@ internal class TokenNetworkApiClientTest {
         @RequiresApi(Build.VERSION_CODES.O)
         @Test
         @DisplayName("Get GooglePayToken Details API does not respond and throw network error")
-        fun apiDoesNotRespond() = runTest {
+        fun apiDoesNotRespond() = runTest(UnconfinedTestDispatcher()) {
             // Given
             enqueueNoResponse()
 
