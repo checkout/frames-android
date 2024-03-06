@@ -27,7 +27,6 @@ import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
 import com.checkout.validation.validator.AddressValidator
 import com.checkout.validation.validator.PhoneValidator
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 public object CheckoutApiServiceFactory {
 
@@ -73,7 +72,7 @@ public object CheckoutApiServiceFactory {
     ) = TokenNetworkApiClient(
         url,
         OkHttpProvider.createOkHttpClient(publicKey),
-        Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build(),
+        Moshi.Builder().build(),
     )
 
     private fun provideThreeDSExecutor(logger: Logger<LoggingEvent>): Executor<ThreeDSRequest> = ThreeDSExecutor(
