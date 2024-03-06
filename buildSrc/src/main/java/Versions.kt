@@ -33,7 +33,7 @@ object Versions {
     // Networking Dependencies
     const val okhttp = "4.10.0"
     const val loggingInterceptor = "4.9.3"
-    const val moshi = "1.13.0"
+    const val moshi = "1.15.1"
 
     // Unit Testing Dependencies
     const val junit5Jupiter = "5.8.0"

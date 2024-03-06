@@ -8,6 +8,7 @@ import com.checkout.buildsrc.applyNetworkConfigurations
 plugins {
     id("com.android.library")
     kotlin("android")
+    kotlin("kapt")
     id("org.jetbrains.dokka")
     id("maven-publish")
 }
