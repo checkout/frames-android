@@ -52,8 +52,6 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment,
     ): TokenRepository = TokenRepositoryImpl(
-//        context = context,
-//        environment = environment,
         networkApiClient = provideNetworkApiClient(publicKey, environment.url),
         cardToTokenRequestMapper = CardToTokenRequestMapper(),
         cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),

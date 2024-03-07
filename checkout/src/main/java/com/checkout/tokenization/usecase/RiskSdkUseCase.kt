@@ -16,29 +16,11 @@ internal class RiskSdkUseCase(
     private val environment: Environment,
     private val context: Context,
     private val publicKey: String,
+    private val riskInstanceProvider: RiskInstanceProvider = RiskInstanceProvider(),
 ) : UseCase<TokenResult<TokenDetails>, Unit> {
     override fun execute(data: TokenResult<TokenDetails>) {
-        val riskEnvironment =
-            when (environment) {
-                Environment.PRODUCTION -> RiskEnvironment.PRODUCTION
-                Environment.SANDBOX -> RiskEnvironment.SANDBOX
-            }
-
         CoroutineScope(Dispatchers.IO).launch {
-            val riskInstance =
-                Risk.getInstance(
-                    context,
-                    RiskConfig(
-                        publicKey = publicKey,
-                        environment = riskEnvironment,
-                        framesMode = true,
-                    ),
-                ).let {
-                    it ?: run {
-                        null
-                    }
-                }
-
+            val riskInstance = riskInstanceProvider.provide(context, publicKey, environment)
             when (data) {
                 is TokenResult.Success -> {
                     riskInstance?.publishData(cardToken = data.result.token)
@@ -46,5 +28,28 @@ internal class RiskSdkUseCase(
                 is TokenResult.Failure -> {}
             }
         }
+    }
+}
+
+internal class RiskInstanceProvider() {
+    suspend fun provide(
+        context: Context,
+        publicKey: String,
+        environment: Environment,
+    ): Risk? {
+        val riskEnvironment =
+            when (environment) {
+                Environment.PRODUCTION -> RiskEnvironment.PRODUCTION
+                Environment.SANDBOX -> RiskEnvironment.SANDBOX
+            }
+
+        return Risk.getInstance(
+            context,
+            RiskConfig(
+                publicKey = publicKey,
+                environment = riskEnvironment,
+                framesMode = true,
+            ),
+        )
     }
 }
