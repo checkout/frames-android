@@ -30,7 +30,7 @@ public class RiskSdkUseCaseTest {
         coEvery { riskInstanceProvider.provide(context, PUBLIC_KEY, environment) } returns riskInstance
         useCase =
             RiskSdkUseCase(
-                environment = Environment.SANDBOX,
+                environment = environment,
                 context = context,
                 publicKey = PUBLIC_KEY,
                 riskInstanceProvider = riskInstanceProvider,

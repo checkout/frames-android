@@ -2,7 +2,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
 
-//version constants for the Kotlin DSL dependencies
+// version constants for the Kotlin DSL dependencies
 object Versions {
     private val versionProperties = loadVersionProperty()
 
@@ -36,7 +36,7 @@ object Versions {
     const val moshi = "1.15.1"
 
     // Risk SDK Dependencies
-    const val riskSdk = "1.0.3"
+    const val riskSdk = "1.0.4"
 
     // Unit Testing Dependencies
     const val junit5Jupiter = "5.8.0"
