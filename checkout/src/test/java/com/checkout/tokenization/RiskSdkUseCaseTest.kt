@@ -28,6 +28,7 @@ public class RiskSdkUseCaseTest {
     public fun setup() {
         coEvery { tokenDetails.token } returns TOKEN
         coEvery { riskInstanceProvider.provide(context, PUBLIC_KEY, environment) } returns riskInstance
+        coEvery { riskInstance.publishData(any()) } returns mockk()
         useCase =
             RiskSdkUseCase(
                 environment = environment,
