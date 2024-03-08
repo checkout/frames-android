@@ -6,7 +6,6 @@ import com.checkout.base.usecase.UseCase
 import com.checkout.risk.Risk
 import com.checkout.risk.RiskConfig
 import com.checkout.risk.RiskEnvironment
-import com.checkout.tokenization.model.TokenDetails
 import com.checkout.tokenization.model.TokenResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,13 +16,13 @@ internal class RiskSdkUseCase(
     private val context: Context,
     private val publicKey: String,
     private val riskInstanceProvider: RiskInstanceProvider = RiskInstanceProvider(),
-) : UseCase<TokenResult<TokenDetails>, Unit> {
-    override fun execute(data: TokenResult<TokenDetails>) {
+) : UseCase<TokenResult<String>, Unit> {
+    override fun execute(data: TokenResult<String>) {
         CoroutineScope(Dispatchers.IO).launch {
             val riskInstance = riskInstanceProvider.provide(context, publicKey, environment)
             when (data) {
                 is TokenResult.Success -> {
-                    riskInstance?.publishData(cardToken = data.result.token)
+                    riskInstance?.publishData(cardToken = data.result)
                 }
                 is TokenResult.Failure -> {}
             }

@@ -45,7 +45,7 @@ internal class TokenRepositoryImpl(
     private val logger: TokenizationLogger,
     private val publicKey: String,
     private val cvvTokenizationNetworkDataMapper: TokenizationNetworkDataMapper<CVVTokenDetails>,
-    private val riskSdkUseCase: UseCase<TokenResult<TokenDetails>, Unit>,
+    private val riskSdkUseCase: UseCase<TokenResult<String>, Unit>,
 ) : TokenRepository {
     @VisibleForTesting
     var networkCoroutineScope =
@@ -81,8 +81,6 @@ internal class TokenRepositoryImpl(
             }
 
             val tokenResult = cardTokenizationNetworkDataMapper.toTokenResult(response)
-
-            riskSdkUseCase.execute(tokenResult)
 
             launch(Dispatchers.Main) {
                 handleResponse(tokenResult, cardTokenRequest.onSuccess, cardTokenRequest.onFailure)
@@ -128,6 +126,7 @@ internal class TokenRepositoryImpl(
                 launch(Dispatchers.Main) {
                     when (tokenResult) {
                         is TokenResult.Success -> {
+                            riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
                             resultHandler(CVVTokenizationResultHandler.Success(tokenResult.result))
                         }
 
@@ -201,6 +200,7 @@ internal class TokenRepositoryImpl(
         when (tokenResult) {
             is TokenResult.Success -> {
                 success(tokenResult.result)
+                riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
             }
 
             is TokenResult.Failure -> {

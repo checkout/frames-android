@@ -18,7 +18,6 @@ import com.checkout.tokenization.model.CVVTokenizationResultHandler
 import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.GooglePayTokenRequest
-import com.checkout.tokenization.model.TokenDetails
 import com.checkout.tokenization.model.TokenResult
 import com.checkout.tokenization.model.ValidateCVVTokenizationRequest
 import com.checkout.tokenization.response.CVVTokenDetailsResponse
@@ -58,7 +57,7 @@ internal class TokenRepositoryImplTest {
     private lateinit var mockValidateTokenizationDataUseCase: UseCase<Card, ValidationResult<Unit>>
 
     @RelaxedMockK
-    private lateinit var mockRiskSdkUseCase: UseCase<TokenResult<TokenDetails>, Unit>
+    private lateinit var mockRiskSdkUseCase: UseCase<TokenResult<String>, Unit>
 
     @RelaxedMockK
     private lateinit var mockValidateCVVTokenizationDataUseCase:
@@ -427,6 +426,7 @@ internal class TokenRepositoryImplTest {
             tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
 
             coEvery { mockTokenNetworkApiClient.sendGooglePayTokenRequest(any()) } returns response
+            coEvery { mockRiskSdkUseCase.execute(any()) } returns Unit
 
             // When
             tokenRepositoryImpl.sendGooglePayTokenRequest(
@@ -543,14 +543,14 @@ internal class TokenRepositoryImplTest {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = true,
                 response =
-                NetworkApiResponse.Success(
-                    body =
-                    CVVTokenDetailsResponse(
-                        type = "cvv",
-                        token = "test_token",
-                        expiresOn = "2019-08-24T14:15:22Z",
+                    NetworkApiResponse.Success(
+                        body =
+                            CVVTokenDetailsResponse(
+                                type = "cvv",
+                                token = "test_token",
+                                expiresOn = "2019-08-24T14:15:22Z",
+                            ),
                     ),
-                ),
             )
         }
 
@@ -575,13 +575,13 @@ internal class TokenRepositoryImplTest {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = false,
                 response =
-                NetworkApiResponse.InternalError(
-                    TokenizationError(
-                        errorCode = "internal_error",
-                        message = "exception.message",
-                        cause = null,
+                    NetworkApiResponse.InternalError(
+                        TokenizationError(
+                            errorCode = "internal_error",
+                            message = "exception.message",
+                            cause = null,
+                        ),
                     ),
-                ),
             )
         }
 
@@ -640,6 +640,7 @@ internal class TokenRepositoryImplTest {
             coEvery { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
 
             coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
+            coEvery { mockRiskSdkUseCase.execute(any()) } returns Unit
 
             // When
             tokenRepositoryImpl.sendCVVTokenizationRequest(

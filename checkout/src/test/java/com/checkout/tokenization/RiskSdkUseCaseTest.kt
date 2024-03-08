@@ -41,7 +41,7 @@ public class RiskSdkUseCaseTest {
     @Test
     public fun `Success result should trigger publishData`() {
         runBlocking {
-            useCase.execute(TokenResult.Success(tokenDetails))
+            useCase.execute(TokenResult.Success(tokenDetails.token))
             coVerify { riskInstanceProvider.provide(context, PUBLIC_KEY, environment) }
             coVerify { riskInstance.publishData(TOKEN) }
         }
