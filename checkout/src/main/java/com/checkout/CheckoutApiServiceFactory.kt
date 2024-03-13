@@ -22,6 +22,7 @@ import com.checkout.tokenization.mapper.response.CVVTokenizationNetworkDataMappe
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
 import com.checkout.tokenization.repository.TokenRepository
 import com.checkout.tokenization.repository.TokenRepositoryImpl
+import com.checkout.tokenization.usecase.RiskInstanceProvider
 import com.checkout.tokenization.usecase.RiskSdkUseCase
 import com.checkout.tokenization.usecase.ValidateCVVTokenizationDataUseCase
 import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
@@ -30,7 +31,6 @@ import com.checkout.validation.validator.PhoneValidator
 import com.squareup.moshi.Moshi
 
 public object CheckoutApiServiceFactory {
-
     @JvmStatic
     public fun create(
         publicKey: String,
@@ -51,23 +51,28 @@ public object CheckoutApiServiceFactory {
         context: Context,
         publicKey: String,
         environment: Environment,
-    ): TokenRepository = TokenRepositoryImpl(
-        networkApiClient = provideNetworkApiClient(publicKey, environment.url),
-        cardToTokenRequestMapper = CardToTokenRequestMapper(),
-        cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
-        cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
-        validateTokenizationDataUseCase = ValidateTokenizationDataUseCase(
-            CardValidatorFactory.createInternal(),
-            AddressValidator(),
-            PhoneValidator(),
-            AddressToAddressValidationRequestDataMapper(),
-        ),
-        validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(CVVComponentValidatorFactory.create()),
-        logger = TokenizationEventLogger(EventLoggerProvider.provide()),
-        publicKey = publicKey,
-        cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey),
-    )
+    ): TokenRepository =
+        TokenRepositoryImpl(
+            networkApiClient = provideNetworkApiClient(publicKey, environment.url),
+            cardToTokenRequestMapper = CardToTokenRequestMapper(),
+            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
+            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
+            validateTokenizationDataUseCase =
+                ValidateTokenizationDataUseCase(
+                    CardValidatorFactory.createInternal(),
+                    AddressValidator(),
+                    PhoneValidator(),
+                    AddressToAddressValidationRequestDataMapper(),
+                ),
+            validateCVVTokenizationDataUseCase =
+                ValidateCVVTokenizationDataUseCase(
+                    CVVComponentValidatorFactory.create(),
+                ),
+            logger = TokenizationEventLogger(EventLoggerProvider.provide()),
+            publicKey = publicKey,
+            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+            riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, RiskInstanceProvider),
+        )
 
     private fun provideNetworkApiClient(
         publicKey: String,
@@ -78,8 +83,9 @@ public object CheckoutApiServiceFactory {
         Moshi.Builder().build(),
     )
 
-    private fun provideThreeDSExecutor(logger: Logger<LoggingEvent>): Executor<ThreeDSRequest> = ThreeDSExecutor(
-        ProcessThreeDSUseCase(),
-        ThreeDSEventLogger(logger),
-    )
+    private fun provideThreeDSExecutor(logger: Logger<LoggingEvent>): Executor<ThreeDSRequest> =
+        ThreeDSExecutor(
+            ProcessThreeDSUseCase(),
+            ThreeDSEventLogger(logger),
+        )
 }
