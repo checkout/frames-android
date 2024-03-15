@@ -126,8 +126,8 @@ internal class TokenRepositoryImpl(
                 launch(Dispatchers.Main) {
                     when (tokenResult) {
                         is TokenResult.Success -> {
-                            riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
                             resultHandler(CVVTokenizationResultHandler.Success(tokenResult.result))
+                            riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
                         }
 
                         is TokenResult.Failure -> {
