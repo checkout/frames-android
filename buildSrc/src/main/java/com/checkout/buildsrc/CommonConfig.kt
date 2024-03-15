@@ -29,10 +29,6 @@ fun Project.applyCommonConfigurations() {
             jvmTarget = JavaVersion.VERSION_17.toString()
         }
 
-        lintOptions {
-            isAbortOnError = true
-        }
-
         testOptions {
             unitTests.isReturnDefaultValues = true
             unitTests.isIncludeAndroidResources = true
@@ -54,6 +50,14 @@ fun Project.applyNetworkConfigurations() {
     android {
         dependencies.apply {
             networkingDependencies()
+        }
+    }
+}
+
+fun Project.applyRiskSdkConfigurations() {
+    android {
+        dependencies.apply {
+            riskSdkDependencies()
         }
     }
 }
@@ -108,6 +112,10 @@ fun Project.applyCommonLibConfigurations() {
             "Android library plugin has not been applied"
         }
 
+        lint {
+            abortOnError = true
+        }
+
         applyCommonConfigurations()
 
         buildTypes {
@@ -134,13 +142,14 @@ fun Project.applyCommonLibConfigurations() {
         }
 
         packagingOptions.resources {
-            //excludes += "META-INF/*.kotlin_module" // Excluding metadata will break support for Kotlin extensions
-            excludes += listOf(
-                "META-INF/LICENSE*",
-                "META-INF/AL*",
-                "META-INF/LGPL*",
-                "**/attach_hotspot_windows.dll",
-            )
+            // excludes += "META-INF/*.kotlin_module" // Excluding metadata will break support for Kotlin extensions
+            excludes +=
+                listOf(
+                    "META-INF/LICENSE*",
+                    "META-INF/AL*",
+                    "META-INF/LGPL*",
+                    "**/attach_hotspot_windows.dll",
+                )
         }
     }
 }

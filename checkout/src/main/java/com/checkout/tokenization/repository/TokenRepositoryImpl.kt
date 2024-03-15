@@ -45,14 +45,15 @@ internal class TokenRepositoryImpl(
     private val logger: TokenizationLogger,
     private val publicKey: String,
     private val cvvTokenizationNetworkDataMapper: TokenizationNetworkDataMapper<CVVTokenDetails>,
+    private val riskSdkUseCase: UseCase<TokenResult<String>, Unit>,
 ) : TokenRepository {
-
     @VisibleForTesting
-    var networkCoroutineScope = CoroutineScope(
-        CoroutineName(BuildConfig.PRODUCT_IDENTIFIER) +
-            Dispatchers.IO +
-            NonCancellable,
-    )
+    var networkCoroutineScope =
+        CoroutineScope(
+            CoroutineName(BuildConfig.PRODUCT_IDENTIFIER) +
+                Dispatchers.IO +
+                NonCancellable,
+        )
 
     @Suppress("TooGenericExceptionCaught")
     override fun sendCardTokenRequest(cardTokenRequest: CardTokenRequest) {
@@ -69,9 +70,10 @@ internal class TokenRepositoryImpl(
                 is ValidationResult.Success -> {
                     logger.logTokenRequestEvent(TokenizationConstants.CARD, publicKey)
 
-                    response = networkApiClient.sendCardTokenRequest(
-                        cardToTokenRequestMapper.map(cardTokenRequest.card),
-                    )
+                    response =
+                        networkApiClient.sendCardTokenRequest(
+                            cardToTokenRequestMapper.map(cardTokenRequest.card),
+                        )
 
                     logResponse(response, TokenizationConstants.CARD)
                     logger.resetSession()
@@ -93,10 +95,11 @@ internal class TokenRepositoryImpl(
         with(cvvTokenizationRequest) {
             networkCoroutineScope.launch {
                 val tokenType = TokenizationConstants.CVV
-                val validateCVVRequest = ValidateCVVTokenizationRequest(
-                    cvv = cvv,
-                    cardScheme = cardScheme,
-                )
+                val validateCVVRequest =
+                    ValidateCVVTokenizationRequest(
+                        cvv = cvv,
+                        cardScheme = cardScheme,
+                    )
 
                 val validationTokenizationDataResult = validateCVVTokenizationDataUseCase.execute(validateCVVRequest)
 
@@ -108,9 +111,10 @@ internal class TokenRepositoryImpl(
                     is ValidationResult.Success -> {
                         logger.logTokenRequestEvent(tokenType, publicKey)
 
-                        response = networkApiClient.sendCVVTokenRequest(
-                            cvvToTokenNetworkRequestMapper.map(from = cvvTokenizationRequest),
-                        )
+                        response =
+                            networkApiClient.sendCVVTokenRequest(
+                                cvvToTokenNetworkRequestMapper.map(from = cvvTokenizationRequest),
+                            )
 
                         logCVVTokenizationResponse(response)
                         logger.resetSession()
@@ -123,6 +127,7 @@ internal class TokenRepositoryImpl(
                     when (tokenResult) {
                         is TokenResult.Success -> {
                             resultHandler(CVVTokenizationResultHandler.Success(tokenResult.result))
+                            riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
                         }
 
                         is TokenResult.Failure -> {
@@ -142,10 +147,11 @@ internal class TokenRepositoryImpl(
 
         networkCoroutineScope.launch {
             try {
-                val request = GooglePayTokenNetworkRequest(
-                    TokenizationConstants.GOOGLE_PAY,
-                    creatingTokenData(googlePayTokenRequest.tokenJsonPayload),
-                )
+                val request =
+                    GooglePayTokenNetworkRequest(
+                        TokenizationConstants.GOOGLE_PAY,
+                        creatingTokenData(googlePayTokenRequest.tokenJsonPayload),
+                    )
 
                 logger.logTokenRequestEvent(TokenizationConstants.GOOGLE_PAY, publicKey)
 
@@ -154,18 +160,20 @@ internal class TokenRepositoryImpl(
                 logResponse(response, TokenizationConstants.GOOGLE_PAY)
                 logger.resetSession()
             } catch (exception: Exception) {
-                val error = TokenizationError(
-                    TokenizationError.GOOGLE_PAY_REQUEST_PARSING_ERROR,
-                    exception.message,
-                    exception.cause,
-                )
+                val error =
+                    TokenizationError(
+                        TokenizationError.GOOGLE_PAY_REQUEST_PARSING_ERROR,
+                        exception.message,
+                        exception.cause,
+                    )
                 response = NetworkApiResponse.InternalError(error)
                 logger.logErrorOnTokenRequestedEvent(TokenizationConstants.GOOGLE_PAY, publicKey, error)
             }
 
-            val tokenResult = cardTokenizationNetworkDataMapper.toTokenResult(
-                response,
-            )
+            val tokenResult =
+                cardTokenizationNetworkDataMapper.toTokenResult(
+                    response,
+                )
 
             launch(Dispatchers.Main) {
                 handleResponse(tokenResult, googlePayTokenRequest.onSuccess, googlePayTokenRequest.onFailure)
@@ -192,6 +200,7 @@ internal class TokenRepositoryImpl(
         when (tokenResult) {
             is TokenResult.Success -> {
                 success(tokenResult.result)
+                riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
             }
 
             is TokenResult.Failure -> {
@@ -200,22 +209,27 @@ internal class TokenRepositoryImpl(
         }
     }
 
-    private fun logResponse(response: NetworkApiResponse<TokenDetailsResponse>, tokenType: String) {
+    private fun logResponse(
+        response: NetworkApiResponse<TokenDetailsResponse>,
+        tokenType: String,
+    ) {
         when (response) {
-            is NetworkApiResponse.ServerError -> logger.logTokenResponseEvent(
-                tokenType = tokenType,
-                publicKey = publicKey,
-                tokenDetails = null,
-                cvvTokenDetailsResponse = null,
-                code = response.code,
-                errorResponse = response.body,
-            )
+            is NetworkApiResponse.ServerError ->
+                logger.logTokenResponseEvent(
+                    tokenType = tokenType,
+                    publicKey = publicKey,
+                    tokenDetails = null,
+                    cvvTokenDetailsResponse = null,
+                    code = response.code,
+                    errorResponse = response.body,
+                )
 
-            is NetworkApiResponse.Success -> logger.logTokenResponseEvent(
-                tokenType = tokenType,
-                publicKey = publicKey,
-                tokenDetails = response.body,
-            )
+            is NetworkApiResponse.Success ->
+                logger.logTokenResponseEvent(
+                    tokenType = tokenType,
+                    publicKey = publicKey,
+                    tokenDetails = response.body,
+                )
 
             else -> {}
         }
@@ -223,21 +237,23 @@ internal class TokenRepositoryImpl(
 
     private fun logCVVTokenizationResponse(response: NetworkApiResponse<CVVTokenDetailsResponse>) {
         when (response) {
-            is NetworkApiResponse.ServerError -> logger.logTokenResponseEvent(
-                tokenType = TokenizationConstants.CVV,
-                publicKey = publicKey,
-                tokenDetails = null,
-                cvvTokenDetailsResponse = null,
-                code = response.code,
-                errorResponse = response.body,
-            )
+            is NetworkApiResponse.ServerError ->
+                logger.logTokenResponseEvent(
+                    tokenType = TokenizationConstants.CVV,
+                    publicKey = publicKey,
+                    tokenDetails = null,
+                    cvvTokenDetailsResponse = null,
+                    code = response.code,
+                    errorResponse = response.body,
+                )
 
-            is NetworkApiResponse.Success -> logger.logTokenResponseEvent(
-                tokenType = TokenizationConstants.CVV,
-                publicKey = publicKey,
-                tokenDetails = null,
-                cvvTokenDetailsResponse = response.body,
-            )
+            is NetworkApiResponse.Success ->
+                logger.logTokenResponseEvent(
+                    tokenType = TokenizationConstants.CVV,
+                    publicKey = publicKey,
+                    tokenDetails = null,
+                    cvvTokenDetailsResponse = response.body,
+                )
 
             else -> {}
         }

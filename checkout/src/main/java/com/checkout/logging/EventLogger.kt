@@ -12,7 +12,6 @@ import com.checkout.logging.utils.toLoggingName
 import java.util.UUID
 
 internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<LoggingEvent> {
-
     @VisibleForTesting
     val sentLogs = hashSetOf<String>()
 

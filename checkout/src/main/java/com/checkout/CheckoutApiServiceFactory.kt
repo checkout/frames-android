@@ -22,6 +22,8 @@ import com.checkout.tokenization.mapper.response.CVVTokenizationNetworkDataMappe
 import com.checkout.tokenization.mapper.response.CardTokenizationNetworkDataMapper
 import com.checkout.tokenization.repository.TokenRepository
 import com.checkout.tokenization.repository.TokenRepositoryImpl
+import com.checkout.tokenization.usecase.RiskInstanceProvider
+import com.checkout.tokenization.usecase.RiskSdkUseCase
 import com.checkout.tokenization.usecase.ValidateCVVTokenizationDataUseCase
 import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
 import com.checkout.validation.validator.AddressValidator
@@ -29,7 +31,6 @@ import com.checkout.validation.validator.PhoneValidator
 import com.squareup.moshi.Moshi
 
 public object CheckoutApiServiceFactory {
-
     @JvmStatic
     public fun create(
         publicKey: String,
@@ -41,12 +42,13 @@ public object CheckoutApiServiceFactory {
         logger.setup(context, environment)
 
         return CheckoutApiClient(
-            provideTokenRepository(publicKey, environment),
+            provideTokenRepository(context, publicKey, environment),
             provideThreeDSExecutor(logger),
         )
     }
 
     private fun provideTokenRepository(
+        context: Context,
         publicKey: String,
         environment: Environment,
     ): TokenRepository = TokenRepositoryImpl(
@@ -60,10 +62,13 @@ public object CheckoutApiServiceFactory {
             PhoneValidator(),
             AddressToAddressValidationRequestDataMapper(),
         ),
-        validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(CVVComponentValidatorFactory.create()),
+        validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(
+            CVVComponentValidatorFactory.create(),
+        ),
         logger = TokenizationEventLogger(EventLoggerProvider.provide()),
         publicKey = publicKey,
         cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, RiskInstanceProvider),
     )
 
     private fun provideNetworkApiClient(

@@ -4,6 +4,7 @@ import com.checkout.buildsrc.applyAndroidJUnit5Configuration
 import com.checkout.buildsrc.applyCommonLibConfigurations
 import com.checkout.buildsrc.applyJacocoTestReport
 import com.checkout.buildsrc.applyNetworkConfigurations
+import com.checkout.buildsrc.applyRiskSdkConfigurations
 
 plugins {
     id("com.android.library")
@@ -17,6 +18,7 @@ applyAndroidJUnit5Configuration()
 applyAndroidJUnit4Configuration()
 applyCommonLibConfigurations()
 applyNetworkConfigurations()
+applyRiskSdkConfigurations()
 applyJacocoTestReport()
 
 android {
