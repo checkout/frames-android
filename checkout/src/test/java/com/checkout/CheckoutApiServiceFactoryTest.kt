@@ -32,11 +32,12 @@ internal class CheckoutApiServiceFactoryTest {
         // Given
         val mockContext = mockk<Context>()
         val mockEnvironment = Environment.SANDBOX
+        val mockCorrelationId = "testCorrelationId"
 
         // When
         CheckoutApiServiceFactory.create("", mockEnvironment, mockContext)
 
         // Then
-        verify { mockLogger.setup(eq(mockContext), eq(mockEnvironment)) }
+        verify { mockLogger.setup(eq(mockContext), eq(mockEnvironment), eq(mockCorrelationId)) }
     }
 }

@@ -18,10 +18,12 @@ public interface Logger<T> {
      * @param environment - [Environment] type.
      * @param identifier - [String] library logging identifier, used as a prefix for an event type.
      * @param version - [String] library version.
+     * @param correlationId - [String] correlationId for metadata logs
      */
     public fun setup(
         context: Context,
         environment: Environment,
+        correlationId: String,
         identifier: String = BuildConfig.PRODUCT_IDENTIFIER,
         version: String = BuildConfig.PRODUCT_VERSION,
     )

@@ -39,6 +39,7 @@ internal class EventLoggerTest {
         // Given
         val mockContext: Context = mockk(relaxed = true)
         val mockEnvironment = Environment.SANDBOX
+        val mockCorrelationId = "testCorrelationId"
         val expectedMetadata =
             RemoteProcessorMetadata.from(
                 mockContext,
@@ -48,7 +49,7 @@ internal class EventLoggerTest {
             )
 
         // When
-        eventLogger.setup(mockContext, mockEnvironment)
+        eventLogger.setup(mockContext, mockEnvironment, mockCorrelationId)
 
         // Then
         verify {
@@ -64,9 +65,10 @@ internal class EventLoggerTest {
         // Given
         val mockContext: Context = mockk(relaxed = true)
         val mockEnvironment = Environment.PRODUCTION
+        val mockCorrelationId = "testCorrelationId"
 
         // When
-        eventLogger.setup(mockContext, mockEnvironment)
+        eventLogger.setup(mockContext, mockEnvironment, mockCorrelationId)
 
         // Then
         verify { eventLogger.resetSession() }
@@ -77,10 +79,11 @@ internal class EventLoggerTest {
         // Given
         val mockContext: Context = mockk(relaxed = true)
         val mockEnvironment = Environment.SANDBOX
+        val mockCorrelationId = "testCorrelationId"
         (eventLogger as? EventLogger)?.needToSetup = false
 
         // When
-        eventLogger.setup(mockContext, mockEnvironment)
+        eventLogger.setup(mockContext, mockEnvironment, mockCorrelationId)
 
         // Then
         verify(exactly = 0) { eventLogger.resetSession() }

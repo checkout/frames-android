@@ -15,6 +15,7 @@ import com.checkout.threedsecure.ThreeDSExecutor
 import com.checkout.threedsecure.logging.ThreeDSEventLogger
 import com.checkout.threedsecure.model.ThreeDSRequest
 import com.checkout.threedsecure.usecase.ProcessThreeDSUseCase
+import java.util.UUID
 
 public class PaymentFormMediator(
     private val config: PaymentFormConfig,
@@ -24,8 +25,9 @@ public class PaymentFormMediator(
      * 3DS executor which can be used to execute and handle 3DS flow with WebView.
      */
     private val threeDSExecutor: Executor<ThreeDSRequest> by lazy(LazyThreadSafetyMode.NONE) {
+        val correlationId = UUID.randomUUID().toString()
         val logger = EventLoggerProvider.provide().apply {
-            setup(config.context, config.environment)
+            setup(config.context, config.environment, correlationId = correlationId)
         }
         ThreeDSExecutor(ProcessThreeDSUseCase(), ThreeDSEventLogger(logger))
     }

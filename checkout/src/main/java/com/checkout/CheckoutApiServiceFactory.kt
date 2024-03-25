@@ -29,8 +29,11 @@ import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
 import com.checkout.validation.validator.AddressValidator
 import com.checkout.validation.validator.PhoneValidator
 import com.squareup.moshi.Moshi
+import java.util.UUID
 
 public object CheckoutApiServiceFactory {
+    private val correlationId = UUID.randomUUID().toString()
+
     @JvmStatic
     public fun create(
         publicKey: String,
@@ -39,7 +42,7 @@ public object CheckoutApiServiceFactory {
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
 
-        logger.setup(context, environment)
+        logger.setup(context, environment, correlationId = correlationId)
 
         return CheckoutApiClient(
             provideTokenRepository(context, publicKey, environment),
@@ -68,7 +71,7 @@ public object CheckoutApiServiceFactory {
         logger = TokenizationEventLogger(EventLoggerProvider.provide()),
         publicKey = publicKey,
         cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, RiskInstanceProvider),
+        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, correlationId, RiskInstanceProvider),
     )
 
     private fun provideNetworkApiClient(
