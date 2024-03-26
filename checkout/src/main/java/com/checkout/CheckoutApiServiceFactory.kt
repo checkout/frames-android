@@ -32,7 +32,7 @@ import com.squareup.moshi.Moshi
 import java.util.UUID
 
 public object CheckoutApiServiceFactory {
-    private val correlationId = UUID.randomUUID().toString()
+    private lateinit var correlationId: String
 
     @JvmStatic
     public fun create(
@@ -42,7 +42,8 @@ public object CheckoutApiServiceFactory {
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
 
-        logger.setup(context, environment, correlationId = correlationId)
+        logger.setup(context, environment)
+        correlationId = logger.correlationId
 
         return CheckoutApiClient(
             provideTokenRepository(context, publicKey, environment),

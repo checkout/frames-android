@@ -19,16 +19,14 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
     var needToSetup = true
 
     @VisibleForTesting
-    var correlationId: String = UUID.randomUUID().toString()
+    override lateinit var correlationId: String
 
     override fun setup(
         context: Context,
         environment: Environment,
-        correlationId: String,
         identifier: String,
         version: String,
     ) {
-        this.correlationId = correlationId
         if (needToSetup) {
             logger.enableRemoteProcessor(
                 environment.toLoggingEnvironment(),
@@ -40,6 +38,7 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
     }
 
     override fun resetSession() {
+        correlationId = UUID.randomUUID().toString()
         logger.addMetadata(METADATA_CORRELATION_ID, correlationId)
         sentLogs.clear()
     }

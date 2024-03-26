@@ -28,7 +28,6 @@ import com.checkout.frames.usecase.CardTokenizationUseCase
 import com.checkout.frames.usecase.ClosePaymentFlowUseCase
 import com.checkout.frames.utils.extensions.logEvent
 import com.checkout.logging.EventLoggerProvider
-import java.util.UUID
 
 internal class FramesInjector(private val component: FramesDIComponent) : Injector {
 
@@ -59,15 +58,8 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             supportedCardSchemeList: List<CardScheme> = emptyList(),
             prefillData: PrefillData? = null,
         ): Injector {
-            val correlationId = UUID.randomUUID().toString()
             val logger = EventLoggerProvider.provide().apply {
-                setup(
-                    context,
-                    environment,
-                    correlationId = correlationId,
-                    BuildConfig.LOGGING_IDENTIFIER,
-                    BuildConfig.PRODUCT_VERSION,
-                )
+                setup(context, environment, BuildConfig.LOGGING_IDENTIFIER, BuildConfig.PRODUCT_VERSION)
                 logEvent(PaymentFormEventType.INITIALISED)
             }
             val closePaymentFlowUseCase = ClosePaymentFlowUseCase(paymentFlowHandler::onBackPressed)
