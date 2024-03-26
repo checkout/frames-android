@@ -29,7 +29,6 @@ import com.checkout.tokenization.usecase.ValidateTokenizationDataUseCase
 import com.checkout.validation.validator.AddressValidator
 import com.checkout.validation.validator.PhoneValidator
 import com.squareup.moshi.Moshi
-import java.util.UUID
 
 public object CheckoutApiServiceFactory {
     private lateinit var correlationId: String
