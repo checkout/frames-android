@@ -36,7 +36,7 @@ object Versions {
     const val moshi = "1.15.1"
 
     // Risk SDK Dependencies
-    const val riskSdk = "1.0.4"
+    const val riskSdk = "1.0.6"
 
     // Unit Testing Dependencies
     const val junit5Jupiter = "5.8.0"

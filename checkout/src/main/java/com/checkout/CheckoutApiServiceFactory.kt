@@ -31,6 +31,8 @@ import com.checkout.validation.validator.PhoneValidator
 import com.squareup.moshi.Moshi
 
 public object CheckoutApiServiceFactory {
+    private lateinit var correlationId: String
+
     @JvmStatic
     public fun create(
         publicKey: String,
@@ -40,6 +42,7 @@ public object CheckoutApiServiceFactory {
         val logger = EventLoggerProvider.provide()
 
         logger.setup(context, environment)
+        correlationId = logger.correlationId
 
         return CheckoutApiClient(
             provideTokenRepository(context, publicKey, environment),
@@ -68,7 +71,7 @@ public object CheckoutApiServiceFactory {
         logger = TokenizationEventLogger(EventLoggerProvider.provide()),
         publicKey = publicKey,
         cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, RiskInstanceProvider),
+        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, correlationId, RiskInstanceProvider),
     )
 
     private fun provideNetworkApiClient(

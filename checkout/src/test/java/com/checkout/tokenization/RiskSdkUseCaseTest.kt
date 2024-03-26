@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 public class RiskSdkUseCaseTest {
+    private val correlationId: String = "testCorrelationId"
     private val environment: Environment = Environment.SANDBOX
     private val riskInstanceProvider: RiskInstanceProvider = mockk()
     private val riskInstance: Risk = mockk()
@@ -27,7 +28,7 @@ public class RiskSdkUseCaseTest {
     @BeforeEach
     public fun setup() {
         coEvery { tokenDetails.token } returns TOKEN
-        coEvery { riskInstanceProvider.provide(context, PUBLIC_KEY, environment) } returns riskInstance
+        coEvery { riskInstanceProvider.provide(context, PUBLIC_KEY, environment, correlationId) } returns riskInstance
         coEvery { riskInstance.publishData(any()) } returns mockk()
         useCase =
             RiskSdkUseCase(
@@ -35,6 +36,7 @@ public class RiskSdkUseCaseTest {
                 context = context,
                 publicKey = PUBLIC_KEY,
                 riskInstanceProvider = riskInstanceProvider,
+                correlationId = correlationId,
             )
     }
 
@@ -42,7 +44,7 @@ public class RiskSdkUseCaseTest {
     public fun `Success result should trigger publishData`() {
         runBlocking {
             useCase.execute(TokenResult.Success(tokenDetails.token))
-            coVerify { riskInstanceProvider.provide(context, PUBLIC_KEY, environment) }
+            coVerify { riskInstanceProvider.provide(context, PUBLIC_KEY, environment, correlationId) }
             coVerify { riskInstance.publishData(TOKEN) }
         }
     }

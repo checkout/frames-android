@@ -27,6 +27,11 @@ public interface Logger<T> {
     )
 
     /**
+     * correlationId for metadata logs
+     */
+    public var correlationId: String
+
+    /**
      * Resets logger session.
      */
     public fun resetSession()
