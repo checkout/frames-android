@@ -13,6 +13,7 @@ internal object RiskInstanceProvider {
         context: Context,
         publicKey: String,
         environment: Environment,
+        correlationId: String,
     ): Risk? {
         if (riskInstance != null) {
             return riskInstance
@@ -31,6 +32,7 @@ internal object RiskInstanceProvider {
                     publicKey = publicKey,
                     environment = riskEnvironment,
                     framesMode = true,
+                    correlationId = correlationId,
                 ),
             )
         return riskInstance

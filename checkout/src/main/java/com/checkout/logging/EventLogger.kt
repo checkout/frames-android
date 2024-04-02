@@ -18,6 +18,9 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
     @VisibleForTesting
     var needToSetup = true
 
+    @VisibleForTesting
+    override lateinit var correlationId: String
+
     override fun setup(
         context: Context,
         environment: Environment,
@@ -35,7 +38,7 @@ internal class EventLogger(private val logger: CheckoutEventLogger) : Logger<Log
     }
 
     override fun resetSession() {
-        val correlationId = UUID.randomUUID().toString()
+        correlationId = UUID.randomUUID().toString()
         logger.addMetadata(METADATA_CORRELATION_ID, correlationId)
         sentLogs.clear()
     }
