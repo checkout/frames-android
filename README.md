@@ -55,6 +55,7 @@ Add JitPack repository to the project level `build.gradle` file:
 allprojects {
     repositories {
         maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.fpregistry.io/releases' }
     }
 }
 ```
