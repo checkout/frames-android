@@ -18,10 +18,10 @@ import com.checkout.tokenization.model.CVVTokenizationResultHandler
 import com.checkout.tokenization.model.Card
 import com.checkout.tokenization.model.CardTokenRequest
 import com.checkout.tokenization.model.GooglePayTokenRequest
-import com.checkout.tokenization.model.TokenResult
 import com.checkout.tokenization.model.ValidateCVVTokenizationRequest
 import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
+import com.checkout.tokenization.usecase.RiskSdkUseCase
 import com.checkout.tokenization.utils.TokenizationConstants
 import com.checkout.validation.model.ValidationResult
 import io.mockk.coEvery
@@ -30,12 +30,14 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.internal.assertEquals
@@ -57,7 +59,7 @@ internal class TokenRepositoryImplTest {
     private lateinit var mockValidateTokenizationDataUseCase: UseCase<Card, ValidationResult<Unit>>
 
     @RelaxedMockK
-    private lateinit var mockRiskSdkUseCase: UseCase<TokenResult<String>, Unit>
+    private lateinit var mockRiskSdkUseCase: RiskSdkUseCase
 
     @RelaxedMockK
     private lateinit var mockValidateCVVTokenizationDataUseCase:
@@ -197,7 +199,7 @@ internal class TokenRepositoryImplTest {
                 onFailure = { isSuccess = false },
             ),
         )
-
+        advanceUntilIdle()
         // Then
         launch {
             if (successHandlerInvoked) {
@@ -421,6 +423,7 @@ internal class TokenRepositoryImplTest {
             var isSuccess: Boolean? = null
 
             val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+            tokenRepositoryImpl = createTokenRepository(testDispatcher)
             Dispatchers.setMain(testDispatcher)
 
             tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
@@ -436,11 +439,9 @@ internal class TokenRepositoryImplTest {
                     onFailure = { isSuccess = false },
                 ),
             )
-
+            advanceUntilIdle()
             // Then
-            launch {
-                assertEquals(isSuccess.toString(), successHandlerInvoked.toString())
-            }
+            launch { assertEquals(successHandlerInvoked.toString(), isSuccess.toString()) }
         }
 
         private fun testGooglePayErrorHandlerInvocation(response: NetworkApiResponse<TokenDetailsResponse>) =
@@ -533,6 +534,22 @@ internal class TokenRepositoryImplTest {
                     verify(exactly = 1) { mockTokenizationLogger.resetSession() }
                 }
             }
+    }
+
+    private fun createTokenRepository(testDispatcher: CoroutineDispatcher): TokenRepositoryImpl {
+        return TokenRepositoryImpl(
+            networkApiClient = mockTokenNetworkApiClient,
+            cardToTokenRequestMapper = CardToTokenRequestMapper(),
+            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
+            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
+            validateTokenizationDataUseCase = mockValidateTokenizationDataUseCase,
+            validateCVVTokenizationDataUseCase = mockValidateCVVTokenizationDataUseCase,
+            logger = mockTokenizationLogger,
+            publicKey = "test_key",
+            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+            riskSdkUseCase = mockRiskSdkUseCase,
+            dispatcher = testDispatcher,
+        )
     }
 
     @DisplayName("CVVToken Details invocation")
@@ -658,9 +675,7 @@ internal class TokenRepositoryImplTest {
             )
 
             // Then
-            launch {
-                assertEquals(isSuccess.toString(), successHandlerInvoked.toString())
-            }
+            launch { assertEquals(isSuccess.toString(), successHandlerInvoked.toString()) }
         }
 
         private fun testCVVTokenizationEventInvocation(isSuccessResponse: Boolean) =

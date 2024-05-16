@@ -24,13 +24,16 @@ import com.checkout.tokenization.request.GooglePayTokenNetworkRequest
 import com.checkout.tokenization.request.TokenRequest
 import com.checkout.tokenization.response.CVVTokenDetailsResponse
 import com.checkout.tokenization.response.TokenDetailsResponse
+import com.checkout.tokenization.usecase.RiskSdkUseCase
 import com.checkout.tokenization.utils.TokenizationConstants
 import com.checkout.validation.model.ValidationResult
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -45,7 +48,8 @@ internal class TokenRepositoryImpl(
     private val logger: TokenizationLogger,
     private val publicKey: String,
     private val cvvTokenizationNetworkDataMapper: TokenizationNetworkDataMapper<CVVTokenDetails>,
-    private val riskSdkUseCase: UseCase<TokenResult<String>, Unit>,
+    private val riskSdkUseCase: RiskSdkUseCase,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : TokenRepository {
     @VisibleForTesting
     var networkCoroutineScope =
@@ -58,6 +62,7 @@ internal class TokenRepositoryImpl(
     @Suppress("TooGenericExceptionCaught")
     override fun sendCardTokenRequest(cardTokenRequest: CardTokenRequest) {
         var response: NetworkApiResponse<TokenDetailsResponse>
+        val tokenType = TokenizationConstants.CARD
 
         networkCoroutineScope.launch {
             val validationTokenizationDataResult = validateTokenizationDataUseCase.execute(cardTokenRequest.card)
@@ -83,7 +88,7 @@ internal class TokenRepositoryImpl(
             val tokenResult = cardTokenizationNetworkDataMapper.toTokenResult(response)
 
             launch(Dispatchers.Main) {
-                handleResponse(tokenResult, cardTokenRequest.onSuccess, cardTokenRequest.onFailure)
+                handleResponse(tokenType, tokenResult, cardTokenRequest.onSuccess, cardTokenRequest.onFailure)
             }
         }
     }
@@ -126,8 +131,15 @@ internal class TokenRepositoryImpl(
                 launch(Dispatchers.Main) {
                     when (tokenResult) {
                         is TokenResult.Success -> {
-                            resultHandler(CVVTokenizationResultHandler.Success(tokenResult.result))
-                            riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
+                            try {
+                                withContext(dispatcher) {
+                                    riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
+                                }
+                            } catch (exception: Exception) {
+                                logger.logErrorOnTokenRequestedEvent(tokenType, publicKey, exception)
+                            } finally {
+                                resultHandler(CVVTokenizationResultHandler.Success(tokenResult.result))
+                            }
                         }
 
                         is TokenResult.Failure -> {
@@ -144,6 +156,7 @@ internal class TokenRepositoryImpl(
     @Suppress("TooGenericExceptionCaught")
     override fun sendGooglePayTokenRequest(googlePayTokenRequest: GooglePayTokenRequest) {
         var response: NetworkApiResponse<TokenDetailsResponse>
+        val tokenType = TokenizationConstants.GOOGLE_PAY
 
         networkCoroutineScope.launch {
             try {
@@ -176,7 +189,7 @@ internal class TokenRepositoryImpl(
                 )
 
             launch(Dispatchers.Main) {
-                handleResponse(tokenResult, googlePayTokenRequest.onSuccess, googlePayTokenRequest.onFailure)
+                handleResponse(tokenType, tokenResult, googlePayTokenRequest.onSuccess, googlePayTokenRequest.onFailure)
             }
         }
     }
@@ -192,15 +205,21 @@ internal class TokenRepositoryImpl(
         )
     }
 
-    private fun handleResponse(
+    private suspend fun handleResponse(
+        tokenType: String,
         tokenResult: TokenResult<TokenDetails>,
         success: (tokenDetails: TokenDetails) -> Unit,
         failure: (errorMessage: String) -> Unit,
     ) {
         when (tokenResult) {
-            is TokenResult.Success -> {
+            is TokenResult.Success -> try {
+                withContext(dispatcher) {
+                    riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
+                }
+            } catch (exception: Exception) {
+                logger.logErrorOnTokenRequestedEvent(tokenType, publicKey, exception)
+            } finally {
                 success(tokenResult.result)
-                riskSdkUseCase.execute(TokenResult.Success(tokenResult.result.token))
             }
 
             is TokenResult.Failure -> {
