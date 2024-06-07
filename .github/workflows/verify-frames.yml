@@ -12,6 +12,7 @@ on:
       - 'frames/**'
       - 'buildSrc/**'
       - 'build.gradle.kt'
+      - '.github/workflows/ui-test.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
