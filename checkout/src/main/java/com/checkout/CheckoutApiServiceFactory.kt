@@ -8,6 +8,7 @@ import com.checkout.logging.EventLoggerProvider
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
 import com.checkout.network.OkHttpProvider
+import com.checkout.risk.FramesOptions
 import com.checkout.threedsecure.Executor
 import com.checkout.threedsecure.ThreeDSExecutor
 import com.checkout.threedsecure.logging.ThreeDSEventLogger
@@ -32,6 +33,7 @@ import com.squareup.moshi.Moshi
 
 public object CheckoutApiServiceFactory {
     private lateinit var correlationId: String
+    private lateinit var riskSDKFramesOptions: FramesOptions
 
     @JvmStatic
     public fun create(
@@ -40,9 +42,13 @@ public object CheckoutApiServiceFactory {
         context: Context,
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
-
         logger.setup(context, environment)
         correlationId = logger.correlationId
+        riskSDKFramesOptions = FramesOptions(
+            version = BuildConfig.PRODUCT_VERSION,
+            productIdentifier = BuildConfig.PRODUCT_IDENTIFIER,
+            correlationId,
+        )
 
         return CheckoutApiClient(
             provideTokenRepository(context, publicKey, environment),
@@ -71,7 +77,7 @@ public object CheckoutApiServiceFactory {
         logger = TokenizationEventLogger(EventLoggerProvider.provide()),
         publicKey = publicKey,
         cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, correlationId, RiskInstanceProvider),
+        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, riskSDKFramesOptions, RiskInstanceProvider),
     )
 
     private fun provideNetworkApiClient(
