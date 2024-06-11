@@ -2,6 +2,7 @@ package com.checkout.tokenization.usecase
 
 import android.content.Context
 import com.checkout.base.model.Environment
+import com.checkout.risk.FramesOptions
 import com.checkout.risk.Risk
 import com.checkout.risk.RiskConfig
 import com.checkout.risk.RiskEnvironment
@@ -13,7 +14,7 @@ internal object RiskInstanceProvider {
         context: Context,
         publicKey: String,
         environment: Environment,
-        correlationId: String,
+        framesOptions: FramesOptions,
     ): Risk? {
         if (riskInstance != null) {
             return riskInstance
@@ -31,8 +32,7 @@ internal object RiskInstanceProvider {
                 RiskConfig(
                     publicKey = publicKey,
                     environment = riskEnvironment,
-                    framesMode = true,
-                    correlationId = correlationId,
+                    framesOptions = framesOptions,
                 ),
             )
         return riskInstance
