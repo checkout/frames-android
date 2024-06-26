@@ -1,4 +1,4 @@
-//import com.vanniktech.code.quality.tools.CodeQualityToolsPluginExtension
+import com.vanniktech.code.quality.tools.CodeQualityToolsPluginExtension
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -12,7 +12,7 @@ buildscript {
     dependencies {
         classpath(ProjectDependencies.androidGradlePlugin)
         classpath(ProjectDependencies.kotlinGradlePlugin)
-//        classpath(ProjectDependencies.codeQualityToolsPlugin)
+        classpath(ProjectDependencies.codeQualityToolsPlugin)
         classpath(ProjectDependencies.dokkaPlugin)
         classpath(ProjectDependencies.dokkaKotlinPlugin)
 
@@ -49,42 +49,42 @@ tasks.register("clean", Delete::class) {
 
 /* Code quality tools config */
 
-//apply(plugin = ProjectDependencies.codeQualityTools)
-//
-//configure<CodeQualityToolsPluginExtension> {
-//    failEarly = true
-//    xmlReports = false
-//    htmlReports = true
-//    textReports = false
-//    ignoreProjects = listOf("buildSrc", "app")
-//
-//    checkstyle {
-//        enabled = false
-//    }
-//    pmd {
-//        enabled = false
-//    }
-//    lint {
-//        enabled = true
-//        baselineFileName = "lint-baseline.xml"
-//    }
-//    ktlint {
-//        enabled = true
-//        toolVersion = Versions.ktlint
-//    }
-//    detekt {
-//        enabled = true
-//        toolVersion = Versions.detect
-//        config = "code_quality_tools/detekt.yml"
-//        failFast = true
-//    }
-//    cpd {
-//        enabled = false
-//    }
-//    kotlin {
-//        allWarningsAsErrors = true
-//    }
-//}
+apply(plugin = ProjectDependencies.codeQualityTools)
+
+configure<CodeQualityToolsPluginExtension> {
+    failEarly = true
+    xmlReports = false
+    htmlReports = true
+    textReports = false
+    ignoreProjects = listOf("buildSrc", "app")
+
+    checkstyle {
+        enabled = false
+    }
+    pmd {
+        enabled = false
+    }
+    lint {
+        enabled = true
+        baselineFileName = "lint-baseline.xml"
+    }
+    ktlint {
+        enabled = true
+        toolVersion = Versions.ktlint
+    }
+    detekt {
+        enabled = true
+        toolVersion = Versions.detect
+        config = "code_quality_tools/detekt.yml"
+        failFast = true
+    }
+    cpd {
+        enabled = false
+    }
+    kotlin {
+        allWarningsAsErrors = true
+    }
+}
 
 /* Documentation config */
 
