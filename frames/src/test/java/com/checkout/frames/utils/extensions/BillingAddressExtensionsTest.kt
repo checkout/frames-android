@@ -8,7 +8,6 @@ import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.Bi
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.amshove.kluent.internal.assertEquals
