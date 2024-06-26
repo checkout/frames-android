@@ -5,7 +5,7 @@ import android.text.TextDirectionHeuristics
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import java.util.Locale
 
-internal fun BillingAddress.summary(bidiFormatter: BidiFormatter = BidiFormatter.getInstance()): String {
+internal fun BillingAddress.summary(bidiFormatter: BidiFormatter): String {
     val strBuilder = StringBuilder()
 
     // Full name
