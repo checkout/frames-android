@@ -1,6 +1,8 @@
 package com.checkout.frames.component.addresssummary
 
 import android.annotation.SuppressLint
+import android.text.BidiFormatter
+import android.text.TextDirectionHeuristics
 import com.checkout.base.mapper.Mapper
 import com.checkout.base.model.Country
 import com.checkout.frames.mapper.BillingFormAddressToBillingAddressMapper
@@ -25,8 +27,10 @@ import com.checkout.frames.style.view.InternalButtonViewStyle
 import com.checkout.frames.style.view.addresssummary.AddressSummaryComponentViewStyle
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
+import io.mockk.every
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,6 +49,8 @@ import org.junit.jupiter.api.extension.ExtendWith
 @SuppressLint("NewApi")
 @ExtendWith(MockKExtension::class)
 internal class AddressSummaryViewModelTest {
+
+    private val bidiFormatter: BidiFormatter = mockk()
 
     @SpyK
     private lateinit var spyBillingFormAddressToBillingAddressMapper: Mapper<BillingFormAddress?, BillingAddress>
@@ -125,11 +131,12 @@ internal class AddressSummaryViewModelTest {
             ),
             phone = Phone("123", country),
         )
+        every { bidiFormatter.unicodeWrap(any(), TextDirectionHeuristics.LTR) } returns "+44 123"
         val expectedAddressPreview = "LINE 1\nLINE 2\nssdfsdf\nUnited Kingdom\n+44 123"
         spyPaymentStateManager.billingAddress.value = testAddress
 
         // When
-        viewModel.prepare()
+        viewModel.prepare(bidiFormatter)
         testScheduler.advanceUntilIdle()
 
         // Then
@@ -145,7 +152,7 @@ internal class AddressSummaryViewModelTest {
         spyPaymentStateManager.isBillingAddressEnabled.value = false
 
         // When
-        viewModel.prepare()
+        viewModel.prepare(bidiFormatter)
         testScheduler.advanceUntilIdle()
 
         // Then

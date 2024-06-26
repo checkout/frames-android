@@ -1,5 +1,6 @@
 package com.checkout.frames.component.addresssummary
 
+import android.text.BidiFormatter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -26,13 +27,13 @@ internal class AddressSummaryViewModel @Inject constructor(
     val componentState = provideState(style)
     val componentStyle = provideViewStyle(style)
 
-    fun prepare() = viewModelScope.launch {
+    fun prepare(bidiFormatter: BidiFormatter = BidiFormatter.getInstance()) = viewModelScope.launch {
         paymentStateManager.billingAddress.collect { billingAddress ->
             componentState.addressPreviewState.text.value =
                 if (paymentStateManager.billingAddress.value.isEdited() &&
                     paymentStateManager.isBillingAddressEnabled.value
                 ) {
-                    billingAddress.summary()
+                    billingAddress.summary(bidiFormatter)
                 } else {
                     ""
                 }
