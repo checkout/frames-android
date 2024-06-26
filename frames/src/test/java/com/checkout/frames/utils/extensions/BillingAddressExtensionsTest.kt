@@ -1,11 +1,15 @@
 package com.checkout.frames.utils.extensions
 
 import android.annotation.SuppressLint
+import android.text.BidiFormatter
+import android.text.TextDirectionHeuristics
 import com.checkout.base.model.Country
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import com.checkout.tokenization.model.Address
 import com.checkout.tokenization.model.Phone
+import io.mockk.every
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
@@ -17,6 +21,8 @@ import java.util.stream.Stream
 @ExtendWith(MockKExtension::class)
 internal class BillingAddressExtensionsTest {
 
+    private val bidiFormatter: BidiFormatter = mockk()
+
     @ParameterizedTest(
         name = "When summary of billing address {0} is requested then addressPreview {1} is provided",
     )
@@ -26,7 +32,8 @@ internal class BillingAddressExtensionsTest {
         expectedAddressPreview: String,
     ) {
         // When
-        val result = billingAddress.summary()
+        every { bidiFormatter.unicodeWrap(any(), TextDirectionHeuristics.LTR) } returns "+44 123"
+        val result = billingAddress.summary(bidiFormatter)
 
         // Then
         assertEquals(expectedAddressPreview, result)

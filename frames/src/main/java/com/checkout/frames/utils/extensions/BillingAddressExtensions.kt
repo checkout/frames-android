@@ -1,9 +1,11 @@
 package com.checkout.frames.utils.extensions
 
+import android.text.BidiFormatter
+import android.text.TextDirectionHeuristics
 import com.checkout.frames.screen.billingaddress.billingaddressdetails.models.BillingAddress
 import java.util.Locale
 
-internal fun BillingAddress.summary(): String {
+internal fun BillingAddress.summary(bidiFormatter: BidiFormatter): String {
     val strBuilder = StringBuilder()
 
     // Full name
@@ -23,13 +25,12 @@ internal fun BillingAddress.summary(): String {
     // Phone
     this.phone?.let { phone ->
         if (phone.number.isNotEmpty()) {
-            strBuilder.append(
-                if (phone.country?.dialingCode?.isNotEmpty() == true) {
-                    "\n+${phone.country?.dialingCode} ${phone.number}"
-                } else {
-                    "\n${phone.number}"
-                },
-            )
+            val phoneText = if (phone.country?.dialingCode?.isNotEmpty() == true) {
+                bidiFormatter.unicodeWrap("+${phone.country?.dialingCode} ${phone.number}", TextDirectionHeuristics.LTR)
+            } else {
+                bidiFormatter.unicodeWrap(phone.number, TextDirectionHeuristics.LTR)
+            }
+            strBuilder.append("\n$phoneText")
         }
     }
 
