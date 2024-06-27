@@ -101,6 +101,14 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
     }
 }
 
+tasks.named("dokkaHtmlPartial") {
+    dependsOn(tasks.named("kaptReleaseKotlin"))
+}
+
+tasks.named("dokkaHtmlPartial") {
+    dependsOn(tasks.named("kaptDebugKotlin"))
+}
+
 afterEvaluate {
     publishing {
         publications {
