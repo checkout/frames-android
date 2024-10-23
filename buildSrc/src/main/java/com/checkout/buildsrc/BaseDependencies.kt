@@ -35,6 +35,7 @@ fun DependencyHandler.androidDeclarativeUI() {
     implementation(Dependencies.compose_ui_tooling_preview)
     implementation(Dependencies.compose_material3)
     implementation(Dependencies.lifecycle_viewmodel)
+    implementation(Dependencies.lifeCycleLiveData)
     implementation(Dependencies.compose_viewmodel)
     implementation(Dependencies.compose_navigation)
     implementation(Dependencies.compose_navigation_accompanist)
