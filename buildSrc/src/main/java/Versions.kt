@@ -19,7 +19,7 @@ object Versions {
     const val appcompat = "1.3.1"
     const val constraintLayout = "2.1.1"
     const val materialDesign = "1.4.0"
-    const val lifeCycle = "2.7.0"
+    const val lifeCycle = "2.5.1"
     const val compose_compiler_ext = "1.5.3"
     const val compose_material3 = "1.1.2"
     const val compose_version = "1.7.2"
