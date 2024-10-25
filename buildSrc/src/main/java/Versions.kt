@@ -22,7 +22,7 @@ object Versions {
     const val lifeCycle = "2.5.1"
     const val compose_compiler_ext = "1.5.3"
     const val compose_material3 = "1.1.2"
-    const val compose_version = "1.7.2"
+    const val compose_version = "1.7.4"
     const val compose_activity_version = "1.8.0"
     const val compose_customview_poolingcontainer = "1.0.0"
     const val compose_viewmodel = "2.6.2"
