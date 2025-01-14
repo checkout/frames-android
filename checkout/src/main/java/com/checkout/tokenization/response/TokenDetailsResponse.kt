@@ -63,6 +63,9 @@ internal data class TokenDetailsResponse(
     @Json(name = "phone")
     val phone: PhoneEntity? = null,
 
+    @Json(name = "token_format")
+    val tokenFormat: String?,
+
     @Json(name = "name")
     val name: String?,
 )

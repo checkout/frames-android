@@ -87,6 +87,7 @@ internal object TokenizationRequestTestData {
         billingAddress = null,
         phone = null,
         name = "Bruce Wayne",
+        tokenFormat = "Test token format",
     )
 
     val invalidAddress = Address(

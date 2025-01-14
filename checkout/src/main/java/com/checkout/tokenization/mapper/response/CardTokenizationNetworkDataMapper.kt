@@ -42,5 +42,6 @@ internal class CardTokenizationNetworkDataMapper : TokenizationNetworkDataMapper
                 PhoneEntityToPhoneDataMapper().map(from = it to result.billingAddress?.country)
             },
             name = result.name,
+            tokenFormat = result.tokenFormat,
         )
 }
