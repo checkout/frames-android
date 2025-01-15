@@ -86,9 +86,25 @@ internal class CardTokenizationUseCaseTest {
         )
         val capturedCardTokenRequest = slot<CardTokenRequest>()
         val expectedTokenDetails = TokenDetails(
-            "type", "token_token", "02/23", 2, 23,
-            null, "", "", "", null, null, null, null,
-            null, null, null, null, null,
+            type = "type",
+            token = "token_token",
+            expiresOn = "02/23",
+            expiryMonth = 2,
+            expiryYear = 23,
+            scheme = null,
+            schemeLocal = "",
+            last4 = "",
+            bin = "",
+            cardType = null,
+            cardCategory = null,
+            issuer = null,
+            issuerCountry = null,
+            productId = null,
+            productType = null,
+            billingAddress = null,
+            phone = null,
+            tokenFormat = null,
+            name = null,
         )
         merchantResultTokenDetails = null
         merchantResultErrorMessage = null

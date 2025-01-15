@@ -97,6 +97,7 @@ internal class CardTokenizationNetworkDataMapperTest {
                     from = TokenizationRequestTestData.phoneEntity to TokenizationRequestTestData.addressEntity.country,
                 ),
                 name = "Bruce Wayne",
+                tokenFormat = "Test token format",
             )
 
         private fun setupMockResponses(
@@ -115,6 +116,7 @@ internal class CardTokenizationNetworkDataMapperTest {
             every { mockGetTokenDetailsResponse.cardCategory } returns tokenDetails.cardCategory
             every { mockGetTokenDetailsResponse.issuer } returns tokenDetails.issuer
             every { mockGetTokenDetailsResponse.issuerCountry } returns tokenDetails.issuerCountry
+            every { mockGetTokenDetailsResponse.tokenFormat } returns tokenDetails.tokenFormat
             every { mockGetTokenDetailsResponse.productId } returns tokenDetails.productId
             every { mockGetTokenDetailsResponse.productType } returns tokenDetails.productType
             every { mockGetTokenDetailsResponse.billingAddress } returns tokenDetails.billingAddress?.let {
