@@ -1,66 +1,292 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 7.2.1" type="baseline" client="gradle" dependencies="false"
-    name="AGP (7.2.1)" variant="all" version="7.2.1">
+<issues format="6" by="lint 8.1.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.2)" variant="all" version="8.1.2">
 
-    <issue id="OldTargetApi"
+    <issue
+        id="ObsoleteLintCustomCheck"
+        message="Library lint checks reference invalid APIs; these checks **will be skipped**!&#xA;&#xA;Lint found an issue registry (`androidx.compose.runtime.lint.RuntimeIssueRegistry`)&#xA;which contains some references to invalid API:&#xA;org.jetbrains.kotlin.analysis.api.session.KtAnalysisSessionProvider: org.jetbrains.kotlin.analysis.api.lifetime.KtLifetimeTokenFactory getTokenFactory()&#xA;(Referenced from androidx/compose/runtime/lint/AutoboxingStateCreationDetector.class)&#xA;&#xA;Therefore, this lint check library is **not** included&#xA;in analysis. This affects the following lint checks:&#xA;`AutoboxingStateValueProperty`&#xA;`AutoboxingStateCreation`&#xA;`CoroutineCreationDuringComposition`&#xA;`FlowOperatorInvokedInComposition`&#xA;`ComposableLambdaParameterNaming`&#xA;`ComposableLambdaParameterPosition`&#xA;`ComposableNaming`&#xA;`StateFlowValueCalledInComposition`&#xA;`CompositionLocalNaming`&#xA;`MutableCollectionMutableState`&#xA;`ProduceStateDoesNotAssignValue`&#xA;`RememberReturnType`&#xA;`OpaqueUnitKey`&#xA;`UnrememberedMutableState`&#xA;&#xA;To use this lint check, upgrade to a more recent version&#xA;of the library.">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/5d60756753ac588eed05a99c575185c1/transformed/jetified-runtime-release/jars/lint.jar"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLintCustomCheck"
+        message="Library lint checks reference invalid APIs; these checks **will be skipped**!&#xA;&#xA;Lint found an issue registry (`androidx.compose.ui.lint.UiIssueRegistry`)&#xA;which contains some references to invalid API:&#xA;org.jetbrains.kotlin.analysis.api.session.KtAnalysisSessionProvider: org.jetbrains.kotlin.analysis.api.lifetime.KtLifetimeTokenFactory getTokenFactory()&#xA;(Referenced from androidx/compose/ui/lint/ModifierDeclarationDetectorKt$ensureReceiverIsReferenced$1.class)&#xA;&#xA;Therefore, this lint check library is **not** included&#xA;in analysis. This affects the following lint checks:&#xA;`UnnecessaryComposedModifier`&#xA;`ModifierFactoryExtensionFunction`&#xA;`ModifierFactoryReturnType`&#xA;`ModifierFactoryUnreferencedReceiver`&#xA;`ModifierNodeInspectableProperties`&#xA;`ModifierParameter`&#xA;`MultipleAwaitPointerEventScopes`&#xA;`ReturnFromAwaitPointerEventScope`&#xA;`SuspiciousCompositionLocalModifierRead`&#xA;`SuspiciousModifierThen`&#xA;&#xA;To use this lint check, upgrade to a more recent version&#xA;of the library.">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/11e0c50f7294f8015ba7d62a877bed79/transformed/jetified-ui-release/jars/lint.jar"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLintCustomCheck"
+        message="Library lint checks reference invalid APIs; these checks **will be skipped**!&#xA;&#xA;Lint found an issue registry (`androidx.lifecycle.lint.LiveDataCoreIssueRegistry`)&#xA;which contains some references to invalid API:&#xA;org.jetbrains.kotlin.analysis.api.session.KtAnalysisSessionProvider: org.jetbrains.kotlin.analysis.api.lifetime.KtLifetimeTokenFactory getTokenFactory()&#xA;(Referenced from androidx/lifecycle/lint/NonNullableMutableLiveDataDetector$createUastHandler$1.class)&#xA;&#xA;Therefore, this lint check library is **not** included&#xA;in analysis. This affects the following lint checks:&#xA;`NullSafeMutableLiveData`&#xA;&#xA;To use this lint check, upgrade to a more recent version&#xA;of the library.">
+        <location
+            file="$GRADLE_USER_HOME/caches/transforms-3/d0c6f2ac58801b6741ccaab8c40fd602/transformed/lifecycle-livedata-core-2.8.3/jars/lint.jar"/>
+    </issue>
+
+    <issue
+        id="OldTargetApi"
         message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
-        errorLine1="        targetSdkVersion 31" errorLine2="        ~~~~~~~~~~~~~~~~~~~">
-        <location file="build.gradle" line="8" column="9" />
+        errorLine1="        targetSdkVersion 34"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="12"
+            column="9"/>
     </issue>
 
-    <issue id="GradleDependency"
-        message="A newer version of androidx.appcompat:appcompat than 1.2.0 is available: 1.4.2"
-        errorLine1="    implementation &apos;androidx.appcompat:appcompat:1.2.0&apos;"
-        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location file="build.gradle" line="48" column="20" />
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity than 1.8.0 is available: 1.9.3"
+        errorLine1="    implementation &apos;androidx.activity:activity:1.8.0&apos;"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="50"
+            column="20"/>
     </issue>
 
-    <issue id="DataExtractionRules"
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-core than 3.5.1 is available: 3.6.1"
+        errorLine1="    androidTestImplementation &apos;androidx.test.espresso:espresso-core:3.5.1&apos;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="52"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test:runner than 1.5.2 is available: 1.6.2"
+        errorLine1="    androidTestImplementation &apos;androidx.test:runner:1.5.2&apos;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="53"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test:rules than 1.5.0 is available: 1.6.1"
+        errorLine1="    androidTestImplementation &apos;androidx.test:rules:1.5.0&apos;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="54"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-intents than 3.5.1 is available: 3.6.1"
+        errorLine1="    androidTestImplementation &apos;androidx.test.espresso:espresso-intents:3.5.1&apos;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="55"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.espresso:espresso-contrib than 3.5.1 is available: 3.6.1"
+        errorLine1="    androidTestImplementation &apos;androidx.test.espresso:espresso-contrib:3.5.1&apos;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="56"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test.ext:junit than 1.1.5 is available: 1.2.1"
+        errorLine1="    androidTestImplementation &apos;androidx.test.ext:junit:1.1.5&apos;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="57"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.test:orchestrator than 1.4.2 is available: 1.5.1"
+        errorLine1="    androidTestUtil &apos;androidx.test:orchestrator:1.4.2&apos;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="58"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="LockedOrientationActivity"
+        message="Expecting `android:screenOrientation=&quot;unspecified&quot;` or `&quot;fullSensor&quot;` for this activity so the user can use the application in any orientation and provide a great experience on Chrome OS devices"
+        errorLine1="            android:screenOrientation=&quot;portrait&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="30"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="DataExtractionRules"
         message="The attribute `android:fullBackupContent` is deprecated from Android 12 and higher and may be removed in future versions. Consider adding the attribute `android:dataExtractionRules` specifying an `@xml` resource which configures cloud backups and device transfers on Android 12 and higher."
         errorLine1="        android:fullBackupContent=&quot;true&quot;"
         errorLine2="                                   ~~~~">
-        <location file="src/main/AndroidManifest.xml" line="12" column="36" />
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="12"
+            column="36"/>
     </issue>
 
-    <issue id="UnusedResources" message="The resource `R.color.colorAccent` appears to be unused"
+    <issue
+        id="ObsoleteSdkInt"
+        message="This folder configuration (`v24`) is unnecessary; `minSdkVersion` is 24. Merge all the resources in this folder into `drawable`.">
+        <location
+            file="src/main/res/drawable-v24"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.colorAccent` appears to be unused"
         errorLine1="    &lt;color name=&quot;colorAccent&quot;>#FF4081&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~">
-        <location file="src/main/res/values/colors.xml" line="5" column="12" />
+        <location
+            file="src/main/res/values/colors.xml"
+            line="5"
+            column="12"/>
     </issue>
 
-    <issue id="UnusedResources" message="The resource `R.color.jcolorPrimary` appears to be unused"
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.jcolorPrimary` appears to be unused"
         errorLine1="    &lt;color name=&quot;jcolorPrimary&quot;>#711711&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
-        <location file="src/main/res/values/colors.xml" line="7" column="12" />
+        <location
+            file="src/main/res/values/colors.xml"
+            line="9"
+            column="12"/>
     </issue>
 
-    <issue id="UnusedResources"
+    <issue
+        id="UnusedResources"
         message="The resource `R.color.jcolorPrimaryDark` appears to be unused"
         errorLine1="    &lt;color name=&quot;jcolorPrimaryDark&quot;>#303F9F&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location file="src/main/res/values/colors.xml" line="8" column="12" />
+        <location
+            file="src/main/res/values/colors.xml"
+            line="10"
+            column="12"/>
     </issue>
 
-    <issue id="UnusedResources" message="The resource `R.color.jcolorAccent` appears to be unused"
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.jcolorAccent` appears to be unused"
         errorLine1="    &lt;color name=&quot;jcolorAccent&quot;>#bec52d&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~">
-        <location file="src/main/res/values/colors.xml" line="9" column="12" />
+        <location
+            file="src/main/res/values/colors.xml"
+            line="11"
+            column="12"/>
     </issue>
 
-    <issue id="UnusedResources" message="The resource `R.color.jcolorAccent2` appears to be unused"
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.jcolorAccent2` appears to be unused"
         errorLine1="    &lt;color name=&quot;jcolorAccent2&quot;>#bec52d&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
-        <location file="src/main/res/values/colors.xml" line="10" column="12" />
+        <location
+            file="src/main/res/values/colors.xml"
+            line="12"
+            column="12"/>
     </issue>
 
-    <issue id="IconLocation"
+    <issue
+        id="UnusedResources"
+        message="The resource `R.dimen.margin_extra_large` appears to be unused"
+        errorLine1="    &lt;dimen name=&quot;margin_extra_large&quot;>60dp&lt;/dimen>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/dimens.xml"
+            line="5"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.default_cvv_tokenization_label` appears to be unused"
+        errorLine1="    &lt;string name=&quot;default_cvv_tokenization_label&quot; translatable=&quot;false&quot;>CVV Tokenization&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="6"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.CustomPaymentFormTheme` appears to be unused"
+        errorLine1="    &lt;style name=&quot;CustomPaymentFormTheme&quot; parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot; tools:supress=&quot;UnusedResources&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="14"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="MonochromeLauncherIcon"
+        message="The application adaptive roundIcon is missing a monochrome tag"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
         message="Found bitmap drawable `res/drawable/bike.png` in densityless folder">
-        <location file="src/main/res/drawable/bike.png" />
+        <location
+            file="src/main/res/drawable/bike.png"/>
     </issue>
 
-    <issue id="ContentDescription" message="Missing `contentDescription` attribute on image"
-        errorLine1="            &lt;ImageView" errorLine2="             ~~~~~~~~~">
-        <location file="src/main/res/layout/activity_checkout.xml" line="29" column="14" />
+    <issue
+        id="KtxExtensionAvailable"
+        message="Add suffix `-ktx` to enable the Kotlin extensions for this library"
+        errorLine1="    implementation &apos;androidx.activity:activity:1.8.0&apos;"
+        errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="build.gradle"
+            line="50"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_checkout.xml"
+            line="29"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="  cvvToknizationButton.setText(getText(R.string.button_buy) + numberFormat.format((double) price / 100));"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/checkout/checkout_android/CheckoutActivity.java"
+            line="46"
+            column="32"/>
     </issue>
 
 </issues>
