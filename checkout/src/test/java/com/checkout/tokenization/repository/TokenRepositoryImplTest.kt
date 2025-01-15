@@ -30,6 +30,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -647,15 +648,14 @@ internal class TokenRepositoryImplTest {
             response: NetworkApiResponse<CVVTokenDetailsResponse>,
         ) = runTest {
             // Given
-            var isSuccess: Boolean? = null
-
-            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+            val testDispatcher = StandardTestDispatcher(testScheduler)
             Dispatchers.setMain(testDispatcher)
 
-            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
+
+            val resultDeferred = CompletableDeferred<Boolean>()
 
             coEvery { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
-
             coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
             coEvery { mockRiskSdkUseCase.execute(any()) } returns Unit
 
@@ -665,17 +665,17 @@ internal class TokenRepositoryImplTest {
                     cvv = "123",
                     cardScheme = CardScheme.VISA,
                     resultHandler = { result ->
-                        isSuccess =
-                            when (result) {
-                                is CVVTokenizationResultHandler.Success -> true
-                                is CVVTokenizationResultHandler.Failure -> false
-                            }
+                        when (result) {
+                            is CVVTokenizationResultHandler.Success -> resultDeferred.complete(true)
+                            is CVVTokenizationResultHandler.Failure -> resultDeferred.complete(false)
+                        }
                     },
                 ),
             )
 
             // Then
-            launch { assertEquals(isSuccess.toString(), successHandlerInvoked.toString()) }
+            advanceUntilIdle() // Ensure all tasks are completed
+            assertEquals(successHandlerInvoked, resultDeferred.await())
         }
 
         private fun testCVVTokenizationEventInvocation(isSuccessResponse: Boolean) =
