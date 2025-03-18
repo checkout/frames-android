@@ -58,7 +58,7 @@ jobs:
       # Noted For Output [main_project_module]/build/outputs/apk/debug/
       - name: Upload APK Debug - ${{ env.repository_name }}
         if: ${{ inputs.push-apk }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) debug generated
           path: ${{ inputs.module }}/build/outputs/apk/debug/
@@ -66,7 +66,7 @@ jobs:
       # Noted For Output [main_project_module]/build/outputs/apk/release/
       - name: Upload APK Release - ${{ env.repository_name }}
         if: ${{ inputs.push-apk }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) release generated
           path: ${{ inputs.module }}/build/outputs/apk/release/
