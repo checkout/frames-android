@@ -7,6 +7,7 @@ import com.squareup.moshi.JsonClass
  * A representation of a [PhoneEntity]
  */
 @JsonClass(generateAdapter = true)
+@ConsistentCopyVisibility
 internal data class PhoneEntity internal constructor(
     /**
      * The phone number.

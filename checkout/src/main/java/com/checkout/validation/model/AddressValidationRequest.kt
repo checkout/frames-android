@@ -5,6 +5,7 @@ import com.checkout.base.model.Country
 /**
  * A representation of a [AddressValidationRequest]
  */
+@ConsistentCopyVisibility
 internal data class AddressValidationRequest internal constructor(
 
     /**

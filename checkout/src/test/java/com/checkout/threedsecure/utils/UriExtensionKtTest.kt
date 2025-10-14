@@ -1,7 +1,8 @@
 package com.checkout.threedsecure.utils
 
-import android.net.Uri
+import androidx.core.net.toUri
 import org.amshove.kluent.internal.assertEquals
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
 
@@ -17,7 +18,7 @@ internal class UriExtensionKtTest(
         @ParameterizedRobolectricTestRunner.Parameters(
             name = "When expected Url {0} compared with target Url {1} then {2} is returned",
         )
-        fun data() = listOf(
+        fun data() = listOf<Array<Any>>(
             arrayOf("www.example.com/Success", "https://www.example.com/Success", false),
             arrayOf("https://www.example.com/Success", "www.example.com/Success", false),
             arrayOf("https://www.example.com/Success", "https://www.example.com/Success", true),
@@ -40,10 +41,10 @@ internal class UriExtensionKtTest(
         )
     }
 
-    @org.junit.Test
+    @Test
     fun test() {
         // When
-        val actualResult = Uri.parse(expectedUrl).matches(Uri.parse(targetUrl))
+        val actualResult = expectedUrl.toUri().matches(targetUrl.toUri())
 
         // Then
         assertEquals(result, actualResult)

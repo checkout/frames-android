@@ -1,5 +1,6 @@
 plugins {
     id("precompiled-android-app")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -20,15 +21,7 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose_compiler_ext
-    }
-
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -39,7 +32,7 @@ dependencies {
     implementation(FramesConfig.framesAndroidDependency)
 }
 
-configurations.all {
+configurations.configureEach {
     resolutionStrategy.dependencySubstitution {
         if (FramesConfig.useLocalModuleDependencies) {
 

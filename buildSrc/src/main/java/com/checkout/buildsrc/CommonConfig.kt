@@ -5,9 +5,9 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.checkout.buildsrc.utils.android
 import com.checkout.buildsrc.utils.kotlin
-import com.checkout.buildsrc.utils.kotlinOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 fun Project.applyCommonConfigurations() {
     android {
@@ -25,8 +25,10 @@ fun Project.applyCommonConfigurations() {
             targetCompatibility = JavaVersion.VERSION_17
         }
 
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
+        kotlin {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+            }
         }
 
         testOptions {
@@ -79,33 +81,6 @@ fun Project.applyDIConfigurations() {
     }
 }
 
-fun Project.applyCommonAppConfigurations() {
-    android {
-        require(this is AppExtension) {
-            "Android application plugin has not been applied"
-        }
-
-        applyCommonConfigurations()
-
-        buildTypes {
-            getByName("release") {
-                isMinifyEnabled = true
-                proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro",
-                )
-            }
-            getByName("debug") {
-                isMinifyEnabled = false
-            }
-        }
-
-        buildFeatures.apply {
-            viewBinding = true
-        }
-    }
-}
-
 fun Project.applyCommonLibConfigurations() {
     android {
         require(this is LibraryExtension) {
@@ -133,12 +108,12 @@ fun Project.applyCommonLibConfigurations() {
 
         kotlin {
             explicitApi()
-        }
-
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs +
-                "-opt-in=kotlin.contracts.ExperimentalContracts" +
-                "-Xexplicit-api=strict"
+            compilerOptions {
+                freeCompilerArgs.addAll(
+                    "-opt-in=kotlin.contracts.ExperimentalContracts",
+                    "-Xexplicit-api=strict",
+                )
+            }
         }
 
         packagingOptions.resources {

@@ -30,7 +30,7 @@ fun Project.applyJacocoTestReport() {
             xml.required.set(true)
             html.required.set(true)
         }
-        val buildDir = project.buildDir
+        val buildDir = project.layout.buildDirectory
         val javaTree = fileTree("$buildDir/intermediates/javac/debug/classes") { setExcludes(FILE_FILTER) }
         val kotlinTree = fileTree("$buildDir/tmp/kotlin-classes/debug") { setExcludes(FILE_FILTER) }
         val execSrc = fileTree(buildDir) { setIncludes(listOf("**/*.exec")) }

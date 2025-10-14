@@ -7,6 +7,7 @@ import com.squareup.moshi.JsonClass
  * A representation of a [AddressEntity]
  */
 @JsonClass(generateAdapter = true)
+@ConsistentCopyVisibility
 internal data class AddressEntity internal constructor(
 
     /**

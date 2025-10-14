@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -15,7 +16,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
         animationsDisabled = true
     }
     signingConfigs {
@@ -34,20 +35,21 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled = true
+            signingConfig = signingConfigs.release
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
     // Create baseline for lint check to ignore old issues.
-    lintOptions {
-        baseline(project.file("lint-baseline.xml"))
+    lint {
+        baseline = file('lint-baseline.xml')
     }
 }
 
 dependencies {
     implementation 'androidx.activity:activity:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.test:runner:1.5.2'
@@ -64,7 +66,7 @@ dependencies {
     implementation FramesConfig.framesAndroidDependency
 }
 
-configurations.all {
+configurations.configureEach {
     resolutionStrategy.dependencySubstitution {
         if (FramesConfig.useLocalModuleDependencies) {
 

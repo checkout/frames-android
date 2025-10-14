@@ -10,7 +10,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.dokka")
     id("maven-publish")
 }
@@ -55,24 +56,26 @@ android {
     }
 
     buildFeatures {
-        compose = true
         viewBinding = true
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose_compiler_ext
+    publishing {
+        singleVariant("release") {}
     }
-
     buildTypes {
         release {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
 
-    kotlinOptions {
-        // Needed to prevent warning when ViewModelProvider.Factory inherited
-        // "Inheritance from an interface with '@JvmDefault' members is only allowed with -Xjvm-default option"
-        freeCompilerArgs = freeCompilerArgs + "-Xjvm-default=all-compatibility"
+    kotlin {
+        compilerOptions {
+            // Needed to prevent warning when ViewModelProvider.Factory inherited
+            // "Inheritance from an interface with '@JvmDefault' members is only allowed with -Xjvm-default option"
+            freeCompilerArgs.addAll(
+                "-Xjvm-default=all-compatibility",
+                "-Xannotation-default-target=param-property",
+            )
+        }
     }
 }
 
