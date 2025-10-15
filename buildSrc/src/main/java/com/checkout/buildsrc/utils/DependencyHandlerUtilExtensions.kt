@@ -7,12 +7,8 @@ fun DependencyHandler.implementation(dependency: String) {
     add("implementation", dependency)
 }
 
-fun DependencyHandler.kapt(dependency: String) {
-    add("kapt", dependency)
-}
-
-fun DependencyHandler.annotationProcessor(dependency: String) {
-    add("annotationProcessor", dependency)
+fun DependencyHandler.ksp(dependency: String) {
+    add("ksp", dependency)
 }
 
 fun DependencyHandler.androidTestImplementation(dependency: String) {

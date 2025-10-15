@@ -5,6 +5,7 @@ import com.checkout.base.model.Country
 /**
  * A representation of a [PhoneValidationRequest]
  */
+@ConsistentCopyVisibility
 internal data class PhoneValidationRequest internal constructor(
     /**
      * The phone number.

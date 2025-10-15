@@ -130,12 +130,6 @@ internal class TokenNetworkApiClientTest {
                         phone.shouldBeEqualTo(TokenizationRequestTestData.phoneEntity)
                         name.shouldBeEqualTo("Bruce Wayne")
                     }
-
-                    assertFalse(response is NetworkApiResponse.ServerError)
-
-                    assertFalse(response is NetworkApiResponse.NetworkError)
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
 
@@ -164,13 +158,9 @@ internal class TokenNetworkApiClientTest {
                     assertTrue(response is NetworkApiResponse.ServerError)
                     with((response as NetworkApiResponse.ServerError).body) {
                         this?.requestId.shouldNotBeNull()
-                        this?.errorCodes.shouldNotBeNull()
-                        this?.errorType.shouldNotBeNull()
+                        this.errorCodes.shouldNotBeNull()
+                        this.errorType.shouldNotBeNull()
                     }
-
-                    assertFalse(response is NetworkApiResponse.NetworkError)
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
 
@@ -198,8 +188,6 @@ internal class TokenNetworkApiClientTest {
                     with((response as NetworkApiResponse.NetworkError)) {
                         throwable.shouldNotBeNull()
                     }
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
     }
@@ -231,12 +219,6 @@ internal class TokenNetworkApiClientTest {
                         token.shouldBeEqualTo("tok_ubfj2q76miwundwlk72vxt2i7q")
                         expiresOn.shouldBeEqualTo("2019-08-24T14:15:22Z")
                     }
-
-                    assertFalse(response is NetworkApiResponse.ServerError)
-
-                    assertFalse(response is NetworkApiResponse.NetworkError)
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
 
@@ -265,13 +247,9 @@ internal class TokenNetworkApiClientTest {
                     assertTrue(response is NetworkApiResponse.ServerError)
                     with((response as NetworkApiResponse.ServerError).body) {
                         this?.requestId.shouldNotBeNull()
-                        this?.errorCodes.shouldNotBeNull()
-                        this?.errorType.shouldNotBeNull()
+                        this.errorCodes.shouldNotBeNull()
+                        this.errorType.shouldNotBeNull()
                     }
-
-                    assertFalse(response is NetworkApiResponse.NetworkError)
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
 
@@ -299,8 +277,6 @@ internal class TokenNetworkApiClientTest {
                     with((response as NetworkApiResponse.NetworkError)) {
                         throwable.shouldNotBeNull()
                     }
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
     }
@@ -394,13 +370,9 @@ internal class TokenNetworkApiClientTest {
                     assertTrue(response is NetworkApiResponse.ServerError)
                     with((response as NetworkApiResponse.ServerError).body) {
                         this?.requestId.shouldNotBeNull()
-                        this?.errorCodes.shouldNotBeNull()
-                        this?.errorType.shouldNotBeNull()
+                        this.errorCodes.shouldNotBeNull()
+                        this.errorType.shouldNotBeNull()
                     }
-
-                    assertFalse(response is NetworkApiResponse.NetworkError)
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
 
@@ -431,8 +403,6 @@ internal class TokenNetworkApiClientTest {
                     with((response as NetworkApiResponse.NetworkError)) {
                         throwable.shouldNotBeNull()
                     }
-
-                    assertFalse(response is NetworkApiResponse.InternalError)
                 }
             }
     }

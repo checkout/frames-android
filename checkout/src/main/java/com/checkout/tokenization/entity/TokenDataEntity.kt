@@ -4,6 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
+@ConsistentCopyVisibility
 internal data class TokenDataEntity internal constructor(
     @Json(name = "cvv")
     val cvv: String = "",

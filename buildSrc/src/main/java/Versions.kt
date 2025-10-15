@@ -17,10 +17,7 @@ object Versions {
     const val jsonTest = "20180813"
     const val coreKtx = "1.2.0"
     const val appcompat = "1.3.1"
-    const val constraintLayout = "2.1.1"
-    const val materialDesign = "1.4.0"
     const val lifeCycle = "2.5.1"
-    const val compose_compiler_ext = "1.5.3"
     const val compose_material3 = "1.1.2"
     const val compose_version = "1.7.4"
     const val compose_activity_version = "1.8.0"
@@ -39,13 +36,15 @@ object Versions {
     const val riskSdk = "2.1.0"
 
     // Unit Testing Dependencies
-    const val junit5Jupiter = "5.8.0"
+    const val junit5Jupiter = "5.13.4"
     const val junit4 = "4.13.2"
     const val junitVintageEngine = "5.8.2"
+    const val junitPlatformLauncher = "1.11.4"
     const val kluent = "1.68"
-    const val mockk = "1.13.8"
+    const val mockk = "1.14.6"
     const val robolectric = "4.11-beta-2"
     const val truth = "1.1.5"
+    const val testRunner = "1.7.0"
     const val jacoco = "0.8.10"
 
     // Instrumented Testing Dependencies
@@ -62,7 +61,7 @@ object Versions {
     const val eventLogger = "1.0.1"
 
     // Dependency injection
-    const val dagger = "2.48.1"
+    const val dagger = "2.57.2"
 }
 
 fun loadVersionProperty(): Properties {

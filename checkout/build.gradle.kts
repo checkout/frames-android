@@ -9,7 +9,7 @@ import com.checkout.buildsrc.applyRiskSdkConfigurations
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
     id("org.jetbrains.dokka")
     id("maven-publish")
 }
@@ -47,7 +47,16 @@ android {
 
         consumerProguardFiles("consumer-rules.pro")
     }
-
+    publishing {
+        singleVariant("release") {}
+    }
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                "-Xannotation-default-target=param-property",
+            )
+        }
+    }
     buildTypes {
         release {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
@@ -102,11 +111,11 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
 }
 
 tasks.named("dokkaHtmlPartial") {
-    dependsOn(tasks.named("kaptReleaseKotlin"))
+    dependsOn(tasks.named("kspReleaseKotlin"))
 }
 
 tasks.named("dokkaHtmlPartial") {
-    dependsOn(tasks.named("kaptDebugKotlin"))
+    dependsOn(tasks.named("kspDebugKotlin"))
 }
 
 afterEvaluate {

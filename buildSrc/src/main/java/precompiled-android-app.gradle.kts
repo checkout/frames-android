@@ -6,7 +6,8 @@ import com.checkout.buildsrc.genericAndroidTestDependencies
 import com.checkout.buildsrc.genericTestDependencies
 import com.checkout.buildsrc.utils.android
 import com.checkout.buildsrc.utils.implementation
-import com.checkout.buildsrc.utils.kotlinOptions
+import com.checkout.buildsrc.utils.kotlin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
@@ -29,12 +30,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose_compiler_ext
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
 }
 

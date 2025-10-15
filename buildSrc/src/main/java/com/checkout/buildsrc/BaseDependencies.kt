@@ -4,7 +4,7 @@ import Dependencies
 import com.checkout.buildsrc.utils.androidTestImplementation
 import com.checkout.buildsrc.utils.debugImplementation
 import com.checkout.buildsrc.utils.implementation
-import com.checkout.buildsrc.utils.kapt
+import com.checkout.buildsrc.utils.ksp
 import com.checkout.buildsrc.utils.testImplementation
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
@@ -17,14 +17,6 @@ fun DependencyHandler.commonDependencies() {
     implementation(Dependencies.kotlinStdLib)
     implementation(Dependencies.coreKtx)
     implementation(Dependencies.appcompat)
-}
-
-/**
- * Dependencies usually required for modules with a Imperative UI
- */
-fun DependencyHandler.androidImperativeUI() {
-    implementation(Dependencies.constraintLayout)
-    implementation(Dependencies.materialDesign)
 }
 
 /**
@@ -51,7 +43,7 @@ fun DependencyHandler.networkingDependencies() {
     implementation(Dependencies.okhttp)
     implementation(Dependencies.loggingInterceptor)
     implementation(Dependencies.moshi)
-    kapt(Dependencies.moshiCodeGen)
+    ksp(Dependencies.moshiCodeGen)
 }
 
 fun DependencyHandler.riskSdkDependencies() {
@@ -70,9 +62,7 @@ fun DependencyHandler.logging() {
  */
 fun DependencyHandler.dependencyInjection() {
     implementation(Dependencies.dagger)
-    implementation(Dependencies.dagger_support)
-    kapt(Dependencies.dagger_processor)
-    kapt(Dependencies.dagger_compiler)
+    ksp(Dependencies.dagger_compiler)
 }
 
 /**

@@ -30,6 +30,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,9 +39,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.internal.assertEquals
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -69,22 +72,28 @@ internal class TokenRepositoryImplTest {
     private lateinit var mockTokenizationLogger: TokenizationLogger
 
     private lateinit var tokenRepositoryImpl: TokenRepositoryImpl
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     @BeforeEach
     fun setUp() {
-        tokenRepositoryImpl =
-            TokenRepositoryImpl(
-                networkApiClient = mockTokenNetworkApiClient,
-                cardToTokenRequestMapper = CardToTokenRequestMapper(),
-                cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
-                cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
-                validateTokenizationDataUseCase = mockValidateTokenizationDataUseCase,
-                validateCVVTokenizationDataUseCase = mockValidateCVVTokenizationDataUseCase,
-                logger = mockTokenizationLogger,
-                publicKey = "test_key",
-                cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-                riskSdkUseCase = mockRiskSdkUseCase,
-            )
+        Dispatchers.setMain(testDispatcher)
+        tokenRepositoryImpl = TokenRepositoryImpl(
+            networkApiClient = mockTokenNetworkApiClient,
+            cardToTokenRequestMapper = CardToTokenRequestMapper(),
+            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
+            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
+            validateTokenizationDataUseCase = mockValidateTokenizationDataUseCase,
+            validateCVVTokenizationDataUseCase = mockValidateCVVTokenizationDataUseCase,
+            logger = mockTokenizationLogger,
+            publicKey = "test_key",
+            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+            riskSdkUseCase = mockRiskSdkUseCase,
+        )
+    }
+
+    @AfterEach
+    fun teardown() {
+        Dispatchers.resetMain()
     }
 
     @DisplayName("CardToken Details invocation")
@@ -144,10 +153,7 @@ internal class TokenRepositoryImplTest {
                 // Given
                 val response = mockk<NetworkApiResponse<TokenDetailsResponse>>()
 
-                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-                Dispatchers.setMain(testDispatcher)
-
-                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
                 every { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
                 coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
@@ -180,10 +186,7 @@ internal class TokenRepositoryImplTest {
         // Given
         var isSuccess = false
 
-        val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-        Dispatchers.setMain(testDispatcher)
-
-        tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+        tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
         coEvery { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
 
@@ -223,10 +226,7 @@ internal class TokenRepositoryImplTest {
                     NetworkApiResponse.ServerError(serverErrorBody, 501)
                 }
 
-            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-            Dispatchers.setMain(testDispatcher)
-
-            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
             every { mockValidateTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
             coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
@@ -343,10 +343,7 @@ internal class TokenRepositoryImplTest {
                     )
                 val captureError = mutableListOf<Throwable?>()
 
-                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-                Dispatchers.setMain(testDispatcher)
-
-                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
                 coEvery {
                     mockTokenNetworkApiClient.sendGooglePayTokenRequest(any())
@@ -391,10 +388,7 @@ internal class TokenRepositoryImplTest {
                 // Given
                 val response = mockk<NetworkApiResponse<TokenDetailsResponse>>()
 
-                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-                Dispatchers.setMain(testDispatcher)
-
-                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
                 coEvery { mockTokenNetworkApiClient.sendCardTokenRequest(any()) } returns response
 
@@ -422,11 +416,9 @@ internal class TokenRepositoryImplTest {
             // Given
             var isSuccess: Boolean? = null
 
-            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
             tokenRepositoryImpl = createTokenRepository(testDispatcher)
-            Dispatchers.setMain(testDispatcher)
 
-            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
             coEvery { mockTokenNetworkApiClient.sendGooglePayTokenRequest(any()) } returns response
             coEvery { mockRiskSdkUseCase.execute(any()) } returns Unit
@@ -451,10 +443,7 @@ internal class TokenRepositoryImplTest {
                 var errorMessage = ""
                 val successHandlerInvoked = false
 
-                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-                Dispatchers.setMain(testDispatcher)
-
-                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
                 coEvery { mockTokenNetworkApiClient.sendGooglePayTokenRequest(any()) } returns response
 
@@ -493,10 +482,7 @@ internal class TokenRepositoryImplTest {
                         NetworkApiResponse.ServerError(serverErrorBody, 501)
                     }
 
-                val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-                Dispatchers.setMain(testDispatcher)
-
-                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+                tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
                 coEvery { mockTokenNetworkApiClient.sendGooglePayTokenRequest(any()) } returns response
 
@@ -559,10 +545,8 @@ internal class TokenRepositoryImplTest {
         fun `when sendCVVTokenizationRequest invoked with success response then success handler invoked`() {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = true,
-                response =
-                NetworkApiResponse.Success(
-                    body =
-                    CVVTokenDetailsResponse(
+                response = NetworkApiResponse.Success(
+                    body = CVVTokenDetailsResponse(
                         type = "cvv",
                         token = "test_token",
                         expiresOn = "2019-08-24T14:15:22Z",
@@ -591,8 +575,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCVVTokenizationRequest invoked with internal error response then failure handler invoked`() {
             testCVVTokenResultInvocation(
                 successHandlerInvoked = false,
-                response =
-                NetworkApiResponse.InternalError(
+                response = NetworkApiResponse.InternalError(
                     TokenizationError(
                         errorCode = "internal_error",
                         message = "exception.message",
@@ -627,9 +610,7 @@ internal class TokenRepositoryImplTest {
                 coEvery { mockTokenNetworkApiClient.sendCVVTokenRequest(any()) } returns response
 
                 // When
-                tokenRepositoryImpl.sendCVVTokenizationRequest(
-                    cvvTokenizationRequest,
-                )
+                tokenRepositoryImpl.sendCVVTokenizationRequest(cvvTokenizationRequest)
 
                 // Then
                 launch {
@@ -648,11 +629,9 @@ internal class TokenRepositoryImplTest {
         ) = runTest {
             // Given
             var isSuccess: Boolean? = null
+            val resultReceived = CompletableDeferred<Unit>()
 
-            val testDispatcher = UnconfinedTestDispatcher(testScheduler)
-            Dispatchers.setMain(testDispatcher)
-
-            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(StandardTestDispatcher(testScheduler))
+            tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
             coEvery { mockValidateCVVTokenizationDataUseCase.execute(any()) } returns ValidationResult.Success(Unit)
 
@@ -665,17 +644,19 @@ internal class TokenRepositoryImplTest {
                     cvv = "123",
                     cardScheme = CardScheme.VISA,
                     resultHandler = { result ->
-                        isSuccess =
-                            when (result) {
-                                is CVVTokenizationResultHandler.Success -> true
-                                is CVVTokenizationResultHandler.Failure -> false
-                            }
+                        isSuccess = when (result) {
+                            is CVVTokenizationResultHandler.Success -> true
+                            is CVVTokenizationResultHandler.Failure -> false
+                        }
+                        resultReceived.complete(Unit)
                     },
                 ),
             )
+            advanceUntilIdle()
+            resultReceived.await()
 
             // Then
-            launch { assertEquals(isSuccess.toString(), successHandlerInvoked.toString()) }
+            assertEquals(isSuccess.toString(), successHandlerInvoked.toString())
         }
 
         private fun testCVVTokenizationEventInvocation(isSuccessResponse: Boolean) =

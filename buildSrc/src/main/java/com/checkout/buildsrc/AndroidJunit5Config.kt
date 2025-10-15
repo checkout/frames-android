@@ -45,6 +45,7 @@ private val Project.junitPlatform: AndroidJUnitPlatformExtension
 private fun DependencyHandler.junit5() {
     testImplementation(Dependencies.junitJupiterApi)
     testRuntimeOnly(Dependencies.junitJupiterEngine)
+    testRuntimeOnly(Dependencies.junitPlatformLauncher)
     testImplementation(Dependencies.junitJupiterParams)
 }
 

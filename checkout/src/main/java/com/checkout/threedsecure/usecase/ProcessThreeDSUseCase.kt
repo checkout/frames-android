@@ -2,6 +2,7 @@ package com.checkout.threedsecure.usecase
 
 import android.net.Uri
 import androidx.annotation.RestrictTo
+import androidx.core.net.toUri
 import com.checkout.base.usecase.UseCase
 import com.checkout.threedsecure.error.ThreeDSError
 import com.checkout.threedsecure.model.ProcessThreeDSRequest
@@ -17,10 +18,10 @@ public class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSResul
     }
 
     override fun execute(data: ProcessThreeDSRequest): ThreeDSResult? = with(data) {
-        val redirectUri = Uri.parse(redirectUrl)
+        val redirectUri = redirectUrl.orEmpty().toUri()
 
         return when {
-            Uri.parse(successUrl).matches(redirectUri) -> {
+            successUrl.toUri().matches(redirectUri) -> {
                 val token = provideToken(redirectUrl)
 
                 if (token == null) {
@@ -30,7 +31,7 @@ public class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSResul
                 }
             }
 
-            Uri.parse(failureUrl).matches(redirectUri) -> ThreeDSResult.Failure
+            failureUrl.toUri().matches(redirectUri) -> ThreeDSResult.Failure
             else -> null
         }
     }
@@ -39,7 +40,7 @@ public class ProcessThreeDSUseCase : UseCase<ProcessThreeDSRequest, ThreeDSResul
         ThreeDSResult.Error(ThreeDSError(errorCode, message))
 
     private fun provideToken(redirectUrl: String?): String? = redirectUrl?.let {
-        val uri: Uri = Uri.parse(it)
+        val uri: Uri = it.toUri()
         uri.getQueryParameter(KEY_PAYMENT_TOKEN) ?: uri.getQueryParameter(KEY_SESSION_ID)
     }
 }

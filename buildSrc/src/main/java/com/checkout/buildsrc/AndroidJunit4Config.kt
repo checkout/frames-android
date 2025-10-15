@@ -10,5 +10,6 @@ fun Project.applyAndroidJUnit4Configuration() {
         testImplementation(Dependencies.junitVintageEngine)
         testImplementation(Dependencies.robolectric)
         testImplementation(Dependencies.truth)
+        testImplementation(Dependencies.testRunner)
     }
 }

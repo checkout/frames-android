@@ -11,10 +11,6 @@ object Dependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
-    const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-    const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
-    const val lifeCycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
     const val lifeCycleRunTime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}"
     const val lifecycle_viewmodel =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
@@ -51,8 +47,6 @@ object Dependencies {
 
     // Dependency injection
     const val dagger = "com.google.dagger:dagger-android:${Versions.dagger}"
-    const val dagger_support = "com.google.dagger:dagger-android-support:${Versions.dagger}"
-    const val dagger_processor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
     const val dagger_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
 
     // Instrumented Test
@@ -74,6 +68,7 @@ object Dependencies {
     const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5Jupiter}"
     const val junitJupiterEngine =
         "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5Jupiter}"
+    const val junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:${Versions.junitPlatformLauncher}"
     const val junitJupiterParams =
         "org.junit.jupiter:junit-jupiter-params:${Versions.junit5Jupiter}"
     const val mannodermausAndroidJunitCore =
@@ -88,6 +83,7 @@ object Dependencies {
     const val kluentAndroid = "org.amshove.kluent:kluent-android:${Versions.kluent}"
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     const val truth = "com.google.truth:truth:${Versions.truth}"
+    const val testRunner = "androidx.test:runner:${Versions.testRunner}"
     const val okhttpMockServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
     const val jsonTest = "org.json:json:${Versions.jsonTest}"
