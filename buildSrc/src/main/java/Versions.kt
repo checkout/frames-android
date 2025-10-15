@@ -10,7 +10,7 @@ object Versions {
     val gradle = versionProperties["gradleVersion"]
     val kotlin = versionProperties["kotlinVersion"]
     val codeQualityToolsPlugin = versionProperties["codeQualityToolsPlugin"]
-    val dokka = "1.9.0"
+    val dokka = "2.1.0"
 
     // Android
     const val kotlinCoroutines = "1.6.2"

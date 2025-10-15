@@ -1,7 +1,6 @@
 package com.checkout.buildsrc
 
 import AndroidConfig
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.checkout.buildsrc.utils.android
 import com.checkout.buildsrc.utils.kotlin
