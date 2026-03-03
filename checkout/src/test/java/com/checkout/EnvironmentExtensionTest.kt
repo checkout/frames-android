@@ -78,14 +78,14 @@ internal class EnvironmentExtensionTest {
             "invalid*prefix",
             "invalid(prefix",
             "invalid)prefix",
-            "invalid prefix"
+            "invalid prefix",
         )
 
         invalidPrefixList.map { invalidPrefix ->
             val result = Environment.PRODUCTION.toBaseUrl(invalidPrefix)
             assertEquals(
                 result,
-                PRODUCTION_SERVER_URL
+                PRODUCTION_SERVER_URL,
             )
         }
     }

@@ -38,7 +38,7 @@ internal class InternalCVVComponentApiTest {
                 publicKey = "your_public_key",
                 environment = Environment.SANDBOX,
                 context = mockContext,
-                baseUrlPrefix = null
+                baseUrlPrefix = null,
             ),
         )
 

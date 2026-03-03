@@ -36,7 +36,7 @@ fun CVVTokenizationScreen(navController: NavHostController) {
         publicKey = PUBLIC_KEY_CVV_TOKENIZATION,
         environment = Environment.SANDBOX,
         context = LocalContext.current,
-        baseUrlPrefix = REGIONAL_SUBDOMAIN
+        baseUrlPrefix = REGIONAL_SUBDOMAIN,
     )
 
     val visaMediator = createMediator(
