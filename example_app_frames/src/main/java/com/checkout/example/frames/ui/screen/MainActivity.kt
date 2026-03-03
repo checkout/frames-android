@@ -17,6 +17,7 @@ import com.checkout.example.frames.paymentformstyling.CustomPaymentFormTheme
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.example.frames.ui.utils.PrefillDataHelper
+import com.checkout.example.frames.ui.utils.REGIONAL_SUBDOMAIN
 import com.checkout.frames.api.PaymentFlowHandler
 import com.checkout.frames.api.PaymentFormMediator
 import com.checkout.frames.screen.paymentform.model.PaymentFormConfig
@@ -50,7 +51,7 @@ fun Navigator(
         publicKey = PUBLIC_KEY,
         context = context,
         environment = ENVIRONMENT,
-        regionalSubdomain = null,
+        baseURLPrefix = REGIONAL_SUBDOMAIN,
         paymentFlowHandler = object : PaymentFlowHandler {
             override fun onSubmit() {
                 /*Intentionally left empty*/

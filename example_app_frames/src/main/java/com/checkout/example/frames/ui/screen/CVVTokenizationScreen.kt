@@ -11,6 +11,7 @@ import com.checkout.base.model.Environment
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants
 import com.checkout.example.frames.styling.CustomCVVInputFieldStyle
 import com.checkout.example.frames.ui.utils.PUBLIC_KEY_CVV_TOKENIZATION
+import com.checkout.example.frames.ui.utils.REGIONAL_SUBDOMAIN
 import com.checkout.example.frames.ui.viewmodel.CVVTokenizationViewModel
 import com.checkout.frames.cvvinputfield.CVVComponentApiFactory
 import com.checkout.frames.cvvinputfield.api.CVVComponentApi
@@ -35,7 +36,7 @@ fun CVVTokenizationScreen(navController: NavHostController) {
         publicKey = PUBLIC_KEY_CVV_TOKENIZATION,
         environment = Environment.SANDBOX,
         context = LocalContext.current,
-        regionalSubdomain = "devices"
+        baseURLPrefix = REGIONAL_SUBDOMAIN
     )
 
     val visaMediator = createMediator(

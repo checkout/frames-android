@@ -1,6 +1,7 @@
 package checkout.checkout_android;
 
 import static checkout.checkout_android.Constants.PUBLIC_KEY_CVV_TOKENIZATION;
+import static checkout.checkout_android.Constants.REGIONAL_SUBDOMAIN;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class CVVTokenizationActivity extends ComponentActivity {
 		setupObservers();
 
 		// Create cvvComponentApi
-		CVVComponentApi cvvComponentApi = CVVComponentApiFactory.create(PUBLIC_KEY_CVV_TOKENIZATION, Environment.SANDBOX, this);
+		CVVComponentApi cvvComponentApi = CVVComponentApiFactory.create(PUBLIC_KEY_CVV_TOKENIZATION, Environment.SANDBOX, this, REGIONAL_SUBDOMAIN);
 
 		// initialise CVVTokenizationResultHandler for tokenization
 		resultHandler = result -> {

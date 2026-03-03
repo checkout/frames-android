@@ -1,5 +1,7 @@
 package checkout.checkout_android;
 
+import static checkout.checkout_android.Constants.REGIONAL_SUBDOMAIN;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import com.checkout.frames.style.screen.PaymentFormStyle;
 import com.checkout.threedsecure.model.ThreeDSRequest;
 import com.checkout.threedsecure.model.ThreeDSResult;
 import com.checkout.tokenization.model.TokenDetails;
+
+import java.util.Collections;
 
 import checkout.checkout_android.utils.PaymentUtil;
 import kotlin.Unit;
@@ -93,7 +97,11 @@ public class DemoActivity extends ComponentActivity {
                 this,
                 Constants.ENVIRONMENT,
                 new PaymentFormStyle(),
-                mPaymentFlowHandler);
+                mPaymentFlowHandler,
+                Collections.emptyList(),
+                null,
+                REGIONAL_SUBDOMAIN
+        );
     }
 
     private void displayMessage(String title, String message, boolean exitScreen) {

@@ -10,16 +10,20 @@ public class Constants {
 	/**
 	 * Replace with public key from Hub in Sandbox Environment
 	 */
-	public static final String PUBLIC_KEY = "pk_test_b37b8b6b-fc9a-483f-a77e-3386b606f90e";
+	public static final String PUBLIC_KEY = "pk_sbox_dheqoi7tqn2jcvbn55sa2czwu42";
 
 	/**
 	 * Replace with public key from Hub in Sandbox Environment, testing key for CVV Tokenization
 	 */
-	public static final String PUBLIC_KEY_CVV_TOKENIZATION = "pk_6b30805a-1f3b-4c63-8b75-eb3030109173";
+	public static final String PUBLIC_KEY_CVV_TOKENIZATION = "pk_sbox_dheqoi7tqn2jcvbn55sa2czwu42";
 	/**
 	 * Replace with Secret key from Hub in Sandbox Environment
 	 */
-	public static final String SECRET_KEY = "sk_test_568e6077-a08f-4692-9237-cc6c48dcf6aa";
+	public static final String SECRET_KEY = "sk_sbox_cqc26o3haljkwuns6xcfcmf2vmu";
+    /**
+     * Replace with subdomain value, testing key for base url regional subdomain prefix
+     */
+    public static final  String REGIONAL_SUBDOMAIN = "global";
 	/**
 	 * Replace with Success/Failure Urls from Hub in Sandbox Environment
 	 */
