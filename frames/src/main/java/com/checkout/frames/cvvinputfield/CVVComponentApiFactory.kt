@@ -22,8 +22,8 @@ public object CVVComponentApiFactory {
         publicKey: String,
         environment: Environment,
         context: Context,
-        baseURLPrefix: String,
+        baseUrlPrefix: String?,
     ): CVVComponentApi {
-        return InternalCVVComponentApi(publicKey, environment, context, baseURLPrefix)
+        return InternalCVVComponentApi(publicKey, environment, context, baseUrlPrefix)
     }
 }

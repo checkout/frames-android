@@ -24,7 +24,7 @@ internal class CVVComponentApiFactoryTest {
     @Test
     fun `when CVVComponentApiFactory is created then InternalCVVComponentApi is correctly created`() {
         // When
-        val cvvComponentApi = CVVComponentApiFactory.create(publicKey, environment, context)
+        val cvvComponentApi = CVVComponentApiFactory.create(publicKey, environment, context, null)
 
         // Then
         assertEquals(InternalCVVComponentApi::class.java, cvvComponentApi.javaClass)

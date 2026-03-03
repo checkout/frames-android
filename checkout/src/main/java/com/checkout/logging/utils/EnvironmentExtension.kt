@@ -5,12 +5,12 @@ import com.checkout.base.util.EnvironmentConstants.PRODUCTION_SERVER_URL
 import com.checkout.base.util.EnvironmentConstants.SANDBOX_SERVER_URL
 
 
-internal fun Environment.toBaseUrl(subDomainPrefix: String? = null) = when(this) {
-    Environment.PRODUCTION -> subDomainPrefix?.filter { it.isLetterOrDigit() }?.let {
-        "https://${subDomainPrefix}.api.checkout.com/tokens"
+internal fun Environment.toBaseUrl(baseUrlPrefix: String? = null) = when(this) {
+    Environment.PRODUCTION -> baseUrlPrefix?.baseUrlPrefixValidator()?.let {
+        "https://${baseUrlPrefix}.api.checkout.com/tokens"
     } ?: PRODUCTION_SERVER_URL
-    Environment.SANDBOX -> subDomainPrefix?.filter { it.isLetterOrDigit() }?.let {
-        "https://${subDomainPrefix}.api.sandbox.checkout.com/tokens"
+    Environment.SANDBOX -> baseUrlPrefix?.baseUrlPrefixValidator()?.let {
+        "https://${baseUrlPrefix}.api.sandbox.checkout.com/tokens"
     } ?: SANDBOX_SERVER_URL
 }
 internal fun Environment.toLoggingEnvironment() = when (this) {
@@ -21,4 +21,8 @@ internal fun Environment.toLoggingEnvironment() = when (this) {
 internal fun Environment.toLoggingName() = when (this) {
     Environment.PRODUCTION -> "production"
     Environment.SANDBOX -> "sandbox"
+}
+
+private fun String?.baseUrlPrefixValidator() = this?.takeIf {
+    prefix -> prefix.all { char -> char.isLetterOrDigit() } && prefix.isNotEmpty()
 }

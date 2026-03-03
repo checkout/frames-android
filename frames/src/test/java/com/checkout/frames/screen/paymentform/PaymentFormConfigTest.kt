@@ -34,6 +34,7 @@ internal class PaymentFormConfigTest {
             style = PaymentFormStyle(),
             supportedCardSchemeList = listOf(CardScheme.VISA, CardScheme.MAESTRO),
             paymentFlowHandler = PaymentFormConfigTestData.paymentFlowHandler,
+            baseUrlPrefix = "prefix",
             prefillData = PrefillData(
                 cardHolderName = "Test Name",
                 billingFormAddress = BillingFormAddress(
@@ -61,6 +62,7 @@ internal class PaymentFormConfigTest {
             assertEquals(PaymentFormConfigTestData.publicKey, publicKey)
             assertEquals(expectedMockContext, context)
             assertEquals(PaymentFormConfigTestData.supportedCardSchemes, supportedCardSchemeList)
+            assertEquals(PaymentFormConfigTestData.baseUrlPrefix, baseUrlPrefix)
 
             prefillData?.billingFormAddress.let { billingFormAddress ->
                 assertEquals(PaymentFormConfigTestData.prefillData.cardHolderName, prefillData?.cardHolderName)

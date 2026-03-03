@@ -34,7 +34,7 @@ internal class CheckoutApiServiceFactoryTest {
         val mockEnvironment = Environment.SANDBOX
 
         // When
-        CheckoutApiServiceFactory.create("", mockEnvironment, mockContext)
+        CheckoutApiServiceFactory.create("", mockEnvironment, mockContext, null)
 
         // Then
         verify { mockLogger.setup(eq(mockContext), eq(mockEnvironment)) }

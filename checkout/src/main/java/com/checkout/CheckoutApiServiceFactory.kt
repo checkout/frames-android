@@ -41,7 +41,7 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment,
         context: Context,
-        baseURLPrefix: String?
+        baseUrlPrefix: String?
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
         logger.setup(context, environment)
@@ -53,7 +53,7 @@ public object CheckoutApiServiceFactory {
         )
 
         return CheckoutApiClient(
-            provideTokenRepository(context, publicKey, environment, baseURLPrefix),
+            provideTokenRepository(context, publicKey, environment, baseUrlPrefix),
             provideThreeDSExecutor(logger),
         )
     }
@@ -62,10 +62,10 @@ public object CheckoutApiServiceFactory {
         context: Context,
         publicKey: String,
         environment: Environment,
-        baseURLPrefix: String?
+        baseUrlPrefix: String?
     ): TokenRepository  {
         return TokenRepositoryImpl(
-            networkApiClient = provideNetworkApiClient(publicKey, environment.toBaseUrl(baseURLPrefix)),
+            networkApiClient = provideNetworkApiClient(publicKey, environment.toBaseUrl(baseUrlPrefix)),
             cardToTokenRequestMapper = CardToTokenRequestMapper(),
             cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
             cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
