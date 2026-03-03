@@ -10,6 +10,7 @@ internal class InternalCVVComponentApi(
     private val publicKey: String,
     private val environment: Environment,
     private val context: Context,
+    private val regionalSubdomain: String
 ) : CVVComponentApi {
 
     override fun createComponentMediator(cvvComponentConfig: CVVComponentConfig) = InternalCVVComponentMediator(
@@ -19,6 +20,7 @@ internal class InternalCVVComponentApi(
                 publicKey = publicKey,
                 environment = environment,
                 context = context,
+                regionalSubdomain = regionalSubdomain
             ),
         ),
     )

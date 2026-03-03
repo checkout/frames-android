@@ -68,6 +68,9 @@ internal abstract class FramesDIComponent {
         @BindsInstance
         fun prefillData(cardHolderName: PrefillData?): Builder
 
+        @BindsInstance
+        fun regionalSubdomain(regionalSubdomain: String?): Builder
+
         fun build(): FramesDIComponent
     }
 }

@@ -23,4 +23,5 @@ public data class PaymentFormConfig @JvmOverloads constructor(
     public val paymentFlowHandler: PaymentFlowHandler,
     public var supportedCardSchemeList: List<CardScheme> = emptyList(),
     public val prefillData: PrefillData? = null,
+    public val regionalSubdomain: String? = null,
 )

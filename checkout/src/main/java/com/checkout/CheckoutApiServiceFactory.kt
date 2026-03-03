@@ -7,6 +7,7 @@ import com.checkout.base.model.Environment
 import com.checkout.logging.EventLoggerProvider
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
+import com.checkout.logging.utils.toBaseUrl
 import com.checkout.network.OkHttpProvider
 import com.checkout.risk.FramesOptions
 import com.checkout.threedsecure.Executor
@@ -40,6 +41,7 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment,
         context: Context,
+        regionalSubdomain: String?
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
         logger.setup(context, environment)
@@ -51,7 +53,7 @@ public object CheckoutApiServiceFactory {
         )
 
         return CheckoutApiClient(
-            provideTokenRepository(context, publicKey, environment),
+            provideTokenRepository(context, publicKey, environment, regionalSubdomain),
             provideThreeDSExecutor(logger),
         )
     }
@@ -60,25 +62,34 @@ public object CheckoutApiServiceFactory {
         context: Context,
         publicKey: String,
         environment: Environment,
-    ): TokenRepository = TokenRepositoryImpl(
-        networkApiClient = provideNetworkApiClient(publicKey, environment.url),
-        cardToTokenRequestMapper = CardToTokenRequestMapper(),
-        cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
-        cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
-        validateTokenizationDataUseCase = ValidateTokenizationDataUseCase(
-            CardValidatorFactory.createInternal(),
-            AddressValidator(),
-            PhoneValidator(),
-            AddressToAddressValidationRequestDataMapper(),
-        ),
-        validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(
-            CVVComponentValidatorFactory.create(),
-        ),
-        logger = TokenizationEventLogger(EventLoggerProvider.provide()),
-        publicKey = publicKey,
-        cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, riskSDKFramesOptions, RiskInstanceProvider),
-    )
+        regionalSubdomain: String?
+    ): TokenRepository  {
+        return TokenRepositoryImpl(
+            networkApiClient = provideNetworkApiClient(publicKey, environment.toBaseUrl(regionalSubdomain)),
+            cardToTokenRequestMapper = CardToTokenRequestMapper(),
+            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
+            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
+            validateTokenizationDataUseCase = ValidateTokenizationDataUseCase(
+                CardValidatorFactory.createInternal(),
+                AddressValidator(),
+                PhoneValidator(),
+                AddressToAddressValidationRequestDataMapper(),
+            ),
+            validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(
+                CVVComponentValidatorFactory.create(),
+            ),
+            logger = TokenizationEventLogger(EventLoggerProvider.provide()),
+            publicKey = publicKey,
+            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+            riskSdkUseCase = RiskSdkUseCase(
+                environment,
+                context,
+                publicKey,
+                riskSDKFramesOptions,
+                RiskInstanceProvider
+            ),
+        )
+    }
 
     private fun provideNetworkApiClient(
         publicKey: String,

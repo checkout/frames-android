@@ -50,6 +50,7 @@ fun Navigator(
         publicKey = PUBLIC_KEY,
         context = context,
         environment = ENVIRONMENT,
+        regionalSubdomain = null,
         paymentFlowHandler = object : PaymentFlowHandler {
             override fun onSubmit() {
                 /*Intentionally left empty*/

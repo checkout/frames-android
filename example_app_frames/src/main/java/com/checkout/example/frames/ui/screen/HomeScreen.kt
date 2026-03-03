@@ -223,6 +223,7 @@ fun invokeCheckoutSDKToGenerateTokenForGooglePay(context: Context) {
         "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
         Environment.SANDBOX,
         context,
+        "devices"
     )
 
     /**

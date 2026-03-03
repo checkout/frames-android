@@ -23,6 +23,7 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         private val paymentFlowHandler: PaymentFlowHandler,
         private val supportedCardSchemes: List<CardScheme> = emptyList(),
         private val prefillData: PrefillData? = null,
+        private val regionalSubdomain: String? = null,
     ) : ViewModelProvider.Factory, InjectionClient {
 
         @Inject
@@ -33,7 +34,7 @@ internal class PaymentFormViewModel @Inject internal constructor() : ViewModel()
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             injector = FramesInjector.create(
-                publicKey, context, environment, paymentFlowHandler, supportedCardSchemes, prefillData,
+                publicKey, context, environment, paymentFlowHandler, supportedCardSchemes, prefillData, regionalSubdomain
             )
 
             injector.inject(this)

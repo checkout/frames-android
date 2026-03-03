@@ -22,7 +22,8 @@ public object CVVComponentApiFactory {
         publicKey: String,
         environment: Environment,
         context: Context,
+        regionalSubdomain: String,
     ): CVVComponentApi {
-        return InternalCVVComponentApi(publicKey, environment, context)
+        return InternalCVVComponentApi(publicKey, environment, context, regionalSubdomain)
     }
 }
