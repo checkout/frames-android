@@ -23,11 +23,6 @@ const val PUBLIC_KEY_CVV_TOKENIZATION = "pk_sbox_dheqoi7tqn2jcvbn55sa2czwu42"
 const val REGIONAL_SUBDOMAIN = "global"
 
 /**
- * Replace with Secret key from Hub in Sandbox Environment
- */
-const val SECRET_KEY = "sk_sbox_cqc26o3haljkwuns6xcfcmf2vmu"
-
-/**
  * Replace with Success/Failure Urls from Hub in Sandbox Environment
  */
 const val SUCCESS_URL = "https://httpstat.us/200?q=Success"
