@@ -86,7 +86,7 @@ internal class EnvironmentExtensionTest {
             val result = Environment.PRODUCTION.toBaseUrl(invalidPrefix)
             assertEquals(
                 PRODUCTION_SERVER_URL,
-                result
+                result,
             )
         }
     }

@@ -24,7 +24,8 @@ internal fun Environment.toLoggingName() = when (this) {
         "sandbox"
 }
 
-private fun String?.baseUrlPrefixValidator() = this?.takeIf {
-    prefix ->
-    prefix.all { char -> char.isLetterOrDigit() } && prefix.isNotEmpty()
-}
+private fun String?.baseUrlPrefixValidator() = this
+    ?.takeIf {
+            prefix ->
+        prefix.all { char -> char.isLetterOrDigit() } && prefix.isNotEmpty()
+    }
