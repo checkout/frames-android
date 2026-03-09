@@ -41,7 +41,7 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment,
         context: Context,
-        baseUrlPrefix: String?
+        baseUrlPrefix: String? = null,
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
         logger.setup(context, environment)
@@ -62,8 +62,8 @@ public object CheckoutApiServiceFactory {
         context: Context,
         publicKey: String,
         environment: Environment,
-        baseUrlPrefix: String?
-    ): TokenRepository  {
+        baseUrlPrefix: String?,
+    ): TokenRepository {
         return TokenRepositoryImpl(
             networkApiClient = provideNetworkApiClient(publicKey, environment.toBaseUrl(baseUrlPrefix)),
             cardToTokenRequestMapper = CardToTokenRequestMapper(),
@@ -86,7 +86,7 @@ public object CheckoutApiServiceFactory {
                 context,
                 publicKey,
                 riskSDKFramesOptions,
-                RiskInstanceProvider
+                RiskInstanceProvider,
             ),
         )
     }

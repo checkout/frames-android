@@ -63,6 +63,7 @@ internal class EnvironmentExtensionTest {
         assertEquals("https://api.checkout.com/tokens", result)
     }
 
+    @Test
     fun `toBaseUrl PRODUCTION returns default URL for any non-alphanumeric prefix`() {
         val invalidPrefixList = listOf(
             "invalid_prefix",
@@ -81,11 +82,11 @@ internal class EnvironmentExtensionTest {
             "invalid prefix",
         )
 
-        invalidPrefixList.map { invalidPrefix ->
+        invalidPrefixList.forEach { invalidPrefix ->
             val result = Environment.PRODUCTION.toBaseUrl(invalidPrefix)
             assertEquals(
-                result,
                 PRODUCTION_SERVER_URL,
+                result
             )
         }
     }
