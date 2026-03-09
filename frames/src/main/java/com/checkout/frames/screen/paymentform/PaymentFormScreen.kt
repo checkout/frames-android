@@ -25,7 +25,7 @@ internal fun PaymentFormScreen(config: PaymentFormConfig) {
             paymentFlowHandler = config.paymentFlowHandler,
             supportedCardSchemes = config.supportedCardSchemeList,
             prefillData = config.prefillData,
-            baseUrlPrefix = config.baseUrlPrefix
+            baseUrlPrefix = config.baseUrlPrefix,
         ),
     )
 
