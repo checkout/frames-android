@@ -18,17 +18,17 @@ android {
             buildConfigField(
                 "String",
                 "SANDBOX_PUBLIC_KEY",
-                this["sandbox.components.public_key"].toString(),
+                "\"${this["sandbox.components.public_key"]}\"",
             )
             buildConfigField(
                 "String",
                 "SANDBOX_SECRET_KEY",
-                this["sandbox.components.secret_key"].toString(),
+                "\"${this["sandbox.components.secret_key"]}\"",
             )
             buildConfigField(
                 "String",
                 "SANDBOX_PROCESSING_CHANNEL_ID",
-                this["sandbox.components.processing_channel_id"].toString(),
+                "\"${this["sandbox.components.processing_channel_id"]}\"",
             )
         }
     }
