@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.checkout.CheckoutApiServiceFactory
 import com.checkout.base.model.Environment
+import com.checkout.example.frames.BuildConfig
 import com.checkout.example.frames.R
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.ui.component.ButtonComponent
@@ -221,7 +222,7 @@ fun invokeCheckoutSDKToGenerateTokenForGooglePay(context: Context) {
      * Creating instance of CheckoutApiClient
      */
     val checkoutApiClient = CheckoutApiServiceFactory.create(
-        "pk_test_6e40a700-d563-43cd-89d0-f9bb17d35e73",
+        BuildConfig.SANDBOX_PUBLIC_KEY,
         Environment.SANDBOX,
         context,
         REGIONAL_SUBDOMAIN,

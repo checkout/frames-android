@@ -63,33 +63,31 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment,
         baseUrlPrefix: String?,
-    ): TokenRepository {
-        return TokenRepositoryImpl(
-            networkApiClient = provideNetworkApiClient(publicKey, environment.toBaseUrl(baseUrlPrefix)),
-            cardToTokenRequestMapper = CardToTokenRequestMapper(),
-            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
-            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
-            validateTokenizationDataUseCase = ValidateTokenizationDataUseCase(
-                CardValidatorFactory.createInternal(),
-                AddressValidator(),
-                PhoneValidator(),
-                AddressToAddressValidationRequestDataMapper(),
-            ),
-            validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(
-                CVVComponentValidatorFactory.create(),
-            ),
-            logger = TokenizationEventLogger(EventLoggerProvider.provide()),
-            publicKey = publicKey,
-            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-            riskSdkUseCase = RiskSdkUseCase(
-                environment,
-                context,
-                publicKey,
-                riskSDKFramesOptions,
-                RiskInstanceProvider,
-            ),
-        )
-    }
+    ): TokenRepository = TokenRepositoryImpl(
+        networkApiClient = provideNetworkApiClient(publicKey, environment.toBaseUrl(baseUrlPrefix)),
+        cardToTokenRequestMapper = CardToTokenRequestMapper(),
+        cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
+        cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
+        validateTokenizationDataUseCase = ValidateTokenizationDataUseCase(
+            CardValidatorFactory.createInternal(),
+            AddressValidator(),
+            PhoneValidator(),
+            AddressToAddressValidationRequestDataMapper(),
+        ),
+        validateCVVTokenizationDataUseCase = ValidateCVVTokenizationDataUseCase(
+            CVVComponentValidatorFactory.create(),
+        ),
+        logger = TokenizationEventLogger(EventLoggerProvider.provide()),
+        publicKey = publicKey,
+        cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
+        riskSdkUseCase = RiskSdkUseCase(
+            environment,
+            context,
+            publicKey,
+            riskSDKFramesOptions,
+            RiskInstanceProvider,
+        ),
+    )
 
     private fun provideNetworkApiClient(
         publicKey: String,
