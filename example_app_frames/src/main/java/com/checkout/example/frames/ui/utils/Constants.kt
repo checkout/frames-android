@@ -8,16 +8,6 @@ import com.checkout.base.model.Environment
 val ENVIRONMENT: Environment = Environment.SANDBOX
 
 /**
- * Replace with public key from Hub in Sandbox Environment
- */
-const val PUBLIC_KEY = "pk_sbox_dheqoi7tqn2jcvbn55sa2czwu42"
-
-/**
- * Replace with public key from Hub in Sandbox Environment, testing key for CVV Tokenization
- */
-const val PUBLIC_KEY_CVV_TOKENIZATION = "pk_sbox_dheqoi7tqn2jcvbn55sa2czwu42"
-
-/**
  * Replace with subdomain value, testing key for base url regional subdomain prefix
  */
 const val REGIONAL_SUBDOMAIN = "global"

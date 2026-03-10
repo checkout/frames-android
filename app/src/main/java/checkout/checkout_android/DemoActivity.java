@@ -93,7 +93,7 @@ public class DemoActivity extends ComponentActivity {
 
     private PaymentFormConfig providePaymentFormConfig() {
         return new PaymentFormConfig(
-                Constants.PUBLIC_KEY,
+                BuildConfig.SANDBOX_PUBLIC_KEY,
                 this,
                 Constants.ENVIRONMENT,
                 new PaymentFormStyle(),

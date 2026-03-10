@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.checkout.example.frames.BuildConfig
 import com.checkout.example.frames.R
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
 import com.checkout.example.frames.ui.utils.FAILURE_URL
-import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.example.frames.ui.utils.PromptUtils
 import com.checkout.example.frames.ui.utils.PromptUtils.neutralButton
 import com.checkout.example.frames.ui.utils.SUCCESS_URL
@@ -28,7 +28,7 @@ class ThreedSecureActivity : ComponentActivity() {
             val url = intent.getStringExtra(URL_IDENTIFIER)
 
             val paymentFormConfig = PaymentFormConfig(
-                publicKey = PUBLIC_KEY,
+                publicKey = BuildConfig.SANDBOX_PUBLIC_KEY,
                 context = this,
                 environment = ENVIRONMENT,
                 paymentFlowHandler = object : PaymentFlowHandler {

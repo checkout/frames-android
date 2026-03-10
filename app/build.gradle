@@ -45,6 +45,21 @@ android {
     lint {
         baseline = file('lint-baseline.xml')
     }
+
+    def localProps = new Properties()
+    def localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        localPropsFile.withInputStream { localProps.load(it) }
+    }
+
+    defaultConfig {
+        buildConfigField("String", "SANDBOX_PUBLIC_KEY", "${localProps.getProperty("sandbox.components.public_key") ?: ""}")
+        buildConfigField("String", "SANDBOX_SECRET_KEY", "${localProps.getProperty("sandbox.components.secret_key") ?: ""}")
+        buildConfigField("String", "SANDBOX_PROCESSING_CHANNEL_ID", "${localProps.getProperty("sandbox.components.processing_channel_id") ?: ""}")
+    }
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {

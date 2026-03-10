@@ -8,9 +8,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Environment
+import com.checkout.example.frames.BuildConfig
 import com.checkout.example.frames.paymentformstyling.PaymentFormConstants
 import com.checkout.example.frames.styling.CustomCVVInputFieldStyle
-import com.checkout.example.frames.ui.utils.PUBLIC_KEY_CVV_TOKENIZATION
 import com.checkout.example.frames.ui.utils.REGIONAL_SUBDOMAIN
 import com.checkout.example.frames.ui.viewmodel.CVVTokenizationViewModel
 import com.checkout.frames.cvvinputfield.CVVComponentApiFactory
@@ -33,7 +33,7 @@ fun CVVTokenizationScreen(navController: NavHostController) {
     val cvvTokenizationViewModel: CVVTokenizationViewModel = viewModel()
 
     val cvvComponentApi = CVVComponentApiFactory.create(
-        publicKey = PUBLIC_KEY_CVV_TOKENIZATION,
+        publicKey = BuildConfig.SANDBOX_PUBLIC_KEY,
         environment = Environment.SANDBOX,
         context = LocalContext.current,
         baseUrlPrefix = REGIONAL_SUBDOMAIN,

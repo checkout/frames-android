@@ -9,13 +9,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.checkout.base.model.CardScheme
+import com.checkout.example.frames.BuildConfig
 import com.checkout.example.frames.R
 import com.checkout.example.frames.navigation.Screen
 import com.checkout.example.frames.paymentformstyling.CustomBillingFormStyle
 import com.checkout.example.frames.paymentformstyling.CustomPaymentDetailsStyle
 import com.checkout.example.frames.paymentformstyling.CustomPaymentFormTheme
 import com.checkout.example.frames.ui.utils.ENVIRONMENT
-import com.checkout.example.frames.ui.utils.PUBLIC_KEY
 import com.checkout.example.frames.ui.utils.PrefillDataHelper
 import com.checkout.example.frames.ui.utils.REGIONAL_SUBDOMAIN
 import com.checkout.frames.api.PaymentFlowHandler
@@ -48,7 +48,7 @@ fun Navigator(
 ) {
     val navController = rememberNavController()
     val defaultPaymentFormConfig = PaymentFormConfig(
-        publicKey = PUBLIC_KEY,
+        publicKey = BuildConfig.SANDBOX_PUBLIC_KEY,
         context = context,
         environment = ENVIRONMENT,
         baseUrlPrefix = REGIONAL_SUBDOMAIN,

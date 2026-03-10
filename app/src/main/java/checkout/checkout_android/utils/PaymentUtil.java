@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import checkout.checkout_android.BuildConfig;
 import checkout.checkout_android.Constants;
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -47,7 +48,7 @@ public class PaymentUtil {
         RequestBody requestBody = buildPaymentRequestBody(token);
         Request paymentRequest = new Request.Builder()
                 .url("https://api.sandbox.checkout.com/payments")
-                .addHeader("Authorization", "Bearer "+Constants.SECRET_KEY)
+                .addHeader("Authorization", "Bearer "+ BuildConfig.SANDBOX_SECRET_KEY)
                 .post(requestBody)
                 .build();
 
