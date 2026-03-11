@@ -43,6 +43,13 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+
+      - name: Create local.properties
+        run: |
+            touch local.properties
+            echo "sandbox.components.public_key=${{ secrets.COMPONENTS_SANDBOX_PUBLIC_KEY }}" >> local.properties
+            echo "sandbox.components.secret_key=${{ secrets.COMPONENTS_SANDBOX_SECRET_KEY }}" >> local.properties
+
       - name: Run ${{ inputs.task }} with Gradle
         run: ./gradlew :${{ inputs.module }}:${{ inputs.task }}
 

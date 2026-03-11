@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("precompiled-android-app")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -9,6 +11,26 @@ android {
         applicationId = ExampleAppFramesConfig.id
         versionCode = ExampleAppFramesConfig.versionCode
         versionName = ExampleAppFramesConfig.versionName
+
+        Properties().apply {
+            load(rootProject.file("local.properties").inputStream())
+        }.run {
+            buildConfigField(
+                "String",
+                "SANDBOX_PUBLIC_KEY",
+                "\"${this["sandbox.components.public_key"]}\"",
+            )
+            buildConfigField(
+                "String",
+                "SANDBOX_SECRET_KEY",
+                "\"${this["sandbox.components.secret_key"]}\"",
+            )
+            buildConfigField(
+                "String",
+                "SANDBOX_PROCESSING_CHANNEL_ID",
+                "\"${this["sandbox.components.processing_channel_id"]}\"",
+            )
+        }
     }
 
     buildTypes {
@@ -19,6 +41,10 @@ android {
                 "proguard-rules.pro",
             )
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     packaging {

@@ -29,6 +29,7 @@ internal class PaymentFormViewModelTest {
             paymentFlowHandler = PaymentFormConfigTestData.paymentFlowHandler,
             supportedCardSchemes = PaymentFormConfigTestData.supportedCardSchemes,
             prefillData = PaymentFormConfigTestData.prefillData,
+            baseUrlPrefix = null,
         )
 
         // When

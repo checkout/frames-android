@@ -56,6 +56,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             environment: Environment,
             paymentFlowHandler: PaymentFlowHandler,
             supportedCardSchemeList: List<CardScheme> = emptyList(),
+            baseUrlPrefix: String?,
             prefillData: PrefillData? = null,
         ): Injector {
             val logger = EventLoggerProvider.provide().apply {
@@ -64,7 +65,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
             }
             val closePaymentFlowUseCase = ClosePaymentFlowUseCase(paymentFlowHandler::onBackPressed)
             val cardTokenizationUseCase = CardTokenizationUseCase(
-                CheckoutApiServiceFactory.create(publicKey, environment, context),
+                CheckoutApiServiceFactory.create(publicKey, environment, context, baseUrlPrefix),
                 paymentFlowHandler::onSubmit,
                 paymentFlowHandler::onSuccess,
                 paymentFlowHandler::onFailure,
@@ -76,6 +77,7 @@ internal class FramesInjector(private val component: FramesDIComponent) : Inject
                     .closePaymentFlowUseCase(closePaymentFlowUseCase)
                     .supportedCardSchemes(supportedCardSchemeList)
                     .prefillData(prefillData)
+                    .baseUrlPrefix(baseUrlPrefix)
                     .build(),
             )
         }

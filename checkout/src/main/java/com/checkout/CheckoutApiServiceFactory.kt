@@ -7,6 +7,7 @@ import com.checkout.base.model.Environment
 import com.checkout.logging.EventLoggerProvider
 import com.checkout.logging.Logger
 import com.checkout.logging.model.LoggingEvent
+import com.checkout.logging.utils.toBaseUrl
 import com.checkout.network.OkHttpProvider
 import com.checkout.risk.FramesOptions
 import com.checkout.threedsecure.Executor
@@ -40,6 +41,7 @@ public object CheckoutApiServiceFactory {
         publicKey: String,
         environment: Environment,
         context: Context,
+        baseUrlPrefix: String? = null,
     ): CheckoutApiService {
         val logger = EventLoggerProvider.provide()
         logger.setup(context, environment)
@@ -51,7 +53,7 @@ public object CheckoutApiServiceFactory {
         )
 
         return CheckoutApiClient(
-            provideTokenRepository(context, publicKey, environment),
+            provideTokenRepository(context, publicKey, environment, baseUrlPrefix),
             provideThreeDSExecutor(logger),
         )
     }
@@ -60,8 +62,9 @@ public object CheckoutApiServiceFactory {
         context: Context,
         publicKey: String,
         environment: Environment,
+        baseUrlPrefix: String?,
     ): TokenRepository = TokenRepositoryImpl(
-        networkApiClient = provideNetworkApiClient(publicKey, environment.url),
+        networkApiClient = provideNetworkApiClient(publicKey, environment.toBaseUrl(baseUrlPrefix)),
         cardToTokenRequestMapper = CardToTokenRequestMapper(),
         cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
         cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
@@ -77,7 +80,13 @@ public object CheckoutApiServiceFactory {
         logger = TokenizationEventLogger(EventLoggerProvider.provide()),
         publicKey = publicKey,
         cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-        riskSdkUseCase = RiskSdkUseCase(environment, context, publicKey, riskSDKFramesOptions, RiskInstanceProvider),
+        riskSdkUseCase = RiskSdkUseCase(
+            environment,
+            context,
+            publicKey,
+            riskSDKFramesOptions,
+            RiskInstanceProvider,
+        ),
     )
 
     private fun provideNetworkApiClient(

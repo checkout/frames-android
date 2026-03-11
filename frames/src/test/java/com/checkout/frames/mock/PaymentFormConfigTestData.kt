@@ -36,6 +36,7 @@ internal object PaymentFormConfigTestData {
     val style = PaymentFormStyle()
     val supportedCardSchemes = listOf(CardScheme.VISA, CardScheme.MAESTRO)
     const val publicKey = "Test key"
+    val baseUrlPrefix = "prefix"
 
     @Suppress("EmptyFunctionBlock")
     val paymentFlowHandler = object : PaymentFlowHandler {
