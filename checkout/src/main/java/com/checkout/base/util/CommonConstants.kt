@@ -16,6 +16,6 @@ internal const val PHONE_MIN_LENGTH = 6
 internal const val PHONE_MAX_LENGTH = 25
 
 /**
- * Constants for environments
+ * Constant for HTTPS protocol prefix, used when constructing environments' base URLs for network communication.
  */
 internal const val HTTPS_PROTOCOL: String = "https://"

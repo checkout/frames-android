@@ -16,7 +16,7 @@ public object CVVComponentApiFactory {
      * @param publicKey - used for client-side authentication in the SDK
      * @param environment - [Environment] represent the environment for tokenization
      * @param context - represent the application context
-     * @param baseUrlPrefix -  an optional alphanumeric prefix used to route requests to a specific regional or merchant-specific subdomain (e.g., "msdd"). Must be alphanumeric.
+     * @param baseUrlPrefix - an optional alphanumeric prefix used to route requests to a specific regional or merchant-specific subdomain (e.g., "msdd"). Must be alphanumeric.
      */
     @JvmStatic
     public fun create(

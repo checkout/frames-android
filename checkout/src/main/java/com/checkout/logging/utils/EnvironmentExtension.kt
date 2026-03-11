@@ -11,6 +11,7 @@ internal fun Environment.toBaseUrl(baseUrlPrefix: String? = null) = when (this) 
     Environment.PRODUCTION -> PRODUCTION_SERVER_URL.applyPrefix(baseUrlPrefix)
     Environment.SANDBOX -> SANDBOX_SERVER_URL.applyPrefix(baseUrlPrefix)
 }
+
 internal fun Environment.toLoggingEnvironment() = when (this) {
     Environment.PRODUCTION -> com.checkout.eventlogger.Environment.PRODUCTION
     Environment.SANDBOX -> com.checkout.eventlogger.Environment.SANDBOX
@@ -26,7 +27,7 @@ private fun String.applyPrefix(prefix: String?): String {
     return this.replace(HTTPS_PROTOCOL, "$HTTPS_PROTOCOL$validatedPrefix.")
 }
 
-private fun String?.baseUrlPrefixValidator() = this
-    ?.takeIf { prefix ->
-        prefix.all { char -> char in 'a'..'z' || char in 'A'..'Z' || char in '0'..'9' } && prefix.isNotEmpty()
+private fun String.baseUrlPrefixValidator() = this
+    .takeIf { prefix ->
+        prefix.isNotEmpty() && prefix.all { char -> char in 'a'..'z' || char in 'A'..'Z' || char in '0'..'9' }
     }
