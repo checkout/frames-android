@@ -15,6 +15,7 @@ internal object RiskInstanceProvider {
         publicKey: String,
         environment: Environment,
         framesOptions: FramesOptions,
+        baseUrlPrefix: String?,
     ): Risk? {
         if (riskInstance != null) {
             return riskInstance
@@ -33,6 +34,7 @@ internal object RiskInstanceProvider {
                     publicKey = publicKey,
                     environment = riskEnvironment,
                     framesOptions = framesOptions,
+                    mssd = baseUrlPrefix,
                 ),
             )
         return riskInstance

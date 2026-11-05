@@ -11,9 +11,10 @@ internal class RiskSdkUseCase(
     private val publicKey: String,
     private val framesOptions: FramesOptions,
     private val riskInstanceProvider: RiskInstanceProvider,
+    private val baseUrlPrefix: String? = null,
 ) {
     suspend fun execute(data: TokenResult<String>) {
-        val riskInstance = riskInstanceProvider.provide(context, publicKey, environment, framesOptions)
+        val riskInstance = riskInstanceProvider.provide(context, publicKey, environment, framesOptions, baseUrlPrefix)
         when (data) {
             is TokenResult.Success -> riskInstance?.publishData(cardToken = data.result)
             is TokenResult.Failure -> {}

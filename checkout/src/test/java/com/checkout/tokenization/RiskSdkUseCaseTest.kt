@@ -23,6 +23,7 @@ public class RiskSdkUseCaseTest {
     private val productIdentifier: String = "productIdentifier"
     private val framesOptions: FramesOptions = FramesOptions(version, productIdentifier, correlationId)
     private val environment: Environment = Environment.SANDBOX
+    private val baseUrlPrefix: String = "mssd"
     private val riskInstanceProvider: RiskInstanceProvider = mockk()
     private val riskInstance: Risk = mockk()
     private val context: Context = mockk()
@@ -32,7 +33,9 @@ public class RiskSdkUseCaseTest {
     @BeforeEach
     public fun setup() {
         coEvery { tokenDetails.token } returns TOKEN
-        coEvery { riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions) } returns riskInstance
+        coEvery {
+            riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions, baseUrlPrefix)
+        } returns riskInstance
         coEvery { riskInstance.publishData(any()) } returns mockk()
         useCase =
             RiskSdkUseCase(
@@ -41,6 +44,7 @@ public class RiskSdkUseCaseTest {
                 publicKey = PUBLIC_KEY,
                 riskInstanceProvider = riskInstanceProvider,
                 framesOptions = framesOptions,
+                baseUrlPrefix = baseUrlPrefix,
             )
     }
 
@@ -48,7 +52,9 @@ public class RiskSdkUseCaseTest {
     public fun `Success result should trigger publishData`() {
         runBlocking {
             useCase.execute(TokenResult.Success(tokenDetails.token))
-            coVerify { riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions) }
+            coVerify {
+                riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions, baseUrlPrefix)
+            }
             coVerify { riskInstance.publishData(TOKEN) }
         }
     }
