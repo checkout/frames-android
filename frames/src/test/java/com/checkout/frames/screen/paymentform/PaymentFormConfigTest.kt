@@ -1,6 +1,7 @@
 package com.checkout.frames.screen.paymentform
 
 import android.content.Context
+import com.checkout.base.error.CheckoutError
 import com.checkout.base.model.CardScheme
 import com.checkout.base.model.Country
 import com.checkout.base.model.Environment
@@ -14,11 +15,28 @@ import com.checkout.tokenization.model.Phone
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.amshove.kluent.internal.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 internal class PaymentFormConfigTest {
+
+    @Test
+    fun `when PaymentFormConfig has blank base URL prefix then configuration invalid is thrown`() {
+        val error = assertThrows(CheckoutError::class.java) {
+            PaymentFormConfig(
+                context = mockk(),
+                environment = Environment.PRODUCTION,
+                publicKey = "Test key",
+                style = PaymentFormStyle(),
+                paymentFlowHandler = PaymentFormConfigTestData.paymentFlowHandler,
+                baseUrlPrefix = "",
+            )
+        }
+
+        assertEquals("CONFIGURATION_INVALID", error.errorCode)
+    }
 
     @Suppress("LongMethod")
     @Test

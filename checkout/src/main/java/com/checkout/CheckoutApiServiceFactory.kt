@@ -43,6 +43,7 @@ public object CheckoutApiServiceFactory {
         context: Context,
         baseUrlPrefix: String? = null,
     ): CheckoutApiService {
+        BaseUrlPrefixValidator.validate(baseUrlPrefix)
         val logger = EventLoggerProvider.provide()
         logger.setup(context, environment)
         correlationId = logger.correlationId

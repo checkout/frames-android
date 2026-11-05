@@ -1,10 +1,12 @@
 package com.checkout.frames.cvvinputfield
 
 import android.content.Context
+import com.checkout.base.error.CheckoutError
 import com.checkout.base.model.Environment
 import com.checkout.frames.cvvinputfield.api.InternalCVVComponentApi
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
 
@@ -28,5 +30,14 @@ internal class CVVComponentApiFactoryTest {
 
         // Then
         assertEquals(InternalCVVComponentApi::class.java, cvvComponentApi.javaClass)
+    }
+
+    @Test
+    fun `when CVVComponentApiFactory is created with blank base URL prefix then configuration invalid is thrown`() {
+        val error = assertThrows(CheckoutError::class.java) {
+            CVVComponentApiFactory.create(publicKey, environment, context, "")
+        }
+
+        assertEquals("CONFIGURATION_INVALID", error.errorCode)
     }
 }
