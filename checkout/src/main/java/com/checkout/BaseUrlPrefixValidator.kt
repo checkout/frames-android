@@ -13,16 +13,16 @@ public object BaseUrlPrefixValidator {
      */
     @JvmStatic
     public fun validate(baseUrlPrefix: String?) {
-        if (
-            baseUrlPrefix != null &&
-            (baseUrlPrefix.length !in 1..MAX_PREFIX_LENGTH || baseUrlPrefix.any { !it.isAsciiAlphaNumeric() })
-        ) {
+        if (baseUrlPrefix != null && !isValid(baseUrlPrefix)) {
             throw CheckoutError(
                 errorCode = CONFIGURATION_INVALID,
                 message = ERROR_MESSAGE_INVALID_BASE_URL_PREFIX,
             )
         }
     }
+
+    internal fun isValid(baseUrlPrefix: String): Boolean =
+        baseUrlPrefix.length in 1..MAX_PREFIX_LENGTH && baseUrlPrefix.all { it.isAsciiAlphaNumeric() }
 
     private fun Char.isAsciiAlphaNumeric(): Boolean =
         this in 'a'..'z' || this in 'A'..'Z' || this in '0'..'9'

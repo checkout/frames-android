@@ -34,6 +34,15 @@ internal class EnvironmentExtensionTest {
     }
 
     @Test
+    fun `when toBaseUrl PRODUCTION with 63 character prefix returns custom production URL`() {
+        val prefix = "a".repeat(63)
+
+        val result = Environment.PRODUCTION.toBaseUrl(prefix)
+
+        assertEquals("https://$prefix.api.checkout.com/tokens", result)
+    }
+
+    @Test
     fun `when toBaseUrl SANDBOX with null subDomainPrefix returns sandbox server URL`() {
         val result = Environment.SANDBOX.toBaseUrl(null)
         assertEquals(EnvironmentConstants.SANDBOX_SERVER_URL, result)
@@ -80,6 +89,7 @@ internal class EnvironmentExtensionTest {
             "invalid(prefix",
             "invalid)prefix",
             "invalid prefix",
+            "a".repeat(64),
         )
 
         invalidPrefixList.forEach { invalidPrefix ->
