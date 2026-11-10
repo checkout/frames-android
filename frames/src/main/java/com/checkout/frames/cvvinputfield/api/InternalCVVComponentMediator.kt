@@ -12,6 +12,7 @@ import com.checkout.base.usecase.UseCase
 import com.checkout.frames.cvvinputfield.CVVInputField
 import com.checkout.frames.cvvinputfield.models.CVVComponentConfig
 import com.checkout.frames.cvvinputfield.models.InternalCVVTokenRequest
+import com.checkout.frames.utils.SecureWindowEffect
 import com.checkout.tokenization.model.CVVTokenizationResultHandler
 
 internal class InternalCVVComponentMediator(
@@ -31,6 +32,7 @@ internal class InternalCVVComponentMediator(
     private fun InternalCVVComponent() {
         val isCVVComponentAlreadyLoaded = remember { isCVVComponentCalled.value }
         if (!isCVVComponentAlreadyLoaded) {
+            SecureWindowEffect()
             CVVInputField(cvvComponentConfig) { onValueChange ->
                 cvvInputFieldTextValue.value = onValueChange
             }

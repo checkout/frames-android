@@ -172,6 +172,9 @@ override fun onCreateView(
 ): View = paymentFormMediator.provideFragmentContent(this)
 ```
 
+#### Screenshot and screen-capture protection
+While the payment form or the CVV component is on screen, Frames sets `WindowManager.LayoutParams.FLAG_SECURE` on the window that hosts it: the Activity, or the dialog or bottom sheet if you show it in one. This keeps card data out of the Recents snapshot, screenshots and screen recordings. When the form leaves the screen, Frames clears the flag. If your app set `FLAG_SECURE` on that window before the form was shown, Frames leaves it set.
+
 ## Make it your own
 <sub>!!! Any customisation needs to be done before creating Payment form mediator. Once mediator is created, any changes done on style will not be reflected in the UI !!!</sub>
 
