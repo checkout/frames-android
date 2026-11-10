@@ -14,8 +14,10 @@ internal class SecureWindowRegistryTest {
         var frameCallback: (() -> Unit)? = null
     }
 
-    private class FakeTarget(private val window: FakeWindow) : SecureTarget {
-        override val key: Any get() = window
+    private class FakeTarget(
+        private val window: FakeWindow,
+        override val key: Any = window,
+    ) : SecureTarget {
 
         override fun isSecure(): Boolean = window.flagSet
 
@@ -68,6 +70,23 @@ internal class SecureWindowRegistryTest {
         SecureWindowRegistry.release(second)
         assertFalse(window.flagSet)
         assertEquals(2, window.setCalls)
+    }
+
+    @Test
+    fun `when a different target releases last then the acquiring target clears the flag`() {
+        val key = Any()
+        val acquiringWindow = FakeWindow(flagSet = false)
+        val otherWindow = FakeWindow(flagSet = true)
+        val acquiring = FakeTarget(acquiringWindow, key)
+        val other = FakeTarget(otherWindow, key)
+
+        SecureWindowRegistry.acquire(acquiring)
+        SecureWindowRegistry.acquire(other)
+        SecureWindowRegistry.release(acquiring)
+        SecureWindowRegistry.release(other)
+
+        assertFalse(acquiringWindow.flagSet)
+        assertEquals(0, otherWindow.setCalls)
     }
 
     @Test

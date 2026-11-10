@@ -154,13 +154,16 @@ private abstract class RootSecureTarget(protected val root: View) : SecureTarget
     override val key: Any get() = root
 
     override fun watch(onFrame: () -> Unit): () -> Unit {
+        var active = true
         val listener = ViewTreeObserver.OnPreDrawListener {
-            onFrame()
+            // A dispatch already in progress still calls a removed listener, so check that it hasn't been stopped.
+            if (active) onFrame()
             // Never skip a frame: the host may clear the flag on every frame, and skipping would stall drawing.
             true
         }
         root.viewTreeObserver.addOnPreDrawListener(listener)
         return {
+            active = false
             val observer = root.viewTreeObserver
             if (observer.isAlive) observer.removeOnPreDrawListener(listener)
         }
@@ -256,7 +259,16 @@ private fun Int.hasSecureFlag(): Boolean = (this and WindowManager.LayoutParams.
 @MainThread
 internal object SecureWindowRegistry {
 
-    private class Entry(var count: Int, val setBySdk: Boolean, val stopWatching: () -> Unit)
+    /**
+     * [target] is the target that acquired the window. It is used for every later update, including the final
+     * clear, so the flag is cleared through the same path that set it.
+     */
+    private class Entry(
+        val target: SecureTarget,
+        var count: Int,
+        val setBySdk: Boolean,
+        val stopWatching: () -> Unit,
+    )
 
     private val entries = HashMap<Any, Entry>()
 
@@ -271,7 +283,7 @@ internal object SecureWindowRegistry {
         val stopWatching = target.watch {
             if (!target.isSecure()) target.setSecure(true)
         }
-        entries[target.key] = Entry(count = 1, setBySdk = !alreadySecure, stopWatching = stopWatching)
+        entries[target.key] = Entry(target, count = 1, setBySdk = !alreadySecure, stopWatching = stopWatching)
     }
 
     fun release(target: SecureTarget) {
@@ -280,6 +292,6 @@ internal object SecureWindowRegistry {
         if (entry.count > 0) return
         entries.remove(target.key)
         entry.stopWatching()
-        if (entry.setBySdk) target.setSecure(false)
+        if (entry.setBySdk) entry.target.setSecure(false)
     }
 }
