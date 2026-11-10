@@ -24,7 +24,7 @@ internal class SecureWindowRegistryTest {
             window.flagSet = secure
         }
 
-        override fun onEachFrame(onFrame: () -> Unit): () -> Unit {
+        override fun watch(onFrame: () -> Unit): () -> Unit {
             window.frameCallback = onFrame
             return { window.frameCallback = null }
         }

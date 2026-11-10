@@ -18,8 +18,8 @@ import androidx.fragment.app.FragmentManager
 
 /**
  * Sets [WindowManager.LayoutParams.FLAG_SECURE] on the window that hosts the calling composable while the composable
- * is in the composition and its view is attached to a window. This keeps the payment UI out of the Recents snapshot,
- * screenshots and screen capture.
+ * is in the composition and its view is attached to a window and shown. This keeps the payment UI out of the Recents
+ * snapshot, screenshots and screen capture.
  */
 @Composable
 internal fun SecureWindowEffect() {
@@ -32,27 +32,60 @@ internal fun SecureWindowEffect() {
 }
 
 /**
- * Follows the view's attach state, so the flag moves with the view if it is detached or reattached to another
- * window while the composition stays alive.
+ * Follows the view's attach state and visibility, so the flag moves with the view if it is reattached to another
+ * window, and is released while the view is hidden (for example by `FragmentTransaction.hide()`) even though the
+ * composition stays alive.
  */
 @MainThread
-private class SecureWindowBinding(private val view: View) : View.OnAttachStateChangeListener {
+private class SecureWindowBinding(
+    private val view: View,
+) : View.OnAttachStateChangeListener, ViewTreeObserver.OnPreDrawListener {
 
     private var target: SecureTarget? = null
+    private var observer: ViewTreeObserver? = null
 
     fun start() {
         view.addOnAttachStateChangeListener(this)
-        if (view.isAttachedToWindow) acquire()
+        if (view.isAttachedToWindow) onViewAttachedToWindow(view)
     }
 
     fun stop() {
         view.removeOnAttachStateChangeListener(this)
+        stopObserving()
         release()
     }
 
-    override fun onViewAttachedToWindow(v: View) = acquire()
+    override fun onViewAttachedToWindow(v: View) {
+        startObserving()
+        if (view.isShown) acquire()
+    }
 
-    override fun onViewDetachedFromWindow(v: View) = release()
+    override fun onViewDetachedFromWindow(v: View) {
+        stopObserving()
+        release()
+    }
+
+    override fun onPreDraw(): Boolean {
+        val shown = view.isShown
+        if (shown && target == null) {
+            acquire()
+            // Skip this one frame if the flag was just taken, so the view isn't drawn before the window is secured.
+            // If no window could be found, draw anyway so drawing never stalls.
+            return target == null
+        }
+        if (!shown && target != null) release()
+        return true
+    }
+
+    private fun startObserving() {
+        stopObserving()
+        observer = view.viewTreeObserver.also { it.addOnPreDrawListener(this) }
+    }
+
+    private fun stopObserving() {
+        observer?.takeIf { it.isAlive }?.removeOnPreDrawListener(this)
+        observer = null
+    }
 
     private fun acquire() {
         if (target != null) return
@@ -109,17 +142,18 @@ internal interface SecureTarget {
     fun setSecure(secure: Boolean)
 
     /**
-     * Calls [onFrame] before each frame is drawn.
+     * Keeps the flag set while the window is held. [onFrame] is called before each frame is drawn, as a fallback that
+     * sets the flag again if something cleared it.
      *
-     * @return a function that stops the callbacks.
+     * @return a function that stops watching.
      */
-    fun onEachFrame(onFrame: () -> Unit): () -> Unit
+    fun watch(onFrame: () -> Unit): () -> Unit
 }
 
 private abstract class RootSecureTarget(protected val root: View) : SecureTarget {
     override val key: Any get() = root
 
-    override fun onEachFrame(onFrame: () -> Unit): () -> Unit {
+    override fun watch(onFrame: () -> Unit): () -> Unit {
         val listener = ViewTreeObserver.OnPreDrawListener {
             onFrame()
             // Never skip a frame: the host may clear the flag on every frame, and skipping would stall drawing.
@@ -133,8 +167,24 @@ private abstract class RootSecureTarget(protected val root: View) : SecureTarget
     }
 }
 
-/** A window the SDK can reach directly. Updating the [Window] keeps its own copy of the attributes in step. */
+/**
+ * A window the SDK can reach directly. Updating the [Window] keeps its own copy of the attributes in step, and the
+ * window callback is wrapped so the flag is added back before any attribute change reaches the window manager.
+ */
 private class WindowSecureTarget(private val window: Window, root: View) : RootSecureTarget(root) {
+
+    override fun watch(onFrame: () -> Unit): () -> Unit {
+        val stopFrames = super.watch(onFrame)
+        val original = window.callback ?: return stopFrames
+        val wrapper = SecureWindowCallback(original)
+        window.callback = wrapper
+        return {
+            stopFrames()
+            wrapper.active = false
+            // Restore the original only if nothing has wrapped ours since; otherwise ours stays as a pass-through.
+            if (window.callback === wrapper) window.callback = original
+        }
+    }
 
     override fun isSecure(): Boolean = window.attributes.flags.hasSecureFlag()
 
@@ -181,14 +231,24 @@ private class RootViewSecureTarget(root: View) : RootSecureTarget(root) {
     }
 }
 
+/** Adds [WindowManager.LayoutParams.FLAG_SECURE] to every attribute update before passing it on. */
+private class SecureWindowCallback(private val delegate: Window.Callback) : Window.Callback by delegate {
+    var active = true
+
+    override fun onWindowAttributesChanged(attrs: WindowManager.LayoutParams) {
+        if (active) attrs.flags = attrs.flags or WindowManager.LayoutParams.FLAG_SECURE
+        delegate.onWindowAttributesChanged(attrs)
+    }
+}
+
 private fun Int.hasSecureFlag(): Boolean = (this and WindowManager.LayoutParams.FLAG_SECURE) != 0
 
 /**
  * Reference-counts secure requests per window, so several SDK components can share a window, and clears the flag
  * only if the SDK set it.
  *
- * While a window is held, the flag is checked before each frame and set again if something else cleared it, for
- * example a dialog republishing its attributes or a Compose dialog reapplying its default secure policy.
+ * While a window is held, the target keeps the flag set if something else clears it, for example a dialog
+ * republishing its attributes or a Compose dialog reapplying its default secure policy.
  *
  * Whether the SDK set the flag is decided when the window is first acquired. If the host app sets the flag itself
  * while the SDK holds the window, the SDK still clears it on the last release.
@@ -208,7 +268,7 @@ internal object SecureWindowRegistry {
         }
         val alreadySecure = target.isSecure()
         if (!alreadySecure) target.setSecure(true)
-        val stopWatching = target.onEachFrame {
+        val stopWatching = target.watch {
             if (!target.isSecure()) target.setSecure(true)
         }
         entries[target.key] = Entry(count = 1, setBySdk = !alreadySecure, stopWatching = stopWatching)
