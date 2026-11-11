@@ -44,8 +44,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -77,18 +75,7 @@ internal class TokenRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        tokenRepositoryImpl = TokenRepositoryImpl(
-            networkApiClient = mockTokenNetworkApiClient,
-            cardToTokenRequestMapper = CardToTokenRequestMapper(),
-            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
-            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
-            validateTokenizationDataUseCase = mockValidateTokenizationDataUseCase,
-            validateCVVTokenizationDataUseCase = mockValidateCVVTokenizationDataUseCase,
-            logger = mockTokenizationLogger,
-            publicKey = "test_key",
-            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-            riskSdkUseCase = mockRiskSdkUseCase,
-        )
+        tokenRepositoryImpl = createTokenRepository(testDispatcher)
     }
 
     @AfterEach
@@ -111,7 +98,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCardTokenRequest invoked with network error response then failure handler invoked`() {
             testCardTokenResultInvocation(
                 false,
-                NetworkApiResponse.NetworkError(NullPointerException()),
+                NetworkApiResponse.NetworkError(NullPointerException("Network connection lost")),
             )
         }
 
@@ -184,7 +171,7 @@ internal class TokenRepositoryImplTest {
         response: NetworkApiResponse<TokenDetailsResponse>,
     ) = runTest {
         // Given
-        var isSuccess = false
+        var isSuccess: Boolean? = null
 
         tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
@@ -204,13 +191,7 @@ internal class TokenRepositoryImplTest {
         )
         advanceUntilIdle()
         // Then
-        launch {
-            if (successHandlerInvoked) {
-                assertTrue(isSuccess)
-            } else {
-                assertFalse(isSuccess)
-            }
-        }
+        assertEquals(successHandlerInvoked, isSuccess)
     }
 
     private fun testCardTokenEventInvocation(isSuccessResponse: Boolean) =
