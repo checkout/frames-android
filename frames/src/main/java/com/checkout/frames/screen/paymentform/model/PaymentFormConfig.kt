@@ -14,7 +14,9 @@ import com.checkout.frames.style.screen.PaymentFormStyle
  * @param paymentFlowHandler - [PaymentFlowHandler] represent the handler for PaymentForm
  * @param supportedCardSchemeList - represent the supported card schemes [CardScheme] in PaymentForm
  * @param prefillData - [PrefillData] represent the data for prefill in the PaymentForm
- * @param baseUrlPrefix - an optional alphanumeric prefix used to route requests to a specific regional or merchant-specific subdomain (e.g., "msdd"). Must be alphanumeric.
+ * @param baseUrlPrefix - an optional merchant-specific subdomain label (e.g., "mssd").
+ * Must contain 1 to 63 ASCII letters, digits, or hyphens, starting and ending with a letter or digit.
+ * Null, empty, or invalid values are ignored and use the default hosts.
  */
 public data class PaymentFormConfig @JvmOverloads constructor(
     public val publicKey: String,

@@ -34,6 +34,14 @@ internal class EnvironmentExtensionTest {
     }
 
     @Test
+    fun `valid subdomain labels route both environments to prefixed hosts`() {
+        listOf("a", "0", "Ab", "merchant-123", "a--b", "A" + "-".repeat(61) + "9").forEach { prefix ->
+            assertEquals("https://$prefix.api.checkout.com/tokens", Environment.PRODUCTION.toBaseUrl(prefix))
+            assertEquals("https://$prefix.api.sandbox.checkout.com/tokens", Environment.SANDBOX.toBaseUrl(prefix))
+        }
+    }
+
+    @Test
     fun `when toBaseUrl SANDBOX with null subDomainPrefix returns sandbox server URL`() {
         val result = Environment.SANDBOX.toBaseUrl(null)
         assertEquals(EnvironmentConstants.SANDBOX_SERVER_URL, result)
@@ -64,10 +72,18 @@ internal class EnvironmentExtensionTest {
     }
 
     @Test
-    fun `toBaseUrl PRODUCTION returns default URL for any non-alphanumeric prefix`() {
+    fun `invalid subdomain labels use default hosts in both environments`() {
         val invalidPrefixList = listOf(
+            null,
+            "",
+            " ",
+            "-",
+            "-prefix",
+            "prefix-",
+            "é",
+            "a\n",
+            "a".repeat(64),
             "invalid_prefix",
-            "invalid-prefix",
             "invalid.prefix",
             "invalid@prefix",
             "invalid!prefix",
@@ -88,6 +104,7 @@ internal class EnvironmentExtensionTest {
                 PRODUCTION_SERVER_URL,
                 result,
             )
+            assertEquals(EnvironmentConstants.SANDBOX_SERVER_URL, Environment.SANDBOX.toBaseUrl(invalidPrefix))
         }
     }
 }

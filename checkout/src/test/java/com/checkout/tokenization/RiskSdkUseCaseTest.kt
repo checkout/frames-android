@@ -32,7 +32,9 @@ public class RiskSdkUseCaseTest {
     @BeforeEach
     public fun setup() {
         coEvery { tokenDetails.token } returns TOKEN
-        coEvery { riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions) } returns riskInstance
+        coEvery {
+            riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions, "mssd")
+        } returns riskInstance
         coEvery { riskInstance.publishData(any()) } returns mockk()
         useCase =
             RiskSdkUseCase(
@@ -41,6 +43,7 @@ public class RiskSdkUseCaseTest {
                 publicKey = PUBLIC_KEY,
                 riskInstanceProvider = riskInstanceProvider,
                 framesOptions = framesOptions,
+                baseUrlPrefix = "mssd",
             )
     }
 
@@ -48,7 +51,7 @@ public class RiskSdkUseCaseTest {
     public fun `Success result should trigger publishData`() {
         runBlocking {
             useCase.execute(TokenResult.Success(tokenDetails.token))
-            coVerify { riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions) }
+            coVerify { riskInstanceProvider.provide(context, PUBLIC_KEY, environment, framesOptions, "mssd") }
             coVerify { riskInstance.publishData(TOKEN) }
         }
     }

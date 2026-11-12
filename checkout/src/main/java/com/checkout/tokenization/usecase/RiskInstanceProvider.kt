@@ -1,6 +1,7 @@
 package com.checkout.tokenization.usecase
 
 import android.content.Context
+import com.checkout.BaseUrlPrefixValidator
 import com.checkout.base.model.Environment
 import com.checkout.risk.FramesOptions
 import com.checkout.risk.Risk
@@ -15,6 +16,7 @@ internal object RiskInstanceProvider {
         publicKey: String,
         environment: Environment,
         framesOptions: FramesOptions,
+        baseUrlPrefix: String?,
     ): Risk? {
         if (riskInstance != null) {
             return riskInstance
@@ -33,6 +35,7 @@ internal object RiskInstanceProvider {
                     publicKey = publicKey,
                     environment = riskEnvironment,
                     framesOptions = framesOptions,
+                    mssd = BaseUrlPrefixValidator.validPrefixOrNull(baseUrlPrefix),
                 ),
             )
         return riskInstance

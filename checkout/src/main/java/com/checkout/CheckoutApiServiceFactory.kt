@@ -86,6 +86,7 @@ public object CheckoutApiServiceFactory {
             publicKey,
             riskSDKFramesOptions,
             RiskInstanceProvider,
+            baseUrlPrefix,
         ),
     )
 
