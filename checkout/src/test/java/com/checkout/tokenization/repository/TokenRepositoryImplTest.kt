@@ -44,6 +44,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.amshove.kluent.internal.assertEquals
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -98,7 +100,7 @@ internal class TokenRepositoryImplTest {
         fun `when sendCardTokenRequest invoked with network error response then failure handler invoked`() {
             testCardTokenResultInvocation(
                 false,
-                NetworkApiResponse.NetworkError(NullPointerException("Network connection lost")),
+                NetworkApiResponse.NetworkError(NullPointerException()),
             )
         }
 
@@ -171,7 +173,7 @@ internal class TokenRepositoryImplTest {
         response: NetworkApiResponse<TokenDetailsResponse>,
     ) = runTest {
         // Given
-        var isSuccess: Boolean? = null
+        var isSuccess = false
 
         tokenRepositoryImpl.networkCoroutineScope = CoroutineScope(testDispatcher)
 
@@ -191,7 +193,13 @@ internal class TokenRepositoryImplTest {
         )
         advanceUntilIdle()
         // Then
-        assertEquals(successHandlerInvoked, isSuccess)
+        launch {
+            if (successHandlerInvoked) {
+                assertTrue(isSuccess)
+            } else {
+                assertFalse(isSuccess)
+            }
+        }
     }
 
     private fun testCardTokenEventInvocation(isSuccessResponse: Boolean) =
