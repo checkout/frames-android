@@ -43,12 +43,10 @@ internal class RiskInstanceProviderTest {
     }
 
     @Test
-    fun `null empty and invalid prefixes use default Risk hosts`() = runTest {
-        listOf(null, "", " ", "-", "-merchant", "merchant-", "a.b", "é", "a\n", "a".repeat(64)).forEach { prefix ->
-            provideInBothEnvironments(prefix)
-            assertEquals(null, riskConfigs[riskConfigs.lastIndex - 1].mssd)
-            assertEquals(null, riskConfigs.last().mssd)
-        }
+    fun `null prefix is forwarded to Risk in both environments`() = runTest {
+        provideInBothEnvironments(null)
+        assertEquals(null, riskConfigs[riskConfigs.lastIndex - 1].mssd)
+        assertEquals(null, riskConfigs.last().mssd)
     }
 
     private suspend fun provideInBothEnvironments(prefix: String?) {

@@ -2,7 +2,6 @@ package com.checkout
 
 import com.checkout.base.model.Environment
 import com.checkout.base.util.EnvironmentConstants
-import com.checkout.base.util.EnvironmentConstants.PRODUCTION_SERVER_URL
 import com.checkout.logging.utils.toBaseUrl
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -63,48 +62,5 @@ internal class EnvironmentExtensionTest {
     fun `when toBaseUrl SANDBOX with alphanumeric subDomainPrefix returns custom sandbox URL`() {
         val result = Environment.SANDBOX.toBaseUrl("test99")
         assertEquals("https://test99.api.sandbox.checkout.com/tokens", result)
-    }
-
-    @Test
-    fun `when toBaseUrl with empty string subDomainPrefix uses default URL for production`() {
-        val result = Environment.PRODUCTION.toBaseUrl("")
-        assertEquals("https://api.checkout.com/tokens", result)
-    }
-
-    @Test
-    fun `invalid subdomain labels use default hosts in both environments`() {
-        val invalidPrefixList = listOf(
-            null,
-            "",
-            " ",
-            "-",
-            "-prefix",
-            "prefix-",
-            "é",
-            "a\n",
-            "a".repeat(64),
-            "invalid_prefix",
-            "invalid.prefix",
-            "invalid@prefix",
-            "invalid!prefix",
-            "invalid#prefix",
-            "invalid\$prefix",
-            "invalid%prefix",
-            "invalid^prefix",
-            "invalid&prefix",
-            "invalid*prefix",
-            "invalid(prefix",
-            "invalid)prefix",
-            "invalid prefix",
-        )
-
-        invalidPrefixList.forEach { invalidPrefix ->
-            val result = Environment.PRODUCTION.toBaseUrl(invalidPrefix)
-            assertEquals(
-                PRODUCTION_SERVER_URL,
-                result,
-            )
-            assertEquals(EnvironmentConstants.SANDBOX_SERVER_URL, Environment.SANDBOX.toBaseUrl(invalidPrefix))
-        }
     }
 }

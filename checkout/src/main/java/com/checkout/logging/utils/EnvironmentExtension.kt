@@ -1,6 +1,5 @@
 package com.checkout.logging.utils
 
-import com.checkout.BaseUrlPrefixValidator
 import com.checkout.base.model.Environment
 import com.checkout.base.util.EnvironmentConstants.PRODUCTION_LOGGING
 import com.checkout.base.util.EnvironmentConstants.PRODUCTION_SERVER_URL
@@ -24,6 +23,6 @@ internal fun Environment.toLoggingName() = when (this) {
 }
 
 private fun String.applyPrefix(prefix: String?): String {
-    val validatedPrefix = BaseUrlPrefixValidator.validPrefixOrNull(prefix) ?: return this
-    return this.replace(HTTPS_PROTOCOL, "$HTTPS_PROTOCOL$validatedPrefix.")
+    if (prefix == null) return this
+    return this.replace(HTTPS_PROTOCOL, "$HTTPS_PROTOCOL$prefix.")
 }

@@ -43,6 +43,7 @@ public object CheckoutApiServiceFactory {
         context: Context,
         baseUrlPrefix: String? = null,
     ): CheckoutApiService {
+        val validatedBaseUrlPrefix = BaseUrlPrefixValidator.validPrefixOrNull(baseUrlPrefix)
         val logger = EventLoggerProvider.provide()
         logger.setup(context, environment)
         correlationId = logger.correlationId
@@ -53,7 +54,7 @@ public object CheckoutApiServiceFactory {
         )
 
         return CheckoutApiClient(
-            provideTokenRepository(context, publicKey, environment, baseUrlPrefix),
+            provideTokenRepository(context, publicKey, environment, validatedBaseUrlPrefix),
             provideThreeDSExecutor(logger),
         )
     }
