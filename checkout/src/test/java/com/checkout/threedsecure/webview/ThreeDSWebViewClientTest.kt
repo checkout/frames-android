@@ -1,8 +1,6 @@
 package com.checkout.threedsecure.webview
 
-import android.os.Build
 import android.webkit.WebViewClient
-import androidx.test.filters.SdkSuppress
 import com.checkout.threedsecure.logging.ThreeDSLogger
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
@@ -38,7 +36,6 @@ internal class ThreeDSWebViewClientTest {
         verify(exactly = 1) { logger.logPresentedEvent() }
     }
 
-    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
     @Test
     fun `when page committed visible for the first time then log loaded event`() {
         // When

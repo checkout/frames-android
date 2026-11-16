@@ -14,9 +14,7 @@ Start accepting online payments in just a few minutes with our Android SDK. It's
 
 
 ## Requirements
-- Android minimum SDK 21
-
-> Compatibility verified with `targetSdk` versions 21 to 34
+- Android minimum SDK 23
 
 
 

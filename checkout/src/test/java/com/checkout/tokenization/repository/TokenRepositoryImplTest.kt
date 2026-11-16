@@ -77,18 +77,7 @@ internal class TokenRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        tokenRepositoryImpl = TokenRepositoryImpl(
-            networkApiClient = mockTokenNetworkApiClient,
-            cardToTokenRequestMapper = CardToTokenRequestMapper(),
-            cvvToTokenNetworkRequestMapper = CVVToTokenNetworkRequestMapper(),
-            cardTokenizationNetworkDataMapper = CardTokenizationNetworkDataMapper(),
-            validateTokenizationDataUseCase = mockValidateTokenizationDataUseCase,
-            validateCVVTokenizationDataUseCase = mockValidateCVVTokenizationDataUseCase,
-            logger = mockTokenizationLogger,
-            publicKey = "test_key",
-            cvvTokenizationNetworkDataMapper = CVVTokenizationNetworkDataMapper(),
-            riskSdkUseCase = mockRiskSdkUseCase,
-        )
+        tokenRepositoryImpl = createTokenRepository(testDispatcher)
     }
 
     @AfterEach

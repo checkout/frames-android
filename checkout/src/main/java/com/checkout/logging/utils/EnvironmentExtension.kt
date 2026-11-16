@@ -23,11 +23,6 @@ internal fun Environment.toLoggingName() = when (this) {
 }
 
 private fun String.applyPrefix(prefix: String?): String {
-    val validatedPrefix = prefix?.baseUrlPrefixValidator() ?: return this
-    return this.replace(HTTPS_PROTOCOL, "$HTTPS_PROTOCOL$validatedPrefix.")
+    if (prefix == null) return this
+    return this.replace(HTTPS_PROTOCOL, "$HTTPS_PROTOCOL$prefix.")
 }
-
-private fun String.baseUrlPrefixValidator() = this
-    .takeIf { prefix ->
-        prefix.isNotEmpty() && prefix.all { char -> char in 'a'..'z' || char in 'A'..'Z' || char in '0'..'9' }
-    }

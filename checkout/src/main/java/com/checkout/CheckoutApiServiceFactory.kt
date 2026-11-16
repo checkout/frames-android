@@ -36,6 +36,16 @@ public object CheckoutApiServiceFactory {
     private lateinit var correlationId: String
     private lateinit var riskSDKFramesOptions: FramesOptions
 
+    /**
+     * Creates [CheckoutApiService].
+     *
+     * @param publicKey the public API key used for client-side authentication.
+     * @param environment the environment for tokenization.
+     * @param context the Android context.
+     * @param baseUrlPrefix an optional merchant-specific subdomain label (e.g., "mssd"), not a URL or hostname.
+     * Must contain 1 to 63 ASCII letters, digits, or hyphens, starting and ending with a letter or digit.
+     * Applied to both tokenization and Risk requests. Null, empty, or invalid values use the default hosts.
+     */
     @JvmStatic
     public fun create(
         publicKey: String,
@@ -43,6 +53,7 @@ public object CheckoutApiServiceFactory {
         context: Context,
         baseUrlPrefix: String? = null,
     ): CheckoutApiService {
+        val validatedBaseUrlPrefix = BaseUrlPrefixValidator.validPrefixOrNull(baseUrlPrefix)
         val logger = EventLoggerProvider.provide()
         logger.setup(context, environment)
         correlationId = logger.correlationId
@@ -53,7 +64,7 @@ public object CheckoutApiServiceFactory {
         )
 
         return CheckoutApiClient(
-            provideTokenRepository(context, publicKey, environment, baseUrlPrefix),
+            provideTokenRepository(context, publicKey, environment, validatedBaseUrlPrefix),
             provideThreeDSExecutor(logger),
         )
     }
@@ -86,6 +97,7 @@ public object CheckoutApiServiceFactory {
             publicKey,
             riskSDKFramesOptions,
             RiskInstanceProvider,
+            baseUrlPrefix,
         ),
     )
 
